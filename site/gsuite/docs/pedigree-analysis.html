@@ -403,6 +403,13 @@ window.Quarto = {
   <li><a href="#longitudinal-data-genetic-random-regression" id="toc-longitudinal-data-genetic-random-regression" class="nav-link" data-scroll-target="#longitudinal-data-genetic-random-regression">Longitudinal data: genetic random regression</a></li>
   <li><a href="#repeatability-animal-and-permanent-environment" id="toc-repeatability-animal-and-permanent-environment" class="nav-link" data-scroll-target="#repeatability-animal-and-permanent-environment">Repeatability: animal and permanent environment</a></li>
   <li><a href="#direct-and-maternal-genetic-effects" id="toc-direct-and-maternal-genetic-effects" class="nav-link" data-scroll-target="#direct-and-maternal-genetic-effects">Direct and maternal genetic effects</a></li>
+  <li><a href="#residual-variance-and-correlation" id="toc-residual-variance-and-correlation" class="nav-link" data-scroll-target="#residual-variance-and-correlation">Residual variance and correlation</a>
+  <ul class="collapse">
+  <li><a href="#different-residual-variances-by-group" id="toc-different-residual-variances-by-group" class="nav-link" data-scroll-target="#different-residual-variances-by-group">Different residual variances by group</a></li>
+  <li><a href="#correlation-between-discrete-occasions" id="toc-correlation-between-discrete-occasions" class="nav-link" data-scroll-target="#correlation-between-discrete-occasions">Correlation between discrete occasions</a></li>
+  <li><a href="#correlation-over-irregular-times" id="toc-correlation-over-irregular-times" class="nav-link" data-scroll-target="#correlation-over-irregular-times">Correlation over irregular times</a></li>
+  <li><a href="#results-from-the-checked-examples" id="toc-results-from-the-checked-examples" class="nav-link" data-scroll-target="#results-from-the-checked-examples">Results from the checked examples</a></li>
+  </ul></li>
   <li><a href="#scope-and-reproducibility" id="toc-scope-and-reproducibility" class="nav-link" data-scroll-target="#scope-and-reproducibility">Scope and reproducibility</a></li>
   </ul>
 </nav>
@@ -434,7 +441,7 @@ window.Quarto = {
 </header>
 
 
-<p>Start with two ordinary R data frames: <code>pedigree</code> contains parents and IDs; <code>data</code> contains responses, explanatory variables and the matching animal ID. Use a formula to describe the effects, optionally specify covariance components, then fit and inspect the result. The examples below use the same 10,000-animal pedigree and the same workflow for single-trait, multitrait, longitudinal, repeatability and direct/maternal models.</p>
+<p>Start with two ordinary R data frames: <code>pedigree</code> contains parents and IDs; <code>data</code> contains responses, explanatory variables and the matching animal ID. Use a formula to describe the effects, optionally specify covariance components, then fit and inspect the result. The examples below use the same 10,000-animal pedigree and the same workflow for single-trait, multitrait, longitudinal, repeatability and direct/maternal models, followed by residual variance and correlation structures.</p>
 <p>The aim is to estimate genetic variation and predict animal effects, then understand what the fitted model tells us. Each example connects a scientific question to model specification, a fit summary, parameter estimates and predictions. Simulation also lets us compare predictions with known genetic values; that last step is unavailable for ordinary field data.</p>
 <p>This tutorial requires an installed version of gsuite containing the singular <code>formula</code> interface described here, plus gsim for generating example data. See <a href="../../gsuite/downloads.html">Downloads</a> for the current installation and platform status. No sibling source repository, developer build directory or private archive is needed to run the examples. Code is displayed without execution during website rendering; copying the R blocks in order runs the analysis locally.</p>
 <section id="prepare-ordinary-data-frames" class="level2">
@@ -849,8 +856,8 @@ $residual
 <span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>repeat_parameters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>pe</code> repeats the animal IDs deliberately: it identifies a separate independent effect for the same animal. Genetic effects cover the complete pedigree; identity effects cover IDs with observed records. To specify a common herd or litter effect instead, use that grouping column and an identity kernel. Each formula grouping variable must belong to exactly one descriptor.</p>
 <p>No solver selection or starts are required here. The adapter reuses the existing component-LMM engine with CHOLMOD selected inversion. Missing starts use an equal split of fixed-effect residual variance across the three components; each supplied <code>start</code> overrides only its own component. <code>formula</code> and <code>formulas</code> are equivalent. For <code>task = "solve"</code>, supply all covariance values.</p>
-<p>This example explicitly requests an absolute natural-score tolerance of <code>1e-4</code>. With the component default of <code>1e-6</code>, this dataset reached nearly the same estimates but did not converge: likelihood-based step acceptance stalled near the optimum. The specialized repeatability optimizer also exhausted its line search at its stricter defaults. Both routes converge at the declared <code>1e-4</code> natural-score tolerance and give matching estimates; the component fit’s implied final variance step is below <span class="math inline">\(10^{-7}\)</span>. This is a documented example setting, not an automatic retry, a changed package tolerance or proof that the stricter stopping issue has been repaired.</p>
-<p>Multiple-component random regression and structured residuals remain separate work. Correlation is not inferred from matching ID columns; the next example declares it explicitly. The specialized compiled interface remains available by explicitly passing <code>gs_fit_control()</code> with complete starts.</p>
+<p>This example explicitly requests an optimizer score tolerance of <code>1e-4</code>. With the component default of <code>1e-6</code>, this dataset reached nearly the same estimates but did not converge: likelihood-based step acceptance stalled near the optimum. The specialized repeatability optimizer also exhausted its line search at its stricter defaults. Both routes converge at the declared <code>1e-4</code> score tolerance in their respective coordinates and give matching estimates; the component fit’s implied final variance step is below <span class="math inline">\(10^{-7}\)</span>. This is a documented example setting, not an automatic retry, a changed package tolerance or proof that the stricter stopping issue has been repaired.</p>
+<p>Multiple-component random regression remains separate work. Correlation is not inferred from matching ID columns; the next example declares it explicitly. The specialized compiled interface remains available by explicitly passing <code>gs_fit_control()</code> with complete starts.</p>
 </section>
 <section id="direct-and-maternal-genetic-effects" class="level2">
 <h2 class="anchored" data-anchor-id="direct-and-maternal-genetic-effects">Direct and maternal genetic effects</h2>
@@ -928,7 +935,132 @@ y = X\beta + Z_d a + Z_m m + e, \qquad
 </tbody>
 </table>
 <p>The names <code>direct</code> and <code>maternal</code> label covariance rows, columns and prediction columns. The values <code>id</code> and <code>dam</code> select data columns. Predictions retain one row per pedigree animal, including animals without their own records. Their precision depends on available information; a fitted correlation alone is not evidence that the data identify both effects well.</p>
-<p>Omitted starts use equal diagonal variance shares and zero initial covariance. To supply starts, pass a positive-definite matrix to the genetic descriptor, with row and column names in <code>c("direct", "maternal")</code> order, and a scalar residual start. <code>task = "solve"</code> requires both. Independent scalar components, such as maternal permanent environment or litter, can be added as separate descriptors with distinct grouping columns. The adapter currently requires known IDs in every channel for observed responses, one response trait and a homogeneous independent residual. Broader missing-incidence and multitrait combinations remain available only through their dedicated interfaces.</p>
+<p>Omitted starts use equal diagonal variance shares and zero initial covariance. To supply starts, pass a positive-definite matrix to the genetic descriptor, with row and column names in <code>c("direct", "maternal")</code> order, and a scalar residual start. <code>task = "solve"</code> requires both. Independent scalar components, such as maternal permanent environment or litter, can be added as separate descriptors with distinct grouping columns. The adapter currently requires known IDs in every channel for observed responses, one response trait and a residual specification described below. Broader missing-incidence and multitrait combinations remain available only through their dedicated interfaces.</p>
+</section>
+<section id="residual-variance-and-correlation" class="level2">
+<h2 class="anchored" data-anchor-id="residual-variance-and-correlation">Residual variance and correlation</h2>
+<p>The residual describes variation left after fixed and random effects. We may need different residual variances for different groups, or correlation between repeated records from the same animal. These choices belong in the residual <code>gvc()</code> descriptor; they do not change the meaning of the animal effect.</p>
+<p>This section reuses the 10,000-animal pedigree and repeated-record data. The following simulation helper draws only small residual blocks (two to four records per animal). The inherited genetic draws retain the earlier simulation caveat. These are separate illustrative datasets, not a model-selection study.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>residual_data <span class="ot">&lt;-</span> data_long[<span class="fu">c</span>(<span class="st">"id"</span>, <span class="st">"sex"</span>, <span class="st">"cohort"</span>, <span class="st">"herd"</span>, <span class="st">"time"</span>)]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>residual_data<span class="sc">$</span>occasion <span class="ot">&lt;-</span> <span class="fu">ave</span>(residual_data<span class="sc">$</span>time, residual_data<span class="sc">$</span>id,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">FUN =</span> <span class="cf">function</span>(t) <span class="fu">c</span>(<span class="dv">0</span>L, <span class="dv">1</span>L, <span class="dv">3</span>L, <span class="dv">5</span>L)[<span class="fu">rank</span>(t, <span class="at">ties.method =</span> <span class="st">"first"</span>)])</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>residual_mean <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.2</span> <span class="sc">*</span> (residual_data<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">"M"</span>) <span class="sc">+</span> <span class="fl">0.1</span> <span class="sc">*</span> residual_data<span class="sc">$</span>time <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  genetic[<span class="fu">match</span>(residual_data<span class="sc">$</span>id, <span class="fu">rownames</span>(genetic)), <span class="dv">1</span>L]</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>draw_residuals <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">structure =</span> <span class="st">"independent"</span>, <span class="at">parameter =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  sd <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">ifelse</span>(data<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">"F"</span>, <span class="fl">0.6</span>, <span class="fl">1.4</span>))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (structure <span class="sc">==</span> <span class="st">"independent"</span>) <span class="fu">return</span>(sd <span class="sc">*</span> <span class="fu">rnorm</span>(<span class="fu">nrow</span>(data)))</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  answer <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">nrow</span>(data))</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (rows <span class="cf">in</span> <span class="fu">split</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(data)), data<span class="sc">$</span>id)) {</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    position <span class="ot">&lt;-</span> <span class="cf">if</span> (structure <span class="sc">==</span> <span class="st">"ar1"</span>) data<span class="sc">$</span>occasion[rows] <span class="cf">else</span> data<span class="sc">$</span>time[rows]</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    distance <span class="ot">&lt;-</span> <span class="fu">abs</span>(<span class="fu">outer</span>(position, position, <span class="st">`</span><span class="at">-</span><span class="st">`</span>))</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    correlation <span class="ot">&lt;-</span> <span class="cf">if</span> (structure <span class="sc">==</span> <span class="st">"ar1"</span>) parameter<span class="sc">^</span>distance <span class="cf">else</span> <span class="fu">exp</span>(<span class="sc">-</span>parameter <span class="sc">*</span> distance)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    answer[rows] <span class="ot">&lt;-</span> sd[rows] <span class="sc">*</span> <span class="fu">as.vector</span>(<span class="fu">t</span>(<span class="fu">chol</span>(correlation)) <span class="sc">%*%</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(rows)))</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  answer</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>residual_formula <span class="ot">&lt;-</span> BW <span class="sc">~</span> sex <span class="sc">+</span> cohort <span class="sc">+</span> herd <span class="sc">+</span> time <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="different-residual-variances-by-group" class="level3">
+<h3 class="anchored" data-anchor-id="different-residual-variances-by-group">Different residual variances by group</h3>
+<p>Set <code>group = "sex"</code> to estimate a residual variance for each observed sex label. This means <span class="math inline">\(\operatorname{Var}(e_i)=\sigma^2_{e,g(i)}\)</span> and residuals remain independent across records. Sex can appear both as a fixed effect on the mean and as a residual variance group; those are separate assumptions.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">206</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>residual_data<span class="sc">$</span>BW <span class="ot">&lt;-</span> residual_mean <span class="sc">+</span> <span class="fu">draw_residuals</span>(residual_data)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>grouped_vcs <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">animal =</span> <span class="fu">gvc</span>(<span class="st">"id"</span>, <span class="st">"BW"</span>, <span class="at">kernel =</span> PED),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual =</span> <span class="fu">gvc</span>(<span class="st">"residual"</span>, <span class="st">"BW"</span>, <span class="at">group =</span> <span class="st">"sex"</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>grouped_fit <span class="ot">&lt;-</span> <span class="fu">gfit</span>(<span class="at">formula =</span> residual_formula, <span class="at">data =</span> residual_data,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">vc =</span> grouped_vcs, <span class="at">task =</span> <span class="st">"reml"</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(grouped_fit)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(grouped_fit<span class="sc">$</span>status<span class="sc">$</span>ok), <span class="fu">isTRUE</span>(grouped_fit<span class="sc">$</span>converged))</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>grouped_fit<span class="sc">$</span>covariance<span class="sc">$</span>residual</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Variance estimates are named by the group labels, so their interpretation does not depend on factor-level or input-row order. An optional start such as <code>start = c(F = 0.6, M = 1.4)</code> is matched by name. One unnamed scalar supplies the same initial value to all groups; it does not constrain their estimates to be equal. Unused levels have no estimable residual variance.</p>
+</section>
+<section id="correlation-between-discrete-occasions" class="level3">
+<h3 class="anchored" data-anchor-id="correlation-between-discrete-occasions">Correlation between discrete occasions</h3>
+<p>For an AR(1) residual, records within a block have correlation <span class="math inline">\(\rho^{|t_i-t_j|}\)</span>, where occasions are integers and <span class="math inline">\(-1&lt;\rho&lt;1\)</span>. Different blocks are independent. Gaps are retained: occasions 1 and 3 are two steps apart, even if occasion 2 is missing.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">207</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>residual_data<span class="sc">$</span>BW <span class="ot">&lt;-</span> residual_mean <span class="sc">+</span> <span class="fu">draw_residuals</span>(residual_data, <span class="st">"ar1"</span>, <span class="fl">0.45</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>ar1_vcs <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">animal =</span> <span class="fu">gvc</span>(<span class="st">"id"</span>, <span class="st">"BW"</span>, <span class="at">kernel =</span> PED),</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual =</span> <span class="fu">gvc</span>(<span class="st">"residual"</span>, <span class="st">"BW"</span>, <span class="at">group =</span> <span class="st">"sex"</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">structure =</span> <span class="st">"ar1"</span>, <span class="at">block =</span> <span class="st">"id"</span>, <span class="at">time =</span> <span class="st">"occasion"</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>ar1_fit <span class="ot">&lt;-</span> <span class="fu">gfit</span>(<span class="at">formula =</span> residual_formula, <span class="at">data =</span> residual_data,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">vc =</span> ar1_vcs, <span class="at">task =</span> <span class="st">"reml"</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ar1_fit)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(ar1_fit<span class="sc">$</span>status<span class="sc">$</span>ok), <span class="fu">isTRUE</span>(ar1_fit<span class="sc">$</span>converged))</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>ar1_fit<span class="sc">$</span>covariance<span class="sc">$</span>residual<span class="sc">$</span>variance</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>ar1_fit<span class="sc">$</span>covariance<span class="sc">$</span>residual<span class="sc">$</span>rho</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="correlation-over-irregular-times" class="level3">
+<h3 class="anchored" data-anchor-id="correlation-over-irregular-times">Correlation over irregular times</h3>
+<p>For exponential residuals, correlation is <span class="math inline">\(\exp(-\phi|t_i-t_j|)\)</span> with positive decay <span class="math inline">\(\phi\)</span>. Larger decay means correlation disappears faster. The unit of time matters: changing from years to days changes the decay parameter.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">208</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>residual_data<span class="sc">$</span>BW <span class="ot">&lt;-</span> residual_mean <span class="sc">+</span> <span class="fu">draw_residuals</span>(residual_data, <span class="st">"exponential"</span>, <span class="dv">3</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>exponential_vcs <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">animal =</span> <span class="fu">gvc</span>(<span class="st">"id"</span>, <span class="st">"BW"</span>, <span class="at">kernel =</span> PED),</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual =</span> <span class="fu">gvc</span>(<span class="st">"residual"</span>, <span class="st">"BW"</span>, <span class="at">group =</span> <span class="st">"sex"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">structure =</span> <span class="st">"exponential"</span>, <span class="at">block =</span> <span class="st">"id"</span>, <span class="at">time =</span> <span class="st">"time"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>exponential_fit <span class="ot">&lt;-</span> <span class="fu">gfit</span>(<span class="at">formula =</span> residual_formula, <span class="at">data =</span> residual_data,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">vc =</span> exponential_vcs, <span class="at">task =</span> <span class="st">"reml"</span>, <span class="at">control =</span> <span class="fu">list</span>(<span class="at">score_tolerance =</span> <span class="fl">1e-4</span>))</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(exponential_fit)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(exponential_fit<span class="sc">$</span>status<span class="sc">$</span>ok), <span class="fu">isTRUE</span>(exponential_fit<span class="sc">$</span>converged))</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>exponential_fit<span class="sc">$</span>covariance<span class="sc">$</span>residual<span class="sc">$</span>variance</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>exponential_fit<span class="sc">$</span>covariance<span class="sc">$</span>residual<span class="sc">$</span>phi</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">gs_ranef</span>(exponential_fit)<span class="sc">$</span>animal)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(<span class="at">observed =</span> residual_data<span class="sc">$</span>BW, <span class="at">fitted =</span> <span class="fu">fitted</span>(exponential_fit),</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual =</span> <span class="fu">residuals</span>(exponential_fit)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Omit <code>group</code> for one residual variance. Correlated blocks must each belong to one variance group and cannot contain duplicate positions; these structures have no added measurement-error nugget. Missing responses are removed together with their metadata, without compressing the remaining time gaps. The current formula route requires one response and random intercepts; combining these descriptors with random regression or multiple response traits remains separate work. Existing specialized interfaces retain their own capabilities.</p>
+<p>The exponential example explicitly uses optimizer score tolerance <code>1e-4</code>. The component optimizer tests the transformed score, not the displayed natural score. At the default <code>1e-6</code> and at <code>1e-5</code>, the checked dataset did not declare convergence: the largest transformed score was <span class="math inline">\(1.13\times10^{-5}\)</span>, while the largest natural score was <span class="math inline">\(3.84\times10^{-6}\)</span> and the implied remaining parameter step was below <span class="math inline">\(5\times10^{-8}\)</span>. This near-optimum stopping limitation remains visible, rather than being treated as a successful default fit. There is no automatic retry or package-wide tolerance change.</p>
+<p>All three examples omit starts and use CHOLMOD selected inversion. Automatic variance starts split fixed-effect residual variance over the random channels and one residual contribution, assigning the residual share to each group. AR(1) starts at zero correlation. Exponential correlation starts at 0.2 across the median positive adjacent within-block time gap, following the existing engine. For explicit correlated starts use, for example, <code>start = list(variance = c(F = 0.6, M = 1.4), rho = 0.3)</code> or replace <code>rho</code> with a positive <code>phi</code>. REML can initialize omitted entries; a fixed solve requires every variance and correlation/decay parameter. Correlation and decay are reported separately from variances and must not be added to a variance sum.</p>
+</section>
+<section id="results-from-the-checked-examples" class="level3">
+<h3 class="anchored" data-anchor-id="results-from-the-checked-examples">Results from the checked examples</h3>
+<p>All three residual examples used 25,589 records and the same 10,000-animal pedigree (gsuite 0.42.0, gsim 0.9.0, seeds 206–208). They converged with the controls shown above. These estimates come from different simulated residual datasets, so this table does not compare the fit of competing models to one dataset.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Residual model</th>
+<th style="text-align: right;">Animal variance</th>
+<th style="text-align: right;">Residual variance F</th>
+<th style="text-align: right;">Residual variance M</th>
+<th>Correlation or decay</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Grouped independent</td>
+<td style="text-align: right;">0.9784674</td>
+<td style="text-align: right;">0.5878214</td>
+<td style="text-align: right;">1.3735110</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td>AR(1)</td>
+<td style="text-align: right;">1.014123</td>
+<td style="text-align: right;">0.5880836</td>
+<td style="text-align: right;">1.3776153</td>
+<td><span class="math inline">\(\rho=0.4252611\)</span></td>
+</tr>
+<tr class="odd">
+<td>Exponential</td>
+<td style="text-align: right;">0.9777045</td>
+<td style="text-align: right;">0.6129697</td>
+<td style="text-align: right;">1.4181686</td>
+<td><span class="math inline">\(\phi=2.935483\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Local fit times were 1.44, 6.50 and 6.42 seconds respectively; these are example timings, not portable performance guarantees. At the declared exponential tolerance, the implied final parameter step was below <span class="math inline">\(5\times10^{-8}\)</span>. The runner also checks reconstruction of responses from fitted values and residuals. Small dense references separately check covariance, prediction and score algebra for all three residual structures.</p>
+</section>
 </section>
 <section id="scope-and-reproducibility" class="level2">
 <h2 class="anchored" data-anchor-id="scope-and-reproducibility">Scope and reproducibility</h2>

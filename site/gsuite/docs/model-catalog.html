@@ -385,7 +385,7 @@ window.Quarto = {
 <p>This is the authoritative catalog of LMM routes and their recorded evidence. The catalog baseline is gsuite 0.42.0, greml 0.67.0/ABI 39, and gsolve 0.22.0/ABI 4. The current package requires greml 0.68.0/ABI 40; a dependency update does not requalify the historical evidence below. Status terms are defined in <a href="../../gsuite/docs/model-architecture.html">model architecture</a>. Evidence is indexed in <a href="../../gsuite/docs/status.html#qualification-limits">model qualification</a>; reusable machinery and exact reductions are in the <a href="../../gsuite/docs/primitive-registry.html">primitive registry</a> and <a href="../../gsuite/docs/model-reductions.html">model reductions</a>.</p>
 <section id="r-interface-coverage-inventory" class="level2">
 <h2 class="anchored" data-anchor-id="r-interface-coverage-inventory">R interface coverage inventory</h2>
-<p>Reviewed on 2026-09-09 against the exported constructors, dispatch code and existing test sources. This is an interface inventory, not a new numerical qualification run. The single-trait, multitrait, longitudinal, repeatability and direct/maternal tutorial models have been executed with the 10,000-animal pedigree; other rows below still need a comparable user-workflow check. Historical backend evidence remains in the tables further down this page.</p>
+<p>Reviewed on 2026-09-09 against the exported constructors, dispatch code and existing test sources. This is an interface inventory, not a new numerical qualification run. The single-trait, multitrait, longitudinal, repeatability and direct/maternal tutorial models, plus grouped, AR(1) and exponential residual examples, have been executed with the 10,000-animal pedigree; other rows below still need a comparable user-workflow check. Historical backend evidence remains in the tables further down this page.</p>
 <p><code>formula</code> and <code>formulas</code> now select the same general <code>gfit()</code> adapter. Starts do not determine dispatch. Explicit scalar components can represent multiple independent pedigree/identity random intercepts. Named grouping vectors additionally declare correlated channels for a single response under a shared kernel. A typed <code>gs_fit_control()</code> explicitly selects the specialized compiled interface with complete starts. The broader public R API still contains capabilities beyond this adapter.</p>
 <table class="caption-top table">
 <colgroup>
@@ -471,15 +471,15 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td>Grouped independent residual variances</td>
-<td>No grouping argument</td>
+<td>Yes; residual <code>gvc(..., group = "sex")</code></td>
 <td>Specialized record constructors; <code>gs_lmm_records(residual_group = ...)</code>; persistent weighted/group residual structures</td>
-<td>R inputs exist; needs a heterogeneity example</td>
+<td>Dense references passed; 10K pedigree / 25,589-record tutorial converged with defaults; one response and random intercepts</td>
 </tr>
 <tr class="odd">
 <td>AR(1) or continuous-exponential residual blocks</td>
-<td>No</td>
+<td>Yes; residual <code>gvc(..., structure = "ar1" / "exponential", block = "id", time = "time")</code></td>
 <td><code>gs_lmm_residual_ar1()</code> / <code>gs_lmm_residual_exponential()</code> with component LMM</td>
-<td>Exact CHOLMOD route exposed; do not transfer stochastic qualification between these residual families</td>
+<td>Dense references and 10K tutorial passed; exponential uses explicit score tolerance <code>1e-4</code> with stricter stopping limitation documented; unique positions and one variance group per block; no transfer of stochastic qualification</td>
 </tr>
 <tr class="even">
 <td>Genomic and combined genomic/structured covariance</td>
@@ -649,8 +649,8 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td>Residual structures</td>
-<td>Available through dedicated component constructors</td>
-<td>Agree <code>gvc()</code> residual syntax for grouped variance, AR1 and exponential blocks</td>
+<td><code>gvc()</code> column bindings for grouped variance, AR1 and exponential blocks</td>
+<td>Dense GLS/BLUP, natural scores, group/time mapping and 10K tutorial workflows; multi-response and random-regression combinations remain separate</td>
 </tr>
 <tr class="even">
 <td>Additional relationships and model combinations</td>
