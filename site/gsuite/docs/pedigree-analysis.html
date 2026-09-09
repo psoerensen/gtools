@@ -402,6 +402,7 @@ window.Quarto = {
   <li><a href="#two-traits-keep-one-row-per-observation-unit" id="toc-two-traits-keep-one-row-per-observation-unit" class="nav-link" data-scroll-target="#two-traits-keep-one-row-per-observation-unit">Two traits: keep one row per observation unit</a></li>
   <li><a href="#longitudinal-data-genetic-random-regression" id="toc-longitudinal-data-genetic-random-regression" class="nav-link" data-scroll-target="#longitudinal-data-genetic-random-regression">Longitudinal data: genetic random regression</a></li>
   <li><a href="#repeatability-animal-and-permanent-environment" id="toc-repeatability-animal-and-permanent-environment" class="nav-link" data-scroll-target="#repeatability-animal-and-permanent-environment">Repeatability: animal and permanent environment</a></li>
+  <li><a href="#direct-and-maternal-genetic-effects" id="toc-direct-and-maternal-genetic-effects" class="nav-link" data-scroll-target="#direct-and-maternal-genetic-effects">Direct and maternal genetic effects</a></li>
   <li><a href="#scope-and-reproducibility" id="toc-scope-and-reproducibility" class="nav-link" data-scroll-target="#scope-and-reproducibility">Scope and reproducibility</a></li>
   </ul>
 </nav>
@@ -433,7 +434,7 @@ window.Quarto = {
 </header>
 
 
-<p>Start with two ordinary R data frames: <code>pedigree</code> contains parents and IDs; <code>data</code> contains responses, explanatory variables and the matching animal ID. Use a formula to describe the effects, optionally specify covariance components, then fit and inspect the result. The examples below use the same 10,000-animal pedigree and the same workflow for three models.</p>
+<p>Start with two ordinary R data frames: <code>pedigree</code> contains parents and IDs; <code>data</code> contains responses, explanatory variables and the matching animal ID. Use a formula to describe the effects, optionally specify covariance components, then fit and inspect the result. The examples below use the same 10,000-animal pedigree and the same workflow for single-trait, multitrait, longitudinal, repeatability and direct/maternal models.</p>
 <p>The aim is to estimate genetic variation and predict animal effects, then understand what the fitted model tells us. Each example connects a scientific question to model specification, a fit summary, parameter estimates and predictions. Simulation also lets us compare predictions with known genetic values; that last step is unavailable for ordinary field data.</p>
 <p>This tutorial requires an installed version of gsuite containing the singular <code>formula</code> interface described here, plus gsim for generating example data. See <a href="../../gsuite/downloads.html">Downloads</a> for the current installation and platform status. No sibling source repository, developer build directory or private archive is needed to run the examples. Code is displayed without execution during website rendering; copying the R blocks in order runs the analysis locally.</p>
 <section id="prepare-ordinary-data-frames" class="level2">
@@ -846,15 +847,93 @@ $residual
 <span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">heritability =</span> <span class="fu">unname</span>(v[<span class="st">"animal"</span>] <span class="sc">/</span> <span class="fu">sum</span>(v)),</span>
 <span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">repeatability =</span> <span class="fu">unname</span>((v[<span class="st">"animal"</span>] <span class="sc">+</span> v[<span class="st">"permanent_environment"</span>]) <span class="sc">/</span> <span class="fu">sum</span>(v)))</span>
 <span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>repeat_parameters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>pe</code> repeats the animal IDs deliberately: it identifies a separate independent effect for the same animal. Genetic effects cover the complete pedigree; identity effects cover IDs with observed records. To specify a common herd or litter effect instead, use that grouping column and an identity kernel. One descriptor is required per distinct formula grouping variable.</p>
+<p><code>pe</code> repeats the animal IDs deliberately: it identifies a separate independent effect for the same animal. Genetic effects cover the complete pedigree; identity effects cover IDs with observed records. To specify a common herd or litter effect instead, use that grouping column and an identity kernel. Each formula grouping variable must belong to exactly one descriptor.</p>
 <p>No solver selection or starts are required here. The adapter reuses the existing component-LMM engine with CHOLMOD selected inversion. Missing starts use an equal split of fixed-effect residual variance across the three components; each supplied <code>start</code> overrides only its own component. <code>formula</code> and <code>formulas</code> are equivalent. For <code>task = "solve"</code>, supply all covariance values.</p>
 <p>This example explicitly requests an absolute natural-score tolerance of <code>1e-4</code>. With the component default of <code>1e-6</code>, this dataset reached nearly the same estimates but did not converge: likelihood-based step acceptance stalled near the optimum. The specialized repeatability optimizer also exhausted its line search at its stricter defaults. Both routes converge at the declared <code>1e-4</code> natural-score tolerance and give matching estimates; the component fit’s implied final variance step is below <span class="math inline">\(10^{-7}\)</span>. This is a documented example setting, not an automatic retry, a changed package tolerance or proof that the stricter stopping issue has been repaired.</p>
-<p>This first extension covers single-response independent random intercepts. Correlated direct/maternal channels, multiple-component random regression and structured residuals will be added separately. They are not inferred from matching ID columns. The specialized compiled interface remains available by explicitly passing <code>gs_fit_control()</code> with complete starts.</p>
+<p>Multiple-component random regression and structured residuals remain separate work. Correlation is not inferred from matching ID columns; the next example declares it explicitly. The specialized compiled interface remains available by explicitly passing <code>gs_fit_control()</code> with complete starts.</p>
+</section>
+<section id="direct-and-maternal-genetic-effects" class="level2">
+<h2 class="anchored" data-anchor-id="direct-and-maternal-genetic-effects">Direct and maternal genetic effects</h2>
+<p>An animal’s phenotype may depend both on its own genetic effect and on a genetic effect expressed by its dam. These are two effects for the same trait, not two response traits. Let <span class="math inline">\(a\)</span> denote direct genetic effects and <span class="math inline">\(m\)</span> maternal genetic effects. The model is</p>
+<p><span class="math display">\[
+y = X\beta + Z_d a + Z_m m + e, \qquad
+\operatorname{Var}\begin{pmatrix}a\\m\end{pmatrix}
+= \begin{pmatrix}\sigma_d^2 &amp; \sigma_{dm}\\
+\sigma_{dm} &amp; \sigma_m^2\end{pmatrix}\otimes A,
+\qquad \operatorname{Var}(e)=\sigma_e^2 I.
+\]</span></p>
+<p>Here <span class="math inline">\(Z_d\)</span> selects the recorded animal and <span class="math inline">\(Z_m\)</span> its dam. Both sets of genetic effects share the pedigree relationship <span class="math inline">\(A\)</span>. One <code>gvc()</code> descriptor declares their shared, unstructured covariance matrix. Two separate descriptors would instead impose independence between the effects.</p>
+<p>Reuse the same 10,000-animal pedigree and the two genetic columns from the earlier multitrait simulation. This constructs an analysis workflow; the same simulation caveat applies, so it is not an exact parameter-recovery experiment. Keep records with a known dam explicitly. Unknown dams are not assigned a shared fictitious ID or silently given zero maternal contribution.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>maternal_data <span class="ot">&lt;-</span> data_long[<span class="fu">c</span>(<span class="st">"id"</span>, <span class="st">"sex"</span>, <span class="st">"cohort"</span>, <span class="st">"herd"</span>)]</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>maternal_data<span class="sc">$</span>dam <span class="ot">&lt;-</span> pedigree<span class="sc">$</span>dam[<span class="fu">match</span>(maternal_data<span class="sc">$</span>id, pedigree<span class="sc">$</span>id)]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>maternal_data <span class="ot">&lt;-</span> <span class="fu">droplevels</span>(maternal_data[<span class="sc">!</span><span class="fu">is.na</span>(maternal_data<span class="sc">$</span>dam), ])</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(maternal_data) <span class="sc">&gt;</span> <span class="dv">0</span>L)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>genetic_pair <span class="ot">&lt;-</span> multi_view<span class="sc">$</span>truth<span class="sc">$</span>latent_animal_values</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">205</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>maternal_data<span class="sc">$</span>BW <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">+</span> <span class="fl">0.2</span> <span class="sc">*</span> (maternal_data<span class="sc">$</span>sex <span class="sc">==</span> <span class="st">"M"</span>) <span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  genetic_pair[<span class="fu">match</span>(maternal_data<span class="sc">$</span>id, <span class="fu">rownames</span>(genetic_pair)), <span class="dv">1</span>L] <span class="sc">+</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  genetic_pair[<span class="fu">match</span>(maternal_data<span class="sc">$</span>dam, <span class="fu">rownames</span>(genetic_pair)), <span class="dv">2</span>L] <span class="sc">+</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="fu">nrow</span>(maternal_data))</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>maternal_vcs <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">genetic =</span> <span class="fu">gvc</span>(</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">variable =</span> <span class="fu">c</span>(<span class="at">direct =</span> <span class="st">"id"</span>, <span class="at">maternal =</span> <span class="st">"dam"</span>),</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">traits =</span> <span class="st">"BW"</span>, <span class="at">kernel =</span> PED</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual =</span> <span class="fu">gvc</span>(<span class="st">"residual"</span>, <span class="st">"BW"</span>)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>maternal_fit <span class="ot">&lt;-</span> <span class="fu">gfit</span>(</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> BW <span class="sc">~</span> sex <span class="sc">+</span> cohort <span class="sc">+</span> herd <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> dam),</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> maternal_data, <span class="at">vc =</span> maternal_vcs, <span class="at">task =</span> <span class="st">"reml"</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(maternal_fit)</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(maternal_fit<span class="sc">$</span>status<span class="sc">$</span>ok), <span class="fu">isTRUE</span>(maternal_fit<span class="sc">$</span>converged))</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(maternal_fit)</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>G_hat <span class="ot">&lt;-</span> maternal_fit<span class="sc">$</span>covariance<span class="sc">$</span>genetic</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>G_hat</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="fu">cov2cor</span>(G_hat)</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>maternal_fit<span class="sc">$</span>covariance<span class="sc">$</span>residual</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">gs_ranef</span>(maternal_fit)<span class="sc">$</span>genetic)</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">data.frame</span>(<span class="at">observed =</span> maternal_data<span class="sc">$</span>BW,</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">fitted =</span> <span class="fu">fitted</span>(maternal_fit), <span class="at">residual =</span> <span class="fu">residuals</span>(maternal_fit)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The checked run (gsuite 0.42.0, gsim 0.9.0, seeds above) retained 14,844 records with known dams and all 10,000 pedigree animals. It converged using the default controls; the largest absolute natural score was <span class="math inline">\(4.44\times10^{-7}\)</span>. Local fit time was 2.33 seconds, which is an example timing rather than a portable performance guarantee.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th style="text-align: right;">Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Direct genetic variance</td>
+<td style="text-align: right;">0.9757592</td>
+</tr>
+<tr class="even">
+<td>Maternal genetic variance</td>
+<td style="text-align: right;">0.7049008</td>
+</tr>
+<tr class="odd">
+<td>Direct–maternal covariance</td>
+<td style="text-align: right;">0.4150065</td>
+</tr>
+<tr class="even">
+<td>Direct–maternal correlation</td>
+<td style="text-align: right;">0.5004026</td>
+</tr>
+<tr class="odd">
+<td>Residual variance</td>
+<td style="text-align: right;">1.005101</td>
+</tr>
+</tbody>
+</table>
+<p>The names <code>direct</code> and <code>maternal</code> label covariance rows, columns and prediction columns. The values <code>id</code> and <code>dam</code> select data columns. Predictions retain one row per pedigree animal, including animals without their own records. Their precision depends on available information; a fitted correlation alone is not evidence that the data identify both effects well.</p>
+<p>Omitted starts use equal diagonal variance shares and zero initial covariance. To supply starts, pass a positive-definite matrix to the genetic descriptor, with row and column names in <code>c("direct", "maternal")</code> order, and a scalar residual start. <code>task = "solve"</code> requires both. Independent scalar components, such as maternal permanent environment or litter, can be added as separate descriptors with distinct grouping columns. The adapter currently requires known IDs in every channel for observed responses, one response trait and a homogeneous independent residual. Broader missing-incidence and multitrait combinations remain available only through their dedicated interfaces.</p>
 </section>
 <section id="scope-and-reproducibility" class="level2">
 <h2 class="anchored" data-anchor-id="scope-and-reproducibility">Scope and reproducibility</h2>
 <p>These examples demonstrate a workflow, not recovery of simulated covariance truth. The existing gsim generator reports <code>exact_relationship_draw = FALSE</code>; its recursive genetic draws and residual scaling must not be treated as an exact draw from the fitted pedigree covariance model.</p>
-<p>General formula fits support the three specialized pedigree models above and independent scalar pedigree/identity components. Unsupported combinations are rejected. Explicit compiled controls retain the specialized compiled-MME contract; see <a href="../../gsuite/docs/formula-reml.html">Formula REML</a>. Covariance descriptors remain the extension point; these examples do not claim support for every LMM or for large-data adapters.</p>
+<p>General formula fits support the three specialized pedigree models above and independent pedigree/identity component groups, including explicitly correlated channels for one response. Unsupported combinations are rejected. Explicit compiled controls retain the specialized compiled-MME contract; see <a href="../../gsuite/docs/formula-reml.html">Formula REML</a>. Covariance descriptors remain the extension point; these examples do not claim support for every LMM or for large-data adapters.</p>
 <p>If the iteration limit is reached, inspect diagnostics and the model first. An explicit <code>control = c(fit_control, list(maximum_iterations = 80L))</code> requests more iterations for a subsequent fit. No retry or tolerance relaxation occurs automatically. The convenience interface otherwise uses the existing route-specific controls with sparse direct solving. Success on these examples does not establish full platform qualification or reproduce the separately recorded benchmark runs.</p>
 <p>Developers can run these exact R blocks with <code>Rscript --vanilla tools/examples/run_pedigree_workflow.R</code>. The runner uses an installed gsuite, records package versions, seeds, statuses and session details under ignored <code>build/examples/pedigree-workflow/</code>, and fails if any REML example does not converge. The website never reads that directory. The original <a href="../../gsuite/benchmarks.html">larger pedigree benchmark evidence</a> and its evidence are retained separately.</p>
 

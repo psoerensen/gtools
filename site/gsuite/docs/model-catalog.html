@@ -385,8 +385,8 @@ window.Quarto = {
 <p>This is the authoritative catalog of LMM routes and their recorded evidence. The catalog baseline is gsuite 0.42.0, greml 0.67.0/ABI 39, and gsolve 0.22.0/ABI 4. The current package requires greml 0.68.0/ABI 40; a dependency update does not requalify the historical evidence below. Status terms are defined in <a href="../../gsuite/docs/model-architecture.html">model architecture</a>. Evidence is indexed in <a href="../../gsuite/docs/status.html#qualification-limits">model qualification</a>; reusable machinery and exact reductions are in the <a href="../../gsuite/docs/primitive-registry.html">primitive registry</a> and <a href="../../gsuite/docs/model-reductions.html">model reductions</a>.</p>
 <section id="r-interface-coverage-inventory" class="level2">
 <h2 class="anchored" data-anchor-id="r-interface-coverage-inventory">R interface coverage inventory</h2>
-<p>Reviewed on 2026-09-09 against the exported constructors, dispatch code and existing test sources. This is an interface inventory, not a new numerical qualification run. The three pedigree tutorial models have been executed at 10,000 animals; other rows below still need a comparable user-workflow check. Historical backend evidence remains in the tables further down this page.</p>
-<p><code>formula</code> and <code>formulas</code> now select the same general <code>gfit()</code> adapter. Starts do not determine dispatch. Explicit scalar components can represent multiple independent pedigree/identity random intercepts. A typed <code>gs_fit_control()</code> explicitly selects the specialized compiled interface with complete starts. The broader public R API still contains capabilities beyond this adapter.</p>
+<p>Reviewed on 2026-09-09 against the exported constructors, dispatch code and existing test sources. This is an interface inventory, not a new numerical qualification run. The single-trait, multitrait, longitudinal, repeatability and direct/maternal tutorial models have been executed with the 10,000-animal pedigree; other rows below still need a comparable user-workflow check. Historical backend evidence remains in the tables further down this page.</p>
+<p><code>formula</code> and <code>formulas</code> now select the same general <code>gfit()</code> adapter. Starts do not determine dispatch. Explicit scalar components can represent multiple independent pedigree/identity random intercepts. Named grouping vectors additionally declare correlated channels for a single response under a shared kernel. A typed <code>gs_fit_control()</code> explicitly selects the specialized compiled interface with complete starts. The broader public R API still contains capabilities beyond this adapter.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -441,21 +441,21 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td>Multiple independent random groups</td>
-<td>Yes; scalar intercepts only</td>
+<td>Yes; scalar or correlated intercept channels for one response</td>
 <td><code>gs_lmm_records()</code>, <code>gs_lmm_component()</code>, <code>gs_lmm_model()</code>, <code>gs_lmm_fit()</code>; persistent covariance sums</td>
 <td>General adapter no longer has the compiled route’s one-identity-group restriction; multitrait and random-coefficient extensions remain pending</td>
 </tr>
 <tr class="even">
 <td>Correlated direct/maternal effects</td>
-<td>No</td>
+<td>Yes; <code>gvc(c(direct="id", maternal="dam"), "BW", kernel=PED)</code></td>
 <td>Two incidence channels sharing one pedigree relationship in <code>gs_lmm_component(covariance = "unstructured")</code></td>
-<td>Constructor-expressible; needs a verified recipe, ID mapping, fit and output example</td>
+<td>Dense GLS/BLUP and score checks passed; 10K pedigree / 14,844-record tutorial converged with automatic starts and default CHOLMOD controls; known channel IDs required</td>
 </tr>
 <tr class="odd">
 <td>Maternal permanent environment</td>
-<td>No</td>
+<td>Expressible; separate scalar identity component over a duplicate dam grouping column</td>
 <td>Add an independent identity component over dam IDs to the component model</td>
-<td>Constructor-expressible; full maternal combination has not been run in this inventory</td>
+<td>Correlated-plus-independent common-group fixed solve tested; full maternal-environment combination remains unverified</td>
 </tr>
 <tr class="even">
 <td>Correlated random coefficients / reaction norms</td>
@@ -644,8 +644,8 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td>Correlated channels</td>
-<td>Existing constructor machinery; no general formula lowering yet</td>
-<td>Direct/maternal model with declared shared covariance</td>
+<td>Named grouping vectors lower to shared pedigree/identity channels for one response</td>
+<td>Direct/maternal tutorial, dense GLS/BLUP and natural-score checks; broader missing-incidence and multitrait support remains separate</td>
 </tr>
 <tr class="odd">
 <td>Residual structures</td>
