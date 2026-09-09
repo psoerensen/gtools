@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>model-catalog – gtools</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-264a0fc3a96c72ca7334393e02078ef0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../gsuite/website/styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">gtools</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../gsuite/index.html" aria-current="page"> 
+<span class="menu-text">gsuite</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gsim/"> 
+<span class="menu-text">gsim</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gact/"> 
+<span class="menu-text">gact</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/psoerensen/gtools"> 
+<span class="menu-text">GitHub</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/analysis-with-an-assistant.html">Guides and references</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/model-catalog.html">Canonical LMM capability catalog</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorials</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmarks</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/downloads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Downloads</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Status</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Guides and references</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">From conversation to a reproducible analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Architecture</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/formula-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formula and variance-component compiled-MME REML</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/genotype-filtering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marker-QC contract</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/genotype-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><code>gs_genotypes</code> preparation contract</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gmat-integration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gmat R integration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gsolve-greml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Numerical and mixed-model routes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/longitudinal-pedigree-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Longitudinal sparse-pedigree REML and BLUP</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Canonical LMM architecture</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/model-catalog.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Canonical LMM capability catalog</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/model-development-with-an-assistant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">From a scientific question to a supported model</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/model-recipes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Scientific model recipes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/model-reductions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Canonical LMM reductions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/multitrait-pedigree-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multivariate sparse-pedigree evaluation and REML</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/prediction-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pedigree PEV, reliability, and trajectory uncertainty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/primitive-registry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Canonical LMM primitive registry</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/r-interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Persistent explicit R interface</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/sparse-ld-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sparse-LD preparation contract</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/pedigree-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pedigree analysis with R data frames</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/benchmarks/pedigree_50k_dmu/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">50K pedigree REML qualification against DMU</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Public documentation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/slides/ai-research-methods-teaching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Programme slides</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#canonical-lmm-capability-catalog" id="toc-canonical-lmm-capability-catalog" class="nav-link active" data-scroll-target="#canonical-lmm-capability-catalog">Canonical LMM capability catalog</a>
+  <ul class="collapse">
+  <li><a href="#scientific-representation-and-public-route" id="toc-scientific-representation-and-public-route" class="nav-link" data-scroll-target="#scientific-representation-and-public-route">Scientific representation and public route</a></li>
+  <li><a href="#model-by-numerical-execution" id="toc-model-by-numerical-execution" class="nav-link" data-scroll-target="#model-by-numerical-execution">Model by numerical execution</a></li>
+  <li><a href="#inference-and-output" id="toc-inference-and-output" class="nav-link" data-scroll-target="#inference-and-output">Inference and output</a></li>
+  <li><a href="#stage-5d-cholmod-classification" id="toc-stage-5d-cholmod-classification" class="nav-link" data-scroll-target="#stage-5d-cholmod-classification">Stage 5D CHOLMOD classification</a></li>
+  <li><a href="#public-api-and-implementation-mapping" id="toc-public-api-and-implementation-mapping" class="nav-link" data-scroll-target="#public-api-and-implementation-mapping">Public API and implementation mapping</a></li>
+  <li><a href="#implemented-but-unqualified-combinations" id="toc-implemented-but-unqualified-combinations" class="nav-link" data-scroll-target="#implemented-but-unqualified-combinations">Implemented but unqualified combinations</a></li>
+  <li><a href="#genuinely-unsupported-combinations" id="toc-genuinely-unsupported-combinations" class="nav-link" data-scroll-target="#genuinely-unsupported-combinations">Genuinely unsupported combinations</a></li>
+  <li><a href="#anti-duplication-guard" id="toc-anti-duplication-guard" class="nav-link" data-scroll-target="#anti-duplication-guard">Anti-duplication guard</a></li>
+  <li><a href="#evidence-based-future-selection" id="toc-evidence-based-future-selection" class="nav-link" data-scroll-target="#evidence-based-future-selection">Evidence-based future selection</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/analysis-with-an-assistant.html">Guides and references</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/model-catalog.html">Canonical LMM capability catalog</a></li></ol></nav></header>
+
+
+
+
+<section id="canonical-lmm-capability-catalog" class="level1">
+<h1>Canonical LMM capability catalog</h1>
+<p>This is the authoritative catalog of LMM routes and their recorded evidence. The catalog baseline is gsuite 0.42.0, greml 0.67.0/ABI 39, and gsolve 0.22.0/ABI 4. The current package requires greml 0.68.0/ABI 40; a dependency update does not requalify the historical evidence below. Status terms are defined in <a href="../../gsuite/docs/model-architecture.html">model architecture</a>. Evidence is indexed in <a href="../../gsuite/docs/status.html#qualification-limits">model qualification</a>; reusable machinery and exact reductions are in the <a href="../../gsuite/docs/primitive-registry.html">primitive registry</a> and <a href="../../gsuite/docs/model-reductions.html">model reductions</a>.</p>
+<section id="scientific-representation-and-public-route" class="level2">
+<h2 class="anchored" data-anchor-id="scientific-representation-and-public-route">Scientific representation and public route</h2>
+<p>Qualification below is scoped evidence, not complete package qualification. The persistent <code>gs_model_pedigree()</code> and formula <code>gs_pedigree()</code> constructors are separately exported. Their <a href="../../gsuite/docs/status.html#qualification-limits">focused repair verification</a> does not expand the scientific qualification scope of historical route tests.</p>
+<p><strong>Known later failures:</strong> the 2026-09-07 Windows check recorded unresolved balanced-longitudinal convergence/finalization failures and longitudinal score comparison failures. The <code>qualified</code> entries below retain their original scoped evidence; they are not a clean current-package result. See the <a href="../../gsuite/docs/status.html#qualification-limits">recorded failures</a> before selecting those routes. No numerical requalification was performed during documentation review.</p>
+<p>The formula-compiler rows refer to <code>formulas</code> with complete explicit starts. The newer singular <code>formula</code> data-frame adapter instead dispatches to the specialized pedigree fitters; see the <a href="../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a>. Compiler-row exclusions must not be transferred to that adapter implicitly.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Representation</th>
+<th>Public R entry point</th>
+<th>Public C++ owner/entry point</th>
+<th>Status</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Single-trait covariance LMM</td>
+<td><code>gs_model()</code>, <code>gs_model_fit()</code>; exact convenience <code>gsuite_reml_dense()</code></td>
+<td>greml <code>ModelSpec</code>, exact-dense and matrix-free evaluators</td>
+<td><code>qualified</code></td>
+<td>Explicit fixed design and covariance components; exact dense is small-oracle work, matrix-free is scalable/stochastic</td>
+</tr>
+<tr class="even">
+<td>Formula pedigree single trait</td>
+<td><code>gs_pedigree()</code>, <code>gvc()</code>, <code>gfit()</code></td>
+<td><code>CompiledMmeSpecification</code> / <code>CompiledMmeSession</code></td>
+<td><code>qualified</code></td>
+<td>One pedigree intercept and residual through formula lowering</td>
+</tr>
+<tr class="odd">
+<td>Formula pedigree multitrait, including missing traits</td>
+<td>named formulas, <code>gs_pedigree()</code>, <code>gvc()</code>, <code>gfit()</code></td>
+<td>compiled MME patterned residual units</td>
+<td><code>qualified</code></td>
+<td>Observed scalar trait records; missing traits are absent, never imputed</td>
+</tr>
+<tr class="even">
+<td>Balanced longitudinal</td>
+<td><code>gs_balanced_longitudinal_model()</code>, <code>gs_longitudinal_fit()</code></td>
+<td><code>StructuredLongitudinalModel</code></td>
+<td><code>qualified</code></td>
+<td>Complete common grid, supplied bases, RHE/REML/BLUP and new-grid projection</td>
+</tr>
+<tr class="odd">
+<td>Irregular generic record-longitudinal</td>
+<td><code>gs_longitudinal_records_model()</code>, <code>gs_longitudinal_fit()</code></td>
+<td><code>RecordLongitudinalModel</code></td>
+<td><code>qualified</code></td>
+<td>Observed scalar records, unequal counts, arbitrary order, supplied per-component bases</td>
+</tr>
+<tr class="even">
+<td>Pedigree single trait</td>
+<td><code>gs_pedigree_records()</code>, <code>gs_pedigree_fit()</code></td>
+<td>pedigree MME and pedigree REML sessions</td>
+<td><code>qualified</code></td>
+<td>All pedigree animals, including unphenotyped animals</td>
+</tr>
+<tr class="odd">
+<td>Pedigree incomplete multitrait</td>
+<td><code>gs_multitrait_pedigree_records()</code>, <code>gs_multitrait_pedigree_fit()</code></td>
+<td>multitrait pedigree MME/REML sessions</td>
+<td><code>qualified</code></td>
+<td>Arbitrary observed trait subsets and correlated observed-pattern residual blocks</td>
+</tr>
+<tr class="even">
+<td>Pedigree irregular longitudinal random regression</td>
+<td><code>gs_longitudinal_pedigree_records()</code>, <code>gs_longitudinal_pedigree_fit()</code></td>
+<td><code>LongitudinalPedigreeMmeSufficientStatistics</code> and retained session</td>
+<td><code>qualified</code></td>
+<td>One pedigree random-regression component, supplied basis, grouped independent residuals, prediction rows</td>
+</tr>
+<tr class="odd">
+<td>Specialized repeatability</td>
+<td><code>gs_repeatability_pedigree_records()</code>, <code>gs_repeatability_pedigree_fit()</code></td>
+<td>repeatability pedigree REML session</td>
+<td><code>qualified</code></td>
+<td>Additive pedigree plus one identity permanent-environment intercept</td>
+</tr>
+<tr class="even">
+<td>Generic scalar-record component LMM</td>
+<td><code>gs_lmm_records()</code>, <code>gs_lmm_model()</code>, <code>gs_lmm_fit()</code></td>
+<td><code>ComponentLmm*</code> and compiled MME</td>
+<td><code>qualified</code></td>
+<td>Multiple independent component groups and channels; identity, pedigree, or bounded supplied relationship</td>
+</tr>
+<tr class="odd">
+<td>Identity/group/common-environment recipes</td>
+<td><code>gs_relationship_identity()</code>, <code>gs_lmm_component()</code></td>
+<td>component LMM identity relationship</td>
+<td><code>qualified</code></td>
+<td>Permanent environment, litter, herd, year, site, block, or equivalent names are composition recipes, not separate engines</td>
+</tr>
+<tr class="even">
+<td>Correlated direct/maternal or random-coefficient channels</td>
+<td>multi-channel <code>gs_lmm_component(..., covariance = "unstructured")</code></td>
+<td>component-major shared-relationship channel block</td>
+<td><code>qualified</code></td>
+<td>Correlated channels must share one relationship component; cross-component covariance is unsupported</td>
+</tr>
+<tr class="odd">
+<td>Fixed-rank factor-analytic covariance</td>
+<td>No public R constructor in S4</td>
+<td>greml <code>FactorAnalyticCovarianceLayout</code> and component/compiled-MME declarations</td>
+<td><code>qualified</code> C++ covariance layout, exact REML and exact retained BLUP; fixed-state PCG and stochastic evaluation also qualified</td>
+<td>Declared rank, lower-triangular identification, positive pivots and specific variances; stochastic covariance optimization is unqualified</td>
+</tr>
+<tr class="even">
+<td>AR(1) residual blocks</td>
+<td><code>gs_lmm_residual_ar1()</code></td>
+<td>typed component-LMM residual blocks</td>
+<td><code>qualified</code></td>
+<td>Integer occasions, positive or negative interior <code>rho</code>, block-level variance groups</td>
+</tr>
+<tr class="odd">
+<td>Continuous exponential residual blocks</td>
+<td><code>gs_lmm_residual_exponential()</code></td>
+<td>typed component-LMM residual blocks</td>
+<td><code>qualified</code></td>
+<td>Irregular finite times, positive interior <code>phi</code>, block-level variance groups</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="model-by-numerical-execution" class="level2">
+<h2 class="anchored" data-anchor-id="model-by-numerical-execution">Model by numerical execution</h2>
+<p>Each cell classifies that exact model/backend/trace combination. Dense code is production only for the explicitly small exact route; elsewhere it is a test oracle.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model route</th>
+<th>Dense</th>
+<th>PCG</th>
+<th>CHOLMOD coordinate</th>
+<th>CHOLMOD selected inverse</th>
+<th>PARDISO coordinate</th>
+<th>PARDISO <code>selected_solve</code> PEV</th>
+<th>Stochastic trace / SLQ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Generic single-trait covariance</td>
+<td><code>qualified</code></td>
+<td><code>qualified</code> matrix-free</td>
+<td><code>not_applicable</code></td>
+<td><code>not_applicable</code></td>
+<td><code>not_applicable</code></td>
+<td><code>not_applicable</code></td>
+<td><code>qualified</code> matrix-free Hutchinson/SLQ</td>
+</tr>
+<tr class="even">
+<td>Formula pedigree compiler</td>
+<td><code>not_applicable</code></td>
+<td><code>unsupported</code> in the public formula route</td>
+<td><code>qualified</code></td>
+<td><code>qualified</code></td>
+<td><code>qualified</code></td>
+<td><code>unsupported</code> in the formula result</td>
+<td><code>unsupported</code></td>
+</tr>
+<tr class="odd">
+<td>Pedigree single trait</td>
+<td>oracle <code>qualified</code></td>
+<td><code>qualified</code> fixed covariance</td>
+<td><code>qualified</code> fixed/REML</td>
+<td><code>qualified</code> REML traces</td>
+<td><code>qualified</code> fixed/REML</td>
+<td><code>qualified</code> bounded exact target PEV/reliability</td>
+<td><code>qualified</code> fixed-probe stochastic REML/SLQ</td>
+</tr>
+<tr class="even">
+<td>Pedigree incomplete multitrait</td>
+<td>oracle <code>qualified</code></td>
+<td><code>qualified</code> fixed covariance and fixed-common-probe stochastic REML optimization</td>
+<td><code>qualified</code> fixed/REML</td>
+<td><code>qualified</code> REML traces</td>
+<td><code>qualified</code> fixed/REML</td>
+<td><code>qualified</code> bounded exact within-animal PEV blocks</td>
+<td><code>qualified</code> fixed-parameter evaluation and safeguarded covariance optimization; SLQ likelihood is available only when its requested precision passes</td>
+</tr>
+<tr class="odd">
+<td>Pedigree irregular longitudinal</td>
+<td>oracle <code>qualified</code></td>
+<td><code>qualified</code> fixed covariance</td>
+<td><code>qualified</code> fixed/REML</td>
+<td><code>qualified</code> fixed/REML traces</td>
+<td><code>qualified</code> fixed/REML by Stage 5D</td>
+<td><code>qualified</code> bounded coefficient and trajectory PEV/reliability</td>
+<td><code>unsupported</code> in this sparse pedigree route</td>
+</tr>
+<tr class="even">
+<td>Specialized repeatability</td>
+<td>oracle <code>qualified</code></td>
+<td><code>qualified</code> fixed covariance</td>
+<td><code>qualified</code> fixed/REML</td>
+<td><code>qualified</code> REML traces</td>
+<td><code>qualified</code> fixed/REML</td>
+<td><code>unsupported</code> on the specialized public route</td>
+<td><code>unsupported</code></td>
+</tr>
+<tr class="odd">
+<td>Generic component LMM</td>
+<td>oracle <code>qualified</code></td>
+<td><code>qualified</code> fixed-covariance C++ BLUP and fixed-budget or explicitly selected adaptive stochastic REML for identity/pedigree relationships, independent residuals, and scalar/complete or arbitrary missing channels</td>
+<td><code>qualified</code> fixed/REML</td>
+<td><code>qualified</code>; canonical trace and uncertainty route</td>
+<td><code>unsupported</code></td>
+<td><code>unsupported</code></td>
+<td><code>qualified</code> fixed-state evaluation and safeguarded fixed/adaptive covariance optimization in the stated PCG scope; adaptive certification uses a declared fixed final prefix and SLQ likelihood is conditional on its precision contract</td>
+</tr>
+<tr class="even">
+<td>Component LMM with FA covariance</td>
+<td>covariance algebra oracle <code>qualified</code></td>
+<td><code>qualified</code> fixed-state coefficient/BLUP and fixed-state stochastic score/AI; stochastic covariance optimization and post-optimization BLUP <code>implemented_unqualified</code></td>
+<td><code>qualified</code> fixed state, exact REML, and retained BLUP</td>
+<td>prediction uncertainty not qualified for FA in S4</td>
+<td><code>implemented_unqualified</code></td>
+<td><code>unsupported</code></td>
+<td><code>qualified</code> fixed-state score/AI only; optimization and stochastic retained-state finalization are unqualified</td>
+</tr>
+<tr class="odd">
+<td>Component LMM with supplied sparse precision</td>
+<td>oracle <code>qualified</code></td>
+<td><code>qualified</code> fixed-state coefficient/BLUP and stochastic score/AI evaluation only; covariance optimization <code>implemented_unqualified</code></td>
+<td><code>qualified</code> fixed/REML</td>
+<td><code>qualified</code> retained uncertainty</td>
+<td><code>unsupported</code></td>
+<td><code>unsupported</code></td>
+<td><code>qualified</code> fixed-state trace/score/AI; covariance optimization <code>implemented_unqualified</code></td>
+</tr>
+<tr class="even">
+<td>Component LMM with AR(1) residuals</td>
+<td>oracle <code>qualified</code></td>
+<td><code>qualified</code> fixed-state evaluation and stochastic covariance optimization</td>
+<td><code>qualified</code> fixed/REML</td>
+<td><code>qualified</code> retained uncertainty</td>
+<td><code>unsupported</code></td>
+<td><code>unsupported</code></td>
+<td><code>qualified</code> fixed-state evaluation and safeguarded covariance optimization</td>
+</tr>
+<tr class="odd">
+<td>Component LMM with continuous-exponential residuals</td>
+<td>oracle <code>qualified</code></td>
+<td><code>qualified</code> fixed-state coefficient, derivative, trace, AI, and PCG evaluation; covariance optimization <code>implemented_unqualified</code> after line-search exhaustion</td>
+<td><code>qualified</code> fixed/REML</td>
+<td><code>qualified</code> retained uncertainty</td>
+<td><code>unsupported</code></td>
+<td><code>unsupported</code></td>
+<td><code>qualified</code> fixed-state evaluation only; covariance optimization <code>implemented_unqualified</code></td>
+</tr>
+<tr class="even">
+<td>Balanced longitudinal</td>
+<td>oracle <code>qualified</code></td>
+<td><code>qualified</code> matrix-free</td>
+<td><code>not_applicable</code></td>
+<td><code>not_applicable</code></td>
+<td><code>not_applicable</code></td>
+<td><code>not_applicable</code></td>
+<td><code>qualified</code> Hutchinson/SLQ, including opt-in determinant deferral</td>
+</tr>
+<tr class="odd">
+<td>Generic irregular record-longitudinal</td>
+<td>oracle <code>qualified</code></td>
+<td><code>qualified</code> matrix-free</td>
+<td><code>not_applicable</code></td>
+<td><code>not_applicable</code></td>
+<td><code>not_applicable</code></td>
+<td><code>not_applicable</code></td>
+<td><code>qualified</code> Hutchinson/SLQ, including opt-in determinant deferral</td>
+</tr>
+</tbody>
+</table>
+<p>PARDISO selected inversion is <code>unsupported</code> for every route. PARDISO capability metadata reports this explicitly and no fallback is permitted. Stage 5D’s coordinate tracing is a bounded moderate-problem PARDISO route; it does not imply that selected inversion is absent globally. The separate <code>selected_solve</code> cells above use documented retained-factor multi-RHS solves; they do not change PARDISO’s selected-inversion classification.</p>
+<p>For incomplete multitrait stochastic REML, covariance optimization, optional approximate restricted likelihood, and all-animal BLUP are separate result capabilities. Score/AI convergence and BLUP can succeed when final SLQ exceeds its requested standard-error limit; in that case likelihood is explicitly unavailable and its estimate, uncertainty, and work remain diagnostic only.</p>
+<p>The same separation applies to qualified stochastic component REML. Its missing-channel claim means absent canonical scalar records, not imputation or complete-case deletion. The scalable supplied sparse-precision constructor and structured-residual PCG/stochastic paths are retained S3d implementations, but they are not a completed qualified combination. Supplied precision is fixed-state qualified; its stochastic optimizer is not. AR(1) fixed-state evaluation and stochastic optimization are qualified. Continuous exponential coefficient, derivative, trace, AI, and PCG evaluation is fixed-state qualified, whereas its stochastic optimizer ended in explicit score-merit line-search exhaustion. The combined S3d stochastic illustration was not run. Exact CHOLMOD component capabilities in those rows remain qualified and unchanged.</p>
+<p>The optional adaptive component policy preserves those scientific boundaries. It uses deterministic nested probe prefixes and phase-specific PCG tolerances for exploratory, accepted-state, and certification work; the fixed-budget path remains the default. Final convergence is always recomputed with the declared fixed certification prefix and requires score compatibility, deterministic stationarity, and an absolute transformed-parameter uncertainty envelope. Adaptive execution is qualified for the S3b/S3c independent-residual identity/ pedigree scope. The bounded FA revisit ended with explicit insufficient parameter-step precision, so it does not change the FA row above.</p>
+</section>
+<section id="inference-and-output" class="level2">
+<h2 class="anchored" data-anchor-id="inference-and-output">Inference and output</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model route</th>
+<th>Fixed covariance</th>
+<th>REML optimization</th>
+<th>Retained BLUP / trajectories</th>
+<th>PEV / reliability</th>
+<th>Covariance boundary</th>
+<th>Resource/thread/retained-state diagnostics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Generic single-trait covariance</td>
+<td><code>qualified</code></td>
+<td><code>qualified</code> exact or stochastic by selected route</td>
+<td><code>qualified</code></td>
+<td><code>qualified</code> selected prediction/contrast uncertainty where requested</td>
+<td><code>qualified</code> only for its documented scalar zero-eligible strategy</td>
+<td><code>qualified</code></td>
+</tr>
+<tr class="even">
+<td>Formula pedigree compiler</td>
+<td><code>qualified</code></td>
+<td><code>qualified</code> positive interior</td>
+<td><code>qualified</code></td>
+<td><code>unsupported</code> in the public formula result</td>
+<td><code>unsupported</code></td>
+<td><code>qualified</code></td>
+</tr>
+<tr class="odd">
+<td>Pedigree single trait</td>
+<td><code>qualified</code></td>
+<td><code>qualified</code> positive interior</td>
+<td><code>qualified</code> all animals</td>
+<td><code>qualified</code> CHOLMOD <code>selected_inverse</code> or PARDISO <code>selected_solve</code> complete-MME PEV/reliability</td>
+<td><code>unsupported</code></td>
+<td><code>qualified</code></td>
+</tr>
+<tr class="even">
+<td>Pedigree incomplete multitrait</td>
+<td><code>qualified</code></td>
+<td><code>qualified</code> positive-interior <code>G,R</code></td>
+<td><code>qualified</code> all animal-trait coefficients</td>
+<td><code>qualified</code> CHOLMOD <code>selected_inverse</code> or PARDISO <code>selected_solve</code> within-animal PEV blocks</td>
+<td><code>unsupported</code></td>
+<td><code>qualified</code></td>
+</tr>
+<tr class="odd">
+<td>Pedigree irregular longitudinal</td>
+<td><code>qualified</code></td>
+<td><code>qualified</code> positive-interior <code>Q</code> and grouped residuals</td>
+<td><code>qualified</code> latent and observed/prediction trajectories</td>
+<td><code>qualified</code> CHOLMOD <code>selected_inverse</code> or PARDISO <code>selected_solve</code> coefficient and trajectory PEV/reliability</td>
+<td><code>unsupported</code></td>
+<td><code>qualified</code></td>
+</tr>
+<tr class="even">
+<td>Specialized repeatability</td>
+<td><code>qualified</code></td>
+<td><code>qualified</code> positive interior</td>
+<td><code>qualified</code></td>
+<td><code>unsupported</code> on the specialized public route; use component LMM for qualified component uncertainty</td>
+<td><code>unsupported</code></td>
+<td><code>qualified</code></td>
+</tr>
+<tr class="odd">
+<td>Generic component LMM, independent residual</td>
+<td><code>qualified</code> by exact CHOLMOD and C++ PCG for identity/pedigree relationships with scalar, complete correlated, and arbitrary missing channels</td>
+<td><code>qualified</code> exact hybrid EM-AI and fixed-common-probe stochastic explicit-AI optimization in the stated PCG scope</td>
+<td><code>qualified</code> component coefficients/contributions and all known levels; stochastic optimization reuses the accepted response</td>
+<td><code>qualified</code> retained CHOLMOD within-level blocks; unsupported from PCG</td>
+<td><code>qualified</code> for zero scalar and rank-one two-channel blocks only</td>
+<td><code>qualified</code>; optimizer, optional likelihood, BLUP, and logical solver states are distinct</td>
+</tr>
+<tr class="even">
+<td>Component LMM, fixed-rank FA covariance</td>
+<td><code>qualified</code> through identical derived covariance in exact CHOLMOD and matrix-free PCG at fixed state</td>
+<td>exact CHOLMOD optimization <code>qualified</code>; stochastic optimization <code>implemented_unqualified</code></td>
+<td>exact retained-state BLUP <code>qualified</code>; fixed-state PCG coefficients/BLUP <code>qualified</code>; stochastic post-optimization BLUP unqualified</td>
+<td>not qualified in S4</td>
+<td>singular/zero-specific boundaries unsupported</td>
+<td><code>qualified</code> algebra, identification, derivatives, Jacobian diagnostics, fixed-state execution and exact result finalization</td>
+</tr>
+<tr class="odd">
+<td>Component LMM, AR(1) residual</td>
+<td><code>qualified</code></td>
+<td><code>qualified</code> positive-interior residual parameters by exact and stochastic routes</td>
+<td><code>qualified</code></td>
+<td><code>qualified</code> for random components</td>
+<td><code>implemented_unqualified</code> when combined with active random-component boundaries</td>
+<td><code>qualified</code></td>
+</tr>
+<tr class="even">
+<td>Component LMM, continuous-exponential residual</td>
+<td><code>qualified</code> fixed state</td>
+<td>exact optimization <code>qualified</code>; stochastic optimization <code>implemented_unqualified</code></td>
+<td>exact-route BLUP <code>qualified</code>; stochastic post-optimization BLUP not qualified</td>
+<td><code>qualified</code> for random components on the exact route</td>
+<td><code>implemented_unqualified</code> when combined with active random-component boundaries</td>
+<td>fixed-state diagnostics <code>qualified</code></td>
+</tr>
+<tr class="odd">
+<td>Component LMM, supplied sparse precision</td>
+<td><code>qualified</code> fixed state</td>
+<td>exact optimization retains its existing scope; scalable stochastic optimization <code>implemented_unqualified</code></td>
+<td>fixed-state PCG BLUP <code>qualified</code></td>
+<td>exact-route uncertainty unchanged; unsupported from PCG</td>
+<td><code>implemented_unqualified</code></td>
+<td>fixed-state diagnostics <code>qualified</code></td>
+</tr>
+<tr class="even">
+<td>Balanced longitudinal</td>
+<td><code>qualified</code></td>
+<td><code>qualified</code> positive interior</td>
+<td><code>qualified</code> latent/common-grid trajectories</td>
+<td><code>qualified</code> selected-target conditional uncertainty; not selected-inverse MME PEV</td>
+<td><code>unsupported</code> for singular <code>Q</code></td>
+<td><code>qualified</code></td>
+</tr>
+<tr class="odd">
+<td>Generic irregular record-longitudinal</td>
+<td><code>qualified</code></td>
+<td><code>qualified</code> positive interior</td>
+<td><code>qualified</code> observed/prediction records</td>
+<td><code>unsupported</code> for full coefficient PEV/reliability</td>
+<td><code>unsupported</code></td>
+<td><code>qualified</code></td>
+</tr>
+</tbody>
+</table>
+<p>All PEV/reliability entries are plug-in uncertainty conditional on fitted covariance parameters. PCG has no retained direct factor, so exact PEV is <code>unsupported</code>. PARDISO <code>selected_inverse</code> remains <code>unsupported</code>. PARDISO <code>selected_solve</code> instead solves the requested complete-MME target columns from the retained accepted factor, with explicit system, entry, batch, and memory bounds.</p>
+</section>
+<section id="stage-5d-cholmod-classification" class="level2">
+<h2 class="anchored" data-anchor-id="stage-5d-cholmod-classification">Stage 5D CHOLMOD classification</h2>
+<p>The final irregular-record public path is option 1: <strong>already qualified</strong>. <code>gs_longitudinal_pedigree_reml_control()</code> exposes CHOLMOD selected-inverse traces and prediction error; the same canonical MME is consumed by <code>LongitudinalPedigreeSparseDirectSession</code>; focused native and R tests cover selected-inverse trace parity, retained-factor longitudinal PEV, trajectory uncertainty, and typed work accounting. Stage 5D added and qualified the PCG block-preconditioned fixed solve and PARDISO coordinate-trace REML profile; it did not replace or weaken the CHOLMOD path.</p>
+</section>
+<section id="public-api-and-implementation-mapping" class="level2">
+<h2 class="anchored" data-anchor-id="public-api-and-implementation-mapping">Public API and implementation mapping</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>R API</th>
+<th>C++ implementation</th>
+<th>Relationship to shared machinery</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>gs_model_pedigree()</code> with <code>gs_model()</code> / <code>gs_model_fit()</code></td>
+<td>unified model facade structured pedigree term</td>
+<td>Ordered parent indices and optional Mendelian variances; separate from the formula kernel</td>
+</tr>
+<tr class="even">
+<td><code>gfit()</code> with <code>gs_pedigree()</code> / <code>gvc()</code></td>
+<td>compiled MME</td>
+<td>Formula lowering adapter over the shared compiled sparse-MME session; deliberately narrower than <code>gs_lmm_*()</code></td>
+</tr>
+<tr class="odd">
+<td><code>gs_pedigree_records()</code>, <code>gs_pedigree_start()</code>, <code>gs_pedigree_reml_control()</code>, <code>gs_pedigree_fit()</code></td>
+<td>scalar pedigree MME/REML</td>
+<td>Specialized animal-model adapter and reduction oracle</td>
+</tr>
+<tr class="even">
+<td><code>gs_multitrait_pedigree_records()</code>, <code>gs_multitrait_pedigree_start()</code>, <code>gs_multitrait_pedigree_reml_control()</code>, <code>gs_multitrait_pedigree_fit()</code></td>
+<td>multitrait pedigree MME/REML</td>
+<td>Specialized patterned-trait adapter over retained direct-session machinery</td>
+</tr>
+<tr class="odd">
+<td><code>gs_longitudinal_pedigree_records()</code>, <code>gs_longitudinal_pedigree_start()</code>, <code>gs_longitudinal_pedigree_reml_control()</code>, <code>gs_longitudinal_pedigree_fit()</code></td>
+<td>longitudinal pedigree MME/REML</td>
+<td>Specialized irregular-record adapter using the compiled MME and retained direct session</td>
+</tr>
+<tr class="even">
+<td><code>gs_repeatability_pedigree_records()</code>, <code>gs_repeatability_pedigree_start()</code>, <code>gs_repeatability_pedigree_reml_control()</code>, <code>gs_repeatability_pedigree_fit()</code></td>
+<td>repeatability pedigree REML</td>
+<td>Specialized two-component reduction oracle; generic construction is a component-LMM recipe</td>
+</tr>
+<tr class="odd">
+<td><code>gs_lmm_records()</code>, <code>gs_lmm_component()</code>, <code>gs_lmm_model()</code>, <code>gs_lmm_control()</code>, <code>gs_lmm_fit()</code>, <code>gs_lmm_blup()</code></td>
+<td>component LMM</td>
+<td>Canonical scalar-record compositional engine; identity/pedigree/supplied relationships, hybrid EM-AI, active boundaries, residual blocks, BLUP and uncertainty</td>
+</tr>
+<tr class="even">
+<td><code>gs_balanced_longitudinal_model()</code>, <code>gs_longitudinal_control()</code>, <code>gs_longitudinal_fit()</code></td>
+<td>structured longitudinal</td>
+<td>Specialized matrix-free common-grid workflow</td>
+</tr>
+<tr class="odd">
+<td><code>gs_longitudinal_records_model()</code> / <code>gs_longitudinal_fit()</code></td>
+<td>record longitudinal</td>
+<td>Generic matrix-free observed-record workflow; not the pedigree sparse-MME API</td>
+</tr>
+<tr class="even">
+<td><code>gs_multivariate_model()</code>, <code>gs_multivariate_rhe_blup()</code></td>
+<td>multivariate covariance/inference</td>
+<td>Matrix-free complete/unbalanced multivariate workflows, separate from sparse pedigree multitrait</td>
+</tr>
+<tr class="odd">
+<td>No direct R plan/session object</td>
+<td><code>CompiledMmePlan</code>, <code>CompiledMmeSession</code>, gsolve retained direct/selected-inverse sessions</td>
+<td>Public native primitives consumed by model-specific R adapters; intentionally not serialized as mutable R sessions</td>
+</tr>
+<tr class="even">
+<td>No dedicated R constructor</td>
+<td><code>SparseIndexedCovarianceModel</code>, <code>SparseIndexedRemlSystem</code></td>
+<td>Public native sparse-indexed engine; its standalone native combinations are <code>implemented_unqualified</code> unless a catalogued adapter and focused evidence name them</td>
+</tr>
+<tr class="odd">
+<td>No public API</td>
+<td>legacy internal grouped/identity implementations</td>
+<td>Reduction fixtures superseded by the canonical component LMM; not an alternative public engine</td>
+</tr>
+</tbody>
+</table>
+<p>Named biological models such as permanent environment, litter, herd-year, direct/maternal covariance, random slopes, and reaction norms are component recipes when their relationship and incidence contracts fit <code>gs_lmm_*()</code>. They must not receive duplicate model-specific production engines.</p>
+</section>
+<section id="implemented-but-unqualified-combinations" class="level2">
+<h2 class="anchored" data-anchor-id="implemented-but-unqualified-combinations">Implemented but unqualified combinations</h2>
+<ul>
+<li>Simultaneous component active boundaries and AR(1)/exponential residual correlation; both mechanisms are qualified separately.</li>
+<li>Standalone combinations of the public native <code>SparseIndexedCovarianceModel</code> and <code>SparseIndexedRemlSystem</code> that have no matched public R adapter and focused end-to-end qualification.</li>
+</ul>
+<p>These are qualification or route-integration gaps, not new global algorithms.</p>
+</section>
+<section id="genuinely-unsupported-combinations" class="level2">
+<h2 class="anchored" data-anchor-id="genuinely-unsupported-combinations">Genuinely unsupported combinations</h2>
+<ul>
+<li>PARDISO selected inversion.</li>
+<li>Exact selected-inverse PEV from PCG.</li>
+<li>Cross-component covariance outside channels sharing one relationship group.</li>
+<li>Active semidefinite boundaries for covariance blocks larger than two, and zero/singular residual covariance.</li>
+<li>Mixed residual structures in one component fit, heterogeneous temporal marginal scales, ARMA, antedependence, spatial, Matérn, and spatiotemporal residuals.</li>
+<li>New random-effect levels in prediction rows.</li>
+<li>Genotype/GRM construction, <span class="math inline">\(H^{-1}\)</span>, and ssGBLUP in the component/pedigree LMM APIs.</li>
+<li>A general component formula parser; the canonical public component API is constructor-based.</li>
+</ul>
+</section>
+<section id="anti-duplication-guard" class="level2">
+<h2 class="anchored" data-anchor-id="anti-duplication-guard">Anti-duplication guard</h2>
+<p>Future work must not propose selected-inverse infrastructure, selected-inverse trace contractions, bounded retained-factor target solves, complete-MME PEV/reliability, identity/group components, permanent/common environment effects, correlated channels, structured longitudinal residual blocks, scalar/rank-one active boundaries, or existing pedigree/multitrait/longitudinal PCG/direct REML and BLUP as new global capabilities. A future milestone must name the exact unsupported or implemented-unqualified cell it changes.</p>
+</section>
+<section id="evidence-based-future-selection" class="level2">
+<h2 class="anchored" data-anchor-id="evidence-based-future-selection">Evidence-based future selection</h2>
+<p>No Stage 5E implementation is needed for longitudinal pedigree CHOLMOD selected inversion or PEV/reliability: that public path is already qualified. Potential bounded future work, if prioritized, is limited to catalogued gaps:</p>
+<ol type="1">
+<li>A qualification-only closure for an <code>implemented_unqualified</code> combination, such as component active boundaries together with correlated residual blocks, without adding either mechanism again.</li>
+<li>Specialized repeatability uncertainty integration, only if that public convenience route must expose the existing complete-MME machinery rather than using the qualified component recipe.</li>
+<li>A genuinely unsupported residual family or prediction contract selected from the catalog, implemented through the existing component and residual abstractions rather than a parallel model engine.</li>
+</ol>
+<p>These are candidates, not scheduled milestones. Qualification work should be chosen only when the corresponding public combination is useful.</p>
+<p>Scientific recipes and covariance definitions are summarized in <a href="../../gsuite/docs/model-recipes.html">model recipes</a>; they do not assign qualification status.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/psoerensen\.github\.io\/gtools\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>gsuite is in private development. gsim and gact are public.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

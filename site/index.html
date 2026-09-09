@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="A unified interface to modular computational statistical-genetics libraries.">
+<meta name="description" content="Analysis, simulation and genomic association tools.">
 
 <title>gtools</title>
 <style>
@@ -20,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -75,7 +40,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cc63fce9873912f1bbbccf05079cc9ea.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-264a0fc3a96c72ca7334393e02078ef0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -105,7 +70,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="website/styles.css">
+<link rel="stylesheet" href="gsuite/website/styles.css">
 </head>
 
 <body class="nav-fixed fullcontent quarto-light">
@@ -130,28 +95,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./tutorials.html"> 
-<span class="menu-text">Tutorials</span></a>
+    <a class="nav-link" href="./gsuite/index.html"> 
+<span class="menu-text">gsuite</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./docs/methods.html"> 
-<span class="menu-text">Methods</span></a>
+    <a class="nav-link" href="https://psoerensen.github.io/gsim/"> 
+<span class="menu-text">gsim</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./docs/model-catalog.html"> 
-<span class="menu-text">Models</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./benchmarks.html"> 
-<span class="menu-text">Benchmarks</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./downloads.html"> 
-<span class="menu-text">Downloads</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./docs/status.html"> 
-<span class="menu-text">Status</span></a>
+    <a class="nav-link" href="https://psoerensen.github.io/gact/"> 
+<span class="menu-text">gact</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -182,7 +135,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    A unified interface to modular computational statistical-genetics libraries.
+    Analysis, simulation and genomic association tools.
   </div>
 </div>
 
@@ -199,179 +152,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><strong>gtools</strong> brings together tools for computational and statistical genetics.</p>
+<p>gtools brings together <strong>gsuite</strong>, <strong>gsim</strong> and <strong>gact</strong>. Choose a package to explore its methods, examples and documentation.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Package</th>
-<th>Purpose</th>
-<th>Availability</th>
+<th>What it provides</th>
+<th>Website</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><strong>gsuite</strong></td>
-<td>Statistical genetics analysis through R</td>
-<td>Private development; public methods and examples on this site</td>
+<td>Statistical genetics analysis, mixed models and reusable computational libraries</td>
+<td><a href="./gsuite/index.html">Explore gsuite</a></td>
 </tr>
 <tr class="even">
-<td><a href="https://github.com/psoerensen/gsim"><strong>gsim</strong></a></td>
-<td>Simulate genotypes, pedigrees and phenotypes</td>
-<td>Public package; use its existing installation guide</td>
+<td><strong>gsim</strong></td>
+<td>Simulation of genotypes, pedigrees and phenotypes</td>
+<td><a href="https://psoerensen.github.io/gsim/">Explore gsim</a></td>
 </tr>
 <tr class="odd">
-<td><a href="https://github.com/psoerensen/gact"><strong>gact</strong></a></td>
-<td>Organize genomic association data and biological annotations</td>
-<td>Public package; use its existing documentation and releases</td>
+<td><strong>gact</strong></td>
+<td>Genomic association data and biological annotation workflows</td>
+<td><a href="https://psoerensen.github.io/gact/">Explore gact</a></td>
 </tr>
 </tbody>
 </table>
-<p>gtools is the umbrella website. Each package keeps its own development and release process. <a href="./downloads.html">Package availability and downloads</a> explains where to start.</p>
-<section id="analysis-with-gsuite" class="level2">
-<h2 class="anchored" data-anchor-id="analysis-with-gsuite">Analysis with gsuite</h2>
-<p><code>gsuite</code> is an experimental R package for statistical genetics. Fit pedigree mixed models, prepare genotype data, and access selected methods from the suite’s native libraries. <code>gsim</code> is the companion R package for simulating genotypes, pedigrees and observations.</p>
-</section>
-<section id="start-with-a-pedigree-model" class="level2">
-<h2 class="anchored" data-anchor-id="start-with-a-pedigree-model">Start with a pedigree model</h2>
-<p>Supply two ordinary R data frames: observations in <code>data</code> and animal IDs and parents in <code>pedigree</code>. Describe the effects with a formula and fit the model:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsuite)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gfit</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> BW <span class="sc">~</span> sex <span class="sc">+</span> cohort <span class="sc">+</span> herd <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data, <span class="at">pedigree =</span> pedigree, <span class="at">task =</span> <span class="st">"reml"</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This sketch assumes an installed gsuite and prepared data. The <a href="./tutorials.html">Tutorials</a> provide the complete data preparation and explain single-trait, multitrait and longitudinal models. Starting variances are optional; explicit covariance components are available when needed.</p>
-<p>The short interface currently supports one pedigree effect and one residual component. See the <a href="./docs/model-catalog.html">model catalogue</a> for other interfaces and their supported models.</p>
-</section>
-<section id="installation-status" class="level2">
-<h2 class="anchored" data-anchor-id="installation-status">Installation status</h2>
-<p>gsuite has no public installation download yet. Its tutorial examples require a development installation of gsuite and an installed gsim. gsim and gact are already public. See <a href="./downloads.html">Downloads</a> for the separate package status.</p>
-</section>
-<section id="explore-the-methods" class="level2">
-<h2 class="anchored" data-anchor-id="explore-the-methods">Explore the methods</h2>
+<p>gsim and gact are public packages with their own websites and repositories. gsuite is in private development; its section presents methods, workflows and selected results before software release.</p>
+<section id="start-with-gsuite" class="level2">
+<h2 class="anchored" data-anchor-id="start-with-gsuite">Start with gsuite</h2>
 <ul>
-<li><a href="./docs/pedigree-analysis.html">Pedigree analysis</a>: formulas, covariance components, REML and predictions.</li>
-<li><a href="./docs/genotype-preparation.html">Genotype preparation</a>: prepare and reopen genotype resources.</li>
-<li><a href="./docs/genotype-filtering.html">Marker filtering</a>: filter using marker quality summaries.</li>
-<li><a href="./docs/sparse-ld-preparation.html">Sparse LD</a>: prepare chromosome-local LD resources.</li>
-<li><a href="./docs/methods.html">Method catalogue</a>: methods across the wider ecosystem; availability through R varies by method.</li>
+<li><a href="./gsuite/tutorials.html">Tutorials</a>: pedigree analysis and working with an assistant.</li>
+<li><a href="./gsuite/benchmarks.html">Benchmarks</a>: comparison with DMU, including the runtime figure.</li>
+<li><a href="./gsuite/downloads.html">Package availability</a>: current status and future release plans.</li>
 </ul>
-</section>
-<section id="architecture-overview" class="level2">
-<h2 class="anchored" data-anchor-id="architecture-overview">Architecture overview</h2>
-<p><strong>gsuite and gsim provide the analysis and simulation interfaces.</strong> gsuite provides analysis workflows, while gsim provides simulation workflows. Focused native libraries supply statistical methods, numerical solvers and genomic data operations. Each library has a defined responsibility and can evolve independently.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Role</th>
-<th>Components</th>
-<th>Responsibility</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>User-facing R interfaces</td>
-<td><strong>gsuite</strong>, <strong>gsim</strong></td>
-<td>Analysis and simulation workflows; gsuite remains in private development</td>
-</tr>
-<tr class="even">
-<td>Statistical libraries</td>
-<td>greml, gcorr, gscore</td>
-<td>Mixed models, genetic correlation and genomic scoring</td>
-</tr>
-<tr class="odd">
-<td>Computational libraries</td>
-<td>gsolve, gmat, gbits</td>
-<td>Numerical solvers, genomic matrices and packed genotype operations</td>
-</tr>
-</tbody>
-</table>
-<p>These groups describe responsibilities. The current gsuite R interface exposes selected native capabilities; integration coverage is documented in the <a href="./docs/methods.html">method catalogue</a>.</p>
-<p>gtools also links to the public <strong>gact</strong> package for genomic association data and annotation workflows. This does not introduce a native build dependency between gact and the gsuite libraries.</p>
-<p><a href="./docs/architecture.html">See the complete responsibility and dependency model</a>.</p>
-</section>
-<section id="libraries" class="level2">
-<h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
-<p>The native gsuite development libraries remain private. gsim and gact have their own public repositories. The gsuite method catalogue is available here.</p>
-<p>“Implemented” means that the capability is implemented in the development code and covered by relevant validation. It does not imply comprehensive benchmarking or Biobank-scale qualification.</p>
-<div class="library-grid">
-<section id="gbits" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gbits">gbits</h3>
-<p><span class="status status-implemented">Implemented</span></p>
-<p>Packed genotype storage, BED access, transformations, and matrix-free genotype operators, including an experimental solver adapter.</p>
-<p><a href="./docs/methods.html">Method catalogue</a></p>
-</section>
-<section id="gmat" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gmat">gmat</h3>
-<p><span class="status status-implemented">Implemented</span></p>
-<p>Genomic matrices, BED panels, sparse-LD resources and related algebra built on <code>gbits</code>.</p>
-<p><a href="./docs/methods.html">Method catalogue</a></p>
-</section>
-<section id="gsolve" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gsolve">gsolve</h3>
-<p><span class="status status-implemented">Implemented</span></p>
-<p>Reusable dense, sparse, matrix-free and hybrid numerical solvers and operator contracts.</p>
-<p><a href="./docs/methods.html">Method catalogue</a></p>
-</section>
-<section id="greml" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="greml">greml</h3>
-<p><span class="status status-implemented">Implemented</span></p>
-<p>ML/REML mixed-model inference over covariance components using <code>gsolve</code> operators and solvers.</p>
-<p><a href="./docs/methods.html">Method catalogue</a></p>
-</section>
-<section id="gcorr" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gcorr">gcorr</h3>
-<p><span class="status status-implemented">Implemented</span></p>
-<p>Single-trait, partitioned, bivariate and multivariate LD-score regression with covariance, correlation and diagnostics.</p>
-<p><a href="./docs/methods.html">Method catalogue</a></p>
-</section>
-<section id="gscore" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gscore">gscore</h3>
-<p><span class="status status-implemented">Implemented</span></p>
-<p>High-performance genomic scoring from BED data, including computation of multiple scores.</p>
-<p><a href="./docs/methods.html">Method catalogue</a></p>
-</section>
-<section id="gsim" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gsim">gsim</h3>
-<p><span class="status status-experimental">Experimental</span></p>
-<p>The companion R package for simulating genotypes, pedigrees and observations, including multitrait and longitudinal example data.</p>
-<p><a href="./docs/pedigree-analysis.html#prepare-ordinary-data-frames">See gsim in the pedigree tutorial</a></p>
-</section>
-<section id="gsuite" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gsuite">gsuite</h3>
-<p><span class="status status-experimental">Experimental</span></p>
-<p>R workflows and explicit native interfaces to selected <code>gbits</code>, <code>gmat</code>, <code>gsolve</code> and <code>greml</code> capabilities.</p>
-<p><a href="./docs/methods.html">Method catalogue</a></p>
-</section>
-</div>
-</section>
-<section id="representative-workflows" class="level2">
-<h2 class="anchored" data-anchor-id="representative-workflows">Representative workflows</h2>
-<div class="workflow-list">
-<ul>
-<li><strong>Matrices and correlation:</strong> genotype data → genomic matrices and LD → LD scores → correlation analyses</li>
-<li><strong>Scoring:</strong> genotype data + effects → genomic scores</li>
-<li><strong>Mixed models:</strong> observations + pedigree + formula → REML → estimates and predictions</li>
-<li><strong>Simulation:</strong> gsim → example data → gsuite analyses</li>
-</ul>
-</div>
-</section>
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">Getting started</h2>
-<ul>
-<li><p>Start with the <a href="./docs/README.html">documentation index</a> and <a href="./docs/status.html#qualification-limits">qualification limits</a>.</p></li>
-<li><p>Understand the <a href="./docs/architecture.html">architecture and ownership boundaries</a>.</p></li>
-<li><p>Review the <a href="./docs/methods.html">suite-wide method catalogue</a>.</p></li>
-<li><p>Check the <a href="./downloads.html">source and download status</a>.</p></li>
-<li><p>Read the <a href="./docs/status.html#qualification-limits">development model</a>.</p></li>
-<li><p>Explore the public <a href="https://github.com/psoerensen/gsim">gsim</a> and <a href="https://github.com/psoerensen/gact">gact</a> repositories.</p></li>
-</ul>
+<p>The package websites remain independently maintained. gtools provides a shared entry point; it does not duplicate the gsim or gact websites.</p>
 
 
 </section>
