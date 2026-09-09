@@ -382,7 +382,7 @@ window.Quarto = {
 
 <section id="canonical-lmm-architecture" class="level1">
 <h1>Canonical LMM architecture</h1>
-<p>This section defines the LMM architecture. Current dependency versions are recorded in <a href="../../gsuite/docs/status.html#package-metadata">package metadata</a>; the original architecture baseline used greml 0.66.0. Capability status belongs in the <a href="../../gsuite/docs/model-catalog.html">model catalog</a>, reusable machinery in the <a href="../../gsuite/docs/primitive-registry.html">primitive registry</a>, evidence in <a href="../../gsuite/docs/status.html#qualification-limits">model qualification</a>, and established equivalences in <a href="../../gsuite/docs/model-reductions.html">model reductions</a>. Historical milestone prompts are evidence, not the current catalog.</p>
+<p>This section defines the LMM architecture. Current dependency versions are recorded in <a href="../../gsuite/docs/status.html#package-metadata">package metadata</a>; the original architecture baseline used greml 0.66.0. Capability status belongs in the <a href="../../gsuite/docs/model-catalog.html">model catalog</a>, reusable machinery in the <a href="../../gsuite/docs/primitive-registry.html">primitive registry</a>, evidence in <a href="../../gsuite/docs/status.html#qualification-limits">model qualification</a>, and established equivalences in <a href="../../gsuite/docs/model-reductions.html">model reductions</a>. Historical development notes do not supersede the current capability catalog.</p>
 <section id="current-authority-and-status" class="level2">
 <h2 class="anchored" data-anchor-id="current-authority-and-status">Current authority and status</h2>
 <p>Current public headers and R exports define what is implemented. Focused tests and committed qualification evidence determine whether a specific model/backend/inference combination is qualified. The catalog uses exactly:</p>
@@ -425,7 +425,7 @@ window.Quarto = {
 </section>
 <section id="future-development-rule" class="level2">
 <h2 class="anchored" data-anchor-id="future-development-rule">Future-development rule</h2>
-<p>Future milestones must begin with an <code>unsupported</code> or <code>implemented_unqualified</code> catalog cell, identify whether the gap is representation, exposure, backend contract, or qualification only, and reuse the registry and reductions. They must not duplicate existing solvers, selected inversion, PEV calculations, component composition, residual blocks, or boundary optimization.</p>
+<p>Proposed extensions must begin with an <code>unsupported</code> or <code>implemented_unqualified</code> catalog cell, identify whether the gap is representation, exposure, backend contract, or qualification only, and reuse the registry and reductions. They must not duplicate existing solvers, selected inversion, PEV calculations, component composition, residual blocks, or boundary optimization.</p>
 </section>
 <section id="three-layers" class="level2">
 <h2 class="anchored" data-anchor-id="three-layers">Three layers</h2>
@@ -477,7 +477,7 @@ window.Quarto = {
 <li>At common fixed parameters, verify covariance/MME, coefficients, projections, score, standard AI, determinants, and likelihood.</li>
 <li>Verify positive-interior optimization and retained BLUP behavior.</li>
 <li>Verify each backend, resource limit, thread domain, and failure path.</li>
-<li>Expose and document R semantics only after focused gates pass.</li>
+<li>Expose and document R semantics only after focused validation checks pass.</li>
 </ol>
 <p>Structural reductions should omit a component when the chosen route does not support an exact zero boundary. The component-LMM scalar/rank-one boundary contract is specified in the <a href="../../gsuite/docs/model-reductions.html">model reductions</a>.</p>
 </section>
