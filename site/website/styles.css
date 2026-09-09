@@ -1,0 +1,110 @@
+:root {
+  --suite-navy: #2c3e50;
+  --suite-accent: #18bc9c;
+  --suite-info: #3498db;
+  --suite-soft: #f7f9fa;
+  --suite-border: #dce3e6;
+  --suite-muted: #5f6f75;
+  --suite-implemented: #146c57;
+  --suite-experimental: #815600;
+  --suite-planned: #526168;
+}
+
+.navbar-brand {
+  font-weight: 600;
+}
+
+.quarto-title .subtitle {
+  color: var(--suite-muted);
+  font-weight: 400;
+}
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0 2.5rem;
+}
+
+.library-card {
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--suite-border);
+  border-top: 0.2rem solid var(--suite-navy);
+  border-radius: 0.25rem;
+  background: #fff;
+}
+
+.library-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.55rem;
+  font-size: 1.08rem;
+}
+
+.library-card p:last-child {
+  margin-bottom: 0;
+}
+
+.status {
+  display: inline-block;
+  margin-bottom: 0.55rem;
+  padding: 0.12rem 0.45rem;
+  border-radius: 0.2rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.status-implemented {
+  background: #e5f4f0;
+  color: var(--suite-implemented);
+}
+
+.status-experimental {
+  background: #fff3d6;
+  color: var(--suite-experimental);
+}
+
+.status-planned {
+  background: #edf1f2;
+  color: var(--suite-planned);
+}
+
+.workflow-list {
+  padding: 0.9rem 1.1rem 0.2rem;
+  border-left: 0.3rem solid var(--suite-info);
+  border-radius: 0.2rem;
+  background: var(--suite-soft);
+}
+
+.table {
+  display: block;
+  max-width: 100%;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table thead th {
+  border-bottom-width: 2px;
+  color: var(--suite-navy);
+}
+
+pre {
+  border: 1px solid var(--suite-border);
+  border-radius: 0.25rem;
+}
+
+.callout {
+  border-radius: 0.25rem;
+}
+
+.nav-footer {
+  border-top: 1px solid var(--suite-border);
+  background: var(--suite-soft);
+  color: var(--suite-muted);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 0.2rem solid var(--suite-accent);
+  outline-offset: 0.15rem;
+}

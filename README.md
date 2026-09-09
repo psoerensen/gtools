@@ -1,0 +1,21 @@
+# gtools
+
+Public documentation for statistical genetics tools: **gsuite**, **gsim** and
+**gact**.
+
+- [Website](https://psoerensen.github.io/gtools/)
+- [gsim: simulation](https://github.com/psoerensen/gsim)
+- [gact: genomic association and annotation](https://github.com/psoerensen/gact)
+
+gsim and gact are already public and retain their own repositories,
+documentation and release processes. gsuite is in private development; its
+tutorials describe capabilities without providing an installable release.
+
+`site/` contains a reviewed, static website snapshot. Website updates and
+software releases are separate decisions. Future approved gsuite releases may
+be distributed here, with their own version, licence and dependency notices.
+The presence of documentation does not change any software licence.
+
+Site content is maintained in the owning development repositories. Please
+report corrections rather than editing generated HTML. No development Git
+history is included in this publishing repository.

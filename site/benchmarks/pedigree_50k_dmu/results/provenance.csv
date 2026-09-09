@@ -1,0 +1,18 @@
+key,value
+operating_system,Windows 10 Enterprise build 26200
+cpu,13th Gen Intel(R) Core(TM) i7-1365U
+physical_cores,10
+logical_cores,12
+physical_ram_bytes,16794288128
+R,4.4.1
+Quarto,1.7.32
+gsuite,0.29.0
+greml,0.54.0 ABI 26
+gsolve,0.22.0 ABI 4
+gbits,0.17.0 ABI 4
+gmat,0.1.0 ABI 0
+gsim,0.2.0
+DMU,5.6
+selected_inverse_dense_threads,8
+CHOLMOD_support_threads,1
+likelihood_comparison,not asserted: DMU additive constant was not reconciled

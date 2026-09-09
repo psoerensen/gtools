@@ -1,0 +1,21 @@
+/* Adapted from qgteach/quant-genetics/styles.css for this presentation.
+   Keep the white Reveal theme, 1280x720 canvas and readable column layouts. */
+.reveal { font-size: 30px; line-height: 1.2; }
+.reveal h2 { font-size: 1.45em; font-weight: 600; margin-bottom: 0.75em; }
+.reveal h3 { font-size: 1.15em; margin-bottom: 0.35em; }
+.reveal .slide p { margin-top: 0; margin-bottom: 0.7em; }
+.reveal .slide ul, .reveal .slide ol { margin: 0.2em 0 0.65em; padding-left: 1.2em; }
+.reveal li { margin-bottom: 0.3em; }
+.reveal table { font-size: 0.85em; margin: 0 0 0.85em; width: 100%; }
+.reveal table th, .reveal table td { padding: 0.35em 0.5em; }
+.reveal blockquote { width: 94%; margin: 0 0 0.8em; box-shadow: none;
+  padding: 0.3em 0.5em; border-left: 4px solid #2878b5; font-style: normal; }
+.reveal pre { font-size: 0.7em; width: 100%; box-shadow: none; }
+.reveal .columns { gap: 1.5em; }
+.reveal .source { font-size: 0.65em; margin-top: 0.8em; color: #555; }
+.reveal .small-text { font-size: 0.8em; }
+.reveal figcaption { font-size: 0.65em; color: #555; }
+.reveal img { margin: 0; }
+.reveal #title-slide h1 { font-size: 1.9em; }
+.reveal #title-slide .subtitle { font-size: 1.1em; margin-top: 0.8em; }
+.reveal .footer { font-size: 0.5em; }

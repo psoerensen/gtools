@@ -1,0 +1,7 @@
+"model","program","status","reason","iterations","max_score","ai_rank","ai_condition"
+"single_trait","gsuite","success","score_stationary",5,2.45823993140245e-06,2,8.15578877878224
+"single_trait","dmu","success","Converged on norm of gradient vector",4,,,
+"multitrait","gsuite","success","score_stationary",4,2.45098732752056e-05,6,17.0373504683531
+"multitrait","dmu","success","Converged on Hessian convergence criterion",5,,,
+"longitudinal","gsuite","success","score_stationary",5,1.08985028958013e-05,4,15.3529009804606
+"longitudinal","dmu","success","Converged on norm of gradient vector",6,,,
