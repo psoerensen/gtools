@@ -354,6 +354,13 @@ window.Quarto = {
   <ul>
   <li><a href="#canonical-lmm-capability-catalog" id="toc-canonical-lmm-capability-catalog" class="nav-link active" data-scroll-target="#canonical-lmm-capability-catalog">Canonical LMM capability catalog</a>
   <ul class="collapse">
+  <li><a href="#r-interface-coverage-inventory" id="toc-r-interface-coverage-inventory" class="nav-link" data-scroll-target="#r-interface-coverage-inventory">R interface coverage inventory</a>
+  <ul class="collapse">
+  <li><a href="#what-users-can-retrieve" id="toc-what-users-can-retrieve" class="nav-link" data-scroll-target="#what-users-can-retrieve">What users can retrieve</a></li>
+  <li><a href="#solver-policy-and-outstanding-defaults" id="toc-solver-policy-and-outstanding-defaults" class="nav-link" data-scroll-target="#solver-policy-and-outstanding-defaults">Solver policy and outstanding defaults</a></li>
+  <li><a href="#minimal-verification-programme" id="toc-minimal-verification-programme" class="nav-link" data-scroll-target="#minimal-verification-programme">Minimal verification programme</a></li>
+  <li><a href="#implementation-sequence" id="toc-implementation-sequence" class="nav-link" data-scroll-target="#implementation-sequence">Implementation sequence</a></li>
+  </ul></li>
   <li><a href="#scientific-representation-and-public-route" id="toc-scientific-representation-and-public-route" class="nav-link" data-scroll-target="#scientific-representation-and-public-route">Scientific representation and public route</a></li>
   <li><a href="#model-by-numerical-execution" id="toc-model-by-numerical-execution" class="nav-link" data-scroll-target="#model-by-numerical-execution">Model by numerical execution</a></li>
   <li><a href="#inference-and-output" id="toc-inference-and-output" class="nav-link" data-scroll-target="#inference-and-output">Inference and output</a></li>
@@ -376,11 +383,295 @@ window.Quarto = {
 <section id="canonical-lmm-capability-catalog" class="level1">
 <h1>Canonical LMM capability catalog</h1>
 <p>This is the authoritative catalog of LMM routes and their recorded evidence. The catalog baseline is gsuite 0.42.0, greml 0.67.0/ABI 39, and gsolve 0.22.0/ABI 4. The current package requires greml 0.68.0/ABI 40; a dependency update does not requalify the historical evidence below. Status terms are defined in <a href="../../gsuite/docs/model-architecture.html">model architecture</a>. Evidence is indexed in <a href="../../gsuite/docs/status.html#qualification-limits">model qualification</a>; reusable machinery and exact reductions are in the <a href="../../gsuite/docs/primitive-registry.html">primitive registry</a> and <a href="../../gsuite/docs/model-reductions.html">model reductions</a>.</p>
+<section id="r-interface-coverage-inventory" class="level2">
+<h2 class="anchored" data-anchor-id="r-interface-coverage-inventory">R interface coverage inventory</h2>
+<p>Reviewed on 2026-09-09 against the exported constructors, dispatch code and existing test sources. This is an interface inventory, not a new numerical qualification run. The three pedigree tutorial models have been executed at 10,000 animals; other rows below still need a comparable user-workflow check. Historical backend evidence remains in the tables further down this page.</p>
+<p><code>formula</code> and <code>formulas</code> now select the same general <code>gfit()</code> adapter. Starts do not determine dispatch. Explicit scalar components can represent multiple independent pedigree/identity random intercepts. A typed <code>gs_fit_control()</code> explicitly selects the specialized compiled interface with complete starts. The broader public R API still contains capabilities beyond this adapter.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model or family</th>
+<th>Simple <code>gfit(formula = ...)</code></th>
+<th>Other exported R route</th>
+<th>Current interface assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Single-trait animal model</td>
+<td>Yes; short form or explicit <code>gvc()</code></td>
+<td>Compiled <code>formulas</code>; <code>gs_pedigree_records()</code> / <code>gs_pedigree_fit()</code></td>
+<td>10K tutorial passed: automatic starts, REML, fixed solve, summary, estimates, all-animal predictions and record results</td>
+</tr>
+<tr class="even">
+<td>Multitrait animal model with missing responses</td>
+<td>Yes; named formulas and one pedigree component</td>
+<td>Compiled <code>formulas</code>; <code>gs_multitrait_pedigree_records()</code> / <code>gs_multitrait_pedigree_fit()</code></td>
+<td>10K tutorial passed; G/R and animal-trait predictions accessible; full interpretation/gallery check remains</td>
+</tr>
+<tr class="odd">
+<td>Genetic random regression, irregular records</td>
+<td>Yes; one trait and numeric basis columns</td>
+<td><code>gs_longitudinal_pedigree_records()</code> / <code>gs_longitudinal_pedigree_fit()</code></td>
+<td>10K tutorial passed; genetic basis coefficients accessible; trajectory and uncertainty walkthrough remains</td>
+</tr>
+<tr class="even">
+<td>Repeatability: animal plus permanent environment</td>
+<td>Yes; explicit scalar <code>gvc()</code> components</td>
+<td>Specialized repeatability or component LMM</td>
+<td>General adapter implemented; repeatability added to the 10K tutorial; distinct grouping columns identify separate effects</td>
+</tr>
+<tr class="odd">
+<td>Animal plus litter, herd or other common environment</td>
+<td>Yes; explicit scalar random intercepts</td>
+<td>Component LMM; specialized compiled controls for bounded combinations</td>
+<td>Adapter tested with an extra common-group component against a tiny dense oracle; no separate 10K common-environment study</td>
+</tr>
+<tr class="even">
+<td>Identity-only random intercept</td>
+<td>Yes; explicit <code>gvc(..., kernel = gs_identity())</code></td>
+<td>Component LMM; persistent <code>gs_group()</code></td>
+<td>Uses the scalar independent-component adapter; not a separate solver</td>
+</tr>
+<tr class="odd">
+<td>Multiple independent random groups</td>
+<td>Yes; scalar intercepts only</td>
+<td><code>gs_lmm_records()</code>, <code>gs_lmm_component()</code>, <code>gs_lmm_model()</code>, <code>gs_lmm_fit()</code>; persistent covariance sums</td>
+<td>General adapter no longer has the compiled route’s one-identity-group restriction; multitrait and random-coefficient extensions remain pending</td>
+</tr>
+<tr class="even">
+<td>Correlated direct/maternal effects</td>
+<td>No</td>
+<td>Two incidence channels sharing one pedigree relationship in <code>gs_lmm_component(covariance = "unstructured")</code></td>
+<td>Constructor-expressible; needs a verified recipe, ID mapping, fit and output example</td>
+</tr>
+<tr class="odd">
+<td>Maternal permanent environment</td>
+<td>No</td>
+<td>Add an independent identity component over dam IDs to the component model</td>
+<td>Constructor-expressible; full maternal combination has not been run in this inventory</td>
+</tr>
+<tr class="even">
+<td>Correlated random coefficients / reaction norms</td>
+<td>One pedigree component, one trait only</td>
+<td>Weighted component channels sharing a relationship; generic longitudinal routes</td>
+<td>Basis and incidence must be supplied explicitly; broader combinations need workflow checks</td>
+</tr>
+<tr class="odd">
+<td>Trait-specific effects / discrete GxE</td>
+<td>Restricted to the same single pedigree component across traits</td>
+<td>Component channels with absent incidence; persistent multivariate models; multitrait reduction where mappings agree</td>
+<td>Recipe-expressible within each route’s residual/missingness restrictions, not a universal formula feature</td>
+</tr>
+<tr class="even">
+<td>Grouped independent residual variances</td>
+<td>No grouping argument</td>
+<td>Specialized record constructors; <code>gs_lmm_records(residual_group = ...)</code>; persistent weighted/group residual structures</td>
+<td>R inputs exist; needs a heterogeneity example</td>
+</tr>
+<tr class="odd">
+<td>AR(1) or continuous-exponential residual blocks</td>
+<td>No</td>
+<td><code>gs_lmm_residual_ar1()</code> / <code>gs_lmm_residual_exponential()</code> with component LMM</td>
+<td>Exact CHOLMOD route exposed; do not transfer stochastic qualification between these residual families</td>
+</tr>
+<tr class="even">
+<td>Genomic and combined genomic/structured covariance</td>
+<td>No genomic <code>gvc()</code> kernel</td>
+<td><code>gs_genomic()</code>, <code>gs_dense_covariance()</code>, <code>gs_group()</code>, <code>gs_model_pedigree()</code>, <code>gs_sparse_random()</code> with <code>gs_model()</code> / <code>gs_model_fit()</code></td>
+<td>Public persistent R route; genotype input and matrix-free/dense route need a separate example</td>
+</tr>
+<tr class="odd">
+<td>Generic multivariate covariance LMM</td>
+<td>No, except the specialized animal model above</td>
+<td><code>gs_multivariate_model()</code> with trait covariance constructors, then <code>gs_model_fit()</code></td>
+<td>Existing R tests cover unbalanced models; not yet a 10K gallery workflow</td>
+</tr>
+<tr class="even">
+<td>Complete multivariate RHE plus BLUP</td>
+<td>No</td>
+<td><code>gs_multivariate_rhe_blup()</code></td>
+<td>Separate estimation procedure; complete finite phenotypes required, not REML with missing traits</td>
+</tr>
+<tr class="odd">
+<td>Generic longitudinal covariance LMM</td>
+<td>No, except specialized pedigree random regression</td>
+<td><code>gs_longitudinal_model()</code> / <code>gs_model_fit()</code>; supplied basis and trait covariance</td>
+<td>R residual descriptor includes independent, compound symmetry, AR1, continuous AR1 and heterogeneous AR1; these are not all available in the component API</td>
+</tr>
+<tr class="even">
+<td>Balanced or arbitrary-record matrix-free longitudinal</td>
+<td>No</td>
+<td><code>gs_balanced_longitudinal_model()</code> or <code>gs_longitudinal_records_model()</code> with <code>gs_longitudinal_fit()</code></td>
+<td>RHE/REML/BLUP accessors exist; retain the recorded unresolved longitudinal failures below</td>
+</tr>
+<tr class="odd">
+<td>Supplied relationship covariance or precision</td>
+<td>No</td>
+<td><code>gs_relationship_matrix()</code> in component LMM; dense/sparse-random persistent constructors</td>
+<td>Bounded dense/packed inputs and supplied sparse precision are distinct. The relationship constructor defaults to a 5,000-level limit; a 10K case requires deliberate resource sizing</td>
+</tr>
+<tr class="even">
+<td>Fixed-rank factor analytic covariance</td>
+<td>No</td>
+<td>No public <code>gs_lmm_component()</code> covariance choice for FA</td>
+<td>Catalog records native implementation/evidence; R constructor gap, not a missing numerical algorithm</td>
+</tr>
+<tr class="odd">
+<td>General direct/social effects with multiple contributors per record</td>
+<td>No</td>
+<td>No direct recipe constructor established by this audit</td>
+<td>A channel carries one level/weight per record; multi-contributor correlated social incidence must not be assumed to fit that contract</td>
+</tr>
+<tr class="even">
+<td>ssGBLUP / internally constructed H inverse</td>
+<td>No</td>
+<td>No dedicated constructor in the component/pedigree APIs</td>
+<td>Supplying a precomputed precision does not establish an implemented ssGBLUP workflow</td>
+</tr>
+<tr class="odd">
+<td>ARMA, antedependence, spatial or Matern residual families</td>
+<td>No</td>
+<td>No matching fitted-family constructor found in the reviewed R APIs</td>
+<td>Supplying a fixed covariance matrix is not equivalent to estimating that covariance family</td>
+</tr>
+</tbody>
+</table>
+<section id="what-users-can-retrieve" class="level3">
+<h3 class="anchored" data-anchor-id="what-users-can-retrieve">What users can retrieve</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Result family</th>
+<th>Current access</th>
+<th>Gap to address in the gallery</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>General formula, pedigree and independent components</td>
+<td><code>summary()</code>, <code>coef()</code>, <code>gs_ranef()</code>, <code>fitted()</code>, <code>residuals()</code>, <code>diagnostics()</code></td>
+<td>Covariance and fixed effects in summary; named component predictions and record mapping. No common <code>logLik()</code> contract; route-specific likelihood/uncertainty remains in native diagnostics</td>
+</tr>
+<tr class="even">
+<td>Compiled formula</td>
+<td>Summary, fixed effects, random effects, record values and diagnostics through the <code>gs_fit</code> methods</td>
+<td>Public prediction uncertainty is explicitly rejected; do not advertise it from backend capabilities</td>
+</tr>
+<tr class="odd">
+<td>Specialized pedigree</td>
+<td>Returned fit lists with variance/covariance, coefficients, status and route-specific prediction/uncertainty fields</td>
+<td>Different result layouts; verify ID labels, requested targets and availability for each recipe. Specialized repeatability lacks its own PEV route</td>
+</tr>
+<tr class="even">
+<td>Component LMM</td>
+<td><code>gs_lmm_fit()</code> / <code>gs_lmm_blup()</code> return labelled components, predictions and diagnostics; dedicated print method</td>
+<td>No dedicated summary/coef/ranef S3 methods for this class in NAMESPACE; user examples currently need explicit result-field extraction</td>
+</tr>
+<tr class="odd">
+<td>Persistent covariance</td>
+<td><code>summary()</code>, <code>coef()</code>, <code>vcov()</code>, <code>predict()</code>, <code>gs_ranef()</code>, contrasts and Wald helpers</td>
+<td>Availability depends on requested route and uncertainty; do not infer it from a method name alone</td>
+</tr>
+<tr class="even">
+<td>Balanced/record longitudinal</td>
+<td><code>gs_longitudinal_rhe()</code>, <code>gs_longitudinal_reml()</code>, <code>gs_longitudinal_blup()</code></td>
+<td>Explain which estimation procedure ran and which results are valid</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="solver-policy-and-outstanding-defaults" class="level3">
+<h3 class="anchored" data-anchor-id="solver-policy-and-outstanding-defaults">Solver policy and outstanding defaults</h3>
+<p>Use CHOLMOD with selected inversion as the reference configuration for the new sparse-direct model examples. Selecting CHOLMOD alone is insufficient: coordinate tracing can still do many solves. The three pedigree tutorial models already select <code>linear_solver = "sparse_direct"</code>, <code>direct_backend = "cholmod"</code>, <code>exact_trace_method = "selected_inverse"</code>. The general formula adapter and compiled-control constructor now follow this default; explicit solver choices remain authoritative.</p>
+<p>The source currently differs from that policy:</p>
+<ul>
+<li>General pedigree formulas default to sparse direct, CHOLMOD and selected inversion. Explicit alternative backends use coordinate tracing unless the caller requests another trace method; unsupported requests are not repaired.</li>
+<li>The four specialized pedigree control constructors default to PCG, automatic backend and coordinate tracing.</li>
+<li>Compiled <code>gs_fit_control()</code> defaults to CHOLMOD and selected inversion. Its selected-inversion argument is <code>trace_route</code>, not <code>exact_trace_method</code>.</li>
+<li><code>gs_lmm_control()</code> already defaults to CHOLMOD. Its public signature does not expose the native component PCG/stochastic/adaptive controls; those native capabilities are a separate R-exposure gap.</li>
+<li>Dense exact and matrix-free covariance routes are different algorithms; a global CHOLMOD substitution is not applicable to them.</li>
+</ul>
+<p>Keep explicit solver choices and clear errors when requested CHOLMOD support is unavailable. Specialized low-level control defaults remain separate. The timing difference observed in the tutorial is not evidence that one backend is universally faster for every model and workload.</p>
+</section>
+<section id="minimal-verification-programme" class="level3">
+<h3 class="anchored" data-anchor-id="minimal-verification-programme">Minimal verification programme</h3>
+<p>Use 10,000 animals/individuals as the default demonstration size for scalable routes, with trait and observation counts stated separately. Tiny deterministic oracle tests remain tiny; dense reference routes and bounded uncertainty targets should not automatically be expanded to 10K dimensions.</p>
+<p>Keep this coverage table as the inventory, the existing pedigree tutorial as the introductory example, and reuse <code>build/examples/</code> for replaceable runtime outputs. Do not create a folder or a dated report for each attempted fit. Promote only selected, reviewed figures and concise results to website sources.</p>
+<p>Check each recipe in this order: expressibility through exported R functions, correct model/ID mapping, convergence, result extraction, then agreement with an existing equivalent route or appropriate reference. Passing one example does not requalify every covariance/backend combination.</p>
+</section>
+<section id="implementation-sequence" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-sequence">Implementation sequence</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Work</th>
+<th>Current state</th>
+<th>Next acceptance target</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Common explicit <code>gvc()</code> contract</td>
+<td>Formula aliases unified; supplied starts no longer select an engine</td>
+<td>Preserve this rule for every extension</td>
+</tr>
+<tr class="even">
+<td>Defaults and results</td>
+<td>General sparse-direct CHOLMOD selected inversion; shared summary and extraction for pedigree/independent components</td>
+<td>Broader likelihood and uncertainty contracts remain separate work</td>
+</tr>
+<tr class="odd">
+<td>Independent components</td>
+<td>Scalar pedigree/identity intercept adapter implemented using the existing component engine</td>
+<td>Repeatability tutorial and tiny dense multi-group reference</td>
+</tr>
+<tr class="even">
+<td>Correlated channels</td>
+<td>Existing constructor machinery; no general formula lowering yet</td>
+<td>Direct/maternal model with declared shared covariance</td>
+</tr>
+<tr class="odd">
+<td>Residual structures</td>
+<td>Available through dedicated component constructors</td>
+<td>Agree <code>gvc()</code> residual syntax for grouped variance, AR1 and exponential blocks</td>
+</tr>
+<tr class="even">
+<td>Additional relationships and model combinations</td>
+<td>Dedicated genomic and longitudinal R routes exist</td>
+<td>Map explicit kernels and trait/basis coordinates without hidden dispatch</td>
+</tr>
+<tr class="odd">
+<td>Factor analytic covariance</td>
+<td>Native capability, R descriptor absent</td>
+<td>Agree identification/rank contract, then bind and verify</td>
+</tr>
+</tbody>
+</table>
+<p>Source review covered <code>NAMESPACE</code>, <code>R/pedigree-formula.R</code>, <code>R/zz-formula-reml.R</code>, <code>R/component-lmm.R</code>, the four specialized pedigree wrappers, <code>R/model.R</code>, <code>R/multivariate.R</code> and <code>R/balanced-longitudinal.R</code>. Existing R tests include pedigree/formula/repeatability tests, <code>test-model.R</code>, <code>test-multivariate.R</code>, <code>test-multivariate-rhe-blup.R</code>, and balanced/record longitudinal tests. <code>test-independent-formula.R</code> adds dense GLS/BLUP and start/dispatch checks through the general adapter. Native historical evidence is not a substitute for exported-R workflow checks of the remaining recipes.</p>
+</section>
+</section>
 <section id="scientific-representation-and-public-route" class="level2">
 <h2 class="anchored" data-anchor-id="scientific-representation-and-public-route">Scientific representation and public route</h2>
 <p>Qualification below is scoped evidence, not complete package qualification. The persistent <code>gs_model_pedigree()</code> and formula <code>gs_pedigree()</code> constructors are separately exported. Their <a href="../../gsuite/docs/status.html#qualification-limits">focused repair verification</a> does not expand the scientific qualification scope of historical route tests.</p>
 <p><strong>Known later failures:</strong> the 2026-09-07 Windows check recorded unresolved balanced-longitudinal convergence/finalization failures and longitudinal score comparison failures. The <code>qualified</code> entries below retain their original scoped evidence; they are not a clean current-package result. See the <a href="../../gsuite/docs/status.html#qualification-limits">recorded failures</a> before selecting those routes. No numerical requalification was performed during documentation review.</p>
-<p>The formula-compiler rows refer to <code>formulas</code> with complete explicit starts. The newer singular <code>formula</code> data-frame adapter instead dispatches to the specialized pedigree fitters; see the <a href="../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a>. Compiler-row exclusions must not be transferred to that adapter implicitly.</p>
+<p>The formula-compiler rows refer to explicit <code>gs_fit_control()</code> requests with complete starts. General formula calls instead use the pedigree or independent component adapters; see the <a href="../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a>. Compiler-row exclusions must not be transferred to that adapter implicitly.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 20%">
