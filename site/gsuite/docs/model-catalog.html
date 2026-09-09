@@ -357,7 +357,7 @@ window.Quarto = {
   <li><a href="#scientific-representation-and-public-route" id="toc-scientific-representation-and-public-route" class="nav-link" data-scroll-target="#scientific-representation-and-public-route">Scientific representation and public route</a></li>
   <li><a href="#model-by-numerical-execution" id="toc-model-by-numerical-execution" class="nav-link" data-scroll-target="#model-by-numerical-execution">Model by numerical execution</a></li>
   <li><a href="#inference-and-output" id="toc-inference-and-output" class="nav-link" data-scroll-target="#inference-and-output">Inference and output</a></li>
-  <li><a href="#stage-5d-cholmod-classification" id="toc-stage-5d-cholmod-classification" class="nav-link" data-scroll-target="#stage-5d-cholmod-classification">Stage 5D CHOLMOD classification</a></li>
+  <li><a href="#cholmod-support-for-longitudinal-pedigree-models" id="toc-cholmod-support-for-longitudinal-pedigree-models" class="nav-link" data-scroll-target="#cholmod-support-for-longitudinal-pedigree-models">CHOLMOD support for longitudinal pedigree models</a></li>
   <li><a href="#public-api-and-implementation-mapping" id="toc-public-api-and-implementation-mapping" class="nav-link" data-scroll-target="#public-api-and-implementation-mapping">Public API and implementation mapping</a></li>
   <li><a href="#implemented-but-unqualified-combinations" id="toc-implemented-but-unqualified-combinations" class="nav-link" data-scroll-target="#implemented-but-unqualified-combinations">Implemented but unqualified combinations</a></li>
   <li><a href="#genuinely-unsupported-combinations" id="toc-genuinely-unsupported-combinations" class="nav-link" data-scroll-target="#genuinely-unsupported-combinations">Genuinely unsupported combinations</a></li>
@@ -485,7 +485,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td>Fixed-rank factor-analytic covariance</td>
-<td>No public R constructor in S4</td>
+<td>No public R constructor for this covariance layout</td>
 <td>greml <code>FactorAnalyticCovarianceLayout</code> and component/compiled-MME declarations</td>
 <td><code>qualified</code> C++ covariance layout, exact REML and exact retained BLUP; fixed-state PCG and stochastic evaluation also qualified</td>
 <td>Declared rank, lower-triangular identification, positive pivots and specific variances; stochastic covariance optimization is unqualified</td>
@@ -580,7 +580,7 @@ window.Quarto = {
 <td><code>qualified</code> fixed covariance</td>
 <td><code>qualified</code> fixed/REML</td>
 <td><code>qualified</code> fixed/REML traces</td>
-<td><code>qualified</code> fixed/REML by Stage 5D</td>
+<td><code>qualified</code> fixed/REML</td>
 <td><code>qualified</code> bounded coefficient and trajectory PEV/reliability</td>
 <td><code>unsupported</code> in this sparse pedigree route</td>
 </tr>
@@ -609,7 +609,7 @@ window.Quarto = {
 <td>covariance algebra oracle <code>qualified</code></td>
 <td><code>qualified</code> fixed-state coefficient/BLUP and fixed-state stochastic score/AI; stochastic covariance optimization and post-optimization BLUP <code>implemented_unqualified</code></td>
 <td><code>qualified</code> fixed state, exact REML, and retained BLUP</td>
-<td>prediction uncertainty not qualified for FA in S4</td>
+<td>prediction uncertainty not qualified for FA</td>
 <td><code>implemented_unqualified</code></td>
 <td><code>unsupported</code></td>
 <td><code>qualified</code> fixed-state score/AI only; optimization and stochastic retained-state finalization are unqualified</td>
@@ -666,10 +666,10 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>PARDISO selected inversion is <code>unsupported</code> for every route. PARDISO capability metadata reports this explicitly and no fallback is permitted. Stage 5D’s coordinate tracing is a bounded moderate-problem PARDISO route; it does not imply that selected inversion is absent globally. The separate <code>selected_solve</code> cells above use documented retained-factor multi-RHS solves; they do not change PARDISO’s selected-inversion classification.</p>
+<p>PARDISO selected inversion is <code>unsupported</code> for every route. PARDISO capability metadata reports this explicitly and no fallback is permitted. Longitudinal pedigree coordinate tracing is a bounded moderate-problem PARDISO route; it does not imply that selected inversion is absent globally. The separate <code>selected_solve</code> cells above use documented retained-factor multi-RHS solves; they do not change PARDISO’s selected-inversion classification.</p>
 <p>For incomplete multitrait stochastic REML, covariance optimization, optional approximate restricted likelihood, and all-animal BLUP are separate result capabilities. Score/AI convergence and BLUP can succeed when final SLQ exceeds its requested standard-error limit; in that case likelihood is explicitly unavailable and its estimate, uncertainty, and work remain diagnostic only.</p>
-<p>The same separation applies to qualified stochastic component REML. Its missing-channel claim means absent canonical scalar records, not imputation or complete-case deletion. The scalable supplied sparse-precision constructor and structured-residual PCG/stochastic paths are retained S3d implementations, but they are not a completed qualified combination. Supplied precision is fixed-state qualified; its stochastic optimizer is not. AR(1) fixed-state evaluation and stochastic optimization are qualified. Continuous exponential coefficient, derivative, trace, AI, and PCG evaluation is fixed-state qualified, whereas its stochastic optimizer ended in explicit score-merit line-search exhaustion. The combined S3d stochastic illustration was not run. Exact CHOLMOD component capabilities in those rows remain qualified and unchanged.</p>
-<p>The optional adaptive component policy preserves those scientific boundaries. It uses deterministic nested probe prefixes and phase-specific PCG tolerances for exploratory, accepted-state, and certification work; the fixed-budget path remains the default. Final convergence is always recomputed with the declared fixed certification prefix and requires score compatibility, deterministic stationarity, and an absolute transformed-parameter uncertainty envelope. Adaptive execution is qualified for the S3b/S3c independent-residual identity/ pedigree scope. The bounded FA revisit ended with explicit insufficient parameter-step precision, so it does not change the FA row above.</p>
+<p>The same separation applies to qualified stochastic component REML. Its missing-channel claim means absent canonical scalar records, not imputation or complete-case deletion. The scalable supplied sparse-precision constructor and structured-residual PCG/stochastic paths are retained implementations, but they are not a completed qualified combination. Supplied precision is fixed-state qualified; its stochastic optimizer is not. AR(1) fixed-state evaluation and stochastic optimization are qualified. Continuous exponential coefficient, derivative, trace, AI, and PCG evaluation is fixed-state qualified, whereas its stochastic optimizer ended in explicit score-merit line-search exhaustion. The combined supplied-precision/structured-residual stochastic illustration was not run. Exact CHOLMOD component capabilities in those rows remain qualified and unchanged.</p>
+<p>The optional adaptive component policy preserves those scientific boundaries. It uses deterministic nested probe prefixes and phase-specific PCG tolerances for exploratory, accepted-state, and certification work; the fixed-budget path remains the default. Final convergence is always recomputed with the declared fixed certification prefix and requires score compatibility, deterministic stationarity, and an absolute transformed-parameter uncertainty envelope. Adaptive execution is qualified for the independent-residual identity/ pedigree scope. The bounded FA revisit ended with explicit insufficient parameter-step precision, so it does not change the FA row above.</p>
 </section>
 <section id="inference-and-output" class="level2">
 <h2 class="anchored" data-anchor-id="inference-and-output">Inference and output</h2>
@@ -763,7 +763,7 @@ window.Quarto = {
 <td><code>qualified</code> through identical derived covariance in exact CHOLMOD and matrix-free PCG at fixed state</td>
 <td>exact CHOLMOD optimization <code>qualified</code>; stochastic optimization <code>implemented_unqualified</code></td>
 <td>exact retained-state BLUP <code>qualified</code>; fixed-state PCG coefficients/BLUP <code>qualified</code>; stochastic post-optimization BLUP unqualified</td>
-<td>not qualified in S4</td>
+<td>not qualified for this covariance layout</td>
 <td>singular/zero-specific boundaries unsupported</td>
 <td><code>qualified</code> algebra, identification, derivatives, Jacobian diagnostics, fixed-state execution and exact result finalization</td>
 </tr>
@@ -815,10 +815,11 @@ window.Quarto = {
 </tbody>
 </table>
 <p>All PEV/reliability entries are plug-in uncertainty conditional on fitted covariance parameters. PCG has no retained direct factor, so exact PEV is <code>unsupported</code>. PARDISO <code>selected_inverse</code> remains <code>unsupported</code>. PARDISO <code>selected_solve</code> instead solves the requested complete-MME target columns from the retained accepted factor, with explicit system, entry, batch, and memory bounds.</p>
+<p><span id="stage-5d-cholmod-classification"></span></p>
 </section>
-<section id="stage-5d-cholmod-classification" class="level2">
-<h2 class="anchored" data-anchor-id="stage-5d-cholmod-classification">Stage 5D CHOLMOD classification</h2>
-<p>The final irregular-record public path is option 1: <strong>already qualified</strong>. <code>gs_longitudinal_pedigree_reml_control()</code> exposes CHOLMOD selected-inverse traces and prediction error; the same canonical MME is consumed by <code>LongitudinalPedigreeSparseDirectSession</code>; focused native and R tests cover selected-inverse trace parity, retained-factor longitudinal PEV, trajectory uncertainty, and typed work accounting. Stage 5D added and qualified the PCG block-preconditioned fixed solve and PARDISO coordinate-trace REML profile; it did not replace or weaken the CHOLMOD path.</p>
+<section id="cholmod-support-for-longitudinal-pedigree-models" class="level2">
+<h2 class="anchored" data-anchor-id="cholmod-support-for-longitudinal-pedigree-models">CHOLMOD support for longitudinal pedigree models</h2>
+<p>The irregular-record public path is <strong>qualified</strong> within the scope below. <code>gs_longitudinal_pedigree_reml_control()</code> exposes CHOLMOD selected-inverse traces and prediction error; the same canonical MME is consumed by <code>LongitudinalPedigreeSparseDirectSession</code>; focused native and R tests cover selected-inverse trace parity, retained-factor longitudinal PEV, trajectory uncertainty, and typed work accounting. The PCG block-preconditioned fixed solve and PARDISO coordinate-trace REML profile are independently qualified; they do not replace or weaken the CHOLMOD path.</p>
 </section>
 <section id="public-api-and-implementation-mapping" class="level2">
 <h2 class="anchored" data-anchor-id="public-api-and-implementation-mapping">Public API and implementation mapping</h2>
@@ -928,11 +929,11 @@ window.Quarto = {
 </section>
 <section id="anti-duplication-guard" class="level2">
 <h2 class="anchored" data-anchor-id="anti-duplication-guard">Anti-duplication guard</h2>
-<p>Future work must not propose selected-inverse infrastructure, selected-inverse trace contractions, bounded retained-factor target solves, complete-MME PEV/reliability, identity/group components, permanent/common environment effects, correlated channels, structured longitudinal residual blocks, scalar/rank-one active boundaries, or existing pedigree/multitrait/longitudinal PCG/direct REML and BLUP as new global capabilities. A future milestone must name the exact unsupported or implemented-unqualified cell it changes.</p>
+<p>Future work must not propose selected-inverse infrastructure, selected-inverse trace contractions, bounded retained-factor target solves, complete-MME PEV/reliability, identity/group components, permanent/common environment effects, correlated channels, structured longitudinal residual blocks, scalar/rank-one active boundaries, or existing pedigree/multitrait/longitudinal PCG/direct REML and BLUP as new global capabilities. A future extension must name the exact unsupported or implemented-unqualified cell it changes.</p>
 </section>
 <section id="evidence-based-future-selection" class="level2">
 <h2 class="anchored" data-anchor-id="evidence-based-future-selection">Evidence-based future selection</h2>
-<p>No Stage 5E implementation is needed for longitudinal pedigree CHOLMOD selected inversion or PEV/reliability: that public path is already qualified. Potential bounded future work, if prioritized, is limited to catalogued gaps:</p>
+<p>No additional implementation is needed for longitudinal pedigree CHOLMOD selected inversion or PEV/reliability: that public path is already qualified. Potential bounded future work, if prioritized, is limited to catalogued gaps:</p>
 <ol type="1">
 <li>A qualification-only closure for an <code>implemented_unqualified</code> combination, such as component active boundaries together with correlated residual blocks, without adding either mechanism again.</li>
 <li>Specialized repeatability uncertainty integration, only if that public convenience route must expose the existing complete-MME machinery rather than using the qualified component recipe.</li>

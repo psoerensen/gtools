@@ -573,13 +573,13 @@ window.Quarto = {
 <td>Common component coefficient operator</td>
 <td>greml compiled component plan / <code>CompiledMmeSession</code></td>
 <td>Matrix-free canonical record gather/residual-weight/scatter plus compiled component precision; exact component coefficient ordering and RHS; no global incidence matrix</td>
-<td><code>qualified</code> for S3b/S3c stochastic REML, AR(1) fixed/optimization, and supplied-precision or continuous-exponential fixed-state evaluation; other S3d optimizer combinations remain unqualified</td>
+<td><code>qualified</code> for identity/pedigree stochastic REML with independent residuals, AR(1) fixed/optimization, and supplied-precision or continuous-exponential fixed-state evaluation; other supplied-precision/structured-residual optimizer combinations remain unqualified</td>
 </tr>
 <tr class="odd">
 <td>Component block-Jacobi preconditioner</td>
 <td>greml compiled numerical component state</td>
 <td>Deterministic fixed block and per-level channel blocks from record-local and relationship-diagonal contributions; explicit factorization failure and storage/application accounting</td>
-<td><code>qualified</code> within S3a-S3c, AR(1), and the fixed-state S3d scopes listed in the catalog</td>
+<td><code>qualified</code> within the identity/pedigree, AR(1), and fixed-state supplied-precision/continuous-exponential scopes listed in the catalog</td>
 </tr>
 <tr class="even">
 <td>Scalable sparse relationship precision</td>
@@ -639,7 +639,7 @@ window.Quarto = {
 <td>Adaptive stochastic execution</td>
 <td>greml compiled component inference</td>
 <td>Typed exploratory/accepted/certification tiers; deterministic nested counter-Rademacher prefixes; incremental trace/score-covariance moments; matched-prefix paired trial merit; phase-specific PCG tolerances and work; fixed-prefix stationarity certification</td>
-<td><code>qualified</code> for the catalogued S3b/S3c independent-residual identity/pedigree component scope; fixed-budget execution remains the default; stochastic FA optimization unqualified</td>
+<td><code>qualified</code> for the catalogued independent-residual identity/pedigree component scope; fixed-budget execution remains the default; stochastic FA optimization unqualified</td>
 </tr>
 <tr class="even">
 <td>Complete-MME PEV/reliability</td>
