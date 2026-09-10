@@ -396,13 +396,18 @@ ul.task-list li input[type="checkbox"] {
 <section id="pedigree-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="pedigree-analysis">Pedigree analysis</h2>
 <p><a href="../gsuite/docs/pedigree-analysis.html"><strong>Pedigree analysis with R data frames</strong></a></p>
-<p>Prepare a pedigree and observations, describe the model with formulas, fit it with <code>gfit()</code>, and inspect the results. This tutorial covers three models using the same workflow:</p>
+<p>Prepare a pedigree and observations, describe the model with formulas, fit it with <code>gfit()</code>, and inspect the results. Begin with three models using the same workflow:</p>
 <ul>
 <li><a href="../gsuite/docs/pedigree-analysis.html#single-trait-begin-with-the-short-form">Single-trait analysis</a>: start with a simple animal model.</li>
 <li><a href="../gsuite/docs/pedigree-analysis.html#two-traits-keep-one-row-per-observation-unit">Multitrait analysis</a>: model two traits and their covariance.</li>
 <li><a href="../gsuite/docs/pedigree-analysis.html#longitudinal-data-genetic-random-regression">Longitudinal analysis</a>: fit genetic random regression over time.</li>
 </ul>
-<p>Read the <a href="../gsuite/docs/pedigree-analysis.html#prepare-ordinary-data-frames">shared data preparation</a> first; the examples build on that setup. The guide also shows how to move from the short interface to explicit covariance components.</p>
+<p>Read the <a href="../gsuite/docs/pedigree-analysis.html#prepare-ordinary-data-frames">shared data preparation</a> first; the examples build on that setup. The guide also shows how to move from the short interface to explicit covariance components, then extends it to:</p>
+<ul>
+<li><a href="../gsuite/docs/pedigree-analysis.html#repeatability-animal-and-permanent-environment">Repeatability</a>: separate genetic and permanent-environment variation.</li>
+<li><a href="../gsuite/docs/pedigree-analysis.html#direct-and-maternal-genetic-effects">Direct and maternal effects</a>: declare correlated genetic effects.</li>
+<li><a href="../gsuite/docs/pedigree-analysis.html#residual-variance-and-correlation">Residual structures</a>: allow grouped variances and correlation over time.</li>
+</ul>
 </section>
 <section id="analysis-with-an-assistant" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-with-an-assistant">Analysis with an assistant</h2>
