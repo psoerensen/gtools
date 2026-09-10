@@ -600,6 +600,75 @@ Peter Sørensen
           display:block!important;
       }</style></aside>
 </section>
+<section id="the-libraries-behind-gsuite" class="slide level2">
+<h2>The libraries behind gsuite</h2>
+<div class="repo-table" style="font-size: 0.9em;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Repository</th>
+<th>Main responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>gsuite</strong></td>
+<td>R interface: models, computational tasks and results</td>
+</tr>
+<tr class="even">
+<td><strong>greml</strong></td>
+<td>Mixed models, REML estimation and prediction</td>
+</tr>
+<tr class="odd">
+<td><strong>gsolve</strong></td>
+<td>Numerical solvers, factor reuse and selected inverse calculations</td>
+</tr>
+<tr class="even">
+<td><strong>gmat</strong></td>
+<td>Matrix operations, genotype panels and linkage disequilibrium</td>
+</tr>
+<tr class="odd">
+<td><strong>gbits</strong></td>
+<td>Compact genotype storage and operations on packed data</td>
+</tr>
+<tr class="even">
+<td><strong>gcorr</strong></td>
+<td>Genetic correlation calculations</td>
+</tr>
+<tr class="odd">
+<td><strong>gscore</strong></td>
+<td>Genetic scoring and prediction</td>
+</tr>
+<tr class="even">
+<td><strong>gbayes</strong></td>
+<td>Bayesian regression models</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>gsolve connects our model computations to established numerical libraries:</strong></p>
+<p><strong>CHOLMOD / SuiteSparse</strong> and <strong>PARDISO</strong> → sparse matrix factorisation and linear solves.</p>
+<aside class="notes">
+<p>This is a responsibility map, not a complete dependency graph. gsuite exposes selected capabilities through its R interface. gsim is a separate R package for simulation.</p>
+<p>CHOLMOD and PARDISO are external libraries, not software developed by us. gsolve provides interfaces that allow supported model computations to use these sparse numerical backends. Other dense and iterative routes also exist.</p>
+<p>Our selected-inverse implementation builds on retained CHOLMOD supernodal factors. It calculates required inverse entries without forming the full dense inverse. It does not use PARDISO for selected inversion.</p>
+<p>AI-assisted development includes the algorithms and infrastructure around these external libraries, their integration, and the statistical and R layers.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="ai-assisted-gsuite-development-numerical-agreement-and-competitive-runtime" class="slide level2">
 <h2>AI-assisted gsuite development: numerical agreement and competitive runtime</h2>
 <div class="columns">
@@ -698,6 +767,177 @@ Peter Sørensen
 <p>AI is already part of research, and its capabilities will continue to develop. Routine use of writing assistants or code generation will become common. The strategic question concerns how this changes our research and what will remain distinctive.</p>
 <p>Scientific questions, domain knowledge, trusted data, critical evaluation and responsibility will remain important. Our shared platforms provide one possible advantage because they capture expertise in infrastructure that researchers and AI assistants can use and extend.</p>
 <p>We should discuss which capabilities we need, how our roles may change, and where we should invest to remain scientifically strong.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="from-a-computational-need-to-a-component" class="slide level2">
+<h2>From a computational need to a component</h2>
+<p><strong>Need: Obtain required inverse entries without forming a full dense inverse.</strong></p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>What we work through with AI</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Build small references</td>
+<td>Dense inverse and scalar Takahashi calculations in C++</td>
+</tr>
+<tr class="even">
+<td>Implement the efficient algorithm</td>
+<td>Selected inversion using retained CHOLMOD factors</td>
+</tr>
+<tr class="odd">
+<td>Compare in native tests</td>
+<td>Check requested entries against both references</td>
+</tr>
+<tr class="even">
+<td>Check computational behaviour</td>
+<td>Factor reuse, thread agreement and retained solves</td>
+</tr>
+<tr class="odd">
+<td>Integrate and assess</td>
+<td>Supported model computations and the R workflow</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reference and production calculations are both native C++.</strong></p>
+<aside class="notes">
+<p>The development pattern is to establish a small reference, implement the efficient algorithm, compare them, and then check broader computational and user workflows. This describes the documented validation structure rather than asserting the exact historical order of every implementation step. gsolve/docs/testing.md and tests/test_supernodal_selected_inverse.cpp document and implement two small C++ references: a dense inverse and a separate scalar Takahashi recurrence. Requested entries from the production supernodal route are compared with both. The scalar reference is test-only, not an installed production fallback. Additional assertions check repeated factorisation, thread agreement, and preservation of retained solves and log-determinants. CHOLMOD is external; our production route uses its retained supernodal factors without forming the full dense inverse. PARDISO is not used for this selected inversion. These are test contracts, not a claim that every current test passes.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="different-checks-answer-different-questions" class="slide level2">
+<h2>Different checks answer different questions</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Check</th>
+<th>Question it addresses</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mathematics and special cases</td>
+<td>Does the formulation represent the intended model?</td>
+</tr>
+<tr class="even">
+<td>Small native reference versus production algorithm</td>
+<td>Do separate computational approaches agree?</td>
+</tr>
+<tr class="odd">
+<td>Repeated simulation with known truth</td>
+<td>How well does the method recover quantities across scenarios?</td>
+</tr>
+<tr class="even">
+<td>Comparison with other software</td>
+<td>Do results agree for matched models and settings?</td>
+</tr>
+<tr class="odd">
+<td>Complete user workflow</td>
+<td>Can the interface produce an interpretable, reproducible result?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Independence comes from a separate computational approach, not a different programming language.</strong></p>
+<aside class="notes">
+<p>These checks complement one another. Both reference and production code can be C++. greml retains small dense, analytical and finite-difference checks in native tests; gmat uses explicit dense correlation and LD calculations; gbits compares optimised implementations with scalar references. Their testing.md guides describe the assertions and reference limitations. Not every comparison has the same degree of independence: two wrappers over the same engine do not provide an independent numerical reference. Agreement between programs requires matching models, conventions and settings. Simulation can assess bias, uncertainty and prediction, but the generating model and studied scenarios limit what we learn. Runtime comparisons require explicit work boundaries. Define tolerances and acceptance criteria before interpreting results, and record the model, route and scale covered by the evidence.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="where-human-judgement-enters" class="slide level2">
+<h2>Where human judgement enters</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="scientific-decisions">Scientific decisions</h3>
+<ul>
+<li>Which question matters?</li>
+<li>Which assumptions fit the study?</li>
+<li>Which quantities should we estimate?</li>
+<li>What can the results support?</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="development-decisions">Development decisions</h3>
+<ul>
+<li>Which approximations are acceptable?</li>
+<li>What should be implemented or reused?</li>
+<li>Which checks are sufficient?</li>
+<li>When is a result ready to share?</li>
+</ul>
+</div></div>
+<p><strong>AI can help examine each decision. We remain responsible for accepting it.</strong></p>
+<aside class="notes">
+<p>Human judgement is present throughout the process, not only in a final review. The researcher contributes study knowledge and statistical reasoning; software developers contribute computational and engineering judgement. AI can propose alternatives, expose assumptions, implement choices and assemble checks. Important decisions should remain visible in model definitions, code review, documentation and the interpretation of the evidence.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-remains-after-the-conversation" class="slide level2">
+<h2>What remains after the conversation?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="a-reusable-analysis-or-method">A reusable analysis or method</h3>
+<ul>
+<li>Model definition and assumptions</li>
+<li>Code and an executable example</li>
+<li>Tests and numerical evidence</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="enough-information-to-revisit-it">Enough information to revisit it</h3>
+<ul>
+<li>Data identity, settings and versions</li>
+<li>Results and documented limitations</li>
+<li>Explanations and teaching material</li>
+</ul>
+</div></div>
+<p><strong>The next researcher should be able to understand and use the work without reading the chat.</strong></p>
+<aside class="notes">
+<p>Conversation helps us develop the work, but it is not a substitute for its reproducible outputs. Keep the relevant data provenance, source revisions, settings and random seeds alongside results. Documentation should describe the final implementation and its limitations. Store reviewed evidence rather than every temporary experiment. This is what lets progress in one project benefit another, with or without the same assistant.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;

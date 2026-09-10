@@ -1847,6 +1847,17 @@
     ]
   },
   {
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#the-libraries-behind-gsuite",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#the-libraries-behind-gsuite",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "The libraries behind gsuite",
+    "text": "The libraries behind gsuite\n\n\n\n\n\n\n\n\nRepository\nMain responsibility\n\n\n\n\ngsuite\nR interface: models, computational tasks and results\n\n\ngreml\nMixed models, REML estimation and prediction\n\n\ngsolve\nNumerical solvers, factor reuse and selected inverse calculations\n\n\ngmat\nMatrix operations, genotype panels and linkage disequilibrium\n\n\ngbits\nCompact genotype storage and operations on packed data\n\n\ngcorr\nGenetic correlation calculations\n\n\ngscore\nGenetic scoring and prediction\n\n\ngbayes\nBayesian regression models\n\n\n\n\ngsolve connects our model computations to established numerical libraries:\nCHOLMOD / SuiteSparse and PARDISO → sparse matrix factorisation and linear solves.\n\nThis is a responsibility map, not a complete dependency graph. gsuite exposes selected capabilities through its R interface. gsim is a separate R package for simulation.\nCHOLMOD and PARDISO are external libraries, not software developed by us. gsolve provides interfaces that allow supported model computations to use these sparse numerical backends. Other dense and iterative routes also exist.\nOur selected-inverse implementation builds on retained CHOLMOD supernodal factors. It calculates required inverse entries without forming the full dense inverse. It does not use PARDISO for selected inversion.\nAI-assisted development includes the algorithms and infrastructure around these external libraries, their integration, and the statistical and R layers.",
+    "crumbs": [
+      "gsuite",
+      "Programme slides"
+    ]
+  },
+  {
     "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#ai-assisted-gsuite-development-numerical-agreement-and-competitive-runtime",
     "href": "gsuite/docs/slides/ai-research-methods-teaching.html#ai-assisted-gsuite-development-numerical-agreement-and-competitive-runtime",
     "title": "AI-assisted research, methods, software and teaching",
@@ -1874,6 +1885,50 @@
     "title": "AI-assisted research, methods, software and teaching",
     "section": "Where will AI lead us?",
     "text": "Where will AI lead us?\n\n\nWhat is likely to change\n\nWriting, coding and analysis will become faster\nMore groups will develop advanced methods and software\nAI assistants will perform increasingly complex tasks\nResearch roles and expectations will change\n\n\nQuestions for our programme\n\nWhich expertise and resources will distinguish us?\nHow should we combine AI with our data and infrastructure?\nWhich capabilities should we develop and share?\nHow should training, review and responsibility change?\n\n\nWhat should we change now to remain scientifically distinctive as AI becomes part of research?\n\nAI is already part of research, and its capabilities will continue to develop. Routine use of writing assistants or code generation will become common. The strategic question concerns how this changes our research and what will remain distinctive.\nScientific questions, domain knowledge, trusted data, critical evaluation and responsibility will remain important. Our shared platforms provide one possible advantage because they capture expertise in infrastructure that researchers and AI assistants can use and extend.\nWe should discuss which capabilities we need, how our roles may change, and where we should invest to remain scientifically strong.",
+    "crumbs": [
+      "gsuite",
+      "Programme slides"
+    ]
+  },
+  {
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#from-a-computational-need-to-a-component",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#from-a-computational-need-to-a-component",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "From a computational need to a component",
+    "text": "From a computational need to a component\nNeed: Obtain required inverse entries without forming a full dense inverse.\n\n\n\n\n\n\n\nStep\nWhat we work through with AI\n\n\n\n\nBuild small references\nDense inverse and scalar Takahashi calculations in C++\n\n\nImplement the efficient algorithm\nSelected inversion using retained CHOLMOD factors\n\n\nCompare in native tests\nCheck requested entries against both references\n\n\nCheck computational behaviour\nFactor reuse, thread agreement and retained solves\n\n\nIntegrate and assess\nSupported model computations and the R workflow\n\n\n\nReference and production calculations are both native C++.\n\nThe development pattern is to establish a small reference, implement the efficient algorithm, compare them, and then check broader computational and user workflows. This describes the documented validation structure rather than asserting the exact historical order of every implementation step. gsolve/docs/testing.md and tests/test_supernodal_selected_inverse.cpp document and implement two small C++ references: a dense inverse and a separate scalar Takahashi recurrence. Requested entries from the production supernodal route are compared with both. The scalar reference is test-only, not an installed production fallback. Additional assertions check repeated factorisation, thread agreement, and preservation of retained solves and log-determinants. CHOLMOD is external; our production route uses its retained supernodal factors without forming the full dense inverse. PARDISO is not used for this selected inversion. These are test contracts, not a claim that every current test passes.",
+    "crumbs": [
+      "gsuite",
+      "Programme slides"
+    ]
+  },
+  {
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#different-checks-answer-different-questions",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#different-checks-answer-different-questions",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "Different checks answer different questions",
+    "text": "Different checks answer different questions\n\n\n\n\n\n\n\nCheck\nQuestion it addresses\n\n\n\n\nMathematics and special cases\nDoes the formulation represent the intended model?\n\n\nSmall native reference versus production algorithm\nDo separate computational approaches agree?\n\n\nRepeated simulation with known truth\nHow well does the method recover quantities across scenarios?\n\n\nComparison with other software\nDo results agree for matched models and settings?\n\n\nComplete user workflow\nCan the interface produce an interpretable, reproducible result?\n\n\n\nIndependence comes from a separate computational approach, not a different programming language.\n\nThese checks complement one another. Both reference and production code can be C++. greml retains small dense, analytical and finite-difference checks in native tests; gmat uses explicit dense correlation and LD calculations; gbits compares optimised implementations with scalar references. Their testing.md guides describe the assertions and reference limitations. Not every comparison has the same degree of independence: two wrappers over the same engine do not provide an independent numerical reference. Agreement between programs requires matching models, conventions and settings. Simulation can assess bias, uncertainty and prediction, but the generating model and studied scenarios limit what we learn. Runtime comparisons require explicit work boundaries. Define tolerances and acceptance criteria before interpreting results, and record the model, route and scale covered by the evidence.",
+    "crumbs": [
+      "gsuite",
+      "Programme slides"
+    ]
+  },
+  {
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#where-human-judgement-enters",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#where-human-judgement-enters",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "Where human judgement enters",
+    "text": "Where human judgement enters\n\n\nScientific decisions\n\nWhich question matters?\nWhich assumptions fit the study?\nWhich quantities should we estimate?\nWhat can the results support?\n\n\nDevelopment decisions\n\nWhich approximations are acceptable?\nWhat should be implemented or reused?\nWhich checks are sufficient?\nWhen is a result ready to share?\n\n\nAI can help examine each decision. We remain responsible for accepting it.\n\nHuman judgement is present throughout the process, not only in a final review. The researcher contributes study knowledge and statistical reasoning; software developers contribute computational and engineering judgement. AI can propose alternatives, expose assumptions, implement choices and assemble checks. Important decisions should remain visible in model definitions, code review, documentation and the interpretation of the evidence.",
+    "crumbs": [
+      "gsuite",
+      "Programme slides"
+    ]
+  },
+  {
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#what-remains-after-the-conversation",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#what-remains-after-the-conversation",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "What remains after the conversation?",
+    "text": "What remains after the conversation?\n\n\nA reusable analysis or method\n\nModel definition and assumptions\nCode and an executable example\nTests and numerical evidence\n\n\nEnough information to revisit it\n\nData identity, settings and versions\nResults and documented limitations\nExplanations and teaching material\n\n\nThe next researcher should be able to understand and use the work without reading the chat.\n\nConversation helps us develop the work, but it is not a substitute for its reproducible outputs. Keep the relevant data provenance, source revisions, settings and random seeds alongside results. Documentation should describe the final implementation and its limitations. Store reviewed evidence rather than every temporary experiment. This is what lets progress in one project benefit another, with or without the same assistant.",
     "crumbs": [
       "gsuite",
       "Programme slides"

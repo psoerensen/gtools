@@ -19,3 +19,12 @@
 .reveal #title-slide h1 { font-size: 1.9em; }
 .reveal #title-slide .subtitle { font-size: 1.1em; margin-top: 0.8em; }
 .reveal .footer { font-size: 0.5em; }
+
+/* Scoped to the repository table; override Pandoc's inline col widths. */
+.reveal .repo-table table { table-layout: fixed; }
+.reveal .repo-table col:first-child { width: 20% !important; }
+.reveal .repo-table col:nth-child(2) { width: 80% !important; }
+.reveal .repo-table th:first-child,
+.reveal .repo-table td:first-child { width: 20%; }
+.reveal .repo-table th:nth-child(2),
+.reveal .repo-table td:nth-child(2) { width: 80%; }
