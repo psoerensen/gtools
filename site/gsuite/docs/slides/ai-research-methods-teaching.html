@@ -261,7 +261,7 @@ Peter Sørensen
 <tbody>
 <tr class="odd">
 <td>Develop gsuite</td>
-<td>R interfaces and connections to native libraries</td>
+<td>Numerical machinery, model tasks and an R interface</td>
 </tr>
 <tr class="even">
 <td>Check implementation and documentation</td>
@@ -281,12 +281,12 @@ Peter Sørensen
 </tr>
 </tbody>
 </table>
-<p><strong>The useful output is something we can inspect, edit and reuse.</strong></p>
+<p><strong>I developed this with AI, with myself as the scientific editor.</strong></p>
 <div class="source">
 <p><a href="../../../gsuite/tutorials.html">Tutorials</a> · <a href="../../../gsuite/benchmarks.html">Benchmark results</a></p>
 </div>
 <aside class="notes">
-<p>These are concrete examples from my work. The assistant can inspect a repository, make changes and run checks. That does not mean every change is correct, or that all analyses shown in a tutorial have run in that conversation. Keep a clear distinction between completed work, illustrative examples and future plans. I will show teaching examples near the end.</p>
+<p>AI has helped implement the computational core as well as the R interface, tests, documentation and teaching material. My role is to set the direction, discuss the design, review the changes and decide what evidence is needed. This is an iterative process of proposals, corrections and checks. Established libraries such as CHOLMOD and PARDISO are external components we build on. The output must remain something we can inspect, edit and reuse. Distinguish completed work from illustrative examples and future plans. Teaching comes last.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -379,10 +379,9 @@ Peter Sørensen
           display:block!important;
       }</style></aside>
 </section>
-<section id="a-focused-computational-foundation" class="slide level2">
-<h2>A focused computational foundation</h2>
-<h3 id="two-public-r-packages">Two public R packages</h3>
-<p><strong>gsuite</strong> for analysis. <strong>gsim</strong> for simulation.</p>
+<section id="the-numerical-foundation" class="slide level2">
+<h2>The numerical foundation</h2>
+<p>We combine established libraries with our own computational machinery.</p>
 <table class="caption-top">
 <colgroup>
 <col style="width: 50%">
@@ -390,28 +389,78 @@ Peter Sørensen
 </colgroup>
 <thead>
 <tr class="header">
-<th>Libraries</th>
-<th>Responsibility</th>
+<th>Element</th>
+<th>What it does</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>greml, gcorr, gscore</td>
-<td>Mixed models, genetic correlation and scoring</td>
+<td>CHOLMOD and PARDISO</td>
+<td>Factor sparse matrices and solve large systems of equations</td>
 </tr>
 <tr class="even">
-<td>gsolve, gmat, gbits</td>
-<td>Solvers, genomic matrices and packed genotype operations</td>
+<td>Our selected-inverse implementation</td>
+<td>Calculate needed inverse entries from CHOLMOD factors</td>
+</tr>
+<tr class="odd">
+<td>General solver infrastructure</td>
+<td>Provide common interfaces, reuse calculations and report diagnostics</td>
 </tr>
 </tbody>
 </table>
-<p>gsuite currently exposes selected native capabilities.</p>
-<p><strong>The aim is to reuse good components and keep their responsibilities clear.</strong></p>
+<p><strong>This foundation can be reused across statistical models.</strong></p>
 <div class="source">
-<p><a href="../../../gsuite/docs/architecture.html">Responsibilities and current dependencies</a></p>
+<p><a href="../../../gsuite/docs/gsolve-greml.html">Solver and model responsibilities</a></p>
 </div>
 <aside class="notes">
-<p>This is a map of responsibilities, not a build dependency graph. gsim is a simulation package in its own right. gscore belongs to the ecosystem even though its current implementation is standalone. We do not need to build a conversational system inside the R package. Clear interfaces and structured results let an assistant work with the software.</p>
+<p>CHOLMOD and PARDISO are established external libraries. We have developed the infrastructure around them using AI, with me directing and reviewing the work. For colleagues familiar with YAMS, the selected-inverse idea is a useful point of comparison: calculate the inverse entries needed by the analysis without forming a full dense inverse. YAMS is not a dependency of this implementation. Our production implementation works on retained CHOLMOD supernodal factors; it does not use PARDISO for selected inversion. These entries support relevant likelihood derivative and uncertainty calculations. The gsolve layer also contains dense and iterative solver routes, memory controls and diagnostics. Which route is appropriate depends on the model and matrix structure.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="from-numerical-tools-to-an-r-analysis" class="slide level2">
+<h2>From numerical tools to an R analysis</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>What we have built</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Model specification</td>
+<td>Formulas, relationships and covariance components describe the model</td>
+</tr>
+<tr class="even">
+<td>Computational tasks</td>
+<td>Fit variance components by REML; solve for effects; request supported predictions and uncertainty</td>
+</tr>
+<tr class="odd">
+<td>R interface</td>
+<td><code>gfit()</code> and <code>gvc()</code> connect R data and model choices to the machinery</td>
+</tr>
+</tbody>
+</table>
+<p><strong>gsuite</strong> brings these layers together for analysis. <strong>gsim</strong> supplies simulation.</p>
+<p><strong>AI helped implement every layer; I directed, reviewed and revised the work.</strong></p>
+<div class="source">
+<p><a href="../../../gsuite/docs/architecture.html">Architecture</a> · <a href="../../../gsuite/docs/pedigree-analysis.html">Pedigree analysis</a></p>
+</div>
+<aside class="notes">
+<p>The model describes the statistical assumptions; a task describes the calculation we want to perform. For example, REML estimates covariance parameters, while a solve with fixed covariance parameters estimates effects. Predictions and uncertainty require support for the requested model and route. greml owns mixed-model computations and gsolve owns the numerical solvers. gsuite validates the R inputs, calls installed interfaces and returns labelled results. gmat and gbits provide matrix and genotype operations; gcorr and gscore cover genetic correlation and scoring. This is a responsibility map, not a claim that every ecosystem capability is exposed through gfit today. gsim is a separate R package. Clear model and task interfaces let us connect existing machinery when adding a model, then check its statistical meaning and numerical behavior. AI-assisted development includes this core work, not only writing analysis scripts or documentation.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
