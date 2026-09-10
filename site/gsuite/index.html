@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -176,34 +141,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorials</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/benchmarks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Benchmarks</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/downloads.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Downloads</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Status</span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
- <span class="menu-text">Guides and references</span></a>
+ <span class="menu-text">About gsuite</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -211,134 +152,196 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">From conversation to a reproducible analysis</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../gsuite/docs/architecture.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Architecture</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/formula-reml.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Formula and variance-component compiled-MME REML</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/genotype-filtering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Marker-QC contract</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/genotype-preparation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><code>gs_genotypes</code> preparation contract</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/gmat-integration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">gmat R integration</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/gsolve-greml.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Numerical and mixed-model routes</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/longitudinal-pedigree-reml.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Longitudinal sparse-pedigree REML and BLUP</span></a>
+ <span class="menu-text">Architecture and libraries</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../gsuite/docs/methods.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Methods</span></a>
+ <span class="menu-text">Methods overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Canonical LMM architecture</span></a>
+  <a href="../gsuite/downloads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software availability</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/model-catalog.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Canonical LMM capability catalog</span></a>
+  <a href="../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Current status</span></a>
   </div>
 </li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Tutorials</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/model-development-with-an-assistant.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">From a scientific question to a supported model</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/model-recipes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Scientific model recipes</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/model-reductions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Canonical LMM reductions</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/multitrait-pedigree-reml.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Multivariate sparse-pedigree evaluation and REML</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/prediction-error.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Pedigree PEV, reliability, and trajectory uncertainty</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/primitive-registry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Canonical LMM primitive registry</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/r-interface.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Persistent explicit R interface</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/sparse-ld-preparation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Sparse-LD preparation contract</span></a>
+  <a href="../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All tutorials</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../gsuite/docs/pedigree-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Pedigree analysis with R data frames</span></a>
+ <span class="menu-text">Pedigree analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Analysis with an assistant</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/model-development-with-an-assistant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Developing a model with an assistant</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/genotype-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genotype preparation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/genotype-filtering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marker filtering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/sparse-ld-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sparse LD preparation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Models and R interface</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/model-catalog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Supported models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/model-recipes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model recipes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/formula-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formulas and covariance components</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/r-interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Persistent R interface</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/prediction-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prediction and uncertainty</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Technical reference</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model representation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/gsolve-greml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Numerical routes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/gmat-integration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matrix integration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/multitrait-pedigree-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multitrait computations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/longitudinal-pedigree-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Longitudinal computations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/primitive-registry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model primitives</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/model-reductions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model reductions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Benchmarks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmark overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../gsuite/benchmarks/pedigree_50k_dmu/README.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">50K pedigree REML qualification against DMU</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../gsuite/docs/README.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Public documentation</span></a>
+ <span class="menu-text">Pedigree models: gsuite versus DMU</span></a>
   </div>
 </li>
       </ul>
@@ -346,7 +349,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../gsuite/docs/slides/ai-research-methods-teaching.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Programme slides</span></a>
+ <span class="menu-text">Slides and discussion</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentation index</span></a>
   </div>
 </li>
     </ul>
@@ -383,148 +392,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><code>gsuite</code> is an experimental R package for statistical genetics. Fit pedigree mixed models, prepare genotype data, and access selected methods from the suite’s native libraries. <code>gsim</code> is the companion R package for simulating genotypes, pedigrees and observations.</p>
-<section id="start-with-a-pedigree-model" class="level2">
-<h2 class="anchored" data-anchor-id="start-with-a-pedigree-model">Start with a pedigree model</h2>
-<p>Supply two ordinary R data frames: observations in <code>data</code> and animal IDs and parents in <code>pedigree</code>. Describe the effects with a formula and fit the model:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsuite)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gfit</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">formula =</span> BW <span class="sc">~</span> sex <span class="sc">+</span> cohort <span class="sc">+</span> herd <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> data, <span class="at">pedigree =</span> pedigree, <span class="at">task =</span> <span class="st">"reml"</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This sketch assumes an installed gsuite and prepared data. The <a href="../gsuite/tutorials.html">Tutorials</a> provide the complete data preparation and explain single-trait, multitrait and longitudinal models. Starting variances are optional; explicit covariance components are available when needed.</p>
-<p>The short interface currently supports one pedigree effect and one residual component. See the <a href="../gsuite/docs/model-catalog.html">model catalogue</a> for other interfaces and their supported models.</p>
-</section>
-<section id="installation-status" class="level2">
-<h2 class="anchored" data-anchor-id="installation-status">Installation status</h2>
-<p>gsuite has no public installation download yet. Its tutorial examples require a development installation of gsuite and an installed gsim. gsim and gact are already public. See <a href="../gsuite/downloads.html">Downloads</a> for the separate package status.</p>
-</section>
-<section id="explore-the-methods" class="level2">
-<h2 class="anchored" data-anchor-id="explore-the-methods">Explore the methods</h2>
+<p><code>gsuite</code> is an experimental R package for statistical genetics. It connects model specification and analysis workflows to reusable computational libraries. The current R interface exposes selected capabilities from those libraries.</p>
+<section id="what-can-gsuite-do" class="level2">
+<h2 class="anchored" data-anchor-id="what-can-gsuite-do">What can gsuite do?</h2>
 <ul>
-<li><a href="../gsuite/docs/pedigree-analysis.html">Pedigree analysis</a>: formulas, covariance components, REML and predictions.</li>
-<li><a href="../gsuite/docs/genotype-preparation.html">Genotype preparation</a>: prepare and reopen genotype resources.</li>
-<li><a href="../gsuite/docs/genotype-filtering.html">Marker filtering</a>: filter using marker quality summaries.</li>
-<li><a href="../gsuite/docs/sparse-ld-preparation.html">Sparse LD</a>: prepare chromosome-local LD resources.</li>
-<li><a href="../gsuite/docs/methods.html">Method catalogue</a>: methods across the wider ecosystem; availability through R varies by method.</li>
+<li><strong>Fit pedigree mixed models:</strong> specify effects and covariance components, estimate variance parameters and obtain predictions.</li>
+<li><strong>Work with genotype data:</strong> prepare resources, filter markers and construct sparse linkage-disequilibrium matrices.</li>
+<li><strong>Build on reusable methods:</strong> combine supported statistical and numerical components through documented interfaces.</li>
 </ul>
+<p>See the <a href="../gsuite/docs/model-catalog.html">supported models</a> for available combinations and the <a href="../gsuite/docs/methods.html">methods overview</a> for the wider ecosystem.</p>
 </section>
-<section id="architecture-overview" class="level2">
-<h2 class="anchored" data-anchor-id="architecture-overview">Architecture overview</h2>
-<p><strong>gsuite and gsim provide the analysis and simulation interfaces.</strong> gsuite provides analysis workflows, while gsim provides simulation workflows. Focused native libraries supply statistical methods, numerical solvers and genomic data operations. Each library has a defined responsibility and can evolve independently.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Role</th>
-<th>Components</th>
-<th>Responsibility</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>User-facing R interfaces</td>
-<td><strong>gsuite</strong>, <strong>gsim</strong></td>
-<td>Analysis and simulation workflows; gsuite remains in private development</td>
-</tr>
-<tr class="even">
-<td>Statistical libraries</td>
-<td>greml, gcorr, gscore</td>
-<td>Mixed models, genetic correlation and genomic scoring</td>
-</tr>
-<tr class="odd">
-<td>Computational libraries</td>
-<td>gsolve, gmat, gbits</td>
-<td>Numerical solvers, genomic matrices and packed genotype operations</td>
-</tr>
-</tbody>
-</table>
-<p>These groups describe responsibilities. The current gsuite R interface exposes selected native capabilities; integration coverage is documented in the <a href="../gsuite/docs/methods.html">method catalogue</a>.</p>
-<p>gtools also links to the public <strong>gact</strong> package for genomic association data and annotation workflows. This does not introduce a native build dependency between gact and the gsuite libraries.</p>
-<p><a href="../gsuite/docs/architecture.html">See the complete responsibility and dependency model</a>.</p>
-</section>
-<section id="libraries" class="level2">
-<h2 class="anchored" data-anchor-id="libraries">Libraries</h2>
-<p>The native gsuite development libraries remain private. gsim and gact have their own public repositories. The gsuite method catalogue is available here.</p>
-<p>“Implemented” means that the capability is implemented in the development code and covered by relevant validation. It does not imply comprehensive benchmarking or Biobank-scale qualification.</p>
+<section id="explore-gsuite" class="level2">
+<h2 class="anchored" data-anchor-id="explore-gsuite">Explore gsuite</h2>
 <div class="library-grid">
-<section id="gbits" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gbits">gbits</h3>
-<p><span class="status status-implemented">Implemented</span></p>
-<p>Packed genotype storage, BED access, transformations, and matrix-free genotype operators, including an experimental solver adapter.</p>
-<p><a href="../gsuite/docs/methods.html">Method catalogue</a></p>
+<section id="tutorials" class="level3 library-card">
+<h3 class="anchored" data-anchor-id="tutorials"><a href="../gsuite/tutorials.html">Tutorials</a></h3>
+<p>Start with ordinary R data frames and a complete pedigree analysis.</p>
 </section>
-<section id="gmat" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gmat">gmat</h3>
-<p><span class="status status-implemented">Implemented</span></p>
-<p>Genomic matrices, BED panels, sparse-LD resources and related algebra built on <code>gbits</code>.</p>
-<p><a href="../gsuite/docs/methods.html">Method catalogue</a></p>
+<section id="architecture-and-libraries" class="level3 library-card">
+<h3 class="anchored" data-anchor-id="architecture-and-libraries"><a href="../gsuite/docs/architecture.html">Architecture and libraries</a></h3>
+<p>Understand the components, their responsibilities and how they connect.</p>
 </section>
-<section id="gsolve" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gsolve">gsolve</h3>
-<p><span class="status status-implemented">Implemented</span></p>
-<p>Reusable dense, sparse, matrix-free and hybrid numerical solvers and operator contracts.</p>
-<p><a href="../gsuite/docs/methods.html">Method catalogue</a></p>
+<section id="supported-models" class="level3 library-card">
+<h3 class="anchored" data-anchor-id="supported-models"><a href="../gsuite/docs/model-catalog.html">Supported models</a></h3>
+<p>Find the model and R interface appropriate for your analysis.</p>
 </section>
-<section id="greml" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="greml">greml</h3>
-<p><span class="status status-implemented">Implemented</span></p>
-<p>ML/REML mixed-model inference over covariance components using <code>gsolve</code> operators and solvers.</p>
-<p><a href="../gsuite/docs/methods.html">Method catalogue</a></p>
-</section>
-<section id="gcorr" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gcorr">gcorr</h3>
-<p><span class="status status-implemented">Implemented</span></p>
-<p>Single-trait, partitioned, bivariate and multivariate LD-score regression with covariance, correlation and diagnostics.</p>
-<p><a href="../gsuite/docs/methods.html">Method catalogue</a></p>
-</section>
-<section id="gscore" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gscore">gscore</h3>
-<p><span class="status status-implemented">Implemented</span></p>
-<p>High-performance genomic scoring from BED data, including computation of multiple scores.</p>
-<p><a href="../gsuite/docs/methods.html">Method catalogue</a></p>
-</section>
-<section id="gsim" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gsim">gsim</h3>
-<p><span class="status status-experimental">Experimental</span></p>
-<p>The companion R package for simulating genotypes, pedigrees and observations, including multitrait and longitudinal example data.</p>
-<p><a href="../gsuite/docs/pedigree-analysis.html#prepare-ordinary-data-frames">See gsim in the pedigree tutorial</a></p>
-</section>
-<section id="gsuite" class="level3 library-card">
-<h3 class="anchored" data-anchor-id="gsuite">gsuite</h3>
-<p><span class="status status-experimental">Experimental</span></p>
-<p>R workflows and explicit native interfaces to selected <code>gbits</code>, <code>gmat</code>, <code>gsolve</code> and <code>greml</code> capabilities.</p>
-<p><a href="../gsuite/docs/methods.html">Method catalogue</a></p>
+<section id="benchmarks" class="level3 library-card">
+<h3 class="anchored" data-anchor-id="benchmarks"><a href="../gsuite/benchmarks.html">Benchmarks</a></h3>
+<p>Explore numerical comparisons and runtime evidence, including DMU.</p>
 </section>
 </div>
 </section>
-<section id="representative-workflows" class="level2">
-<h2 class="anchored" data-anchor-id="representative-workflows">Representative workflows</h2>
-<div class="workflow-list">
-<ul>
-<li><strong>Matrices and correlation:</strong> genotype data → genomic matrices and LD → LD scores → correlation analyses</li>
-<li><strong>Scoring:</strong> genotype data + effects → genomic scores</li>
-<li><strong>Mixed models:</strong> observations + pedigree + formula → REML → estimates and predictions</li>
-<li><strong>Simulation:</strong> gsim → example data → gsuite analyses</li>
-</ul>
-</div>
-</section>
-<section id="getting-started" class="level2">
-<h2 class="anchored" data-anchor-id="getting-started">Getting started</h2>
-<ul>
-<li><p>Start with the <a href="../gsuite/docs/README.html">documentation index</a> and <a href="../gsuite/docs/status.html#qualification-limits">qualification limits</a>.</p></li>
-<li><p>Understand the <a href="../gsuite/docs/architecture.html">architecture and ownership boundaries</a>.</p></li>
-<li><p>Review the <a href="../gsuite/docs/methods.html">suite-wide method catalogue</a>.</p></li>
-<li><p>Check the <a href="../gsuite/downloads.html">source and download status</a>.</p></li>
-<li><p>Read the <a href="../gsuite/docs/status.html#qualification-limits">development model</a>.</p></li>
-<li><p>Explore the public <a href="https://psoerensen.github.io/gsim/">gsim</a> and <a href="https://psoerensen.github.io/gact/">gact</a> repositories.</p></li>
-</ul>
+<section id="software-availability" class="level2">
+<h2 class="anchored" data-anchor-id="software-availability">Software availability</h2>
+<p>gsuite is in private development and has no public installation download yet. The examples require a development installation. See <a href="../gsuite/downloads.html">availability</a> and <a href="../gsuite/docs/status.html#qualification-limits">current status</a> for release information and qualification limits.</p>
+<p>The companion packages <a href="https://psoerensen.github.io/gsim/">gsim</a> for simulation and <a href="https://psoerensen.github.io/gact/">gact</a> for genomic data integration are public and maintain their own documentation.</p>
+<p>For broader thoughts on working with AI, see the <a href="../gsuite/docs/slides/ai-research-methods-teaching.html">slides and discussion</a>.</p>
 
 
 </section>
