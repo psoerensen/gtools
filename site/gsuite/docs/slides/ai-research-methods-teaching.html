@@ -335,10 +335,55 @@ Peter Sørensen
 </tbody>
 </table>
 <p><strong>AI has contributed to developing the platforms themselves. The resulting infrastructure can now support further work with AI assistants.</strong></p>
+<div class="source">
+<p><a href="https://psoerensen.github.io/gtools/">gtools</a></p>
+</div>
 <aside class="notes">
 <p>These platforms represent substantial outputs from AI-assisted development. The work has included mathematics, numerical algorithms, R and C++ code, interfaces, documentation, simulation, data organisation and teaching tools.</p>
 <p>The platforms overlap and should not be assigned exclusively to individual uses. gsuite supports analysis, methods and software development. gsim supports method development and validation. gact supports data analysis and interpretation. qgteach connects research results with teaching.</p>
 <p>The important point is cumulative. AI helped develop the infrastructure, and AI assistants can now use and extend what has already been built.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="from-ai-assisted-development-to-connected-use" class="slide level2">
+<h2>From AI-assisted development to connected use</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="building-the-platforms">Building the platforms</h3>
+<ul>
+<li>Discuss mathematics and design with ChatGPT</li>
+<li>Give Codex access to the relevant repositories</li>
+<li>Implement methods, interfaces and documentation</li>
+<li>Run checks, review changes and commit accepted work</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="connecting-the-platforms-now">Connecting the platforms now</h3>
+<ul>
+<li>Bring repositories and documentation into a shared workspace</li>
+<li>Give the assistant access to existing capabilities</li>
+<li>Use the platforms together for analysis and development</li>
+<li>Extend them when a required capability is missing</li>
+</ul>
+</div></div>
+<p><strong>The platforms came first. Connecting them to an AI assistant is the next step, and this work has only just begun.</strong></p>
+<div class="source">
+<p><a href="https://psoerensen.github.io/gtools/gsuite/docs/analysis-with-an-assistant.html">From conversation to a reproducible analysis</a> · <a href="https://psoerensen.github.io/gtools/gsuite/docs/model-development-with-an-assistant.html">From a scientific question to a supported model</a></p>
+</div>
+<aside class="notes">
+<p>I first used ChatGPT to discuss statistical models, mathematics, algorithms and software design. I then used Codex to work directly with the repositories, implement changes, compile the software, run checks and update documentation.</p>
+<p>This process produced gsuite, gsim, gact and gteach as separate platforms.</p>
+<p>I have only recently started bringing these platforms together in a shared ChatGPT workspace. The assistant can inspect the available repositories and documentation, use existing capabilities and identify where something is missing.</p>
+<p>The two linked walkthroughs illustrate this newer phase. One shows how the assistant can help turn a question into a reproducible analysis. The other shows how a missing capability can lead to model and software development.</p>
+<p>The longer-term opportunity is to make the platforms increasingly accessible to AI assistants while retaining scientific review and responsibility.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -489,6 +534,9 @@ Peter Sørensen
 </ul>
 </div></div>
 <p><strong>This supports a continuous process from a statistical idea to validated software.</strong></p>
+<div class="source">
+<p><a href="https://psoerensen.github.io/gtools/gsuite">gsuite</a></p>
+</div>
 <aside class="notes">
 <p>This has been one of the most important uses of AI in my work. The assistant can discuss the mathematics and then work directly with the implementation. For gsuite, this has included statistical models, numerical algorithms, C++ libraries, R interfaces, documentation and validation examples.</p>
 <p>AI can make mistakes in both mathematics and code. I therefore define the statistical contract, review important decisions and require numerical evidence before treating a method as supported.</p>
@@ -538,7 +586,7 @@ Peter Sørensen
 </table>
 <p><strong>Development connects statistical ideas to efficient and usable software.</strong></p>
 <div class="source">
-<p><a href="../../../gsuite/docs/architecture.html">Architecture</a> · <a href="../../../gsuite/docs/gsolve-greml.html">Numerical foundation</a></p>
+<p><a href="https://psoerensen.github.io/gtools/gsuite">gsuite</a></p>
 </div>
 <aside class="notes">
 <p>Read the layers from bottom to top. Development includes numerical algorithms, native C++, shared libraries, reusable model components and the R interface. CHOLMOD and PARDISO are established external solvers that we build on. Our selected inverse uses retained CHOLMOD factors. The YAMS analogy concerns computing needed inverse entries, not a YAMS dependency.</p>
