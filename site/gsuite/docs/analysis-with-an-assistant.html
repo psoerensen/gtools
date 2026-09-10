@@ -467,8 +467,8 @@ window.Quarto = {
 </header>
 
 
-<p>You bring the scientific question and knowledge of the study. An assistant such as Codex can help inspect your data, write and run R code, investigate diagnostics and prepare a report. gsuite supplies the statistical interfaces and numerical calculations.</p>
-<p>This walkthrough illustrates that collaboration using the <a href="../../gsuite/docs/pedigree-analysis.html">single-trait pedigree example</a>. The conversation below is an example, not a record of a completed analysis. Running code requires an assistant environment with access to your files, R and an installed gsuite. Website rendering does not execute the analysis.</p>
+<p>You bring the scientific question and study knowledge. An assistant can help inspect data, run R code, examine diagnostics and prepare a report using gsuite.</p>
+<p>This illustrative conversation uses the <a href="../../gsuite/docs/pedigree-analysis.html">single-trait pedigree example</a>; it is not a completed analysis. To run it, the assistant needs access to your files, R and an installed gsuite. Website rendering does not execute the code.</p>
 <section id="start-with-the-question-and-data" class="level2">
 <h2 class="anchored" data-anchor-id="start-with-the-question-and-data">1. Start with the question and data</h2>
 <p><strong>You might ask:</strong></p>
@@ -561,11 +561,11 @@ y = X\beta + Za + e,\qquad
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">gs_ranef</span>(fit)<span class="sc">$</span>animal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This data-frame route defaults to CHOLMOD selected inversion and requires a build with CHOLMOD support. The check above stops the example before prediction plots and reporting if status or convergence is unsuccessful.</p>
-<p>The assistant examines numerical status and optimizer convergence separately, then checks estimates and available diagnostics. A successful linear solve alone does not establish REML convergence. Residual patterns, unusual estimates or confounding may prompt further investigation with you.</p>
+<p>After checking status and convergence, examine estimates and residual patterns for unusual values or possible confounding.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(fit), <span class="fu">residuals</span>(fit),</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Fitted value"</span>, <span class="at">ylab =</span> <span class="st">"Residual"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The assistant distinguishes recorded output from interpretation. If a fit fails or a requested diagnostic is unavailable, that limitation remains part of the analysis record.</p>
+<p>Record failures and unavailable diagnostics alongside the results.</p>
 </section>
 <section id="turn-the-analysis-into-a-report" class="level2">
 <h2 class="anchored" data-anchor-id="turn-the-analysis-into-a-report">4. Turn the analysis into a report</h2>

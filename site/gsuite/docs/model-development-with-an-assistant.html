@@ -434,7 +434,7 @@ window.Quarto = {
 </header>
 
 
-<p>An analysis request can reveal a missing interface, a new combination of existing components, or a genuinely missing numerical capability. An assistant can help investigate the gap, implement the necessary changes and assemble the evidence needed to support the model.</p>
+<p>An assistant can help identify a missing interface, component combination or numerical capability, implement it and assemble validation evidence.</p>
 <p><strong>Code that runs becomes a supported model only after its statistical meaning and numerical behavior have been checked.</strong></p>
 <p>This tutorial illustrates the development workflow through example requests. It does not implement or qualify a new model. It complements <a href="../../gsuite/docs/analysis-with-an-assistant.html">analysis with an assistant</a>, which describes working with existing gsuite interfaces.</p>
 <section id="begin-with-an-analysis-that-needs-more" class="level2">
@@ -513,7 +513,7 @@ y = X\beta + Z_a a + Z_p p + e,
 <blockquote class="blockquote">
 <p>Implement the identified gap using existing public interfaces. Preserve current behavior, keep the change within the owning libraries, and make unsupported combinations fail clearly. Include focused validation.</p>
 </blockquote>
-<p>The assistant develops the change as a reviewable patch. A new R shortcut should normalize into an established internal model description where possible. It should not introduce a separate fitting algorithm for a model that the existing machinery can already represent.</p>
+<p>Develop a reviewable patch. Where possible, translate new R syntax into an existing model description and reuse its fitting algorithm.</p>
 <p>Keep the first supported scope explicit. Missingness, covariance boundaries, prediction and uncertainty each need their own contract; successful fitting does not automatically establish support for all of them.</p>
 </section>
 <section id="establish-statistical-and-numerical-evidence" class="level2">
@@ -585,7 +585,7 @@ V = \sigma_a^2 Z_a A Z_a^{\mathsf T}
 </section>
 <section id="grow-capabilities-through-scientific-use" class="level2">
 <h2 class="anchored" data-anchor-id="grow-capabilities-through-scientific-use">Grow capabilities through scientific use</h2>
-<p>Each analysis can motivate the next useful extension. Prefer a reusable covariance structure, relationship mapping or inference capability over a new engine for each named model. The assistant helps connect the scientific question to the code and evidence; scientific judgment and explicit qualification determine what gsuite can claim to support.</p>
+<p>Prefer extensions that other analyses can reuse: covariance structures, relationship mappings and inference capabilities. Scientific review and validation determine which resulting workflows gsuite can support.</p>
 
 
 </section>

@@ -440,10 +440,43 @@ window.Quarto = {
 <p><strong>Catalog authority.</strong> This page contains route-specific method descriptions and historical version notes. The current suite-wide LMM status is defined by the <a href="../../gsuite/docs/model-catalog.html">canonical model catalog</a>, with evidence in <a href="../../gsuite/docs/status.html#qualification-limits">model qualification</a>. An exclusion below applies only to the workflow and version being described; it is not a global gsuite capability statement.</p>
 </blockquote>
 <p>This catalogue maps confirmed public capabilities to their owning repository. <strong>Implemented</strong> means the capability is implemented in development code and exercised by relevant repository validation; it does not claim production-scale qualification. <strong>Experimental</strong> identifies a present but deliberately provisional integration surface. <strong>Planned</strong> identifies work with no current public implementation.</p>
-<p>The <a href="../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a> adds a bounded R convenience adapter, without adding a statistical model or numerical backend. It covers one pedigree random intercept for one or multiple traits, and single-response genetic random regression with one homogeneous residual. Short and explicit components share normalization; omitted REML starts reuse the existing fixed-effect residual-variance initializers (basis-scaled for random regression). Supplied starts remain authoritative. Fixed solves require all covariances. Multitrait rows identify residual observation units; missing responses are omitted trait by trait. Covariance boundaries, ambiguous kernel assignments and unsupported combinations are not silently repaired. The public examples default to 10,000 simulated animals and do not change broader workload or platform qualification claims.</p>
-<p>Explicit scalar <code>gvc()</code> models additionally support multiple independent pedigree and identity random intercepts through the existing component-LMM engine. This includes animal plus permanent environment and animal plus common-group effects. Both formula argument spellings have identical dispatch; starting values do not choose the engine. Omitted scalar starts divide the fixed-design residual variance equally among all random and residual components; supplied starts remain unchanged. All values are required for a fixed solve. Cross-component covariance, multi-component multitrait/random regression and multi-response residual specifications remain outside this adapter.</p>
-<p>For one response trait, <code>gvc(variable = c(direct = "id", maternal = "dam"), traits = "BW", kernel = PED)</code> declares an unstructured direct/maternal genetic covariance under one shared pedigree relationship. Covariance and prediction coordinates follow those channel names. Distinct descriptors remain independent; the adapter never infers correlation from matching IDs. Missing starts divide fixed-design residual variance over all channel diagonals and the residual, with zero off-diagonals. Observed responses require known IDs in all channels. See the <a href="../../gsuite/docs/pedigree-analysis.html#direct-and-maternal-genetic-effects">direct/maternal example</a>.</p>
-<p>Residual <code>gvc()</code> descriptors now bind a variance-group column and optional AR(1) or exponential block/time columns to the existing component engine. AR(1) uses integer occasion gaps; exponential correlation uses actual numeric time distances. Every correlated block must belong to one variance group and contain unique positions. Named positive variance starts are matched to the observed group labels. Automatic starts use equal variance contributions, zero AR(1) correlation, or exponential correlation 0.2 at the median positive adjacent within-block time gap. No nugget, unknown-time imputation or automatic combination with random regression is introduced. See the <a href="../../gsuite/docs/pedigree-analysis.html#residual-variance-and-correlation">residual workflow</a>.</p>
+<p>The <a href="../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a> demonstrates the data-frame interface on 10,000 simulated animals. It reuses existing numerical engines:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Formula model</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pedigree animal model</td>
+<td>One or multiple traits; missing responses omitted trait by trait</td>
+</tr>
+<tr class="even">
+<td>Genetic random regression</td>
+<td>One response, one pedigree effect and homogeneous residuals</td>
+</tr>
+<tr class="odd">
+<td>Independent components</td>
+<td>Multiple pedigree/identity intercepts, including permanent environment and common groups</td>
+</tr>
+<tr class="even">
+<td>Correlated channels</td>
+<td>One response with named channels under a shared kernel, such as direct/maternal effects</td>
+</tr>
+<tr class="odd">
+<td>Structured residuals</td>
+<td>Grouped variances, integer-gap AR(1), or continuous-time exponential correlation</td>
+</tr>
+</tbody>
+</table>
+<p>Short and explicit forms share normalization. <code>formula</code> and <code>formulas</code> are aliases; starts do not select the engine. REML initializes omitted starts, while supplied values remain authoritative. Fixed solves require complete covariance values. The tutorial gives the route-specific initialization rules.</p>
+<p>Distinct descriptors are independent. Correlated channels must be declared explicitly and have known IDs for observed responses. Correlated residual blocks require unique positions within one variance group. Multi-component multitrait/random regression, multi-response residual descriptors, nuggets and unknown-time imputation remain outside this adapter. Covariance boundaries and unsupported combinations are not silently repaired. These examples do not extend workload or platform qualification.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
