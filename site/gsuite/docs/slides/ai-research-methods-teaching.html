@@ -284,9 +284,6 @@ Peter Sørensen
 </tbody>
 </table>
 <p><strong>AI can help with mathematical reasoning, coding, analysis and documentation. Researchers set the scientific direction, review the decisions and determine what evidence is sufficient.</strong></p>
-<div class="source">
-<p><a href="../../../gsuite/tutorials.html">Tutorials</a> · <a href="../../../gsuite/benchmarks.html">Benchmark results</a> · <a href="https://psoerensen.github.io/qgteach/">qgteach</a></p>
-</div>
 <aside class="notes">
 <p>These activities are connected but distinct. A data-analysis question may reveal the need for a new statistical method. The method must then be translated into reliable software before it can be used routinely. A validated implementation can support new analyses and become a teaching example.</p>
 <p>AI is particularly useful at the connection between mathematics and software. It can help examine equations, compare algorithms, implement them in R or C++, and prepare numerical checks. Researchers define the scientific problem, review the statistical and computational decisions, and decide what evidence is required.</p>
@@ -712,6 +709,34 @@ Peter Sørensen
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const backBtn = document.createElement("a");
+  backBtn.href = "https://psoerensen.github.io/gtools/gsuite/tutorials.html";  // ✅ full URL
+  backBtn.target = "_self";  // opens in same tab
+  backBtn.textContent = "← Back to Main Page";
+  backBtn.style.cssText = `
+    position: fixed; top: 10px; right: 20px;
+    background: #fff; color: #000;
+    padding: 8px 14px; border-radius: 6px;
+    border: 1px solid #000;
+    font-weight: 600; font-family: sans-serif;
+    text-decoration: none; font-size: 14px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.15);
+    transition: all 0.2s ease-in-out;
+    z-index: 9999;
+  `;
+  backBtn.onmouseover = () => {
+    backBtn.style.background = '#000';
+    backBtn.style.color = '#fff';
+  };
+  backBtn.onmouseout = () => {
+    backBtn.style.background = '#fff';
+    backBtn.style.color = '#000';
+  };
+  document.body.appendChild(backBtn);
+});
+</script>
 
 
 </section>

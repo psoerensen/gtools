@@ -924,11 +924,11 @@
     ]
   },
   {
-    "objectID": "gsuite/tutorials.html#programme-vision-slide-presentation",
-    "href": "gsuite/tutorials.html#programme-vision-slide-presentation",
+    "objectID": "gsuite/tutorials.html#slides-thoughts-on-working-with-ai",
+    "href": "gsuite/tutorials.html#slides-thoughts-on-working-with-ai",
     "title": "Tutorials",
-    "section": "Programme vision: slide presentation",
-    "text": "Programme vision: slide presentation\nAI-assisted research, method development and teaching\nPeter Sørensen’s vision for Computational and Statistical Genetics, with examples from gsuite, the DMU comparison and qgteach. The slides include speaker notes. Use the arrow keys to move through the presentation and S to open the speaker view.",
+    "section": "Slides: thoughts on working with AI",
+    "text": "Slides: thoughts on working with AI\nAI-assisted research, methods, software and teaching\nSome thoughts on using AI to develop methods, software and teaching materials, and to build, use and extend research infrastructure. The slides include examples and speaker notes. Use the arrow keys to move through the presentation and S to open the speaker view.",
     "crumbs": [
       "gsuite",
       "Tutorials"
@@ -1763,7 +1763,7 @@
     "href": "gsuite/docs/slides/ai-research-methods-teaching.html#areas-of-ai-assisted-work",
     "title": "AI-assisted research, methods, software and teaching",
     "section": "Areas of AI-assisted work",
-    "text": "Areas of AI-assisted work\n\n\n\n\n\n\n\n\nArea\nExample output\nReusable result\n\n\n\n\nData analysis\nAn analysis script and report\nA reproducible analysis workflow\n\n\nMethod development\nA statistical model or algorithm\nA clearly defined method with validation evidence\n\n\nSoftware development\nR and C++ code, interfaces and documentation\nTested and maintainable software components\n\n\nTeaching\nSlides, simulations and worked examples\nEditable teaching materials\n\n\n\nAI can help with mathematical reasoning, coding, analysis and documentation. Researchers set the scientific direction, review the decisions and determine what evidence is sufficient.\n\nTutorials · Benchmark results · qgteach\n\n\nThese activities are connected but distinct. A data-analysis question may reveal the need for a new statistical method. The method must then be translated into reliable software before it can be used routinely. A validated implementation can support new analyses and become a teaching example.\nAI is particularly useful at the connection between mathematics and software. It can help examine equations, compare algorithms, implement them in R or C++, and prepare numerical checks. Researchers define the scientific problem, review the statistical and computational decisions, and decide what evidence is required.",
+    "text": "Areas of AI-assisted work\n\n\n\n\n\n\n\n\nArea\nExample output\nReusable result\n\n\n\n\nData analysis\nAn analysis script and report\nA reproducible analysis workflow\n\n\nMethod development\nA statistical model or algorithm\nA clearly defined method with validation evidence\n\n\nSoftware development\nR and C++ code, interfaces and documentation\nTested and maintainable software components\n\n\nTeaching\nSlides, simulations and worked examples\nEditable teaching materials\n\n\n\nAI can help with mathematical reasoning, coding, analysis and documentation. Researchers set the scientific direction, review the decisions and determine what evidence is sufficient.\n\nThese activities are connected but distinct. A data-analysis question may reveal the need for a new statistical method. The method must then be translated into reliable software before it can be used routinely. A validated implementation can support new analyses and become a teaching example.\nAI is particularly useful at the connection between mathematics and software. It can help examine equations, compare algorithms, implement them in R or C++, and prepare numerical checks. Researchers define the scientific problem, review the statistical and computational decisions, and decide what evidence is required.",
     "crumbs": [
       "gsuite",
       "Programme slides"
