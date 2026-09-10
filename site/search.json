@@ -868,7 +868,7 @@
     "href": "gsuite/benchmarks.html",
     "title": "Benchmarks",
     "section": "",
-    "text": "Compare REML estimates, predictions and observed run times for gsuite 0.29.0 and DMU 5.6 on the same frozen pedigree and observations.\n\n\n\nObserved runtime for the three pedigree models. gsuite fit versus the DMU preprocessing and fitting pipeline; lower is faster. Timings are single executions.\n\n\ngsuite recorded lower wall times than DMU in all three comparisons, alongside close agreement in covariance estimates and predictions. These results show competitive runtime for the tested direct pedigree REML workflows.\n\n\n\nBenchmark results\nModel\n\n\n\n\nSingle-trait results\nPedigree animal model\n\n\nMultitrait results\nTwo traits with incomplete observations\n\n\nLongitudinal results\nRank-2 random regression\n\n\n\nView all comparison results or read the public results.\nThe study checks numerical agreement on three frozen models. Timings are single executions, not a repeated performance benchmark or a general speed claim. The result page includes saved tables and selected hardware, software and thread settings.",
+    "text": "Compare REML estimates, predictions and observed run times for gsuite 0.29.0 and DMU 5.6 on the same frozen pedigree and observations.\n\n\n\nObserved runtime for the three pedigree models. gsuite fit versus the DMU preprocessing and fitting pipeline; lower is faster. Timings are single executions.\n\n\ngsuite recorded lower wall times than DMU in all three comparisons, alongside close agreement in covariance estimates and predictions. These results show competitive runtime for the tested direct pedigree REML workflows.\n\n\n\nBenchmark results\nModel\n\n\n\n\nSingle-trait results\nPedigree animal model\n\n\nMultitrait results\nTwo traits with incomplete observations\n\n\nLongitudinal results\nRank-2 random regression\n\n\n\nView all comparison results and saved tables.\nThe study checks numerical agreement on three frozen models. Timings are single executions, not a repeated performance benchmark or a general speed claim. The public result page includes saved tables and selected provenance; the full development report and execution scripts are not published here.",
     "crumbs": [
       "gsuite",
       "Benchmarks",
@@ -880,7 +880,7 @@
     "href": "gsuite/benchmarks.html#gsuite-versus-dmu-50000-animal-pedigree",
     "title": "Benchmarks",
     "section": "",
-    "text": "Compare REML estimates, predictions and observed run times for gsuite 0.29.0 and DMU 5.6 on the same frozen pedigree and observations.\n\n\n\nObserved runtime for the three pedigree models. gsuite fit versus the DMU preprocessing and fitting pipeline; lower is faster. Timings are single executions.\n\n\ngsuite recorded lower wall times than DMU in all three comparisons, alongside close agreement in covariance estimates and predictions. These results show competitive runtime for the tested direct pedigree REML workflows.\n\n\n\nBenchmark results\nModel\n\n\n\n\nSingle-trait results\nPedigree animal model\n\n\nMultitrait results\nTwo traits with incomplete observations\n\n\nLongitudinal results\nRank-2 random regression\n\n\n\nView all comparison results or read the public results.\nThe study checks numerical agreement on three frozen models. Timings are single executions, not a repeated performance benchmark or a general speed claim. The result page includes saved tables and selected hardware, software and thread settings.",
+    "text": "Compare REML estimates, predictions and observed run times for gsuite 0.29.0 and DMU 5.6 on the same frozen pedigree and observations.\n\n\n\nObserved runtime for the three pedigree models. gsuite fit versus the DMU preprocessing and fitting pipeline; lower is faster. Timings are single executions.\n\n\ngsuite recorded lower wall times than DMU in all three comparisons, alongside close agreement in covariance estimates and predictions. These results show competitive runtime for the tested direct pedigree REML workflows.\n\n\n\nBenchmark results\nModel\n\n\n\n\nSingle-trait results\nPedigree animal model\n\n\nMultitrait results\nTwo traits with incomplete observations\n\n\nLongitudinal results\nRank-2 random regression\n\n\n\nView all comparison results and saved tables.\nThe study checks numerical agreement on three frozen models. Timings are single executions, not a repeated performance benchmark or a general speed claim. The public result page includes saved tables and selected provenance; the full development report and execution scripts are not published here.",
     "crumbs": [
       "gsuite",
       "Benchmarks",
@@ -888,11 +888,11 @@
     ]
   },
   {
-    "objectID": "gsuite/benchmarks.html#other-qualification-reports",
-    "href": "gsuite/benchmarks.html#other-qualification-reports",
+    "objectID": "gsuite/benchmarks.html#other-qualification-evidence",
+    "href": "gsuite/benchmarks.html#other-qualification-evidence",
     "title": "Benchmarks",
-    "section": "Other qualification reports",
-    "text": "Other qualification reports\n\nPedigree solver comparison\nqgdata validation\nGenotype preparation\nSparse-LD preparation\n\nSee the public qualification index for the full list and scope of the evidence.",
+    "section": "Other qualification evidence",
+    "text": "Other qualification evidence\nAdditional development campaigns cover pedigree solvers, qgdata, genotype preparation and sparse LD. Their full reports are not included in the public snapshot. See the evidence and qualification limits for the scope of available evidence and unresolved failures.",
     "crumbs": [
       "gsuite",
       "Benchmarks",
