@@ -556,8 +556,11 @@ y = X\beta + Za + e,\qquad
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>fit_diagnostics<span class="sc">$</span>status</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>fit_diagnostics<span class="sc">$</span>converged</span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>fit_diagnostics<span class="sc">$</span>initialization</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">gs_ranef</span>(fit)<span class="sc">$</span>animal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(fit_diagnostics<span class="sc">$</span>status<span class="sc">$</span>ok),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">isTRUE</span>(fit_diagnostics<span class="sc">$</span>converged))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">gs_ranef</span>(fit)<span class="sc">$</span>animal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This data-frame route defaults to CHOLMOD selected inversion and requires a build with CHOLMOD support. The check above stops the example before prediction plots and reporting if status or convergence is unsuccessful.</p>
 <p>The assistant examines numerical status and optimizer convergence separately, then checks estimates and available diagnostics. A successful linear solve alone does not establish REML convergence. Residual patterns, unusual estimates or confounding may prompt further investigation with you.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(fit), <span class="fu">residuals</span>(fit),</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Fitted value"</span>, <span class="at">ylab =</span> <span class="st">"Residual"</span>)</span>
@@ -608,11 +611,12 @@ y = X\beta + Za + e,\qquad
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">diagnostics =</span> <span class="fu">diagnostics</span>(fit),</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed_effects =</span> <span class="fu">coef</span>(fit),</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">animal_effects =</span> <span class="fu">gs_ranef</span>(fit)<span class="sc">$</span>animal,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">fitted =</span> <span class="fu">fitted</span>(fit),</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">residuals =</span> <span class="fu">residuals</span>(fit)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(results, <span class="st">"results.rds"</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">capture.output</span>(<span class="fu">sessionInfo</span>()), <span class="st">"session-info.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">record_mapping =</span> fit<span class="sc">$</span>record_mapping,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">fitted =</span> <span class="fu">fitted</span>(fit),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">residuals =</span> <span class="fu">residuals</span>(fit)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(results, <span class="st">"results.rds"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">capture.output</span>(<span class="fu">sessionInfo</span>()), <span class="st">"session-info.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The conversation helps develop the analysis. The scripts, extracted results and report preserve the work so you or a colleague can inspect and reproduce it without reconstructing the conversation.</p>
 </section>
 <section id="continue-with-more-complex-models" class="level2">

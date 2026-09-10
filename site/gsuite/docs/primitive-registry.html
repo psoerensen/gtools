@@ -580,13 +580,14 @@ window.Quarto = {
 <td><code>qualified</code></td>
 </tr>
 <tr class="odd">
-<td>Mixed/general residual structures</td>
-<td>none</td>
+<td>Mixed/general component residual structures</td>
+<td>none in the component API</td>
 <td>ARMA, antedependence, heterogeneous temporal scale, spatial/Matérn, spatiotemporal, and structure mixtures</td>
 <td><code>unsupported</code></td>
 </tr>
 </tbody>
 </table>
+<p>The table describes component and specialized pedigree residual primitives. The separate persistent <code>gs_longitudinal_residual()</code> interface also exposes compound symmetry and heterogeneous AR(1); those capabilities do not transfer to <code>gvc()</code> or component residual blocks. See the <a href="../../gsuite/docs/r-interface.html#multivariate-and-longitudinal-construction">persistent interface</a>.</p>
 <p>Local residual covariance and factors may be dense within a bounded block. The global MME, relationship covariance, observation covariance, and incidence matrices remain sparse/operator-based and are never materialized densely.</p>
 </section>
 <section id="sparse-execution-and-inference-primitives" class="level2">
