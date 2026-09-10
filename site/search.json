@@ -1737,143 +1737,132 @@
     ]
   },
   {
-    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#our-opportunity",
-    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#our-opportunity",
-    "title": "AI-assisted research, method development and teaching",
-    "section": "Our opportunity",
-    "text": "Our opportunity\nHow can we make it easier to move from a scientific question to a reliable result?\n\n\nWhat we bring\n\nScientific questions and study knowledge\nStatistical reasoning\nComputational methods\nResponsibility for the conclusions\n\n\nWhat AI can help with\n\nInspect data and existing code\nWrite and run analysis scripts\nImplement and check software changes\nPrepare explanations and reports\n\n\nMy aim is to make progress in one project useful for the next.\n\nI lead the Computational and Statistical Genetics programme. This is my view of how we can use AI in our work, based on what I have been doing already. The assistant needs access to the relevant files and tools. We still need to understand the study and take responsibility for the statistical decisions.",
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#what-is-ai",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#what-is-ai",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "What is AI?",
+    "text": "What is AI?\n\n\n\n\n\n\n\nTerm\nMeaning\n\n\n\n\nArtificial intelligence\nThe broad field of building systems that perform tasks associated with human intelligence\n\n\nMachine learning and deep learning\nMethods that learn patterns from data. Deep learning uses neural networks with many layers\n\n\nGenerative AI\nModels that generate text, code, images, audio or other content\n\n\nAI assistants and agents\nSystems built around generative AI that can work with users, files and tools. Agents can carry out multistep tasks\n\n\n\nThis presentation focuses on AI assistants and agents used for data analysis, method and software development, and teaching.\n\nPeople use the term AI in different ways. Some think of machine learning or deep neural networks used to analyse data. Others think primarily of generative tools such as ChatGPT.\nMachine learning covers methods that learn patterns from data. Deep learning is a form of machine learning based on neural networks with many layers. Modern generative AI is largely based on deep learning, but its purpose is to generate new content rather than only produce predictions.\nAssistants interact with users and may have access to files and tools. Agents can use these capabilities to carry out more complex, multistep tasks.\nThis presentation concerns practical AI-assisted work. Applying machine learning as the scientific method being studied is outside its scope.",
     "crumbs": [
       "gsuite",
       "Programme slides"
     ]
   },
   {
-    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#what-i-already-do-with-ai",
-    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#what-i-already-do-with-ai",
-    "title": "AI-assisted research, method development and teaching",
-    "section": "What I already do with AI",
-    "text": "What I already do with AI\n\n\n\n\n\n\n\nWork\nConcrete output\n\n\n\n\nDevelop gsuite\nNumerical machinery, model tasks and an R interface\n\n\nCheck implementation and documentation\nFocused checks, corrections and explicit limitations\n\n\nExplain analyses\nPedigree tutorials and model specifications\n\n\nPresent evidence\nDMU comparison tables and runtime figure\n\n\nDevelop qgteach\nQuarto teaching material and tools for narrated slides\n\n\n\nI developed this with AI, with myself as the scientific editor.\n\nTutorials · Benchmark results\n\n\nAI has helped implement the computational core as well as the R interface, tests, documentation and teaching material. My role is to set the direction, discuss the design, review the changes and decide what evidence is needed. This is an iterative process of proposals, corrections and checks. Established libraries such as CHOLMOD and PARDISO are external components we build on. The output must remain something we can inspect, edit and reuse. Distinguish completed work from illustrative examples and future plans. Teaching comes last.",
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#how-researchers-use-generative-ai",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#how-researchers-use-generative-ai",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "How researchers use generative AI",
+    "text": "How researchers use generative AI\n\n\n\n\n\n\n\nActivity\nExamples\n\n\n\n\nWriting and communication\nDraft, revise, translate and shorten text\n\n\nLiterature work\nFind relevant papers, summarise them and compare their conclusions\n\n\nData analysis\nInspect data, write code, make figures and explain results\n\n\nTeaching\nDevelop slides, exercises, examples and explanations\n\n\nAdministration\nPrepare emails, meeting notes, plans and reports\n\n\n\nWriting and literature review are common entry points. The same technology can also contribute directly to mathematical, analytical and software work.\n\nMany researchers first encounter generative AI as a writing assistant. It can also help identify literature, organise information, write analysis code and develop teaching material.\nThese uses still require review. Literature searches must be checked against the original sources, and scientific claims must not be accepted simply because the generated text sounds convincing.\nMy own use extends further into method and software development. That is the main focus of the following slides.",
     "crumbs": [
       "gsuite",
       "Programme slides"
     ]
   },
   {
-    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#analysis-as-a-conversation",
-    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#analysis-as-a-conversation",
-    "title": "AI-assisted research, method development and teaching",
-    "section": "Analysis as a conversation",
-    "text": "Analysis as a conversation\n\n\nA scientific question\n\nHow much of the variation in body weight is genetic?\n\nMy request to the assistant\n\nCheck the observations and pedigree. Help specify the model, run it, and examine the diagnostics before making a report.\n\n\nThe work we do together\n\nCheck IDs, missingness and study structure\nAgree on effects and assumptions\nRun a supported model\nExamine convergence and results\nSave the script and report\n\n\n\nIllustrative request. Analysis walkthrough\n\n\nThe question comes first. Whether herd is fixed or random and how to handle repeated records depends on the study. The assistant should explain its proposals and keep data changes visible. The final script and report make the analysis reproducible beyond the conversation.",
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#areas-of-ai-assisted-work",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#areas-of-ai-assisted-work",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "Areas of AI-assisted work",
+    "text": "Areas of AI-assisted work\n\n\n\n\n\n\n\n\nArea\nExample output\nReusable result\n\n\n\n\nData analysis\nAn analysis script and report\nA reproducible analysis workflow\n\n\nMethod development\nA statistical model or algorithm\nA clearly defined method with validation evidence\n\n\nSoftware development\nR and C++ code, interfaces and documentation\nTested and maintainable software components\n\n\nTeaching\nSlides, simulations and worked examples\nEditable teaching materials\n\n\n\nAI can help with mathematical reasoning, coding, analysis and documentation. Researchers set the scientific direction, review the decisions and determine what evidence is sufficient.\n\nTutorials · Benchmark results · qgteach\n\n\nThese activities are connected but distinct. A data-analysis question may reveal the need for a new statistical method. The method must then be translated into reliable software before it can be used routinely. A validated implementation can support new analyses and become a teaching example.\nAI is particularly useful at the connection between mathematics and software. It can help examine equations, compare algorithms, implement them in R or C++, and prepare numerical checks. Researchers define the scientific problem, review the statistical and computational decisions, and decide what evidence is required.",
     "crumbs": [
       "gsuite",
       "Programme slides"
     ]
   },
   {
-    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#explicit-models-beneath-the-conversation",
-    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#explicit-models-beneath-the-conversation",
-    "title": "AI-assisted research, method development and teaching",
-    "section": "Explicit models beneath the conversation",
-    "text": "Explicit models beneath the conversation\n\n\nA short gsuite specification\nfit &lt;- gfit(\n  formula = BW ~ sex + cohort + herd +\n    (1 | id),\n  data = data,\n  pedigree = pedigree,\n  task = \"reml\"\n)\ndata and pedigree are ordinary R data frames.\n\nThe qgtools approach\n\nFormula: which effects?\nIDs: which observations and animals?\nKernel: which relationships?\nCovariance: which variance components?\nTask: what should be estimated?\n\nThe short and explicit forms describe the same supported model.\n\n\nComplete example and explicit covariance components\n\n\nThis example assumes the tutorial data have already been prepared. The model contains fixed sex, cohort and herd effects, a pedigree animal effect and an independent residual. Omitted starts use the existing gsuite initializers. The general model language is valuable for humans and assistants, but it does not establish numerical support for every model it can describe.",
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#platforms-developed-with-ai-assistance",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#platforms-developed-with-ai-assistance",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "Platforms developed with AI assistance",
+    "text": "Platforms developed with AI assistance\n\n\n\n\n\n\n\nPlatform\nPurpose\n\n\n\n\ngsuite\nStatistical models, numerical computation and user interfaces\n\n\ngsim\nSimulation of genetic data and assessment of methods\n\n\ngact\nData integration, annotation, analysis and interpretation\n\n\ngteach\nShared tools and materials for teaching\n\n\n\nAI has contributed to developing the platforms themselves. The resulting infrastructure can now support further work with AI assistants.\n\nThese platforms represent substantial outputs from AI-assisted development. The work has included mathematics, numerical algorithms, R and C++ code, interfaces, documentation, simulation, data organisation and teaching tools.\nThe platforms overlap and should not be assigned exclusively to individual uses. gsuite supports analysis, methods and software development. gsim supports method development and validation. gact supports data analysis and interpretation. qgteach connects research results with teaching.\nThe important point is cumulative. AI helped develop the infrastructure, and AI assistants can now use and extend what has already been built.",
     "crumbs": [
       "gsuite",
       "Programme slides"
     ]
   },
   {
-    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#the-numerical-foundation",
-    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#the-numerical-foundation",
-    "title": "AI-assisted research, method development and teaching",
-    "section": "The numerical foundation",
-    "text": "The numerical foundation\nWe combine established libraries with our own computational machinery.\n\n\n\n\n\n\n\nElement\nWhat it does\n\n\n\n\nCHOLMOD and PARDISO\nFactor sparse matrices and solve large systems of equations\n\n\nOur selected-inverse implementation\nCalculate needed inverse entries from CHOLMOD factors\n\n\nGeneral solver infrastructure\nProvide common interfaces, reuse calculations and report diagnostics\n\n\n\nThis foundation can be reused across statistical models.\n\nSolver and model responsibilities\n\n\nCHOLMOD and PARDISO are established external libraries. We have developed the infrastructure around them using AI, with me directing and reviewing the work. For colleagues familiar with YAMS, the selected-inverse idea is a useful point of comparison: calculate the inverse entries needed by the analysis without forming a full dense inverse. YAMS is not a dependency of this implementation. Our production implementation works on retained CHOLMOD supernodal factors; it does not use PARDISO for selected inversion. These entries support relevant likelihood derivative and uncertainty calculations. The gsolve layer also contains dense and iterative solver routes, memory controls and diagnostics. Which route is appropriate depends on the model and matrix structure.",
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#using-and-extending-the-infrastructure",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#using-and-extending-the-infrastructure",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "Using and extending the infrastructure",
+    "text": "Using and extending the infrastructure\n\n\nUse existing capabilities\n\nInspect the data and available tools\nSpecify the scientific model\nRun and assess the analysis\nSave the script and report\n\n\nAdd a missing capability\n\nIdentify the limitation\nDefine the required method or computation\nImplement it using existing components\nValidate and document the extension\n\n\nEach completed project can improve the infrastructure available to the next.\n\nAI assistants can work with the existing platforms rather than starting each project from scratch. They can inspect the available functionality, run analyses, modify code, add interfaces and prepare documentation.\nResearchers remain responsible for defining the scientific problem, reviewing the statistical and computational decisions, and deciding whether the evidence is sufficient.",
     "crumbs": [
       "gsuite",
       "Programme slides"
     ]
   },
   {
-    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#from-numerical-tools-to-an-r-analysis",
-    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#from-numerical-tools-to-an-r-analysis",
-    "title": "AI-assisted research, method development and teaching",
-    "section": "From numerical tools to an R analysis",
-    "text": "From numerical tools to an R analysis\n\n\n\n\n\n\n\nLayer\nWhat we have built\n\n\n\n\nModel specification\nFormulas, relationships and covariance components describe the model\n\n\nComputational tasks\nFit variance components by REML; solve for effects; request supported predictions and uncertainty\n\n\nR interface\ngfit() and gvc() connect R data and model choices to the machinery\n\n\n\ngsuite brings these layers together for analysis. gsim supplies simulation.\nAI helped implement every layer; I directed, reviewed and revised the work.\n\nArchitecture · Pedigree analysis\n\n\nThe model describes the statistical assumptions; a task describes the calculation we want to perform. For example, REML estimates covariance parameters, while a solve with fixed covariance parameters estimates effects. Predictions and uncertainty require support for the requested model and route. greml owns mixed-model computations and gsolve owns the numerical solvers. gsuite validates the R inputs, calls installed interfaces and returns labelled results. gmat and gbits provide matrix and genotype operations; gcorr and gscore cover genetic correlation and scoring. This is a responsibility map, not a claim that every ecosystem capability is exposed through gfit today. gsim is a separate R package. Clear model and task interfaces let us connect existing machinery when adding a model, then check its statistical meaning and numerical behavior. AI-assisted development includes this core work, not only writing analysis scripts or documentation.",
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#data-analysis-infrastructure-gact",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#data-analysis-infrastructure-gact",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "Data analysis infrastructure: gact",
+    "text": "Data analysis infrastructure: gact\nHow can we make data from different sources usable in the same analysis?\n\n\nPrepare and connect\n\nDetect and validate data structures\nHarmonise GWAS summary statistics\nAdd biological annotations\nRecord reusable ingestion steps\n\n\nAnalyse and interpret\n\nConnect variants with genes and pathways\nUse established statistical methods\nTrace results back to their sources\nPreserve the complete analysis workflow\n\n\nThe value comes from making data usable together.\n\ngact\n\n\ngact contains schema detection, normalisation and validation of GWAS summary statistics, ingestion recipes, biological annotation sets and database access. Existing tutorials connect these resources to gene analysis, fine-mapping and pathway analysis, including methods supplied by qgg.\nThis example concerns data preparation, connection and interpretation. It does not imply that every statistical method belongs within gact or that all four platforms already form one integrated pipeline.",
     "crumbs": [
       "gsuite",
       "Programme slides"
     ]
   },
   {
-    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#when-the-analysis-needs-something-new",
-    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#when-the-analysis-needs-something-new",
-    "title": "AI-assisted research, method development and teaching",
-    "section": "When the analysis needs something new",
-    "text": "When the analysis needs something new\n\nI have repeated measurements. Can we separate genetic effects from persistent environmental differences between animals?\n\nFirst check what already exists. Repeatability routes are already in the ecosystem.\n\n\n\nIf something is missing\nThe next step\n\n\n\n\nAn R interface\nExpose an existing capability\n\n\nA model combination\nConnect existing components\n\n\nNumerical machinery\nImplement it in the owning library\n\n\n\nWe add the missing piece, then make it reusable.\n\nModel development walkthrough\n\n\nA limitation in one convenience interface does not mean that the numerical engine is missing. The assistant should inspect the catalog, code and evidence before suggesting development. If the model already has a suitable route, use it. If a gap remains, define the statistical contract before implementation.",
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#simulation-for-method-development-gsim",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#simulation-for-method-development-gsim",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "Simulation for method development: gsim",
+    "text": "Simulation for method development: gsim\nHow well does a method recover known quantities under different scenarios?\n\n\nDefine the scenario\n\nPedigree and population structure\nGenetic architecture and effects\nPhenotypes and environmental variation\nQuantities that the method should recover\n\n\nAssess the method\n\nCompare estimates with known truth\nExamine uncertainty and failures\nChange the scenario and repeat\nIdentify where the method struggles\n\n\nSimulation helps us develop, compare and refine methods under conditions where the truth is known.\n\ngsim\n\n\ngsim provides simulation infrastructure rather than owning every benchmark. It supports pedigrees, genotype and phenotype simulation, multiple genetic architectures and retained simulation truth. Study designs and evaluation metrics belong in the assessment workflow, for example sblrbench.\nOur 10,000-animal pedigree examples use simulation to compare estimates and breeding values with known quantities. Replicated scenarios assess statistical behaviour. Independent small numerical references still provide a separate check of the implementation.",
     "crumbs": [
       "gsuite",
       "Programme slides"
     ]
   },
   {
-    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#from-running-code-to-supported-models",
-    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#from-running-code-to-supported-models",
-    "title": "AI-assisted research, method development and teaching",
-    "section": "From running code to supported models",
-    "text": "From running code to supported models\n\nCode that runs becomes a supported model only after its statistical meaning and numerical behavior have been checked.\n\n\n\nStatistical meaning\n\nDoes the code represent the intended model?\nCan the data distinguish its components?\nAre assumptions and limitations explicit?\n\n\nNumerical behavior\n\nCompare with a small independent reference\nCheck estimates, predictions and convergence\nTest failures and affected existing workflows\n\n\n\nTwo wrappers over the same engine are useful for integration checks, but they are not independent numerical validation. Choose tolerances and pass criteria before interpreting results. Small examples do not qualify large workloads or other platforms. Record support for the exact model, backend and inference combination. AI helps assemble this evidence; it does not replace it.",
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#software-development-mathematics-and-code",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#software-development-mathematics-and-code",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "Software development: mathematics and code",
+    "text": "Software development: mathematics and code\nAI is particularly useful when a project requires both mathematical reasoning and software implementation.\n\n\nMathematics\n\nInterpret model equations\nDerive computational expressions\nCompare alternative algorithms\nIdentify assumptions and special cases\n\n\nSoftware\n\nTranslate methods into R and C++\nInspect and modify existing code\nBuild interfaces and documentation\nRun numerical comparisons and diagnostics\n\n\nThis supports a continuous process from a statistical idea to validated software.\n\nThis has been one of the most important uses of AI in my work. The assistant can discuss the mathematics and then work directly with the implementation. For gsuite, this has included statistical models, numerical algorithms, C++ libraries, R interfaces, documentation and validation examples.\nAI can make mistakes in both mathematics and code. I therefore define the statistical contract, review important decisions and require numerical evidence before treating a method as supported.",
     "crumbs": [
       "gsuite",
       "Programme slides"
     ]
   },
   {
-    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#evidence-gsuite-versus-dmu",
-    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#evidence-gsuite-versus-dmu",
-    "title": "AI-assisted research, method development and teaching",
-    "section": "Evidence: gsuite versus DMU",
-    "text": "Evidence: gsuite versus DMU\n\n\n\n\nThree frozen pedigree models\n50,000 animals\ngsuite 0.29.0 and DMU 5.6\nMaximum covariance-estimate difference below \\(4.3\\times10^{-8}\\).\nPrediction correlations above 0.999999999998 on the predeclared 1,000-animal subset.\n\n\nCompetitive runtime on these tested models. Each time is one execution: gsuite fit versus the DMU preprocessing and fitting pipeline.\n\n\nResults, scope and provenance\n\n\nThe numerical results provide evidence for these frozen direct pedigree REML models. The covariance agreement is across the saved parameters. Prediction comparisons use the predeclared first 1,000 pedigree-coded animals, not all 50,000. Likelihood constants remain unreconciled. Timings are descriptive single runs with different work boundaries, so this is not a general speed claim or qualification of all current gsuite routes.",
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#software-from-algorithms-to-interfaces-gsuite",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#software-from-algorithms-to-interfaces-gsuite",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "Software from algorithms to interfaces: gsuite",
+    "text": "Software from algorithms to interfaces: gsuite\n\n\n\n\n\n\n\nLayer\nExamples\n\n\n\n\nUser interface\nR functions such as gfit() and gvc()\n\n\nReusable model components\nCovariance models, estimation and prediction\n\n\nNative C++ and shared libraries\nSolver interfaces, factor reuse and diagnostics\n\n\nNumerical algorithms\nSparse solves and selected inverse entries\n\n\n\nDevelopment connects statistical ideas to efficient and usable software.\n\nArchitecture · Numerical foundation\n\n\nRead the layers from bottom to top. Development includes numerical algorithms, native C++, shared libraries, reusable model components and the R interface. CHOLMOD and PARDISO are established external solvers that we build on. Our selected inverse uses retained CHOLMOD factors. The YAMS analogy concerns computing needed inverse entries, not a YAMS dependency.\ngreml owns model computations and gsolve owns solvers. The R interface exposes supported combinations. A Python interface remains a possible future addition and is therefore not presented here as a current capability.",
     "crumbs": [
       "gsuite",
       "Programme slides"
     ]
   },
   {
-    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#what-this-means-for-our-programme",
-    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#what-this-means-for-our-programme",
-    "title": "AI-assisted research, method development and teaching",
-    "section": "What this means for our programme",
-    "text": "What this means for our programme\n\n\nApplied research gives direction\nBring a scientific question and a real study.\nIdentify where current methods or interfaces fall short.\nKeep the assumptions and interpretation connected to the data.\n\nDevelopment leaves something reusable\nImprove a component or workflow.\nKeep validation alongside the implementation.\nShare a worked example that colleagues can use.\n\nHow can we organize our expertise so that progress in one project benefits the whole programme?\n\nThis is the direction I would like us to discuss. Applied researchers, statisticians and software developers bring different knowledge. AI can help with the work between them, but common interfaces, review and evidence are still needed. We can start with a bounded problem rather than a large new system.",
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#ai-assisted-gsuite-development-numerical-agreement-and-competitive-runtime",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#ai-assisted-gsuite-development-numerical-agreement-and-competitive-runtime",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "AI-assisted gsuite development: numerical agreement and competitive runtime",
+    "text": "AI-assisted gsuite development: numerical agreement and competitive runtime\n\n\n\n\nNumerical agreement\n50,000 animals\nMaximum covariance-estimate difference below \\(4.3\\times10^{-8}\\).\nPrediction correlations above 0.999999999998 on the predeclared subset of 1,000 animals.\nRuntime\nCompetitive on these three tested models.\n\n\ngsuite 0.29.0 and DMU 5.6. Each bar represents one execution. The work boundaries differ: gsuite fitting versus DMU preprocessing and fitting.\n\n\nResults, scope and provenance\n\n\nThe numerical results provide evidence for these frozen direct pedigree REML models. Covariance agreement covers the saved parameters. Prediction comparisons use the predeclared first 1,000 pedigree-coded animals, not all 50,000. Likelihood constants remain unreconciled. Timings are descriptive single runs with different work boundaries, so this is not a general speed claim or qualification of all current gsuite routes.",
     "crumbs": [
       "gsuite",
       "Programme slides"
     ]
   },
   {
-    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#teaching-with-qgteach",
-    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#teaching-with-qgteach",
-    "title": "AI-assisted research, method development and teaching",
-    "section": "Teaching with qgteach",
-    "text": "Teaching with qgteach\n\n\nAn existing teaching example\nHow do the mean and standard deviation change a normal distribution?\nThe Quarto source combines R code, a figure and speaker notes.\nI use AI to help develop the material, then review the explanation and code.\n\n\n\n\nFigure from the qgteach quantitative genetics slides.\n\n\n\n\nqgteach example\n\n\nThis is an existing R-generated plot from the quantitative genetics teaching material, not a new teaching result made for this presentation. Show how a learning objective becomes a figure and an explanation. The source remains editable. A possible exercise is to change the mean or spread and explain the result; that is a proposed use, not a claim about an existing assignment.",
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#teaching-infrastructure-gteach",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#teaching-infrastructure-gteach",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "Teaching infrastructure: gteach",
+    "text": "Teaching infrastructure: gteach\nA common structure connects learning objectives with editable teaching material.\n\n\nSource material\n\nLearning objectives\nR and Quarto source\nCode, data and exercises\nSpeaker notes\n\n\nReusable outputs\n\nLecture slides\nWorked tutorials\nInteractive examples\nNarrated presentations\n\n\nWe can develop the material together, then revise and reuse it across courses.\n\ngteach\n\n\nThis is infrastructure for teaching, not only a collection of slides. The course scaffolding provides a consistent home for slides, notes, tutorials, exercises, apps and data. Narration tools use the speaker notes. Existing R and Shiny examples include genetic drift, selection and Hardy-Weinberg equilibrium.\nAI helps develop both the tools and the teaching content. We choose the learning objectives, review explanations and code, and check narration. The rename is planned; the current repository and links remain qgteach.",
     "crumbs": [
       "gsuite",
       "Programme slides"
     ]
   },
   {
-    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#connecting-research-and-teaching",
-    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#connecting-research-and-teaching",
-    "title": "AI-assisted research, method development and teaching",
-    "section": "Connecting research and teaching",
-    "text": "Connecting research and teaching\n\n\nWhat qgteach already contains\n\nQuarto lecture slides with R examples\nSpeaker notes explaining the figures\nTools that turn notes into narrated slides\nA shared course structure\n\n\nWhat we could build on this\n\nTurn a validated analysis into a lesson\nLet students change assumptions and compare results\nUse simulation to explain model behavior\nBring questions from teaching back into development\n\n\nWe should make methods easier to understand, evaluate and use.\n\nqgteach · Narrated quantitative genetics slides\n\n\nqgteach contains speaker notes and a narration tool, as well as rendered narrated decks. Narration is another output from the teaching source and still needs review, including the pronunciation of statistical notation. The right column is the programme vision: develop research and teaching together so the work is useful beyond a single project or course.",
-    "crumbs": [
-      "gsuite",
-      "Programme slides"
-    ]
-  },
-  {
-    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#an-invitation-to-collaborate",
-    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#an-invitation-to-collaborate",
-    "title": "AI-assisted research, method development and teaching",
-    "section": "An invitation to collaborate",
-    "text": "An invitation to collaborate\nBring one concrete question from your work.\n\nAn analysis that is difficult to set up\nA model or workflow that needs an extension\nA concept that is difficult to teach\n\nWe can choose a small example, agree on what a good result means, and work through it together.\nHere is how I have been working, what it has produced, and what I think we could build together.\n\nAnalysis walkthrough · Model development walkthrough · Back to Tutorials\n\n\nInvite examples from colleagues across the programme. Ask what would make a useful first collaboration and what evidence they would need to trust the result. We can then choose a small project with a clear scientific purpose, an inspectable output and a defined validation plan.",
+    "objectID": "gsuite/docs/slides/ai-research-methods-teaching.html#where-will-ai-lead-us",
+    "href": "gsuite/docs/slides/ai-research-methods-teaching.html#where-will-ai-lead-us",
+    "title": "AI-assisted research, methods, software and teaching",
+    "section": "Where will AI lead us?",
+    "text": "Where will AI lead us?\n\n\nWhat is likely to change\n\nWriting, coding and analysis will become faster\nMore groups will develop advanced methods and software\nAI assistants will perform increasingly complex tasks\nResearch roles and expectations will change\n\n\nQuestions for our programme\n\nWhich expertise and resources will distinguish us?\nHow should we combine AI with our data and infrastructure?\nWhich capabilities should we develop and share?\nHow should training, review and responsibility change?\n\n\nWhat should we change now to remain scientifically distinctive as AI becomes part of research?\n\nAI is already part of research, and its capabilities will continue to develop. Routine use of writing assistants or code generation will become common. The strategic question concerns how this changes our research and what will remain distinctive.\nScientific questions, domain knowledge, trusted data, critical evaluation and responsibility will remain important. Our shared platforms provide one possible advantage because they capture expertise in infrastructure that researchers and AI assistants can use and extend.\nWe should discuss which capabilities we need, how our roles may change, and where we should invest to remain scientifically strong.",
     "crumbs": [
       "gsuite",
       "Programme slides"

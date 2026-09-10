@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.7.32">
 
   <meta name="author" content="Peter Sørensen">
-  <title>gtools – AI-assisted research, method development and teaching</title>
+  <title>gtools – AI-assisted research, methods, software and teaching</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -28,72 +28,6 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      { color: #003b4f; background-color: #f1f3f5; }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span { color: #003b4f; } /* Normal */
-    code span.al { color: #ad0000; } /* Alert */
-    code span.an { color: #5e5e5e; } /* Annotation */
-    code span.at { color: #657422; } /* Attribute */
-    code span.bn { color: #ad0000; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #20794d; } /* Char */
-    code span.cn { color: #8f5902; } /* Constant */
-    code span.co { color: #5e5e5e; } /* Comment */
-    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-    code span.dt { color: #ad0000; } /* DataType */
-    code span.dv { color: #ad0000; } /* DecVal */
-    code span.er { color: #ad0000; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #ad0000; } /* Float */
-    code span.fu { color: #4758ab; } /* Function */
-    code span.im { color: #00769e; } /* Import */
-    code span.in { color: #5e5e5e; } /* Information */
-    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
-    code span.op { color: #5e5e5e; } /* Operator */
-    code span.ot { color: #003b4f; } /* Other */
-    code span.pp { color: #ad0000; } /* Preprocessor */
-    code span.sc { color: #5e5e5e; } /* SpecialChar */
-    code span.ss { color: #20794d; } /* SpecialString */
-    code span.st { color: #20794d; } /* String */
-    code span.va { color: #111111; } /* Variable */
-    code span.vs { color: #20794d; } /* VerbatimString */
-    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="../../../site_libs/revealjs/dist/theme/quarto-f563837468303362081e247dddd440d0.css">
   <link rel="stylesheet" href="../../website/slides.css">
@@ -194,8 +128,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">AI-assisted research, method development and teaching</h1>
-  <p class="subtitle">A vision for Computational and Statistical Genetics</p>
+  <h1 class="title">AI-assisted research, methods, software and teaching</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -209,123 +142,239 @@ Peter Sørensen
 </div>
 
 </section>
-<section id="our-opportunity" class="slide level2">
-<h2>Our opportunity</h2>
-<p><strong>How can we make it easier to move from a scientific question to a reliable result?</strong></p>
+<section id="what-is-ai" class="slide level2">
+<h2>What is AI?</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Artificial intelligence</td>
+<td>The broad field of building systems that perform tasks associated with human intelligence</td>
+</tr>
+<tr class="even">
+<td>Machine learning and deep learning</td>
+<td>Methods that learn patterns from data. Deep learning uses neural networks with many layers</td>
+</tr>
+<tr class="odd">
+<td>Generative AI</td>
+<td>Models that generate text, code, images, audio or other content</td>
+</tr>
+<tr class="even">
+<td>AI assistants and agents</td>
+<td>Systems built around generative AI that can work with users, files and tools. Agents can carry out multistep tasks</td>
+</tr>
+</tbody>
+</table>
+<p><strong>This presentation focuses on AI assistants and agents used for data analysis, method and software development, and teaching.</strong></p>
+<aside class="notes">
+<p>People use the term AI in different ways. Some think of machine learning or deep neural networks used to analyse data. Others think primarily of generative tools such as ChatGPT.</p>
+<p>Machine learning covers methods that learn patterns from data. Deep learning is a form of machine learning based on neural networks with many layers. Modern generative AI is largely based on deep learning, but its purpose is to generate new content rather than only produce predictions.</p>
+<p>Assistants interact with users and may have access to files and tools. Agents can use these capabilities to carry out more complex, multistep tasks.</p>
+<p>This presentation concerns practical AI-assisted work. Applying machine learning as the scientific method being studied is outside its scope.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="how-researchers-use-generative-ai" class="slide level2">
+<h2>How researchers use generative AI</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Activity</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Writing and communication</td>
+<td>Draft, revise, translate and shorten text</td>
+</tr>
+<tr class="even">
+<td>Literature work</td>
+<td>Find relevant papers, summarise them and compare their conclusions</td>
+</tr>
+<tr class="odd">
+<td>Data analysis</td>
+<td>Inspect data, write code, make figures and explain results</td>
+</tr>
+<tr class="even">
+<td>Teaching</td>
+<td>Develop slides, exercises, examples and explanations</td>
+</tr>
+<tr class="odd">
+<td>Administration</td>
+<td>Prepare emails, meeting notes, plans and reports</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Writing and literature review are common entry points. The same technology can also contribute directly to mathematical, analytical and software work.</strong></p>
+<aside class="notes">
+<p>Many researchers first encounter generative AI as a writing assistant. It can also help identify literature, organise information, write analysis code and develop teaching material.</p>
+<p>These uses still require review. Literature searches must be checked against the original sources, and scientific claims must not be accepted simply because the generated text sounds convincing.</p>
+<p>My own use extends further into method and software development. That is the main focus of the following slides.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="areas-of-ai-assisted-work" class="slide level2">
+<h2>Areas of AI-assisted work</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Area</th>
+<th>Example output</th>
+<th>Reusable result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Data analysis</td>
+<td>An analysis script and report</td>
+<td>A reproducible analysis workflow</td>
+</tr>
+<tr class="even">
+<td>Method development</td>
+<td>A statistical model or algorithm</td>
+<td>A clearly defined method with validation evidence</td>
+</tr>
+<tr class="odd">
+<td>Software development</td>
+<td>R and C++ code, interfaces and documentation</td>
+<td>Tested and maintainable software components</td>
+</tr>
+<tr class="even">
+<td>Teaching</td>
+<td>Slides, simulations and worked examples</td>
+<td>Editable teaching materials</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AI can help with mathematical reasoning, coding, analysis and documentation. Researchers set the scientific direction, review the decisions and determine what evidence is sufficient.</strong></p>
+<div class="source">
+<p><a href="../../../gsuite/tutorials.html">Tutorials</a> · <a href="../../../gsuite/benchmarks.html">Benchmark results</a> · <a href="https://psoerensen.github.io/qgteach/">qgteach</a></p>
+</div>
+<aside class="notes">
+<p>These activities are connected but distinct. A data-analysis question may reveal the need for a new statistical method. The method must then be translated into reliable software before it can be used routinely. A validated implementation can support new analyses and become a teaching example.</p>
+<p>AI is particularly useful at the connection between mathematics and software. It can help examine equations, compare algorithms, implement them in R or C++, and prepare numerical checks. Researchers define the scientific problem, review the statistical and computational decisions, and decide what evidence is required.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="platforms-developed-with-ai-assistance" class="slide level2">
+<h2>Platforms developed with AI assistance</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Platform</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>gsuite</strong></td>
+<td>Statistical models, numerical computation and user interfaces</td>
+</tr>
+<tr class="even">
+<td><strong>gsim</strong></td>
+<td>Simulation of genetic data and assessment of methods</td>
+</tr>
+<tr class="odd">
+<td><strong>gact</strong></td>
+<td>Data integration, annotation, analysis and interpretation</td>
+</tr>
+<tr class="even">
+<td><strong>gteach</strong></td>
+<td>Shared tools and materials for teaching</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AI has contributed to developing the platforms themselves. The resulting infrastructure can now support further work with AI assistants.</strong></p>
+<aside class="notes">
+<p>These platforms represent substantial outputs from AI-assisted development. The work has included mathematics, numerical algorithms, R and C++ code, interfaces, documentation, simulation, data organisation and teaching tools.</p>
+<p>The platforms overlap and should not be assigned exclusively to individual uses. gsuite supports analysis, methods and software development. gsim supports method development and validation. gact supports data analysis and interpretation. qgteach connects research results with teaching.</p>
+<p>The important point is cumulative. AI helped develop the infrastructure, and AI assistants can now use and extend what has already been built.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="using-and-extending-the-infrastructure" class="slide level2">
+<h2>Using and extending the infrastructure</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<h3 id="what-we-bring">What we bring</h3>
-<ul>
-<li>Scientific questions and study knowledge</li>
-<li>Statistical reasoning</li>
-<li>Computational methods</li>
-<li>Responsibility for the conclusions</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<h3 id="what-ai-can-help-with">What AI can help with</h3>
-<ul>
-<li>Inspect data and existing code</li>
-<li>Write and run analysis scripts</li>
-<li>Implement and check software changes</li>
-<li>Prepare explanations and reports</li>
-</ul>
-</div></div>
-<p>My aim is to make progress in one project useful for the next.</p>
-<aside class="notes">
-<p>I lead the Computational and Statistical Genetics programme. This is my view of how we can use AI in our work, based on what I have been doing already. The assistant needs access to the relevant files and tools. We still need to understand the study and take responsibility for the statistical decisions.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="what-i-already-do-with-ai" class="slide level2">
-<h2>What I already do with AI</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Work</th>
-<th>Concrete output</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Develop gsuite</td>
-<td>Numerical machinery, model tasks and an R interface</td>
-</tr>
-<tr class="even">
-<td>Check implementation and documentation</td>
-<td>Focused checks, corrections and explicit limitations</td>
-</tr>
-<tr class="odd">
-<td>Explain analyses</td>
-<td>Pedigree tutorials and model specifications</td>
-</tr>
-<tr class="even">
-<td>Present evidence</td>
-<td>DMU comparison tables and runtime figure</td>
-</tr>
-<tr class="odd">
-<td>Develop qgteach</td>
-<td>Quarto teaching material and tools for narrated slides</td>
-</tr>
-</tbody>
-</table>
-<p><strong>I developed this with AI, with myself as the scientific editor.</strong></p>
-<div class="source">
-<p><a href="../../../gsuite/tutorials.html">Tutorials</a> · <a href="../../../gsuite/benchmarks.html">Benchmark results</a></p>
-</div>
-<aside class="notes">
-<p>AI has helped implement the computational core as well as the R interface, tests, documentation and teaching material. My role is to set the direction, discuss the design, review the changes and decide what evidence is needed. This is an iterative process of proposals, corrections and checks. Established libraries such as CHOLMOD and PARDISO are external components we build on. The output must remain something we can inspect, edit and reuse. Distinguish completed work from illustrative examples and future plans. Teaching comes last.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="analysis-as-a-conversation" class="slide level2">
-<h2>Analysis as a conversation</h2>
-<div class="columns">
-<div class="column" style="width:52%;">
-<h3 id="a-scientific-question">A scientific question</h3>
-<blockquote>
-<p>How much of the variation in body weight is genetic?</p>
-</blockquote>
-<h3 id="my-request-to-the-assistant">My request to the assistant</h3>
-<blockquote>
-<p>Check the observations and pedigree. Help specify the model, run it, and examine the diagnostics before making a report.</p>
-</blockquote>
-</div><div class="column" style="width:48%;">
-<h3 id="the-work-we-do-together">The work we do together</h3>
+<h3 id="use-existing-capabilities">Use existing capabilities</h3>
 <ol type="1">
-<li>Check IDs, missingness and study structure</li>
-<li>Agree on effects and assumptions</li>
-<li>Run a supported model</li>
-<li>Examine convergence and results</li>
+<li>Inspect the data and available tools</li>
+<li>Specify the scientific model</li>
+<li>Run and assess the analysis</li>
 <li>Save the script and report</li>
 </ol>
+</div><div class="column" style="width:50%;">
+<h3 id="add-a-missing-capability">Add a missing capability</h3>
+<ol type="1">
+<li>Identify the limitation</li>
+<li>Define the required method or computation</li>
+<li>Implement it using existing components</li>
+<li>Validate and document the extension</li>
+</ol>
 </div></div>
-<div class="source">
-<p>Illustrative request. <a href="../../../gsuite/docs/analysis-with-an-assistant.html">Analysis walkthrough</a></p>
-</div>
+<p><strong>Each completed project can improve the infrastructure available to the next.</strong></p>
 <aside class="notes">
-<p>The question comes first. Whether herd is fixed or random and how to handle repeated records depends on the study. The assistant should explain its proposals and keep data changes visible. The final script and report make the analysis reproducible beyond the conversation.</p>
+<p>AI assistants can work with the existing platforms rather than starting each project from scratch. They can inspect the available functionality, run analyses, modify code, add interfaces and prepare documentation.</p>
+<p>Researchers remain responsible for defining the scientific problem, reviewing the statistical and computational decisions, and deciding whether the evidence is sufficient.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -338,35 +387,34 @@ Peter Sørensen
           display:block!important;
       }</style></aside>
 </section>
-<section id="explicit-models-beneath-the-conversation" class="slide level2">
-<h2>Explicit models beneath the conversation</h2>
+<section id="data-analysis-infrastructure-gact" class="slide level2">
+<h2>Data analysis infrastructure: gact</h2>
+<p><strong>How can we make data from different sources usable in the same analysis?</strong></p>
 <div class="columns">
-<div class="column" style="width:52%;">
-<h3 id="a-short-gsuite-specification">A short gsuite specification</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>fit <span class="ot">&lt;-</span> <span class="fu">gfit</span>(</span>
-<span id="cb1-2"><a></a>  <span class="at">formula =</span> BW <span class="sc">~</span> sex <span class="sc">+</span> cohort <span class="sc">+</span> herd <span class="sc">+</span></span>
-<span id="cb1-3"><a></a>    (<span class="dv">1</span> <span class="sc">|</span> id),</span>
-<span id="cb1-4"><a></a>  <span class="at">data =</span> data,</span>
-<span id="cb1-5"><a></a>  <span class="at">pedigree =</span> pedigree,</span>
-<span id="cb1-6"><a></a>  <span class="at">task =</span> <span class="st">"reml"</span></span>
-<span id="cb1-7"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>data</code> and <code>pedigree</code> are ordinary R data frames.</p>
-</div><div class="column" style="width:48%;">
-<h3 id="the-qgtools-approach">The qgtools approach</h3>
+<div class="column" style="width:50%;">
+<h3 id="prepare-and-connect">Prepare and connect</h3>
 <ul>
-<li>Formula: which effects?</li>
-<li>IDs: which observations and animals?</li>
-<li>Kernel: which relationships?</li>
-<li>Covariance: which variance components?</li>
-<li>Task: what should be estimated?</li>
+<li>Detect and validate data structures</li>
+<li>Harmonise GWAS summary statistics</li>
+<li>Add biological annotations</li>
+<li>Record reusable ingestion steps</li>
 </ul>
-<p>The short and explicit forms describe the same supported model.</p>
+</div><div class="column" style="width:50%;">
+<h3 id="analyse-and-interpret">Analyse and interpret</h3>
+<ul>
+<li>Connect variants with genes and pathways</li>
+<li>Use established statistical methods</li>
+<li>Trace results back to their sources</li>
+<li>Preserve the complete analysis workflow</li>
+</ul>
 </div></div>
+<p><strong>The value comes from making data usable together.</strong></p>
 <div class="source">
-<p><a href="../../../gsuite/docs/pedigree-analysis.html">Complete example and explicit covariance components</a></p>
+<p><a href="https://psoerensen.github.io/gact/">gact</a></p>
 </div>
 <aside class="notes">
-<p>This example assumes the tutorial data have already been prepared. The model contains fixed sex, cohort and herd effects, a pedigree animal effect and an independent residual. Omitted starts use the existing gsuite initializers. The general model language is valuable for humans and assistants, but it does not establish numerical support for every model it can describe.</p>
+<p>gact contains schema detection, normalisation and validation of GWAS summary statistics, ingestion recipes, biological annotation sets and database access. Existing tutorials connect these resources to gene analysis, fine-mapping and pathway analysis, including methods supplied by qgg.</p>
+<p>This example concerns data preparation, connection and interpretation. It does not imply that every statistical method belongs within gact or that all four platforms already form one integrated pipeline.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -379,41 +427,34 @@ Peter Sørensen
           display:block!important;
       }</style></aside>
 </section>
-<section id="the-numerical-foundation" class="slide level2">
-<h2>The numerical foundation</h2>
-<p>We combine established libraries with our own computational machinery.</p>
-<table class="caption-top">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Element</th>
-<th>What it does</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>CHOLMOD and PARDISO</td>
-<td>Factor sparse matrices and solve large systems of equations</td>
-</tr>
-<tr class="even">
-<td>Our selected-inverse implementation</td>
-<td>Calculate needed inverse entries from CHOLMOD factors</td>
-</tr>
-<tr class="odd">
-<td>General solver infrastructure</td>
-<td>Provide common interfaces, reuse calculations and report diagnostics</td>
-</tr>
-</tbody>
-</table>
-<p><strong>This foundation can be reused across statistical models.</strong></p>
+<section id="simulation-for-method-development-gsim" class="slide level2">
+<h2>Simulation for method development: gsim</h2>
+<p><strong>How well does a method recover known quantities under different scenarios?</strong></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="define-the-scenario">Define the scenario</h3>
+<ul>
+<li>Pedigree and population structure</li>
+<li>Genetic architecture and effects</li>
+<li>Phenotypes and environmental variation</li>
+<li>Quantities that the method should recover</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="assess-the-method">Assess the method</h3>
+<ul>
+<li>Compare estimates with known truth</li>
+<li>Examine uncertainty and failures</li>
+<li>Change the scenario and repeat</li>
+<li>Identify where the method struggles</li>
+</ul>
+</div></div>
+<p><strong>Simulation helps us develop, compare and refine methods under conditions where the truth is known.</strong></p>
 <div class="source">
-<p><a href="../../../gsuite/docs/gsolve-greml.html">Solver and model responsibilities</a></p>
+<p><a href="https://psoerensen.github.io/gsim/">gsim</a></p>
 </div>
 <aside class="notes">
-<p>CHOLMOD and PARDISO are established external libraries. We have developed the infrastructure around them using AI, with me directing and reviewing the work. For colleagues familiar with YAMS, the selected-inverse idea is a useful point of comparison: calculate the inverse entries needed by the analysis without forming a full dense inverse. YAMS is not a dependency of this implementation. Our production implementation works on retained CHOLMOD supernodal factors; it does not use PARDISO for selected inversion. These entries support relevant likelihood derivative and uncertainty calculations. The gsolve layer also contains dense and iterative solver routes, memory controls and diagnostics. Which route is appropriate depends on the model and matrix structure.</p>
+<p>gsim provides simulation infrastructure rather than owning every benchmark. It supports pedigrees, genotype and phenotype simulation, multiple genetic architectures and retained simulation truth. Study designs and evaluation metrics belong in the assessment workflow, for example sblrbench.</p>
+<p>Our 10,000-animal pedigree examples use simulation to compare estimates and breeding values with known quantities. Replicated scenarios assess statistical behaviour. Independent small numerical references still provide a separate check of the implementation.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -426,8 +467,45 @@ Peter Sørensen
           display:block!important;
       }</style></aside>
 </section>
-<section id="from-numerical-tools-to-an-r-analysis" class="slide level2">
-<h2>From numerical tools to an R analysis</h2>
+<section id="software-development-mathematics-and-code" class="slide level2">
+<h2>Software development: mathematics and code</h2>
+<p>AI is particularly useful when a project requires both mathematical reasoning and software implementation.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="mathematics">Mathematics</h3>
+<ul>
+<li>Interpret model equations</li>
+<li>Derive computational expressions</li>
+<li>Compare alternative algorithms</li>
+<li>Identify assumptions and special cases</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="software">Software</h3>
+<ul>
+<li>Translate methods into R and C++</li>
+<li>Inspect and modify existing code</li>
+<li>Build interfaces and documentation</li>
+<li>Run numerical comparisons and diagnostics</li>
+</ul>
+</div></div>
+<p><strong>This supports a continuous process from a statistical idea to validated software.</strong></p>
+<aside class="notes">
+<p>This has been one of the most important uses of AI in my work. The assistant can discuss the mathematics and then work directly with the implementation. For gsuite, this has included statistical models, numerical algorithms, C++ libraries, R interfaces, documentation and validation examples.</p>
+<p>AI can make mistakes in both mathematics and code. I therefore define the statistical contract, review important decisions and require numerical evidence before treating a method as supported.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="software-from-algorithms-to-interfaces-gsuite" class="slide level2">
+<h2>Software from algorithms to interfaces: gsuite</h2>
 <table class="caption-top">
 <colgroup>
 <col style="width: 50%">
@@ -436,31 +514,35 @@ Peter Sørensen
 <thead>
 <tr class="header">
 <th>Layer</th>
-<th>What we have built</th>
+<th>Examples</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Model specification</td>
-<td>Formulas, relationships and covariance components describe the model</td>
+<td>User interface</td>
+<td>R functions such as <code>gfit()</code> and <code>gvc()</code></td>
 </tr>
 <tr class="even">
-<td>Computational tasks</td>
-<td>Fit variance components by REML; solve for effects; request supported predictions and uncertainty</td>
+<td>Reusable model components</td>
+<td>Covariance models, estimation and prediction</td>
 </tr>
 <tr class="odd">
-<td>R interface</td>
-<td><code>gfit()</code> and <code>gvc()</code> connect R data and model choices to the machinery</td>
+<td>Native C++ and shared libraries</td>
+<td>Solver interfaces, factor reuse and diagnostics</td>
+</tr>
+<tr class="even">
+<td>Numerical algorithms</td>
+<td>Sparse solves and selected inverse entries</td>
 </tr>
 </tbody>
 </table>
-<p><strong>gsuite</strong> brings these layers together for analysis. <strong>gsim</strong> supplies simulation.</p>
-<p><strong>AI helped implement every layer; I directed, reviewed and revised the work.</strong></p>
+<p><strong>Development connects statistical ideas to efficient and usable software.</strong></p>
 <div class="source">
-<p><a href="../../../gsuite/docs/architecture.html">Architecture</a> · <a href="../../../gsuite/docs/pedigree-analysis.html">Pedigree analysis</a></p>
+<p><a href="../../../gsuite/docs/architecture.html">Architecture</a> · <a href="../../../gsuite/docs/gsolve-greml.html">Numerical foundation</a></p>
 </div>
 <aside class="notes">
-<p>The model describes the statistical assumptions; a task describes the calculation we want to perform. For example, REML estimates covariance parameters, while a solve with fixed covariance parameters estimates effects. Predictions and uncertainty require support for the requested model and route. greml owns mixed-model computations and gsolve owns the numerical solvers. gsuite validates the R inputs, calls installed interfaces and returns labelled results. gmat and gbits provide matrix and genotype operations; gcorr and gscore cover genetic correlation and scoring. This is a responsibility map, not a claim that every ecosystem capability is exposed through gfit today. gsim is a separate R package. Clear model and task interfaces let us connect existing machinery when adding a model, then check its statistical meaning and numerical behavior. AI-assisted development includes this core work, not only writing analysis scripts or documentation.</p>
+<p>Read the layers from bottom to top. Development includes numerical algorithms, native C++, shared libraries, reusable model components and the R interface. CHOLMOD and PARDISO are established external solvers that we build on. Our selected inverse uses retained CHOLMOD factors. The YAMS analogy concerns computing needed inverse entries, not a YAMS dependency.</p>
+<p>greml owns model computations and gsolve owns solvers. The R interface exposes supported combinations. A Python interface remains a possible future addition and is therefore not presented here as a current capability.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -473,107 +555,27 @@ Peter Sørensen
           display:block!important;
       }</style></aside>
 </section>
-<section id="when-the-analysis-needs-something-new" class="slide level2">
-<h2>When the analysis needs something new</h2>
-<blockquote>
-<p>I have repeated measurements. Can we separate genetic effects from persistent environmental differences between animals?</p>
-</blockquote>
-<p><strong>First check what already exists.</strong> Repeatability routes are already in the ecosystem.</p>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>If something is missing</th>
-<th>The next step</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>An R interface</td>
-<td>Expose an existing capability</td>
-</tr>
-<tr class="even">
-<td>A model combination</td>
-<td>Connect existing components</td>
-</tr>
-<tr class="odd">
-<td>Numerical machinery</td>
-<td>Implement it in the owning library</td>
-</tr>
-</tbody>
-</table>
-<p>We add the missing piece, then make it reusable.</p>
-<div class="source">
-<p><a href="../../../gsuite/docs/model-development-with-an-assistant.html">Model development walkthrough</a></p>
-</div>
-<aside class="notes">
-<p>A limitation in one convenience interface does not mean that the numerical engine is missing. The assistant should inspect the catalog, code and evidence before suggesting development. If the model already has a suitable route, use it. If a gap remains, define the statistical contract before implementation.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="from-running-code-to-supported-models" class="slide level2">
-<h2>From running code to supported models</h2>
-<blockquote>
-<p>Code that runs becomes a supported model only after its statistical meaning and numerical behavior have been checked.</p>
-</blockquote>
+<section id="ai-assisted-gsuite-development-numerical-agreement-and-competitive-runtime" class="slide level2">
+<h2>AI-assisted gsuite development: numerical agreement and competitive runtime</h2>
 <div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="statistical-meaning">Statistical meaning</h3>
-<ul>
-<li>Does the code represent the intended model?</li>
-<li>Can the data distinguish its components?</li>
-<li>Are assumptions and limitations explicit?</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<h3 id="numerical-behavior">Numerical behavior</h3>
-<ul>
-<li>Compare with a small independent reference</li>
-<li>Check estimates, predictions and convergence</li>
-<li>Test failures and affected existing workflows</li>
-</ul>
-</div></div>
-<aside class="notes">
-<p>Two wrappers over the same engine are useful for integration checks, but they are not independent numerical validation. Choose tolerances and pass criteria before interpreting results. Small examples do not qualify large workloads or other platforms. Record support for the exact model, backend and inference combination. AI helps assemble this evidence; it does not replace it.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="evidence-gsuite-versus-dmu" class="slide level2">
-<h2>Evidence: gsuite versus DMU</h2>
-<div class="columns">
-<div class="column" style="width:67%;">
+<div class="column" style="width:65%;">
 <p><img data-src="../../website/assets/pedigree-dmu-runtime.svg" style="width:100.0%" alt="Single trait: gsuite 80.9 seconds and DMU 178.4. Multitrait: 105.6 and 818.5. Longitudinal: 386.9 and 1182.7."></p>
-</div><div class="column" style="width:33%;">
-<h3 id="three-frozen-pedigree-models">Three frozen pedigree models</h3>
+</div><div class="column" style="width:35%;">
+<h3 id="numerical-agreement">Numerical agreement</h3>
 <p>50,000 animals</p>
-<p>gsuite 0.29.0 and DMU 5.6</p>
 <p>Maximum covariance-estimate difference below <span class="math inline">\(4.3\times10^{-8}\)</span>.</p>
-<p>Prediction correlations above 0.999999999998 on the predeclared 1,000-animal subset.</p>
+<p>Prediction correlations above 0.999999999998 on the predeclared subset of 1,000 animals.</p>
+<h3 id="runtime">Runtime</h3>
+<p>Competitive on these three tested models.</p>
 </div></div>
 <div class="small-text">
-<p>Competitive runtime on these tested models. Each time is one execution: gsuite fit versus the DMU preprocessing and fitting pipeline.</p>
+<p>gsuite 0.29.0 and DMU 5.6. Each bar represents one execution. The work boundaries differ: gsuite fitting versus DMU preprocessing and fitting.</p>
 </div>
 <div class="source">
 <p><a href="../../../gsuite/benchmarks/pedigree_50k_dmu/README.html">Results, scope and provenance</a></p>
 </div>
 <aside class="notes">
-<p>The numerical results provide evidence for these frozen direct pedigree REML models. The covariance agreement is across the saved parameters. Prediction comparisons use the predeclared first 1,000 pedigree-coded animals, not all 50,000. Likelihood constants remain unreconciled. Timings are descriptive single runs with different work boundaries, so this is not a general speed claim or qualification of all current gsuite routes.</p>
+<p>The numerical results provide evidence for these frozen direct pedigree REML models. Covariance agreement covers the saved parameters. Prediction comparisons use the predeclared first 1,000 pedigree-coded animals, not all 50,000. Likelihood constants remain unreconciled. Timings are descriptive single runs with different work boundaries, so this is not a general speed claim or qualification of all current gsuite routes.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -586,56 +588,34 @@ Peter Sørensen
           display:block!important;
       }</style></aside>
 </section>
-<section id="what-this-means-for-our-programme" class="slide level2">
-<h2>What this means for our programme</h2>
+<section id="teaching-infrastructure-gteach" class="slide level2">
+<h2>Teaching infrastructure: gteach</h2>
+<p><strong>A common structure connects learning objectives with editable teaching material.</strong></p>
 <div class="columns">
 <div class="column" style="width:50%;">
-<h3 id="applied-research-gives-direction">Applied research gives direction</h3>
-<p>Bring a scientific question and a real study.</p>
-<p>Identify where current methods or interfaces fall short.</p>
-<p>Keep the assumptions and interpretation connected to the data.</p>
+<h3 id="source-material">Source material</h3>
+<ul>
+<li>Learning objectives</li>
+<li>R and Quarto source</li>
+<li>Code, data and exercises</li>
+<li>Speaker notes</li>
+</ul>
 </div><div class="column" style="width:50%;">
-<h3 id="development-leaves-something-reusable">Development leaves something reusable</h3>
-<p>Improve a component or workflow.</p>
-<p>Keep validation alongside the implementation.</p>
-<p>Share a worked example that colleagues can use.</p>
+<h3 id="reusable-outputs">Reusable outputs</h3>
+<ul>
+<li>Lecture slides</li>
+<li>Worked tutorials</li>
+<li>Interactive examples</li>
+<li>Narrated presentations</li>
+</ul>
 </div></div>
-<p><strong>How can we organize our expertise so that progress in one project benefits the whole programme?</strong></p>
-<aside class="notes">
-<p>This is the direction I would like us to discuss. Applied researchers, statisticians and software developers bring different knowledge. AI can help with the work between them, but common interfaces, review and evidence are still needed. We can start with a bounded problem rather than a large new system.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="teaching-with-qgteach" class="slide level2">
-<h2>Teaching with qgteach</h2>
-<div class="columns">
-<div class="column" style="width:40%;">
-<h3 id="an-existing-teaching-example">An existing teaching example</h3>
-<p>How do the mean and standard deviation change a normal distribution?</p>
-<p>The Quarto source combines R code, a figure and speaker notes.</p>
-<p>I use AI to help develop the material, then review the explanation and code.</p>
-</div><div class="column" style="width:60%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="../../website/assets/qgteach-normal-distribution.png" style="width:100.0%" alt="Three normal density curves show changes in mean and standard deviation."></p>
-<figcaption>Figure from the qgteach quantitative genetics slides.</figcaption>
-</figure>
-</div>
-</div></div>
+<p><strong>We can develop the material together, then revise and reuse it across courses.</strong></p>
 <div class="source">
-<p><a href="https://psoerensen.github.io/qgteach/quant-genetics/slides/introduction_quantitative_genetics.html#/normal-distribution-effect-of-μ-and-σ">qgteach example</a></p>
+<p><a href="https://psoerensen.github.io/qgteach/">gteach</a></p>
 </div>
 <aside class="notes">
-<p>This is an existing R-generated plot from the quantitative genetics teaching material, not a new teaching result made for this presentation. Show how a learning objective becomes a figure and an explanation. The source remains editable. A possible exercise is to change the mean or spread and explain the result; that is a proposed use, not a claim about an existing assignment.</p>
+<p>This is infrastructure for teaching, not only a collection of slides. The course scaffolding provides a consistent home for slides, notes, tutorials, exercises, apps and data. Narration tools use the speaker notes. Existing R and Shiny examples include genetic drift, selection and Hardy-Weinberg equilibrium.</p>
+<p>AI helps develop both the tools and the teaching content. We choose the learning objectives, review explanations and code, and check narration. The rename is planned; the current repository and links remain qgteach.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -648,59 +628,31 @@ Peter Sørensen
           display:block!important;
       }</style></aside>
 </section>
-<section id="connecting-research-and-teaching" class="slide level2">
-<h2>Connecting research and teaching</h2>
+<section id="where-will-ai-lead-us" class="slide level2">
+<h2>Where will AI lead us?</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<h3 id="what-qgteach-already-contains">What qgteach already contains</h3>
+<h3 id="what-is-likely-to-change">What is likely to change</h3>
 <ul>
-<li>Quarto lecture slides with R examples</li>
-<li>Speaker notes explaining the figures</li>
-<li>Tools that turn notes into narrated slides</li>
-<li>A shared course structure</li>
+<li>Writing, coding and analysis will become faster</li>
+<li>More groups will develop advanced methods and software</li>
+<li>AI assistants will perform increasingly complex tasks</li>
+<li>Research roles and expectations will change</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<h3 id="what-we-could-build-on-this">What we could build on this</h3>
+<h3 id="questions-for-our-programme">Questions for our programme</h3>
 <ul>
-<li>Turn a validated analysis into a lesson</li>
-<li>Let students change assumptions and compare results</li>
-<li>Use simulation to explain model behavior</li>
-<li>Bring questions from teaching back into development</li>
+<li>Which expertise and resources will distinguish us?</li>
+<li>How should we combine AI with our data and infrastructure?</li>
+<li>Which capabilities should we develop and share?</li>
+<li>How should training, review and responsibility change?</li>
 </ul>
 </div></div>
-<p><strong>We should make methods easier to understand, evaluate and use.</strong></p>
-<div class="source">
-<p><a href="https://psoerensen.github.io/qgteach/">qgteach</a> · <a href="https://psoerensen.github.io/qgteach/quant-genetics/slides/introduction_quantitative_genetics_narrated.html">Narrated quantitative genetics slides</a></p>
-</div>
+<p><strong>What should we change now to remain scientifically distinctive as AI becomes part of research?</strong></p>
 <aside class="notes">
-<p>qgteach contains speaker notes and a narration tool, as well as rendered narrated decks. Narration is another output from the teaching source and still needs review, including the pronunciation of statistical notation. The right column is the programme vision: develop research and teaching together so the work is useful beyond a single project or course.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="an-invitation-to-collaborate" class="slide level2">
-<h2>An invitation to collaborate</h2>
-<p><strong>Bring one concrete question from your work.</strong></p>
-<ul>
-<li>An analysis that is difficult to set up</li>
-<li>A model or workflow that needs an extension</li>
-<li>A concept that is difficult to teach</li>
-</ul>
-<p>We can choose a small example, agree on what a good result means, and work through it together.</p>
-<p>Here is how I have been working, what it has produced, and what I think we could build together.</p>
-<div class="source">
-<p><a href="../../../gsuite/docs/analysis-with-an-assistant.html">Analysis walkthrough</a> · <a href="../../../gsuite/docs/model-development-with-an-assistant.html">Model development walkthrough</a> · <a href="../../../gsuite/tutorials.html">Back to Tutorials</a></p>
-</div>
-<aside class="notes">
-<p>Invite examples from colleagues across the programme. Ask what would make a useful first collaboration and what evidence they would need to trust the result. We can then choose a small project with a clear scientific purpose, an inspectable output and a defined validation plan.</p>
+<p>AI is already part of research, and its capabilities will continue to develop. Routine use of writing assistants or code generation will become common. The strategic question concerns how this changes our research and what will remain distinctive.</p>
+<p>Scientific questions, domain knowledge, trusted data, critical evaluation and responsibility will remain important. Our shared platforms provide one possible advantage because they capture expertise in infrastructure that researchers and AI assistants can use and extend.</p>
+<p>We should discuss which capabilities we need, how our roles may change, and where we should invest to remain scientifically strong.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
