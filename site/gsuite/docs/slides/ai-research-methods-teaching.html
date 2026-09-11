@@ -669,6 +669,134 @@ Peter Sørensen
           display:block!important;
       }</style></aside>
 </section>
+<section id="reusable-computational-building-blocks-in-gsuite" class="slide level2 computational-slide">
+<h2>Reusable computational building blocks in gsuite</h2>
+<div class="columns">
+<div class="column" style="width:46%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="../../website/assets/reml-building-blocks.svg" class="reml-workflow" style="width:100.0%"></p>
+<figcaption>Model specification leads to sparse mixed-model equations, factorization and solves, reuse of numerical quantities, and a REML update. The update returns to assembly for the next iteration.</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:54%;">
+<h3 id="reused-quantities">Reused quantities</h3>
+<ul>
+<li>MME solutions and quadratic forms</li>
+<li>Log determinants from factorizations</li>
+<li>Selected inverse entries for trace terms</li>
+<li>Derivative solves and cross-products</li>
+</ul>
+<h3 id="reml-calculations">REML calculations</h3>
+<ul>
+<li>Restricted log likelihood</li>
+<li>Score: first derivatives</li>
+<li>Information: second-order curvature</li>
+<li>Average Information for parameter updates</li>
+</ul>
+</div></div>
+<p><strong>Reuse the same building blocks for estimation, prediction and uncertainty.</strong></p>
+<div class="source">
+<p><a href="../../../gsuite/docs/architecture.html">Architecture</a> · <a href="../../../gsuite/docs/gsolve-greml.html">Numerical foundation</a></p>
+</div>
+<aside class="notes">
+<p>The model specification supplies the design matrices and covariance components. From these, we assemble the mixed-model coefficient matrix and right-hand side. In the standard notation, the coefficient matrix contains terms formed from X, Z, inverse residual covariance and inverse random-effect covariance.</p>
+<p>The sparse factorization supports several calculations. We use it to solve the mixed-model equations and obtain quadratic forms. The factorization also provides the coefficient-matrix log determinant. The covariance components provide the other determinant terms required by the restricted likelihood.</p>
+<p>Selected inverse entries provide the trace terms needed by the direct sparse route. Derivative solves and cross-products contribute to the score and information calculations.</p>
+<p>The score contains the first derivatives of the restricted likelihood. Observed and expected information describe second-order curvature. The Average Information matrix provides an efficient curvature calculation for updating the covariance parameters.</p>
+<p>After each update, we rebuild the parameter-dependent parts and repeat the calculation. At the final covariance estimates, the same solver infrastructure supports prediction and uncertainty calculations.</p>
+<p>Within the ecosystem, gsuite provides the R-facing model specification, greml owns the mixed-model and REML calculations, and gsolve provides factorization and solver operations. This slide describes the sparse direct route. Other backends may use different numerical building blocks.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="mathematical-core-of-the-same-reml-calculation" class="slide level2 equation-slide">
+<h2>Mathematical core of the same REML calculation</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="mixed-model">Mixed model</h3>
+<p><span class="math display">\[
+y=X\beta+Zu+e,\qquad u\sim N(0,G),\quad e\sim N(0,R)
+\]</span></p>
+<h3 id="mixed-model-equations">Mixed-model equations</h3>
+<p><span class="math display">\[
+C(\theta)
+\begin{bmatrix}\widehat\beta\\\widehat u\end{bmatrix}
+=
+\begin{bmatrix}X^\top R^{-1}y\\Z^\top R^{-1}y\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[
+C(\theta)=
+\begin{bmatrix}
+X^\top R^{-1}X &amp; X^\top R^{-1}Z\\
+Z^\top R^{-1}X &amp; Z^\top R^{-1}Z+G^{-1}
+\end{bmatrix}
+\]</span></p>
+<h3 id="determinants-for-reml">Determinants for REML</h3>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\log|V|+\log|X^\top V^{-1}X|\\
+&amp;\qquad=\log|R|+\log|G|+\log|C|
+\end{aligned}
+\]</span></p>
+</div><div class="column" style="width:50%;">
+<h3 id="reml-quantities">REML quantities</h3>
+<p><span class="math display">\[
+\begin{aligned}
+V &amp;= ZGZ^\top+R\\
+P &amp;= V^{-1}-V^{-1}X(X^\top V^{-1}X)^{-1}X^\top V^{-1}
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+-2\ell_R(\theta) &amp;= \mathrm{constant}+\log|V|\\
+&amp;\quad+\log|X^\top V^{-1}X|+y^\top Py
+\end{aligned}
+\]</span></p>
+<p>For <span class="math inline">\(V_i=\partial V/\partial\theta_i\)</span>,</p>
+<p><span class="math display">\[
+s_i=\frac12\left[y^\top PV_iPy-\operatorname{tr}(PV_i)\right]
+\]</span></p>
+<p><span class="math display">\[
+\mathcal I_O=-\frac{\partial^2\ell_R}{\partial\theta\,\partial\theta^\top}
+\]</span></p>
+<p><span class="math display">\[
+\mathcal I_{AI,ij}=\frac12 y^\top PV_iPV_jPy
+\]</span></p>
+</div></div>
+<p><strong>Solves, selected inverse entries and derivative blocks supply these quantities.</strong></p>
+<div class="source">
+<p>Independent <span class="math inline">\(u,e\)</span>; positive-definite <span class="math inline">\(G,R\)</span>; full-rank <span class="math inline">\(X\)</span>. AI form shown for covariance components entering <span class="math inline">\(V\)</span> linearly.</p>
+<p><a href="../../../gsuite/docs/architecture.html">Architecture</a> · <a href="../../../gsuite/docs/gsolve-greml.html">Numerical foundation</a></p>
+</div>
+<aside class="notes">
+<p>The covariance parameters are collected in theta. They determine the residual covariance R, the random-effect covariance G, the marginal covariance V and the mixed-model coefficient matrix C.</p>
+<p>The mixed-model equations provide estimates and predictions without forming the dense marginal covariance matrix V. The determinant identity expresses the two marginal REML determinant terms through R, G and the sparse mixed-model coefficient matrix C.</p>
+<p>The restricted likelihood combines these determinant terms with the quadratic form y transpose P y.</p>
+<p>For each parameter, V sub i is the derivative of V with respect to that parameter. The score is the first derivative of the restricted likelihood. It contains a quadratic term and a trace term.</p>
+<p>The observed information is the negative second derivative of the likelihood. The Average Information matrix provides the curvature used for parameter updates. For variance components that enter V linearly, its familiar form is one half y transpose P V sub i P V sub j P y.</p>
+<p>The implementation does not need to construct the dense P matrix. Sparse MME solves, selected inverse entries and derivative calculations provide the required quantities.</p>
+<p>For nonlinear covariance parameterisations, transformation and chain-rule terms must also be included. The equations shown here describe the core variance-component formulation.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="ai-assisted-gsuite-development-numerical-agreement-and-competitive-runtime" class="slide level2">
 <h2>AI-assisted gsuite development: numerical agreement and competitive runtime</h2>
 <div class="columns">

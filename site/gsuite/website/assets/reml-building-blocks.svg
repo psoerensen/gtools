@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 490" role="img" aria-labelledby="title desc">
+  <title id="title">Reusable REML computational building blocks</title>
+  <desc id="desc">Model specification, sparse mixed-model assembly, factorization and solves, reuse of numerical quantities, and likelihood, derivative and AI updates. Each update returns to matrix assembly.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2878b5"/></marker></defs>
+  <g fill="#f3f7fb" stroke="#2878b5" stroke-width="2">
+    <rect x="70" y="10" width="440" height="60" rx="6"/>
+    <rect x="70" y="105" width="440" height="60" rx="6"/>
+    <rect x="70" y="200" width="440" height="60" rx="6"/>
+    <rect x="70" y="295" width="440" height="60" rx="6"/>
+    <rect x="70" y="390" width="440" height="75" rx="6"/>
+  </g>
+  <g fill="none" stroke="#2878b5" stroke-width="2.5" marker-end="url(#arrow)">
+    <path d="M290 70V101"/><path d="M290 165V196"/><path d="M290 260V291"/><path d="M290 355V386"/>
+    <path d="M70 427H25V135H66"/>
+  </g>
+  <g fill="#222" font-family="Arial, sans-serif" font-size="25" text-anchor="middle">
+    <text x="290" y="49">Model specification</text>
+    <text x="290" y="144">Assemble sparse MME</text>
+    <text x="290" y="239">Factorize and solve</text>
+    <text x="290" y="334">Reuse numerical quantities</text>
+    <text x="290" y="420">Likelihood and derivatives</text>
+    <text x="290" y="451">AI parameter update</text>
+  </g>
+</svg>
