@@ -42,3 +42,14 @@
 .reveal .equation-slide .math.display { font-size: 0.86em; }
 .reveal .equation-slide .MathJax_Display { margin: 0.65em 0; }
 .reveal .equation-slide .source { font-size: 0.8em; }
+
+/* Strategy deck: a lighter content density, retaining the technical deck theme. */
+.reveal .strategy-slide { font-size: 0.95em; }
+.reveal .strategy-slide .strategy-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4em; margin: 1.15em 0; }
+.reveal .strategy-slide .strategy-flow > div { border-top: 3px solid #2878b5; padding-top: 0.5em; }
+.reveal .strategy-slide .strategy-step-title { color: #24577c; font-size: 1.15em; font-weight: 600; }
+.reveal .strategy-slide table th:first-child { width: 34%; }
+.reveal .strategy-slide figure { margin: 0; }
+
+/* Leave a clear gap between each slide title and its content. */
+.reveal .slides section > h2 { margin-bottom: 1em; }
