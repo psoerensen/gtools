@@ -529,11 +529,11 @@ Peter Sørensen
 <h2>A shared collection of building blocks</h2>
 <p><img data-src="../../website/assets/reusable-building-blocks.png" class="building-block-image" alt="REML and Bayesian analyses select model components, computational components and analysis tasks from a reusable collection, with AI assistance to identify, combine, implement and check."></p>
 <div class="figure-summary">
-<p>Bayesian components illustrate an extension direction; current gsuite R support depends on the model and route.</p>
+<p>Existing capabilities can be combined and extended to support new models and methods.</p>
 </div>
 <aside class="notes">
 <p>These are conceptual groups, not a repository dependency graph or a claim that every combination is currently supported. gsuite provides the R interface; related libraries provide reusable model and numerical components.</p>
-<p>Bayesian and non-Bayesian methods can share data handling, model structures, matrix operations and solves. They also require different inference machinery. Prior specification, posterior calculations and appropriate sampling or other Bayesian inference components must be implemented and checked where missing. The Bayesian route is an extension direction for this presentation, not a claim that a general Bayesian workflow is already exposed through the gsuite R API.</p>
+<p>Bayesian and non-Bayesian methods can share data handling, model structures, matrix operations and solves. They also require different inference machinery. Bayesian building blocks already exist in sblr. The plan is to organise these capabilities into gbayes and integrate them with gsuite. This is primarily about making existing machinery reusable across the ecosystem, rather than developing Bayesian methods from scratch. Each new integration and model combination still requires appropriate checks.</p>
 <p>Reusable components make focused extensions possible. The amount of new work depends on the model, and an extension may require substantial algorithmic work. The value is cumulative: checked components remain available for later methods.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
