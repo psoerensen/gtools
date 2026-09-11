@@ -504,6 +504,49 @@ Peter Sørensen
           display:block!important;
       }</style></aside>
 </section>
+<section id="from-a-scientific-question-to-a-model" class="slide level2 strategy-slide building-block-figure">
+<h2>From a scientific question to a model</h2>
+<p><img data-src="../../website/assets/scientific-question-to-model.png" class="building-block-image" alt="A scientific question leads to model specification and identification of required blocks. Available blocks are combined; missing blocks are developed and checked. The assembled model is validated before fitting, inspection and reporting."></p>
+<div class="figure-summary">
+<p>Each extension can add capabilities that other models can reuse.</p>
+</div>
+<aside class="notes">
+<p>The gsuite ecosystem is a collection of reusable computational building blocks. A scientific question determines the model and method, which determine the components required. Existing components may already provide what is needed. Otherwise, development adds the missing components to the collection.</p>
+<p>Availability does not establish that a particular combination is supported. The assembled model still needs statistical and numerical validation, including reference calculations and checks of assumptions, convergence and predictions. AI can help identify, combine, implement and check components. Researchers and developers define the scientific meaning and decide what evidence is sufficient.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-shared-collection-of-building-blocks" class="slide level2 strategy-slide building-block-figure">
+<h2>A shared collection of building blocks</h2>
+<p><img data-src="../../website/assets/reusable-building-blocks.png" class="building-block-image" alt="REML and Bayesian analyses select model components, computational components and analysis tasks from a reusable collection, with AI assistance to identify, combine, implement and check."></p>
+<div class="figure-summary">
+<p>Bayesian components illustrate an extension direction; current gsuite R support depends on the model and route.</p>
+</div>
+<aside class="notes">
+<p>These are conceptual groups, not a repository dependency graph or a claim that every combination is currently supported. gsuite provides the R interface; related libraries provide reusable model and numerical components.</p>
+<p>Bayesian and non-Bayesian methods can share data handling, model structures, matrix operations and solves. They also require different inference machinery. Prior specification, posterior calculations and appropriate sampling or other Bayesian inference components must be implemented and checked where missing. The Bayesian route is an extension direction for this presentation, not a claim that a general Bayesian workflow is already exposed through the gsuite R API.</p>
+<p>Reusable components make focused extensions possible. The amount of new work depends on the model, and an extension may require substantial algorithmic work. The value is cumulative: checked components remain available for later methods.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
 <section id="developing-gsuite-with-ai" class="slide level2 strategy-slide">
 <h2>Developing gsuite with AI</h2>
 <div class="columns">

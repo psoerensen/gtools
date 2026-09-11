@@ -53,3 +53,9 @@
 
 /* Leave a clear gap between each slide title and its content. */
 .reveal .slides section > h2 { margin-bottom: 1em; }
+
+/* Supplied building-block figures: preserve aspect ratio and leave room for captions. */
+.reveal .building-block-figure figure { margin: 0; }
+.reveal .building-block-figure .building-block-image { display: block; width: 100%; height: 505px; object-fit: contain; margin: 0 auto; }
+.reveal .building-block-figure figcaption { display: none; }
+.reveal .building-block-figure .figure-summary { font-size: 0.72em; margin-top: 0.45em; }
