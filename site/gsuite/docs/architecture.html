@@ -407,7 +407,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>gsuite is the unified interface to a modular family of independently versioned computational libraries. Each native library owns a narrow data, numerical, or statistical boundary and remains independently buildable. The current <code>gsuite</code> R package exposes the public combinations recorded in the authoritative <a href="../../gsuite/docs/model-catalog.html">model catalog</a>; it is not necessarily a binding for every native entry point.</p>
+<p>gsuite is the unified interface to a modular family of independently versioned computational libraries. Each native library owns a narrow data, numerical, or statistical boundary and remains independently buildable. The current <code>gsuite</code> R package exposes the public combinations recorded in the authoritative <a href="../../gsuite/docs/model-catalog.html">model catalog</a> and <a href="../../gsuite/docs/summary-statistic-analysis.html">summary-statistic workflow</a>; it is not necessarily a binding for every native entry point.</p>
 <p><code>gsuite</code> and <code>gsim</code> are the user-facing R packages. <code>gsim</code> generates genotype, pedigree and observation data; gsuite provides analysis interfaces. The <a href="../../gsuite/docs/pedigree-analysis.html">tutorial</a> connects them through ordinary R data frames.</p>
 </section>
 <section id="responsibilities" class="level2">
@@ -504,7 +504,7 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p>For <code>gs_gprep(task = "sparseld")</code>, gsuite validates the Glist and orchestrates selection; gmat owns sparse-LD calculation, its disk CSR, validation, and LD scores; gbits remains the packed BED path; existing BED remains the genotype store; and unchanged qgg and sblr are behavioural and consumer references.</p>
 <p>The independent <code>LDlist</code> interface reuses gmat’s existing <code>SparseLdDiskResource</code> and native disk inspection. <code>ldprep(Glist, reference)</code> creates an R descriptor without copying LD files; <code>validate_LDlist()</code> reopens and checks it without requiring genotype inputs. gmat owns the native resource, while gsuite owns R labels, serialization and validation orchestration. No new native storage format is introduced. LD computation is delegated to the existing sparse-LD preparation route; named score preparation delegates ordinary and partitioned/corrected calculations to gmat. gsuite stores definitions and validates saved-score compatibility. Regional dense extraction belongs to gmat and reuses its streaming disk parser. gsolve supplies the full eigensystem and numerical diagnostics; gsuite binds these installed public APIs and stores reusable region caches. gmat has no new gsolve dependency. All R/Rcpp code remains in gsuite. See <a href="../../gsuite/docs/methods.html#independent-ld-references">LD references</a>.</p>
-<p>gcorr now provides native adapters for these LD resources and an immutable <code>PreparedRegionalLd</code> shared by HESS, rho-HESS, SUPERGNOVA and LAVA. gsolve verifies imported full eigensystems once; subsequent native fits reuse them while applying their own statistical component selection. These native connections do not yet expose a gcorr R fitting interface.</p>
+<p>gcorr now provides native adapters for these LD resources and an immutable <code>PreparedRegionalLd</code> shared by HESS, rho-HESS, SUPERGNOVA and LAVA. gsolve verifies imported full eigensystems once; subsequent native fits reuse them while applying their own statistical component selection. The <code>gcorr()</code> R interface now connects these resources to ordinary/partitioned LDSC and GNOVA, HESS/rho-HESS, continuous-trait LAVA point estimates and univariate tests, and SUPERGNOVA covariance. See the <a href="../../gsuite/docs/summary-statistic-analysis.html">summary-statistic tutorial</a> for its bounded scope.</p>
 <p>Native regional request lists now resolve explicitly named references and regions, reuse prepared LD, and retain labelled results or per-request errors. Joint HESS also accepts prepared regions. These are sequential native calls; every trait within a model must select the same reference, with no cross-ancestry estimator implied by the reference labels.</p>
 </section>
 </section>
@@ -515,6 +515,7 @@ ul.task-list li input[type="checkbox"] {
     gbits[gbits]
     gmat[gmat] --&gt; gbits
     gcorr[gcorr] --&gt; gmat
+    gcorr --&gt; gsolve
     gsolve[gsolve]
     greml[greml] --&gt; gsolve
     adapter["gbits::gsolve_adapter"] --&gt; gbits
@@ -522,6 +523,7 @@ ul.task-list li input[type="checkbox"] {
     gscore[gscore]
     gsuite[gsuite R package] --&gt; gbits
     gsuite --&gt; gmat
+    gsuite --&gt; gcorr
     gsuite --&gt; greml
     gsuite --&gt; gsolve
     gsuite --&gt; adapter</code></pre>
