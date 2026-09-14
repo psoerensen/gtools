@@ -196,6 +196,10 @@ window.Quarto = {
   <li><a href="#simulation-settings" id="toc-simulation-settings" class="nav-link" data-scroll-target="#simulation-settings">Simulation settings</a></li>
   <li><a href="#what-counts-as-truth" id="toc-what-counts-as-truth" class="nav-link" data-scroll-target="#what-counts-as-truth">What counts as truth?</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#twenty-additional-datasets" id="toc-twenty-additional-datasets" class="nav-link" data-scroll-target="#twenty-additional-datasets">Twenty additional datasets</a>
+  <ul class="collapse">
+  <li><a href="#availability-and-exploratory-interval-coverage" id="toc-availability-and-exploratory-interval-coverage" class="nav-link" data-scroll-target="#availability-and-exploratory-interval-coverage">Availability and exploratory interval coverage</a></li>
+  </ul></li>
   <li><a href="#run-it-again" id="toc-run-it-again" class="nav-link" data-scroll-target="#run-it-again">Run it again</a></li>
   </ul>
 </nav>
@@ -229,7 +233,7 @@ window.Quarto = {
 
 <section id="one-dataset-six-methods" class="level2">
 <h2 class="anchored" data-anchor-id="one-dataset-six-methods">One dataset, six methods</h2>
-<p>This example connects <strong>gsim, LD preparation and gcorr</strong> in one short run. The aim is to demonstrate that the methods run on common inputs and produce sensible estimates. There are no simulation replicates or parameter searches.</p>
+<p>This example connects <strong>gsim, LD preparation and gcorr</strong> in one short run. The first example demonstrates that the methods run on common inputs and produce sensible estimates. A small extension below repeats the same design on 20 new datasets. There is no parameter search or seed selection.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../website/assets/gcorr-comparison/comparison.png" class="img-fluid figure-img" alt="Three genome-wide panels compare LDSC, GNOVA and SumHer with simulated heritability and genetic correlation. Three regional panels compare HESS, SUPERGNOVA and LAVA with true regional covariance."></p>
@@ -387,14 +391,176 @@ G_r = B_r^\mathsf{T}\Sigma_r B_r,
 <p>Times are single observations on the development laptop, including the R interface and result assembly, excluding simulation and LD preparation. They are not a performance benchmark. LD preparation uses one thread.</p>
 <p>All nine fit calls returned, all requested estimates were finite, and the result tables reported no out-of-range flags. All 60 regional fits reused cached eigensystems. HESS and SUPERGNOVA return regional covariance SEs; the current LAVA covariance call does not return estimator SEs. That missing uncertainty remains explicit in the saved results and diagnostics.</p>
 </section>
+<section id="twenty-additional-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="twenty-additional-datasets">Twenty additional datasets</h2>
+<p>The same design was repeated on <strong>20 new seeded datasets</strong>, regenerating genotypes, effects, phenotypes and the independent LD reference each time. Seeds were fixed in advance as <code>20260915 + 100 * (1:20)</code>; none were selected or discarded based on results. Every error uses that replicate’s own realized population truth. These are not repeated fits of the first dataset.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/gcorr-comparison/replicate-errors.png" class="img-fluid figure-img" alt="Boxplots and all replicate points for h2 A, h2 B, genetic correlation and mean regional covariance error. GNOVA is more variable and SUPERGNOVA has negative mean regional errors in this design."></p>
+<figcaption>Errors across 20 simulated datasets. Zero indicates agreement with each dataset’s realized truth.</figcaption>
+</figure>
+</div>
+<p>Each genome-wide panel has 20 points per method. The regional panel shows <strong>one mean error per replicate</strong>, averaging its 20 regions. This exposes a systematic shift but can hide offsetting regional errors; the regional RMSE below therefore uses the individual region errors. The 400 regions are not treated as 400 independent simulation replicates.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Quantity</th>
+<th style="text-align: right;">Mean error</th>
+<th style="text-align: right;">RMSE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LDSC</td>
+<td>h2 A</td>
+<td style="text-align: right;">-0.0051</td>
+<td style="text-align: right;">0.0126</td>
+</tr>
+<tr class="even">
+<td>LDSC</td>
+<td>h2 B</td>
+<td style="text-align: right;">-0.0044</td>
+<td style="text-align: right;">0.0188</td>
+</tr>
+<tr class="odd">
+<td>LDSC</td>
+<td>rg</td>
+<td style="text-align: right;">-0.0119</td>
+<td style="text-align: right;">0.0344</td>
+</tr>
+<tr class="even">
+<td>GNOVA</td>
+<td>h2 A</td>
+<td style="text-align: right;">0.0129</td>
+<td style="text-align: right;">0.0670</td>
+</tr>
+<tr class="odd">
+<td>GNOVA</td>
+<td>h2 B</td>
+<td style="text-align: right;">0.0041</td>
+<td style="text-align: right;">0.0513</td>
+</tr>
+<tr class="even">
+<td>GNOVA</td>
+<td>rg</td>
+<td style="text-align: right;">-0.0032</td>
+<td style="text-align: right;">0.0656</td>
+</tr>
+<tr class="odd">
+<td>SumHer</td>
+<td>h2 A</td>
+<td style="text-align: right;">-0.0051</td>
+<td style="text-align: right;">0.0126</td>
+</tr>
+<tr class="even">
+<td>SumHer</td>
+<td>h2 B</td>
+<td style="text-align: right;">-0.0044</td>
+<td style="text-align: right;">0.0188</td>
+</tr>
+<tr class="odd">
+<td>SumHer</td>
+<td>rg</td>
+<td style="text-align: right;">-0.0119</td>
+<td style="text-align: right;">0.0344</td>
+</tr>
+<tr class="even">
+<td>HESS/rho-HESS</td>
+<td>Regional covariance</td>
+<td style="text-align: right;">0.000032</td>
+<td style="text-align: right;">0.002000</td>
+</tr>
+<tr class="odd">
+<td>SUPERGNOVA</td>
+<td>Regional covariance</td>
+<td style="text-align: right;">-0.001219</td>
+<td style="text-align: right;">0.004099</td>
+</tr>
+<tr class="even">
+<td>LAVA</td>
+<td>Regional covariance</td>
+<td style="text-align: right;">-0.000010</td>
+<td style="text-align: right;">0.001985</td>
+</tr>
+</tbody>
+</table>
+<p>Here mean error is the average of estimate minus truth; RMSE is the square root of the mean squared error. Genome-wide rows contain 20 estimates each; regional rows contain 400 estimates each across 20 datasets. Their units differ, so RMSE should be compared within the same quantity.</p>
+<p>In this simple architecture, LDSC and SumHer remain almost identical and GNOVA shows greater variability. HESS and LAVA have small average regional errors. SUPERGNOVA shows a negative average regional covariance error and larger RMSE with its current default component selection. The comparison does not determine whether that difference comes from component selection, finite reference LD or another method assumption. It warrants a focused check before making a general claim about relative accuracy; no settings were tuned here.</p>
+<section id="availability-and-exploratory-interval-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="availability-and-exploratory-interval-coverage">Availability and exploratory interval coverage</h3>
+<p>All <strong>180 fit calls returned</strong>, and all <strong>1,380 expected point estimates</strong> were finite, with no result-table out-of-range flags. The 1,200 regional results reused cached eigensystems. One HESS covariance SE (replicate 6, region 18) was unavailable because its joint uncertainty calculation requires positive semidefinite estimated genetic and residual matrices. Its point estimate remains in the error summaries. LAVA covariance SEs were unavailable throughout because that output is not implemented for this call.</p>
+<p>For intervals formed as estimate ± 1.96 SE, coverage was:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th style="text-align: right;">h2 A</th>
+<th style="text-align: right;">h2 B</th>
+<th style="text-align: right;">rg</th>
+<th style="text-align: right;">Regional covariance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LDSC</td>
+<td style="text-align: right;">20/20</td>
+<td style="text-align: right;">20/20</td>
+<td style="text-align: right;">20/20</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr class="even">
+<td>GNOVA</td>
+<td style="text-align: right;">18/20</td>
+<td style="text-align: right;">18/20</td>
+<td style="text-align: right;">20/20</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr class="odd">
+<td>SumHer</td>
+<td style="text-align: right;">20/20</td>
+<td style="text-align: right;">20/20</td>
+<td style="text-align: right;">20/20</td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr class="even">
+<td>HESS/rho-HESS</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">375/399 available intervals</td>
+</tr>
+<tr class="odd">
+<td>SUPERGNOVA</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">383/400</td>
+</tr>
+<tr class="even">
+<td>LAVA</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">Unavailable</td>
+</tr>
+</tbody>
+</table>
+<p>These are descriptive counts, <strong>not a calibration certificate</strong>. Twenty datasets give coarse coverage estimates, regional results share datasets, and the score methods use only 20 jackknife blocks. Missing SEs are excluded from the interval denominator and reported explicitly rather than counted as covered.</p>
+<p>The simulation run took approximately <strong>5.4 minutes</strong> on the development laptop, including simulation, LD preparation and fitting. Average fit-call times ranged from 0.31 to 0.46 seconds. These timings are descriptive and do not constitute a controlled performance comparison.</p>
+</section>
+</section>
 <section id="run-it-again" class="level2">
 <h2 class="anchored" data-anchor-id="run-it-again">Run it again</h2>
 <p>From the gsuite repository root, with the development packages installed:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.libPaths</span>(<span class="fu">c</span>(<span class="st">"build/r-library"</span>, <span class="fu">.libPaths</span>()))</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/run_gcorr_comparison.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For the 20-replicate extension, use the same library setup and run:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/run_gcorr_replicates.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Replicate outputs stay in <code>build/examples/gcorr-comparison/replicates/</code>. Compact estimates, diagnostics, timings and provenance are retained for every replicate. The <code>working/</code> subdirectory is reused for genotypes, LD and full fits, so only the final replicate’s larger files remain. The original single-run outputs are preserved. <code>Rscript tools/examples/run_gcorr_replicates.R --summarize</code> regenerates the summaries and figure from the saved compact results without running new simulations.</p>
 <p>The script regenerates the same seeded dataset and replaces only its named outputs in <code>build/examples/gcorr-comparison/</code>. That ignored folder contains the simulation, reference files, saved LDlist, fitted objects, estimate and diagnostic tables, timings, PNG/PDF figures and a session/provenance manifest. There is one script and one output folder; no intermediate run directories.</p>
 <p>The website displays a reviewed figure and result table. Rendering it does not run the simulation. See the <a href="../../gsuite/docs/summary-statistic-workflow.html">saved-LD workflow</a> and <a href="../../gsuite/docs/summary-statistic-analysis.html#capability-table">method capabilities</a> for the broader interface and limitations.</p>
-<p>This demonstrates a working analysis chain and agreement with known truth on one deliberately simple dataset. It does not establish calibration, confidence interval coverage, realistic genetic architecture or equivalence to every option in the original software packages.</p>
+<p>This demonstrates a working analysis chain and provides a small repeated comparison under one deliberately simple design. The observed coverage counts do not establish general calibration, realistic genetic architecture or equivalence to every option in the original software packages.</p>
 
 
 </section>
