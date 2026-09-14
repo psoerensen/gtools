@@ -164,6 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#summary-statistic-analysis" id="toc-summary-statistic-analysis" class="nav-link active" data-scroll-target="#summary-statistic-analysis">Summary-statistic analysis</a>
   <ul class="collapse">
+  <li><a href="#capability-table" id="toc-capability-table" class="nav-link" data-scroll-target="#capability-table">Capability table</a></li>
   <li><a href="#prepare-once" id="toc-prepare-once" class="nav-link" data-scroll-target="#prepare-once">Prepare once</a></li>
   <li><a href="#one-trait-heritability" id="toc-one-trait-heritability" class="nav-link" data-scroll-target="#one-trait-heritability">One trait: heritability</a></li>
   <li><a href="#two-traits-and-annotations" id="toc-two-traits-and-annotations" class="nav-link" data-scroll-target="#two-traits-and-annotations">Two traits and annotations</a></li>
@@ -196,6 +197,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="summary-statistic-analysis" class="level1">
 <h1>Summary-statistic analysis</h1>
 <p><code>gcorr()</code> connects aligned GWAS summary statistics to a prepared <code>LDlist</code>. The R interface handles inputs and results; the calculations run in the native gcorr library. Annotation definitions remain a separate argument.</p>
+<p>Start with the <a href="../../gsuite/docs/summary-statistic-workflow.html">complete worked example</a> for runnable code and artificial data supplied with the development package.</p>
+<section id="capability-table" class="level2">
+<h2 class="anchored" data-anchor-id="capability-table">Capability table</h2>
+<p>All methods accept named trait lists. Cross-reference trait pairs are rejected; separate ancestry references do not by themselves define cross-ancestry inference.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Exposed tasks</th>
+<th>Partition or region</th>
+<th>Uncertainty exposed in R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LDSC</td>
+<td>h2, cov, rg</td>
+<td>Ordinary; binary categories and enrichment; weighted annotation coefficients</td>
+<td>Block jackknife and normal summaries where defined</td>
+</tr>
+<tr class="even">
+<td>GNOVA</td>
+<td>h2, cov, rg</td>
+<td>Ordinary; binary nonredundant categories, with supporting component h2</td>
+<td>Block jackknife conditional on the supplied overlap intercept</td>
+</tr>
+<tr class="odd">
+<td>SumHer</td>
+<td>h2, cov, rg</td>
+<td>Nonnegative architecture weights and totals; category/enrichment helpers are not exposed</td>
+<td>Coordinated fixed-weight block deletes; joint sampling covariance when available</td>
+</tr>
+<tr class="even">
+<td>HESS/rho-HESS</td>
+<td>h2, cov, rg</td>
+<td>Independent regional fits, or joint correction across a disjoint complete regional partition</td>
+<td>Conditional Gaussian plug-in uncertainty and delta-method rg; compact cross-region covariance for joint fits</td>
+</tr>
+<tr class="odd">
+<td>LAVA</td>
+<td>h2, cov, rg, partial_rg, regression</td>
+<td>Shared regional fits; named target, conditioning, outcome and predictor selections</td>
+<td>Univariate tests; optional seeded bivariate/conditional simulation; regression omnibus test</td>
+</tr>
+<tr class="even">
+<td>SUPERGNOVA</td>
+<td>cov</td>
+<td>Regional spectral regression</td>
+<td>Native spectral-WLS covariance uncertainty</td>
+</tr>
+</tbody>
+</table>
+<p>LDSC and SumHer support per-marker N; the other exposed methods require one N per trait. <strong>LAVA alone has explicit binary-trait metadata and preprocessing</strong> in this interface: continuous, binary and mixed inputs, observed-scale covariance and supporting liability h2. The other bindings do not provide automatic binary-trait conversion or prevalence handling.</p>
+<p>LAVA uses one shared fit per region. SumHer coordinates marginal and pairwise fits. The remaining R paths use marginal or pairwise fits; multi-trait input alone does not imply joint multivariate inference. Missing uncertainty remains missing. All methods use the LD actually retained in the reference. This table states interface coverage, not identical assumptions, calibrated coverage or parity with the original software.</p>
+</section>
 <section id="prepare-once" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-once">Prepare once</h2>
 <p>Start with a Glist containing prepared sparse LD, then make an independent LDlist:</p>
@@ -213,7 +275,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>fit</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Alternatively supply <code>sample_size = 10000</code> when there is no <code>n</code> column. Per-marker sample sizes are supported by LDSC; the other exposed methods require one sample size per trait. Add a <code>block</code> column to request block-jackknife uncertainty for the score methods. Blocks are a scientific choice, not arbitrary row groups: use a partition appropriate to the LD structure. Without blocks, these methods can return point estimates with unavailable uncertainty.</p>
+<p>Alternatively supply <code>sample_size = 10000</code> when there is no <code>n</code> column. Per-marker sample sizes are supported by LDSC and SumHer; the other exposed methods require one sample size per trait. Add a <code>block</code> column to request block-jackknife uncertainty for the score methods. Blocks are a scientific choice, not arbitrary row groups: use a partition appropriate to the LD structure. Without blocks, these methods can return point estimates with unavailable uncertainty.</p>
 <p>For a small algebra check using the same LD reference:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ld <span class="ot">&lt;-</span> <span class="fu">unname</span>(<span class="fu">ld_scores</span>(LD))</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>toy <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">marker =</span> LD<span class="sc">$</span>resource<span class="sc">$</span>markers<span class="sc">$</span>marker_id,</span>
