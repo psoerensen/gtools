@@ -1076,6 +1076,228 @@ s_i=\frac12\left[y^\top PV_iPy-\operatorname{tr}(PV_i)\right]
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section>
+<section id="a-concrete-case-gwas-summary-statistics" class="slide level2">
+<h2>A concrete case: GWAS summary statistics</h2>
+<p><strong>The question:</strong> can existing building blocks support a family of methods for heritability and genetic correlation?</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Analysis</th>
+<th>Implemented method families</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Genome-wide and annotation-based</td>
+<td>LDSC, GNOVA, SumHer</td>
+</tr>
+<tr class="even">
+<td>Regional</td>
+<td>HESS/rho-HESS, SUPERGNOVA, LAVA</td>
+</tr>
+<tr class="odd">
+<td>Conditional relationships</td>
+<td>LAVA regression and partial genetic correlations</td>
+</tr>
+</tbody>
+</table>
+<p>Native calculations in <strong>gcorr</strong>, reusable LD resources in <strong>gmat</strong>, numerical components in <strong>gsolve</strong>, and a common <strong>gsuite R interface</strong>.</p>
+<p><strong>The outcome includes working examples, diagnostics and documented limits.</strong></p>
+<div class="source">
+<p><a href="https://psoerensen.github.io/gtools/gsuite/docs/summary-statistic-analysis.html#capability-table">Implemented capabilities</a></p>
+</div>
+<aside class="notes">
+<p>This is a concrete example of developing methods with an assistant. The starting point was existing software, including an LDSC core and sparse LD machinery. The question above is a summary of the initiating discussion, not a verbatim quote.</p>
+<p>These are implementations of established method families, with bounded supported options. They are not claims of complete parity with every original package. The common interface preserves different meanings of annotation components, category totals and regional quantities, and method-specific uncertainty.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="how-the-researcher-and-assistant-worked" class="slide level2">
+<h2>How the researcher and assistant worked</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Researcher</th>
+<th>Assistant</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Define the next capability</td>
+<td>Set the scientific question and scope</td>
+<td>Inspect equations and existing components</td>
+</tr>
+<tr class="even">
+<td>Implement and check</td>
+<td>Review assumptions and challenge results</td>
+<td>Write native code; compare small numerical oracles</td>
+</tr>
+<tr class="odd">
+<td>Connect and evaluate</td>
+<td>Decide what is supported and what needs investigation</td>
+<td>Add the R interface, examples and simulations</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Short, reviewed steps:</strong> specify → implement → test → discuss → commit.</p>
+<p>The checks included independent calculations, selected upstream comparisons, R/native agreement and simulated data with known truth.</p>
+<aside class="notes">
+<p>The conversation repeatedly narrowed scope: native libraries first, reuse existing components, keep the interface simple, and do not equate successful execution with statistical validity. The researcher chose the next milestone and reviewed the result before committing. The assistant investigated failures and updated code, tests and documentation.</p>
+<p>Evidence was collected as the work progressed. For example, native uncertainty evaluations exposed undercoverage in some settings. Those limits were recorded, not removed by presenting only passing examples. Numerical oracles were small, independent reference calculations, distinct from the production algorithms.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-the-development-record-shows" class="slide level2">
+<h2>What the development record shows</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Date in 2026</th>
+<th>Recorded work</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>21 August</td>
+<td>Initial native LDSC core already in place</td>
+</tr>
+<tr class="even">
+<td>11 September</td>
+<td>LDSC extensions and reference comparisons</td>
+</tr>
+<tr class="odd">
+<td>12–13 September</td>
+<td>Additional method families, multivariate extensions and evaluations</td>
+</tr>
+<tr class="even">
+<td>14 September</td>
+<td>LDlist, R interfaces, aligned results and the simulation tutorial</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Latest package tests: 2,264 checks passed.</strong></p>
+<p><strong>20 simulated datasets: about 5.4 minutes</strong>, including data generation, LD preparation and fitting.</p>
+<div class="source">
+<p>Calendar dates describe recorded development; human hours and time saved were not measured.</p>
+</div>
+<aside class="notes">
+<p>The documented expansion spans 11–14 September, but substantial infrastructure and an LDSC implementation predate it. Do not describe the whole ecosystem as having been built from scratch in four days.</p>
+<p>Evidence: gcorr commits 96a8b88 (21 August), 066be5e and c8fa52d (11 September), 35618e7/eaba10e/b4e7a14/159a394/7ee5ea6 and further extensions (12 September), 4b8bef5 (13 September), 666c3ae/fdca4f9 (14 September). gsuite commits 063dba6, 667cb1d, 57e0acf, 10df9bc and 2c7ceeb record the R workflow and test follow-up. The curated discussion record is docs/ldsc-development-record.md.</p>
+<p>The 2,264 testthat checks passed against the existing isolated installation; the corrected smoke test and remaining standalone tests also passed. This is not a clean new source-tarball qualification: compiler and package notes remain.</p>
+<p>The 5.4 minutes is simulation workflow wall time, not development or human time. The presenter considers comparable pre-AI work a task of months. That is a personal assessment, not a measured counterfactual or an established speedup.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-simulations-also-reveal-differences" class="slide level2 summary-case-results">
+<h2>The simulations also reveal differences</h2>
+
+<img data-src="../../website/assets/gcorr-comparison/slides-replicate-errors.png" class="summary-case-image r-stretch" alt="Across 20 datasets, LDSC and SumHer have similar heritability errors, GNOVA has greater variability, and SUPERGNOVA has downward mean regional covariance errors relative to HESS and LAVA."><p><strong>All 1,380 expected point estimates were available.</strong> The SUPERGNOVA shift gives a specific result to investigate.</p>
+<div class="source">
+<p><a href="https://psoerensen.github.io/gtools/gsuite/docs/gcorr-method-comparison.html#twenty-additional-datasets">20-dataset comparison, settings and uncertainty</a></p>
+</div>
+<aside class="notes">
+<p>Each dataset has two continuous traits, 10,000 disjoint GWAS individuals per trait, 4,000 independent reference individuals and 20 regions. Each error is relative to its own realized population truth. The left panel shows h2 for trait A. The right panel averages regional covariance errors within each dataset; it does not treat the 400 regions as independent replicates. All points are shown.</p>
+<p>Under this design, LDSC and SumHer were almost identical. GNOVA was more variable. HESS and LAVA had small mean regional errors; SUPERGNOVA had mean error -0.001219 and regional RMSE 0.004099, compared with about 0.002 for HESS/LAVA. The cause is not established by this small comparison. Component selection, finite reference LD and assumptions deserve focused investigation. Earlier native records also examined SUPERGNOVA selection sensitivity; this is a new connected workflow observation, not the first discovery of a possible limitation.</p>
+<p>One HESS regional SE was unavailable because its estimated matrices failed the uncertainty requirements. LAVA covariance SEs were unavailable for this call. Twenty datasets do not establish general calibration or rank the methods.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="what-could-become-a-research-contribution" class="slide level2">
+<h2>What could become a research contribution?</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Status</th>
+<th>Concrete example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Reusable infrastructure, implemented</td>
+<td>Shared LD resources, named covariance results and common numerical components</td>
+</tr>
+<tr class="even">
+<td>Native extension, implemented</td>
+<td>Annotation-specific genetic regression and partial correlations from GNOVA covariance estimates</td>
+</tr>
+<tr class="odd">
+<td>Research question to evaluate</td>
+<td>Do conditional genetic relationships differ between annotations?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Existing methods can become building blocks for new questions.</strong></p>
+<p>Statistical novelty still needs a literature comparison and evidence. Shared code alone is not a new statistical method.</p>
+<aside class="notes">
+<p>The native annotation extension is documented in gcorr/docs/annotation-multivariate.md and its reliability study. It reuses named genetic covariance matrices for regression and partial correlations, with paired-delete uncertainty. Numerical checks include larger conditioning sets and overlapping categories; statistical validation remains bounded. This extension is not being claimed as exposed by the current gsuite annotation R interface.</p>
+<p>Overlapping annotation totals are not independent components and must not be summed. Conditioning describes genetic association, not a causal effect. Weak components, nearly singular predictor covariance and uncertainty calibration remain substantive issues. Any publishable novelty must be distinguished from existing methods and evaluated, rather than inferred from a common interface.</p>
+<p>The demonstrated contribution is a reusable implementation and evaluation framework, developed through scientific direction and assistant-supported work.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   const backBtn = document.createElement("a");
