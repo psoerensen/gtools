@@ -443,7 +443,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td>gcorr</td>
-<td>Ordinary and partitioned single-trait LDSC, cross-trait and multivariate LDSC, genetic covariance/correlation, enrichment, jackknife uncertainty, and diagnostics</td>
+<td>Ordinary and partitioned single-trait, bivariate and multivariate LDSC; genetic covariance/correlation, enrichment, jackknife uncertainty, ordinary/partitioned joint sampling covariance, summary-statistic preparation, and fit/working-weight diagnostics</td>
 <td>Consumes gmat LD scores and does not construct or store LD</td>
 </tr>
 <tr class="even">
@@ -503,6 +503,7 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p>For <code>gs_gprep(task = "sparseld")</code>, gsuite validates the Glist and orchestrates selection; gmat owns sparse-LD calculation, its disk CSR, validation, and LD scores; gbits remains the packed BED path; existing BED remains the genotype store; and unchanged qgg and sblr are behavioural and consumer references.</p>
+<p>The independent <code>LDlist</code> interface reuses gmat’s existing <code>SparseLdDiskResource</code> and native disk inspection. <code>ldprep(Glist, reference)</code> creates an R descriptor without copying LD files; <code>validate_LDlist()</code> reopens and checks it without requiring genotype inputs. gmat owns the native resource, while gsuite owns R labels, serialization and validation orchestration. No new native storage format is introduced. See <a href="../../gsuite/docs/methods.html#independent-ld-references">LD references</a>.</p>
 </section>
 </section>
 <section id="dependencies" class="level2">

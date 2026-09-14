@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -405,6 +440,7 @@ window.Quarto = {
   <li><a href="#missing-and-irregular-observed-record-longitudinal-workflow" id="toc-missing-and-irregular-observed-record-longitudinal-workflow" class="nav-link" data-scroll-target="#missing-and-irregular-observed-record-longitudinal-workflow">Missing and irregular observed-record longitudinal workflow</a>
   <ul class="collapse">
   <li><a href="#sparse-direct-pedigree-methods" id="toc-sparse-direct-pedigree-methods" class="nav-link" data-scroll-target="#sparse-direct-pedigree-methods">Sparse-direct pedigree methods</a></li>
+  <li><a href="#independent-ld-references" id="toc-independent-ld-references" class="nav-link" data-scroll-target="#independent-ld-references">Independent LD references</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -614,85 +650,45 @@ window.Quarto = {
 <td>gcorr methods</td>
 </tr>
 <tr class="even">
-<td>gscore</td>
-<td>Standalone tiled multi-score BED application with standardized or raw mean-imputed coding and operation-local OpenMP</td>
+<td>gcorr</td>
+<td>Partitioned bivariate LDSC with annotation covariance coefficients, total/category genetic covariance and correlation, and paired jackknife; annotation-specific two-update weights</td>
 <td>Implemented</td>
-<td>gscore methods</td>
+<td>gcorr design</td>
 </tr>
 <tr class="odd">
-<td>gsuite</td>
-<td>Linked version/capability reporting and <code>gsolve::SolvePlan</code> SPD solving from R</td>
-<td>Experimental</td>
-<td>R package overview</td>
+<td>gcorr</td>
+<td>Native SNP summary-statistic preparation: explicit allele orientation, missingness, variable sample sizes and a common all-trait marker mask</td>
+<td>Implemented</td>
+<td>gcorr native workflow</td>
 </tr>
 <tr class="even">
-<td>gsuite</td>
-<td>Exact dense and prepared matrix-free BED ML/REML bindings through the greml model facade</td>
-<td>Experimental</td>
-<td>R package overview</td>
+<td>gcorr</td>
+<td>Ordinary multivariate labelled joint sampling covariance from paired block deletes</td>
+<td>Implemented</td>
+<td>gcorr native workflow</td>
 </tr>
 <tr class="odd">
-<td>gsuite</td>
-<td>Persistent prepared-BED, compiled single-trait model, fit, contrast, Wald, uncertainty, and optimizer-diagnostic interface</td>
-<td>Experimental</td>
-<td><a href="../../gsuite/docs/r-interface.html">persistent R interface</a></td>
-</tr>
-<tr class="even">
-<td>gsuite</td>
-<td>Independent-group, ordered-pedigree, and general sparse-<code>Z</code> terms through matrix-free covariance, sparse MME, and structured-plus-genomic hybrid routes</td>
-<td>Experimental</td>
-<td><a href="../../gsuite/docs/r-interface.html">persistent R interface</a></td>
-</tr>
-<tr class="odd">
-<td>gsuite</td>
-<td>Explicit unbalanced multivariate indexed covariance, longitudinal random regression, temporal residual structures, complete predictions, and selected-target uncertainty</td>
-<td>Experimental</td>
-<td><a href="../../gsuite/docs/r-interface.html">persistent R interface</a></td>
-</tr>
-<tr class="even">
-<td>gsuite</td>
-<td>Canonical gsolve/greml route, scaling, R-interface, and bounded qualification overview</td>
-<td>Experimental</td>
-<td><a href="../../gsuite/docs/gsolve-greml.html">gsolve/greml capabilities</a></td>
-</tr>
-<tr class="odd">
-<td>gsuite</td>
-<td>Serializable BED/BIM/FAM resources and ordered panel selection through <code>gmat::BedMatrix</code> and <code>gmat::BedPanel</code></td>
-<td>Experimental</td>
-<td><a href="../../gsuite/docs/gmat-integration.html">gmat R integration</a></td>
-</tr>
-<tr class="even">
-<td>gsuite</td>
-<td>Serializable qgg-familiar genotype preparation with exact packed BED summaries</td>
-<td>Experimental</td>
-<td><a href="../../gsuite/docs/genotype-preparation.html">genotype preparation</a></td>
-</tr>
-<tr class="odd">
-<td>gsuite</td>
-<td>Summary-only marker QC with exact HWE, INFO identity alignment, allele, missingness, and assembly-aware MHC rules</td>
-<td>Experimental</td>
-<td><a href="../../gsuite/docs/genotype-filtering.html">genotype filtering</a></td>
-</tr>
-<tr class="even">
-<td>gsuite</td>
-<td><code>gs_gprep(task = "sparseld")</code> orchestration with selected physical BED mappings, transactional gmat CSR, aligned AF, and ordinary LD scores</td>
-<td>Experimental</td>
-<td><a href="../../gsuite/docs/sparse-ld-preparation.html">sparse-LD preparation</a></td>
-</tr>
-<tr class="odd">
-<td>gsuite</td>
-<td>Disk sparse-LD construction and reopening; ordinary, corrected, partitioned, and corrected partitioned LD scores</td>
-<td>Experimental</td>
-<td><a href="../../gsuite/docs/gmat-integration.html">gmat R integration</a></td>
-</tr>
-<tr class="even">
-<td>gbayes</td>
-<td>Bayesian inference</td>
-<td>Planned</td>
-<td>No public method contract yet</td>
+<td>gcorr</td>
+<td>Partitioned multivariate LDSC with an all-trait marker mask, annotation and total/category matrices, and labelled joint sampling covariance from coordinated block deletions</td>
+<td>Implemented</td>
+<td>gcorr design</td>
 </tr>
 </tbody>
 </table>
+<div class="line-block">gscore | Standalone tiled multi-score BED application with standardized or raw mean-imputed coding and operation-local OpenMP | Implemented | gscore methods |<br>
+gsuite | Linked version/capability reporting and <code>gsolve::SolvePlan</code> SPD solving from R | Experimental | R package overview |<br>
+gsuite | Exact dense and prepared matrix-free BED ML/REML bindings through the greml model facade | Experimental | R package overview |<br>
+gsuite | Persistent prepared-BED, compiled single-trait model, fit, contrast, Wald, uncertainty, and optimizer-diagnostic interface | Experimental | <a href="../../gsuite/docs/r-interface.html">persistent R interface</a> |<br>
+gsuite | Independent-group, ordered-pedigree, and general sparse-<code>Z</code> terms through matrix-free covariance, sparse MME, and structured-plus-genomic hybrid routes | Experimental | <a href="../../gsuite/docs/r-interface.html">persistent R interface</a> |<br>
+gsuite | Explicit unbalanced multivariate indexed covariance, longitudinal random regression, temporal residual structures, complete predictions, and selected-target uncertainty | Experimental | <a href="../../gsuite/docs/r-interface.html">persistent R interface</a> |<br>
+gsuite | Canonical gsolve/greml route, scaling, R-interface, and bounded qualification overview | Experimental | <a href="../../gsuite/docs/gsolve-greml.html">gsolve/greml capabilities</a> |<br>
+gsuite | Serializable BED/BIM/FAM resources and ordered panel selection through <code>gmat::BedMatrix</code> and <code>gmat::BedPanel</code> | Experimental | <a href="../../gsuite/docs/gmat-integration.html">gmat R integration</a> |<br>
+gsuite | Serializable qgg-familiar genotype preparation with exact packed BED summaries | Experimental | <a href="../../gsuite/docs/genotype-preparation.html">genotype preparation</a> |<br>
+gsuite | Summary-only marker QC with exact HWE, INFO identity alignment, allele, missingness, and assembly-aware MHC rules | Experimental | <a href="../../gsuite/docs/genotype-filtering.html">genotype filtering</a> |<br>
+gsuite | <code>gs_gprep(task = "sparseld")</code> orchestration with selected physical BED mappings, transactional gmat CSR, aligned AF, and ordinary LD scores | Experimental | <a href="../../gsuite/docs/sparse-ld-preparation.html">sparse-LD preparation</a> |<br>
+gsuite | Disk sparse-LD construction and reopening; ordinary, corrected, partitioned, and corrected partitioned LD scores | Experimental | <a href="../../gsuite/docs/gmat-integration.html">gmat R integration</a> |<br>
+gbayes | Bayesian inference | Planned | No public method contract yet |</div>
+<p>The connected gcorr validation checks genotype-derived LD scores and fits against dense references. A shared unit floor on marginal working means resolves the formerly rejected simulation draw; all prescribed draws now complete on the unchanged fixture. The floor changes variance weights without clamping raw estimates, and activation is reported in native diagnostics. See the weighting contract. The subsequent statistical calibration study completes all fits and passes parameter-recovery screens, but flags undercoverage for 15 primary quantities. Uncertainty qualification remains incomplete. An independent trait-1 QR diagnostic agrees with the native fixed-weight procedure; re-estimating weights during block deletion improves coverage but does not fully resolve it. These capabilities have not been broadly qualified on real GWAS. The coordinated reliability study finds better coverage with known weights and analytical SEs, supporting an uncertainty-procedure limitation in the tested setting. Matched full LD gives stable estimates in the fixture; short windows and mismatched references cause bias. Current normal/jackknife intervals remain experimental; broad confidence-interval qualification is still open.</p>
 <p>Detailed equations, layouts, ownership, and limitations remain in each repository’s local catalogue and linked design documents. The actual local dataset campaign is summarized separately in <a href="../../gsuite/docs/status.html#historical-evidence">qgdata qualification</a>.</p>
 <section id="marker-space-and-rhe-methods" class="level1">
 <h1>Marker-space and RHE methods</h1>
@@ -769,6 +765,18 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <h2 class="anchored" data-anchor-id="sparse-direct-pedigree-methods">Sparse-direct pedigree methods</h2>
 <p>The three pedigree APIs use the same canonical lower-CSC MME for their supported direct backends. Retained factors supply exact determinants and bounded coordinate traces or CHOLMOD selected-inverse traces. Rejected likelihood-only trials omit trace/AI work; accepted response coefficients finalize BLUP without another response solve. Backend factor-memory limits are preflight bounds, not strict allocator quotas.</p>
 <p>Use the <a href="../../gsuite/docs/model-catalog.html">model catalog</a> for backend/inference status, <a href="../../gsuite/docs/multitrait-pedigree-reml.html">multitrait workflow</a> and <a href="../../gsuite/docs/longitudinal-pedigree-reml.html">longitudinal workflow</a> for record contracts, and <a href="../../gsuite/docs/prediction-error.html">prediction error</a> for complete-MME PEV, CHOLMOD selected inversion, and bounded PARDISO retained-factor target solves. PARDISO selected inversion remains unsupported. Direct and support thread domains and requested/resolved methods remain distinct diagnostics.</p>
+</section>
+<section id="independent-ld-references" class="level2">
+<h2 class="anchored" data-anchor-id="independent-ld-references">Independent LD references</h2>
+<p>A separate <code>LDlist</code> describes one reference panel using gmat’s existing signed, disk-backed sparse LD. Create it from a gsuite Glist after sparse-LD preparation:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>LDlist <span class="ot">&lt;-</span> <span class="fu">ldprep</span>(Glist, <span class="at">reference =</span> <span class="st">"1000G-EUR"</span>, <span class="at">ancestry =</span> <span class="st">"EUR"</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">assembly =</span> <span class="st">"GRCh37"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(LDlist, <span class="st">"LDlist-EUR.rds"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>LDlist <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"LDlist-EUR.rds"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_LDlist</span>(LDlist)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">gsuite_ld_scores</span>(LDlist<span class="sc">$</span>resource)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>resource</code> field retains authoritative marker order, alleles, chromosome, position, reference sample count, file paths and construction settings. <code>af</code> and <code>ldscores</code> are named vectors in resource marker order. <code>reference</code> identifies a particular panel; ancestry and assembly are caller-supplied labels. No genotype files are needed after construction. Keep the external LD files: RDS saves their descriptor, not their contents. Checksums and native inspection reject accidental file replacement; validation reads the resource rather than being a constant-time operation. It does not establish population suitability.</p>
+<p>This increment constructs an independent descriptor from existing gsuite Glist LD resources. It does not generate LD, harmonize summaries, cache annotation scores or eigensystems, or add the proposed gcorr R interface. Existing ordinary and annotation-score functions can consume <code>LDlist$resource</code>. Ordinary stored scores are uncorrected and reflect retained sparse pairs; omitted correlations are not reconstructed. Glist is unchanged, and LDlist does not contain Glist. Multiple panels can be held in a named R list. Old qgg binary formats are not silently interpreted as the gmat CSR format.</p>
 
 
 </section>
