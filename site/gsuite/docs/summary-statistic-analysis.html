@@ -178,7 +178,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#conditional-inference" id="toc-conditional-inference" class="nav-link" data-scroll-target="#conditional-inference">Conditional inference</a></li>
   </ul></li>
   <li><a href="#sumher-architecture-models-and-multiple-traits" id="toc-sumher-architecture-models-and-multiple-traits" class="nav-link" data-scroll-target="#sumher-architecture-models-and-multiple-traits">SumHer architecture models and multiple traits</a></li>
-  <li><a href="#references-and-results" id="toc-references-and-results" class="nav-link" data-scroll-target="#references-and-results">References and results</a></li>
+  <li><a href="#references-and-results" id="toc-references-and-results" class="nav-link" data-scroll-target="#references-and-results">References and results</a>
+  <ul class="collapse">
+  <li><a href="#a-common-result-layout" id="toc-a-common-result-layout" class="nav-link" data-scroll-target="#a-common-result-layout">A common result layout</a></li>
+  </ul></li>
   <li><a href="#current-boundary" id="toc-current-boundary" class="nav-link" data-scroll-target="#current-boundary">Current boundary</a></li>
   </ul></li>
   </ul>
@@ -290,7 +293,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>joint<span class="sc">$</span>estimates  <span class="co"># regional and total correlations, labelled by scope</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>joint<span class="sc">$</span>details   <span class="co"># also regional and total heritabilities and covariances</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>joint<span class="sc">$</span>diagnostics[[<span class="dv">1</span>]]<span class="sc">$</span>uncertainty<span class="sc">$</span>total_covariance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Use <code>task = "h2"</code> for marginal traits or <code>task = "cov"</code> for covariance. Outside-region contributions are estimated jointly; fixed outside-contribution controls are rejected. Total rows have <code>scope = "total"</code> and <code>region = NA</code>, so a region called “total” remains unambiguous. Total correlation is computed from total covariance and heritabilities; it is not a sum of regional correlations.</p>
+<p>Use <code>task = "h2"</code> for marginal traits or <code>task = "cov"</code> for covariance. Outside-region contributions are estimated jointly; fixed outside-contribution controls are rejected. Total rows have <code>scope = "reference"</code> and <code>region = NA</code>, so a region called “total” remains unambiguous. Total correlation is computed from total covariance and heritabilities; it is not a sum of regional correlations.</p>
 <p>The supplied reference defines the analysis universe. Regions must partition it, and the method assumes independent regional moments. Disjoint marker sets alone do not establish independence. Sample size is constant within each trait and sample overlap is common across regions. Total retained rank must be below the sample sizes; <code>minimum_correction_denominator</code> (default <code>1e-8</code>) guards an unstable correction. Regional diagnostics retain estimated outside contributions and flags.</p>
 <p>Uncertainty includes the cross-region terms introduced by the joint correction. The compact representation stores named raw <code>moment_blocks</code>, a region-by-parameter <code>coupling</code> matrix and <code>total_covariance</code>. It avoids a dense all-region covariance matrix. These are conditional Gaussian plug-in estimates; LD-reference and overlap uncertainty are not propagated. Undefined estimates retain reasons and negative raw estimates are not clipped. The native row-rank correction differs from the upstream HESS column-rank convention for unequal retained regional ranks; this interface does not claim identical upstream results in that case.</p>
 </section>
@@ -322,8 +325,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ctl <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">sampling_correlation =</span> sampling)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>shared <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(stats, LD, <span class="at">regions =</span> regions, <span class="at">method =</span> <span class="st">"lava"</span>, <span class="at">task =</span> <span class="st">"rg"</span>,</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">control =</span> ctl)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>shared<span class="sc">$</span>matrices[[LD<span class="sc">$</span>reference]][[<span class="fu">names</span>(regions)[<span class="dv">1</span>]]]<span class="sc">$</span>genetic_covariance</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>shared<span class="sc">$</span>matrices[[LD<span class="sc">$</span>reference]][[<span class="fu">names</span>(regions)[<span class="dv">1</span>]]]<span class="sc">$</span>genetic_correlation</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>shared<span class="sc">$</span>matrices[[LD<span class="sc">$</span>reference]]<span class="sc">$</span>region[[<span class="fu">names</span>(regions)[<span class="dv">1</span>]]]<span class="sc">$</span>cov</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>shared<span class="sc">$</span>matrices[[LD<span class="sc">$</span>reference]]<span class="sc">$</span>region[[<span class="fu">names</span>(regions)[<span class="dv">1</span>]]]<span class="sc">$</span>rg</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>partial <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(stats, LD, <span class="at">regions =</span> regions, <span class="at">method =</span> <span class="st">"lava"</span>,</span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">task =</span> <span class="st">"partial_rg"</span>, <span class="at">targets =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>),</span>
@@ -334,7 +337,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">predictors =</span> <span class="fu">c</span>(<span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>), <span class="at">control =</span> ctl)</span>
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>regression<span class="sc">$</span>estimates  <span class="co"># coefficients</span></span>
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>regression<span class="sc">$</span>details   <span class="co"># also standardized coefficients, explained/residual variance and R2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Selectors must name supplied traits, with no duplicate or overlapping roles. All supplied traits influence the common component selection and sample-size cap. Shared fits can differ from separately fitted pairs when their caps differ. The component sampling covariance in <code>matrices</code> describes per-component noise, not the sampling covariance of final h2/rg estimates.</p>
+<p>Selectors must name supplied traits, with no duplicate or overlapping roles. All supplied traits influence the common component selection and sample-size cap. Shared fits can differ from separately fitted pairs when their caps differ. The component sampling covariance retained in <code>native_matrices</code> describes per-component noise, not the sampling covariance of final h2/rg estimates.</p>
 <p>Coefficients and variances use the native regional covariance scale, including observed scale for binary traits. They are not silently converted to liability scale. Partial correlations and genetic R2 are invariant to positive rescaling. Raw matrices and out-of-range estimates are not repaired.</p>
 <section id="conditional-inference" class="level3">
 <h3 class="anchored" data-anchor-id="conditional-inference">Conditional inference</h3>
@@ -363,8 +366,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">method =</span> <span class="st">"sumher"</span>, <span class="at">task =</span> <span class="st">"rg"</span>,</span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>             <span class="at">control =</span> <span class="fu">list</span>(<span class="at">tagging =</span> tagging, <span class="at">score_name =</span> <span class="st">"architecture"</span>))</span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>estimates</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>matrices<span class="sc">$</span>total<span class="sc">$</span>rg</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>matrices<span class="sc">$</span>components</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>matrices[[LD<span class="sc">$</span>reference]]<span class="sc">$</span>reference<span class="sc">$</span>all<span class="sc">$</span>rg</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>matrices[[LD<span class="sc">$</span>reference]]<span class="sc">$</span>architecture_component</span>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>diagnostics[[<span class="dv">1</span>]]<span class="sc">$</span>joint_jackknife</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The native SumHer cross-trait path supplies the SumCors-style covariance and correlation analysis. Each marginal is fitted once; all unique pairs are fitted. Without <code>overlap_intercept</code>, each pair’s raw Z-product intercept is estimated. A scalar fixes every pair to that value. A symmetric matrix named in trait order allows different values per pair; <code>NA</code> estimates an off-diagonal intercept and the diagonal is ignored. Use <code>task = "cov"</code> to select covariance instead of rg.</p>
 <p><code>inflation</code> selects <code>"none"</code> (default), <code>"multiplicative"</code> or <code>"additive_sample_size"</code>. These are explicit model choices, not automatic corrections. Architecture scores must be uncorrected and match the supplied weights. Tagging is required, used as supplied, and never silently replaced by model-weighted scores. Both scalar and per-marker sample sizes are supported.</p>
@@ -379,8 +382,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">reference =</span> <span class="fu">c</span>(<span class="at">EUR =</span> <span class="st">"EUR"</span>, <span class="at">AFR =</span> <span class="st">"AFR"</span>),</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"ldsc"</span>, <span class="at">task =</span> <span class="st">"h2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Each marginal analysis uses its own reference. Cross-reference pairs are rejected: ancestry-specific LD scores alone do not define a cross-ancestry covariance model. For three or more traits, most methods make separate pairwise fits with common controls. SumHer uses its coordinated native path and can retain joint jackknife covariance across outputs, as described above.</p>
-<p><code>fit$estimates</code> contains the requested quantity with trait, region, reference and component labels. <code>fit$details</code> retains supporting estimates, including intercepts and annotation coefficients. <code>fit$diagnostics</code> follows fit order and retains method diagnostics. Undefined estimates and uncertainty remain <code>NA</code> with reasons; they are not replaced by zero. Plots show the requested 95% simulation intervals, or one-SE bars for analyses without simulation inference.</p>
+<section id="a-common-result-layout" class="level3">
+<h3 class="anchored" data-anchor-id="a-common-result-layout">A common result layout</h3>
+<p>All methods return <code>estimates</code> for the requested task and <code>details</code> for supporting quantities. Heritability rows use <code>quantity = "h2"</code>, the actual name in <code>trait1</code> and <code>trait2 = NA</code>; pair-position names are retained only in <code>native_quantity</code>. <code>diagnostic_id</code> connects every row to <code>fit$diagnostics</code>, without changing native parameter tables or uncertainty objects. <code>diagnostic_summary</code> counts unavailable outputs and out-of-range estimates; absence of an SE is not itself a failed fit.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Scope</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>reference</code></td>
+<td>Total for the supplied analysis universe; <code>name = "all"</code></td>
+</tr>
+<tr class="even">
+<td><code>region</code></td>
+<td>A named set of regional markers</td>
+</tr>
+<tr class="odd">
+<td><code>annotation_category</code></td>
+<td>Category summary, including overlap contributions</td>
+</tr>
+<tr class="even">
+<td><code>architecture_component</code></td>
+<td>Contribution from one fitted model component</td>
+</tr>
+<tr class="odd">
+<td><code>annotation_coefficient</code></td>
+<td>A regression coefficient such as LDSC tau</td>
+</tr>
+</tbody>
+</table>
+<p>A category can overlap other categories, so its heritability must not simply be summed to obtain a total. SumHer architecture components are a different estimand. GNOVA’s supporting component heritabilities appear in <code>details</code>; its primary h2 output remains category heritability. Weighted LDSC annotations supply coefficients and a total, without inventing binary-category summaries. Conditional LAVA quantities remain explicitly named within their region.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>estimates</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>diagnostic_summary</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>diagnostics[[fit<span class="sc">$</span>estimates<span class="sc">$</span>diagnostic_id[<span class="dv">1</span>]]]</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The same nesting applies to every method:</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>matrices[[LD<span class="sc">$</span>reference]]<span class="sc">$</span>reference<span class="sc">$</span>all<span class="sc">$</span>cov</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># For a regional fit:</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>regional<span class="sc">$</span>matrices[[LD<span class="sc">$</span>reference]]<span class="sc">$</span>region[[<span class="fu">names</span>(regions)[<span class="dv">1</span>]]]<span class="sc">$</span>rg</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit)                              <span class="co"># requested quantity</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">scope =</span> <span class="st">"reference"</span>)          <span class="co"># totals only</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">quantity =</span> <span class="st">"h2"</span>)              <span class="co"># supporting marginal results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Each matrix set contains named <code>h2</code>, <code>cov</code> and <code>rg</code> matrices. Heritability occupies the diagonal of <code>h2</code> and <code>cov</code>; off-diagonal h2 entries are <code>NA</code>. A correlation diagonal is one only when its estimated heritability is positive. Uncomputed quantities stay <code>NA</code>: SUPERGNOVA covariance does not imply an h2 or rg estimate. Binary LAVA matrices use observed-scale covariance; liability h2 remains a separate supporting quantity.</p>
+<p><code>uncertainty$cov$se</code> (and the analogous h2/rg fields) contains estimator SEs. Other fields retain p-values, simulation interval endpoints, confidence level, Monte Carlo p-value error, method labels and native reasons. These are marginal entry summaries, <strong>not</strong> a joint sampling covariance. Native joint jackknife, HESS coupled uncertainty and LAVA simulation diagnostics remain in <code>diagnostics</code>. Additional native matrices are retained in <code>native_matrices</code>, keyed by diagnostic ID.</p>
+<p>Separate pairwise fits can disagree about a marginal. Conflicting matrix entries are <code>NA</code> with <code>status = "inconsistent_pairwise_estimates"</code>; no averaging occurs. <code>source_rows</code> identifies the original <code>details$row_id</code> values. Conflicting uncertainty also remains unavailable and is labelled. Raw long-table estimates are retained. Matrices are not clipped or repaired; incomplete covariance matrices have <code>cov_positive_semidefinite = NA</code>.</p>
+<p>Plots label reference, scope, name and traits. Bars use an available 95% simulation interval, otherwise one estimator SE; absent uncertainty gives a point only. Monte Carlo error is never used as an estimator SE. Undefined estimates are marked in labels. Use <code>scope</code>, <code>quantity</code>, <code>reference</code> and <code>traits</code> to select results, and ordinary graphics arguments such as <code>main</code> or <code>xlim</code> to format them. One plot cannot combine different quantities or incompatible scales. Method labels do not imply identical assumptions, calibrated coverage, simultaneous inference or software parity.</p>
 <p>No result files are written automatically. Matching cached spectra are verified once per region during a call, then reused for trait pairs. Missing spectra are computed in memory. Explicitly prepare annotation scores before fitting.</p>
+</section>
 </section>
 <section id="current-boundary" class="level2">
 <h2 class="anchored" data-anchor-id="current-boundary">Current boundary</h2>
