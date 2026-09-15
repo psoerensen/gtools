@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Use a shared covariance summary for recursive structural models and fixed Gaussian graphs.">
 
-<title>multitrait-pedigree-reml – gtools</title>
+<title>Genetic covariance, SEM and graphical models – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -103,6 +104,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../gsuite/website/styles.css">
 </head>
@@ -157,7 +187,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-architecture.html">Technical reference</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/multitrait-pedigree-reml.html">Multitrait computations</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/covariance-models.html">SEM and graphical models</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -212,13 +242,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Tutorials</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
@@ -263,7 +293,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/covariance-models.html" class="sidebar-item-text sidebar-link">
+  <a href="../../gsuite/docs/covariance-models.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">SEM and graphical models</span></a>
   </div>
 </li>
@@ -342,13 +372,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Technical reference</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link">
@@ -369,7 +399,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/multitrait-pedigree-reml.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../gsuite/docs/multitrait-pedigree-reml.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multitrait computations</span></a>
   </div>
 </li>
@@ -438,59 +468,118 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#multivariate-sparse-pedigree-evaluation-and-reml" id="toc-multivariate-sparse-pedigree-evaluation-and-reml" class="nav-link active" data-scroll-target="#multivariate-sparse-pedigree-evaluation-and-reml">Multivariate sparse-pedigree evaluation and REML</a></li>
+  <li><a href="#one-input-different-questions" id="toc-one-input-different-questions" class="nav-link active" data-scroll-target="#one-input-different-questions">One input, different questions</a></li>
+  <li><a href="#prepare-covariance-summaries" id="toc-prepare-covariance-summaries" class="nav-link" data-scroll-target="#prepare-covariance-summaries">Prepare covariance summaries</a></li>
+  <li><a href="#fit-a-common-factor-with-an-explicit-sem-table" id="toc-fit-a-common-factor-with-an-explicit-sem-table" class="nav-link" data-scroll-target="#fit-a-common-factor-with-an-explicit-sem-table">Fit a common factor with an explicit SEM table</a></li>
+  <li><a href="#inspect-and-fit-a-graphical-model" id="toc-inspect-and-fit-a-graphical-model" class="nav-link" data-scroll-target="#inspect-and-fit-a-graphical-model">Inspect and fit a graphical model</a></li>
+  <li><a href="#reuse-an-existing-gcorr-result" id="toc-reuse-an-existing-gcorr-result" class="nav-link" data-scroll-target="#reuse-an-existing-gcorr-result">Reuse an existing gcorr result</a></li>
+  <li><a href="#read-the-diagnostics-before-interpreting-parameters" id="toc-read-the-diagnostics-before-interpreting-parameters" class="nav-link" data-scroll-target="#read-the-diagnostics-before-interpreting-parameters">Read the diagnostics before interpreting parameters</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-architecture.html">Technical reference</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/multitrait-pedigree-reml.html">Multitrait computations</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/covariance-models.html">SEM and graphical models</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Genetic covariance, SEM and graphical models</h1>
+</div>
+
+<div>
+  <div class="description">
+    Use a shared covariance summary for recursive structural models and fixed Gaussian graphs.
+  </div>
+</div>
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
-<section id="multivariate-sparse-pedigree-evaluation-and-reml" class="level1">
-<h1>Multivariate sparse-pedigree evaluation and REML</h1>
-<p><code>gs_multitrait_pedigree_records()</code> stores one row per observed scalar response. Rows sharing an observation-unit label belong to one animal and may contain any nonempty subset of the declared traits. A trait can occur once per unit; missing traits are absent and never imputed. Units are residual-independent, while traits observed together use the corresponding principal submatrix of the full SPD residual covariance <code>R</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ped <span class="ot">&lt;-</span> <span class="fu">gs_pedigree_data</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">individual =</span> <span class="fu">c</span>(<span class="st">"child"</span>, <span class="st">"sire"</span>, <span class="st">"dam"</span>),</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sire =</span> <span class="fu">c</span>(<span class="st">"sire"</span>, <span class="cn">NA</span>, <span class="cn">NA</span>), <span class="at">dam =</span> <span class="fu">c</span>(<span class="st">"dam"</span>, <span class="cn">NA</span>, <span class="cn">NA</span>))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>records <span class="ot">&lt;-</span> <span class="fu">gs_multitrait_pedigree_records</span>(</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  ped,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">animal =</span> <span class="fu">c</span>(<span class="st">"sire"</span>, <span class="st">"sire"</span>, <span class="st">"dam"</span>, <span class="st">"child"</span>, <span class="st">"child"</span>),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait =</span> <span class="fu">c</span>(<span class="st">"height"</span>, <span class="st">"weight"</span>, <span class="st">"height"</span>, <span class="st">"height"</span>, <span class="st">"weight"</span>),</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">observation_unit =</span> <span class="fu">c</span>(<span class="st">"sire"</span>, <span class="st">"sire"</span>, <span class="st">"dam"</span>, <span class="st">"child"</span>, <span class="st">"child"</span>),</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">phenotype =</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">2.0</span>, .<span class="dv">9</span>, <span class="fl">1.8</span>, <span class="fl">2.7</span>),</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed =</span> Matrix<span class="sc">::</span><span class="fu">Matrix</span>(<span class="fu">cbind</span>(</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">height_intercept =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight_intercept =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>)), <span class="at">sparse =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait_levels =</span> <span class="fu">c</span>(<span class="st">"height"</span>, <span class="st">"weight"</span>))</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>start <span class="ot">&lt;-</span> <span class="fu">gs_multitrait_pedigree_start</span>(records)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">gs_multitrait_pedigree_reml_control</span>(</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">linear_solver =</span> <span class="st">"sparse_direct"</span>, <span class="at">direct_backend =</span> <span class="st">"cholmod"</span>,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">exact_trace_method =</span> <span class="st">"selected_inverse"</span>,</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum_selected_inverse_workspace_bytes =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="dv">1024</span><span class="sc">^</span><span class="dv">3</span>,</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">trace_mode =</span> <span class="st">"complete_deterministic"</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum_direct_coefficient_dimension =</span> <span class="dv">256</span>,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_exact_trace_systems =</span> <span class="dv">256</span>, <span class="at">trace_batch_size =</span> <span class="dv">32</span>,</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">requested_threads =</span> <span class="dv">8</span>)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gs_multitrait_pedigree_fit</span>(</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  records, <span class="at">start =</span> start, <span class="at">covariance =</span> <span class="st">"optimized"</span>, <span class="at">control =</span> control)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The deterministic start fits the active fixed columns separately by trait and sets both starting covariance matrices to one half of the diagonal residual phenotypic variances. It does not estimate correlations and is not RHE. Explicit SPD <code>G</code> and <code>R</code> override it.</p>
-<p>Three capability levels are intentional:</p>
-<ul>
-<li>Large-scale fixed SPD <code>G,R</code>: sparse-PCG MME/BLUP, fixed effects, all-animal breeding values, record fitted/residual/<code>Py</code>, and stochastic fixed-parameter REML diagnostics.</li>
-<li>Exact-work-limited sparse-direct estimation: one lower-CSC pattern and symbolic PARDISO or CHOLMOD analysis, deterministic coordinate traces in bounded retained-factor batches or one CHOLMOD supernodal selected-inverse derivative-support request per full trace evaluation, exact factor log determinants, and likelihood-monotone log-Cholesky optimization. Preflight reports coefficient dimension, input/factor nonzeros, trace systems, RHS workspace, fill, and factor memory, and enforces the configured limits.</li>
-<li>Scalable stochastic estimation: PCG, fixed caller-controlled counter-Rademacher trace/determinant probes and seeds, common probes across accepted and trial states, standard batched AI, and noise-aware log-Cholesky optimization. Raw trace/score SEs are reported diagnostics; step admission and convergence use scale-aware curvature/Newton and standardized-score rules. An unresolved state returns <code>insufficient_stochastic_precision</code> without direct fallback.</li>
-</ul>
-<p>The direct accepted state already contains the exact final likelihood. Rejected trials perform no trace or AI work, and final fixed effects and BLUPs reuse the accepted response coefficients without another factorization or solve. The result identifies fixed versus optimized covariance, trace mode, optimizer qualification, exact-work preflight, numerical and stochastic status, starting/final covariances, scores and AI, likelihood and SE, all-animal BLUPs, optional record values, retained-state reuse, observed patterns, sparse storage, PCG work, or direct symbolic/numerical factorization, solve, fill, memory, exact-trace, and thread-domain diagnostics.</p>
-<p>Stochastic optimization returns separate optimizer, likelihood, and BLUP statuses. Score/AI convergence promotes the accepted covariance state and allows retained-response all-animal BLUP independently of final SLQ. If the requested log-determinant SE is not met, <code>likelihood_available</code> is false and the typed likelihood status is <code>likelihood_precision_insufficient</code>; the actual estimate, SE, probe/Lanczos configuration, and work remain diagnostic only. Likelihood-dependent model comparisons must require <code>likelihood_available = TRUE</code>. Exact sparse-direct REML is preferred for small or moderate problems within its resource limits, especially when an exact likelihood is required.</p>
-<p>The qualified stochastic route retains standard batched AI. The separate augmented-AI experiment, component-LMM stochastic routes, and factor-analytic qualification boundaries are recorded in <a href="../../gsuite/docs/status.html#qualification-limits">model qualification</a>.</p>
-<p><code>exact_trace_method = "coordinate"</code> is the unchanged default and works with PARDISO or CHOLMOD. <code>"selected_inverse"</code> requires a resolved CHOLMOD backend and a sufficient <code>maximum_selected_inverse_workspace_bytes</code> limit. Derivative support is compiled once from a deterministic positive-definite planning state; one trace plan, derivative mapping, and selected-inverse workspace are reused across covariance states. It computes the exact inverse values on the coalesced covariance-derivative support, reports request/factor/workspace/peak-memory accounting, and performs zero coordinate trace systems. It does not remove the separately counted AI derivative-response systems. Explicit PARDISO, or <code>automatic</code> resolving to PARDISO, returns <code>not_supported</code> without fallback.</p>
-<p>For direct fits, <code>automatic</code> prefers PARDISO. PARDISO retains qualified internal threading; CHOLMOD orchestration and multitrait support work remain 1/1 while selected-inverse dense kernels use their independently requested oneMKL thread count. PCG supports fixed-covariance solves and the stochastic REML route described above; both report zero direct work. An incompatible PARDISO selected-inverse request performs one symbolic capability resolution and then returns <code>not_supported</code> before numerical factorization.</p>
-<p>The accepted factor, response, determinant, likelihood, and selected values are retained so BLUP finalization performs zero additional response solves. The shared typed serializer only translates native fields and performs no factorization, solve, trace, likelihood, score, AI, selected inversion, or BLUP work. In direct diagnostics, <code>sparse_direct$requested</code> is the logical direct-route flag; <code>requested_backend</code> and <code>resolved_backend</code> are backend strings.</p>
-<p>The combined Windows process loads official Intel <code>libiomp5md</code> and no GNU <code>libgomp</code>; the CHOLMOD-only process loads no OpenMP runtime.</p>
-<p>No route constructs dense pedigree, observation covariance, incidence, Kronecker, projection, or MME matrices. Exact covariance boundaries, PARDISO selected inversion, MUMPS, fixed-effect rank repair, general multiple relationship components, longitudinal direct REML through this API, RHE, marker effects, genomic or ssGBLUP models, and serial dependence between observation units are excluded.</p>
-<p>Exact conditional PEV/reliability is specified separately in the <a href="../../gsuite/docs/prediction-error.html">prediction-error contract</a>, including CHOLMOD selected inversion and bounded PARDISO retained-factor target solves.</p>
+</header>
+
+
+<section id="one-input-different-questions" class="level2">
+<h2 class="anchored" data-anchor-id="one-input-different-questions">One input, different questions</h2>
+<p>SEM describes a specified factor or path model for genetic covariance. A Gaussian graphical model describes relationships conditional on the remaining traits. Both use the existing native gcorr covariance fitter through <code>gcorr()</code>. Neither a directed path nor a partial correlation alone establishes causality.</p>
+<p><a href="../tools/examples/run_covariance_workflow.R">Download the complete example</a>. It constructs four-trait covariance summaries from one common factor, supplies an illustrative full sampling covariance, and fits both models. It saves a result bundle, two tables and one figure under <code>build/examples/covariance-workflow</code>. This checks the workflow; it is not a GWAS simulation or a calibration study.</p>
+</section>
+<section id="prepare-covariance-summaries" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-covariance-summaries">Prepare covariance summaries</h2>
+<p>The genetic covariance matrix <span class="math inline">\(G\)</span> and the sampling covariance <span class="math inline">\(V\)</span> of its estimated entries are different objects. Four traits give ten distinct covariance moments, so <span class="math inline">\(G\)</span> is <span class="math inline">\(4\times4\)</span> and <span class="math inline">\(V\)</span> is <span class="math inline">\(10\times10\)</span>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsuite)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>loadings <span class="ot">&lt;-</span> <span class="fu">c</span>(.<span class="dv">8</span>, .<span class="dv">7</span>, .<span class="dv">6</span>, .<span class="dv">5</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">tcrossprod</span>(loadings) <span class="sc">+</span> <span class="fu">diag</span>(<span class="fu">c</span>(.<span class="dv">4</span>, .<span class="dv">5</span>, .<span class="dv">6</span>, .<span class="dv">7</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(G) <span class="ot">&lt;-</span> <span class="fu">list</span>(traits, traits)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>moments <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A|A"</span>, <span class="st">"B|A"</span>, <span class="st">"C|A"</span>, <span class="st">"D|A"</span>, <span class="st">"B|B"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>             <span class="st">"C|B"</span>, <span class="st">"D|B"</span>, <span class="st">"C|C"</span>, <span class="st">"D|C"</span>, <span class="st">"D|D"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> .<span class="dv">0004</span> <span class="sc">*</span> .<span class="dv">3</span><span class="sc">^</span><span class="fu">abs</span>(<span class="fu">outer</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="st">"-"</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(V) <span class="ot">&lt;-</span> <span class="fu">list</span>(moments, moments)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">gcorr_covariance</span>(G, V, <span class="at">continuous =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">units =</span> <span class="fu">setNames</span>(<span class="fu">rep</span>(<span class="st">"standardized units"</span>, <span class="dv">4</span>), traits),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">provenance =</span> <span class="st">"Constructed common-factor example"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Moment order follows the lower triangle <strong>column by column</strong>, including the diagonal. Names and order must match exactly. The input retains trait units, provenance and, when extracted from a fit, reference and estimation metadata. Saving the ordinary R list with <code>saveRDS()</code> needs no native pointer.</p>
+</section>
+<section id="fit-a-common-factor-with-an-explicit-sem-table" class="level2">
+<h2 class="anchored" data-anchor-id="fit-a-common-factor-with-an-explicit-sem-table">Fit a common factor with an explicit SEM table</h2>
+<p>The model uses <span class="math inline">\(x=Bx+\varepsilon\)</span>, with disturbance covariance <span class="math inline">\(S\)</span> and <span class="math inline">\(G=[(I-B)^{-1}S(I-B)^{-T}]_{\mathrm{observed}}\)</span>. Here a latent factor <code>F</code> has fixed variance one and four free loadings.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">variables =</span> <span class="fu">c</span>(traits, <span class="st">"F"</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters =</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">"l"</span>, traits), <span class="fu">paste0</span>(<span class="st">"v"</span>, traits)),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">start =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">5</span>, <span class="dv">4</span>), <span class="fu">rep</span>(.<span class="dv">6</span>, <span class="dv">4</span>)),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="fl">1e-8</span>, <span class="dv">4</span>))),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">entries =</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">matrix =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"directed"</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">"disturbance"</span>, <span class="dv">5</span>)),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">row =</span> <span class="fu">c</span>(traits, traits, <span class="st">"F"</span>),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">column =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"F"</span>, <span class="dv">4</span>), traits, <span class="st">"F"</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">parameter =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">"l"</span>, traits), <span class="fu">paste0</span>(<span class="st">"v"</span>, traits), <span class="st">""</span>),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>), <span class="dv">1</span>)))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>sem <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(input, <span class="at">method =</span> <span class="st">"sem"</span>, <span class="at">task =</span> <span class="st">"fit"</span>, <span class="at">model =</span> model)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>sem<span class="sc">$</span>fitted_covariance</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>sem<span class="sc">$</span>diagnostics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For <code>directed</code>, <code>column</code> points to <code>row</code>. For <code>disturbance</code>, each symmetric pair is supplied once. An empty parameter name fixes an entry to <code>value</code>; a named parameter uses <code>value=0</code>. Reusing a parameter name imposes equality. Unlisted entries are zero. Disturbance variances must be specified, and the directed graph must be acyclic. Factor scale and orientation follow constraints and starts. The same tables can therefore describe observed-variable path models as well as latent-factor models; this interface does not parse lavaan syntax.</p>
+<p>The constructed data have loadings 0.8, 0.7, 0.6 and 0.5 and specific variances 0.4, 0.5, 0.6 and 0.7. These provide a direct numerical check of the fitted table.</p>
+</section>
+<section id="inspect-and-fit-a-graphical-model" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-and-fit-a-graphical-model">Inspect and fit a graphical model</h2>
+<p>A descriptive network computes <span class="math inline">\(\Omega=G^{-1}\)</span> and <span class="math inline">\(\rho_{ij\mid\mathrm{rest}}=-\Omega_{ij}/\sqrt{\Omega_{ii}\Omega_{jj}}\)</span>. It needs no sampling covariance and supplies no edge-selection inference.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>network <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(input, <span class="at">method =</span> <span class="st">"ggm"</span>, <span class="at">task =</span> <span class="st">"network"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>network<span class="sc">$</span>partial_correlation</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(network)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>graph <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">edges =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ggm <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(input, <span class="at">method =</span> <span class="st">"ggm"</span>, <span class="at">task =</span> <span class="st">"fit"</span>, <span class="at">model =</span> graph)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ggm)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ggm<span class="sc">$</span>edges</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ggm<span class="sc">$</span>network<span class="sc">$</span>partial_correlation</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ggm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The fixed graph allows A–B, B–C and C–D edges; all other precision off-diagonals are fixed zero. All diagonals are estimated. This chain deliberately restricts the common-factor covariance and need not fit it exactly. Fixed zeros are not estimated edges with zero standard errors. Specify a graph on substantive grounds; selecting it from the same estimates changes the inference problem.</p>
+</section>
+<section id="reuse-an-existing-gcorr-result" class="level2">
+<h2 class="anchored" data-anchor-id="reuse-an-existing-gcorr-result">Reuse an existing gcorr result</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sumher_fit is a multivariate SumHer fit with coordinated jackknife blocks.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">gcorr_covariance</span>(sumher_fit, <span class="at">continuous =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">units =</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="st">"standardized units"</span>, <span class="at">B =</span> <span class="st">"standardized units"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">C =</span> <span class="st">"standardized units"</span>, <span class="at">D =</span> <span class="st">"standardized units"</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">scope =</span> <span class="st">"reference"</span>, <span class="at">component =</span> <span class="st">"all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For compatible multivariate SumHer results, the helper extracts both <span class="math inline">\(G\)</span> and the full joint <span class="math inline">\(V\)</span> by labels, including cross-entry uncertainty. A single architecture component can be selected explicitly instead of the total. It does not combine components, regions or ancestries.</p>
+<p>Other existing gcorr results can provide a complete point matrix for descriptive networks. Fitting also requires a correctly labelled full sampling covariance supplied explicitly when the result does not expose it. Marginal SEs are never substituted. In particular, LAVA’s component sampling covariance is not <span class="math inline">\(V\)</span> for estimated covariance moments. Binary/mixed inputs are outside this interface.</p>
+</section>
+<section id="read-the-diagnostics-before-interpreting-parameters" class="level2">
+<h2 class="anchored" data-anchor-id="read-the-diagnostics-before-interpreting-parameters">Read the diagnostics before interpreting parameters</h2>
+<p>Fitting uses diagonally weighted least squares, full-<span class="math inline">\(V\)</span> sandwich uncertainty and a residual-contrast fit test. It is not an individual-level Gaussian likelihood. Check <code>available</code>, <code>converged</code>, <code>identified</code>, <code>boundary</code> and <code>inference_available</code>. Boundary, singular or poorly conditioned cases may withhold estimates or inference; the interface does not repair matrices. Feasible alternative starts can assess sensitivity to local optima. The separate full-weight residual statistic is reported without a general chi-square p-value.</p>
+<p>These are continuous covariance models, not full replacements for Genomic SEM or graphical-model packages. Automatic model search, binary extensions and across-group comparisons are not exposed here. See the <a href="../../gsuite/docs/mr-workflow.html">MR workflow</a> for instrument-based directional analysis and <a href="../../gsuite/docs/summary-statistic-analysis.html">summary-statistic guide</a> for covariance estimation.</p>
 
 
 </section>

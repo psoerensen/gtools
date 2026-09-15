@@ -293,6 +293,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/covariance-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SEM and graphical models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Analysis with an assistant</span></a>
   </div>
@@ -483,6 +489,7 @@ window.Quarto = {
   <li><a href="#regional-bayesian-r-workflow" id="toc-regional-bayesian-r-workflow" class="nav-link" data-scroll-target="#regional-bayesian-r-workflow">Regional Bayesian R workflow</a></li>
   <li><a href="#linear-regression-gwas-input-for-mapping" id="toc-linear-regression-gwas-input-for-mapping" class="nav-link" data-scroll-target="#linear-regression-gwas-input-for-mapping">Linear-regression GWAS input for mapping</a></li>
   <li><a href="#mr-through-the-r-interface" id="toc-mr-through-the-r-interface" class="nav-link" data-scroll-target="#mr-through-the-r-interface">MR through the R interface</a></li>
+  <li><a href="#covariance-models-through-the-r-interface" id="toc-covariance-models-through-the-r-interface" class="nav-link" data-scroll-target="#covariance-models-through-the-r-interface">Covariance models through the R interface</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -908,6 +915,10 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <section id="mr-through-the-r-interface" class="level2">
 <h2 class="anchored" data-anchor-id="mr-through-the-r-interface">MR through the R interface</h2>
 <p><code>gcorr()</code> exposes the native GSMR, GSMR2, IVW, Egger and weighted-median components. Use <code>task="prepare_mr"</code> with aligned trait tables and one LDlist, then <code>task="mr"</code> on the serialized preparation. Selection decisions, HEIDI results, estimate units and method-specific diagnostics remain explicit. Preparation requires matched ancestry and an explicit non-overlapping-sample assertion. Numerical selection/filtering/estimation stays in gcorr; the R layer converts inputs and results. See the <a href="../../gsuite/docs/mr-workflow.html">MR workflow</a>.</p>
+</section>
+<section id="covariance-models-through-the-r-interface" class="level2">
+<h2 class="anchored" data-anchor-id="covariance-models-through-the-r-interface">Covariance models through the R interface</h2>
+<p><code>gcorr_covariance()</code> retains labelled continuous genetic covariance and full joint sampling covariance. <code>gcorr()</code> exposes recursive SEM, descriptive partial-correlation networks and fixed-graph GGM through the existing native gcorr fitter. Parameter tables, trait units and estimation metadata remain explicit. See the <a href="../../gsuite/docs/covariance-models.html">covariance-model workflow</a>.</p>
 
 
 </section>
