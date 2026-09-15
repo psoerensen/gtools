@@ -476,8 +476,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>gmap</td>
-<td>Native single-causal-variant colocalisation; future association and fine-mapping owner</td>
-<td>Currently uses only the C++ standard library; no gsuite R binding</td>
+<td>Native colocalisation and optional regional BayesC/BayesR analysis; future association owner</td>
+<td>Core is standalone; optional gmap::bayes uses gbayes; no R binding</td>
 </tr>
 <tr class="odd">
 <td>gbayes</td>
@@ -548,6 +548,7 @@ ul.task-list li input[type="checkbox"] {
     adapter --&gt; gsolve
     gscore[gscore]
     gmap[gmap]
+    gmap_bayes["gmap::bayes (optional)"] --&gt; gbayes
     gbayes[gbayes] --&gt; gmat
     gsuite[gsuite R package] --&gt; gbits
     gsuite --&gt; gmat
@@ -555,7 +556,7 @@ ul.task-list li input[type="checkbox"] {
     gsuite --&gt; greml
     gsuite --&gt; gsolve
     gsuite --&gt; adapter</code></pre>
-<p>There is no reverse dependency from gsolve or greml to gbits. The gscore scoring implementation reads BED directly and has no suite-library dependency. Its independent build does not change its role as the ecosystem’s scoring library. <code>gsim</code> is a separate user-facing R package; its simulation-to-analysis workflow exchanges data with gsuite and is not a native-library dependency. gbayes is an optional native library using gmat; gmap currently provides standalone colocalisation. Neither is a current gsuite R-package dependency.</p>
+<p>There is no reverse dependency from gsolve or greml to gbits. The gscore scoring implementation reads BED directly and has no suite-library dependency. Its independent build does not change its role as the ecosystem’s scoring library. <code>gsim</code> is a separate user-facing R package; its simulation-to-analysis workflow exchanges data with gsuite and is not a native-library dependency. gbayes is an optional native library using gmat. gmap retains standalone colocalisation and provides an optional gmap::bayes companion for regional posterior workflows. Neither is a current gsuite R-package dependency.</p>
 </section>
 <section id="ownership-rules" class="level2">
 <h2 class="anchored" data-anchor-id="ownership-rules">Ownership rules</h2>
