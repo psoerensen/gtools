@@ -60,6 +60,18 @@
     ]
   },
   {
+    "objectID": "gsuite/docs/covariance-models.html#test-specified-hypotheses",
+    "href": "gsuite/docs/covariance-models.html#test-specified-hypotheses",
+    "title": "Genetic covariance, SEM and graphical models",
+    "section": "Test specified hypotheses",
+    "text": "Test specified hypotheses\nTests use the fitted parameter covariance and call the native gcorr constraint components. For SEM, each row of \\(R\\) defines one linear hypothesis \\(R\\theta=c\\). Column names must exactly match the fitted parameter table.\nR &lt;- matrix(0, 2, nrow(sem$estimates),\n  dimnames = list(c(\"equal lA and lB\", \"lC equals 0.5\"),\n                  sem$estimates$parameter))\nR[1, c(\"lA\", \"lB\")] &lt;- c(1, -1)\nR[2, \"lC\"] &lt;- 1\n\nsem_test &lt;- gcorr(sem, method = \"sem\", task = \"test\",\n  constraints = R, control = list(target = c(0, 0.5)))\nsem_test$results\nThis is one joint two-degree-of-freedom Wald test. Test a single path with one row, or test several paths jointly with several independent rows. Repeating a constraint does not create additional evidence; dependent constraints return an unavailable result with a reason.\nFor a fitted GGM, select one or more edges that were free in the original graph:\nedge_test &lt;- gcorr(ggm, method = \"ggm\", task = \"test\",\n  edges = matrix(c(\"A\", \"B\", \"B\", \"C\"), ncol = 2, byrow = TRUE))\nedge_test$results\nThe native test evaluates whether the selected precision entries are jointly zero in the fitted encompassing graph. This is equivalent to zero partial correlation for those edges. Fixed or absent edges cannot be tested as fitted parameters. The test does not compare two independently fitted objectives and does not validate a graph chosen after inspecting the same data.",
+    "crumbs": [
+      "gsuite",
+      "Tutorials",
+      "SEM and graphical models"
+    ]
+  },
+  {
     "objectID": "gsuite/docs/covariance-models.html#reuse-an-existing-gcorr-result",
     "href": "gsuite/docs/covariance-models.html#reuse-an-existing-gcorr-result",
     "title": "Genetic covariance, SEM and graphical models",
@@ -76,7 +88,7 @@
     "href": "gsuite/docs/covariance-models.html#read-the-diagnostics-before-interpreting-parameters",
     "title": "Genetic covariance, SEM and graphical models",
     "section": "Read the diagnostics before interpreting parameters",
-    "text": "Read the diagnostics before interpreting parameters\nFitting uses diagonally weighted least squares, full-\\(V\\) sandwich uncertainty and a residual-contrast fit test. It is not an individual-level Gaussian likelihood. Check available, converged, identified, boundary and inference_available. Boundary, singular or poorly conditioned cases may withhold estimates or inference; the interface does not repair matrices. Feasible alternative starts can assess sensitivity to local optima. The separate full-weight residual statistic is reported without a general chi-square p-value.\nThese are continuous covariance models, not full replacements for Genomic SEM or graphical-model packages. Automatic model search, binary extensions and across-group comparisons are not exposed here. See the MR workflow for instrument-based directional analysis and summary-statistic guide for covariance estimation.",
+    "text": "Read the diagnostics before interpreting parameters\nFitting uses diagonally weighted least squares, full-\\(V\\) sandwich uncertainty and a residual-contrast fit test. It is not an individual-level Gaussian likelihood. Check available, converged, identified, boundary and inference_available. Boundary, singular or poorly conditioned cases may withhold estimates or inference; tests are then returned as unavailable rather than assigned a statistic. The interface does not repair matrices. Feasible alternative starts can assess sensitivity to local optima. The separate full-weight residual statistic is reported without a general chi-square p-value.\nThese are continuous covariance models, not full replacements for Genomic SEM or graphical-model packages. Automatic model search, binary extensions and across-group comparisons are not exposed here. See the MR workflow for instrument-based directional analysis and summary-statistic guide for covariance estimation.",
     "crumbs": [
       "gsuite",
       "Tutorials",
@@ -1213,7 +1225,7 @@
     "href": "gsuite/docs/methods.html#covariance-models-through-the-r-interface",
     "title": "Methods",
     "section": "Covariance models through the R interface",
-    "text": "Covariance models through the R interface\ngcorr_covariance() retains labelled continuous genetic covariance and full joint sampling covariance. gcorr() exposes recursive SEM, descriptive partial-correlation networks and fixed-graph GGM through the existing native gcorr fitter. Parameter tables, trait units and estimation metadata remain explicit. See the covariance-model workflow.",
+    "text": "Covariance models through the R interface\ngcorr_covariance() retains labelled continuous genetic covariance and full joint sampling covariance. gcorr() exposes recursive SEM, descriptive partial-correlation networks and fixed-graph GGM through the existing native gcorr fitter. Parameter tables, trait units and estimation metadata remain explicit. Fitted SEM paths and free GGM edges support native joint Wald tests. See the covariance-model workflow.",
     "crumbs": [
       "gsuite",
       "About gsuite",
@@ -1823,7 +1835,7 @@
     "href": "gsuite/docs/architecture.html#covariance-models-through-the-r-interface",
     "title": "Architecture",
     "section": "Covariance models through the R interface",
-    "text": "Covariance models through the R interface\ngcorr_covariance() retains labelled continuous genetic covariance and full joint sampling covariance. gcorr() exposes recursive SEM, descriptive partial-correlation networks and fixed-graph GGM through the existing native gcorr fitter. Parameter tables, trait units and estimation metadata remain explicit. See the covariance-model workflow.",
+    "text": "Covariance models through the R interface\ngcorr_covariance() retains labelled continuous genetic covariance and full joint sampling covariance. gcorr() exposes recursive SEM, descriptive partial-correlation networks and fixed-graph GGM through the existing native gcorr fitter. Parameter tables, trait units and estimation metadata remain explicit. Fitted SEM paths and free GGM edges support native joint Wald tests. See the covariance-model workflow.",
     "crumbs": [
       "gsuite",
       "About gsuite",
