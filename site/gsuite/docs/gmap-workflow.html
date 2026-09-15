@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Prepare linear-regression summaries, fit three Bayesian models and compare two traits.">
 
-<title>genotype-filtering – gtools</title>
+<title>From GWAS results to fine-mapping and colocalisation – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -186,7 +187,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/genotype-filtering.html">Marker filtering</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gmap-workflow.html">Fine-mapping and colocalisation</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -280,7 +281,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gmap-workflow.html" class="sidebar-item-text sidebar-link">
+  <a href="../../gsuite/docs/gmap-workflow.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Fine-mapping and colocalisation</span></a>
   </div>
 </li>
@@ -304,7 +305,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/genotype-filtering.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../gsuite/docs/genotype-filtering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Marker filtering</span></a>
   </div>
 </li>
@@ -455,77 +456,241 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#marker-qc-contract" id="toc-marker-qc-contract" class="nav-link active" data-scroll-target="#marker-qc-contract">Marker-QC contract</a>
-  <ul class="collapse">
-  <li><a href="#scope-and-ownership" id="toc-scope-and-ownership" class="nav-link" data-scroll-target="#scope-and-ownership">Scope and ownership</a></li>
-  <li><a href="#boundary-rules" id="toc-boundary-rules" class="nav-link" data-scroll-target="#boundary-rules">Boundary rules</a></li>
-  <li><a href="#exact-hwe-definition" id="toc-exact-hwe-definition" class="nav-link" data-scroll-target="#exact-hwe-definition">Exact HWE definition</a></li>
-  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a></li>
-  </ul></li>
+  <li><a href="#the-workflow" id="toc-the-workflow" class="nav-link active" data-scroll-target="#the-workflow">The workflow</a></li>
+  <li><a href="#prepare-summary-statistics" id="toc-prepare-summary-statistics" class="nav-link" data-scroll-target="#prepare-summary-statistics">Prepare summary statistics</a></li>
+  <li><a href="#a-small-simulation-with-known-truth" id="toc-a-small-simulation-with-known-truth" class="nav-link" data-scroll-target="#a-small-simulation-with-known-truth">A small simulation with known truth</a></li>
+  <li><a href="#fit-the-three-methods" id="toc-fit-the-three-methods" class="nav-link" data-scroll-target="#fit-the-three-methods">Fit the three methods</a></li>
+  <li><a href="#inspect-estimates-sets-and-chains" id="toc-inspect-estimates-sets-and-chains" class="nav-link" data-scroll-target="#inspect-estimates-sets-and-chains">Inspect estimates, sets and chains</a></li>
+  <li><a href="#compare-the-traits-without-refitting" id="toc-compare-the-traits-without-refitting" class="nav-link" data-scroll-target="#compare-the-traits-without-refitting">Compare the traits without refitting</a></li>
+  <li><a href="#numerical-checks-and-saved-results" id="toc-numerical-checks-and-saved-results" class="nav-link" data-scroll-target="#numerical-checks-and-saved-results">Numerical checks and saved results</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/genotype-filtering.html">Marker filtering</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gmap-workflow.html">Fine-mapping and colocalisation</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">From GWAS results to fine-mapping and colocalisation</h1>
+</div>
+
+<div>
+  <div class="description">
+    Prepare linear-regression summaries, fit three Bayesian models and compare two traits.
+  </div>
+</div>
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
-<section id="marker-qc-contract" class="level1">
-<h1>Marker-QC contract</h1>
-<section id="scope-and-ownership" class="level2">
-<h2 class="anchored" data-anchor-id="scope-and-ownership">Scope and ownership</h2>
-<p><code>gs_gfilter()</code> is gsuite’s summary-only marker-selection operation. It accepts the strict serializable <code>c("gs_genotypes", "Glist")</code> descriptor produced by <code>gs_gprep(task = "prepare")</code> and returns a plain marker-ID vector. It does not mutate the descriptor, read packed BED genotype bytes, write BED or CSR files, decode a genotype matrix, or construct sparse LD. gmat and gbits remain unchanged owners of metadata/LD and packed-genotype operations respectively.</p>
-<p>Marker identity is canonical chromosome/file/BIM order. Every required chromosome-wise field is checked for the same shape, and IDs must be complete and globally unique. The existing preparation validator also reopens the BIM/FAM/BED descriptors and verifies source mappings. Genotype counts must be nonnegative integers whose sum equals the exact summary population recorded by <code>sample_source_indices_0based</code> and <code>provenance$summary_samples</code>. MAF must agree with <code>n0</code>, <code>n1</code>, and <code>n2</code>. Thus a study-sample preparation uses that selected population rather than the complete FAM count.</p>
+</header>
+
+
+<section id="the-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="the-workflow">The workflow</h2>
+<p>Start with aligned GWAS results and a saved <code>LDlist</code>. Prepare the statistics, fit each region and trait, inspect marker support, then compare fitted multi-effect components with <code>coloc()</code>.</p>
+<p>This example requires a development installation of gsuite and gsim. Download <a href="../tools/examples/run_gmap_workflow.R">the complete R script</a> and run it from your working directory with <code>source("run_gmap_workflow.R")</code>. It writes one reusable result bundle and supporting files under <code>build/examples/gmap-workflow</code>; rerunning replaces those example outputs. Set <code>options(gsuite.mapping.out = "another-directory")</code> to choose another location. The website displays saved results and does not run models.</p>
 </section>
-<section id="boundary-rules" class="level2">
-<h2 class="anchored" data-anchor-id="boundary-rules">Boundary rules</h2>
-<p>Each enabled rule creates a full-length exclusion mask; the final mask is their union. <code>NULL</code> disables a numeric rule and <code>FALSE</code> disables a logical rule.</p>
-<ul>
-<li>MAF excludes <span class="math inline">\(\mathrm{maf}_j\leq\texttt{maf}\)</span>; equality is excluded.</li>
-<li>Missingness is <span class="math inline">\(\frac{n_{\mathrm{miss}}}{n_0+n_1+n_2+n_{\mathrm{miss}}}\)</span> and excludes values strictly greater than <code>missing</code>; equality is retained.</li>
-<li>HWE excludes exact-test p-values strictly less than <code>hwe</code>; equality is retained.</li>
-<li>INFO excludes values strictly less than <code>info</code>; equality is retained.</li>
-<li>Ambiguity excludes the exact allele pairs A/T, T/A, C/G, and G/C.</li>
-<li>The indel/non-SNP rule retains only exact uppercase single-base A, C, G, or T for both alleles. It therefore rejects multi-base, symbolic, and lowercase encodings without silently normalizing alleles.</li>
-<li>MHC excludes a closed interval, including both endpoints, on stored chromosome labels <code>6</code> and <code>chr6</code>: GRCh37 <code>[28,477,797, 33,448,397]</code>, or GRCh38 <code>[28,510,120, 33,480,577]</code>. The assembly must be explicitly <code>GRCh37</code> or <code>GRCh38</code>, supplied as an argument or in <code>Glist$assembly</code>; it is never guessed.</li>
-</ul>
-<p>All numeric thresholds are finite scalars in <code>[0,1]</code>. Logical controls are nonmissing scalars. A marker-aligned INFO field is required only when INFO filtering is enabled. It may be a named numeric vector or list, but its names must be a duplicate-free exact set of prepared marker IDs. Values are reordered by identity into canonical order before the mask is calculated.</p>
+<section id="prepare-summary-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-summary-statistics">Prepare summary statistics</h2>
+<p>Each trait has an ordinary data frame with <code>marker</code>, <code>allele1</code>, <code>allele2</code>, <code>beta</code>, <code>se</code> and <code>n</code>. <code>allele1</code> is the effect/counting allele. Marker rows and alleles must already match the entire reference in order. Alignment is a separate task; this helper never flips, reorders or drops markers.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsuite)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>LD <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"build/examples/gmap-workflow/LDlist.rds"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"build/examples/gmap-workflow/workflow.rds"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>gwas <span class="ot">&lt;-</span> example<span class="sc">$</span>gwas</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gwas<span class="sc">$</span>A)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> <span class="fu">gmap_stat</span>(gwas, LD,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">phenotype_variance =</span> example<span class="sc">$</span>phenotype_variance)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> example<span class="sc">$</span>regions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The helper supports <strong>continuous outcomes analysed by ordinary linear regression with an intercept and conventional standard errors</strong>: a separate <code>y ~ marker</code> regression for each marker, without other covariates. All markers within a trait must use the same individuals. Supply the sample phenotype variance, not the residual variance or an assumed value of one.</p>
+<p>For centered genotype <span class="math inline">\(x_j\)</span> and outcome <span class="math inline">\(y\)</span>, the OLS identities give:</p>
+<p><span class="math display">\[
+d_j=x_j^\mathsf{T}x_j
+= \frac{(n-1)s_y^2}{(n-2)\operatorname{SE}(\hat\beta_j)^2+\hat\beta_j^2},
+\qquad x_j^\mathsf{T}y=d_j\hat\beta_j.
+\]</span></p>
+<p><code>gmap_stat()</code> returns <code>marker_ss = d</code> and <code>score = d * beta</code>. The native model combines these with the regional LD correlation matrix <span class="math inline">\(R\)</span>:</p>
+<p><span class="math display">\[
+X^\mathsf{T}X \approx D^{1/2} R D^{1/2},\qquad D=\operatorname{diag}(d_j).
+\]</span></p>
+<p>The marginal conversion is exact under the stated OLS contract. The full matrix is exact only with matching in-sample LD, apart from storage precision. This example uses an independent panel, so its off-diagonal entries are approximations. The <a href="https://stephenslab.github.io/susieR/articles/susie_rss.html">SuSiE summary-statistic documentation</a> also explains the role of in-sample LD in recovering an individual-data fit.</p>
+<p>Covariate-adjusted, mixed-model, logistic, robust-SE, meta-analysis and varying-sample-size summaries are outside this helper’s contract. It cannot recognise the generating analysis from numbers alone. Supplying equal <code>n</code> does not prove identical samples. Correctly prepared cross-products can still be passed directly to <code>gmap()</code>; z-only conversion is deferred.</p>
 </section>
-<section id="exact-hwe-definition" class="level2">
-<h2 class="anchored" data-anchor-id="exact-hwe-definition">Exact HWE definition</h2>
-<p>For each biallelic marker, gsuite conditions on the observed sample count and minor-allele copy count and enumerates every feasible heterozygote count with the same allele total. The two-sided p-value is the sum of conditional genotype probabilities no greater than the observed genotype probability. Probabilities within relative tolerance <code>1e-12</code> are treated as ties. This is the conventional probability-ordering exact test. Monomorphic markers receive p-value 1. All-missing or structurally invalid counts are descriptor errors; any otherwise nonfinite HWE result is conservatively excluded when HWE filtering is enabled.</p>
-<p>qgg 1.1.6 instead uses a one-degree-of-freedom Pearson chi-square calculation. The tested version’s <code>gfilter()</code> also has disabled-mask hazards, relies on incomplete positional/name alignment, and subsets its combined mask incorrectly during INFO filtering. gsuite deliberately uses the exact test, complete identity validation, independent full-length masks, and an explicit default HWE threshold of <code>1e-12</code>. It also freezes the documented inclusive MAF boundary.</p>
+<section id="a-small-simulation-with-known-truth" class="level2">
+<h2 class="anchored" data-anchor-id="a-small-simulation-with-known-truth">A small simulation with known truth</h2>
+<p>The complete script generates binomial dosages with correlated neighbours and uses <code>gsim()</code> for continuous phenotypes. The artificial coordinates have no biological interpretation.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GWAS cohorts</td>
+<td>Two disjoint cohorts of 10,000 individuals each</td>
+</tr>
+<tr class="even">
+<td>LD reference</td>
+<td>Independent 4,000-individual panel from the same generator</td>
+</tr>
+<tr class="odd">
+<td>Regions</td>
+<td>Two artificial chromosomes, 20 markers each</td>
+</tr>
+<tr class="even">
+<td>Genotype construction</td>
+<td>Allele frequency 0.3; adjacent copy probability 0.8</td>
+</tr>
+<tr class="odd">
+<td>Shared region</td>
+<td>m08 affects both traits</td>
+</tr>
+<tr class="even">
+<td>Distinct region</td>
+<td>m25 affects A; m36 affects B</td>
+</tr>
+<tr class="odd">
+<td>Effects</td>
+<td>0.12 and 0.14 per standardized dosage; converted to raw-dosage units</td>
+</tr>
+<tr class="even">
+<td>Residual variance</td>
+<td>Known simulation value 1, fixed during fitting</td>
+</tr>
+<tr class="odd">
+<td>Seeds</td>
+<td>Genotypes 20260915; gsim 20260916 and 20260917</td>
+</tr>
+</tbody>
+</table>
+<p>The LD reference retains all within-region correlations, is prepared once, and caches one eigensystem per region. Each call reuses that preparation across traits. The script fits traits separately; it is not a joint multivariate Bayesian model. Marginal GWAS results are calculated separately in each cohort.</p>
 </section>
-<section id="workflow" class="level2">
-<h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gs_gprep</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">study =</span> <span class="st">"Reference"</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">bedfiles =</span> bedfiles,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"prepare"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">nthreads =</span> <span class="dv">4</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>rsids <span class="ot">&lt;-</span> <span class="fu">gs_gfilter</span>(</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">maf =</span> <span class="fl">0.01</span>,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing =</span> <span class="fl">0.05</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">hwe =</span> <span class="fl">1e-12</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">ambiguous =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">indels =</span> <span class="cn">TRUE</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gs_gprep</span>(</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">rsids =</span> rsids,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">out_prefix =</span> <span class="st">"reference_ld"</span>,</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">nthreads =</span> <span class="dv">4</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Preparation computes reusable summaries once. The same unchanged descriptor can be filtered under several policies, and sparse LD is subsequently built only for the selected markers.</p>
+<section id="fit-the-three-methods" class="level2">
+<h2 class="anchored" data-anchor-id="fit-the-three-methods">Fit the three methods</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">residual_variance =</span> <span class="dv">1</span>, <span class="at">effect_variance =</span> .<span class="dv">04</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mc <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">burnin =</span> <span class="dv">1000</span>, <span class="at">sampling_sweeps =</span> <span class="dv">5000</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">seeds =</span> <span class="fu">c</span>(<span class="dv">31</span>, <span class="dv">97</span>), <span class="at">retain_diagnostics =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>bayesc <span class="ot">&lt;-</span> <span class="fu">gmap</span>(stat, LD, regions, <span class="at">method =</span> <span class="st">"bayesc"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">c</span>(prior, <span class="fu">list</span>(<span class="at">inclusion_probability =</span> .<span class="dv">05</span>)), <span class="at">control =</span> mc)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>bayesr <span class="ot">&lt;-</span> <span class="fu">gmap</span>(stat, LD, regions, <span class="at">method =</span> <span class="st">"bayesr"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">c</span>(prior, <span class="fu">list</span>(<span class="at">weights =</span> <span class="fu">c</span>(.<span class="dv">95</span>, .<span class="dv">01</span>, .<span class="dv">01</span>, .<span class="dv">03</span>))), <span class="at">control =</span> mc)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>multi <span class="ot">&lt;-</span> <span class="fu">gmap</span>(stat, LD, regions, <span class="at">method =</span> <span class="st">"multi_effect"</span>, <span class="at">prior =</span> prior,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">effects =</span> <span class="dv">3</span>, <span class="at">max_sweeps =</span> <span class="dv">500</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">estimate_effect_variance =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These deliberately specified priors differ between methods; the example is not a ranking experiment. <code>effect_variance</code> is on the original GWAS effect scale. BayesR uses its default variance multipliers. Multi-effect can reduce unneeded component variances to zero. Residual variance is fixed in this R workflow; the known simulation value is not a general recommendation for data. A regional fit also omits the other region’s small genetic contribution, so fixing the residual variance at one is a deliberate working approximation.</p>
+</section>
+<section id="inspect-estimates-sets-and-chains" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-estimates-sets-and-chains">Inspect estimates, sets and chains</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bayesr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bayesr<span class="sc">$</span>estimates)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>bayesr<span class="sc">$</span>sets<span class="sc">$</span>shared<span class="sc">$</span>A</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>bayesr<span class="sc">$</span>details<span class="sc">$</span>shared<span class="sc">$</span>A<span class="sc">$</span>chain_agreement</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bayesr, <span class="at">region =</span> <span class="st">"shared"</span>, <span class="at">trait =</span> <span class="st">"A"</span>, <span class="at">quantity =</span> <span class="st">"chains"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multi)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>multi<span class="sc">$</span>sets<span class="sc">$</span>shared<span class="sc">$</span>A</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(multi, <span class="at">region =</span> <span class="st">"shared"</span>, <span class="at">trait =</span> <span class="st">"A"</span>, <span class="at">quantity =</span> <span class="st">"objective"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/gmap-workflow/mapping.png" class="img-fluid figure-img"></p>
+<figcaption>Marker support for the three methods; vertical dotted lines mark the causal variants.</figcaption>
+</figure>
+</div>
+<p>For this fixed simulation, all methods selected the causal marker first:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Region / trait</th>
+<th>Top marker (all methods)</th>
+<th style="text-align: right;">BayesC sum of PIPs</th>
+<th style="text-align: right;">BayesR sum of PIPs</th>
+<th style="text-align: right;">Multi-effect sum of PIPs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Shared / A</td>
+<td>m08</td>
+<td style="text-align: right;">1.109</td>
+<td style="text-align: right;">1.297</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td>Shared / B</td>
+<td>m08</td>
+<td style="text-align: right;">1.273</td>
+<td style="text-align: right;">1.465</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="odd">
+<td>Distinct / A</td>
+<td>m25</td>
+<td style="text-align: right;">1.155</td>
+<td style="text-align: right;">1.356</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+<tr class="even">
+<td>Distinct / B</td>
+<td>m36</td>
+<td style="text-align: right;">1.111</td>
+<td style="text-align: right;">1.293</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+</tbody>
+</table>
+<p>The top-marker PIPs exceed 0.99999. Each fit returned one complete set. All four multi-effect fits converged in two sweeps. The largest BayesR PIP range between the two chains was 0.014. These strong signals make an easy workflow demonstration, not a demanding fine-mapping evaluation.</p>
+<p>BayesC/BayesR report PIPs pooled over the two chains. Chain-specific PIPs and ranges are available; agreement alone does not certify convergence. Their sets group marginal PIP mass within LD neighbourhoods. Multi-effect sets represent component assignment probabilities. These set probabilities are not interchangeable, and this one simulation does not establish coverage. The sum of PIPs is the expected number of active markers, not necessarily the number of independent signals.</p>
+</section>
+<section id="compare-the-traits-without-refitting" class="level2">
+<h2 class="anchored" data-anchor-id="compare-the-traits-without-refitting">Compare the traits without refitting</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>shared <span class="ot">&lt;-</span> <span class="fu">coloc</span>(multi, multi, <span class="at">trait1 =</span> <span class="st">"A"</span>, <span class="at">trait2 =</span> <span class="st">"B"</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">complete_region_coverage =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">non_overlapping_samples =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(shared)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>shared<span class="sc">$</span>estimates</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>shared<span class="sc">$</span>component_status</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shared, <span class="at">region =</span> <span class="st">"shared"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shared, <span class="at">region =</span> <span class="st">"distinct"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/gmap-workflow/coloc.png" class="img-fluid figure-img"></p>
+<figcaption>Component-pair colocalisation probabilities in the shared and distinct regions.</figcaption>
+</figure>
+</div>
+<p>H0 means neither trait is associated; H1/H2 mean only one is associated; H3 means distinct causal variants; H4 means a shared causal variant. These are <strong>component-pair probabilities</strong>, not a single region-wide posterior. The defaults are per-variant priors <span class="math inline">\(p_1=p_2=10^{-4}\)</span> and <span class="math inline">\(p_{12}=10^{-5}\)</span>. In this run, shared-region H4 was 0.999999999991; distinct-region H3 rounded to 1, with H4 about <span class="math inline">\(3.24\times10^{-45}\)</span>. These values reflect this strong, artificial example and its specified priors, not general performance. Changing these priors reuses the saved evidence. No eligible component pairs means there is no eligible comparison; it is not evidence for H0.</p>
+</section>
+<section id="numerical-checks-and-saved-results" class="level2">
+<h2 class="anchored" data-anchor-id="numerical-checks-and-saved-results">Numerical checks and saved results</h2>
+<p>The script compares the converted scores and diagonals against direct cross-products from the simulated individuals. It also fits all three methods from both routes, with the same LD and seeds, and checks PIPs and posterior means. That validates the conversion; it does not validate the external-LD approximation or establish calibration. The LD file checksums are checked before and after fitting.</p>
+<p>The run on 15 September 2026 used gsuite 0.43.0, gsim 0.9.0 and R 4.4.1. The largest score/diagonal discrepancy was <span class="math inline">\(1.82\times10^{-12}\)</span>; the largest posterior-mean discrepancy was <span class="math inline">\(1.11\times10^{-16}\)</span>. PIPs agreed to numerical precision. Approximate observed times for four region/trait fits per method were 0.69 s (BayesC), 6.16 s (BayesR) and 0.36 s (multi-effect). The whole script took 17.91 s, including preparation, repeat fits for verification, colocalisation and figures. These are illustrative elapsed times on one laptop, not a benchmark; another package-build process was also active.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>example<span class="sc">$</span>conversion</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>example<span class="sc">$</span>equivalence</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>example<span class="sc">$</span>timing</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(example<span class="sc">$</span>fits<span class="sc">$</span>bayesr)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(example<span class="sc">$</span>coloc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>workflow.rds</code> contains the summaries, prepared statistics, truth, fitted objects and checks. <code>report.txt</code> records summaries and package versions. The directory also contains two figures and compact CSV tables. Saved fits can be plotted without the LD files; a new <code>coloc()</code> call requires the reference files so that eligibility and reference checks can run.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

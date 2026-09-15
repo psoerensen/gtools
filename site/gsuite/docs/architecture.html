@@ -217,6 +217,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gmap-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fine-mapping and colocalisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Analysis with an assistant</span></a>
   </div>
@@ -477,17 +483,17 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td>gmap</td>
 <td>Native colocalisation, regional Bayesian analysis and posterior-set interpretation; future association owner</td>
-<td>Core is standalone; optional gmap::bayes uses gbayes; no R binding</td>
+<td>Core is standalone; optional gmap::bayes uses gbayes; gsuite binds regional Bayesian fitting and component colocalisation</td>
 </tr>
 <tr class="odd">
 <td>gbayes</td>
 <td>Native BayesC/BayesR, single-/multi-effect inference with optional component-variance learning</td>
-<td>Uses gmat cross-products or prepared factors; no R binding yet</td>
+<td>Uses gmat cross-products or prepared factors; bounded R binding through gsuite::gmap</td>
 </tr>
 <tr class="even">
 <td>gsuite</td>
 <td>Unified R/native entry point and suite-level integration documentation</td>
-<td>Currently binds selected gsolve, greml, gbits and gmat capabilities and requires the gbits gsolve adapter</td>
+<td>Currently binds selected gsolve, greml, gbits, gmat, gcorr and gmap/gbayes capabilities and requires the gbits gsolve adapter</td>
 </tr>
 </tbody>
 </table>
@@ -552,11 +558,13 @@ ul.task-list li input[type="checkbox"] {
     gbayes[gbayes] --&gt; gmat
     gsuite[gsuite R package] --&gt; gbits
     gsuite --&gt; gmat
+    gsuite --&gt; gmap_bayes
     gsuite --&gt; gcorr
     gsuite --&gt; greml
     gsuite --&gt; gsolve
     gsuite --&gt; adapter</code></pre>
-<p>There is no reverse dependency from gsolve or greml to gbits. The gscore scoring implementation reads BED directly and has no suite-library dependency. Its independent build does not change its role as the ecosystem’s scoring library. <code>gsim</code> is a separate user-facing R package; its simulation-to-analysis workflow exchanges data with gsuite and is not a native-library dependency. gbayes is an optional native library using gmat. gmap retains standalone colocalisation and provides an optional gmap::bayes companion for regional posterior workflows. Neither is a current gsuite R-package dependency.</p>
+<p>There is no reverse dependency from gsolve or greml to gbits. The gscore scoring implementation reads BED directly and has no suite-library dependency. Its independent build does not change its role as the ecosystem’s scoring library. <code>gsim</code> is a separate user-facing R package; its simulation-to-analysis workflow exchanges data with gsuite and is not a native-library dependency. gbayes is an optional native library using gmat. gmap retains standalone colocalisation and provides an optional gmap::bayes companion for regional posterior workflows. Both are now installed dependencies of the experimental gsuite <code>gmap()</code> R interface. Only the R conversion layer lives in gsuite; fitting and posterior-set construction remain native. The R interface accepts named regions and traits, with explicit sufficient statistics and fixed residual variance. Each region is prepared once across traits, using verified cached eigenpairs when available. Traits are fitted separately, not as a joint multivariate model. Saved multi-effect evidence feeds <code>coloc()</code> without refitting; LD is reread only for purity checks.</p>
+<p><code>gmap_stat()</code> is R-side input preparation for the native mapping workflow. It reconstructs marginal OLS cross-products from aligned beta/SE/n and phenotype variance. It does not align alleles, infer missing sample sizes or add a native dependency. <code>gmap()</code> retains the preparation provenance. The <a href="../../gsuite/docs/gmap-workflow.html">worked mapping example</a> connects this helper to the existing native fitting and post-fit colocalisation interfaces.</p>
 </section>
 <section id="ownership-rules" class="level2">
 <h2 class="anchored" data-anchor-id="ownership-rules">Ownership rules</h2>
