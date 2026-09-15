@@ -85,10 +85,20 @@ stopifnot(max(equivalence$max_pip_error)<1e-8,max(equivalence$max_mean_error)<1e
   all(fits$multi_effect$diagnostic_summary$converged))
 shared <- coloc(fits$multi_effect,fits$multi_effect,trait1="A",trait2="B",
   control=list(complete_region_coverage=TRUE,non_overlapping_samples=TRUE))
+# Single-causal ABF route uses the regional GWAS summaries directly, without LD.
+abf <- lapply(names(regions),function(region) {
+  ix <- match(regions[[region]],gwas$A$marker)
+  coloc(gwas$A[ix,],gwas$B[ix,],method="abf",trait1="A",trait2="B",regions=region,
+    phenotype_sd=sqrt(c(A=A$variance,B=B$variance)),
+    control=list(complete_region_coverage=TRUE,non_overlapping_samples=TRUE),
+    sensitivity=list(lower_shared=list(p1=1e-4,p2=1e-4,p12=1e-6)))
+})
+names(abf) <- names(regions)
+write.csv(do.call(rbind,lapply(abf,`[[`,"estimates")),file.path(out,"abf.csv"),row.names=FALSE)
 stopifnot(identical(checksums_before,tools::md5sum(unlist(LD$resource$paths))))
 truth <- data.frame(marker=ids,A=A$truth,B=B$truth)
 saveRDS(list(gwas=gwas,phenotype_variance=c(A=A$variance,B=B$variance),stat=stat,
-  regions=regions,truth=truth,fits=fits,coloc=shared,conversion=conversion,
+  regions=regions,truth=truth,fits=fits,coloc=shared,abf=abf,conversion=conversion,
   equivalence=equivalence,timing=do.call(rbind,timing)),file.path(out,"workflow.rds"))
 write.csv(do.call(rbind,timing),file.path(out,"timing.csv"),row.names=FALSE)
 write.csv(conversion,file.path(out,"conversion.csv"),row.names=FALSE)
