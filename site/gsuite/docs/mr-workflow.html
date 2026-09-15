@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="How gsuite combines numerical solving and mixed-model inference.">
+<meta name="description" content="Prepare aligned candidate variants and use native GSMR, GSMR2, IVW, Egger and weighted median.">
 
-<title>Numerical and mixed-model routes – gtools</title>
+<title>Mendelian randomisation with prepared instruments – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -152,7 +187,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-architecture.html">Technical reference</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gsolve-greml.html">Numerical routes</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/mr-workflow.html">Mendelian randomisation</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -207,13 +242,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Tutorials</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
@@ -252,7 +287,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/mr-workflow.html" class="sidebar-item-text sidebar-link">
+  <a href="../../gsuite/docs/mr-workflow.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Mendelian randomisation</span></a>
   </div>
 </li>
@@ -331,13 +366,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Technical reference</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link">
@@ -346,7 +381,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gsolve-greml.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../gsuite/docs/gsolve-greml.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Numerical routes</span></a>
   </div>
 </li>
@@ -427,27 +462,25 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#numerical-and-mixed-model-routes" id="toc-numerical-and-mixed-model-routes" class="nav-link active" data-scroll-target="#numerical-and-mixed-model-routes">Numerical and mixed-model routes</a>
-  <ul class="collapse">
-  <li><a href="#numerical-and-statistical-boundary" id="toc-numerical-and-statistical-boundary" class="nav-link" data-scroll-target="#numerical-and-statistical-boundary">Numerical and statistical boundary</a></li>
-  <li><a href="#covariance-and-coefficient-routes" id="toc-covariance-and-coefficient-routes" class="nav-link" data-scroll-target="#covariance-and-coefficient-routes">Covariance and coefficient routes</a></li>
-  <li><a href="#scaling-and-execution" id="toc-scaling-and-execution" class="nav-link" data-scroll-target="#scaling-and-execution">Scaling and execution</a></li>
-  <li><a href="#interfaces-and-evidence" id="toc-interfaces-and-evidence" class="nav-link" data-scroll-target="#interfaces-and-evidence">Interfaces and evidence</a></li>
-  </ul></li>
+  <li><a href="#two-explicit-steps" id="toc-two-explicit-steps" class="nav-link active" data-scroll-target="#two-explicit-steps">Two explicit steps</a></li>
+  <li><a href="#prepare-and-inspect-instruments" id="toc-prepare-and-inspect-instruments" class="nav-link" data-scroll-target="#prepare-and-inspect-instruments">Prepare and inspect instruments</a></li>
+  <li><a href="#fit-and-examine-results" id="toc-fit-and-examine-results" class="nav-link" data-scroll-target="#fit-and-examine-results">Fit and examine results</a></li>
+  <li><a href="#example-results" id="toc-example-results" class="nav-link" data-scroll-target="#example-results">Example results</a></li>
+  <li><a href="#direction-and-interpretation" id="toc-direction-and-interpretation" class="nav-link" data-scroll-target="#direction-and-interpretation">Direction and interpretation</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-architecture.html">Technical reference</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gsolve-greml.html">Numerical routes</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/mr-workflow.html">Mendelian randomisation</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Numerical and mixed-model routes</h1>
+<h1 class="title">Mendelian randomisation with prepared instruments</h1>
 </div>
 
 <div>
   <div class="description">
-    How gsuite combines numerical solving and mixed-model inference.
+    Prepare aligned candidate variants and use native GSMR, GSMR2, IVW, Egger and weighted median.
   </div>
 </div>
 
@@ -464,77 +497,97 @@ window.Quarto = {
 </header>
 
 
-<section id="numerical-and-mixed-model-routes" class="level1">
-<h1>Numerical and mixed-model routes</h1>
-<p>This guide explains route choice and scaling. The <a href="../../gsuite/docs/model-catalog.html">model catalog</a> owns capability status, the <a href="../../gsuite/docs/primitive-registry.html">primitive registry</a> owns reusable mechanism mappings, and <a href="../../gsuite/docs/architecture.html">architecture</a> owns package dependencies. A native primitive does not establish a qualified public R route.</p>
-<section id="numerical-and-statistical-boundary" class="level2">
-<h2 class="anchored" data-anchor-id="numerical-and-statistical-boundary">Numerical and statistical boundary</h2>
-<p>gsolve owns checked column-major matrix views, leading dimensions, caller-owned workspaces, square and rectangular operators, dense/sparse SPD factors, PCG, preconditioners, deterministic probes, SLQ, and numerical diagnostics. Its operator contracts declare symmetry, definiteness, concurrency, and available diagonals. Rectangular operators provide forward/transpose application and bounded column materialization.</p>
-<p>greml owns covariance models, fixed-effect projection, likelihood, score, standard average information (AI), optimization, prediction, and uncertainty. gsuite validates explicit R inputs and translates installed public results. Packed genotype operations belong to gbits; resource identity and LD belong to gmat. The optional gbits adapter supplies numerical operators without a reverse dependency from gsolve or greml to genotype libraries.</p>
+<section id="two-explicit-steps" class="level2">
+<h2 class="anchored" data-anchor-id="two-explicit-steps">Two explicit steps</h2>
+<p>Prepare instruments from aligned GWAS summaries and an existing <code>LDlist</code>, then fit a method to that saved preparation. All selection, LD filtering, HEIDI and estimation calculations use native gcorr components. Alignment is a separate task.</p>
+<p><a href="../tools/examples/run_mr_workflow.R">Download the complete example</a>. It constructs 12 candidate variants with exactly independent LD and outcome effects close to 0.3 times exposure effects. This is a workflow illustration, not a simulation study or a comparison of statistical accuracy. It writes one result bundle, estimate table, figure and reference files under <code>build/examples/mr-workflow</code>. The reference has 1,024 artificial individuals; the illustrative GWAS sample-size metadata are 100,000 and 90,000. No individual-level GWAS is simulated.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsuite)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"run_mr_workflow.R"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"build/examples/mr-workflow/workflow.rds"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> example<span class="sc">$</span>stat</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>LD <span class="ot">&lt;-</span> example<span class="sc">$</span>LD</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(stat<span class="sc">$</span>X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Each trait table contains <code>marker</code>, <code>allele1</code>, <code>allele2</code>, <code>beta</code>, <code>se</code> and <code>n</code>. <code>allele1</code> is the counted allele. Both tables must match the same subset of the reference in its existing order, including alleles. Rows are not reordered or flipped. Sample sizes are provenance; GSMR does not use them as weights.</p>
 </section>
-<section id="covariance-and-coefficient-routes" class="level2">
-<h2 class="anchored" data-anchor-id="covariance-and-coefficient-routes">Covariance and coefficient routes</h2>
-<p>For single-trait covariance components, <span class="math inline">\(V = \sum_c \theta_c K_c\)</span> and</p>
-<p><span class="math display">\[
-P=V^{-1}-V^{-1}F(F^{\mathsf T}V^{-1}F)^{-1}F^{\mathsf T}V^{-1}.
-\]</span></p>
+<section id="prepare-and-inspect-instruments" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-and-inspect-instruments">Prepare and inspect instruments</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>prepared <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(stat, LD, <span class="at">method =</span> <span class="st">"gsmr"</span>, <span class="at">task =</span> <span class="st">"prepare_mr"</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">exposure =</span> <span class="st">"X"</span>, <span class="at">outcome =</span> <span class="st">"Y"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">non_overlapping_samples =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">effect_units =</span> <span class="fu">c</span>(<span class="at">X =</span> <span class="st">"X units"</span>, <span class="at">Y =</span> <span class="st">"Y units"</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ancestry =</span> <span class="fu">c</span>(<span class="at">X =</span> <span class="st">"artificial"</span>, <span class="at">Y =</span> <span class="st">"artificial"</span>)))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(prepared)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>prepared<span class="sc">$</span>decisions</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>prepared<span class="sc">$</span>ld_decisions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Default preparation excludes missing estimates, very small standard errors and exposure associations above <span class="math inline">\(p=5\times10^{-8}\)</span>. It applies the original GSMR LD-pruning rule at <span class="math inline">\(r^2=0.1\)</span>, then filters retained correlations using reference sample size and BH-adjusted LD tests. At least ten instruments must remain. Use <code>method="gsmr2"</code> during preparation for its <span class="math inline">\(r^2=0.05\)</span> default.</p>
+<p>Pruning is degree-based, not significance-ranked clumping; input-order ties can change selection. Every candidate decision and every retained LD-pair decision is recorded. The prepared result is an ordinary serializable R list containing its selected statistics, filtered LD, metadata and decisions. It is not another LD reference format. <code>saveRDS()</code>/<code>readRDS()</code> preserves it without native pointers.</p>
+<p>The initial interface materializes at most 2,048 candidate markers by default. Supply a bounded candidate set, not an entire GWAS. Omissions in a sparse reference remain zeros as stored; they do not prove population independence. An invalid or poorly conditioned filtered matrix returns an unavailable result rather than being silently repaired. Inspect <code>available</code> and <code>reason</code>.</p>
+</section>
+<section id="fit-and-examine-results" class="level2">
+<h2 class="anchored" data-anchor-id="fit-and-examine-results">Fit and examine results</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>gsmr <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(prepared, <span class="at">method =</span> <span class="st">"gsmr"</span>, <span class="at">task =</span> <span class="st">"mr"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>gsmr2 <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(prepared, <span class="at">method =</span> <span class="st">"gsmr2"</span>, <span class="at">task =</span> <span class="st">"mr"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ivw <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(prepared, <span class="at">method =</span> <span class="st">"ivw"</span>, <span class="at">task =</span> <span class="st">"mr"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>egger <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(prepared, <span class="at">method =</span> <span class="st">"egger"</span>, <span class="at">task =</span> <span class="st">"mr"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>median <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(prepared, <span class="at">method =</span> <span class="st">"weighted_median"</span>, <span class="at">task =</span> <span class="st">"mr"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">seed =</span> <span class="dv">19</span>, <span class="at">bootstrap_replicates =</span> <span class="dv">1000</span>))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gsmr)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>gsmr<span class="sc">$</span>details<span class="sc">$</span>heidi</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>gsmr2<span class="sc">$</span>details<span class="sc">$</span>heidi<span class="sc">$</span>rounds</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>gsmr2<span class="sc">$</span>details<span class="sc">$</span>retained_original_indices</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gsmr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These calls deliberately share the same prepared set. GSMR applies original HEIDI filtering; GSMR2 applies iterative global HEIDI. <code>apply_heidi=FALSE</code> disables that additional filtering. Preparation is never repeated during fitting. HEIDI indices refer to prepared rows; <code>retained_original_indices</code> maps the final subset back to the original candidate rows. All indices exposed in R are one-based.</p>
+<p>IVW, Egger and weighted median use the preparation <strong>before HEIDI</strong>, and require approximately uncorrelated instruments. Their default absolute LD tolerance is <span class="math inline">\(10^{-8}\)</span>. Raising this tolerance does not add correlated-instrument uncertainty. The constructed example has exactly zero off-diagonal LD, so all five routes can use it. The weighted-median seed is explicit; generated draws are reproducible within the same C++ runtime, not necessarily across different toolchains.</p>
+<p>Results label the exposure, outcome, method, estimate, SE and p-value. Egger also returns its intercept. Method-specific diagnostics include heterogeneity, exposure-strength measures, GSMR weights and ratio covariance, filtering results and bootstrap completion. Missing estimates mean unavailable, not zero effects. MR effects have outcome units per exposure unit; they are not genetic correlations.</p>
+</section>
+<section id="example-results" class="level2">
+<h2 class="anchored" data-anchor-id="example-results">Example results</h2>
+<p>The constructed slope is 0.3. The example produces the following effect estimates (the Egger intercept is reported separately in the saved table):</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
 <thead>
 <tr class="header">
-<th>Route</th>
-<th>Computation and storage</th>
-<th>Practical boundary</th>
+<th>Method</th>
+<th style="text-align: right;">Estimate</th>
+<th style="text-align: right;">SE</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Exact dense</td>
-<td>Factors observation covariance V; quadratic storage</td>
-<td>Small reference models; prepared genomic BED terms are rejected</td>
+<td>GSMR</td>
+<td style="text-align: right;">0.2998</td>
+<td style="text-align: right;">0.0147</td>
 </tr>
 <tr class="even">
-<td>Matrix-free covariance</td>
-<td>PCG applies inverses/projections; common Hutchinson probes estimate traces and SLQ estimates log determinants</td>
-<td>Operator and bounded <span class="math inline">\(O(nk)\)</span> Krylov/probe storage; solver and stochastic precision must both be adequate</td>
+<td>GSMR2</td>
+<td style="text-align: right;">0.2998</td>
+<td style="text-align: right;">0.0147</td>
 </tr>
 <tr class="odd">
-<td>Sparse MME</td>
-<td>Assembles coefficient-space statistics and uses a retained sparse factor or a qualified coefficient operator</td>
-<td>Fill and resource limits matter; backend, trace, inference, and uncertainty support depend on the specific API</td>
+<td>IVW</td>
+<td style="text-align: right;">0.2998</td>
+<td style="text-align: right;">0.0144</td>
 </tr>
 <tr class="even">
-<td>Hybrid covariance</td>
-<td>Uses structured sparse terms as a state-matched preconditioner for separately declared matrix-free terms</td>
-<td>Components enter once; a pedigree plus genomic sum is not automatic single-step GBLUP</td>
+<td>Egger</td>
+<td style="text-align: right;">0.2938</td>
+<td style="text-align: right;">0.0502</td>
 </tr>
 <tr class="odd">
-<td>Iterative large-p projection</td>
-<td>Nested PCG avoids retaining <span class="math inline">\(V^{-1}F\)</span> and the full fixed-normal matrix; fixed determinant uses SLQ</td>
-<td>Selected contrasts may be available while full fixed-effect covariance is unavailable</td>
+<td>Weighted median</td>
+<td style="text-align: right;">0.2984</td>
+<td style="text-align: right;">0.0179</td>
 </tr>
 </tbody>
 </table>
-<p>The low-level <code>gs_model()</code> sparse/hybrid interface is distinct from the specialized pedigree and component-MME interfaces. In particular, its older limitations must not be applied to all sparse-direct APIs. CHOLMOD selected inversion and PARDISO <code>selected_solve</code> target uncertainty are documented in <a href="../../gsuite/docs/prediction-error.html">prediction error</a>. PARDISO selected inversion is unsupported.</p>
-<p>Unbalanced multivariate covariance uses the observed principal submatrix of a trait-by-unit covariance: scatter, base-operator application, trait mixing, and gather. Random regression uses supplied basis columns. Neither operation requires a dense production incidence or Kronecker matrix. Selected prediction uncertainty computes only requested target blocks.</p>
+<p>This simple example checks that preparation, fitting and reporting connect correctly. It does not establish calibration or robustness to invalid instruments.</p>
 </section>
-<section id="scaling-and-execution" class="level2">
-<h2 class="anchored" data-anchor-id="scaling-and-execution">Scaling and execution</h2>
-<p>Prepared packed BED storage trades preparation work and memory for repeated applications; genomic production routes form no dense GRM. Sparse MME cost depends on coefficient dimension and fill. Matrix-free memory is dominated by operators and bounded Krylov/probe buffers. Nested fixed-effect solves add their own tolerance and determinant-precision requirements.</p>
-<p>Independent multiple-RHS PCG solves columns independently. Explicit true block PCG shares a block Krylov recurrence and reports rank compression, deflation, restarts, and each original RHS’s true residual. Its orchestration owns one outer thread. A two-level preconditioner uses a caller-supplied, copied, rank-compressed coarse basis tied to one covariance state; it does not discover a basis automatically. Outer RHS/probe parallelism and operator-local OpenMP must not be nested. Requested and resolved execution are reported separately.</p>
-<p>Route selection is API-specific. Low-level model routes are explicit; pedigree direct controls may resolve <code>automatic</code> to an available backend according to their documented policy. An explicit unsupported request does not silently change the statistical route.</p>
-</section>
-<section id="interfaces-and-evidence" class="level2">
-<h2 class="anchored" data-anchor-id="interfaces-and-evidence">Interfaces and evidence</h2>
-<p>The <a href="../../gsuite/docs/r-interface.html">persistent R interface</a> specifies handles, lifetime, ordering, controls, and low-level examples. The <a href="../../gsuite/docs/formula-reml.html">formula interface</a> is a separate bounded lowering API. The <a href="../../gsuite/docs/status.html#qualification-limits">package qualification limits</a> remain; that page also records the focused constructor naming repair.</p>
-<p><a href="../../gsuite/docs/status.html#qualification-limits">Model qualification</a>, <a href="../../gsuite/docs/status.html#historical-evidence">qgdata evidence</a>, and the <a href="../../gsuite/benchmarks/pedigree_50k_dmu/README.html">DMU workflow</a> retain scoped numerical evidence and negative outcomes. They do not establish general biobank readiness or universal performance. Build and packaging commands belong in <a href="../../gsuite/docs/status.html#qualification-limits">development</a> and <a href="../../gsuite/downloads.html#future-gsuite-releases">binary distribution</a>.</p>
+<section id="direction-and-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="direction-and-interpretation">Direction and interpretation</h2>
+<p>For reverse-direction MR, prepare again from the <strong>original candidate tables</strong> with exposure and outcome swapped. The reverse direction must select its own instruments; do not simply reverse a forward-selected set.</p>
+<p>This interface supports univariable, non-overlapping-sample analyses with one matching reference ancestry. It does not infer sample overlap, correct for it, perform multivariable MR or convert binary-trait effects to liability scale. User-supplied effects retain their stated units.</p>
+<p>Instrument association, a high F statistic, HEIDI filtering or colocalisation does not establish the exclusion restriction. IVW, Egger and weighted median rely on different assumptions about invalid instruments and pleiotropy. Treat their agreement as a diagnostic, not proof of causality. See also the <a href="../../gsuite/docs/gmap-workflow.html#standalone-abf-colocalisation">colocalisation workflow</a>.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

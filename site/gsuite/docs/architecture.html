@@ -223,6 +223,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/mr-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mendelian randomisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Analysis with an assistant</span></a>
   </div>
@@ -399,6 +405,7 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#dependencies" id="toc-dependencies" class="nav-link" data-scroll-target="#dependencies">Dependencies</a></li>
   <li><a href="#ownership-rules" id="toc-ownership-rules" class="nav-link" data-scroll-target="#ownership-rules">Ownership rules</a></li>
+  <li><a href="#mr-through-the-r-interface" id="toc-mr-through-the-r-interface" class="nav-link" data-scroll-target="#mr-through-the-r-interface">MR through the R interface</a></li>
   </ul>
 </nav>
     </div>
@@ -576,6 +583,10 @@ ul.task-list li input[type="checkbox"] {
 <li>The gsuite package translates explicit R values into existing public native contracts; it does not reimplement their algorithms.</li>
 <li>New cross-library dependencies require a demonstrated contract and must follow the existing direction without introducing cycles.</li>
 </ul>
+</section>
+<section id="mr-through-the-r-interface" class="level2">
+<h2 class="anchored" data-anchor-id="mr-through-the-r-interface">MR through the R interface</h2>
+<p><code>gcorr()</code> exposes the native GSMR, GSMR2, IVW, Egger and weighted-median components. Use <code>task="prepare_mr"</code> with aligned trait tables and one LDlist, then <code>task="mr"</code> on the serialized preparation. Selection decisions, HEIDI results, estimate units and method-specific diagnostics remain explicit. Preparation requires matched ancestry and an explicit non-overlapping-sample assertion. Numerical selection/filtering/estimation stays in gcorr; the R layer converts inputs and results. See the <a href="../../gsuite/docs/mr-workflow.html">MR workflow</a>.</p>
 
 
 </section>

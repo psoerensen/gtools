@@ -287,6 +287,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/mr-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mendelian randomisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Analysis with an assistant</span></a>
   </div>
@@ -476,6 +482,7 @@ window.Quarto = {
   <li><a href="#native-posterior-sets" id="toc-native-posterior-sets" class="nav-link" data-scroll-target="#native-posterior-sets">Native posterior sets</a></li>
   <li><a href="#regional-bayesian-r-workflow" id="toc-regional-bayesian-r-workflow" class="nav-link" data-scroll-target="#regional-bayesian-r-workflow">Regional Bayesian R workflow</a></li>
   <li><a href="#linear-regression-gwas-input-for-mapping" id="toc-linear-regression-gwas-input-for-mapping" class="nav-link" data-scroll-target="#linear-regression-gwas-input-for-mapping">Linear-regression GWAS input for mapping</a></li>
+  <li><a href="#mr-through-the-r-interface" id="toc-mr-through-the-r-interface" class="nav-link" data-scroll-target="#mr-through-the-r-interface">MR through the R interface</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -897,6 +904,10 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <section id="linear-regression-gwas-input-for-mapping" class="level2">
 <h2 class="anchored" data-anchor-id="linear-regression-gwas-input-for-mapping">Linear-regression GWAS input for mapping</h2>
 <p><code>gmap_stat()</code> performs a separate OLS summary conversion in the R layer: for sample phenotype variance <span class="math inline">\(s_y^2\)</span>, it reconstructs <span class="math inline">\(d_j=(n-1)s_y^2/[(n-2)SE_j^2+\hat\beta_j^2]\)</span> and <span class="math inline">\(X_j^\mathsf{T}y=d_j\hat\beta_j\)</span>. The common-sample, intercept-only, continuous-outcome contract is explicit. LD supplies the off-diagonal cross-products; external LD is approximate. Numerical fitting and sets remain native. See the <a href="../../gsuite/docs/gmap-workflow.html">worked example</a>.</p>
+</section>
+<section id="mr-through-the-r-interface" class="level2">
+<h2 class="anchored" data-anchor-id="mr-through-the-r-interface">MR through the R interface</h2>
+<p><code>gcorr()</code> exposes the native GSMR, GSMR2, IVW, Egger and weighted-median components. Use <code>task="prepare_mr"</code> with aligned trait tables and one LDlist, then <code>task="mr"</code> on the serialized preparation. Selection decisions, HEIDI results, estimate units and method-specific diagnostics remain explicit. Preparation requires matched ancestry and an explicit non-overlapping-sample assertion. Numerical selection/filtering/estimation stays in gcorr; the R layer converts inputs and results. See the <a href="../../gsuite/docs/mr-workflow.html">MR workflow</a>.</p>
 
 
 </section>
