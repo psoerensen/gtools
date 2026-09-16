@@ -475,6 +475,7 @@ window.Quarto = {
   <li><a href="#test-specified-hypotheses" id="toc-test-specified-hypotheses" class="nav-link" data-scroll-target="#test-specified-hypotheses">Test specified hypotheses</a></li>
   <li><a href="#reuse-an-existing-gcorr-result" id="toc-reuse-an-existing-gcorr-result" class="nav-link" data-scroll-target="#reuse-an-existing-gcorr-result">Reuse an existing gcorr result</a></li>
   <li><a href="#fit-and-compare-models-across-annotations" id="toc-fit-and-compare-models-across-annotations" class="nav-link" data-scroll-target="#fit-and-compare-models-across-annotations">Fit and compare models across annotations</a></li>
+  <li><a href="#a-runnable-annotation-example" id="toc-a-runnable-annotation-example" class="nav-link" data-scroll-target="#a-runnable-annotation-example">A runnable annotation example</a></li>
   <li><a href="#read-the-diagnostics-before-interpreting-parameters" id="toc-read-the-diagnostics-before-interpreting-parameters" class="nav-link" data-scroll-target="#read-the-diagnostics-before-interpreting-parameters">Read the diagnostics before interpreting parameters</a></li>
   </ul>
 </nav>
@@ -631,6 +632,48 @@ window.Quarto = {
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">constraints =</span> R)</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>loading_test<span class="sc">$</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For a grouped GGM, <code>fit$partial_correlations$estimates</code> contains labelled free edges and their full cross-group covariance. The same constraint form compares partial correlations. Set <code>control = list(quantity = "precision")</code> only when a precision-parameter contrast is the intended estimand.</p>
+</section>
+<section id="a-runnable-annotation-example" class="level2">
+<h2 class="anchored" data-anchor-id="a-runnable-annotation-example">A runnable annotation example</h2>
+<p><a href="../tools/examples/run_grouped_covariance_workflow.R">Download and run the complete four-trait example</a>. It uses gsim to generate 10,000 individuals with summary statistics at 800 markers, a separate 2,000-individual LD reference, 40 jackknife blocks and two disjoint, artificial marker annotations. The script prepares LD, estimates annotation-specific covariance with multivariate GNOVA, fits the same one-factor SEM and fixed GGM in each group, and tests one named cross-group contrast for each model. It writes results and diagnostics to <code>build/examples/grouped-covariance-workflow/</code>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/grouped-covariance.png" class="img-fluid figure-img" alt="Four heatmaps compare coding and regulatory genetic correlations with GGM partial correlations among traits A, B, C and D. The genetic correlations are broadly positive; the fixed graph sets the A-D partial correlation to zero."></p>
+<figcaption>Genetic correlations and fixed-graph partial correlations for two artificial annotation groups. Cells show point estimates; the A-D precision edge is fixed to zero in both GGM fits.</figcaption>
+</figure>
+</div>
+<p>The SEM fixes the factor variance to one. The GGM specifies all pairwise edges except A–D, which is fixed absent. Both groups converged and returned identified, non-boundary fits with joint inference available. Two selected results illustrate why the cross-group covariance matters:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 26%">
+<col style="width: 26%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quantity</th>
+<th style="text-align: right;">Coding estimate (SE)</th>
+<th style="text-align: right;">Regulatory estimate (SE)</th>
+<th style="text-align: right;">Cross-group Wald <span class="math inline">\(p\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SEM loading for A</td>
+<td style="text-align: right;">0.284 (0.030)</td>
+<td style="text-align: right;">0.310 (0.046)</td>
+<td style="text-align: right;">0.639</td>
+</tr>
+<tr class="even">
+<td>GGM partial correlation A–B</td>
+<td style="text-align: right;">0.089 (0.116)</td>
+<td style="text-align: right;">0.034 (0.080)</td>
+<td style="text-align: right;">0.665</td>
+</tr>
+</tbody>
+</table>
+<p>These are results from one artificial dataset, not calibrated evidence about annotation differences or a comparison of SEM and GGM as scientific models. The figure shows point estimates only; the saved tables include SEs, joint contrasts and per-group diagnostics. The full group-by-group source covariance and joint sampling covariance are retained with the model results.</p>
 <p>Every group fit remains in <code>fit$fits</code>, including failures and diagnostics. Joint inference is withheld if any selected group lacks regular inference or the cross-group covariance is missing or invalid. GNOVA categories may overlap; their difference is a comparison of the reported category quantities, not an estimate of mutually exclusive or uniquely attributable effects. SumHer architecture components have a different meaning and remain labelled as such.</p>
 </section>
 <section id="read-the-diagnostics-before-interpreting-parameters" class="level2">
