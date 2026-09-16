@@ -495,16 +495,21 @@ ul.task-list li input[type="checkbox"] {
 <td>Owns simulation workflows; generated data can be used in gsuite analyses</td>
 </tr>
 <tr class="even">
-<td>gmap</td>
-<td>Native colocalisation, regional Bayesian analysis and posterior-set interpretation; future association owner</td>
-<td>Core is standalone; optional gmap::bayes uses gbayes; gsuite binds regional Bayesian fitting, ABF and component colocalisation</td>
+<td>glma</td>
+<td>Native association mapping; currently additive linear scans with fixed covariates and marker-wise missing-call handling</td>
+<td>Uses installed gmat/gbits; no gsuite R binding yet. Mixed-model, LOCO and Bayesian-background scans remain planned</td>
 </tr>
 <tr class="odd">
+<td>gmap</td>
+<td>Native colocalisation, regional Bayesian analysis and posterior-set interpretation</td>
+<td>Core is standalone; optional gmap::bayes uses gbayes; gsuite binds regional Bayesian fitting, ABF and component colocalisation</td>
+</tr>
+<tr class="even">
 <td>gbayes</td>
 <td>Native BayesC/BayesR, single-/multi-effect inference with optional component-variance learning</td>
 <td>Uses gmat cross-products or prepared factors; bounded R binding through gsuite::gmap</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gsuite</td>
 <td>Unified R/native entry point and suite-level integration documentation</td>
 <td>Currently binds selected gsolve, greml, gbits, gmat, gcorr and gmap/gbayes capabilities and requires the gbits gsolve adapter</td>
