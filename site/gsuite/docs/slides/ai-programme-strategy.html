@@ -417,41 +417,6 @@ Peter Sørensen
           display:block!important;
       }</style></aside>
 </section>
-<section id="gsuite-developed-with-ai-assistance" class="slide level2 strategy-slide">
-<h2>gsuite: developed with AI assistance</h2>
-<p>A concrete example of <strong>method and software development</strong>, from numerical algorithms to an R package.</p>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="what-was-developed">What was developed</h3>
-<ul>
-<li>Numerical algorithms and native C++ code</li>
-<li>Shared libraries and reusable model components</li>
-<li>R interfaces, examples and documentation</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<h3 id="the-development-process">The development process</h3>
-<ul>
-<li>Discuss mathematics and design with AI</li>
-<li>Implement and test in the repositories</li>
-<li>Review decisions and commit accepted changes</li>
-</ul>
-</div></div>
-<p><strong>The infrastructure exists. Connecting it with assistants for research is the next step.</strong></p>
-<aside class="notes">
-<p>This presentation uses gsuite as the concrete example behind a strategy for Computational and Statistical Genetics. AI assistance has contributed to the development itself, with scientific direction and review provided by the developer. The contribution spans mathematics, algorithms, code, interfaces and documentation.</p>
-<p>The public website explains the work; gsuite remains development software. The platforms were developed first. Bringing them together with an assistant for research workflows is more recent and has only just begun.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
 <section id="from-numerical-algorithms-to-an-analysis-package" class="slide level2 strategy-slide">
 <h2>From numerical algorithms to an analysis package</h2>
 <table class="caption-top">
@@ -510,9 +475,12 @@ Peter Sørensen
 <div class="figure-summary">
 <p>Each extension can add capabilities that other models can reuse.</p>
 </div>
+<div class="source">
+<p><a href="https://psoerensen.github.io/gtools/gsuite/docs/model-development-with-an-assistant.html">From a scientific question to a supported model</a></p>
+</div>
 <aside class="notes">
 <p>The gsuite ecosystem is a collection of reusable computational building blocks. A scientific question determines the model and method, which determine the components required. Existing components may already provide what is needed. Otherwise, development adds the missing components to the collection.</p>
-<p>Availability does not establish that a particular combination is supported. The assembled model still needs statistical and numerical validation, including reference calculations and checks of assumptions, convergence and predictions. AI can help identify, combine, implement and check components. Researchers and developers define the scientific meaning and decide what evidence is sufficient.</p>
+<p>Availability does not establish that a particular combination is supported. The assembled model still needs statistical and numerical validation, including reference calculations and checks of assumptions, convergence and predictions. AI can help identify, combine, implement and check components. Researchers and developers define the scientific meaning and decide what evidence is sufficient. Code that runs becomes a supported model only after its statistical meaning and numerical behaviour have been checked.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -668,43 +636,6 @@ Peter Sørensen
           display:block!important;
       }</style></aside>
 </section>
-<section id="from-developing-gsuite-to-using-it-with-an-assistant" class="slide level2 strategy-slide">
-<h2>From developing gsuite to using it with an assistant</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="developing-the-infrastructure">Developing the infrastructure</h3>
-<ul>
-<li>Discuss the mathematics and algorithms</li>
-<li>Implement the model and computational components</li>
-<li>Build the R interface and numerical checks</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<h3 id="beginning-to-use-it-with-assistants">Beginning to use it with assistants</h3>
-<ul>
-<li>Give the assistant access to code and documentation</li>
-<li>Use existing capabilities in an analysis</li>
-<li>Identify and develop what is missing</li>
-</ul>
-</div></div>
-<p><strong>AI helped build the infrastructure. An assistant can now help researchers use and extend it.</strong></p>
-<div class="source">
-<p><a href="https://psoerensen.github.io/gtools/gsuite/docs/analysis-with-an-assistant.html">Analysis with an assistant</a> · <a href="https://psoerensen.github.io/gtools/gsuite/docs/model-development-with-an-assistant.html">Model development with an assistant</a></p>
-</div>
-<aside class="notes">
-<p>The order matters. This is not a proposal to start with a general chatbot and hope it invents the whole analysis. The assistant works with existing model interfaces, documentation, numerical components and validation evidence.</p>
-<p>The repositories and documentation are now being brought into a shared workspace. The linked walkthroughs illustrate how this can support analysis and focused extensions. This connection is still developing and does not yet constitute a complete automatic research system.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
 <section id="a-pedigree-analysis-as-a-conversation" class="slide level2 strategy-slide">
 <h2>A pedigree analysis as a conversation</h2>
 <p><strong>How much genetic variation is present in body weight, and how accurately can breeding values be predicted?</strong></p>
@@ -731,64 +662,12 @@ Peter Sørensen
 <p>Ordinary R data frames; a model that can be reviewed and rerun.</p>
 </div></div>
 <div class="source">
-<p><a href="https://psoerensen.github.io/gtools/gsuite/docs/pedigree-analysis.html">Worked example: 10,000 pedigree animals</a></p>
+<p><a href="https://psoerensen.github.io/gtools/gsuite/docs/analysis-with-an-assistant.html">Analysis with an assistant</a> · <a href="https://psoerensen.github.io/gtools/gsuite/docs/pedigree-analysis.html">Worked example: 10,000 pedigree animals</a></p>
 </div>
 <aside class="notes">
 <p>This code follows the single-trait pedigree tutorial. The data frames and fit_control are prepared in that tutorial; the slide is an excerpt, not a standalone analysis script. The saved example has 10,000 pedigree animals, with 8,588 animals observed.</p>
 <p>The assistant can help inspect identifiers, missingness and covariates, explain the model and run the code. Researchers review which effects belong in the analysis and what the resulting estimates mean. The report should include variance estimates, fit status and diagnostic plots, not just a fitted object.</p>
 <p>Simulation truth supports the teaching example. Real data require scientific interpretation and sensitivity checks; a plausible plot does not establish that the model assumptions are correct.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="when-the-question-needs-something-new" class="slide level2 strategy-slide">
-<h2>When the question needs something new</h2>
-<p><strong>An analysis may reveal a model or interface that gsuite does not yet support.</strong></p>
-<table class="caption-top">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Step</th>
-<th>Work with the assistant</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Identify the gap</td>
-<td>State the missing capability and its statistical meaning</td>
-</tr>
-<tr class="even">
-<td>Reuse what exists</td>
-<td>Inspect the model, covariance and solver components</td>
-</tr>
-<tr class="odd">
-<td>Implement the extension</td>
-<td>Add the required computation or interface</td>
-</tr>
-<tr class="even">
-<td>Establish support</td>
-<td>Compare references, examine failures and document the limits</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Code that runs becomes a supported model only after its statistical meaning and numerical behaviour have been checked.</strong></p>
-<div class="source">
-<p><a href="https://psoerensen.github.io/gtools/gsuite/docs/model-development-with-an-assistant.html">From a scientific question to a supported model</a></p>
-</div>
-<aside class="notes">
-<p>For example, repeated observations may raise the question of residual correlation. The first step is to check whether the desired combination is supported. If not, the covariance model must be defined and reusable components identified. Not every combination of longitudinal and residual structures is qualified.</p>
-<p>The general model specification and reusable computational components make focused extensions possible. They do not make every model extension trivial. AI can help derive, implement and test it. Researchers retain responsibility for the scientific contract and acceptance criteria.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
