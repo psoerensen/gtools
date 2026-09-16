@@ -503,7 +503,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>GNOVA</td>
 <td>h2, cov, rg</td>
 <td>Ordinary; binary nonredundant categories, with supporting component h2</td>
-<td>Block jackknife conditional on the supplied overlap intercept</td>
+<td>Coordinated multivariate block jackknife conditional on the supplied common overlap intercept</td>
 </tr>
 <tr class="odd">
 <td>SumHer</td>
@@ -532,7 +532,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>LDSC and SumHer support per-marker N; the other exposed methods require one N per trait. <strong>LAVA alone has explicit binary-trait metadata and preprocessing</strong> in this interface: continuous, binary and mixed inputs, observed-scale covariance and supporting liability h2. The other bindings do not provide automatic binary-trait conversion or prevalence handling.</p>
-<p>LAVA uses one shared fit per region. SumHer coordinates marginal and pairwise fits. The remaining R paths use marginal or pairwise fits; multi-trait input alone does not imply joint multivariate inference. Missing uncertainty remains missing. All methods use the LD actually retained in the reference. This table states interface coverage, not identical assumptions, calibrated coverage or parity with the original software.</p>
+<p>LAVA uses one shared fit per region. GNOVA and SumHer coordinate their marginal and pairwise calculations so their annotation/component results retain joint block-jackknife covariance across traits. The remaining R paths use marginal or pairwise fits; multi-trait input alone does not imply joint multivariate inference. Missing uncertainty remains missing. All methods use the LD actually retained in the reference. This table states interface coverage, not identical assumptions, calibrated coverage or parity with the original software.</p>
 </section>
 <section id="prepare-once" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-once">Prepare once</h2>

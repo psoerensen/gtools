@@ -474,6 +474,7 @@ window.Quarto = {
   <li><a href="#inspect-and-fit-a-graphical-model" id="toc-inspect-and-fit-a-graphical-model" class="nav-link" data-scroll-target="#inspect-and-fit-a-graphical-model">Inspect and fit a graphical model</a></li>
   <li><a href="#test-specified-hypotheses" id="toc-test-specified-hypotheses" class="nav-link" data-scroll-target="#test-specified-hypotheses">Test specified hypotheses</a></li>
   <li><a href="#reuse-an-existing-gcorr-result" id="toc-reuse-an-existing-gcorr-result" class="nav-link" data-scroll-target="#reuse-an-existing-gcorr-result">Reuse an existing gcorr result</a></li>
+  <li><a href="#fit-and-compare-models-across-annotations" id="toc-fit-and-compare-models-across-annotations" class="nav-link" data-scroll-target="#fit-and-compare-models-across-annotations">Fit and compare models across annotations</a></li>
   <li><a href="#read-the-diagnostics-before-interpreting-parameters" id="toc-read-the-diagnostics-before-interpreting-parameters" class="nav-link" data-scroll-target="#read-the-diagnostics-before-interpreting-parameters">Read the diagnostics before interpreting parameters</a></li>
   </ul>
 </nav>
@@ -596,10 +597,46 @@ window.Quarto = {
 <p>For compatible multivariate SumHer results, the helper extracts both <span class="math inline">\(G\)</span> and the full joint <span class="math inline">\(V\)</span> by labels, including cross-entry uncertainty. A single architecture component can be selected explicitly instead of the total. It does not combine components, regions or ancestries.</p>
 <p>Other existing gcorr results can provide a complete point matrix for descriptive networks. Fitting also requires a correctly labelled full sampling covariance supplied explicitly when the result does not expose it. Marginal SEs are never substituted. In particular, LAVA’s component sampling covariance is not <span class="math inline">\(V\)</span> for estimated covariance moments. Binary/mixed inputs are outside this interface.</p>
 </section>
+<section id="fit-and-compare-models-across-annotations" class="level2">
+<h2 class="anchored" data-anchor-id="fit-and-compare-models-across-annotations">Fit and compare models across annotations</h2>
+<p>A coordinated multivariate GNOVA fit can supply several annotation-category covariance matrices and their complete joint block-jackknife covariance. A coordinated SumHer fit supplies the corresponding architecture components. The same prespecified model can then be fitted to every selected group:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># stat, LD and annotation have already been aligned and prepared.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>source_fit <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  stat, LD,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation =</span> annotation,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"gnova"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"rg"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">overlap_intercept =</span> <span class="dv">0</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>grouped_sem <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  source_fit,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"sem"</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"fit"</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation =</span> <span class="fu">c</span>(<span class="st">"coding"</span>, <span class="st">"regulatory"</span>),</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">units =</span> <span class="fu">setNames</span>(<span class="fu">rep</span>(<span class="st">"standardized units"</span>, <span class="fu">length</span>(source_fit<span class="sc">$</span>traits)),</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>                   source_fit<span class="sc">$</span>traits)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>grouped_sem<span class="sc">$</span>estimates</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>grouped_sem<span class="sc">$</span>parameter_sampling_covariance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>annotation</code> argument selects covariance groups here. It remains the marker-by-annotation input when estimating GNOVA or SumHer. If it is omitted, all available categories or components are fitted. <code>units</code> explicitly records the common continuous-trait scale.</p>
+<p>Column labels combine group and parameter names. A comparison of one loading between two annotations is therefore an ordinary named contrast:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fu">nrow</span>(grouped_sem<span class="sc">$</span>estimates),</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="st">"coding minus regulatory lA"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                  grouped_sem<span class="sc">$</span>estimates<span class="sc">$</span>label))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>R[<span class="dv">1</span>, <span class="fu">c</span>(<span class="st">"coding::lA"</span>, <span class="st">"regulatory::lA"</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>loading_test <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(grouped_sem, <span class="at">method =</span> <span class="st">"sem"</span>, <span class="at">task =</span> <span class="st">"test"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">constraints =</span> R)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>loading_test<span class="sc">$</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For a grouped GGM, <code>fit$partial_correlations$estimates</code> contains labelled free edges and their full cross-group covariance. The same constraint form compares partial correlations. Set <code>control = list(quantity = "precision")</code> only when a precision-parameter contrast is the intended estimand.</p>
+<p>Every group fit remains in <code>fit$fits</code>, including failures and diagnostics. Joint inference is withheld if any selected group lacks regular inference or the cross-group covariance is missing or invalid. GNOVA categories may overlap; their difference is a comparison of the reported category quantities, not an estimate of mutually exclusive or uniquely attributable effects. SumHer architecture components have a different meaning and remain labelled as such.</p>
+</section>
 <section id="read-the-diagnostics-before-interpreting-parameters" class="level2">
 <h2 class="anchored" data-anchor-id="read-the-diagnostics-before-interpreting-parameters">Read the diagnostics before interpreting parameters</h2>
 <p>Fitting uses diagonally weighted least squares, full-<span class="math inline">\(V\)</span> sandwich uncertainty and a residual-contrast fit test. It is not an individual-level Gaussian likelihood. Check <code>available</code>, <code>converged</code>, <code>identified</code>, <code>boundary</code> and <code>inference_available</code>. Boundary, singular or poorly conditioned cases may withhold estimates or inference; tests are then returned as unavailable rather than assigned a statistic. The interface does not repair matrices. Feasible alternative starts can assess sensitivity to local optima. The separate full-weight residual statistic is reported without a general chi-square p-value.</p>
-<p>These are continuous covariance models, not full replacements for Genomic SEM or graphical-model packages. Automatic model search, binary extensions and across-group comparisons are not exposed here. See the <a href="../../gsuite/docs/mr-workflow.html">MR workflow</a> for instrument-based directional analysis and <a href="../../gsuite/docs/summary-statistic-analysis.html">summary-statistic guide</a> for covariance estimation.</p>
+<p>These are continuous covariance models, not full replacements for Genomic SEM or graphical-model packages. Automatic model search, binary extensions and selection-aware inference are not exposed here. Grouped comparisons currently require one coordinated multivariate GNOVA or SumHer fit, one LD reference and a complete, finite and adequately conditioned joint block-jackknife covariance. With too few effective blocks, the covariance can be rank deficient even though every entry is present; the fit then remains unavailable with a diagnostic. See the <a href="../../gsuite/docs/mr-workflow.html">MR workflow</a> for instrument-based directional analysis and <a href="../../gsuite/docs/summary-statistic-analysis.html">summary-statistic guide</a> for covariance estimation.</p>
 
 
 </section>
