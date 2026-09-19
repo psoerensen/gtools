@@ -562,7 +562,7 @@ window.Quarto = {
 </table>
 <p>Short and explicit forms share normalization. <code>formula</code> and <code>formulas</code> are aliases; starts do not select the engine. REML initializes omitted starts, while supplied values remain authoritative. Fixed solves require complete covariance values. The tutorial gives the route-specific initialization rules.</p>
 <p>Distinct descriptors are independent. Correlated channels must be declared explicitly and have known IDs for observed responses. Correlated residual blocks require unique positions within one variance group. Multi-component multitrait/random regression, multi-response residual descriptors, nuggets and unknown-time imputation remain outside this adapter. Covariance boundaries and unsupported combinations are not silently repaired. These examples do not extend workload or platform qualification.</p>
-<p>Association mapping belongs in the native <code>glma</code> library; fine-mapping and colocalisation remain in <code>gmap</code>. The first glma linear scan has no R binding; it is separate from <code>gmap_stat()</code> summary-statistic preparation.</p>
+<p>Association mapping belongs in native <code>glma</code> and the Glist-based <code>glma()</code> R interface; fine-mapping and colocalisation remain in <code>gmap</code>. The current quantitative-trait methods are exact linear regression, calibrated infinitesimal LOCO testing, and prior-selected LOCO offset testing with automatic structure-dependent scaling or a manual override. The LOCO methods can fit on a selected subset of Glist markers while testing every marker in that Glist; the subset must cover every tested chromosome. Association scans also accept a phenotype matrix with named traits and return one association result per trait. Exact linear scans share genotype reads and dosage decoding. LOCO traits share immutable genotype preparation but each retains its own variance fit, prior selection and calibration. Exact linear scans can include selected marker genotypes as fixed covariates through <code>condition_on</code>; this is a complete-case conditional test and does not reuse the LOCO null model. Binary traits can use the distinct <code>logistic</code> method for ordinary covariate-adjusted per-marker log-odds Wald tests. Sparse case/control counts, separation and non-convergence have explicit statuses. This baseline does not adjust for relatedness or claim LOCO binary calibration. These methods are separate from <code>gmap_stat()</code> summary-statistic preparation.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -574,150 +574,156 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
+<td>glma/gsuite</td>
+<td>Glist-based exact linear and binary logistic association, infinitesimal LOCO, and prior-selected LOCO with conditional ridge-reference scaling</td>
+<td>Experimental R interface; mixed-model null-tail calibration still needs broad validation</td>
+<td>glma R interface</td>
+</tr>
+<tr class="even">
 <td>gbits</td>
 <td>Strict PLINK BED access, decoding, ordered selections, marker statistics, and affine missing-aware transformations</td>
 <td>Implemented</td>
 <td>gbits methods</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gbits</td>
 <td>Direct and prepared <span class="math inline">\(Xv\)</span>, <span class="math inline">\(X^{\mathsf T}v\)</span>, <span class="math inline">\(XB\)</span>, <span class="math inline">\(X^{\mathsf T}Y\)</span>; source-independent binary/ternary packed matrices</td>
 <td>Implemented</td>
 <td>gbits methods</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>gbits</td>
 <td>Weighted genotype covariance, normal-equation, diagonal, and trace operators</td>
 <td>Implemented</td>
 <td>gbits methods</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gbits</td>
 <td><code>gbits::gsolve_adapter</code> genomic covariance and packed rectangular design operators</td>
 <td>Experimental</td>
 <td>gbits methods</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>gmat</td>
 <td><code>BedMatrix</code>, ordered <code>BedPanel</code>, in-memory and disk-backed sparse-LD CSR resources and algebra</td>
 <td>Implemented</td>
 <td>gmat methods</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gmat</td>
 <td>BED/panel sparse-LD construction; ordinary, finite-sample-corrected, and annotation-specific LD scores</td>
 <td>Implemented</td>
 <td>gmat methods</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>gsolve</td>
 <td>Dense Cholesky and sparse LDL’ SPD factorization and solves</td>
 <td>Implemented</td>
 <td>gsolve methods</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gsolve</td>
 <td>Matrix-free PCG, independent and true block multiple-RHS orchestration, <code>SolvePlan</code>, preconditioners, and execution diagnostics</td>
 <td>Implemented</td>
 <td>gsolve methods</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>gsolve</td>
 <td>Square/rectangular structured operators, reproducible Rademacher probes, and stochastic Lanczos log determinants</td>
 <td>Implemented</td>
 <td>gsolve methods</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>greml</td>
 <td>Exact dense single-trait ML/REML evaluation and reference or safeguarded constrained optimization</td>
 <td>Implemented</td>
 <td>greml methods</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>greml</td>
 <td>Matrix-free stochastic ML/REML, adaptive precision, sparse MME, and hybrid covariance routes</td>
 <td>Implemented</td>
 <td>greml methods</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gsuite</td>
 <td>Eligible affine spectral reuse, purpose-specific staged stochastic REML, and opt-in determinant-deferred packed AI-REML</td>
 <td>Experimental; explicit controls</td>
 <td><a href="../../gsuite/docs/r-interface.html">persistent R interface</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>greml/gsuite</td>
 <td>Packed coefficient/sufficient-statistic reuse for single-trait and complete-record multivariate stochastic score/AI, with bounded prefix-aware probe cache and fused shared-source reconstruction</td>
 <td>Experimental execution optimization</td>
 <td><a href="../../gsuite/docs/r-interface.html">persistent R interface</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>greml/gsuite</td>
 <td>Balanced structured longitudinal RHE to determinant-deferred AI-REML to latent-coefficient and trajectory BLUP</td>
 <td>Experimental complete-record workflow</td>
 <td><a href="../../gsuite/docs/r-interface.html">persistent R interface</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>greml/gsuite</td>
 <td>Sparse-pedigree determinant-deferred AI-REML and retained-state all-animal BLUP, with coordinate or CHOLMOD selected-inverse exact direct traces</td>
 <td>Experimental positive-interior workflow</td>
 <td><a href="#sparse-direct-pedigree-methods">Sparse-direct pedigree methods</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>greml/gsuite</td>
 <td>Positive-interior multitrait pedigree sparse-direct REML with missing-trait residual blocks, bounded coordinate or CHOLMOD selected-inverse exact traces, exact PARDISO/CHOLMOD determinants, and retained BLUP</td>
 <td>Experimental moderate-problem workflow</td>
 <td><a href="../../gsuite/docs/multitrait-pedigree-reml.html">multitrait pedigree workflow</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>greml/gsuite</td>
 <td>Irregular scalar longitudinal pedigree PCG/PARDISO/CHOLMOD MME, positive-interior random-regression REML, grouped diagonal residuals, selected-inverse exact traces through CHOLMOD, and retained coefficient/trajectory BLUP</td>
 <td>Experimental; direct optimization is bounded moderate-problem work</td>
 <td><a href="../../gsuite/docs/longitudinal-pedigree-reml.html">longitudinal pedigree workflow</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>greml</td>
 <td>Unbalanced multivariate and longitudinal/random-regression covariance inference and optimization</td>
 <td>Implemented</td>
 <td>greml methods</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>greml</td>
 <td>Unified <code>ModelSpec</code> → <code>CompiledModel</code> → <code>ModelFit</code> facade, prediction, contrasts, and uncertainty</td>
 <td>Implemented</td>
 <td>greml methods</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gcorr</td>
 <td>Ordinary and partitioned single-trait LD-score regression, enrichment, jackknife, and diagnostics</td>
 <td>Implemented</td>
 <td>gcorr methods</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>gcorr</td>
 <td>Bivariate and serial multivariate LDSC with genetic covariance/correlation and paired jackknife uncertainty</td>
 <td>Implemented</td>
 <td>gcorr methods</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gcorr</td>
 <td>Partitioned bivariate LDSC with annotation covariance coefficients, total/category genetic covariance and correlation, and paired jackknife; annotation-specific two-update weights</td>
 <td>Implemented</td>
 <td>gcorr design</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>gcorr</td>
 <td>Native SNP summary-statistic preparation: explicit allele orientation, missingness, variable sample sizes and a common all-trait marker mask</td>
 <td>Implemented</td>
 <td>gcorr native workflow</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gcorr</td>
 <td>Ordinary multivariate labelled joint sampling covariance from paired block deletes</td>
 <td>Implemented</td>
 <td>gcorr native workflow</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>gcorr</td>
 <td>Partitioned multivariate LDSC with an all-trait marker mask, annotation and total/category matrices, and labelled joint sampling covariance from coordinated block deletions</td>
 <td>Implemented</td>

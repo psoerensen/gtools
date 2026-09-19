@@ -496,8 +496,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>glma</td>
-<td>Native linear and Gaussian mixed/LOCO association, with experimental prediction selection</td>
-<td>Uses installed gmat/gbits, greml and gbayes; no gsuite R binding yet</td>
+<td>Native linear, binary logistic and Gaussian mixed/LOCO association plus prior-selected LOCO fitting, structure checks, calibration and offset testing</td>
+<td>Uses installed gmat/gbits, greml and gbayes; gsuite exposes binary and quantitative-trait routes through <code>glma()</code>, sharing genotype reads for multiple exact linear traits and immutable preparation for LOCO traits</td>
 </tr>
 <tr class="odd">
 <td>gmap</td>
@@ -512,7 +512,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>gsuite</td>
 <td>Unified R/native entry point and suite-level integration documentation</td>
-<td>Currently binds selected gsolve, greml, gbits, gmat, gcorr and gmap/gbayes capabilities and requires the gbits gsolve adapter</td>
+<td>Binds selected gsolve, greml, gbits, gmat, gcorr, glma and gmap/gbayes capabilities and requires the gbits gsolve adapter</td>
 </tr>
 </tbody>
 </table>
