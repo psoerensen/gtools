@@ -103,7 +103,26 @@ print(annotated$annotations$inclusion$coefficient_mean)
 print(annotated_joint$posterior[grepl("^(pattern|component|variance)\\[",
   annotated_joint$posterior$parameter),])
 stopifnot(all(is.finite(annotated_joint$annotations$variance$multiplier_mean)))
-bundle <- list(annotation=A,annotated=annotated,annotated_joint=annotated_joint,stat=stat,LDlist=LD,fixed=fixed,learned=learned,weights=weights,
+# One combined workflow: group priors, reference summaries and selected scores.
+groups <- setNames(rep(c("block_1","block_2"),each=m/2),ids)
+G <- gs_gprep(bedfiles=paste0(prefix,".bed"))
+prediction <- list(Glist=G,ids=G$ids[1:3],target_set="three-example-individuals",
+  allele_frequencies=setNames(center/2,ids),
+  effect_multipliers=setNames(sqrt(2*(center/2)*(1-center/2))/scale_x,ids),
+  retain_draws=TRUE,batch_size=2)
+complete <- gbayes(stats3,LD,method="bayesr",
+  prior=list(group_covariance=list(block_1=V,block_2=V),covariance_groups=groups,
+    group_covariance_prior=list(block_1=list(df=6,scale=V*2),block_2=list(df=6,scale=V*2)),
+    pattern_weights=pattern_weights),
+  sampling=list(dependence="shared_ld",covariance=Omega),
+  annotation=list(variance=list(design=A)),
+  posterior=list(reference=LD,partition=groups,phenotype_variance=setNames(rep(1,3),traits),
+    prediction=prediction),
+  control=list(burnin=1000,sampling_sweeps=2000,seeds=c(31,97),estimate_group_covariance=TRUE))
+print(summary(complete))
+stopifnot(isTRUE(all.equal(unname(complete$quantities$prediction$mean),
+  unname(Z[1:3,]%*%complete$estimates$mean),tolerance=1e-10)))
+bundle <- list(complete=complete,annotation=A,annotated=annotated,annotated_joint=annotated_joint,stat=stat,LDlist=LD,fixed=fixed,learned=learned,weights=weights,
   coding=list(center=center,scale=scale_x,phenotype_scale=scale_y),scores=score,
   multivariate=list(stat=stats3,fit=joint,scores=joint_scores,phenotype_scale=scale_y3,
     sampling_error_covariance=Omega,true_effects=sweep(B*sqrt((n-1)/n),2,scale_y3,"/")))
