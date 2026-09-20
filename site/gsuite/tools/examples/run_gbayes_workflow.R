@@ -25,17 +25,21 @@ scale_y <- sqrt(mean((y-mean(y))^2)); zy <- (y-mean(y))/scale_y
 
 # A small full-LD reference from these same individuals; A is the counted allele.
 prefix <- file.path(out,"reference")
-con <- file(paste0(prefix,".bed"),"wb")
-writeBin(as.raw(c(0x6c,0x1b,0x01)),con)
-for(j in seq_len(m)) {
-  codes <- c(3L,2L,0L)[W[,j]+1L]
-  writeBin(as.raw(colSums(matrix(codes,4L)*c(1,4,16,64))),con)
+write_example_bed <- function(W,prefix,marker_ids,positions) {
+  con <- file(paste0(prefix,".bed"),"wb")
+  on.exit(close(con))
+  writeBin(as.raw(c(0x6c,0x1b,0x01)),con)
+  for(j in seq_len(ncol(W))) {
+    codes <- c(3L,2L,0L)[W[,j]+1L]
+    codes <- c(codes,rep(1L,(-length(codes)) %% 4L))
+    writeBin(as.raw(colSums(matrix(codes,4L)*c(1,4,16,64))),con)
+  }
+  write.table(data.frame(1,marker_ids,0,positions,"A","G"),
+    paste0(prefix,".bim"),quote=FALSE,row.names=FALSE,col.names=FALSE)
+  write.table(data.frame(seq_len(nrow(W)),seq_len(nrow(W)),0,0,0,-9),paste0(prefix,".fam"),
+    quote=FALSE,row.names=FALSE,col.names=FALSE)
 }
-close(con)
-write.table(data.frame(1,ids,0,seq_len(m)*1000,"A","G"),
-  paste0(prefix,".bim"),quote=FALSE,row.names=FALSE,col.names=FALSE)
-write.table(data.frame(1:n,1:n,0,0,0,-9),paste0(prefix,".fam"),
-  quote=FALSE,row.names=FALSE,col.names=FALSE)
+write_example_bed(W,prefix,ids,seq_len(m)*1000)
 LD <- ldprep(gs_gprep(bedfiles=paste0(prefix,".bed")),reference="artificial-training-panel",
   assembly="artificial",task="sparseld",out_prefix=file.path(out,"LD"),
   max_distance_bp=0,max_distance_variants=m,r2=0,nthreads=1,overwrite=TRUE)
@@ -122,7 +126,41 @@ complete <- gbayes(stats3,LD,method="bayesr",
 print(summary(complete))
 stopifnot(isTRUE(all.equal(unname(complete$quantities$prediction$mean),
   unname(Z[1:3,]%*%complete$estimates$mean),tolerance=1e-10)))
-bundle <- list(complete=complete,annotation=A,annotated=annotated,annotated_joint=annotated_joint,stat=stat,LDlist=LD,fixed=fixed,learned=learned,weights=weights,
+# Two independent studies, different traits and study-specific LD/marker coverage.
+# Both have 10K individuals. No overlap or allele harmonisation is assumed.
+set.seed(20260923)
+keep <- 5:m; W2 <- matrix(rbinom(n*length(keep),2,.4),n,length(keep),dimnames=list(NULL,ids[keep]))
+for(j in 2:ncol(W2)) {
+  copy <- runif(n)<.3; W2[copy,j] <- W2[copy,j-1L]
+}
+b2 <- b[keep]; b2[ids[25]] <- .1
+variance2 <- var(drop(scale(W2)%*%b2))
+sim2 <- gsim::gsim(W=W2,architecture="fixed",nt=1,beta=b2,h2=variance2/(variance2+1),
+  standardize_W=TRUE,scale_effects=FALSE,seed=20260924,compute_sumstats=FALSE)
+y2 <- drop(sim2$Y); sy2 <- sqrt(mean((y2-mean(y2))^2))
+sx2 <- sqrt(colMeans(sweep(W2,2,colMeans(W2))^2))
+Z2 <- sweep(sweep(W2,2,colMeans(W2)),2,sx2,"/")
+second_prefix <- file.path(out,"second-reference")
+write_example_bed(W2,second_prefix,ids[keep],keep*1000)
+LD2 <- ldprep(gs_gprep(bedfiles=paste0(second_prefix,".bed")),reference="second-artificial-panel",
+  assembly="artificial",task="sparseld",out_prefix=file.path(out,"LD-second"),
+  max_distance_bp=0,max_distance_variants=m,r2=0,nthreads=1,overwrite=TRUE)
+stat2 <- data.frame(marker=ids[keep],allele1="A",allele2="G",
+  beta_std=drop(crossprod(Z2,(y2-mean(y2))/sy2))/n,n=n)
+study_stats <- list(study1=stat,study2=stat2)
+study_references <- list(study1=LD,study2=LD2)
+study_traits <- c(study1="height",study2="weight")
+V2 <- matrix(c(.04,.01,.01,.04),2,dimnames=list(unname(study_traits),unname(study_traits)))
+studies <- gbayes(study_stats,study_references,trait=study_traits,
+  prior=list(effect_covariance=V2,covariance_prior=list(df=5,scale=V2*2)),
+  sampling=list(dependence="independent",residual_variance=c(study1=1/scale_y^2,study2=1/sy2^2)),
+  posterior=list(reference=LD),
+  control=list(burnin=1000,sampling_sweeps=2000,seeds=c(31,97),estimate_covariance=TRUE))
+print(summary(studies))
+stopifnot(identical(rownames(studies$estimates$mean),ids),
+  identical(studies$studies$study2$local_to_global,keep),
+  all(is.finite(studies$estimates$mean)))
+bundle <- list(studies=list(fit=studies,stat=study_stats,LDlist=study_references,trait=study_traits),complete=complete,annotation=A,annotated=annotated,annotated_joint=annotated_joint,stat=stat,LDlist=LD,fixed=fixed,learned=learned,weights=weights,
   coding=list(center=center,scale=scale_x,phenotype_scale=scale_y),scores=score,
   multivariate=list(stat=stats3,fit=joint,scores=joint_scores,phenotype_scale=scale_y3,
     sampling_error_covariance=Omega,true_effects=sweep(B*sqrt((n-1)/n),2,scale_y3,"/")))
