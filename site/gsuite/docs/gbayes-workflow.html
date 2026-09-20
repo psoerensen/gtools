@@ -484,6 +484,10 @@ window.Quarto = {
   <li><a href="#state-the-sampling-assumptions" id="toc-state-the-sampling-assumptions" class="nav-link" data-scroll-target="#state-the-sampling-assumptions">State the sampling assumptions</a></li>
   <li><a href="#activity-patterns-and-magnitude-components" id="toc-activity-patterns-and-magnitude-components" class="nav-link" data-scroll-target="#activity-patterns-and-magnitude-components">Activity patterns and magnitude components</a></li>
   </ul></li>
+  <li><a href="#let-annotations-inform-the-prior" id="toc-let-annotations-inform-the-prior" class="nav-link" data-scroll-target="#let-annotations-inform-the-prior">Let annotations inform the prior</a>
+  <ul class="collapse">
+  <li><a href="#fixed-coefficients-learning-and-interpretation" id="toc-fixed-coefficients-learning-and-interpretation" class="nav-link" data-scroll-target="#fixed-coefficients-learning-and-interpretation">Fixed coefficients, learning and interpretation</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -644,6 +648,81 @@ C = D_N^{1/2} R D_N^{1/2}, \qquad s_j = N_j\widehat\beta_{j,\mathrm{std}}.
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                pattern_weights=c(none=.9,shared=.1)) for a fixed prior.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This changes the model to allow only those patterns; it is not an approximation to fitting every pattern. Every trait must appear in an allowed nonnull pattern. Trait count is not restricted to two or three. The native memory estimate is bounded by <code>control$memory_limit_bytes</code> (256 MiB by default), separately from LD storage and R result storage. Compact traces contain covariance and mixture parameters; all-marker draws and per-marker pattern-probability arrays are not retained.</p>
 <p>The returned fit is serializable. To reuse the joint effects, multiply a compatible standardized dosage matrix by <code>joint$estimates$mean</code>; columns of the resulting score matrix retain the trait names. This demonstrates reuse and is not a prediction-accuracy assessment.</p>
+</section>
+</section>
+<section id="let-annotations-inform-the-prior" class="level2">
+<h2 class="anchored" data-anchor-id="let-annotations-inform-the-prior">Let annotations inform the prior</h2>
+<p><code>annotation</code> separates three questions: which markers are active, which magnitude component they belong to, and their relative effect variance. It connects the existing native annotation models; it does not change the LD preparation or sampling-error assumptions.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Role</th>
+<th>Single trait</th>
+<th>Multiple traits</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>inclusion</code></td>
+<td>BayesC logistic inclusion probability</td>
+<td>Use <code>pattern</code></td>
+</tr>
+<tr class="even">
+<td><code>pattern</code></td>
+<td>Not applicable</td>
+<td>Continuation-probit probabilities over declared trait patterns</td>
+</tr>
+<tr class="odd">
+<td><code>component</code></td>
+<td>BayesR continuation-probit probabilities, including the null component</td>
+<td>BayesR probabilities over positive magnitudes, conditional on a nonnull pattern</td>
+</tr>
+<tr class="even">
+<td><code>variance</code></td>
+<td>Centred log-linear relative effect variance</td>
+<td>One marker multiplier scaling the latent effect-covariance matrix</td>
+</tr>
+</tbody>
+</table>
+<p>Each role accepts its own numeric design matrix. Row names must match the LD marker IDs exactly; column names must be unique. Binary or continuous columns are allowed, including overlapping annotations. Native preparation centres each column across the supplied markers, <strong>without standardising it</strong>. Do not add an intercept column. Annotation units therefore affect the coefficient prior.</p>
+<p>Using the data from the <a href="../tools/examples/run_gbayes_workflow.R">example script</a>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Artificial annotations; they do not represent biological categories.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">category=</span><span class="fu">as.numeric</span>(<span class="fu">seq_len</span>(m) <span class="sc">%%</span> <span class="dv">3</span>L<span class="sc">==</span><span class="dv">0</span>), <span class="at">position=</span><span class="fu">seq_len</span>(m)<span class="sc">/</span>m)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(A) <span class="ot">&lt;-</span> ids</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>annotated <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(stat, LD, <span class="at">method=</span><span class="st">"bayesc"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior=</span><span class="fu">list</span>(<span class="at">residual_variance=</span><span class="dv">1</span><span class="sc">/</span>scale_y<span class="sc">^</span><span class="dv">2</span>, <span class="at">effect_variance=</span>.<span class="dv">04</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">inclusion_probability=</span>.<span class="dv">05</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation=</span><span class="fu">list</span>(<span class="at">inclusion=</span><span class="fu">list</span>(<span class="at">design=</span>A), <span class="at">variance=</span><span class="fu">list</span>(<span class="at">design=</span>A)),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">control=</span>ctl)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>annotated_joint <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(stats3, LD, <span class="at">method=</span><span class="st">"bayesr"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior=</span><span class="fu">list</span>(<span class="at">effect_covariance=</span>V, <span class="at">pattern_weights=</span>pattern_weights),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">sampling=</span><span class="fu">list</span>(<span class="at">dependence=</span><span class="st">"shared_ld"</span>, <span class="at">covariance=</span>Omega),</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation=</span><span class="fu">list</span>(<span class="at">pattern=</span><span class="fu">list</span>(<span class="at">design=</span>A), <span class="at">component=</span><span class="fu">list</span>(<span class="at">design=</span>A),</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>                  <span class="at">variance=</span><span class="fu">list</span>(<span class="at">design=</span>A)),</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">control=</span><span class="fu">list</span>(<span class="at">burnin=</span><span class="dv">1000</span>, <span class="at">sampling_sweeps=</span><span class="dv">2000</span>, <span class="at">seeds=</span><span class="fu">c</span>(<span class="dv">31</span>,<span class="dv">97</span>)))</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>annotated<span class="sc">$</span>annotations<span class="sc">$</span>inclusion<span class="sc">$</span>coefficient_mean</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>annotated_joint<span class="sc">$</span>annotations<span class="sc">$</span>pattern<span class="sc">$</span>prior_probability_mean</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>annotated_joint<span class="sc">$</span>annotations<span class="sc">$</span>variance<span class="sc">$</span>multiplier_mean</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>annotated_joint<span class="sc">$</span>posterior  <span class="co"># coefficients, intervals and native chain diagnostics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These additional fits reuse the same 10,000 individuals and 40 markers. They illustrate model specification and returned quantities, not evidence for annotation enrichment or a performance comparison.</p>
+<section id="fixed-coefficients-learning-and-interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="fixed-coefficients-learning-and-interpretation">Fixed coefficients, learning and interpretation</h3>
+<p>Each annotation model defaults to <code>learn=TRUE</code>, <code>coefficient_prior_sd=1</code> and <code>update_every=1</code>. Set <code>learn=FALSE</code> to hold its coefficients fixed. For inclusion or variance models, <code>initial</code> is a vector named in design-column order; omitted values start at zero. For example:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>annotation<span class="ot">=</span><span class="fu">list</span>(<span class="at">variance=</span><span class="fu">list</span>(<span class="at">design=</span>A, <span class="at">learn=</span><span class="cn">FALSE</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">initial=</span><span class="fu">c</span>(<span class="at">category=</span>.<span class="dv">2</span>, <span class="at">position=</span><span class="sc">-</span>.<span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>BayesC inclusion uses a logistic model around <code>inclusion_probability</code>, which remains the baseline at zero centred annotations. It may still be learned with <code>estimate_weights=TRUE</code> and <code>weight_prior</code>. Its coefficient update uses a fixed random-walk <code>proposal_sd=.1</code>; proposal and acceptance counts are returned per chain. There is no automatic proposal adaptation.</p>
+<p>Pattern/component annotations instead <strong>replace global weight learning for that axis</strong>. Disable <code>estimate_weights</code> for scalar BayesR, or the corresponding <code>estimate_pattern_weights</code> / <code>estimate_component_weights</code> flag for multivariate fits. Global weights still supply default intercept-prior centres. Other axes and effect-variance/covariance learning can remain enabled.</p>
+<p>Continuation-probit models follow the declared category order. Each stick is labelled by the category where it can stop; the last category has no stick. Scalar BayesR labels are <code>component_0,...</code> (null first); multivariate magnitude labels are <code>component_1,...</code> (positive scales only). Pattern labels are the rows of <code>prior$patterns</code>. Optional <code>intercept_means</code> is named in stick order. Optional <code>initial</code> is a matrix with rows <code>(Intercept)</code> followed by annotation names, and columns in stick order. <code>intercept_prior_sd</code> defaults to 1. Changing category order changes this prior model.</p>
+<p>Variance annotations multiply the base variance/covariance by <span class="math inline">\(\exp(\widetilde A_j\theta)\)</span>. At each draw these multipliers have geometric mean one across markers; their posterior means need not. There is no variance intercept. The native elliptical-slice update uses <code>maximum_evaluations=10000</code> by default; exhausted budgets raise an error.</p>
+<p><code>fit$annotations</code> contains coefficient means/variances, design means, labelled marker prior probabilities or variance multipliers, and per-chain coefficient traces and update counts. Prior probabilities are averaged over retained draws; they are <strong>not posterior marker PIPs</strong>, which remain in <code>fit$estimates</code>. Coefficient intervals and diagnostics join <code>fit$posterior</code>. Fixed coefficients are labelled as fixed; <code>retain_diagnostics=FALSE</code> disables traces and intervals while retaining posterior means. Review mixing before interpreting coefficients, especially for correlated or weakly informed annotations. Annotation-group covariance models and partitioned genetic-variance summaries are not exposed here.</p>
 
 
 </section>

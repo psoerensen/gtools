@@ -88,7 +88,22 @@ joint <- gbayes(stats3,LD,method="bayesr",
 print(joint); print(summary(joint))
 joint_scores <- target_z %*% joint$estimates$mean
 stopifnot(identical(colnames(joint_scores),traits),all(is.finite(joint_scores)))
-bundle <- list(stat=stat,LDlist=LD,fixed=fixed,learned=learned,weights=weights,
+# Artificial annotations demonstrate the interface, not biological enrichment.
+A <- cbind(category=as.numeric(seq_len(m) %% 3L==0),position=seq_len(m)/m)
+rownames(A) <- ids
+annotated <- gbayes(stat,LD,method="bayesc",
+  prior=list(residual_variance=1/scale_y^2,effect_variance=.04,inclusion_probability=.05),
+  annotation=list(inclusion=list(design=A),variance=list(design=A)),control=ctl)
+annotated_joint <- gbayes(stats3,LD,method="bayesr",
+  prior=list(effect_covariance=V,pattern_weights=pattern_weights),
+  sampling=list(dependence="shared_ld",covariance=Omega),
+  annotation=list(pattern=list(design=A),component=list(design=A),variance=list(design=A)),
+  control=list(burnin=1000,sampling_sweeps=2000,seeds=c(31,97),threads=1))
+print(annotated$annotations$inclusion$coefficient_mean)
+print(annotated_joint$posterior[grepl("^(pattern|component|variance)\\[",
+  annotated_joint$posterior$parameter),])
+stopifnot(all(is.finite(annotated_joint$annotations$variance$multiplier_mean)))
+bundle <- list(annotation=A,annotated=annotated,annotated_joint=annotated_joint,stat=stat,LDlist=LD,fixed=fixed,learned=learned,weights=weights,
   coding=list(center=center,scale=scale_x,phenotype_scale=scale_y),scores=score,
   multivariate=list(stat=stats3,fit=joint,scores=joint_scores,phenotype_scale=scale_y3,
     sampling_error_covariance=Omega,true_effects=sweep(B*sqrt((n-1)/n),2,scale_y3,"/")))
