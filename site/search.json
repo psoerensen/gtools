@@ -460,7 +460,7 @@
     "href": "gsuite/docs/status.html",
     "title": "Development status and evidence",
     "section": "",
-    "text": "gsuite remains in private development. gsim and gact are already public and retain their existing repositories and releases. See Downloads.\n\n\n\nThe model catalog records support for particular model, backend and inference combinations. Historical scoped evidence does not establish a complete pass for the current package or dependency set.\nThe recorded 2026-09-07 Windows package check retained unresolved balanced-longitudinal convergence/finalization failures and longitudinal score-comparison failures. Positive historical results do not supersede those failures. Constructor repairs, documentation changes and function renaming do not constitute numerical requalification. Full package and platform qualification remain incomplete.\nformula and formulas are aliases in gfit(); their spelling does not select a fitting route. The retained compiled route is selected explicitly with control = gs_fit_control(...) and requires explicit gvc() components with complete starts and no separate pedigree argument. See the pedigree tutorial and formula reference. A catalog label must be interpreted within its stated scope, not as a blanket guarantee for any composition.\n\n\n\nThe 50K pedigree comparison with DMU publishes covariance estimates, selected prediction comparisons and descriptive single-run timings. It does not establish general speedups, compare likelihood constants, or qualify all current routes and platforms.\nOther local-data and solver qualification campaigns are referenced in the technical guides. Their full development reports are not included in this publication. References to those reports lead here so that the limits of the available public evidence remain explicit.\n\n\n\nImplementation, integration tests, internal reviews and build instructions remain in the private development repositories. This site provides public method descriptions and tutorial code, not private implementation source.\nWebsite publishing is separate from software release approval. No software release or new licence grant is implied by this publication.\n\n\n\nCurrent development metadata; this is not an available release.\n\nVersion: 0.43.0\nDepends: R (&gt;= 4.1.0)\nImports: Matrix, Rcpp, methods, stats, tools, utils, graphics, grDevices\nSystemRequirements: C++17, gsolve 0.22.0 (ABI 4), greml 0.68.0 (ABI 40), gbits 0.21.0 (ABI 4), gmat 0.6.0 (ABI 0), gcorr 0.1.0 (ABI 0), gmap 0.1.0, gbayes 0.1.0, gscore 0.1.0 (summary adapter), glma 0.1.0",
+    "text": "gsuite remains in private development. gsim and gact are already public and retain their existing repositories and releases. See Downloads.\n\n\n\nThe capability overview separates native components from the current R workflows. Recent focused checks cover summary-statistic, covariance-model, MR, mapping and Bayesian integrations; they do not establish broad calibration or biobank-scale performance. The Bayesian update on 20 September 2026 passed 207 focused assertions and the package build/install/runtime checks. Its two-population example and single-trait residual-learning example illustrate use, not general superiority or population-wide calibration. Full R CMD check was not rerun for that update.\nThe model catalog records support for particular model, backend and inference combinations. Historical scoped evidence does not establish a complete pass for the current package or dependency set.\nThe recorded Windows package qualification retains unresolved balanced-longitudinal convergence/finalization failures and longitudinal score-comparison failures. Positive historical results do not supersede those failures. Constructor repairs, documentation changes and function renaming do not constitute numerical requalification. Full package and platform qualification remain incomplete.\nformula and formulas are aliases in gfit(); their spelling does not select a fitting route. The retained compiled route is selected explicitly with control = gs_fit_control(...) and requires explicit gvc() components with complete starts and no separate pedigree argument. See the pedigree tutorial and formula reference. A catalog label must be interpreted within its stated scope, not as a blanket guarantee for any composition.\n\n\n\nThe 50K pedigree comparison with DMU publishes covariance estimates, selected prediction comparisons and descriptive single-run timings. It does not establish general speedups, compare likelihood constants, or qualify all current routes and platforms.\nOther local-data and solver qualification campaigns are referenced in the technical guides. Their full development reports are not included in this publication. References to those reports lead here so that the limits of the available public evidence remain explicit.\n\n\n\nImplementation, integration tests, internal reviews and build instructions remain in the private development repositories. This site provides public method descriptions and tutorial code, not private implementation source.\nWebsite publishing is separate from software release approval. No software release or new licence grant is implied by this publication.\n\n\n\nCurrent development metadata; this is not an available release.\n\nVersion: 0.43.0\nDepends: R (&gt;= 4.1.0)\nImports: Matrix, Rcpp, methods, stats, tools, utils, graphics, grDevices\nSystemRequirements: C++17, gsolve 0.22.0 (ABI 4), greml 0.68.0 (ABI 40), gbits 0.21.0 (ABI 4), gmat 0.6.0 (ABI 0), gcorr 0.1.0 (ABI 0), gmap 0.1.0, gbayes 0.1.0, gscore 0.1.0 (summary adapter), glma 0.1.0",
     "crumbs": [
       "gsuite",
       "About gsuite",
@@ -484,7 +484,7 @@
     "href": "gsuite/docs/status.html#qualification-limits",
     "title": "Development status and evidence",
     "section": "",
-    "text": "The model catalog records support for particular model, backend and inference combinations. Historical scoped evidence does not establish a complete pass for the current package or dependency set.\nThe recorded 2026-09-07 Windows package check retained unresolved balanced-longitudinal convergence/finalization failures and longitudinal score-comparison failures. Positive historical results do not supersede those failures. Constructor repairs, documentation changes and function renaming do not constitute numerical requalification. Full package and platform qualification remain incomplete.\nformula and formulas are aliases in gfit(); their spelling does not select a fitting route. The retained compiled route is selected explicitly with control = gs_fit_control(...) and requires explicit gvc() components with complete starts and no separate pedigree argument. See the pedigree tutorial and formula reference. A catalog label must be interpreted within its stated scope, not as a blanket guarantee for any composition.",
+    "text": "The capability overview separates native components from the current R workflows. Recent focused checks cover summary-statistic, covariance-model, MR, mapping and Bayesian integrations; they do not establish broad calibration or biobank-scale performance. The Bayesian update on 20 September 2026 passed 207 focused assertions and the package build/install/runtime checks. Its two-population example and single-trait residual-learning example illustrate use, not general superiority or population-wide calibration. Full R CMD check was not rerun for that update.\nThe model catalog records support for particular model, backend and inference combinations. Historical scoped evidence does not establish a complete pass for the current package or dependency set.\nThe recorded Windows package qualification retains unresolved balanced-longitudinal convergence/finalization failures and longitudinal score-comparison failures. Positive historical results do not supersede those failures. Constructor repairs, documentation changes and function renaming do not constitute numerical requalification. Full package and platform qualification remain incomplete.\nformula and formulas are aliases in gfit(); their spelling does not select a fitting route. The retained compiled route is selected explicitly with control = gs_fit_control(...) and requires explicit gvc() components with complete starts and no separate pedigree argument. See the pedigree tutorial and formula reference. A catalog label must be interpreted within its stated scope, not as a blanket guarantee for any composition.",
     "crumbs": [
       "gsuite",
       "About gsuite",
@@ -1264,7 +1264,7 @@
     "href": "gsuite/docs/architecture.html",
     "title": "Architecture",
     "section": "",
-    "text": "gsuite is the unified interface to a modular family of independently versioned computational libraries. Each native library owns a narrow data, numerical, or statistical boundary and remains independently buildable. The current gsuite R package exposes the public combinations recorded in the authoritative model catalog and summary-statistic workflow; it is not necessarily a binding for every native entry point.\ngsuite and gsim are the user-facing R packages. gsim generates genotype, pedigree and observation data; gsuite provides analysis interfaces. The tutorial connects them through ordinary R data frames.",
+    "text": "gsuite is the unified interface to a modular family of independently versioned computational libraries. Each native library owns a narrow data, numerical, or statistical boundary and remains independently buildable. The current gsuite R package exposes the public combinations recorded in the authoritative capability overview, with LMM combinations in the model catalog; it is not necessarily a binding for every native entry point.\ngsuite and gsim are the user-facing R packages. gsim generates genotype, pedigree and observation data; gsuite provides analysis interfaces. The tutorial connects them through ordinary R data frames.",
     "crumbs": [
       "gsuite",
       "About gsuite",
@@ -1276,7 +1276,7 @@
     "href": "gsuite/docs/architecture.html#purpose",
     "title": "Architecture",
     "section": "",
-    "text": "gsuite is the unified interface to a modular family of independently versioned computational libraries. Each native library owns a narrow data, numerical, or statistical boundary and remains independently buildable. The current gsuite R package exposes the public combinations recorded in the authoritative model catalog and summary-statistic workflow; it is not necessarily a binding for every native entry point.\ngsuite and gsim are the user-facing R packages. gsim generates genotype, pedigree and observation data; gsuite provides analysis interfaces. The tutorial connects them through ordinary R data frames.",
+    "text": "gsuite is the unified interface to a modular family of independently versioned computational libraries. Each native library owns a narrow data, numerical, or statistical boundary and remains independently buildable. The current gsuite R package exposes the public combinations recorded in the authoritative capability overview, with LMM combinations in the model catalog; it is not necessarily a binding for every native entry point.\ngsuite and gsim are the user-facing R packages. gsim generates genotype, pedigree and observation data; gsuite provides analysis interfaces. The tutorial connects them through ordinary R data frames.",
     "crumbs": [
       "gsuite",
       "About gsuite",
@@ -1288,7 +1288,7 @@
     "href": "gsuite/docs/architecture.html#responsibilities",
     "title": "Architecture",
     "section": "Responsibilities",
-    "text": "Responsibilities\n\n\n\nLibrary\nResponsibility\nImmediate boundary\n\n\n\n\ngbits\nPacked genotype storage, PLINK BED access, selections, transformations, genotype products, and weighted covariance/normal operators\nDoes not own genomic resource metadata, general solvers, or statistical models\n\n\ngmat\nBED/BIM/FAM resources, ordered panels, sparse-LD construction and storage, sparse-LD algebra, and LD scores\nDelegates BED decoding to gbits and does not fit LD-score regressions\n\n\ngsolve\nModel-independent dense, sparse, and matrix-free operators, factorizations, preconditioned conjugate gradient, probes, and stochastic log determinants\nContains no genotype, likelihood, or mixed-model semantics\n\n\ngreml\nML/REML covariance models, exact and stochastic inference, sparse mixed-model equations, optimization, prediction, and uncertainty\nUses gsolve for numerical primitives and does not own genotype formats\n\n\ngcorr\nOrdinary and partitioned single-trait, bivariate and multivariate LDSC; genetic covariance/correlation, enrichment, jackknife uncertainty, ordinary/partitioned joint sampling covariance, summary-statistic preparation, and fit/working-weight diagnostics\nConsumes gmat LD scores and does not construct or store LD\n\n\ngscore\nMulti-score BED application and prepared prediction targets\nCore scoring remains standalone; gscore::summary connects packed gbits targets to native gbayes posterior prediction, consumed by gsuite\n\n\ngsim\nUser-facing R simulation of genotypes, pedigrees and observation records\nOwns simulation workflows; generated data can be used in gsuite analyses\n\n\nglma\nNative linear, binary logistic and Gaussian mixed/LOCO association plus prior-selected LOCO fitting, structure checks, calibration and offset testing\nUses installed gmat/gbits, greml and gbayes; gsuite exposes binary and quantitative-trait routes through glma(), sharing genotype reads for multiple exact linear traits and immutable preparation for LOCO traits\n\n\ngmap\nNative colocalisation, regional Bayesian analysis and posterior-set interpretation\nCore is standalone; optional gmap::bayes uses gbayes; gsuite binds regional Bayesian fitting, ABF and component colocalisation\n\n\ngbayes\nNative Bayesian regression and single-/multi-effect inference\nUses gmat cross-products or prepared factors; single-/multivariate summary regression through gsuite::gbayes and regional inference through gsuite::gmap\n\n\ngsuite\nUnified R/native entry point and suite-level integration documentation\nBinds selected gsolve, greml, gbits, gmat, gcorr, glma, gscore and gmap/gbayes capabilities and requires the gbits gsolve adapter\n\n\n\n\nHow the R interface connects the components\nThe pedigree data-frame workflow normalizes short covariance specifications and explicit gvc() components into one internal model description. Formulas define fixed and random bases, variables bind record IDs, kernels define relationships, covariance descriptors declare coordinates and optional starts, and the task selects REML or a fixed solve. The adapter owns R validation, sparse fixed-design construction and result labels; it calls the existing specialized pedigree interfaces or the public component-LMM constructors and fitters for independent groups of random intercepts. A named vector of grouping columns in one gvc() declares correlated channels sharing a pedigree or identity relationship; separate descriptors remain independent. Residual group, structure, block and time fields bind data columns to existing grouped, AR(1) and exponential component residual constructors. Missing-response filtering is shared by phenotypes, incidence and residual metadata. No new native numerical implementation or dense relationship matrix is introduced. formula and formulas are equivalent; supplied starts do not select a different route. An explicit gs_fit_control() object selects the specialized compiled interface. General sparse-direct defaults use CHOLMOD selected inversion; independent components reuse gs_lmm_control().\nFor gs_gprep(task = \"prepare\"), ownership is fixed as follows:\n\n\n\nResponsibility\nOwner\n\n\n\n\nPublic R interface, orchestration, serializable descriptor\ngsuite\n\n\nBED validation and packed genotype counts\ngbits\n\n\nBIM/FAM parsing, identity, metadata, and file alignment\ngmat\n\n\nPersistent genotype representation\nExisting PLINK BED\n\n\nBehavioural and scientific comparison\nRead-only qgg\n\n\n\nFor gs_gprep(task = \"sparseld\"), gsuite validates the Glist and orchestrates selection; gmat owns sparse-LD calculation, its disk CSR, validation, and LD scores; gbits remains the packed BED path; existing BED remains the genotype store; and unchanged qgg and sblr are behavioural and consumer references.\nThe independent LDlist interface reuses gmat’s existing SparseLdDiskResource and native disk inspection. ldprep(Glist, reference) creates an R descriptor without copying LD files; validate_LDlist() reopens and checks it without requiring genotype inputs. gmat owns the native resource, while gsuite owns R labels, serialization and validation orchestration. No new native storage format is introduced. LD computation is delegated to the existing sparse-LD preparation route; named score preparation delegates ordinary and partitioned/corrected calculations to gmat. gsuite stores definitions and validates saved-score compatibility. Regional dense extraction belongs to gmat and reuses its streaming disk parser. gsolve supplies the full eigensystem and numerical diagnostics; gsuite binds these installed public APIs and stores reusable region caches. gmat has no new gsolve dependency. All R/Rcpp code remains in gsuite. See LD references.\ngcorr now provides native adapters for these LD resources and an immutable PreparedRegionalLd shared by HESS, rho-HESS, SUPERGNOVA and LAVA. gsolve verifies imported full eigensystems once; subsequent native fits reuse them while applying their own statistical component selection. The gcorr() R interface now connects these resources to ordinary/partitioned LDSC and GNOVA, independent and joint-region HESS/rho-HESS, continuous-trait LAVA point estimates, univariate tests and optional bivariate simulation inference, and SUPERGNOVA covariance. See the summary-statistic tutorial for its bounded scope.\nAcross these methods, result tables use explicit reference, region, annotation-category and architecture-component labels. Named h2/cov/rg matrices share one layout; method-specific uncertainty, native diagnostics and inconsistent pairwise estimates remain visible. See result conventions.\nThe common gcorr() interface also exposes SumHer architecture-component and reference-total h2/cov/rg. Multiple traits use the native coordinated marginal and pairwise fits, with joint fixed-weight jackknife covariance when blocks are supplied. Tagging weights are explicit and separate from architecture-weighted scores; no cross-ancestry or full upstream-software parity is implied.\nRegional LAVA also accepts explicit binary-trait metadata, reusing LDlist allele frequencies for native logistic-Wald reconstruction. Observed and liability h2 remain distinct; binary/mixed pairs use the existing screening and optional bivariate simulation inference. LAVA shares each regional fit across traits and exposes partial correlations, multiple regression, explained variance and supported conditional/omnibus inference.\nNative regional request lists now resolve explicitly named references and regions, reuse prepared LD, and retain labelled results or per-request errors. Joint HESS also accepts prepared regions. These are sequential native calls; every trait within a model must select the same reference, with no cross-ancestry estimator implied by the reference labels.",
+    "text": "Responsibilities\n\n\n\nLibrary\nResponsibility\nImmediate boundary\n\n\n\n\ngbits\nPacked genotype storage, PLINK BED access, selections, transformations, genotype products, and weighted covariance/normal operators\nDoes not own genomic resource metadata, general solvers, or statistical models\n\n\ngmat\nBED/BIM/FAM resources, ordered panels, sparse-LD construction and storage, sparse-LD algebra, and LD scores\nDelegates BED decoding to gbits and does not fit LD-score regressions\n\n\ngsolve\nModel-independent operators, factorizations, eigensystems, selected inversion, preconditioned conjugate gradient, probes and stochastic log determinants\nContains no genotype, likelihood, or mixed-model semantics; integrates external sparse factorization backends\n\n\ngreml\nML/REML covariance models, exact and stochastic inference, sparse mixed-model equations, optimization, prediction, and uncertainty\nUses gsolve for numerical primitives and does not own genotype formats\n\n\ngcorr\nLDSC, GNOVA, SumHer, HESS/rho-HESS, SUPERGNOVA, LAVA; covariance-summary SEM/GGM and prepared-instrument MR\nConsumes gmat LD resources and gsolve numerics; colocalisation belongs in gmap\n\n\ngscore\nMulti-score BED application, scoring-specific weight construction/selection and prepared prediction targets\nCore scoring remains standalone; optional gscore::summary reuses gbayes inference. gsuite binds selected posterior prediction, not a standalone gscore() interface\n\n\ngsim\nUser-facing R simulation of genotypes, pedigrees and observation records\nOwns simulation workflows; generated data can be used in gsuite analyses\n\n\nglma\nNative linear, binary logistic and Gaussian mixed/LOCO association plus prior-selected LOCO fitting, structure checks, calibration and offset testing\nUses installed gmat/gbits, greml and gbayes; gsuite exposes binary and quantitative-trait routes through glma(), sharing genotype reads for multiple exact linear traits and immutable preparation for LOCO traits\n\n\ngmap\nNative colocalisation, regional Bayesian analysis and posterior-set interpretation\nCore is standalone; optional gmap::bayes uses gbayes; gsuite binds regional Bayesian fitting, ABF and component colocalisation\n\n\ngbayes\nNative Bayesian regression and single-/multi-effect inference\nUses gmat cross-products or prepared factors; single-/multivariate summary regression through gsuite::gbayes and regional inference through gsuite::gmap\n\n\ngsuite\nUnified R/native entry point and suite-level integration documentation\nBinds selected gsolve, greml, gbits, gmat, gcorr, glma, gscore and gmap/gbayes capabilities and requires the gbits gsolve adapter\n\n\n\n\nHow the R interface connects the components\nThe pedigree data-frame workflow normalizes short covariance specifications and explicit gvc() components into one internal model description. Formulas define fixed and random bases, variables bind record IDs, kernels define relationships, covariance descriptors declare coordinates and optional starts, and the task selects REML or a fixed solve. The adapter owns R validation, sparse fixed-design construction and result labels; it calls the existing specialized pedigree interfaces or the public component-LMM constructors and fitters for independent groups of random intercepts. A named vector of grouping columns in one gvc() declares correlated channels sharing a pedigree or identity relationship; separate descriptors remain independent. Residual group, structure, block and time fields bind data columns to existing grouped, AR(1) and exponential component residual constructors. Missing-response filtering is shared by phenotypes, incidence and residual metadata. No new native numerical implementation or dense relationship matrix is introduced. formula and formulas are equivalent; supplied starts do not select a different route. An explicit gs_fit_control() object selects the specialized compiled interface. General sparse-direct defaults use CHOLMOD selected inversion; independent components reuse gs_lmm_control().\nFor gs_gprep(task = \"prepare\"), ownership is fixed as follows:\n\n\n\nResponsibility\nOwner\n\n\n\n\nPublic R interface, orchestration, serializable descriptor\ngsuite\n\n\nBED validation and packed genotype counts\ngbits\n\n\nBIM/FAM parsing, identity, metadata, and file alignment\ngmat\n\n\nPersistent genotype representation\nExisting PLINK BED\n\n\nBehavioural and scientific comparison\nRead-only qgg\n\n\n\nFor gs_gprep(task = \"sparseld\"), gsuite validates the Glist and orchestrates selection; gmat owns sparse-LD calculation, its disk CSR, validation, and LD scores; gbits remains the packed BED path; existing BED remains the genotype store; and unchanged qgg and sblr are behavioural and consumer references.\nThe independent LDlist interface reuses gmat’s existing SparseLdDiskResource and native disk inspection. ldprep(Glist, reference) creates an R descriptor without copying LD files; validate_LDlist() reopens and checks it without requiring genotype inputs. gmat owns the native resource, while gsuite owns R labels, serialization and validation orchestration. No new native storage format is introduced. LD computation is delegated to the existing sparse-LD preparation route; named score preparation delegates ordinary and partitioned/corrected calculations to gmat. gsuite stores definitions and validates saved-score compatibility. Regional dense extraction belongs to gmat and reuses its streaming disk parser. gsolve supplies the full eigensystem and numerical diagnostics; gsuite binds these installed public APIs and stores reusable region caches. gmat has no new gsolve dependency. All R/Rcpp code remains in gsuite. See LD references.\ngcorr now provides native adapters for these LD resources and an immutable PreparedRegionalLd shared by HESS, rho-HESS, SUPERGNOVA and LAVA. gsolve verifies imported full eigensystems once; subsequent native fits reuse them while applying their own statistical component selection. The gcorr() R interface now connects these resources to ordinary/partitioned LDSC and GNOVA, independent and joint-region HESS/rho-HESS, continuous-trait LAVA point estimates, univariate tests and optional bivariate simulation inference, and SUPERGNOVA covariance. See the summary-statistic tutorial for its bounded scope.\nAcross these methods, result tables use explicit reference, region, annotation-category and architecture-component labels. Named h2/cov/rg matrices share one layout; method-specific uncertainty, native diagnostics and inconsistent pairwise estimates remain visible. See result conventions.\nThe common gcorr() interface also exposes SumHer architecture-component and reference-total h2/cov/rg. Multiple traits use the native coordinated marginal and pairwise fits, with joint fixed-weight jackknife covariance when blocks are supplied. Tagging weights are explicit and separate from architecture-weighted scores; no cross-ancestry or full upstream-software parity is implied.\nRegional LAVA also accepts explicit binary-trait metadata, reusing LDlist allele frequencies for native logistic-Wald reconstruction. Observed and liability h2 remain distinct; binary/mixed pairs use the existing screening and optional bivariate simulation inference. LAVA shares each regional fit across traits and exposes partial correlations, multiple regression, explained variance and supported conditional/omnibus inference.\nNative regional request lists now resolve explicitly named references and regions, reuse prepared LD, and retain labelled results or per-request errors. Joint HESS also accepts prepared regions. These are sequential native calls; every trait within a model must select the same reference, with no cross-ancestry estimator implied by the reference labels.",
     "crumbs": [
       "gsuite",
       "About gsuite",
@@ -1300,7 +1300,7 @@
     "href": "gsuite/docs/architecture.html#dependencies",
     "title": "Architecture",
     "section": "Dependencies",
-    "text": "Dependencies\nThis graph describes current build dependencies. Each arrow points from a dependent component to a library it requires. Building gbits::gsolve_adapter is optional for gbits; when built, the adapter requires both gbits and gsolve. The current gsuite build requires the adapter. External implementation dependencies and optional OpenMP support are omitted.\nflowchart LR\n    gbits[gbits]\n    gmat[gmat] --&gt; gbits\n    gcorr[gcorr] --&gt; gmat\n    gcorr --&gt; gsolve\n    gsolve[gsolve]\n    greml[greml] --&gt; gsolve\n    adapter[\"gbits::gsolve_adapter\"] --&gt; gbits\n    adapter --&gt; gsolve\n    gscore[gscore]\n    gscore_summary[\"gscore::summary\"] --&gt; gscore\n    gscore_summary --&gt; gbayes\n    gscore_summary --&gt; gmat\n    gscore_summary --&gt; gsolve\n    gscore_summary --&gt; gbits\n    gsuite --&gt; gscore_summary\n    gmap[gmap]\n    gmap_bayes[\"gmap::bayes (optional)\"] --&gt; gbayes\n    gbayes[gbayes] --&gt; gmat\n    gbayes --&gt; gsolve\n    glma[glma] --&gt; gbayes\n    glma --&gt; greml\n    glma --&gt; gmat\n    glma --&gt; adapter\n    gsuite[gsuite R package] --&gt; gbits\n    gsuite --&gt; gmat\n    gsuite --&gt; gmap_bayes\n    gsuite --&gt; gcorr\n    gsuite --&gt; greml\n    gsuite --&gt; gsolve\n    gsuite --&gt; adapter\nThere is no reverse dependency from gsolve or greml to gbits. The gscore scoring implementation reads BED directly and has no suite-library dependency. Its optional summary companion depends on gbayes, gmat, gsolve and gbits and is now a gsuite runtime dependency for posterior prediction. gsim is a separate user-facing R package; its simulation-to-analysis workflow exchanges data with gsuite and is not a native-library dependency. gbayes is a native library using gmat and gsolve. gmap retains standalone colocalisation and provides an optional gmap::bayes companion for regional posterior workflows. Both are now installed dependencies of the experimental gsuite gmap() R interface. Only the R conversion layer lives in gsuite; fitting and posterior-set construction remain native. The R interface accepts named regions and traits, with explicit sufficient statistics and optional native parameter learning. Residual learning requires complete in-sample LD and explicit phenotype normalization. Each region is prepared once across traits, using verified cached eigenpairs when available. Traits are fitted separately, not as a joint multivariate model. Saved multi-effect evidence feeds coloc() without refitting; the standalone ABF route instead consumes aligned beta/SE summaries directly without LD. For component comparisons, LD is reread only for purity checks.\ngbayes() binds native single-trait and multivariate BayesC/BayesR summary regression directly: standardized marginal effects and aligned LD are prepared by gbayes, then fitted using its existing samplers. Parameter learning, pooled posterior summaries and chain diagnostics remain native. Sparse LD can be memory-resident (parallel chains) or disk-backed (serial chains); no dense matrix or retained external pointer is introduced. The R object owns labelled, serializable results. Named trait lists reuse one LD reference; equal sample-size vectors share the same native cross-product object. Alternatively, named study frames/references and an explicit study-to-trait map feed the native multi-provider preparation. Each study retains its own LD operator and local marker map into a checked union; no merged LD matrix is built. Study-specific references require independent errors, including studies mapped to the same trait. Sampling dependence is explicit and separate from latent effect covariance. R checks labels and options; native gbayes owns the multivariate preparation, SPD checks, sampler, covariance/weight updates and posterior summaries. Shared annotation conversion binds native inclusion, pattern, component and variance models; R validates design labels and returns serializable native coefficient summaries and diagnostics. Native gbayes also accumulates requested reference genetic covariance, partition activity/covariance and score uncertainty from joint draws. Group covariance priors are separate from reporting partitions. gscore prepares selected packed targets; no score kernel or sampler is implemented in the R bridge. Scalar residual learning likewise reuses GaussianLearning and its native SSE/variance update, with explicit normalization validated at the R boundary; joint residual scales remain fixed. See the Bayesian regression workflow.\ngmap_stat() is R-side input preparation for the native mapping workflow. It reconstructs marginal OLS cross-products from aligned beta/SE/n and phenotype variance. It does not align alleles, infer missing sample sizes or add a native dependency. gmap() retains the preparation provenance. The worked mapping example connects this helper to the existing native fitting and post-fit colocalisation interfaces.",
+    "text": "Dependencies\nCHOLMOD/SuiteSparse and PARDISO supply external factorization and solve backends. The gsolve selected-inverse implementation reuses CHOLMOD supernodal factors; it is distinct from those external libraries and does not use PARDISO for selected inversion. Other dense and iterative routes remain available.\nThis graph describes current build dependencies. Each arrow points from a dependent component to a library it requires. Building gbits::gsolve_adapter is optional for gbits; when built, the adapter requires both gbits and gsolve. The current gsuite build requires the adapter. External implementation dependencies and optional OpenMP support are omitted.\nflowchart LR\n    gbits[gbits]\n    gmat[gmat] --&gt; gbits\n    gcorr[gcorr] --&gt; gmat\n    gcorr --&gt; gsolve\n    gsolve[gsolve]\n    greml[greml] --&gt; gsolve\n    adapter[\"gbits::gsolve_adapter\"] --&gt; gbits\n    adapter --&gt; gsolve\n    gscore[gscore]\n    gscore_summary[\"gscore::summary\"] --&gt; gscore\n    gscore_summary --&gt; gbayes\n    gscore_summary --&gt; gmat\n    gscore_summary --&gt; gsolve\n    gscore_summary --&gt; gbits\n    gsuite --&gt; gscore_summary\n    gmap[gmap]\n    gmap_bayes[\"gmap::bayes (optional)\"] --&gt; gbayes\n    gmap_bayes --&gt; gmap\n    gmap_bayes --&gt; gsolve\n    gbayes[gbayes] --&gt; gmat\n    gbayes --&gt; gsolve\n    glma[glma] --&gt; gbayes\n    glma --&gt; greml\n    glma --&gt; gmat\n    glma --&gt; adapter\n    gsuite[gsuite R package] --&gt; gbits\n    gsuite --&gt; gmat\n    gsuite --&gt; gmap_bayes\n    gsuite --&gt; gbayes\n    gsuite --&gt; glma\n    gsuite --&gt; gcorr\n    gsuite --&gt; greml\n    gsuite --&gt; gsolve\n    gsuite --&gt; adapter\nThere is no reverse dependency from gsolve or greml to gbits. The gscore scoring implementation reads BED directly and has no suite-library dependency. Its optional summary companion depends on gbayes, gmat, gsolve and gbits and is now a gsuite runtime dependency for posterior prediction. gsim is a separate user-facing R package; its simulation-to-analysis workflow exchanges data with gsuite and is not a native-library dependency. gbayes is a native library using gmat and gsolve. gmap retains standalone colocalisation and provides an optional gmap::bayes companion for regional posterior workflows. Both are now installed dependencies of the experimental gsuite gmap() R interface. Only the R conversion layer lives in gsuite; fitting and posterior-set construction remain native. The R interface accepts named regions and traits, with explicit sufficient statistics and optional native parameter learning. Residual learning requires complete in-sample LD and explicit phenotype normalization. Each region is prepared once across traits, using verified cached eigenpairs when available. Traits are fitted separately, not as a joint multivariate model. Saved multi-effect evidence feeds coloc() without refitting; the standalone ABF route instead consumes aligned beta/SE summaries directly without LD. For component comparisons, LD is reread only for purity checks.\ngbayes() binds native single-trait and multivariate BayesC/BayesR summary regression directly: standardized marginal effects and aligned LD are prepared by gbayes, then fitted using its existing samplers. Parameter learning, pooled posterior summaries and chain diagnostics remain native. Sparse LD can be memory-resident (parallel chains) or disk-backed (serial chains); no dense matrix or retained external pointer is introduced. The R object owns labelled, serializable results. Named trait lists reuse one LD reference; equal sample-size vectors share the same native cross-product object. Alternatively, named study frames/references and an explicit study-to-trait map feed the native multi-provider preparation. Each study retains its own LD operator and local marker map into a checked union; no merged LD matrix is built. Study-specific references require independent errors, including studies mapped to the same trait. Sampling dependence is explicit and separate from latent effect covariance. R checks labels and options; native gbayes owns the multivariate preparation, SPD checks, sampler, covariance/weight updates and posterior summaries. Shared annotation conversion binds native inclusion, pattern, component and variance models; R validates design labels and returns serializable native coefficient summaries and diagnostics. Native gbayes also accumulates requested reference genetic covariance, partition activity/covariance and score uncertainty from joint draws. Group covariance priors are separate from reporting partitions. gscore prepares selected packed targets; no score kernel or sampler is implemented in the R bridge. Scalar residual learning likewise reuses GaussianLearning and its native SSE/variance update, with explicit normalization validated at the R boundary; joint residual scales remain fixed. See the Bayesian regression workflow.\ngmap_stat() is R-side input preparation for the native mapping workflow. It reconstructs marginal OLS cross-products from aligned beta/SE/n and phenotype variance. It does not align alleles, infer missing sample sizes or add a native dependency. gmap() retains the preparation provenance. The worked mapping example connects this helper to the existing native fitting and post-fit colocalisation interfaces.",
     "crumbs": [
       "gsuite",
       "About gsuite",
@@ -1440,11 +1440,23 @@
     ]
   },
   {
+    "objectID": "gsuite/tutorials.html#bayesian-regression",
+    "href": "gsuite/tutorials.html#bayesian-regression",
+    "title": "Tutorials",
+    "section": "Bayesian regression",
+    "text": "Bayesian regression\nBayesian regression from summary statistics\nUse gbayes() to fit BayesC/BayesR, learn effect variance, mixture weights and annotation effects, report genetic covariance and group summaries, predict selected genetic scores, inspect native posterior summaries and reuse labelled marker effects for scoring. A gsim example starts with 10,000 individuals, extends to three traits, then compares separate and joint height analyses in two populations with different LD. It also illustrates single-trait residual learning from in-sample sufficient statistics.",
+    "crumbs": [
+      "gsuite",
+      "Tutorials",
+      "All tutorials"
+    ]
+  },
+  {
     "objectID": "gsuite/tutorials.html#fine-mapping-and-colocalisation",
     "href": "gsuite/tutorials.html#fine-mapping-and-colocalisation",
     "title": "Tutorials",
     "section": "Fine-mapping and colocalisation",
-    "text": "Fine-mapping and colocalisation\nBayesian regression from summary statistics\nUse gbayes() to fit BayesC/BayesR, learn effect variance, mixture weights and annotation effects, report genetic covariance and group summaries, predict selected genetic scores, inspect native posterior summaries and reuse labelled marker effects for scoring. A gsim example uses 10,000 individuals and one saved LD reference, then extends to three traits with explicit sampling dependence and joint covariance learning.\nFrom GWAS results to fine-mapping and colocalisation\nPrepare OLS summary statistics, compare BayesC, BayesR and multi-effect marker support, then assess shared signals. A gsim example uses two disjoint cohorts of 10,000 individuals, two regions and one saved LD reference.",
+    "text": "Fine-mapping and colocalisation\nFrom GWAS results to fine-mapping and colocalisation\nPrepare OLS summary statistics, compare BayesC, BayesR and multi-effect marker support, then assess shared signals. A gsim example uses two disjoint cohorts of 10,000 individuals, two regions and one saved LD reference.",
     "crumbs": [
       "gsuite",
       "Tutorials",
@@ -1492,7 +1504,7 @@
     "href": "gsuite/tutorials.html#reference-guides",
     "title": "Tutorials",
     "section": "Reference guides",
-    "text": "Reference guides\nFor interface details and current model support, see the formula reference, model catalog, and documentation index.",
+    "text": "Reference guides\nFor interface details and current model support, see the capability overview, association scan scope, formula reference, mixed-model catalog, and documentation index.",
     "crumbs": [
       "gsuite",
       "Tutorials",
@@ -1523,7 +1535,7 @@
     "href": "index.html#start-with-gsuite",
     "title": "gtools",
     "section": "Start with gsuite",
-    "text": "Start with gsuite\n\nTutorials: pedigree analysis and working with an assistant.\nBenchmarks: comparison with DMU, including the runtime figure.\nPackage availability: current status and future release plans.\n\nThe package websites remain independently maintained. gtools provides a shared entry point; it does not duplicate the gsim or gact websites."
+    "text": "Start with gsuite\n\nCapabilities: available analyses, R access and limits.\nTutorials: pedigree, summary-statistic, Bayesian and mapping workflows, plus working with an assistant.\nBenchmarks: comparison with DMU, including the runtime figure.\nPackage availability: current status and future release plans.\n\nThe package websites remain independently maintained. gtools provides a shared entry point; it does not duplicate the gsim or gact websites."
   },
   {
     "objectID": "gsuite/index.html",
@@ -1541,7 +1553,7 @@
     "href": "gsuite/index.html#what-can-gsuite-do",
     "title": "gsuite",
     "section": "What can gsuite do?",
-    "text": "What can gsuite do?\n\nFit pedigree mixed models: specify effects and covariance components, estimate variance parameters and obtain predictions.\nWork with genotype data: prepare resources, filter markers and construct sparse linkage-disequilibrium matrices.\nBuild on reusable methods: combine supported statistical and numerical components through documented interfaces.\n\nSee the supported models for available combinations and the methods overview for the wider ecosystem.",
+    "text": "What can gsuite do?\n\nFit pedigree mixed models: specify effects and covariance components, estimate variance parameters and obtain predictions.\nWork with genotype data: prepare resources, filter markers and construct sparse linkage-disequilibrium matrices.\nAnalyse GWAS summaries: estimate heritability and genetic correlation, fit covariance models, and perform Mendelian randomisation.\nFit Bayesian models: analyse traits or independent populations jointly, learn parameters and annotation effects, and summarize genetic variation.\nMap and predict: run association scans, fine-map regions, assess colocalisation and reuse estimated effects for prediction.\n\nStart with the capability overview for current R access and limits. The mixed-model catalog records specific LMM combinations and their evidence.",
     "crumbs": [
       "gsuite",
       "Overview"
@@ -1552,7 +1564,7 @@
     "href": "gsuite/index.html#explore-gsuite",
     "title": "gsuite",
     "section": "Explore gsuite",
-    "text": "Explore gsuite\n\n\nTutorials\nStart with ordinary R data frames and a complete pedigree analysis.\n\n\nArchitecture and libraries\nUnderstand the components, their responsibilities and how they connect.\n\n\nSupported models\nFind the model and R interface appropriate for your analysis.\n\n\nBenchmarks\nExplore numerical comparisons and runtime evidence, including DMU.",
+    "text": "Explore gsuite\n\n\nTutorials\nWorked pedigree, summary-statistic, Bayesian and mapping analyses.\n\n\nArchitecture and libraries\nUnderstand the components, their responsibilities and how they connect.\n\n\nCapabilities and R workflows\nFind an analysis, its R interface and the relevant scope notes.\n\n\nBenchmarks\nExplore numerical comparisons and runtime evidence, including DMU.",
     "crumbs": [
       "gsuite",
       "Overview"
@@ -1874,11 +1886,59 @@
     "href": "gsuite/docs/methods.html",
     "title": "Methods",
     "section": "",
-    "text": "Catalog authority. This page contains route-specific method descriptions and historical version notes. The current suite-wide LMM status is defined by the canonical model catalog, with evidence in model qualification. An exclusion below applies only to the workflow and version being described; it is not a global gsuite capability statement.\nThis catalogue maps confirmed public capabilities to their owning repository. Implemented means the capability is implemented in development code and exercised by relevant repository validation; it does not claim production-scale qualification. Experimental identifies a present but deliberately provisional integration surface. Planned identifies work with no current public implementation.\nThe pedigree tutorial demonstrates the data-frame interface on 10,000 simulated animals. It reuses existing numerical engines:\nShort and explicit forms share normalization. formula and formulas are aliases; starts do not select the engine. REML initializes omitted starts, while supplied values remain authoritative. Fixed solves require complete covariance values. The tutorial gives the route-specific initialization rules.\nDistinct descriptors are independent. Correlated channels must be declared explicitly and have known IDs for observed responses. Correlated residual blocks require unique positions within one variance group. Multi-component multitrait/random regression, multi-response residual descriptors, nuggets and unknown-time imputation remain outside this adapter. Covariance boundaries and unsupported combinations are not silently repaired. These examples do not extend workload or platform qualification.\nAssociation mapping belongs in native glma and the Glist-based glma() R interface; fine-mapping and colocalisation remain in gmap. The current quantitative-trait methods are exact linear regression, calibrated infinitesimal LOCO testing, and prior-selected LOCO offset testing with automatic structure-dependent scaling or a manual override. The LOCO methods can fit on a selected subset of Glist markers while testing every marker in that Glist; the subset must cover every tested chromosome. Association scans also accept a phenotype matrix with named traits and return one association result per trait. Exact linear scans share genotype reads and dosage decoding. LOCO traits share immutable genotype preparation but each retains its own variance fit, prior selection and calibration. Exact linear scans can include selected marker genotypes as fixed covariates through condition_on; this is a complete-case conditional test and does not reuse the LOCO null model. Binary traits can use the distinct logistic method for ordinary covariate-adjusted per-marker log-odds Wald tests. Sparse case/control counts, separation and non-convergence have explicit statuses. This baseline does not adjust for relatedness or claim LOCO binary calibration. These methods are separate from gmap_stat() summary-statistic preparation.\nThe connected gcorr validation checks genotype-derived LD scores and fits against dense references. A shared unit floor on marginal working means resolves the formerly rejected simulation draw; all prescribed draws now complete on the unchanged fixture. The floor changes variance weights without clamping raw estimates, and activation is reported in native diagnostics. See the weighting contract. The subsequent statistical calibration study completes all fits and passes parameter-recovery screens, but flags undercoverage for 15 primary quantities. Uncertainty qualification remains incomplete. An independent trait-1 QR diagnostic agrees with the native fixed-weight procedure; re-estimating weights during block deletion improves coverage but does not fully resolve it. These capabilities have not been broadly qualified on real GWAS. The coordinated reliability study finds better coverage with known weights and analytical SEs, supporting an uncertainty-procedure limitation in the tested setting. Matched full LD gives stable estimates in the fixture; short windows and mismatched references cause bias. Current normal/jackknife intervals remain experimental; broad confidence-interval qualification is still open.\nDetailed equations, layouts, ownership, and limitations remain in each repository’s local catalogue and linked design documents. The actual local dataset campaign is summarized separately in qgdata qualification.",
+    "text": "Catalog authority. This page contains route-specific method descriptions and historical version notes. The current suite-wide LMM status is defined by the canonical model catalog, with evidence in model qualification. An exclusion below applies only to the workflow and version being described; it is not a global gsuite capability statement.\nThis catalogue maps development capabilities to their owning repository. Implemented means the capability is implemented in development code and exercised by relevant repository validation; it does not claim production-scale qualification. Experimental identifies a present but deliberately provisional integration surface. Planned identifies work with no current implementation. Availability through R is stated separately; gsuite has no public software release yet.",
     "crumbs": [
       "gsuite",
       "About gsuite",
-      "Methods overview"
+      "Capabilities and methods"
+    ]
+  },
+  {
+    "objectID": "gsuite/docs/methods.html#capability-overview",
+    "href": "gsuite/docs/methods.html#capability-overview",
+    "title": "Methods",
+    "section": "Capability overview",
+    "text": "Capability overview\nReviewed against the development interfaces on 20 September 2026. These are available workflows, not claims of full upstream-software parity or broad statistical calibration. Each guide records its supported inputs and limits.\n\n\n\nAnalysis or resource\nNative owner\nCurrent R access and guide\n\n\n\n\nPedigree, multivariate and longitudinal mixed models\ngreml, gsolve\ngfit() and persistent model interfaces; pedigree tutorial, LMM catalog\n\n\nGenotypes, marker QC, sparse LD, LD scores and regional eigenpairs\ngmat, gbits, gsolve\ngs_gprep(), gs_gfilter(), ldprep(); genotype preparation, LD references\n\n\nLDSC, GNOVA, SumHer, HESS/rho-HESS, SUPERGNOVA and LAVA\ngcorr\ngcorr(); task and uncertainty coverage. SUPERGNOVA exposes covariance only\n\n\nSEM, partial-correlation networks and fixed-graph GGM\ngcorr\ngcorr_covariance() and gcorr(); covariance models, including supported annotation/component comparisons\n\n\nGSMR, GSMR2, IVW, Egger and weighted-median MR\ngcorr\nExplicit instrument preparation followed by gcorr(task=\"mr\"); MR workflow\n\n\nBayesC/BayesR, several traits or independent studies, parameter and annotation learning\ngbayes\ngbayes(); Bayesian regression, including genetic summaries and single-trait in-sample residual learning\n\n\nRegional Bayesian mapping and posterior sets\ngbayes, gmap\ngmap(); mapping workflow. Regions/traits fit separately; marginal-PIP sets and component sets have different meanings\n\n\nABF and component-pair colocalisation\ngmap\ncoloc(); colocalisation, with method-specific assumptions\n\n\nLinear/logistic GWAS and quantitative-trait LOCO association\nglma\nglma(); association scope. Binary logistic tests do not adjust for relatedness\n\n\nScoring, summary-weight construction and posterior prediction\ngscore, gbayes\nNative scoring APIs; selected-individual score uncertainty through gbayes(). No standalone gscore() R export\n\n\nGenotype, pedigree and phenotype simulation\ngsim\nSeparate public R package; gsim documentation\n\n\n\nSelected native operations remain outside the R bindings, including the general gscore fitting/model-selection workflows and the standalone single-effect Bayesian entry point. A dedicated gsea library and Python interfaces remain planned. Multivariate Bayesian residual-covariance learning and arbitrary sampling overlap across different LD references are not exposed. See the current qualification limits before interpreting capability as validated use.",
+    "crumbs": [
+      "gsuite",
+      "About gsuite",
+      "Capabilities and methods"
+    ]
+  },
+  {
+    "objectID": "gsuite/docs/methods.html#pedigree-formula-workflows",
+    "href": "gsuite/docs/methods.html#pedigree-formula-workflows",
+    "title": "Methods",
+    "section": "Pedigree formula workflows",
+    "text": "Pedigree formula workflows\nThe pedigree tutorial demonstrates the data-frame interface on 10,000 simulated animals. It reuses existing numerical engines:\n\n\n\n\n\n\n\nFormula model\nScope\n\n\n\n\nPedigree animal model\nOne or multiple traits; missing responses omitted trait by trait\n\n\nGenetic random regression\nOne response, one pedigree effect and homogeneous residuals\n\n\nIndependent components\nMultiple pedigree/identity intercepts, including permanent environment and common groups\n\n\nCorrelated channels\nOne response with named channels under a shared kernel, such as direct/maternal effects\n\n\nStructured residuals\nGrouped variances, integer-gap AR(1), or continuous-time exponential correlation\n\n\n\nShort and explicit forms share normalization. formula and formulas are aliases; starts do not select the engine. REML initializes omitted starts, while supplied values remain authoritative. Fixed solves require complete covariance values. The tutorial gives the route-specific initialization rules.\nDistinct descriptors are independent. Correlated channels must be declared explicitly and have known IDs for observed responses. Correlated residual blocks require unique positions within one variance group. Multi-component multitrait/random regression, multi-response residual descriptors, nuggets and unknown-time imputation remain outside this adapter. Covariance boundaries and unsupported combinations are not silently repaired. These examples do not extend workload or platform qualification.",
+    "crumbs": [
+      "gsuite",
+      "About gsuite",
+      "Capabilities and methods"
+    ]
+  },
+  {
+    "objectID": "gsuite/docs/methods.html#association-mapping",
+    "href": "gsuite/docs/methods.html#association-mapping",
+    "title": "Methods",
+    "section": "Association mapping",
+    "text": "Association mapping\nAssociation mapping belongs in native glma and the Glist-based glma() R interface; fine-mapping and colocalisation remain in gmap. The current quantitative-trait methods are exact linear regression, calibrated infinitesimal LOCO testing, and prior-selected LOCO offset testing with automatic structure-dependent scaling or a manual override. The LOCO methods can fit on a selected subset of Glist markers while testing every marker in that Glist; the subset must cover every tested chromosome. Association scans also accept a phenotype matrix with named traits and return one association result per trait. Exact linear scans share genotype reads and dosage decoding. LOCO traits share immutable genotype preparation but each retains its own variance fit, prior selection and calibration. Exact linear scans can include selected marker genotypes as fixed covariates through condition_on; this is a complete-case conditional test and does not reuse the LOCO null model. Binary traits can use the distinct logistic method for ordinary covariate-adjusted per-marker log-odds Wald tests. Sparse case/control counts, separation and non-convergence have explicit statuses. This baseline does not adjust for relatedness or claim LOCO binary calibration. These methods are separate from gmap_stat() summary-statistic preparation.",
+    "crumbs": [
+      "gsuite",
+      "About gsuite",
+      "Capabilities and methods"
+    ]
+  },
+  {
+    "objectID": "gsuite/docs/methods.html#computational-building-blocks",
+    "href": "gsuite/docs/methods.html#computational-building-blocks",
+    "title": "Methods",
+    "section": "Computational building blocks",
+    "text": "Computational building blocks\n\n\n\nLibrary\nMethod or capability\nStatus\nLocal documentation\n\n\n\n\nglma/gsuite\nGlist-based exact linear and binary logistic association, infinitesimal LOCO, and prior-selected LOCO with conditional ridge-reference scaling\nExperimental R interface; mixed-model null-tail calibration still needs broad validation\nAssociation scope; installed help(\"glma\")\n\n\ngbits\nStrict PLINK BED access, decoding, ordered selections, marker statistics, and affine missing-aware transformations\nImplemented\ngbits methods\n\n\ngbits\nDirect and prepared \\(Xv\\), \\(X^{\\mathsf T}v\\), \\(XB\\), \\(X^{\\mathsf T}Y\\); source-independent binary/ternary packed matrices\nImplemented\ngbits methods\n\n\ngbits\nWeighted genotype covariance, normal-equation, diagonal, and trace operators\nImplemented\ngbits methods\n\n\ngbits\ngbits::gsolve_adapter genomic covariance and packed rectangular design operators\nExperimental\ngbits methods\n\n\ngmat\nBedMatrix, ordered BedPanel, in-memory and disk-backed sparse-LD CSR resources and algebra\nImplemented\ngmat methods\n\n\ngmat\nBED/panel sparse-LD construction; ordinary, finite-sample-corrected, and annotation-specific LD scores\nImplemented\ngmat methods\n\n\ngsolve\nDense Cholesky and sparse LDL’ SPD factorization and solves\nImplemented\ngsolve methods\n\n\ngsolve\nMatrix-free PCG, independent and true block multiple-RHS orchestration, SolvePlan, preconditioners, and execution diagnostics\nImplemented\ngsolve methods\n\n\ngsolve\nSquare/rectangular structured operators, reproducible Rademacher probes, and stochastic Lanczos log determinants\nImplemented\ngsolve methods\n\n\ngreml\nExact dense single-trait ML/REML evaluation and reference or safeguarded constrained optimization\nImplemented\ngreml methods\n\n\ngreml\nMatrix-free stochastic ML/REML, adaptive precision, sparse MME, and hybrid covariance routes\nImplemented\ngreml methods\n\n\ngsuite\nEligible affine spectral reuse, purpose-specific staged stochastic REML, and opt-in determinant-deferred packed AI-REML\nExperimental; explicit controls\npersistent R interface\n\n\ngreml/gsuite\nPacked coefficient/sufficient-statistic reuse for single-trait and complete-record multivariate stochastic score/AI, with bounded prefix-aware probe cache and fused shared-source reconstruction\nExperimental execution optimization\npersistent R interface\n\n\ngreml/gsuite\nBalanced structured longitudinal RHE to determinant-deferred AI-REML to latent-coefficient and trajectory BLUP\nExperimental complete-record workflow\npersistent R interface\n\n\ngreml/gsuite\nSparse-pedigree determinant-deferred AI-REML and retained-state all-animal BLUP, with coordinate or CHOLMOD selected-inverse exact direct traces\nExperimental positive-interior workflow\nSparse-direct pedigree methods\n\n\ngreml/gsuite\nPositive-interior multitrait pedigree sparse-direct REML with missing-trait residual blocks, bounded coordinate or CHOLMOD selected-inverse exact traces, exact PARDISO/CHOLMOD determinants, and retained BLUP\nExperimental moderate-problem workflow\nmultitrait pedigree workflow\n\n\ngreml/gsuite\nIrregular scalar longitudinal pedigree PCG/PARDISO/CHOLMOD MME, positive-interior random-regression REML, grouped diagonal residuals, selected-inverse exact traces through CHOLMOD, and retained coefficient/trajectory BLUP\nExperimental; direct optimization is bounded moderate-problem work\nlongitudinal pedigree workflow\n\n\ngreml\nUnbalanced multivariate and longitudinal/random-regression covariance inference and optimization\nImplemented\ngreml methods\n\n\ngreml\nUnified ModelSpec → CompiledModel → ModelFit facade, prediction, contrasts, and uncertainty\nImplemented\ngreml methods\n\n\ngcorr\nOrdinary and partitioned single-trait LD-score regression, enrichment, jackknife, and diagnostics\nImplemented\ngcorr methods\n\n\ngcorr\nBivariate and serial multivariate LDSC with genetic covariance/correlation and paired jackknife uncertainty\nImplemented\ngcorr methods\n\n\ngcorr\nPartitioned bivariate LDSC with annotation covariance coefficients, total/category genetic covariance and correlation, and paired jackknife; annotation-specific two-update weights\nImplemented\ngcorr design\n\n\ngcorr\nNative SNP summary-statistic preparation: explicit allele orientation, missingness, variable sample sizes and a common all-trait marker mask\nImplemented\ngcorr native workflow\n\n\ngcorr\nOrdinary multivariate labelled joint sampling covariance from paired block deletes\nImplemented\ngcorr native workflow\n\n\ngcorr\nPartitioned multivariate LDSC with an all-trait marker mask, annotation and total/category matrices, and labelled joint sampling covariance from coordinated block deletions\nImplemented\ngcorr design\n\n\ngcorr\nGNOVA, SumHer, HESS/rho-HESS, SUPERGNOVA, LAVA, SEM/GGM and MR\nNative components with selected experimental R bindings\nCapability overview and linked method contracts\n\n\ngscore\nStandalone tiled multi-score BED application with standardized or raw mean-imputed coding and operation-local OpenMP\nImplemented\ngscore methods\n\n\ngscore/gbayes\nSummary-weight fitting, clumping/threshold paths, ridge and shrinkage models, pseudo-summary splitting and held-out model selection\nNative only; selected posterior prediction is bound through gbayes()\ngscore native contracts\n\n\ngsuite\nLinked version/capability reporting and gsolve::SolvePlan SPD solving from R\nExperimental\nR package overview\n\n\ngsuite\nExact dense and prepared matrix-free BED ML/REML bindings through the greml model facade\nExperimental\nR package overview\n\n\ngsuite\nPersistent prepared-BED, compiled single-trait model, fit, contrast, Wald, uncertainty, and optimizer-diagnostic interface\nExperimental\npersistent R interface\n\n\ngsuite\nIndependent-group, ordered-pedigree, and general sparse-Z terms through matrix-free covariance, sparse MME, and structured-plus-genomic hybrid routes\nExperimental\npersistent R interface\n\n\ngsuite\nExplicit unbalanced multivariate indexed covariance, longitudinal random regression, temporal residual structures, complete predictions, and selected-target uncertainty\nExperimental\npersistent R interface\n\n\ngsuite\nCanonical gsolve/greml route, scaling, R-interface, and bounded qualification overview\nExperimental\ngsolve/greml capabilities\n\n\ngsuite\nSerializable BED/BIM/FAM resources and ordered panel selection through gmat::BedMatrix and gmat::BedPanel\nExperimental\ngmat R integration\n\n\ngsuite\nSerializable qgg-familiar genotype preparation with exact packed BED summaries\nExperimental\ngenotype preparation\n\n\ngsuite\nSummary-only marker QC with exact HWE, INFO identity alignment, allele, missingness, and assembly-aware MHC rules\nExperimental\ngenotype filtering\n\n\ngsuite\ngs_gprep(task = \"sparseld\") orchestration with selected physical BED mappings, transactional gmat CSR, aligned AF, and ordinary LD scores\nExperimental\nsparse-LD preparation\n\n\ngsuite\nDisk sparse-LD construction and reopening; ordinary, corrected, partitioned, and corrected partitioned LD scores\nExperimental\ngmat R integration\n\n\ngmap\nRegional BayesC/BayesR and marginal/component posterior sets via optional native component\nExperimental R binding; broader native controls\nRegional posterior interpretation\n\n\ngbayes\nSingle-/multi-effect fitting with optional prior-variance learning\nBounded multi-effect R binding; single-effect native\nSingle-/multi-effect inference\n\n\ngbayes\nSingle-/multivariate BayesC/BayesR, independent studies, annotation and parameter learning, posterior genetic summaries\nExperimental R binding; scalar residual learning requires complete in-sample sufficient statistics\nBayesian workflow\n\n\n\nThe connected gcorr validation checks genotype-derived LD scores and fits against dense references. A shared unit floor on marginal working means resolves the formerly rejected simulation draw; all prescribed draws now complete on the unchanged fixture. The floor changes variance weights without clamping raw estimates, and activation is reported in native diagnostics. See the weighting contract. The subsequent statistical calibration study completes all fits and passes parameter-recovery screens, but flags undercoverage for 15 primary quantities. Uncertainty qualification remains incomplete. An independent trait-1 QR diagnostic agrees with the native fixed-weight procedure; re-estimating weights during block deletion improves coverage but does not fully resolve it. These capabilities have not been broadly qualified on real GWAS. The coordinated reliability study finds better coverage with known weights and analytical SEs, supporting an uncertainty-procedure limitation in the tested setting. Matched full LD gives stable estimates in the fixture; short windows and mismatched references cause bias. Current normal/jackknife intervals remain experimental; broad confidence-interval qualification is still open.\nDetailed equations, layouts, ownership, and limitations remain in each repository’s local catalogue and linked design documents. The actual local dataset campaign is summarized separately in qgdata qualification.",
+    "crumbs": [
+      "gsuite",
+      "About gsuite",
+      "Capabilities and methods"
     ]
   },
   {
@@ -1890,7 +1950,7 @@
     "crumbs": [
       "gsuite",
       "About gsuite",
-      "Methods overview"
+      "Capabilities and methods"
     ]
   },
   {
@@ -1902,7 +1962,7 @@
     "crumbs": [
       "gsuite",
       "About gsuite",
-      "Methods overview"
+      "Capabilities and methods"
     ]
   },
   {
@@ -1910,11 +1970,11 @@
     "href": "gsuite/docs/methods.html#native-colocalisation",
     "title": "Methods",
     "section": "Native colocalisation",
-    "text": "Native colocalisation\ngmap provides approximate-Bayes-factor colocalisation for one region and two continuous traits, assuming at most one causal variant per trait and non-overlapping samples. It returns H0-H4 probabilities and explicit prior-sensitivity summaries. The implementation has independent numerical checks and pinned coloc comparisons; these establish numerical agreement, not broad statistical calibration. The gsuite::coloc() ABF route accepts two aligned regional beta/SE tables, explicit phenotype SDs and priors without an LD object. It returns regional probabilities and conditional-H4 marker support, distinct from component-pair colocalisation. See the worked example. GWAS association remains planned; Bayesian fine-mapping and posterior-set interpretation are available as described below.",
+    "text": "Native colocalisation\ngmap provides approximate-Bayes-factor colocalisation for one region and two continuous traits, assuming at most one causal variant per trait and non-overlapping samples. It returns H0-H4 probabilities and explicit prior-sensitivity summaries. The implementation has independent numerical checks and pinned coloc comparisons; these establish numerical agreement, not broad statistical calibration. The gsuite::coloc() ABF route accepts two aligned regional beta/SE tables, explicit phenotype SDs and priors without an LD object. It returns regional probabilities and conditional-H4 marker support, distinct from component-pair colocalisation. See the worked example. GWAS association is implemented separately in glma; Bayesian fine-mapping and posterior-set interpretation are described below.",
     "crumbs": [
       "gsuite",
       "About gsuite",
-      "Methods overview"
+      "Capabilities and methods"
     ]
   },
   {
@@ -1922,11 +1982,11 @@
     "href": "gsuite/docs/methods.html#native-bayesian-inference",
     "title": "Methods",
     "section": "Native Bayesian inference",
-    "text": "Native Bayesian inference\nThe experimental gbayes() R workflow exposes single-trait and joint multivariate regression with aligned standardized marginal effects and a saved LDlist. BayesC/BayesR support fixed parameters or optional effect-covariance and mixture-weight learning, exact chain seeds, chain-level threading and native posterior summaries. Multiple traits require explicit independent sampling or the common-N shared-LD covariance model. Variable sample sizes are an explicit approximation and, for multivariate fits, require independent sampling and study-size metadata. Joint residual scales stay fixed; scalar BayesC/BayesR can learn residual variance using explicit in-sample response sum-of-squares, likelihood dimension and a scaled inverse-chi-square prior. Complete in-sample LD is required. Latent base-effect covariance is labelled separately from realised genetic covariance. The annotation argument exposes logistic inclusion, continuation-probit pattern/component probabilities and log-linear variance models, with fixed or learned coefficients and native diagnostics. The same interface now binds grouped latent covariance priors and optional native posterior genetic covariance, partition activity/covariance and selected-individual score uncertainty. Heritability normalization requires explicit phenotype variances. Group summaries retain cross-group LD; score uncertainty excludes residual noise. Named study-specific references additionally expose native independent-provider preparation with differing LD, sample sizes and marker subsets. Multiple studies may inform shared effects of one trait within a model of at least two traits. Study identity, trait identity and reference provenance remain distinct. This is not an overlap correction or an automatic ancestry-specific effect model.\ngbayes provides single-trait BayesC and BayesR with fixed parameters or explicit learning of residual variance, slab variance and mixture weights. Prepared scores and cross-products can use dense storage, gmat LD operations with explicit marker scaling, or prepared factors with reduced residuals. Factorized execution avoids a dense cross-product matrix. Truncated inputs use explicitly projected scores; residual learning then requires retained-space normalization (dimension and response sum of squares). Results include posterior means, empirical posterior variances, marginal inclusion probabilities and compact per-chain summaries. BayesR also returns marker component probabilities; both methods summarize learned parameters. Residual-variance learning requires compatible phenotype sums of squares and an explicit Gaussian likelihood dimension, not just LD and scores. The gmap() R binding exposes BayesC/BayesR separately across named traits and regions, including optional variance and mixture-weight learning. MCMC learning requires explicit inverse-chi-square or Dirichlet hyperpriors. Residual learning also requires complete in-sample LD, phenotype sum of squares and likelihood dimension; these are never inferred from the reference panel.\nThe initial checks cover an independent scalar posterior calculation, dense/gmat agreement, an installed native consumer and a tiny matched sblr reference. They do not establish broad calibration or convergence. Supplied cross-products must define a valid positive-semidefinite operator; structural checks do not repair or certify arbitrary thresholded LD. Annotation priors and multivariate inference remain future work.",
+    "text": "Native Bayesian inference\nThe experimental gbayes() R workflow exposes single-trait and joint multivariate regression with aligned standardized marginal effects and a saved LDlist. BayesC/BayesR support fixed parameters or optional effect-covariance and mixture-weight learning, exact chain seeds, chain-level threading and native posterior summaries. Multiple traits require explicit independent sampling or the common-N shared-LD covariance model. Variable sample sizes are an explicit approximation and, for multivariate fits, require independent sampling and study-size metadata. Joint residual scales stay fixed; scalar BayesC/BayesR can learn residual variance using explicit in-sample response sum-of-squares, likelihood dimension and a scaled inverse-chi-square prior. Complete in-sample LD is required. Latent base-effect covariance is labelled separately from realised genetic covariance. The annotation argument exposes logistic inclusion, continuation-probit pattern/component probabilities and log-linear variance models, with fixed or learned coefficients and native diagnostics. The same interface now binds grouped latent covariance priors and optional native posterior genetic covariance, partition activity/covariance and selected-individual score uncertainty. Heritability normalization requires explicit phenotype variances. Group summaries retain cross-group LD; score uncertainty excludes residual noise. Named study-specific references additionally expose native independent-provider preparation with differing LD, sample sizes and marker subsets. Multiple studies may inform shared effects of one trait within a model of at least two traits. Study identity, trait identity and reference provenance remain distinct. This is not an overlap correction or an automatic ancestry-specific effect model.\ngbayes provides single-trait BayesC and BayesR with fixed parameters or explicit learning of residual variance, slab variance and mixture weights. Prepared scores and cross-products can use dense storage, gmat LD operations with explicit marker scaling, or prepared factors with reduced residuals. Factorized execution avoids a dense cross-product matrix. Truncated inputs use explicitly projected scores; residual learning then requires retained-space normalization (dimension and response sum of squares). Results include posterior means, empirical posterior variances, marginal inclusion probabilities and compact per-chain summaries. BayesR also returns marker component probabilities; both methods summarize learned parameters. Residual-variance learning requires compatible phenotype sums of squares and an explicit Gaussian likelihood dimension, not just LD and scores. The gmap() R binding exposes BayesC/BayesR separately across named traits and regions, including optional variance and mixture-weight learning. MCMC learning requires explicit inverse-chi-square or Dirichlet hyperpriors. Residual learning also requires complete in-sample LD, phenotype sum of squares and likelihood dimension; these are never inferred from the reference panel.\nThe initial checks cover an independent scalar posterior calculation, dense/gmat agreement, an installed native consumer and a tiny matched sblr reference. They do not establish broad calibration or convergence. Supplied cross-products must define a valid positive-semidefinite operator; structural checks do not repair or certify arbitrary thresholded LD. Annotation priors and multivariate inference are now available through gbayes() as described above; these early scalar checks do not qualify those later capabilities.",
     "crumbs": [
       "gsuite",
       "About gsuite",
-      "Methods overview"
+      "Capabilities and methods"
     ]
   },
   {
@@ -1938,7 +1998,7 @@
     "crumbs": [
       "gsuite",
       "About gsuite",
-      "Methods overview"
+      "Capabilities and methods"
     ]
   },
   {
@@ -1950,7 +2010,7 @@
     "crumbs": [
       "gsuite",
       "About gsuite",
-      "Methods overview"
+      "Capabilities and methods"
     ]
   },
   {
@@ -1962,7 +2022,7 @@
     "crumbs": [
       "gsuite",
       "About gsuite",
-      "Methods overview"
+      "Capabilities and methods"
     ]
   },
   {
@@ -1974,7 +2034,7 @@
     "crumbs": [
       "gsuite",
       "About gsuite",
-      "Methods overview"
+      "Capabilities and methods"
     ]
   },
   {
@@ -1986,7 +2046,7 @@
     "crumbs": [
       "gsuite",
       "About gsuite",
-      "Methods overview"
+      "Capabilities and methods"
     ]
   },
   {
@@ -1998,7 +2058,7 @@
     "crumbs": [
       "gsuite",
       "About gsuite",
-      "Methods overview"
+      "Capabilities and methods"
     ]
   },
   {
@@ -2010,7 +2070,7 @@
     "crumbs": [
       "gsuite",
       "About gsuite",
-      "Methods overview"
+      "Capabilities and methods"
     ]
   },
   {
@@ -2022,7 +2082,7 @@
     "crumbs": [
       "gsuite",
       "About gsuite",
-      "Methods overview"
+      "Capabilities and methods"
     ]
   },
   {
@@ -2034,7 +2094,7 @@
     "crumbs": [
       "gsuite",
       "Models and R interface",
-      "Supported models"
+      "Mixed-model catalog"
     ]
   },
   {
@@ -2046,7 +2106,7 @@
     "crumbs": [
       "gsuite",
       "Models and R interface",
-      "Supported models"
+      "Mixed-model catalog"
     ]
   },
   {
@@ -2058,7 +2118,7 @@
     "crumbs": [
       "gsuite",
       "Models and R interface",
-      "Supported models"
+      "Mixed-model catalog"
     ]
   },
   {
@@ -2070,7 +2130,7 @@
     "crumbs": [
       "gsuite",
       "Models and R interface",
-      "Supported models"
+      "Mixed-model catalog"
     ]
   },
   {
@@ -2082,7 +2142,7 @@
     "crumbs": [
       "gsuite",
       "Models and R interface",
-      "Supported models"
+      "Mixed-model catalog"
     ]
   },
   {
@@ -2094,7 +2154,7 @@
     "crumbs": [
       "gsuite",
       "Models and R interface",
-      "Supported models"
+      "Mixed-model catalog"
     ]
   },
   {
@@ -2106,7 +2166,7 @@
     "crumbs": [
       "gsuite",
       "Models and R interface",
-      "Supported models"
+      "Mixed-model catalog"
     ]
   },
   {
@@ -2118,7 +2178,7 @@
     "crumbs": [
       "gsuite",
       "Models and R interface",
-      "Supported models"
+      "Mixed-model catalog"
     ]
   },
   {
@@ -2130,7 +2190,7 @@
     "crumbs": [
       "gsuite",
       "Models and R interface",
-      "Supported models"
+      "Mixed-model catalog"
     ]
   },
   {
@@ -2142,7 +2202,7 @@
     "crumbs": [
       "gsuite",
       "Models and R interface",
-      "Supported models"
+      "Mixed-model catalog"
     ]
   },
   {
@@ -2154,7 +2214,7 @@
     "crumbs": [
       "gsuite",
       "Models and R interface",
-      "Supported models"
+      "Mixed-model catalog"
     ]
   },
   {
@@ -2534,7 +2594,7 @@
     "href": "gsuite/docs/README.html",
     "title": "Documentation index",
     "section": "",
-    "text": "Choose a section according to what you want to understand or do. gsuite remains in private development; gsim and gact have their own public sites.\n\n\n\nArchitecture and libraries\nMethods overview\nSoftware availability\nCurrent status and qualification limits\n\n\n\n\n\nAll tutorials\nPedigree analysis\nAnalysis with an assistant\nDeveloping a model with an assistant\nGenotype preparation\nMarker filtering\nSparse LD preparation\nSummary-statistic analysis\nBayesian summary regression\nFine-mapping and colocalisation: an OLS summary-statistic workflow with two simulated traits and three Bayesian methods.\n\n\n\n\n\nSupported models\nModel recipes\nFormulas and covariance components\nPersistent R interface\nPrediction and uncertainty\n\n\n\n\n\nModel representation\nNumerical routes\nMatrix integration\nMultitrait computations\nLongitudinal computations\nModel primitives\nModel reductions\n\n\n\n\n\nBenchmark overview\nPedigree models: gsuite versus DMU\n\n\n\nRead the qualification limits with any capability claim. Internal development reports and build instructions are not part of this public site; their links lead to the public scope summary.\n\n\n\n\nThoughts on AI-assisted research, methods, software and teaching\n\n\n\n\ngsim documentation\ngact documentation",
+    "text": "Choose a section according to what you want to understand or do. gsuite remains in private development; gsim and gact have their own public sites.\n\n\n\nArchitecture and libraries\nCapabilities and R workflows\nSoftware availability\nCurrent status and qualification limits\n\n\n\n\n\nAll tutorials\nPedigree analysis\nAnalysis with an assistant\nDeveloping a model with an assistant\nGenotype preparation\nMarker filtering\nSparse LD preparation\nSummary-statistic analysis\nSaved LD workflow\nSimulation comparison\nSEM and graphical models\nMendelian randomisation\nBayesian summary regression\nFine-mapping and colocalisation: an OLS summary-statistic workflow with two simulated traits and three Bayesian methods.\n\n\n\n\n\nMixed-model catalog\nAssociation scan scope\nModel recipes\nFormulas and covariance components\nPersistent R interface\nPrediction and uncertainty\n\n\n\n\n\nModel representation\nNumerical routes\nMatrix integration\nMultitrait computations\nLongitudinal computations\nModel primitives\nModel reductions\n\n\n\n\n\nBenchmark overview\nPedigree models: gsuite versus DMU\n\n\n\nRead the qualification limits with any capability claim. Internal development reports and build instructions are not part of this public site; their links lead to the public scope summary.\n\n\n\n\n\nProgramme strategy\nTechnical presentation\n\n\n\n\n\ngsim documentation\ngact documentation",
     "crumbs": [
       "gsuite",
       "Documentation index"
@@ -2545,7 +2605,7 @@
     "href": "gsuite/docs/README.html#about-gsuite",
     "title": "Documentation index",
     "section": "",
-    "text": "Architecture and libraries\nMethods overview\nSoftware availability\nCurrent status and qualification limits",
+    "text": "Architecture and libraries\nCapabilities and R workflows\nSoftware availability\nCurrent status and qualification limits",
     "crumbs": [
       "gsuite",
       "Documentation index"
@@ -2556,7 +2616,7 @@
     "href": "gsuite/docs/README.html#tutorials",
     "title": "Documentation index",
     "section": "",
-    "text": "All tutorials\nPedigree analysis\nAnalysis with an assistant\nDeveloping a model with an assistant\nGenotype preparation\nMarker filtering\nSparse LD preparation\nSummary-statistic analysis\nBayesian summary regression\nFine-mapping and colocalisation: an OLS summary-statistic workflow with two simulated traits and three Bayesian methods.",
+    "text": "All tutorials\nPedigree analysis\nAnalysis with an assistant\nDeveloping a model with an assistant\nGenotype preparation\nMarker filtering\nSparse LD preparation\nSummary-statistic analysis\nSaved LD workflow\nSimulation comparison\nSEM and graphical models\nMendelian randomisation\nBayesian summary regression\nFine-mapping and colocalisation: an OLS summary-statistic workflow with two simulated traits and three Bayesian methods.",
     "crumbs": [
       "gsuite",
       "Documentation index"
@@ -2567,7 +2627,7 @@
     "href": "gsuite/docs/README.html#models-and-r-interface",
     "title": "Documentation index",
     "section": "",
-    "text": "Supported models\nModel recipes\nFormulas and covariance components\nPersistent R interface\nPrediction and uncertainty",
+    "text": "Mixed-model catalog\nAssociation scan scope\nModel recipes\nFormulas and covariance components\nPersistent R interface\nPrediction and uncertainty",
     "crumbs": [
       "gsuite",
       "Documentation index"
@@ -2600,7 +2660,7 @@
     "href": "gsuite/docs/README.html#slides-and-discussion",
     "title": "Documentation index",
     "section": "",
-    "text": "Thoughts on AI-assisted research, methods, software and teaching",
+    "text": "Programme strategy\nTechnical presentation",
     "crumbs": [
       "gsuite",
       "Documentation index"

@@ -159,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../gsuite/docs/methods.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Methods overview</span></a>
+ <span class="menu-text">Capabilities and methods</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -283,7 +283,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../gsuite/docs/model-catalog.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Supported models</span></a>
+ <span class="menu-text">Mixed-model catalog</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -464,10 +464,13 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="../gsuite/docs/mr-workflow.html"><strong>Mendelian randomisation with prepared instruments</strong></a></p>
 <p>Prepare candidate instruments explicitly, then use GSMR, GSMR2, IVW, Egger or weighted median. Inspect instrument selection, HEIDI decisions and uncertainty.</p>
 </section>
+<section id="bayesian-regression" class="level2">
+<h2 class="anchored" data-anchor-id="bayesian-regression">Bayesian regression</h2>
+<p><a href="../gsuite/docs/gbayes-workflow.html"><strong>Bayesian regression from summary statistics</strong></a></p>
+<p>Use <code>gbayes()</code> to fit BayesC/BayesR, learn effect variance, mixture weights and annotation effects, report genetic covariance and group summaries, predict selected genetic scores, inspect native posterior summaries and reuse labelled marker effects for scoring. A gsim example starts with 10,000 individuals, extends to three traits, then compares separate and joint height analyses in two populations with different LD. It also illustrates single-trait residual learning from in-sample sufficient statistics.</p>
+</section>
 <section id="fine-mapping-and-colocalisation" class="level2">
 <h2 class="anchored" data-anchor-id="fine-mapping-and-colocalisation">Fine-mapping and colocalisation</h2>
-<p><a href="../gsuite/docs/gbayes-workflow.html"><strong>Bayesian regression from summary statistics</strong></a></p>
-<p>Use <code>gbayes()</code> to fit BayesC/BayesR, learn effect variance, mixture weights and annotation effects, report genetic covariance and group summaries, predict selected genetic scores, inspect native posterior summaries and reuse labelled marker effects for scoring. A gsim example uses 10,000 individuals and one saved LD reference, then extends to three traits with explicit sampling dependence and joint covariance learning.</p>
 <p><a href="../gsuite/docs/gmap-workflow.html"><strong>From GWAS results to fine-mapping and colocalisation</strong></a></p>
 <p>Prepare OLS summary statistics, compare BayesC, BayesR and multi-effect marker support, then assess shared signals. A gsim example uses two disjoint cohorts of 10,000 individuals, two regions and one saved LD reference.</p>
 </section>
@@ -491,7 +494,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="reference-guides" class="level2">
 <h2 class="anchored" data-anchor-id="reference-guides">Reference guides</h2>
-<p>For interface details and current model support, see the <a href="../gsuite/docs/formula-reml.html">formula reference</a>, <a href="../gsuite/docs/model-catalog.html">model catalog</a>, and <a href="../gsuite/docs/README.html">documentation index</a>.</p>
+<p>For interface details and current model support, see the <a href="../gsuite/docs/methods.html#capability-overview">capability overview</a>, <a href="../gsuite/docs/methods.html#association-mapping">association scan scope</a>, <a href="../gsuite/docs/formula-reml.html">formula reference</a>, <a href="../gsuite/docs/model-catalog.html">mixed-model catalog</a>, and <a href="../gsuite/docs/README.html">documentation index</a>.</p>
 </section>
 <section id="slides-thoughts-on-working-with-ai" class="level2">
 <h2 class="anchored" data-anchor-id="slides-thoughts-on-working-with-ai">Slides: thoughts on working with AI</h2>

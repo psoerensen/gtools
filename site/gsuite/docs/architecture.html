@@ -159,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/methods.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Methods overview</span></a>
+ <span class="menu-text">Capabilities and methods</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -283,7 +283,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/model-catalog.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Supported models</span></a>
+ <span class="menu-text">Mixed-model catalog</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -451,7 +451,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="purpose" class="level2">
 <h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
-<p>gsuite is the unified interface to a modular family of independently versioned computational libraries. Each native library owns a narrow data, numerical, or statistical boundary and remains independently buildable. The current <code>gsuite</code> R package exposes the public combinations recorded in the authoritative <a href="../../gsuite/docs/model-catalog.html">model catalog</a> and <a href="../../gsuite/docs/summary-statistic-analysis.html">summary-statistic workflow</a>; it is not necessarily a binding for every native entry point.</p>
+<p>gsuite is the unified interface to a modular family of independently versioned computational libraries. Each native library owns a narrow data, numerical, or statistical boundary and remains independently buildable. The current <code>gsuite</code> R package exposes the public combinations recorded in the authoritative <a href="../../gsuite/docs/methods.html#capability-overview">capability overview</a>, with LMM combinations in the <a href="../../gsuite/docs/model-catalog.html">model catalog</a>; it is not necessarily a binding for every native entry point.</p>
 <p><code>gsuite</code> and <code>gsim</code> are the user-facing R packages. <code>gsim</code> generates genotype, pedigree and observation data; gsuite provides analysis interfaces. The <a href="../../gsuite/docs/pedigree-analysis.html">tutorial</a> connects them through ordinary R data frames.</p>
 </section>
 <section id="responsibilities" class="level2">
@@ -477,8 +477,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td>gsolve</td>
-<td>Model-independent dense, sparse, and matrix-free operators, factorizations, preconditioned conjugate gradient, probes, and stochastic log determinants</td>
-<td>Contains no genotype, likelihood, or mixed-model semantics</td>
+<td>Model-independent operators, factorizations, eigensystems, selected inversion, preconditioned conjugate gradient, probes and stochastic log determinants</td>
+<td>Contains no genotype, likelihood, or mixed-model semantics; integrates external sparse factorization backends</td>
 </tr>
 <tr class="even">
 <td>greml</td>
@@ -487,13 +487,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td>gcorr</td>
-<td>Ordinary and partitioned single-trait, bivariate and multivariate LDSC; genetic covariance/correlation, enrichment, jackknife uncertainty, ordinary/partitioned joint sampling covariance, summary-statistic preparation, and fit/working-weight diagnostics</td>
-<td>Consumes gmat LD scores and does not construct or store LD</td>
+<td>LDSC, GNOVA, SumHer, HESS/rho-HESS, SUPERGNOVA, LAVA; covariance-summary SEM/GGM and prepared-instrument MR</td>
+<td>Consumes gmat LD resources and gsolve numerics; colocalisation belongs in gmap</td>
 </tr>
 <tr class="even">
 <td>gscore</td>
-<td>Multi-score BED application and prepared prediction targets</td>
-<td>Core scoring remains standalone; gscore::summary connects packed gbits targets to native gbayes posterior prediction, consumed by gsuite</td>
+<td>Multi-score BED application, scoring-specific weight construction/selection and prepared prediction targets</td>
+<td>Core scoring remains standalone; optional gscore::summary reuses gbayes inference. gsuite binds selected posterior prediction, not a standalone gscore() interface</td>
 </tr>
 <tr class="odd">
 <td><a href="https://github.com/psoerensen/gsim">gsim</a></td>
@@ -567,6 +567,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="dependencies" class="level2">
 <h2 class="anchored" data-anchor-id="dependencies">Dependencies</h2>
+<p>CHOLMOD/SuiteSparse and PARDISO supply external factorization and solve backends. The gsolve selected-inverse implementation reuses CHOLMOD supernodal factors; it is distinct from those external libraries and does not use PARDISO for selected inversion. Other dense and iterative routes remain available.</p>
 <p>This graph describes current build dependencies. Each arrow points from a dependent component to a library it requires. Building <code>gbits::gsolve_adapter</code> is optional for gbits; when built, the adapter requires both gbits and gsolve. The current gsuite build requires the adapter. External implementation dependencies and optional OpenMP support are omitted.</p>
 <pre class="mermaid"><code>flowchart LR
     gbits[gbits]
@@ -586,6 +587,8 @@ ul.task-list li input[type="checkbox"] {
     gsuite --&gt; gscore_summary
     gmap[gmap]
     gmap_bayes["gmap::bayes (optional)"] --&gt; gbayes
+    gmap_bayes --&gt; gmap
+    gmap_bayes --&gt; gsolve
     gbayes[gbayes] --&gt; gmat
     gbayes --&gt; gsolve
     glma[glma] --&gt; gbayes
@@ -595,6 +598,8 @@ ul.task-list li input[type="checkbox"] {
     gsuite[gsuite R package] --&gt; gbits
     gsuite --&gt; gmat
     gsuite --&gt; gmap_bayes
+    gsuite --&gt; gbayes
+    gsuite --&gt; glma
     gsuite --&gt; gcorr
     gsuite --&gt; greml
     gsuite --&gt; gsolve

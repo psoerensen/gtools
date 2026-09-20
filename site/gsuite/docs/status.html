@@ -158,7 +158,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/methods.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Methods overview</span></a>
+ <span class="menu-text">Capabilities and methods</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -282,7 +282,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/model-catalog.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Supported models</span></a>
+ <span class="menu-text">Mixed-model catalog</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -434,8 +434,9 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="qualification-limits" class="level2">
 <h2 class="anchored" data-anchor-id="qualification-limits">Qualification limits</h2>
+<p>The <a href="../../gsuite/docs/methods.html#capability-overview">capability overview</a> separates native components from the current R workflows. Recent focused checks cover summary-statistic, covariance-model, MR, mapping and Bayesian integrations; they do not establish broad calibration or biobank-scale performance. The Bayesian update on 20 September 2026 passed 207 focused assertions and the package build/install/runtime checks. Its two-population example and single-trait residual-learning example illustrate use, not general superiority or population-wide calibration. Full <code>R CMD check</code> was not rerun for that update.</p>
 <p>The <a href="../../gsuite/docs/model-catalog.html">model catalog</a> records support for particular model, backend and inference combinations. Historical scoped evidence does not establish a complete pass for the current package or dependency set.</p>
-<p>The recorded 2026-09-07 Windows package check retained unresolved balanced-longitudinal convergence/finalization failures and longitudinal score-comparison failures. Positive historical results do not supersede those failures. Constructor repairs, documentation changes and function renaming do not constitute numerical requalification. Full package and platform qualification remain incomplete.</p>
+<p>The recorded Windows package qualification retains unresolved balanced-longitudinal convergence/finalization failures and longitudinal score-comparison failures. Positive historical results do not supersede those failures. Constructor repairs, documentation changes and function renaming do not constitute numerical requalification. Full package and platform qualification remain incomplete.</p>
 <p><code>formula</code> and <code>formulas</code> are aliases in <code>gfit()</code>; their spelling does not select a fitting route. The retained compiled route is selected explicitly with <code>control = gs_fit_control(...)</code> and requires explicit <code>gvc()</code> components with complete starts and no separate <code>pedigree</code> argument. See the <a href="../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a> and <a href="../../gsuite/docs/formula-reml.html">formula reference</a>. A catalog label must be interpreted within its stated scope, not as a blanket guarantee for any composition.</p>
 </section>
 <section id="historical-evidence" class="level2">
