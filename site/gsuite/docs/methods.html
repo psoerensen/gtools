@@ -281,6 +281,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gbayes-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/gmap-workflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Fine-mapping and colocalisation</span></a>
   </div>
@@ -869,6 +875,7 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 </section>
 <section id="native-bayesian-inference" class="level2">
 <h2 class="anchored" data-anchor-id="native-bayesian-inference">Native Bayesian inference</h2>
+<p>The experimental <a href="../../gsuite/docs/gbayes-workflow.html"><code>gbayes()</code> R workflow</a> exposes one continuous trait with aligned standardized marginal effects and a saved LDlist. BayesC/BayesR support fixed parameters or optional effect-variance and mixture-weight learning, exact chain seeds, chain-level threading and native posterior summaries. Residual variance stays fixed in this summary-only interface. Variable sample sizes require an explicit approximate-likelihood choice; multivariate and annotation controls remain native-only for this entry point.</p>
 <p>gbayes provides single-trait BayesC and BayesR with fixed parameters or explicit learning of residual variance, slab variance and mixture weights. Prepared scores and cross-products can use dense storage, gmat LD operations with explicit marker scaling, or prepared factors with reduced residuals. Factorized execution avoids a dense cross-product matrix. Truncated inputs use explicitly projected scores; residual learning then requires retained-space normalization (dimension and response sum of squares). Results include posterior means, empirical posterior variances, marginal inclusion probabilities and compact per-chain summaries. BayesR also returns marker component probabilities; both methods summarize learned parameters. Residual-variance learning requires compatible phenotype sums of squares and an explicit Gaussian likelihood dimension, not just LD and scores. The <code>gmap()</code> R binding exposes BayesC/BayesR separately across named traits and regions, including optional variance and mixture-weight learning. MCMC learning requires explicit inverse-chi-square or Dirichlet hyperpriors. Residual learning also requires complete in-sample LD, phenotype sum of squares and likelihood dimension; these are never inferred from the reference panel.</p>
 <p>The initial checks cover an independent scalar posterior calculation, dense/gmat agreement, an installed native consumer and a tiny matched sblr reference. They do not establish broad calibration or convergence. Supplied cross-products must define a valid positive-semidefinite operator; structural checks do not repair or certify arbitrary thresholded LD. Annotation priors and multivariate inference remain future work.</p>
 </section>

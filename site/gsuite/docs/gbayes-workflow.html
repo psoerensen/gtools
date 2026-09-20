@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="How gsuite combines numerical solving and mixed-model inference.">
+<meta name="description" content="Fit BayesC and BayesR, inspect parameter learning and reuse marker effects.">
 
-<title>Numerical and mixed-model routes – gtools</title>
+<title>Bayesian regression from summary statistics – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -152,7 +187,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-architecture.html">Technical reference</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gsolve-greml.html">Numerical routes</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gbayes-workflow.html">Bayesian regression</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -207,13 +242,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Tutorials</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
@@ -246,7 +281,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gbayes-workflow.html" class="sidebar-item-text sidebar-link">
+  <a href="../../gsuite/docs/gbayes-workflow.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Bayesian regression</span></a>
   </div>
 </li>
@@ -343,13 +378,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Technical reference</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link">
@@ -358,7 +393,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gsolve-greml.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../gsuite/docs/gsolve-greml.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Numerical routes</span></a>
   </div>
 </li>
@@ -439,27 +474,25 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#numerical-and-mixed-model-routes" id="toc-numerical-and-mixed-model-routes" class="nav-link active" data-scroll-target="#numerical-and-mixed-model-routes">Numerical and mixed-model routes</a>
-  <ul class="collapse">
-  <li><a href="#numerical-and-statistical-boundary" id="toc-numerical-and-statistical-boundary" class="nav-link" data-scroll-target="#numerical-and-statistical-boundary">Numerical and statistical boundary</a></li>
-  <li><a href="#covariance-and-coefficient-routes" id="toc-covariance-and-coefficient-routes" class="nav-link" data-scroll-target="#covariance-and-coefficient-routes">Covariance and coefficient routes</a></li>
-  <li><a href="#scaling-and-execution" id="toc-scaling-and-execution" class="nav-link" data-scroll-target="#scaling-and-execution">Scaling and execution</a></li>
-  <li><a href="#interfaces-and-evidence" id="toc-interfaces-and-evidence" class="nav-link" data-scroll-target="#interfaces-and-evidence">Interfaces and evidence</a></li>
-  </ul></li>
+  <li><a href="#start-with-aligned-statistics-and-ld" id="toc-start-with-aligned-statistics-and-ld" class="nav-link active" data-scroll-target="#start-with-aligned-statistics-and-ld">Start with aligned statistics and LD</a></li>
+  <li><a href="#fit-and-inspect" id="toc-fit-and-inspect" class="nav-link" data-scroll-target="#fit-and-inspect">Fit and inspect</a></li>
+  <li><a href="#learn-effect-variance-and-mixture-weights" id="toc-learn-effect-variance-and-mixture-weights" class="nav-link" data-scroll-target="#learn-effect-variance-and-mixture-weights">Learn effect variance and mixture weights</a></li>
+  <li><a href="#a-complete-example-and-reusable-effects" id="toc-a-complete-example-and-reusable-effects" class="nav-link" data-scroll-target="#a-complete-example-and-reusable-effects">A complete example and reusable effects</a></li>
+  <li><a href="#execution-and-current-scope" id="toc-execution-and-current-scope" class="nav-link" data-scroll-target="#execution-and-current-scope">Execution and current scope</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-architecture.html">Technical reference</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gsolve-greml.html">Numerical routes</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gbayes-workflow.html">Bayesian regression</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Numerical and mixed-model routes</h1>
+<h1 class="title">Bayesian regression from summary statistics</h1>
 </div>
 
 <div>
   <div class="description">
-    How gsuite combines numerical solving and mixed-model inference.
+    Fit BayesC and BayesR, inspect parameter learning and reuse marker effects.
   </div>
 </div>
 
@@ -476,77 +509,68 @@ window.Quarto = {
 </header>
 
 
-<section id="numerical-and-mixed-model-routes" class="level1">
-<h1>Numerical and mixed-model routes</h1>
-<p>This guide explains route choice and scaling. The <a href="../../gsuite/docs/model-catalog.html">model catalog</a> owns capability status, the <a href="../../gsuite/docs/primitive-registry.html">primitive registry</a> owns reusable mechanism mappings, and <a href="../../gsuite/docs/architecture.html">architecture</a> owns package dependencies. A native primitive does not establish a qualified public R route.</p>
-<section id="numerical-and-statistical-boundary" class="level2">
-<h2 class="anchored" data-anchor-id="numerical-and-statistical-boundary">Numerical and statistical boundary</h2>
-<p>gsolve owns checked column-major matrix views, leading dimensions, caller-owned workspaces, square and rectangular operators, dense/sparse SPD factors, PCG, preconditioners, deterministic probes, SLQ, and numerical diagnostics. Its operator contracts declare symmetry, definiteness, concurrency, and available diagonals. Rectangular operators provide forward/transpose application and bounded column materialization.</p>
-<p>greml owns covariance models, fixed-effect projection, likelihood, score, standard average information (AI), optimization, prediction, and uncertainty. gsuite validates explicit R inputs and translates installed public results. Packed genotype operations belong to gbits; resource identity and LD belong to gmat. The optional gbits adapter supplies numerical operators without a reverse dependency from gsolve or greml to genotype libraries.</p>
-</section>
-<section id="covariance-and-coefficient-routes" class="level2">
-<h2 class="anchored" data-anchor-id="covariance-and-coefficient-routes">Covariance and coefficient routes</h2>
-<p>For single-trait covariance components, <span class="math inline">\(V = \sum_c \theta_c K_c\)</span> and</p>
+<section id="start-with-aligned-statistics-and-ld" class="level2">
+<h2 class="anchored" data-anchor-id="start-with-aligned-statistics-and-ld">Start with aligned statistics and LD</h2>
+<p><code>gbayes()</code> exposes the native Bayesian regression library through gsuite. Use <code>gmap()</code> for regional fine-mapping and colocalisation; use <code>gbayes()</code> when the main result is a regression fit, parameter learning and marker effects. Both interfaces reuse the same native samplers.</p>
+<p>This first interface fits one continuous trait. <code>stat</code> is a data frame with <code>marker</code>, <code>allele1</code>, <code>allele2</code>, <code>beta_std</code> and <code>n</code>, in exactly the marker and allele order of an <code>LDlist</code> prepared by <code>ldprep()</code>. <code>allele1</code> is the counted allele. Alignment is a separate task: no markers are flipped or removed here.</p>
+<p><code>beta_std</code> means the marginal effect on a <strong>standardized phenotype per standardized dosage</strong>. A raw per-allele GWAS beta must be converted using compatible genotype and phenotype scales before it is passed here. Do not rename a raw beta or z-score column to <code>beta_std</code>. The native preparation uses</p>
 <p><span class="math display">\[
-P=V^{-1}-V^{-1}F(F^{\mathsf T}V^{-1}F)^{-1}F^{\mathsf T}V^{-1}.
+C = D_N^{1/2} R D_N^{1/2}, \qquad s_j = N_j\widehat\beta_{j,\mathrm{std}}.
 \]</span></p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Route</th>
-<th>Computation and storage</th>
-<th>Practical boundary</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Exact dense</td>
-<td>Factors observation covariance V; quadratic storage</td>
-<td>Small reference models; prepared genomic BED terms are rejected</td>
-</tr>
-<tr class="even">
-<td>Matrix-free covariance</td>
-<td>PCG applies inverses/projections; common Hutchinson probes estimate traces and SLQ estimates log determinants</td>
-<td>Operator and bounded <span class="math inline">\(O(nk)\)</span> Krylov/probe storage; solver and stochastic precision must both be adequate</td>
-</tr>
-<tr class="odd">
-<td>Sparse MME</td>
-<td>Assembles coefficient-space statistics and uses a retained sparse factor or a qualified coefficient operator</td>
-<td>Fill and resource limits matter; backend, trace, inference, and uncertainty support depend on the specific API</td>
-</tr>
-<tr class="even">
-<td>Hybrid covariance</td>
-<td>Uses structured sparse terms as a state-matched preconditioner for separately declared matrix-free terms</td>
-<td>Components enter once; a pedigree plus genomic sum is not automatic single-step GBLUP</td>
-</tr>
-<tr class="odd">
-<td>Iterative large-p projection</td>
-<td>Nested PCG avoids retaining <span class="math inline">\(V^{-1}F\)</span> and the full fixed-normal matrix; fixed determinant uses SLQ</td>
-<td>Selected contrasts may be available while full fixed-effect covariance is unavailable</td>
-</tr>
-</tbody>
-</table>
-<p>The low-level <code>gs_model()</code> sparse/hybrid interface is distinct from the specialized pedigree and component-MME interfaces. In particular, its older limitations must not be applied to all sparse-direct APIs. CHOLMOD selected inversion and PARDISO <code>selected_solve</code> target uncertainty are documented in <a href="../../gsuite/docs/prediction-error.html">prediction error</a>. PARDISO selected inversion is unsupported.</p>
-<p>Unbalanced multivariate covariance uses the observed principal submatrix of a trait-by-unit covariance: scatter, base-operator application, trait mixing, and gather. Random regression uses supplied basis columns. Neither operation requires a dense production incidence or Kronecker matrix. Selected prediction uncertainty computes only requested target blocks.</p>
+<p>Here <span class="math inline">\(R\)</span> is the supplied LD correlation matrix. With common sample size <span class="math inline">\(N\)</span>, <span class="math inline">\(C=NR\)</span>. Different sample sizes require explicit <code>control=list(sample_size="variable")</code>; this is an approximate Gaussian summary likelihood, not reconstruction of an unknown sample-overlap matrix.</p>
 </section>
-<section id="scaling-and-execution" class="level2">
-<h2 class="anchored" data-anchor-id="scaling-and-execution">Scaling and execution</h2>
-<p>Prepared packed BED storage trades preparation work and memory for repeated applications; genomic production routes form no dense GRM. Sparse MME cost depends on coefficient dimension and fill. Matrix-free memory is dominated by operators and bounded Krylov/probe buffers. Nested fixed-effect solves add their own tolerance and determinant-precision requirements.</p>
-<p>Independent multiple-RHS PCG solves columns independently. Explicit true block PCG shares a block Krylov recurrence and reports rank compression, deflation, restarts, and each original RHS’s true residual. Its orchestration owns one outer thread. A two-level preconditioner uses a caller-supplied, copied, rank-compressed coarse basis tied to one covariance state; it does not discover a basis automatically. Outer RHS/probe parallelism and operator-local OpenMP must not be nested. Requested and resolved execution are reported separately.</p>
-<p>Route selection is API-specific. Low-level model routes are explicit; pedigree direct controls may resolve <code>automatic</code> to an available backend according to their documented policy. An explicit unsupported request does not silently change the statistical route.</p>
+<section id="fit-and-inspect" class="level2">
+<h2 class="anchored" data-anchor-id="fit-and-inspect">Fit and inspect</h2>
+<p>Specify variances on this standardized scale. They remain fixed unless learning is requested; the values below illustrate a choice, not a universal default.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsuite)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(stat, LD, <span class="at">method=</span><span class="st">"bayesr"</span>, <span class="at">trait=</span><span class="st">"height"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior=</span><span class="fu">list</span>(<span class="at">residual_variance=</span><span class="dv">1</span>, <span class="at">effect_variance=</span>.<span class="dv">04</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">weights=</span><span class="fu">c</span>(.<span class="dv">9</span>,.<span class="dv">04</span>,.<span class="dv">04</span>,.<span class="dv">02</span>)),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">control=</span><span class="fu">list</span>(<span class="at">burnin=</span><span class="dv">1000</span>, <span class="at">sampling_sweeps=</span><span class="dv">4000</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">seeds=</span><span class="fu">c</span>(<span class="dv">31</span>,<span class="dv">97</span>), <span class="at">threads=</span><span class="dv">1</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>fit</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fit<span class="sc">$</span>estimates)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>parameter_mean</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>posterior</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>BayesR uses a null component and effect-variance multipliers <code>c(0,.01,.1,1)</code> by default. BayesC instead uses a single nonzero component and an <code>inclusion_probability</code>. The returned marker means, variances and PIPs pool the retained draws across chains. They are labelled by marker and alleles. These marginal PIPs are not component credible sets.</p>
+<p><code>fit$posterior</code> reports native parameter means, intervals, HPD intervals, R-hat, bulk effective sample sizes and Monte Carlo standard errors, with availability and estimation status. Fixed quantities are labelled as fixed; they do not provide evidence of convergence. <code>fit$chains</code> retains each chain’s marker means/PIPs and compact parameter traces. Marker draws are not retained. <code>retain_diagnostics=FALSE</code> disables these traces and reports their summaries as unavailable. Review diagnostics and sensitivity to prior choices before interpreting results; completing the requested sweeps does not certify convergence.</p>
 </section>
-<section id="interfaces-and-evidence" class="level2">
-<h2 class="anchored" data-anchor-id="interfaces-and-evidence">Interfaces and evidence</h2>
-<p>The <a href="../../gsuite/docs/r-interface.html">persistent R interface</a> specifies handles, lifetime, ordering, controls, and low-level examples. The <a href="../../gsuite/docs/formula-reml.html">formula interface</a> is a separate bounded lowering API. The <a href="../../gsuite/docs/status.html#qualification-limits">package qualification limits</a> remain; that page also records the focused constructor naming repair.</p>
-<p><a href="../../gsuite/docs/status.html#qualification-limits">Model qualification</a>, <a href="../../gsuite/docs/status.html#historical-evidence">qgdata evidence</a>, and the <a href="../../gsuite/benchmarks/pedigree_50k_dmu/README.html">DMU workflow</a> retain scoped numerical evidence and negative outcomes. They do not establish general biobank readiness or universal performance. Build and packaging commands belong in <a href="../../gsuite/docs/status.html#qualification-limits">development</a> and <a href="../../gsuite/downloads.html#future-gsuite-releases">binary distribution</a>.</p>
+<section id="learn-effect-variance-and-mixture-weights" class="level2">
+<h2 class="anchored" data-anchor-id="learn-effect-variance-and-mixture-weights">Learn effect variance and mixture weights</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>learned <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(stat, LD, <span class="at">method=</span><span class="st">"bayesc"</span>, <span class="at">trait=</span><span class="st">"height"</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior=</span><span class="fu">list</span>(<span class="at">residual_variance=</span><span class="dv">1</span>, <span class="at">effect_variance=</span>.<span class="dv">04</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">inclusion_probability=</span>.<span class="dv">05</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">effect_variance_prior=</span><span class="fu">list</span>(<span class="at">df=</span><span class="dv">4</span>, <span class="at">scale=</span>.<span class="dv">04</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight_prior=</span><span class="fu">c</span>(<span class="dv">38</span>,<span class="dv">2</span>)),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">control=</span><span class="fu">list</span>(<span class="at">burnin=</span><span class="dv">1000</span>, <span class="at">sampling_sweeps=</span><span class="dv">4000</span>, <span class="at">seeds=</span><span class="fu">c</span>(<span class="dv">31</span>,<span class="dv">97</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate_effect_variance=</span><span class="cn">TRUE</span>, <span class="at">estimate_weights=</span><span class="cn">TRUE</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(learned)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The variance hyperprior is scaled inverse chi-square; <code>scale</code> is not its mean. The weight hyperprior contains positive Dirichlet concentrations, null component first. The supplied effect variance and weights initialize learning. All updates and posterior summaries run in native gbayes. Residual variance remains fixed: its learning needs additional sufficient statistics and is not exposed here.</p>
+</section>
+<section id="a-complete-example-and-reusable-effects" class="level2">
+<h2 class="anchored" data-anchor-id="a-complete-example-and-reusable-effects">A complete example and reusable effects</h2>
+<p><a href="../tools/examples/run_gbayes_workflow.R">Download the R example</a>. It uses gsim to simulate one trait for 10,000 individuals and 40 markers, prepares a full LD reference, fits fixed-parameter BayesR and learning BayesC, then applies posterior-mean effects to another dosage matrix. Run it using development installations of gsuite and gsim:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"run_gbayes_workflow.R"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"build/examples/gbayes-workflow/workflow.rds"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(result<span class="sc">$</span>learned)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>weights</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Outputs stay under <code>build/examples/gbayes-workflow</code>; rerunning replaces those example outputs. Set <code>options(gsuite.bayes.out="another-directory")</code> first to choose a different location. The serializable result bundle contains both fits, statistics, LD descriptor, labelled weights and the coding needed for scoring. Fits can be inspected after reloading without reopening LD or genotype files.</p>
+<p>Apply effects to dosage columns in the same order, with matching counted alleles and the same centering/scaling used in preparation:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>weights <span class="ot">&lt;-</span> fit<span class="sc">$</span>estimates[,<span class="fu">c</span>(<span class="st">"marker"</span>,<span class="st">"allele1"</span>,<span class="st">"allele2"</span>,<span class="st">"mean"</span>)]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">identical</span>(<span class="fu">colnames</span>(target), weights<span class="sc">$</span>marker))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>target_z <span class="ot">&lt;-</span> <span class="fu">sweep</span>(<span class="fu">sweep</span>(target, <span class="dv">2</span>, center), <span class="dv">2</span>, scale_x, <span class="st">"/"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>score <span class="ot">&lt;-</span> <span class="fu">drop</span>(target_z <span class="sc">%*%</span> weights<span class="sc">$</span>mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These scores have standardized phenotype units and no intercept. The calculation illustrates weight reuse, not prediction accuracy. Production scoring belongs in gscore; this milestone does not add a gscore R interface.</p>
+</section>
+<section id="execution-and-current-scope" class="level2">
+<h2 class="anchored" data-anchor-id="execution-and-current-scope">Execution and current scope</h2>
+<p>The fit consumes existing sparse LD files and does not need genotype files. Default <code>storage="memory"</code> materializes sparse LD, including its reverse index, but never a dense matrix. <code>max_ld_entries=1e7</code> limits stored upper-triangle entries; it is not a total RAM limit. Memory also grows with markers and chains. For larger resources, <code>storage="disk"</code> uses the native bounded column reader and requires <code>threads=1</code>. <code>threads&gt;1</code> with memory storage parallelizes chains, not marker updates. Exact seeds are recorded and thread allocation does not change a chain’s random-number stream.</p>
+<p>Omitted LD entries are treated as zero. The supplied matrix is assumed positive semidefinite; truncating or thresholding LD can violate this, and the interface does not silently repair it. Reference mismatch remains a separate concern. The example uses complete, matching LD to keep these issues out of the demonstration.</p>
+<p>The broader native multivariate and annotation methods are not yet exposed through <code>gbayes()</code>. Regional sets and colocalisation remain in the <a href="../../gsuite/docs/gmap-workflow.html">mapping workflow</a>.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
