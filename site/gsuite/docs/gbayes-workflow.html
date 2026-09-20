@@ -479,6 +479,11 @@ window.Quarto = {
   <li><a href="#learn-effect-variance-and-mixture-weights" id="toc-learn-effect-variance-and-mixture-weights" class="nav-link" data-scroll-target="#learn-effect-variance-and-mixture-weights">Learn effect variance and mixture weights</a></li>
   <li><a href="#a-complete-example-and-reusable-effects" id="toc-a-complete-example-and-reusable-effects" class="nav-link" data-scroll-target="#a-complete-example-and-reusable-effects">A complete example and reusable effects</a></li>
   <li><a href="#execution-and-current-scope" id="toc-execution-and-current-scope" class="nav-link" data-scroll-target="#execution-and-current-scope">Execution and current scope</a></li>
+  <li><a href="#fit-several-traits-jointly" id="toc-fit-several-traits-jointly" class="nav-link" data-scroll-target="#fit-several-traits-jointly">Fit several traits jointly</a>
+  <ul class="collapse">
+  <li><a href="#state-the-sampling-assumptions" id="toc-state-the-sampling-assumptions" class="nav-link" data-scroll-target="#state-the-sampling-assumptions">State the sampling assumptions</a></li>
+  <li><a href="#activity-patterns-and-magnitude-components" id="toc-activity-patterns-and-magnitude-components" class="nav-link" data-scroll-target="#activity-patterns-and-magnitude-components">Activity patterns and magnitude components</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -512,7 +517,7 @@ window.Quarto = {
 <section id="start-with-aligned-statistics-and-ld" class="level2">
 <h2 class="anchored" data-anchor-id="start-with-aligned-statistics-and-ld">Start with aligned statistics and LD</h2>
 <p><code>gbayes()</code> exposes the native Bayesian regression library through gsuite. Use <code>gmap()</code> for regional fine-mapping and colocalisation; use <code>gbayes()</code> when the main result is a regression fit, parameter learning and marker effects. Both interfaces reuse the same native samplers.</p>
-<p>This first interface fits one continuous trait. <code>stat</code> is a data frame with <code>marker</code>, <code>allele1</code>, <code>allele2</code>, <code>beta_std</code> and <code>n</code>, in exactly the marker and allele order of an <code>LDlist</code> prepared by <code>ldprep()</code>. <code>allele1</code> is the counted allele. Alignment is a separate task: no markers are flipped or removed here.</p>
+<p>For one continuous trait, <code>stat</code> is a data frame with <code>marker</code>, <code>allele1</code>, <code>allele2</code>, <code>beta_std</code> and <code>n</code>, in exactly the marker and allele order of an <code>LDlist</code> prepared by <code>ldprep()</code>. <code>allele1</code> is the counted allele. Alignment is a separate task: no markers are flipped or removed here.</p>
 <p><code>beta_std</code> means the marginal effect on a <strong>standardized phenotype per standardized dosage</strong>. A raw per-allele GWAS beta must be converted using compatible genotype and phenotype scales before it is passed here. Do not rename a raw beta or z-score column to <code>beta_std</code>. The native preparation uses</p>
 <p><span class="math display">\[
 C = D_N^{1/2} R D_N^{1/2}, \qquad s_j = N_j\widehat\beta_{j,\mathrm{std}}.
@@ -550,12 +555,15 @@ C = D_N^{1/2} R D_N^{1/2}, \qquad s_j = N_j\widehat\beta_{j,\mathrm{std}}.
 </section>
 <section id="a-complete-example-and-reusable-effects" class="level2">
 <h2 class="anchored" data-anchor-id="a-complete-example-and-reusable-effects">A complete example and reusable effects</h2>
-<p><a href="../tools/examples/run_gbayes_workflow.R">Download the R example</a>. It uses gsim to simulate one trait for 10,000 individuals and 40 markers, prepares a full LD reference, fits fixed-parameter BayesR and learning BayesC, then applies posterior-mean effects to another dosage matrix. Run it using development installations of gsuite and gsim:</p>
+<p><a href="../tools/examples/run_gbayes_workflow.R">Download the R example</a>. It uses gsim to simulate one trait for 10,000 individuals and 40 markers, prepares a full LD reference, fits fixed-parameter BayesR and learning BayesC, then applies posterior-mean effects to another dosage matrix. It also simulates three traits in the same individuals and fits a joint BayesR model with covariance and mixture-weight learning, as described below. Run it using development installations of gsuite and gsim:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"run_gbayes_workflow.R"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"build/examples/gbayes-workflow/workflow.rds"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(result<span class="sc">$</span>learned)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>weights</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>scores</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(result<span class="sc">$</span>multivariate<span class="sc">$</span>fit)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>multivariate<span class="sc">$</span>fit<span class="sc">$</span>estimates<span class="sc">$</span>pip</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>multivariate<span class="sc">$</span>scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Outputs stay under <code>build/examples/gbayes-workflow</code>; rerunning replaces those example outputs. Set <code>options(gsuite.bayes.out="another-directory")</code> first to choose a different location. The serializable result bundle contains both fits, statistics, LD descriptor, labelled weights and the coding needed for scoring. Fits can be inspected after reloading without reopening LD or genotype files.</p>
 <p>Apply effects to dosage columns in the same order, with matching counted alleles and the same centering/scaling used in preparation:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>weights <span class="ot">&lt;-</span> fit<span class="sc">$</span>estimates[,<span class="fu">c</span>(<span class="st">"marker"</span>,<span class="st">"allele1"</span>,<span class="st">"allele2"</span>,<span class="st">"mean"</span>)]</span>
@@ -568,9 +576,77 @@ C = D_N^{1/2} R D_N^{1/2}, \qquad s_j = N_j\widehat\beta_{j,\mathrm{std}}.
 <h2 class="anchored" data-anchor-id="execution-and-current-scope">Execution and current scope</h2>
 <p>The fit consumes existing sparse LD files and does not need genotype files. Default <code>storage="memory"</code> materializes sparse LD, including its reverse index, but never a dense matrix. <code>max_ld_entries=1e7</code> limits stored upper-triangle entries; it is not a total RAM limit. Memory also grows with markers and chains. For larger resources, <code>storage="disk"</code> uses the native bounded column reader and requires <code>threads=1</code>. <code>threads&gt;1</code> with memory storage parallelizes chains, not marker updates. Exact seeds are recorded and thread allocation does not change a chain’s random-number stream.</p>
 <p>Omitted LD entries are treated as zero. The supplied matrix is assumed positive semidefinite; truncating or thresholding LD can violate this, and the interface does not silently repair it. Reference mismatch remains a separate concern. The example uses complete, matching LD to keep these issues out of the demonstration.</p>
-<p>The broader native multivariate and annotation methods are not yet exposed through <code>gbayes()</code>. Regional sets and colocalisation remain in the <a href="../../gsuite/docs/gmap-workflow.html">mapping workflow</a>.</p>
+<p>Annotation controls and multiple reference panels/providers per trait remain native-only. Regional sets and colocalisation remain in the <a href="../../gsuite/docs/gmap-workflow.html">mapping workflow</a>.</p>
+</section>
+<section id="fit-several-traits-jointly" class="level2">
+<h2 class="anchored" data-anchor-id="fit-several-traits-jointly">Fit several traits jointly</h2>
+<p>Pass a uniquely named list of standardized summary-statistic data frames. Every trait must match the same complete LD marker/allele order. The return values use these trait names and marker IDs throughout; nothing is silently reordered.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>stats3 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">height=</span>height_stat, <span class="at">weight=</span>weight_stat, <span class="at">lipid=</span>lipid_stat)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">names</span>(stats3)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> <span class="fu">matrix</span>(.<span class="dv">01</span>,<span class="dv">3</span>,<span class="dv">3</span>); <span class="fu">diag</span>(V) <span class="ot">&lt;-</span> .<span class="dv">04</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(V) <span class="ot">&lt;-</span> <span class="fu">list</span>(traits,traits)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Omega is a justified fixed sampling-error covariance, in the same trait order.</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>joint <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(stats3, LD, <span class="at">method=</span><span class="st">"bayesr"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior=</span><span class="fu">list</span>(<span class="at">effect_covariance=</span>V,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">pattern_weights=</span><span class="fu">c</span>(.<span class="dv">9</span>,<span class="fu">rep</span>(.<span class="dv">1</span><span class="sc">/</span><span class="dv">7</span>,<span class="dv">7</span>)),</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">covariance_prior=</span><span class="fu">list</span>(<span class="at">df=</span><span class="dv">6</span>,<span class="at">scale=</span>V<span class="sc">*</span><span class="dv">2</span>),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">pattern_prior=</span><span class="fu">c</span>(<span class="dv">18</span>,<span class="fu">rep</span>(<span class="dv">2</span><span class="sc">/</span><span class="dv">7</span>,<span class="dv">7</span>)), <span class="at">component_prior=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)),</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">sampling=</span><span class="fu">list</span>(<span class="at">dependence=</span><span class="st">"shared_ld"</span>, <span class="at">covariance=</span>Omega),</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">control=</span><span class="fu">list</span>(<span class="at">burnin=</span><span class="dv">1000</span>, <span class="at">sampling_sweeps=</span><span class="dv">2000</span>, <span class="at">seeds=</span><span class="fu">c</span>(<span class="dv">31</span>,<span class="dv">97</span>),</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate_covariance=</span><span class="cn">TRUE</span>, <span class="at">estimate_pattern_weights=</span><span class="cn">TRUE</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate_component_weights=</span><span class="cn">TRUE</span>))</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>joint</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(joint)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>joint<span class="sc">$</span>estimates<span class="sc">$</span>mean                 <span class="co"># marker x trait posterior means</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>joint<span class="sc">$</span>estimates<span class="sc">$</span>pip                  <span class="co"># marker x trait marginal PIPs</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>joint<span class="sc">$</span>estimates<span class="sc">$</span>any_pip              <span class="co"># active in at least one trait</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>joint<span class="sc">$</span>parameter_mean<span class="sc">$</span>effect_covariance</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>joint<span class="sc">$</span>expected_trait_sharing        <span class="co"># expected marker counts per trait pair</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>joint<span class="sc">$</span>posterior                     <span class="co"># native intervals and chain diagnostics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>effect_covariance</code> is the covariance of latent base effects. It is <strong>not realised genetic covariance or genetic correlation</strong>: activity patterns, magnitude scales and LD also determine those quantities. The inverse-Wishart prior uses explicit degrees of freedom and a scale matrix. A proper prior requires <span class="math inline">\(\nu&gt;T-1\)</span>; its mean is <span class="math inline">\(\Psi/(\nu-T-1)\)</span> when <span class="math inline">\(\nu&gt;T+1\)</span>. Learning is optional and all three flags default to <code>FALSE</code>; omit unused hyperpriors for fixed-parameter fits.</p>
+<section id="state-the-sampling-assumptions" class="level3">
+<h3 class="anchored" data-anchor-id="state-the-sampling-assumptions">State the sampling assumptions</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Input</th>
+<th>Meaning and requirements</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sampling=list(dependence="independent", residual_variance=c(height=1,weight=1,lipid=1))</code></td>
+<td>Explicitly independent sampling errors. Common sample sizes may differ between traits. Genetic effects can still be correlated.</td>
+</tr>
+<tr class="even">
+<td><code>sampling=list(dependence="shared_ld", covariance=Omega)</code></td>
+<td>Correlated sampling errors with common N across all traits/markers, one shared LD operator and a fixed positive-definite covariance.</td>
+</tr>
+</tbody>
+</table>
+<p>Shared LD uses <span class="math inline">\(E(S)=CB\)</span> and <span class="math inline">\(\operatorname{Cov}(\operatorname{vec}S)=\Omega\otimes C\)</span>. <code>Omega</code> is neither a genetic covariance matrix nor a matrix of overlap counts. The simulated example obtains it from the known residual covariance, transformed to standardized phenotype units. Real data need a justified estimate/input on that scale. The interface does not infer overlap or estimate this covariance. Arbitrary differing LD and marker-specific overlap are outside this route.</p>
+<p>Independent summaries additionally allow <code>control=list(sample_size="variable")</code>. That approximation requires explicit named <code>sampling$study_sample_size</code> metadata as well as per-marker <code>n</code>. Study sizes do not replace the per-marker values. No mean or maximum sample size is invented. Residual scales stay fixed in both modes.</p>
+</section>
+<section id="activity-patterns-and-magnitude-components" class="level3">
+<h3 class="anchored" data-anchor-id="activity-patterns-and-magnitude-components">Activity patterns and magnitude components</h3>
+<p>With three traits, the native default pattern order is <code>000,100,010,110,001,101,011,111</code>: the first trait varies fastest and the null pattern comes first. <code>pattern_weights</code> assign probabilities to these patterns; the default is uniform. The example puts 0.9 on the null and shares 0.1 across the nonnull patterns.</p>
+<p>Multivariate BayesC has one positive magnitude scale, 1. BayesR defaults to scales <code>c(.01,.1,1)</code> with equal weights <strong>conditional on a nonnull pattern</strong>. Unlike the single-trait <code>weights</code> argument, <code>component_weights</code> has no null component: null is already represented by pattern <code>000</code>. This is a factorized pattern-by-scale mixture, not an unrestricted weight for every pattern/component combination. For BayesC, omit <code>component_prior</code> and <code>estimate_component_weights</code>.</p>
+<p>Complete patterns are available for 2–12 traits, but there are <span class="math inline">\(2^T\)</span> of them. For more traits, or a scientifically restricted model, supply an explicit binary matrix with labelled trait columns, unique row labels and the null first:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>patterns <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="at">none=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(traits)), <span class="at">shared=</span><span class="fu">rep</span>(<span class="dv">1</span>,<span class="fu">length</span>(traits)))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(patterns) <span class="ot">&lt;-</span> traits</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Use prior=list(effect_covariance=V, patterns=patterns,</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#                pattern_weights=c(none=.9,shared=.1)) for a fixed prior.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This changes the model to allow only those patterns; it is not an approximation to fitting every pattern. Every trait must appear in an allowed nonnull pattern. Trait count is not restricted to two or three. The native memory estimate is bounded by <code>control$memory_limit_bytes</code> (256 MiB by default), separately from LD storage and R result storage. Compact traces contain covariance and mixture parameters; all-marker draws and per-marker pattern-probability arrays are not retained.</p>
+<p>The returned fit is serializable. To reuse the joint effects, multiply a compatible standardized dosage matrix by <code>joint$estimates$mean</code>; columns of the resulting score matrix retain the trait names. This demonstrates reuse and is not a prediction-accuracy assessment.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

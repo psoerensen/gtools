@@ -60,8 +60,38 @@ stopifnot(identical(colnames(target),weights$marker)) # counted allele A through
 target_z <- sweep(sweep(target,2,center),2,scale_x,"/")
 score <- drop(target_z %*% weights$mean) # standardized phenotype units
 stopifnot(all(is.finite(score)),all(fixed$estimates$pip>=0 & fixed$estimates$pip<=1))
+# Three continuous traits measured in the same 10K individuals.
+traits <- c("height","weight","lipid")
+B <- matrix(0,m,3,dimnames=list(ids,traits))
+B[8,] <- c(.15,.12,-.1); B[25,1:2] <- c(.2,.15); B[32,3] <- .2
+gv3 <- apply(scale(W)%*%B,2,var)
+re <- matrix(c(1,.25,-.1,.25,1,.15,-.1,.15,1),3)
+sim3 <- gsim::gsim(W=W,architecture="fixed",nt=3,beta=B,h2=gv3/(gv3+1),re=re,
+  standardize_W=TRUE,scale_effects=FALSE,seed=20260922,compute_sumstats=FALSE)
+Y <- sim3$Y; colnames(Y) <- traits
+scale_y3 <- sqrt(colMeans(sweep(Y,2,colMeans(Y))^2))
+Ystd <- sweep(sweep(Y,2,colMeans(Y)),2,scale_y3,"/")
+stats3 <- setNames(lapply(seq_along(traits),function(t) data.frame(
+  marker=ids,allele1="A",allele2="G",beta_std=drop(crossprod(Z,Ystd[,t]))/n,n=n)),traits)
+# The simulation supplies the residual covariance. A real analysis needs a
+# justified sampling-error covariance; overlap counts alone do not supply it.
+Omega <- sim3$Sigma_e/outer(scale_y3,scale_y3)
+dimnames(Omega) <- list(traits,traits)
+V <- matrix(.01,3,3); diag(V) <- .04; dimnames(V) <- list(traits,traits)
+pattern_weights <- c(.9,rep(.1/7,7)) # native order 000,100,010,110,001,101,011,111
+joint <- gbayes(stats3,LD,method="bayesr",
+  prior=list(effect_covariance=V,pattern_weights=pattern_weights,
+    covariance_prior=list(df=6,scale=V*2),pattern_prior=pattern_weights*20,component_prior=c(1,1,1)),
+  sampling=list(dependence="shared_ld",covariance=Omega),
+  control=list(burnin=1000,sampling_sweeps=2000,seeds=c(31,97),threads=1,
+    estimate_covariance=TRUE,estimate_pattern_weights=TRUE,estimate_component_weights=TRUE))
+print(joint); print(summary(joint))
+joint_scores <- target_z %*% joint$estimates$mean
+stopifnot(identical(colnames(joint_scores),traits),all(is.finite(joint_scores)))
 bundle <- list(stat=stat,LDlist=LD,fixed=fixed,learned=learned,weights=weights,
-  coding=list(center=center,scale=scale_x,phenotype_scale=scale_y),scores=score)
+  coding=list(center=center,scale=scale_x,phenotype_scale=scale_y),scores=score,
+  multivariate=list(stat=stats3,fit=joint,scores=joint_scores,phenotype_scale=scale_y3,
+    sampling_error_covariance=Omega,true_effects=sweep(B*sqrt((n-1)/n),2,scale_y3,"/")))
 saveRDS(bundle,file.path(out,"workflow.rds"))
 stopifnot(identical(readRDS(file.path(out,"workflow.rds")),bundle))
 cat("Saved results in",file.path(out,"workflow.rds"),"\n")
