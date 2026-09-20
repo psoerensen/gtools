@@ -126,7 +126,7 @@ complete <- gbayes(stats3,LD,method="bayesr",
 print(summary(complete))
 stopifnot(isTRUE(all.equal(unname(complete$quantities$prediction$mean),
   unname(Z[1:3,]%*%complete$estimates$mean),tolerance=1e-10)))
-# Two independent studies, different traits and study-specific LD/marker coverage.
+# Height in two independent populations, treated as separate correlated traits.
 # Both have 10K individuals. No overlap or allele harmonisation is assumed.
 set.seed(20260923)
 keep <- 5:m; W2 <- matrix(rbinom(n*length(keep),2,.4),n,length(keep),dimnames=list(NULL,ids[keep]))
@@ -149,10 +149,12 @@ stat2 <- data.frame(marker=ids[keep],allele1="A",allele2="G",
   beta_std=drop(crossprod(Z2,(y2-mean(y2))/sy2))/n,n=n)
 study_stats <- list(study1=stat,study2=stat2)
 study_references <- list(study1=LD,study2=LD2)
-study_traits <- c(study1="height",study2="weight")
+study_traits <- c(study1="height_A",study2="height_B")
 V2 <- matrix(c(.04,.01,.01,.04),2,dimnames=list(unname(study_traits),unname(study_traits)))
 studies <- gbayes(study_stats,study_references,trait=study_traits,
-  prior=list(effect_covariance=V2,covariance_prior=list(df=5,scale=V2*2)),
+  prior=list(effect_covariance=V2,covariance_prior=list(df=5,scale=V2*2),
+    patterns=matrix(c(0,0,1,1),2,byrow=TRUE,dimnames=list(c("none","shared"),unname(study_traits))),
+    pattern_weights=c(.9,.1)),
   sampling=list(dependence="independent",residual_variance=c(study1=1/scale_y^2,study2=1/sy2^2)),
   posterior=list(reference=LD),
   control=list(burnin=1000,sampling_sweeps=2000,seeds=c(31,97),estimate_covariance=TRUE))
@@ -160,7 +162,63 @@ print(summary(studies))
 stopifnot(identical(rownames(studies$estimates$mean),ids),
   identical(studies$studies$study2$local_to_global,keep),
   all(is.finite(studies$estimates$mean)))
-bundle <- list(studies=list(fit=studies,stat=study_stats,LDlist=study_references,trait=study_traits),complete=complete,annotation=A,annotated=annotated,annotated_joint=annotated_joint,stat=stat,LDlist=LD,fixed=fixed,learned=learned,weights=weights,
+# Separate fits have the same marginal effect-variance prior and mixture weights.
+# Joint fitting allows correlated effect sizes, with shared marker activity here.
+separate <- Map(function(s,ld,ve,t) gbayes(s,ld,method="bayesr",trait=t,
+  prior=list(residual_variance=ve,effect_variance=.04,weights=c(.9,rep(.1/3,3)),
+    effect_variance_prior=list(df=4,scale=.02)),
+  control=list(burnin=1000,sampling_sweeps=2000,seeds=c(31,97),estimate_effect_variance=TRUE)),
+  study_stats,study_references,c(1/scale_y^2,1/sy2^2),study_traits)
+truth <- list(b*sqrt((n-1)/n)/scale_y,b2*sqrt((n-1)/n)/sy2)
+comparison <- do.call(rbind,lapply(1:2,function(t) {
+  mk <- study_stats[[t]]$marker; local <- match(mk,ids)
+  rbind(data.frame(trait=unname(study_traits[t]),marker=mk,truth=unname(truth[[t]]),
+    fit="Separate",mean=separate[[t]]$estimates$mean,sd=sqrt(separate[[t]]$estimates$variance)),
+    data.frame(trait=unname(study_traits[t]),marker=mk,truth=unname(truth[[t]]),
+    fit="Joint",mean=studies$estimates$mean[local,t],sd=sqrt(studies$estimates$variance[local,t])))
+}))
+metrics <- do.call(rbind,lapply(split(comparison,list(comparison$trait,comparison$fit),drop=TRUE),function(x)
+  data.frame(trait=x$trait[1],fit=x$fit[1],markers=nrow(x),
+    rmse=sqrt(mean((x$mean-x$truth)^2)),mean_posterior_sd=mean(x$sd))))
+rownames(metrics) <- NULL
+print(metrics)
+latent_cor <- cov2cor(studies$parameter_mean$effect_covariance)[1,2]
+reference_cor <- studies$quantities$genetic$correlation_mean[1,2]
+Btrue <- cbind(truth[[1]],setNames(rep(0,m),ids)); Btrue[keep,2] <- truth[[2]]
+true_reference_cor <- cov2cor(crossprod(Btrue,ld_region(LD,ids)%*%Btrue))[1,2]
+correlations <- c(latent_covariance_summary=latent_cor,
+  reference_posterior_mean=reference_cor,reference_truth=true_reference_cor)
+print(correlations)
+# Reproducible figure stays in the single example directory; publication is explicit.
+png(file.path(out,"study-effects.png"),width=1500,height=750,res=150)
+par(mfrow=c(1,2),mar=c(4.5,4.5,3,1),oma=c(2,0,0,0))
+cols <- c(Separate="#3978a8",Joint="#c36027")
+for(t in unname(study_traits)) {
+  x <- comparison[comparison$trait==t,]
+  lim <- range(x$truth,x$mean-2*x$sd,x$mean+2*x$sd)
+  plot(NA,xlim=lim,ylim=lim,xlab="True standardized marker effect",ylab="Posterior mean and +/- 2 SD",main=t)
+  abline(0,1,col="grey60",lty=2)
+  for(k in names(cols)) {
+    z <- x[x$fit==k,]
+    segments(z$truth,z$mean-2*z$sd,z$truth,z$mean+2*z$sd,col=adjustcolor(cols[k],alpha.f=.4))
+    points(z$truth,z$mean,col=cols[k],pch=if(k=="Joint") 17 else 1,cex=.9)
+  }
+  legend("topleft",names(cols),col=cols,pch=c(1,17),bty="n",cex=.8)
+}
+mtext("One simulated example; bars are posterior SD summaries, not credible intervals or a power assessment.",outer=TRUE,side=1,cex=.75)
+dev.off()
+# Residual learning uses exact in-sample normalization, never guessed from GWAS n.
+# Here only the intercept was removed; LD and statistics use the same individuals.
+residual_learned <- gbayes(stat,LD,method="bayesc",trait="height_A",
+  prior=list(residual_variance=1,effect_variance=.04,inclusion_probability=.05,
+    effect_variance_prior=list(df=4,scale=.04),residual_variance_prior=list(df=4,scale=1)),
+  control=list(burnin=1000,sampling_sweeps=2000,seeds=c(31,97),
+    estimate_effect_variance=TRUE,estimate_residual_variance=TRUE,
+    normalization=list(response_ss=sum(zy^2),likelihood_dimension=n-1L,in_sample_ld=TRUE)))
+print(residual_learned$posterior[residual_learned$posterior$parameter=="residual_variance",])
+stopifnot(is.finite(residual_learned$parameter_mean$residual_variance),
+  residual_learned$parameter_mean$residual_variance>0)
+bundle <- list(residual_learned=residual_learned,studies=list(fit=studies,separate=separate,comparison=comparison,metrics=metrics,correlations=correlations,stat=study_stats,LDlist=study_references,trait=study_traits),complete=complete,annotation=A,annotated=annotated,annotated_joint=annotated_joint,stat=stat,LDlist=LD,fixed=fixed,learned=learned,weights=weights,
   coding=list(center=center,scale=scale_x,phenotype_scale=scale_y),scores=score,
   multivariate=list(stat=stats3,fit=joint,scores=joint_scores,phenotype_scale=scale_y3,
     sampling_error_covariance=Omega,true_effects=sweep(B*sqrt((n-1)/n),2,scale_y3,"/")))
