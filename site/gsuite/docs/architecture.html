@@ -477,7 +477,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td>gsolve</td>
-<td>Model-independent operators, factorizations, eigensystems, selected inversion, preconditioned conjugate gradient, probes and stochastic log determinants</td>
+<td>Model-independent operators, factorizations, eigensystems, selected inversion, preconditioned conjugate gradient, probes, stochastic log determinants and shared positive quadratic-tail approximation</td>
 <td>Contains no genotype, likelihood, or mixed-model semantics; integrates external sparse factorization backends</td>
 </tr>
 <tr class="even">
@@ -502,7 +502,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>glma</td>
-<td>Native linear, binary logistic and Gaussian mixed/LOCO association plus prior-selected LOCO fitting, structure checks, calibration and offset testing</td>
+<td>Native linear, binary logistic and Gaussian mixed/LOCO association plus prior-selected LOCO fitting, structure checks, calibration, offset testing and prepared summary-statistic gene evidence/ACAT</td>
 <td>Uses installed gmat/gbits, greml and gbayes; gsuite exposes binary and quantitative-trait routes through <code>glma()</code>, sharing genotype reads for multiple exact linear traits and immutable preparation for LOCO traits</td>
 </tr>
 <tr class="odd">
@@ -517,8 +517,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td>gsea</td>
-<td>Native gene-set and genomic-feature enrichment: prepared sets, aggregate statistics, over-representation and explicit resampling</td>
-<td>Standalone C++17 library; no R interface yet. Association belongs in glma; LDSC/SumHer enrichment remains in gcorr</td>
+<td>Native gene-set and genomic-feature enrichment: prepared sets, aggregate statistics, over-representation, resampling and competitive GLS</td>
+<td>Reuses gsolve factors for blockwise competitive regression; no R interface yet. Association belongs in glma; LDSC/SumHer enrichment remains in gcorr</td>
 </tr>
 <tr class="even">
 <td>gsuite</td>

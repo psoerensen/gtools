@@ -603,13 +603,18 @@ window.Quarto = {
 <td>Separate public R package; <a href="https://psoerensen.github.io/gsim/">gsim documentation</a></td>
 </tr>
 <tr class="even">
+<td>Prepared summary-statistic gene evidence</td>
+<td>glma, gsolve</td>
+<td>Native only: LD-aware weighted quadratic gene tests, reusable Gaussian-null gene-score covariance and ACAT. Quadratic tails use the scaled chi-square distribution for equal positive eigenvalues and otherwise explicitly approximate</td>
+</tr>
+<tr class="odd">
 <td>Gene-set and genomic-feature enrichment</td>
 <td>gsea</td>
-<td>Native only: explicit universe/set preparation, sum/mean/max/count statistics, one-sided hypergeometric over-representation, seeded block circular shifts or permutations, and optional BH/BY adjustment. No R binding</td>
+<td>Native only: blockwise competitive GLS with covariates and joint features; explicit universe/set preparation, sum/mean/max/count statistics, one-sided hypergeometric over-representation, seeded block circular shifts or permutations, and optional BH/BY adjustment. No R binding</td>
 </tr>
 </tbody>
 </table>
-<p>Selected native operations remain outside the R bindings, including the general gscore fitting/model-selection workflows and the standalone single-effect Bayesian entry point. The standalone gsea baseline was added on 21 September 2026; its checks cover small independent calculations and seeded execution, not broad GWAS calibration. LD-aware gene tests and competitive regression are deferred. Python interfaces remain planned. Multivariate Bayesian residual-covariance learning and arbitrary sampling overlap across different LD references are not exposed. See the <a href="../../gsuite/docs/status.html#qualification-limits">current qualification limits</a> before interpreting capability as validated use.</p>
+<p>Selected native operations remain outside the R bindings, including the general gscore fitting/model-selection workflows and the standalone single-effect Bayesian entry point. Native gsea and gene-evidence components were added on 21 September 2026. Checks cover independent small calculations, pinned ACAT comparison and a connected native example, not broad GWAS calibration. Competitive GLS uses supplied gene-covariance blocks; its Student-t inference is a working approximation for non-Gaussian gene scores. It does not claim full MAGMA or Pascal equivalence. Python interfaces remain planned. Multivariate Bayesian residual-covariance learning and arbitrary sampling overlap across different LD references are not exposed. See the <a href="../../gsuite/docs/status.html#qualification-limits">current qualification limits</a> before interpreting capability as validated use.</p>
 </section>
 <section id="pedigree-formula-workflows" class="level2">
 <h2 class="anchored" data-anchor-id="pedigree-formula-workflows">Pedigree formula workflows</h2>
