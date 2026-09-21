@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="A connected 10,000-individual, 50,000-marker example with known truth.">
 
-<title>model-architecture – gtools</title>
+<title>One simulated dataset across six genomic modules – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -151,7 +187,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-architecture.html">Technical reference</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/model-architecture.html">Model representation</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/simulated-genomics-workflow.html">Connected genomic workflow</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -206,13 +242,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Tutorials</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
@@ -221,7 +257,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/simulated-genomics-workflow.html" class="sidebar-item-text sidebar-link">
+  <a href="../../gsuite/docs/simulated-genomics-workflow.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Connected genomic workflow</span></a>
   </div>
 </li>
@@ -354,16 +390,16 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Technical reference</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Model representation</span></a>
   </div>
 </li>
@@ -450,150 +486,276 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#canonical-lmm-architecture" id="toc-canonical-lmm-architecture" class="nav-link active" data-scroll-target="#canonical-lmm-architecture">Canonical LMM architecture</a>
+  <li><a href="#what-this-example-demonstrates" id="toc-what-this-example-demonstrates" class="nav-link active" data-scroll-target="#what-this-example-demonstrates">What this example demonstrates</a></li>
+  <li><a href="#one-population-explicit-sample-groups" id="toc-one-population-explicit-sample-groups" class="nav-link" data-scroll-target="#one-population-explicit-sample-groups">One population, explicit sample groups</a></li>
+  <li><a href="#the-connected-workflow" id="toc-the-connected-workflow" class="nav-link" data-scroll-target="#the-connected-workflow">The connected workflow</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
   <ul class="collapse">
-  <li><a href="#current-authority-and-status" id="toc-current-authority-and-status" class="nav-link" data-scroll-target="#current-authority-and-status">Current authority and status</a></li>
-  <li><a href="#canonical-scientific-specification" id="toc-canonical-scientific-specification" class="nav-link" data-scroll-target="#canonical-scientific-specification">Canonical scientific specification</a></li>
-  <li><a href="#ordering-contract" id="toc-ordering-contract" class="nav-link" data-scroll-target="#ordering-contract">Ordering contract</a></li>
-  <li><a href="#execution-and-retained-state-boundary" id="toc-execution-and-retained-state-boundary" class="nav-link" data-scroll-target="#execution-and-retained-state-boundary">Execution and retained-state boundary</a></li>
-  <li><a href="#boundaries-and-structured-residuals" id="toc-boundaries-and-structured-residuals" class="nav-link" data-scroll-target="#boundaries-and-structured-residuals">Boundaries and structured residuals</a></li>
-  <li><a href="#future-development-rule" id="toc-future-development-rule" class="nav-link" data-scroll-target="#future-development-rule">Future-development rule</a></li>
-  <li><a href="#three-layers" id="toc-three-layers" class="nav-link" data-scroll-target="#three-layers">Three layers</a>
-  <ul class="collapse">
-  <li><a href="#scientific-model-recipe" id="toc-scientific-model-recipe" class="nav-link" data-scroll-target="#scientific-model-recipe">Scientific model recipe</a></li>
-  <li><a href="#canonical-compiled-representation" id="toc-canonical-compiled-representation" class="nav-link" data-scroll-target="#canonical-compiled-representation">Canonical compiled representation</a></li>
-  <li><a href="#execution" id="toc-execution" class="nav-link" data-scroll-target="#execution">Execution</a></li>
+  <li><a href="#heritability-and-genetic-correlation" id="toc-heritability-and-genetic-correlation" class="nav-link" data-scroll-target="#heritability-and-genetic-correlation">Heritability and genetic correlation</a></li>
+  <li><a href="#mapping-and-held-out-prediction" id="toc-mapping-and-held-out-prediction" class="nav-link" data-scroll-target="#mapping-and-held-out-prediction">Mapping and held-out prediction</a></li>
+  <li><a href="#pathways" id="toc-pathways" class="nav-link" data-scroll-target="#pathways">Pathways</a></li>
   </ul></li>
-  <li><a href="#demonstrated-invariants" id="toc-demonstrated-invariants" class="nav-link" data-scroll-target="#demonstrated-invariants">Demonstrated invariants</a></li>
-  <li><a href="#adding-one-model" id="toc-adding-one-model" class="nav-link" data-scroll-target="#adding-one-model">Adding one model</a></li>
-  <li><a href="#ownership-boundaries" id="toc-ownership-boundaries" class="nav-link" data-scroll-target="#ownership-boundaries">Ownership boundaries</a></li>
-  <li><a href="#possible-future-interface" id="toc-possible-future-interface" class="nav-link" data-scroll-target="#possible-future-interface">Possible future interface</a></li>
-  </ul></li>
+  <li><a href="#run-and-inspect" id="toc-run-and-inspect" class="nav-link" data-scroll-target="#run-and-inspect">Run and inspect</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-architecture.html">Technical reference</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/model-architecture.html">Model representation</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/simulated-genomics-workflow.html">Connected genomic workflow</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">One simulated dataset across six genomic modules</h1>
+</div>
+
+<div>
+  <div class="description">
+    A connected 10,000-individual, 50,000-marker example with known truth.
+  </div>
+</div>
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
-<section id="canonical-lmm-architecture" class="level1">
-<h1>Canonical LMM architecture</h1>
-<p>This section defines the LMM architecture. Current dependency versions are recorded in <a href="../../gsuite/docs/status.html#package-metadata">package metadata</a>; the original architecture baseline used greml 0.66.0. Capability status belongs in the <a href="../../gsuite/docs/model-catalog.html">model catalog</a>, reusable machinery in the <a href="../../gsuite/docs/primitive-registry.html">primitive registry</a>, evidence in <a href="../../gsuite/docs/status.html#qualification-limits">model qualification</a>, and established equivalences in <a href="../../gsuite/docs/model-reductions.html">model reductions</a>. Historical development notes do not supersede the current capability catalog.</p>
-<section id="current-authority-and-status" class="level2">
-<h2 class="anchored" data-anchor-id="current-authority-and-status">Current authority and status</h2>
-<p>Current public headers and R exports define what is implemented. Focused tests and committed qualification evidence determine whether a specific model/backend/inference combination is qualified. The catalog uses exactly:</p>
-<ul>
-<li><code>qualified</code>: implemented, publicly reachable where claimed, and covered by focused numerical or contract evidence for that combination;</li>
-<li><code>implemented_unqualified</code>: code exists, but the complete claimed combination lacks focused qualification;</li>
-<li><code>unsupported</code>: the combination rejects explicitly or has no implementation;</li>
-<li><code>not_applicable</code>: the concept does not apply to the route.</li>
-</ul>
-<p>Code presence alone never establishes <code>qualified</code>. A limitation on one route must not be generalized to the suite.</p>
-</section>
-<section id="canonical-scientific-specification" class="level2">
-<h2 class="anchored" data-anchor-id="canonical-scientific-specification">Canonical scientific specification</h2>
-<p>The backend-independent specification contains caller-ordered observed records and stable record IDs; response values; compact fixed-coefficient references; random component, level, channel/trait, and basis references; deterministic external domains and coefficient order; relationship covariance or precision contracts; typed covariance layouts; residual blocks and groups; prediction targets; uncertainty requests; and separate resource/execution policy.</p>
-<p>Caller record order may change only record-shaped output order. Scientific domains, parameter positions, likelihoods, active sets, coefficients, and uncertainty results are deterministic after alignment by external identity. Production stores short record-level coefficient-reference lists and never materializes a global fixed- or random-effect incidence matrix, dense or sparse. Pedigree routes reuse the committed ordering, inbreeding, Henderson precision, relationship diagonal, and determinant.</p>
-</section>
-<section id="ordering-contract" class="level2">
-<h2 class="anchored" data-anchor-id="ordering-contract">Ordering contract</h2>
-<ul>
-<li>Component LMM coefficients are component-major, then level-major, then channel-major.</li>
-<li>Pedigree random-regression coefficients are animal-major, then basis axis.</li>
-<li>Pedigree multitrait coefficients retain declared trait order for every external animal.</li>
-<li>Fixed effects retain validated caller column order.</li>
-<li>Structured residual values use canonical variance-group order followed by <code>rho</code> or <code>phi</code>; they are not packed SPD matrices.</li>
-<li>SPD covariance values retain declared channel/trait order and use explicit natural and log-Cholesky transformed layouts.</li>
-</ul>
-<p>Every public result returns identities or names; callers do not infer them from undocumented offsets.</p>
-</section>
-<section id="execution-and-retained-state-boundary" class="level2">
-<h2 class="anchored" data-anchor-id="execution-and-retained-state-boundary">Execution and retained-state boundary</h2>
-<p>Scientific syntax is independent of PCG, CHOLMOD, PARDISO, batching, threading, and memory budgets. Gsolve owns numerical sessions and selected inversion; greml owns model assembly, likelihoods, derivatives, optimization, BLUP, and uncertainty; gsuite owns R validation, lowering, typed serialization, and external-order restoration.</p>
-<p>Backend and trace method are distinct. CHOLMOD and PARDISO consume the same sparse MME, but only CHOLMOD supplies selected inversion. Coordinate traces are an exact bounded route. Retained-factor <code>selected_solve</code> target-block uncertainty is another exact bounded route and is not selected inversion. PCG has no retained direct factor. Stochastic Hutchinson/SLQ routes exist only where the catalog identifies them; they are never silent fallbacks for exact sparse-direct fits.</p>
-<p>Incomplete-multitrait pedigree stochastic REML constructs deterministic counter-Rademacher trace and determinant banks once per fit and retains common probe identities across accepted and trial covariance states. Greml inference owns phase-aware precision: finite raw trace and score standard errors are diagnostics; nonstationary step resolution is assessed on curvature/Newton scales; convergence requires score compatibility with zero and adequate dimensionless log-Cholesky-scale uncertainty. Natural and transformed AI are validated and canonically symmetrized at the greml inference boundary before one identical matrix is used for rank diagnostics and the gsolve moment solve.</p>
-<p>Stochastic covariance convergence, approximate likelihood availability, and BLUP finalization are distinct states. Final SLQ imprecision does not revoke an accepted score/AI optimum or prevent retained-response BLUP, but it makes the restricted likelihood unavailable for reporting or model comparison. Solver diagnostics likewise separate logical PCG systems from attempts, recovered warm-start retries, and unrecovered failures.</p>
-<p>Successful direct optimization retains the accepted likelihood, factor, response, score, AI state, and relevant selected-inverse values. BLUP reuses the retained response. Exact coefficient PEV is the random-effect block of the inverse of the complete MME, conditional on fitted covariance parameters. Existing CHOLMOD selected inversion, pedigree trace contractions, longitudinal pedigree uncertainty, and component-LMM uncertainty are current capabilities. Exact PARDISO <code>selected_solve</code> PEV is qualified for the three sparse pedigree routes; PCG exact PEV and PARDISO selected inversion remain unsupported.</p>
-</section>
-<section id="boundaries-and-structured-residuals" class="level2">
-<h2 class="anchored" data-anchor-id="boundaries-and-structured-residuals">Boundaries and structured residuals</h2>
-<p>The component LMM’s opt-in active-set policy supports an exact zero scalar random component and rank-one two-channel covariance with KKT checks and reactivation. Larger covariance blocks and all residual parameters remain positive-interior. AR(1) and continuous exponential residual blocks share one typed residual-block abstraction; this does not imply ARMA, heterogeneous temporal scales, spatial covariance, or mixtures of residual structures.</p>
-</section>
-<section id="future-development-rule" class="level2">
-<h2 class="anchored" data-anchor-id="future-development-rule">Future-development rule</h2>
-<p>Proposed extensions must begin with an <code>unsupported</code> or <code>implemented_unqualified</code> catalog cell, identify whether the gap is representation, exposure, backend contract, or qualification only, and reuse the registry and reductions. They must not duplicate existing solvers, selected inversion, PEV calculations, component composition, residual blocks, or boundary optimization.</p>
-</section>
-<section id="three-layers" class="level2">
-<h2 class="anchored" data-anchor-id="three-layers">Three layers</h2>
-<section id="scientific-model-recipe" class="level3">
-<h3 class="anchored" data-anchor-id="scientific-model-recipe">Scientific model recipe</h3>
-<p>The recipe defines the response, fixed terms, random components and incidence, coefficient domains, covariance and residual structures, missingness, requested predictions, identifiability conditions, and exclusions. It must not encode a backend, trace route, batch width, or memory policy.</p>
-</section>
-<section id="canonical-compiled-representation" class="level3">
-<h3 class="anchored" data-anchor-id="canonical-compiled-representation">Canonical compiled representation</h3>
-<p>The retained compiled route is selected with <code>control = gs_fit_control(...)</code>; <code>formula</code> and <code>formulas</code> are aliases and do not select different routes. It requires explicit <code>gvc()</code> components with complete starts and no separate <code>pedigree</code> argument. The general data-frame adapter is described in the <a href="../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a>. For the compiled route, base R <code>model.frame()</code> and <code>model.matrix()</code> construct trait-specific fixed designs. Supported random terms are lowered recordwise as component/member, entity, trait, residual-unit, and unit-weight metadata; no R random-effect incidence matrix is constructed. Scalar lowering now composes at most one pedigree and one independent identity random-intercept domain. Formula order fixes component blocks and parameter order, while data-induced cross-domain MME entries are retained. Canonical scalar records, caller mappings, covariance-component metadata, positive-interior starts, resource limits, and execution controls cross the R/C++ boundary (<code>gsuite/R/zz-formula-reml.R</code>, <code>gsuite/src/compiled_formula.cpp</code>).</p>
-<p>Greml’s installed <code>CompiledMmeSpecification</code>, immutable <code>CompiledMmePlan</code>, handle-based <code>CompiledMmeParameterState</code>, and move-only <code>CompiledMmeSession</code> own coefficient ordering, sparse structure, evaluation, optimization, and retained results (<code>greml/include/greml/compiled_mme.hpp</code>).</p>
-</section>
-<section id="execution" class="level3">
-<h3 class="anchored" data-anchor-id="execution">Execution</h3>
-<p>Gsolve owns PCG and sparse-direct numerical machinery (<code>gsolve/include/gsolve/pcg.hpp</code>, <code>gsolve/include/gsolve/sparse_direct.hpp</code>). The same compiled representation feeds each qualified backend. Execution owns symbolic analysis, numerical factorization, response/information solves, coordinate traces or selected inversion, determinants, likelihood-monotone optimization, retained state, and BLUP finalization. Gsuite maps owned results to one stable R object and focused S3 methods.</p>
-<p>The component PCG route is a second execution of the existing compiled component representation, not a PCG-only model. It applies <span class="math inline">\(W^{\mathsf T}R^{-1}W\)</span> by gathering and scattering the canonical short record references, adds compiled component precision, and uses a deterministic fixed/per-level channel block-Jacobi preconditioner derived from that same numerical state. The RHS, parameter and coefficient order, member projections, residual units, observed channel patterns, and caller-record restoration are shared with exact CHOLMOD. No global <code>W</code>, <code>Z</code>, incidence matrix, dense relationship, or full MME is constructed for operator application.</p>
-<p>Fixed-budget stochastic inference constructs fixed counter-Rademacher trace and determinant plans once per session. Coefficient-space stochastic traces, the existing explicit derivative-response AI, natural-to-log-Cholesky transformation, symmetry/rank/ conditioning checks, phase-aware convergence, optional SLQ, and retained BLUP all consume the canonical plan. Parameter-step Monte Carlo covariance is <span class="math inline">\(\mathrm{AI}^{-1}\Sigma_g\mathrm{AI}^{-1}\)</span>. Under-resolved nonstationary updates use a scale-invariant diagonal Levenberg term, while convergence remains assessed against the original canonical AI. Optimizer convergence, likelihood availability, BLUP finalization, and solver status remain distinct. Missing-channel inference uses this same path for arbitrary observed channel subsets: missing channels are absent scalar records, and channel-specific fixed references and output mappings remain plan-owned. No inference layer reconstructs those layouts.</p>
-<p>An optional adaptive execution policy is available at the component-inference layer while leaving the fixed-budget path as the default. Exploratory, accepted-state, and certification tiers choose deterministic nested counter-Rademacher prefixes and progressively tighter PCG tolerances. Extending a prefix at one covariance state solves only newly added probes and updates retained trace moments and score covariance; matching probe indices preserve common random numbers between accepted and trial states. Certification always uses the predetermined fixed final prefix, never the adaptively stopped intermediate prefix.</p>
-<p>Step resolution and convergence remain distinct. Nonstationary directions use the parameter-step covariance <span class="math inline">\(\mathrm{AI}^{-1}\Sigma_g\mathrm{AI}^{-1}\)</span> and may extend, damp, or fail explicitly. A stationary candidate is certified through deterministic curvature/Newton tolerances, simultaneous standardized scores, the numerical- rank-aware statistic <span class="math inline">\(g^{\mathsf T}\Sigma_g^{+}g\)</span>, and an absolute transformed-parameter uncertainty envelope. It is not rejected merely because uncertainty divided by a vanishing proposed update is large. Trials omit SLQ and result finalization; a potentially acceptable trial is compared at a matched prefix with paired common-probe merit uncertainty. Optimizer, optional likelihood, BLUP, and solver statuses remain separate, and no adaptive route falls back to direct inference.</p>
-<p>The qualified stochastic component scope is positive-interior identity and Henderson pedigree relationships with independent residuals, for scalar, complete correlated-channel, and arbitrary missing-channel models. The supplied-precision and structured-residual extension reuses the same operator for caller-certified sparse precision relationships and existing patterned, AR(1), and continuous-exponential local residual blocks. That extension is only partially qualified: supplied precision is fixed-state qualified only; AR(1) fixed-state evaluation and stochastic optimization are qualified; continuous exponential coefficient, derivative, trace, AI, and PCG evaluation is fixed-state qualified, but stochastic optimization remains unqualified after the frozen recovery exhausted its score-merit line search. The combined supplied-precision/structured-residual stochastic illustration was not run. Exact CHOLMOD behavior is unchanged. There is no stochastic-to-direct fallback.</p>
-<p>A typed fixed-rank factor-analytic covariance layout is available at the model boundary. For declared trait order and rank, it alone owns the identified lower-triangular loading positions, positive pivots, positive specific variances, natural/transformed names, derived covariance/precision/log determinant, and analytic derivatives. The component compiler consumes the derived covariance through the same parameter and coefficient layouts as an unstructured block; neither PCG nor sparse direct contains an FA branch. Structural derivative planning follows the typed incidence pattern and never uses invented loading magnitudes. Numerical covariance-Jacobian rank and conditioning are checked at the actual scientific state.</p>
-<p>Canonical FA average information is the conventional first-derivative quantity. Under the FA map it is <span class="math inline">\(\mathrm{AI}_{\eta} = J^{\mathsf T}\mathrm{AI}_{\theta}J\)</span>. Nonlinear covariance and transformed-coordinate second derivatives are retained only as separately named observed-curvature diagnostics; they are not added to AI, required to be positive definite, or repaired with ridge, jitter, or eigenvalue clipping. Exact CHOLMOD FA REML and retained-state BLUP are qualified. Matrix-free PCG execution and stochastic score/AI are qualified at fixed covariance only. Stochastic FA optimization and its post-optimization retained BLUP remain unqualified; there is no fallback to an unstructured layout or direct inference.</p>
-</section>
-</section>
-<section id="demonstrated-invariants" class="level2">
-<h2 class="anchored" data-anchor-id="demonstrated-invariants">Demonstrated invariants</h2>
-<ol type="1">
-<li>One canonical lowering and one caller-record construction pass occur per fit; later covariance work does not revisit caller data.</li>
-<li>Trait, record, observation-unit, pedigree, coefficient, and natural-parameter order are deterministic and externally mapped.</li>
-<li>Model semantics do not change with solver choice.</li>
-<li>Every supported backend consumes the same compiled representation.</li>
-<li>No backend, trace method, batch size, or stochastic fallback is silent.</li>
-<li>Resource rejection precedes symbolic analysis and all numerical work.</li>
-<li>Failed native fits preserve status and diagnostics; unavailable numerical output is absent rather than invented.</li>
-<li>Successful finalization reuses the retained accepted likelihood, factor, and response and performs one BLUP finalization.</li>
-<li>Specialized implementations remain reduction oracles until generic replacements are independently qualified.</li>
-<li>Public APIs are added only for a concrete model after the abstraction has survived focused validation.</li>
-</ol>
-<p>Evidence includes focused formula-interface tests, simulation-based comparisons with specialized model routes, and compiled-MME contract tests. The bounded independent-component composition is qualified against dense observation-space and dense full-MME oracles, the specialized repeatability route, PARDISO and CHOLMOD. See the <a href="../../gsuite/docs/status.html#qualification-limits">qualification evidence</a> for the internal test inventory.</p>
-</section>
-<section id="adding-one-model" class="level2">
-<h2 class="anchored" data-anchor-id="adding-one-model">Adding one model</h2>
-<ol type="1">
-<li>Specify the statistical recipe and explicit exclusions.</li>
-<li>Match every requirement to the <a href="../../gsuite/docs/primitive-registry.html">primitive registry</a> and name the smallest missing primitive or composition rule.</li>
-<li>Establish an independent dense oracle or qualified specialized reduction.</li>
-<li>Implement only that missing general primitive/composition.</li>
-<li>Verify canonical lowering and all mappings exactly.</li>
-<li>At common fixed parameters, verify covariance/MME, coefficients, projections, score, standard AI, determinants, and likelihood.</li>
-<li>Verify positive-interior optimization and retained BLUP behavior.</li>
-<li>Verify each backend, resource limit, thread domain, and failure path.</li>
-<li>Expose and document R semantics only after focused validation checks pass.</li>
-</ol>
-<p>Structural reductions should omit a component when the chosen route does not support an exact zero boundary. The component-LMM scalar/rank-one boundary contract is specified in the <a href="../../gsuite/docs/model-reductions.html">model reductions</a>.</p>
-</section>
-<section id="ownership-boundaries" class="level2">
-<h2 class="anchored" data-anchor-id="ownership-boundaries">Ownership boundaries</h2>
-<ul>
-<li><strong>gsuite:</strong> R semantics, base-R fixed design, bundle validation, lowering, result interpretation, and S3 presentation.</li>
-<li><strong>greml:</strong> pedigree/statistical kernels, canonical MME compilation, REML identities and derivatives, optimizer, resources, and retained BLUP state.</li>
-<li><strong>gsolve:</strong> model-independent operators, PCG, direct factorization, solves, selected-inverse capability, and execution resolution.</li>
-<li><strong>gbits/gmat/gcorr/gsim:</strong> retain their committed data, genomic, correlation, and simulation responsibilities; model extensions retain these boundaries.</li>
-</ul>
-</section>
-<section id="possible-future-interface" class="level2">
-<h2 class="anchored" data-anchor-id="possible-future-interface">Possible future interface</h2>
-<p>Public compile/explain/preflight functions, public R plan/session objects, and an executable component registry are only possibilities. Names such as <code>gs_compile()</code> or <code>gs_explain()</code> are not installed APIs. A future interface requires a concrete model need, ownership/lifetime design, and focused ABI and statistical qualification.</p>
+</header>
 
 
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Completed example, with recorded limits
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>All six modules ran on the same simulated dataset. Five gene-level p-values could not be certified by the controlled-series route; pathway analyses use the explicitly approximate default route for every gene. Other uncertainty limitations are retained below. This is one integration example, not full statistical qualification. See the <a href="../../gsuite/docs/simulated-genomics-qualification.html#current-execution-status-2026-09-21">execution record</a>.</p>
+</div>
+</div>
+<section id="what-this-example-demonstrates" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-example-demonstrates">What this example demonstrates</h2>
+<p>Start with a simulated population, run GWAS, then reuse its summary statistics and LD for Bayesian regression, genetic correlation, fine-mapping, scoring and pathway analysis. All model calls use the current <strong>gsuite R interfaces</strong>.</p>
+<p>This is the first connected qualification example for <strong>glma, gbayes, gcorr, gmap, gscore and gsea</strong>. It checks selected calculations and demonstrates representative methods at this scale. It does not establish calibration of every supported method or option.</p>
 </section>
+<section id="one-population-explicit-sample-groups" class="level2">
+<h2 class="anchored" data-anchor-id="one-population-explicit-sample-groups">One population, explicit sample groups</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Individuals / markers</td>
+<td>10,000 / 50,000</td>
+</tr>
+<tr class="even">
+<td>Traits</td>
+<td>Three continuous traits: A, B and C</td>
+</tr>
+<tr class="odd">
+<td>Target heritabilities</td>
+<td>0.30, 0.40 and 0.35</td>
+</tr>
+<tr class="even">
+<td>Genomic layout</td>
+<td>500 independent artificial regions of 100 markers</td>
+</tr>
+<tr class="odd">
+<td>GWAS samples</td>
+<td>Three disjoint groups of 3,000; one per trait</td>
+</tr>
+<tr class="even">
+<td>Scoring test sample</td>
+<td>1,000 individuals excluded from GWAS and LD preparation</td>
+</tr>
+<tr class="odd">
+<td>LD reference</td>
+<td>The pooled 9,000 GWAS individuals</td>
+</tr>
+<tr class="even">
+<td>Annotation</td>
+<td>1,000 artificial genes; enriched, background and mixed pathway sets</td>
+</tr>
+<tr class="odd">
+<td>Replicates</td>
+<td>One, with fixed seeds; no seed selection</td>
+</tr>
+</tbody>
+</table>
+<p>The genotype generator has known within-region population LD. It writes one marker at a time to a packed BED file. <strong>gsim</strong> then generates phenotypes from explicit effects, using bounded reads from the prepared <code>Glist</code>. Neither a full genotype matrix nor a 50,000-by-50,000 LD matrix is created.</p>
+<p>The LD reference retains all within-region correlations and treats regions as independent. It shares individuals with the GWAS samples; it is not an independent external panel. Summary-based fits therefore use a pooled-LD approximation to each study’s cross-products. The artificial chromosomes, genes and pathways have no biological interpretation.</p>
+</section>
+<section id="the-connected-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="the-connected-workflow">The connected workflow</h2>
+<p>These excerpts show the model calls. Sample selection, truth construction, effect units and complete settings are in the <a href="../tools/examples/simulated_genomics_workflow.R">runnable script</a>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Association: one selected GWAS group and its phenotype.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>association <span class="ot">&lt;-</span> <span class="fu">glma</span>(y, Glist, <span class="at">method =</span> <span class="st">"linear"</span>, <span class="at">threads =</span> <span class="dv">1</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare aligned summaries separately from fitting.</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>prepared <span class="ot">&lt;-</span> <span class="fu">sumstat</span>(stat, LDlist, <span class="at">task =</span> <span class="st">"standardize"</span>)<span class="sc">$</span>stat</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Genome-wide genetic correlation from three trait tables.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>correlation <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(stat, LDlist, <span class="at">method =</span> <span class="st">"ldsc"</span>, <span class="at">task =</span> <span class="st">"rg"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">control =</span> <span class="fu">list</span>(<span class="at">intercept =</span> <span class="st">"fixed_one"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">overlap_intercept =</span> <span class="dv">0</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Bayesian regression: fixed priors and two short chains.</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>bayesian <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(prepared<span class="sc">$</span>A, LDlist, <span class="at">method =</span> <span class="st">"bayesc"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                  <span class="at">prior =</span> prior, <span class="at">control =</span> control)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Regional mapping after explicit OLS sufficient-statistic preparation.</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>mapping_stat <span class="ot">&lt;-</span> <span class="fu">gmap_stat</span>(stat, LDlist, <span class="at">phenotype_variance =</span> phenotype_variance)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>mapping <span class="ot">&lt;-</span> <span class="fu">gmap</span>(mapping_stat, LDlist, <span class="at">regions =</span> regions,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">"multi_effect"</span>, <span class="at">prior =</span> prior, <span class="at">control =</span> control)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply allele-labelled weights with explicit coding to held-out individuals.</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> <span class="fu">gscore</span>(<span class="at">task =</span> <span class="st">"apply"</span>, <span class="at">Glist =</span> test_Glist,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                     <span class="at">weights =</span> weights, <span class="at">allele_frequencies =</span> frequencies)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate marker evidence, then analyse pathways of genes.</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>evidence <span class="ot">&lt;-</span> <span class="fu">gstat</span>(stat, LDlist, <span class="at">sets =</span> genes, <span class="at">blocks =</span> blocks,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">metadata =</span> metadata,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                 <span class="at">control =</span> <span class="fu">list</span>(<span class="at">independent_blocks =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                                <span class="at">tail_method =</span> <span class="st">"saddlepoint"</span>))</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>pathways <span class="ot">&lt;-</span> <span class="fu">gsea</span>(evidence<span class="sc">$</span>stat, pathway_sets, <span class="at">method =</span> <span class="st">"competitive"</span>,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sampling =</span> evidence<span class="sc">$</span>sampling)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>prior</code> and <code>control</code> placeholders differ between Bayesian regression and regional mapping. They are explicit in the script. No universal prior scale is assumed across methods.</p>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<section id="heritability-and-genetic-correlation" class="level3">
+<h3 class="anchored" data-anchor-id="heritability-and-genetic-correlation">Heritability and genetic correlation</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/simulated-genomics/heritability.png" class="img-fluid figure-img"></p>
+<figcaption>Heritability estimates with jackknife uncertainty and true versus estimated genetic correlations. Dashed lines show population truth; LDSC+ann includes the enriched annotation.</figcaption>
+</figure>
+</div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Analysis</th>
+<th style="text-align: right;">h2 A</th>
+<th style="text-align: right;">h2 B</th>
+<th style="text-align: right;">h2 C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Realized population truth</td>
+<td style="text-align: right;">0.296</td>
+<td style="text-align: right;">0.396</td>
+<td style="text-align: right;">0.347</td>
+</tr>
+<tr class="even">
+<td>Baseline LDSC</td>
+<td style="text-align: right;">0.164</td>
+<td style="text-align: right;">0.285</td>
+<td style="text-align: right;">0.197</td>
+</tr>
+<tr class="odd">
+<td>GNOVA</td>
+<td style="text-align: right;">0.160</td>
+<td style="text-align: right;">0.279</td>
+<td style="text-align: right;">0.195</td>
+</tr>
+<tr class="even">
+<td>SumHer, one baseline component</td>
+<td style="text-align: right;">0.164</td>
+<td style="text-align: right;">0.285</td>
+<td style="text-align: right;">0.197</td>
+</tr>
+<tr class="odd">
+<td>LDSC with enriched/background annotations</td>
+<td style="text-align: right;">0.270</td>
+<td style="text-align: right;">0.399</td>
+<td style="text-align: right;">0.299</td>
+</tr>
+</tbody>
+</table>
+<p>The baseline fits underestimate heritability in this draw. Effects are concentrated in the first 80 regions, which also occupy the lower-LD end of the generator. The annotation-aware model represents this heterogeneity and gives estimates closer to truth here. This contrast is about model assumptions; it does not rank software implementations or establish bias across repetitions. SumHer uses ordinary LD scores as tagging weights and one baseline architecture component, explaining its near-identical results to baseline LDSC in this setup.</p>
+<p>The uncertainty bars show estimate plus/minus 1.96 jackknife standard errors, using the 500 regions as blocks. They are illustrative normal approximations, not an interval-coverage evaluation. Correlations are imprecise with 3,000 individuals per trait: baseline LDSC gives B/C rg = <strong>1.095</strong> (SE 0.331), and annotation-aware LDSC gives <strong>1.052</strong> (SE 0.228), versus truth <strong>0.726</strong>. These out-of-range estimates remain visible; they are not clipped to one.</p>
+<p>HESS, SUPERGNOVA and LAVA also returned the requested covariances in 20 predetermined regions. HESS standard errors were unavailable for 40 of the 60 trait-pair/region results because its plug-in genetic/residual matrices did not meet the positive-semidefinite requirement. SUPERGNOVA returned all 60 standard errors. The exercised LAVA covariance route does not return standard errors. Finite point estimates do not remove those uncertainty limitations.</p>
+</section>
+<section id="mapping-and-held-out-prediction" class="level3">
+<h3 class="anchored" data-anchor-id="mapping-and-held-out-prediction">Mapping and held-out prediction</h3>
+<p>The two regions were selected before fitting. Region 1 contains a shared causal variant; region 2 contains distinct causal variants for A and B. The fitted multi-effect model uses one component, matching this deliberately simple regional truth. ABF colocalisation uses the same complete regional summaries from disjoint samples and its at-most-one-causal-variant-per-trait assumption.</p>
+<p>All four regional fits converged. ABF H4 is effectively one for the shared signal, and H3 is effectively one for the distinct signals in this draw.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/simulated-genomics/mapping-prediction.png" class="img-fluid figure-img"></p>
+<figcaption>Regional inclusion probabilities, shared versus distinct causal signals, and held-out genetic prediction. H3 denotes distinct causal variants and H4 a shared variant.</figcaption>
+</figure>
+</div>
+<p>The genome-wide BayesC/BayesR fits use two chains each and fixed priors, with posterior mean effects passed to <code>gscore()</code>. After correcting repeated full-panel preparation in the sparse-LD adapter, BayesC took 90.86 seconds and BayesR 217.82 seconds for 50,000 markers and 1,200 sweeps per chain. A matched installed-sblr BayesC run took 87.43 seconds on the same machine; see the qualification record for timing scope and limitations.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Score</th>
+<th style="text-align: right;">Correlation with genetic truth</th>
+<th style="text-align: right;">Correlation with phenotype</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ridge</td>
+<td style="text-align: right;">0.139</td>
+<td style="text-align: right;">0.086</td>
+</tr>
+<tr class="even">
+<td>BayesC</td>
+<td style="text-align: right;">0.393</td>
+<td style="text-align: right;">0.222</td>
+</tr>
+<tr class="odd">
+<td>BayesR</td>
+<td style="text-align: right;">0.406</td>
+<td style="text-align: right;">0.233</td>
+</tr>
+</tbody>
+</table>
+<p>The centered score using true effects agreed with simulated genetic values within <span class="math inline">\(4.7\times10^{-15}\)</span>. The test sample has not been used to select methods or parameters. These fixed-setting, single-draw comparisons are illustrative; they do not establish comparative prediction accuracy across repetitions.</p>
+</section>
+<section id="pathways" class="level3">
+<h3 class="anchored" data-anchor-id="pathways">Pathways</h3>
+<p><code>gstat()</code> aggregates marker evidence into 1,000 artificial genes, retaining within-region gene dependence. Five of 3,000 controlled-series p-values failed the requested accuracy check because the error bound could not certify very small tails. No genes were dropped or tolerances relaxed. A separate run used the existing <strong>saddlepoint approximation for all 3,000 genes</strong>; all returned p-values, with no moment-matching fallback. This does not resolve or override the controlled-series failures.</p>
+<p>The completed <code>gsea()</code> calls cover ORA, preranked GSEA, competitive regression, the bounded MAGMA route and a scalar Bayesian pathway model. The enriched pathway covers the simulated enriched regions; the mixed pathway samples genes across the genome, and the background pathway covers regions with lower causal-marker probability. Background does not mean zero genetic effects.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/simulated-genomics/pathways.png" class="img-fluid figure-img"></p>
+<figcaption>Pathway evidence from the bounded MAGMA route for three traits, and Bayesian pathway inclusion probabilities for trait A. Gene p-values use the saddlepoint approximation.</figcaption>
+</figure>
+</div>
+<p>The enriched pathway has nominal bounded-MAGMA p-values of <strong>0.0086, 0.00077 and 0.0018</strong> for A, B and C. Its Bayesian PIP for trait A is <strong>0.9995</strong>, compared with <strong>0.0705</strong> for background and <strong>0.0315</strong> for mixed. ORA, preranked GSEA and competitive regression also show the strongest evidence for the enriched set in this draw. Pathway p-values here are unadjusted; the different methods use different null hypotheses, so their magnitudes do not rank method quality.</p>
+<p>P-values and posterior inclusion probabilities answer different questions and are shown on separate scales. One simulated dataset cannot establish pathway false-discovery control, credible-set coverage or comparative power.</p>
+</section>
+</section>
+<section id="run-and-inspect" class="level2">
+<h2 class="anchored" data-anchor-id="run-and-inspect">Run and inspect</h2>
+<p>From the gsuite checkout with its development library prepared:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/simulated_genomics_workflow.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Outputs stay in <code>build/examples/simulated-genomics/</code>: nine fixed stage RDS files, the reusable genotype/LD resources, compact CSV tables and three figures. Each stage file contains its result, warnings, timing, script hash, R session and installed native versions. Repeat execution replaces these named outputs.</p>
+<p>Download the compact result tables: <a href="../website/assets/simulated-genomics/correlation.csv">correlation estimates</a>, <a href="../website/assets/simulated-genomics/prediction.csv">prediction</a>, <a href="../website/assets/simulated-genomics/pathways.csv">pathways</a>, <a href="../website/assets/simulated-genomics/availability.csv">numerical availability</a>, <a href="../website/assets/simulated-genomics/gene-tail-comparison.csv">gene-tail comparison</a> and <a href="../website/assets/simulated-genomics/timings.csv">stage timings</a>.</p>
+<p>After an interruption, the same script/design can resume from completed stages:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/examples/simulated_genomics_workflow.R <span class="at">--resume</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Regenerate after changing completed-stage code or assumptions; the resume option does not infer which cached results have become invalid.</p>
+<p>Read the <a href="../../gsuite/docs/simulated-genomics-qualification.html">qualification record</a> for the scientific targets, check definitions and untested capabilities. The existing <a href="../../gsuite/docs/gcorr-method-comparison.html">smaller replicated comparison</a> is a separate simulation design; its results are not pooled with this example.</p>
+
+
 </section>
 
 </main> <!-- /main -->

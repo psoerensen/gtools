@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>model-reductions – gtools</title>
+<title>simulated-genomics-qualification – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -101,7 +101,7 @@ window.Quarto = {
 <link rel="stylesheet" href="../../gsuite/website/styles.css">
 </head>
 
-<body class="nav-sidebar docked nav-fixed quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -123,7 +123,7 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../gsuite/index.html" aria-current="page"> 
+    <a class="nav-link" href="../../gsuite/index.html"> 
 <span class="menu-text">gsuite</span></a>
   </li>  
   <li class="nav-item">
@@ -146,332 +146,133 @@ window.Quarto = {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-architecture.html">Technical reference</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/model-reductions.html">Model reductions</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Overview</span></a>
-  </div>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
- <span class="menu-text">About gsuite</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/architecture.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Architecture and libraries</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/methods.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Capabilities and methods</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/downloads.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Software availability</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Current status</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
- <span class="menu-text">Tutorials</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">All tutorials</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/simulated-genomics-workflow.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Connected genomic workflow</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/pedigree-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Pedigree analysis</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/summary-statistic-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">GWAS summary statistics</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/summary-statistic-workflow.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Saved LD workflow</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gcorr-method-comparison.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Simulation comparison (20 replicates)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gbayes-workflow.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Bayesian regression</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gmap-workflow.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Fine-mapping and colocalisation</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/mr-workflow.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Mendelian randomisation</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/covariance-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">SEM and graphical models</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Analysis with an assistant</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/model-development-with-an-assistant.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Developing a model with an assistant</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/genotype-preparation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Genotype preparation</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/genotype-filtering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Marker filtering</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/sparse-ld-preparation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Sparse LD preparation</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gsea-workflow.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Gene sets and pathways</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
- <span class="menu-text">Models and R interface</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/model-catalog.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Mixed-model catalog</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/model-recipes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Model recipes</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/formula-reml.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Formulas and covariance components</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/r-interface.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Persistent R interface</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/prediction-error.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prediction and uncertainty</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Technical reference</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Model representation</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gsolve-greml.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Numerical routes</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gmat-integration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Matrix integration</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/multitrait-pedigree-reml.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Multitrait computations</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/longitudinal-pedigree-reml.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Longitudinal computations</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/primitive-registry.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Model primitives</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/model-reductions.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Model reductions</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
- <span class="menu-text">Benchmarks</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/benchmarks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Benchmark overview</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/benchmarks/pedigree_50k_dmu/README.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Pedigree models: gsuite versus DMU</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/tutorials.html#slides-thoughts-on-working-with-ai" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Slides and discussion</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/README.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Documentation index</span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#canonical-lmm-reductions" id="toc-canonical-lmm-reductions" class="nav-link active" data-scroll-target="#canonical-lmm-reductions">Canonical LMM reductions</a>
+  <li><a href="#connected-genomic-workflow-qualification-record" id="toc-connected-genomic-workflow-qualification-record" class="nav-link active" data-scroll-target="#connected-genomic-workflow-qualification-record">Connected genomic workflow: qualification record</a>
   <ul class="collapse">
-  <li><a href="#representation-reductions" id="toc-representation-reductions" class="nav-link" data-scroll-target="#representation-reductions">Representation reductions</a></li>
-  <li><a href="#residual-reductions" id="toc-residual-reductions" class="nav-link" data-scroll-target="#residual-reductions">Residual reductions</a></li>
-  <li><a href="#active-set-reductions" id="toc-active-set-reductions" class="nav-link" data-scroll-target="#active-set-reductions">Active-set reductions</a></li>
-  <li><a href="#inference-reductions-and-non-reductions" id="toc-inference-reductions-and-non-reductions" class="nav-link" data-scroll-target="#inference-reductions-and-non-reductions">Inference reductions and non-reductions</a></li>
-  <li><a href="#api-consequence" id="toc-api-consequence" class="nav-link" data-scroll-target="#api-consequence">API consequence</a></li>
+  <li><a href="#current-execution-status-2026-09-21" id="toc-current-execution-status-2026-09-21" class="nav-link" data-scroll-target="#current-execution-status-2026-09-21">Current execution status, 2026-09-21</a></li>
+  <li><a href="#scope-agreed-before-execution" id="toc-scope-agreed-before-execution" class="nav-link" data-scroll-target="#scope-agreed-before-execution">Scope agreed before execution</a></li>
+  <li><a href="#design-and-targets" id="toc-design-and-targets" class="nav-link" data-scroll-target="#design-and-targets">Design and targets</a></li>
+  <li><a href="#checks-and-interpretation" id="toc-checks-and-interpretation" class="nav-link" data-scroll-target="#checks-and-interpretation">Checks and interpretation</a></li>
+  <li><a href="#limits" id="toc-limits" class="nav-link" data-scroll-target="#limits">Limits</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-architecture.html">Technical reference</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/model-reductions.html">Model reductions</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
 
-<section id="canonical-lmm-reductions" class="level1">
-<h1>Canonical LMM reductions</h1>
-<p>These reductions connect specialized APIs to the shared primitives in the <a href="../../gsuite/docs/model-catalog.html">model catalog</a>. They are used to detect duplicate proposals: a named model that is already an exact composition or a qualified reduction is not a missing production engine.</p>
-<section id="representation-reductions" class="level2">
-<h2 class="anchored" data-anchor-id="representation-reductions">Representation reductions</h2>
+<section id="connected-genomic-workflow-qualification-record" class="level1">
+<h1>Connected genomic workflow: qualification record</h1>
+<section id="current-execution-status-2026-09-21" class="level2">
+<h2 class="anchored" data-anchor-id="current-execution-status-2026-09-21">Current execution status, 2026-09-21</h2>
+<p><strong>Connected example completed, with the limitations below.</strong> Starting source was gsuite <code>b9dffbb</code>, using installed gsuite 0.43.0, gsim 0.16.0 and R 4.4.1 on Windows. The initial run used the existing installation. The native sparse-LD adapter correction below subsequently changed gmat and gbayes; cached stages from the initial run retain their original execution metadata.</p>
+<p>Completed stages:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 40%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th style="text-align: right;">Observed elapsed seconds</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Genotype generation, gsim and truth</td>
+<td style="text-align: right;">176.44</td>
+<td>10,000 individuals, 50,000 markers, 985 causal markers</td>
+</tr>
+<tr class="even">
+<td>Sparse LD and regional eigensystems</td>
+<td style="text-align: right;">46.79</td>
+<td>500 regions, 20 cached eigensystems</td>
+</tr>
+<tr class="odd">
+<td>GWAS and summary preparation</td>
+<td style="text-align: right;">347.80</td>
+<td>150,000 marker/trait results; all statuses OK; 15 OLS checks passed</td>
+</tr>
+<tr class="even">
+<td>Baseline and regional gcorr</td>
+<td style="text-align: right;">57.42</td>
+<td>All point estimates finite; availability limits below</td>
+</tr>
+<tr class="odd">
+<td>Annotation-aware LDSC</td>
+<td style="text-align: right;">12.83</td>
+<td>Enriched/background fits returned</td>
+</tr>
+<tr class="even">
+<td>Regional mapping and ABF colocalisation</td>
+<td style="text-align: right;">2.40</td>
+<td>Four fits converged; shared and distinct signals distinguished</td>
+</tr>
+<tr class="odd">
+<td>Bayesian fitting after sparse-adapter correction</td>
+<td style="text-align: right;">308.75</td>
+<td>BayesC 90.86 s; BayesR 217.82 s; two chains each</td>
+</tr>
+<tr class="even">
+<td>Held-out scoring</td>
+<td style="text-align: right;">22.99</td>
+<td>Ridge and both Bayesian scores applied; truth-weight check passed</td>
+</tr>
+<tr class="odd">
+<td>Gene evidence and pathways</td>
+<td style="text-align: right;">147.37</td>
+<td>Both tail routes evaluated; five pathway methods completed using the default approximation</td>
+</tr>
+</tbody>
+</table>
+<p>Times describe successful stages, excluding checkpoint writes, interrupted attempts and later report work. They are not a controlled performance comparison. Preparation required script-only corrections to BIM integer formatting and explicit SumHer baseline score preparation; regional calls exclude score-method jackknife block labels. Seeds and numerical acceptance thresholds were unchanged.</p>
+<p><strong>Native Bayesian scaling correction.</strong> The initial 50K-marker memory-backed BayesC/BayesR stage was stopped after several minutes without a completed stage result. Inspection found that <code>gbayes/src/cross_products.cpp</code> delegates each column update to <code>SparseLdCsr::add_cross_product_column()</code> in <code>gmat/src/sparse_ld_csr.cpp</code>. That routine calls <code>validated_marker_roots()</code> for the entire marker vector on every update. Sparse neighbour updates therefore also incur linear full-panel validation/allocation/square-root work. This is a code-path finding, not a completed runtime profile or a measured speedup. Following review against sblr’s <code>st_csr_common.h</code> and <code>CsrOperator::apply_offdiag()</code> in <code>st_ld_operator.h</code>, gmat now supplies <code>PreparedSparseLdCrossProducts</code>. It validates and caches scales once and reuses the sparse forward/reverse indices; gbayes uses it for memory-backed LD. Per-column work is proportional to retained neighbours, with no marker-wide allocation or validation inside the update. This corrects an implementation error rather than changing the Bayesian model. Samplers, priors, seeds and sweep counts are unchanged; sblr has not been modified.</p>
+<p>The focused <code>gmat.unit</code>, <code>gbayes.numerical</code> and <code>gbayes.multivariate</code> checks passed, including prepared/checked arithmetic and dense/sparse fit agreement. The isolated R package was rebuilt with the corrected libraries and its Windows runtime verification passed. The unchanged 50K-marker rerun completed in 90.86 seconds for BayesC and 217.82 seconds for BayesR. Each method visits 120 million marker steps: 50,000 markers times 1,200 sweeps times two chains. Bayesian means were finite, PIPs were in range, and maximum recorded residual drift was below <span class="math inline">\(1.8\times10^{-12}\)</span>.</p>
+<p>A focused comparison with installed sblr 0.2.0 used the same prepared summaries, sparse-LD files, BayesC prior, seeds, one worker and sweep counts, through <code>stblr_cpg_omp_csr()</code>. It took <strong>87.43 seconds</strong> (84.01 user CPU seconds), retaining 1,000 samples per chain. Thus the corrected gsuite BayesC execution was close to this installed sblr execution; this is one sequential local timing, not a benchmark claim across implementations or machines. The gsuite timing includes its public R validation/results; the sblr timing uses its native R wrapper. The implementations also differ in stored cross-product precision. No BayesR speed comparison with sblr was performed, and the interrupted original run provides no completed before/after speedup ratio.</p>
+<p>A short gsuite BayesC run with ten sampling sweeps and no burn-in took 1.89 seconds. Its R profile attributed 0.70 sampled seconds to LDlist validation and 0.54 to the native call. This is a check on preparation overhead, not a substitute for profiling the full sampler. BayesR still creates temporary mixture vectors per marker; that is a potential optimization, not an established remaining scaling failure or an implemented change.</p>
+<p>The saved rerun records hashes of the installed DLLs, verified against the prepared native prefix: gmat MD5 <code>eca3bd8db5f79cb25f251de6d045ec16</code>, gbayes MD5 <code>017fb6fd3c3c4cdcf332608ef523f712</code>. Native starting commits were gmat <code>379e1a1</code> and gbayes <code>3793875</code>, plus the uncommitted correction. The installed sblr DLL identity, session, timing and output are retained in <code>bayesian-cost-check.rds</code>; its correspondence to the inspected sblr source is not asserted.</p>
+<p><strong>Controlled gene-tail limitation.</strong> The gene-evidence run completed, but 5 of 3,000 gene/trait p-values were unavailable: A/gene0004; B/gene0002 and gene0004; C/gene0002 and gene0004. All reported <code>Series did not reach requested absolute and relative accuracy within term budget</code>, with 4,096 terms and error bounds around <span class="math inline">\(3.02\times10^{-14}\)</span>. No fallback was used. The positive-series route therefore did not meet its requested accuracy for these strong signals. The initial pathway stage stopped; unavailable genes were neither dropped nor assigned substitute p-values. Full evidence is saved in <code>gene-evidence.rds</code>.</p>
+<p>Source inspection of <code>gsolve/src/quadratic_tail.cpp</code> explains the failure: the bound adds a floating-point allowance to the remaining mixture mass and requires both absolute and relative accuracy. At 4,096 terms the allowance is about <span class="math inline">\(3.02\times10^{-14}\)</span> on this build. It dominates the requested relative accuracy for these extreme tails; merely adding terms cannot remove that floor. The routine correctly reports that it cannot certify its result. No numerical library or tolerance was changed to bypass this condition.</p>
+<p><strong>Explicit approximate pathway route.</strong> To exercise the rest of the workflow, all 3,000 gene/trait calculations were separately evaluated using the existing default saddlepoint approximation. All returned available p-values, with zero moment-matching fallbacks. The five corresponding p-values range from <span class="math inline">\(3.60\times10^{-27}\)</span> to <span class="math inline">\(2.81\times10^{-12}\)</span>; these are approximate outputs, not replacements certified by the controlled-series calculation. Among the 2,995 results available from both routes, the median absolute difference in <span class="math inline">\(\log_{10}(p)\)</span> is 0.000489 and the maximum is 0.0133. This comparison does not certify accuracy for the five unavailable controlled-series tails.</p>
+<p>ORA, preranked GSEA, competitive regression, bounded MAGMA and scalar BayesC pathway analyses completed without dropping genes. All 36 reported frequentist p-values and three Bayesian PIPs were finite and in range; all nine preranked inferences were available. Nominal enriched-set MAGMA p-values were 0.008565, 0.000771 and 0.001825 for A/B/C. Trait-A pathway PIPs were 0.9995 (enriched), 0.0705 (background) and 0.0315 (mixed). Frequentist pathway p-values are unadjusted; this one constructed example is not a false-discovery or power evaluation. The independent-block assumption and the approximate gene tails remain explicit. No claim of full MAGMA software equivalence is made.</p>
+<p><strong>Statistical findings.</strong> Realized h2 is 0.2958/0.3957/0.3467. Baseline LDSC estimates are 0.1643/0.2846/0.1967; annotation-aware estimates are 0.2700/0.3985/0.2989. Out-of-range rg values remain visible (B/C baseline LDSC 1.0948, SE 0.3311, versus truth 0.7264). HESS covariance SEs were unavailable for 40/60 regional results because the plug-in matrices were not positive semidefinite. SUPERGNOVA returned 60/60 SEs; this LAVA covariance route supplies none. Colocalisation gives H4 effectively one for the shared signal and H3 effectively one for the distinct signals in this single draw.</p>
+<p>Held-out correlations with genetic truth were 0.1388 for ridge, 0.3933 for BayesC and 0.4060 for BayesR; phenotype correlations were 0.0856, 0.2219 and 0.2330. The centered truth-weight score matched simulated genetic values to <span class="math inline">\(4.7\times10^{-15}\)</span>. These are single-draw results with fixed priors/penalty; they do not rank optimized methods. Active-marker trace R-hat was about 1.0004 for BayesC and 1.0005 for BayesR; this does not certify every marker posterior.</p>
+<p>Saved stage files are <code>data</code>, <code>ld</code>, <code>gwas</code>, <code>gcorr</code>, <code>annotation</code>, <code>gbayes</code>, <code>gscore</code>, <code>gmap</code> and <code>gsea</code> (each <code>.rds</code>) in the fixed output directory. Diagnostics are in <code>build/report/simulated-genomics*.log</code>. <code>--resume --only=gmap,gsea</code> selects stages using existing prerequisite caches without producing a complete report. The final <code>--resume</code> run generated the complete tables and three figures from saved fits, checked unchanged LD checksums, and finished with <code>SIMULATED_GENOMICS|completed</code>. <code>gene-evidence-saddlepoint.rds</code> and <code>gene-tail-comparison.csv</code> keep the approximate route separate from the original controlled evidence. No full package check was run for this example.</p>
+</section>
+<section id="scope-agreed-before-execution" class="level2">
+<h2 class="anchored" data-anchor-id="scope-agreed-before-execution">Scope agreed before execution</h2>
+<p>One seeded example connects <strong>glma, gbayes, gmap, gcorr, gscore and gsea</strong> through the current gsuite R interfaces. It does not add methods. The focused native adapter correction was added after the first run exposed its repeated full-panel work. Pedigree/greml/gsolve qualification, literature attribution and further enrichment development remain separate tasks.</p>
+<p>The runnable driver is <a href="../tools/examples/simulated_genomics_workflow.R">simulated_genomics_workflow.R</a>. Its fixed output directory is <code>build/examples/simulated-genomics/</code>. Nine named stage files retain inputs/results and execution metadata; native LD and BED files are reused. Default execution regenerates those outputs. <code>--resume</code> is for an interrupted run of the same design: it reuses completed stages and records the script hash separately for every executed stage. It is not a general cache invalidation mechanism; regenerate after changing a completed stage or its assumptions.</p>
+</section>
+<section id="design-and-targets" class="level2">
+<h2 class="anchored" data-anchor-id="design-and-targets">Design and targets</h2>
+<ul>
+<li>10,000 unrelated artificial individuals and 50,000 biallelic markers.</li>
+<li>500 independent regions, each with 100 markers. Regions are encoded as artificial chromosomes to retain all within-region LD without storing between-region sampling correlations. This is a population block assumption.</li>
+<li>Binomial dosage frequency 0.3; copy-or-redraw dependence gives the known population correlation <span class="math inline">\(R_{jk}=\rho^{|j-k|}\)</span>. Regional <span class="math inline">\(\rho\)</span> ranges from 0.2 to 0.8. This is an artificial generator, not demographic simulation.</li>
+<li>gsim generates three continuous phenotypes with target heritabilities 0.30, 0.40 and 0.35. Effects are enriched in the first 80 regions. Region 1 has one shared causal variant; region 2 has distinct variants for traits A/B.</li>
+<li>Disjoint GWAS samples: 3,000 people for each trait. The remaining 1,000 are held out from GWAS, LD preparation and parameter fitting for score assessment.</li>
+<li>The pooled 9,000 GWAS individuals provide LD. This reference is shared with the studies, not an external independent panel. LD-based summary likelihoods remain approximations to each separate cohort’s sample cross-products.</li>
+<li>Population truth uses realized gsim raw-dosage effects and known population LD: <span class="math inline">\(G_r=B_r^\mathsf{T}(0.42R_r)B_r\)</span>, <span class="math inline">\(G=\sum_rG_r\)</span>, and <span class="math inline">\(V_t=G_{tt}+(\Sigma_e)_{tt}\)</span>. Compare h2 with <span class="math inline">\(G_{tt}/V_t\)</span>, rg with <span class="math inline">\(G_{st}/\sqrt{G_{ss}G_{tt}}\)</span>, and regional covariance with <span class="math inline">\((G_r)_{st}/\sqrt{V_sV_t}\)</span>. The same observed LD is not used to define truth.</li>
+</ul>
+</section>
+<section id="checks-and-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="checks-and-interpretation">Checks and interpretation</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -480,90 +281,57 @@ window.Quarto = {
 </colgroup>
 <thead>
 <tr class="header">
-<th>General representation</th>
-<th>Reduced case</th>
-<th>Established route</th>
+<th>Component</th>
+<th>This run exercises</th>
+<th>Check / interpretation</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Incomplete multitrait pedigree</td>
-<td>one trait</td>
-<td>Single-trait pedigree MME/REML</td>
+<td>glma</td>
+<td>Three linear scans, each with 50,000 markers</td>
+<td>All marker statuses; 15 beta/SE/p comparisons against R OLS, absolute error below <span class="math inline">\(10^{-9}\)</span></td>
 </tr>
 <tr class="even">
-<td>Irregular pedigree random regression</td>
-<td>complete common grid and matching basis</td>
-<td>Balanced pedigree longitudinal representation</td>
+<td>Preparation</td>
+<td>Glist, sparse LD, summary standardization, 20 cached regional eigensystems</td>
+<td>Marker/allele order; saved resource validation and unchanged LD checksums</td>
 </tr>
 <tr class="odd">
-<td>Generic record-longitudinal</td>
-<td>complete common grid</td>
-<td>Structured balanced longitudinal representation</td>
+<td>gbayes</td>
+<td>Trait A, genome-wide BayesC and BayesR, two seeded chains each</td>
+<td>Finite means, valid PIPs, native chain diagnostics; no automatic declaration of MCMC convergence</td>
 </tr>
 <tr class="even">
-<td>Component LMM pedigree component with one intercept channel</td>
-<td>one component and homogeneous residual</td>
-<td>Single-trait animal model</td>
+<td>gscore</td>
+<td>Ridge weights and application of ridge/BayesC/BayesR weights</td>
+<td>Held-out genetic/phenotypic correlations; truth-weight execution error below <span class="math inline">\(10^{-9}\)</span> after centering</td>
 </tr>
 <tr class="odd">
-<td>Component LMM identity component with one intercept channel</td>
-<td>one component</td>
-<td>Ordinary grouped random intercept</td>
+<td>gcorr</td>
+<td>Baseline LDSC/GNOVA/SumHer h2 and pairwise rg for three traits; annotation-aware LDSC; HESS/SUPERGNOVA/LAVA covariance in 20 predetermined regions</td>
+<td>Truth comparisons, finite estimates, availability/out-of-range flags and method-specific uncertainty</td>
 </tr>
 <tr class="even">
-<td>Pedigree plus identity intercept components</td>
-<td>additive plus repeated-record identity domain</td>
-<td>Repeatability/permanent-environment model</td>
+<td>gmap</td>
+<td>Single-component multi-effect fits for A/B in two predetermined regions; ABF colocalisation</td>
+<td>Convergence, marker PIPs and shared/distinct regional probabilities; no selection of regions using their results</td>
 </tr>
 <tr class="odd">
-<td>Shared pedigree component with direct and maternal channels</td>
-<td>individual incidence plus dam incidence</td>
-<td>Correlated direct/maternal model; covariance is within one channel block</td>
-</tr>
-<tr class="even">
-<td>Shared relationship component with intercept and basis channels</td>
-<td>weighted channel incidence</td>
-<td>Random regression or reaction-norm component</td>
-</tr>
-<tr class="odd">
-<td>Scalar identity components</td>
-<td>domain names changed</td>
-<td>Litter, herd, year, herd-year, block, site, family, or common environment</td>
+<td>gstat/gsea</td>
+<td>1,000 artificial genes; both controlled-series and default approximate tails; three pathway sets; ORA, preranked, competitive, bounded MAGMA and scalar BayesC pathways</td>
+<td>Preserve unavailable controlled tails; explicitly approximate gene inputs for pathway execution; enriched/background patterns; p-values and PIPs remain distinct</td>
 </tr>
 </tbody>
 </table>
+<p>All native operation-local thread counts are one; BayesC/BayesR use 200 burn-in and 1,000 retained sweeps per chain, seeds 11 and 29, with fixed variances and mixture settings. These deliberately short chains demonstrate execution, not posterior calibration. GSEA uses 999 permutations and seed 31. Genotype/effect seed is 20260921; gsim seed is 20260922. No seed search or tuning to outcomes.</p>
+<p>Single-run estimation errors are reported, not converted into pass/fail thresholds. A method can execute correctly and give a poor estimate on this draw. Unavailable uncertainty and boundary results must remain visible.</p>
+<p>The enriched annotation occupies the low-LD end of the generator. Baseline LD-score models do not describe that nonuniform architecture. During design review, before inspecting fit results, an additional LDSC fit was specified using the two disjoint, exhaustive enriched/background marker groups. It uses the same data, not a new seed or tuned partition; baseline results remain in the report. A single draw still cannot establish bias or comparative accuracy.</p>
 </section>
-<section id="residual-reductions" class="level2">
-<h2 class="anchored" data-anchor-id="residual-reductions">Residual reductions</h2>
-<ul>
-<li>Residual blocks of size one reduce exactly to the independent grouped- variance path.</li>
-<li>On integer occasions and positive <code>rho</code>, continuous exponential correlation with <span class="math inline">\(\phi=-\log(\rho)\)</span> equals discrete AR(1).</li>
-<li>Missing longitudinal occasions are absent records in both correlated and independent residual representations; no balanced rows are synthesized.</li>
-<li>Patterned multitrait residual covariance uses the principal block for the traits actually observed in a residual unit. It is not temporal residual correlation.</li>
-</ul>
-</section>
-<section id="active-set-reductions" class="level2">
-<h2 class="anchored" data-anchor-id="active-set-reductions">Active-set reductions</h2>
-<ul>
-<li>A zero scalar component is omitted from the active MME and restored as zero coefficients and zero prior/PEV variance in external results.</li>
-<li>A rank-one two-channel covariance reduces to one active relationship-based latent direction while preserving an estimable orientation. Results are transformed back to the full two-channel coordinates.</li>
-<li>Positive-definite component blocks and strictly positive residual parameters retain the positive-interior representation. Blocks larger than two do not gain a semidefinite boundary through these reductions.</li>
-</ul>
-</section>
-<section id="inference-reductions-and-non-reductions" class="level2">
-<h2 class="anchored" data-anchor-id="inference-reductions-and-non-reductions">Inference reductions and non-reductions</h2>
-<ul>
-<li>Complete-MME PEV is the random-effect block of the inverse of the complete MME. It does <strong>not</strong> reduce to inversion of the random-only coefficient submatrix when fixed effects are estimated.</li>
-<li>CHOLMOD selected-inverse trace and uncertainty requests reuse one retained sparse factor and the requested inverse-entry closure.</li>
-<li>PARDISO coordinate traces reduce trace contractions to bounded batches of exact coordinate systems, but do not provide selected inversion.</li>
-<li>PARDISO <code>selected_solve</code> PEV reduces requested complete-MME inverse blocks to bounded retained-factor solves <span class="math inline">\(CX=E_T\)</span> followed by target-row extraction. It never reduces to selected inversion or a full dense inverse.</li>
-<li>PCG coefficient solutions do not imply an exact inverse diagonal because no retained direct factor exists.</li>
-</ul>
-</section>
-<section id="api-consequence" class="level2">
-<h2 class="anchored" data-anchor-id="api-consequence">API consequence</h2>
-<p>Specialized pedigree, multitrait, longitudinal, repeatability, and formula interfaces may remain useful adapters for their validated input contracts. Identity/group effects, permanent or common environment, direct/maternal covariance, and ordinary random slopes are composition recipes whenever the component-LMM scalar-record contract is sufficient. Future work should target a precise missing adapter, backend contract, or qualification cell instead of reimplementing these reductions.</p>
+<section id="limits" class="level2">
+<h2 class="anchored" data-anchor-id="limits">Limits</h2>
+<p>This is an initial integration and scale example, not qualification of every engine, every interface option, or statistical calibration. No replicate-based bias, power, coverage, credible-set coverage or false-discovery claim is made. It excludes binary traits, population structure, multi-ancestry analysis, LD mismatch experiments, MR/SEM/GGM, Bayesian annotation/variance learning, multitrait Bayesian fitting, LOCO association, and full package/platform checks. Apart from the focused installed-sblr BayesC timing, no external analysis software is run for comparison. The R OLS and simulated truth-score checks are small independent checks of the exercised execution.</p>
+<p>The <a href="../../gsuite/docs/simulated-genomics-workflow.html">public walkthrough</a> reports the observed results with figures. Website rendering never executes the simulation.</p>
 
 
 </section>
