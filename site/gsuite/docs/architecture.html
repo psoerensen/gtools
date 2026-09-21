@@ -517,8 +517,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td>gsea</td>
-<td>Native gene-set and genomic-feature enrichment: prepared sets, aggregate statistics, over-representation, resampling, preranked GSEA, competitive GLS, MAGMA-route summary preprocessing and single-trait Bayesian pathways</td>
-<td>Reuses gsolve factors; optional <code>gsea::bayes</code> delegates BayesC/BayesR sampling and parameter learning to gbayes. No R interface yet. Association belongs in glma; LDSC/SumHer enrichment remains in gcorr</td>
+<td>Native gene-set and genomic-feature enrichment: prepared sets, aggregate statistics, over-representation, resampling, preranked GSEA, competitive GLS, MAGMA-route summary preprocessing and scalar/multitrait Bayesian pathways</td>
+<td>Reuses gsolve factors; optional <code>gsea::bayes</code> shares pathway preparation and delegates scalar/multitrait BayesC/BayesR inference to gbayes. No R interface yet. Association belongs in glma; LDSC/SumHer enrichment remains in gcorr</td>
 </tr>
 <tr class="even">
 <td>gsuite</td>
