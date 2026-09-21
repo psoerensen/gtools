@@ -23,7 +23,7 @@ summaries<-function(rows) {
   X<-scale(W[rows,,drop=FALSE],center=TRUE,scale=FALSE);yc<-y[rows]-mean(y[rows]);d<-colSums(X^2);xy<-drop(crossprod(X,yc))
   b<-xy/d;se<-sqrt((sum(yc^2)-xy^2/d)/((length(rows)-2)*d))
   raw<-data.frame(marker=ids,allele1="A",allele2="G",chromosome="1",position_bp=seq_len(m)*1000,beta=b,se=se,n=length(rows),p_value=2*pnorm(-abs(b/se)))
-  gstat(raw,LD,task="standardize")$stat
+  sumstat(raw,LD,task="standardize")$stat
 }
 full<-summaries(seq_len(n));training<-summaries(1:6000);validation<-summaries(6001:n)
 ridge<-gscore(full,LD,method="ridge",control=list(penalty=.1))

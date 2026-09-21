@@ -51,7 +51,7 @@ minor_count<-pmin(colSums(W),2*n-colSums(W))
 metadata<-data.frame(gene=gene_ids,sample_size=n,
   mean_minor_allele_count=vapply(genes,function(g)mean(minor_count[match(g,ids)]),numeric(1)))
 started<-proc.time()[["elapsed"]]
-evidence<-glma_genes(stat,LD,genes,blocks,metadata,
+evidence<-gstat(stat,LD,sets=genes,method="quadratic",blocks=blocks,metadata=metadata,
   control=list(independent_blocks=TRUE,tail_method="controlled_series"))
 stopifnot(all(vapply(evidence$stat,function(s)all(s$p_available&s$p_value>0&s$p_value<1),logical(1))))
 fits<-list(
