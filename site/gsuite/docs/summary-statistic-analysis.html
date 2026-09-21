@@ -513,9 +513,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td>GNOVA</td>
-<td>h2, cov, rg</td>
+<td>h2, cov, rg; partial_rg/regression from a saved annotation fit</td>
 <td>Ordinary; binary nonredundant categories, with supporting component h2</td>
-<td>Coordinated multivariate block jackknife conditional on the supplied common overlap intercept</td>
+<td>Coordinated multivariate block jackknife; conditional annotation tasks retain paired-delete SEs/joint covariance, without p-values or intervals</td>
 </tr>
 <tr class="odd">
 <td>SumHer</td>
@@ -548,6 +548,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="prepare-once" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-once">Prepare once</h2>
+<p>Use <a href="../../gsuite/docs/summary-interfaces.html#prepare-once-then-choose-the-analysis">gprep_stat()</a> when explicit allele reorientation is needed. For existing GNOVA annotation fits, the <a href="../../gsuite/docs/summary-interfaces.html#reuse-gnova-annotations-for-conditional-analysis">conditional workflow</a> reuses category covariance and paired deletions without rereading LD.</p>
 <p>Start with a Glist containing prepared sparse LD, then make an independent LDlist:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsuite)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>LD <span class="ot">&lt;-</span> <span class="fu">ldprep</span>(Glist, <span class="at">reference =</span> <span class="st">"reference-panel"</span>, <span class="at">ancestry =</span> <span class="st">"EUR"</span>)</span>

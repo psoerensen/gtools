@@ -571,7 +571,7 @@ window.Quarto = {
 <tr class="even">
 <td>SEM, partial-correlation networks and fixed-graph GGM</td>
 <td>gcorr</td>
-<td><code>gcorr_covariance()</code> and <code>gcorr()</code>; <a href="../../gsuite/docs/covariance-models.html">covariance models</a>, including supported annotation/component comparisons</td>
+<td><code>gcorr_covariance()</code> and <code>gcorr()</code>; <a href="../../gsuite/docs/covariance-models.html">covariance models</a>, including supported annotation/component comparisons; saved GNOVA category fits also support conditional summaries through gcorr(), with paired-delete SEs</td>
 </tr>
 <tr class="odd">
 <td>GSMR, GSMR2, IVW, Egger and weighted-median MR</td>
@@ -601,7 +601,7 @@ window.Quarto = {
 <tr class="even">
 <td>Scoring, summary-weight construction and posterior prediction</td>
 <td>gscore, gbayes</td>
-<td>Native scoring APIs; selected-individual score uncertainty through <a href="../../gsuite/docs/gbayes-workflow.html#predict-selected-individuals-with-uncertainty"><code>gbayes()</code></a>. No standalone <code>gscore()</code> R export</td>
+<td>Native scoring APIs; selected-individual score uncertainty through <a href="../../gsuite/docs/gbayes-workflow.html#predict-selected-individuals-with-uncertainty"><code>gbayes()</code></a>. <code>gscore()</code> now exposes weight fitting, independent-summary selection/refitting and BED application; <a href="../../gsuite/docs/summary-interfaces.html">guide</a></td>
 </tr>
 <tr class="odd">
 <td>Genotype, pedigree and phenotype simulation</td>
@@ -622,6 +622,7 @@ window.Quarto = {
 </table>
 <p>The native MAGMA comparison covers SNP-wise mean gene evidence and competitive pathway analysis with MAGMA 1.10 preprocessing. A small pinned comparison checked 40 genes and two pathways. This is not complete MAGMA equivalence: other gene models, rare-variant preprocessing, missing-data handling and singular-matrix pruning remain outside the route. Its controlled tail evaluator may return unavailable for difficult spectra or tails rather than use a silent fallback. Scalar and joint multitrait Bayesian pathway analysis is exposed through <code>gsea()</code>, reusing gbayes for sampling and parameter learning.</p>
 <p>Selected native operations remain outside the R bindings, including the general gscore fitting/model-selection workflows and the standalone single-effect Bayesian entry point. Native gsea and gene-evidence components were added on 21 September 2026. Checks cover independent small calculations, pinned ACAT comparison and a connected native example, not broad GWAS calibration. <code>glma_genes()</code> now exposes the native LD-aware quadratic gene evidence and score-correlation blocks from aligned GWAS Z statistics, with reusable preparation across traits and explicit tail status. It feeds <code>gsea()</code> without automatic harmonization or inferred between-block dependence. ACAT and other gene-evidence combinations remain native-only. Competitive GLS uses supplied gene-covariance blocks; its Student-t inference is a working approximation for non-Gaussian gene scores. It does not claim full MAGMA or Pascal equivalence. Python interfaces remain planned. Multivariate Bayesian residual-covariance learning and arbitrary sampling overlap across different LD references are not exposed. See the <a href="../../gsuite/docs/status.html#qualification-limits">current qualification limits</a> before interpreting capability as validated use.</p>
+<p>Additional single-trait <code>gbayes()</code> choices are <code>point_normal</code>, <code>continuous_shrinkage</code>, <code>variational</code> and <code>mixture_variational</code>. These retain method-specific controls/results, rather than inheriting all BayesC/BayesR features. <code>gprep_stat()</code> exposes separate native Z alignment or reported-effect standardization with per-marker decisions. See the <a href="../../gsuite/docs/summary-interfaces.html">summary interface guide</a>.</p>
 </section>
 <section id="pedigree-formula-workflows" class="level2">
 <h2 class="anchored" data-anchor-id="pedigree-formula-workflows">Pedigree formula workflows</h2>
@@ -850,7 +851,7 @@ window.Quarto = {
 <tr class="odd">
 <td>gscore/gbayes</td>
 <td>Summary-weight fitting, clumping/threshold paths, ridge and shrinkage models, pseudo-summary splitting and held-out model selection</td>
-<td>Native only; selected posterior prediction is bound through gbayes()</td>
+<td>Selected fit/select/apply operations through gscore(); posterior inference through gbayes(); native pseudo-summary generation remains unbound</td>
 <td>gscore native contracts</td>
 </tr>
 <tr class="even">
