@@ -40,7 +40,7 @@ write_example_bed <- function(W,prefix,marker_ids,positions) {
     quote=FALSE,row.names=FALSE,col.names=FALSE)
 }
 write_example_bed(W,prefix,ids,seq_len(m)*1000)
-LD <- ldprep(gs_gprep(bedfiles=paste0(prefix,".bed")),reference="artificial-training-panel",
+LD <- ldprep(gprep(bedfiles=paste0(prefix,".bed")),reference="artificial-training-panel",
   assembly="artificial",task="sparseld",out_prefix=file.path(out,"LD"),
   max_distance_bp=0,max_distance_variants=m,r2=0,nthreads=1,overwrite=TRUE)
 saveRDS(LD,file.path(out,"LDlist.rds")); LD <- readRDS(file.path(out,"LDlist.rds"))
@@ -109,7 +109,7 @@ print(annotated_joint$posterior[grepl("^(pattern|component|variance)\\[",
 stopifnot(all(is.finite(annotated_joint$annotations$variance$multiplier_mean)))
 # One combined workflow: group priors, reference summaries and selected scores.
 groups <- setNames(rep(c("block_1","block_2"),each=m/2),ids)
-G <- gs_gprep(bedfiles=paste0(prefix,".bed"))
+G <- gprep(bedfiles=paste0(prefix,".bed"))
 prediction <- list(Glist=G,ids=G$ids[1:3],target_set="three-example-individuals",
   allele_frequencies=setNames(center/2,ids),
   effect_multipliers=setNames(sqrt(2*(center/2)*(1-center/2))/scale_x,ids),
@@ -142,7 +142,7 @@ sx2 <- sqrt(colMeans(sweep(W2,2,colMeans(W2))^2))
 Z2 <- sweep(sweep(W2,2,colMeans(W2)),2,sx2,"/")
 second_prefix <- file.path(out,"second-reference")
 write_example_bed(W2,second_prefix,ids[keep],keep*1000)
-LD2 <- ldprep(gs_gprep(bedfiles=paste0(second_prefix,".bed")),reference="second-artificial-panel",
+LD2 <- ldprep(gprep(bedfiles=paste0(second_prefix,".bed")),reference="second-artificial-panel",
   assembly="artificial",task="sparseld",out_prefix=file.path(out,"LD-second"),
   max_distance_bp=0,max_distance_variants=m,r2=0,nthreads=1,overwrite=TRUE)
 stat2 <- data.frame(marker=ids[keep],allele1="A",allele2="G",

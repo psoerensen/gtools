@@ -561,7 +561,7 @@ window.Quarto = {
 <tr class="even">
 <td>Genotypes, marker QC, sparse LD, LD scores and regional eigenpairs</td>
 <td>gmat, gbits, gsolve</td>
-<td><code>gs_gprep()</code>, <code>gs_gfilter()</code>, <code>ldprep()</code>; <a href="../../gsuite/docs/genotype-preparation.html">genotype preparation</a>, <a href="#independent-ld-references">LD references</a></td>
+<td><code>gprep()</code>, <code>gfilter()</code>, <code>ldprep()</code>; <a href="../../gsuite/docs/genotype-preparation.html">genotype preparation</a>, <a href="#independent-ld-references">LD references</a></td>
 </tr>
 <tr class="odd">
 <td>LDSC, GNOVA, SumHer, HESS/rho-HESS, SUPERGNOVA and LAVA</td>
@@ -571,7 +571,7 @@ window.Quarto = {
 <tr class="even">
 <td>SEM, partial-correlation networks and fixed-graph GGM</td>
 <td>gcorr</td>
-<td><code>gcorr_covariance()</code> and <code>gcorr()</code>; <a href="../../gsuite/docs/covariance-models.html">covariance models</a>, including supported annotation/component comparisons; saved GNOVA category fits also support conditional summaries through gcorr(), with paired-delete SEs</td>
+<td><code>gcorr()</code>; <a href="../../gsuite/docs/covariance-models.html">covariance models</a>, including supported annotation/component comparisons; saved GNOVA category fits also support conditional summaries through gcorr(), with paired-delete SEs</td>
 </tr>
 <tr class="odd">
 <td>GSMR, GSMR2, IVW, Egger and weighted-median MR</td>
@@ -591,7 +591,7 @@ window.Quarto = {
 <tr class="even">
 <td>ABF and component-pair colocalisation</td>
 <td>gmap</td>
-<td><code>coloc()</code>; <a href="../../gsuite/docs/gmap-workflow.html#standalone-abf-colocalisation">colocalisation</a>, with method-specific assumptions</td>
+<td><code>gmap(task="coloc")</code>; <a href="../../gsuite/docs/gmap-workflow.html#standalone-abf-colocalisation">colocalisation</a>, with method-specific assumptions</td>
 </tr>
 <tr class="odd">
 <td>Linear/logistic GWAS and quantitative-trait LOCO association</td>
@@ -621,8 +621,8 @@ window.Quarto = {
 </tbody>
 </table>
 <p>The native MAGMA comparison covers SNP-wise mean gene evidence and competitive pathway analysis with MAGMA 1.10 preprocessing. A small pinned comparison checked 40 genes and two pathways. This is not complete MAGMA equivalence: other gene models, rare-variant preprocessing, missing-data handling and singular-matrix pruning remain outside the route. Its controlled tail evaluator may return unavailable for difficult spectra or tails rather than use a silent fallback. Scalar and joint multitrait Bayesian pathway analysis is exposed through <code>gsea()</code>, reusing gbayes for sampling and parameter learning.</p>
-<p>Selected native operations remain outside the R bindings, including the general gscore fitting/model-selection workflows and the standalone single-effect Bayesian entry point. Native gsea and gene-evidence components were added on 21 September 2026. Checks cover independent small calculations, pinned ACAT comparison and a connected native example, not broad GWAS calibration. <code>glma_genes()</code> now exposes the native LD-aware quadratic gene evidence and score-correlation blocks from aligned GWAS Z statistics, with reusable preparation across traits and explicit tail status. It feeds <code>gsea()</code> without automatic harmonization or inferred between-block dependence. ACAT and other gene-evidence combinations remain native-only. Competitive GLS uses supplied gene-covariance blocks; its Student-t inference is a working approximation for non-Gaussian gene scores. It does not claim full MAGMA or Pascal equivalence. Python interfaces remain planned. Multivariate Bayesian residual-covariance learning and arbitrary sampling overlap across different LD references are not exposed. See the <a href="../../gsuite/docs/status.html#qualification-limits">current qualification limits</a> before interpreting capability as validated use.</p>
-<p>Additional single-trait <code>gbayes()</code> choices are <code>point_normal</code>, <code>continuous_shrinkage</code>, <code>variational</code> and <code>mixture_variational</code>. These retain method-specific controls/results, rather than inheriting all BayesC/BayesR features. <code>gprep_stat()</code> exposes separate native Z alignment or reported-effect standardization with per-marker decisions. See the <a href="../../gsuite/docs/summary-interfaces.html">summary interface guide</a>.</p>
+<p>Selected native operations remain outside the R bindings, including gscore pseudo-summary generation and the standalone single-effect Bayesian entry point. Native gsea and gene-evidence components were added on 21 September 2026. Checks cover independent small calculations, pinned ACAT comparison and a connected native example, not broad GWAS calibration. <code>glma_genes()</code> now exposes the native LD-aware quadratic gene evidence and score-correlation blocks from aligned GWAS Z statistics, with reusable preparation across traits and explicit tail status. It feeds <code>gsea()</code> without automatic harmonization or inferred between-block dependence. ACAT and other gene-evidence combinations remain native-only. Competitive GLS uses supplied gene-covariance blocks; its Student-t inference is a working approximation for non-Gaussian gene scores. It does not claim full MAGMA or Pascal equivalence. Python interfaces remain planned. Multivariate Bayesian residual-covariance learning and arbitrary sampling overlap across different LD references are not exposed. See the <a href="../../gsuite/docs/status.html#qualification-limits">current qualification limits</a> before interpreting capability as validated use.</p>
+<p>Additional single-trait <code>gbayes()</code> choices are <code>point_normal</code>, <code>continuous_shrinkage</code>, <code>variational</code> and <code>mixture_variational</code>. These retain method-specific controls/results, rather than inheriting all BayesC/BayesR features. <code>gstat()</code> exposes separate native Z alignment or reported-effect standardization with per-marker decisions. See the <a href="../../gsuite/docs/summary-interfaces.html">summary interface guide</a>.</p>
 </section>
 <section id="pedigree-formula-workflows" class="level2">
 <h2 class="anchored" data-anchor-id="pedigree-formula-workflows">Pedigree formula workflows</h2>
@@ -910,7 +910,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td>gsuite</td>
-<td><code>gs_gprep(task = "sparseld")</code> orchestration with selected physical BED mappings, transactional gmat CSR, aligned AF, and ordinary LD scores</td>
+<td><code>gprep(task = "sparseld")</code> orchestration with selected physical BED mappings, transactional gmat CSR, aligned AF, and ordinary LD scores</td>
 <td>Experimental</td>
 <td><a href="../../gsuite/docs/sparse-ld-preparation.html">sparse-LD preparation</a></td>
 </tr>
@@ -1060,7 +1060,7 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 </section>
 <section id="native-colocalisation" class="level2">
 <h2 class="anchored" data-anchor-id="native-colocalisation">Native colocalisation</h2>
-<p>gmap provides approximate-Bayes-factor colocalisation for one region and two continuous traits, assuming at most one causal variant per trait and non-overlapping samples. It returns H0-H4 probabilities and explicit prior-sensitivity summaries. The implementation has independent numerical checks and pinned coloc comparisons; these establish numerical agreement, not broad statistical calibration. The <code>gsuite::coloc()</code> ABF route accepts two aligned regional beta/SE tables, explicit phenotype SDs and priors without an LD object. It returns regional probabilities and conditional-H4 marker support, distinct from component-pair colocalisation. See the <a href="../../gsuite/docs/gmap-workflow.html#standalone-abf-colocalisation">worked example</a>. GWAS association is implemented separately in <a href="#association-mapping">glma</a>; Bayesian fine-mapping and posterior-set interpretation are described below.</p>
+<p>gmap provides approximate-Bayes-factor colocalisation for one region and two continuous traits, assuming at most one causal variant per trait and non-overlapping samples. It returns H0-H4 probabilities and explicit prior-sensitivity summaries. The implementation has independent numerical checks and pinned coloc comparisons; these establish numerical agreement, not broad statistical calibration. The <code>gsuite::gmap(task="coloc")</code> ABF route accepts two aligned regional beta/SE tables, explicit phenotype SDs and priors without an LD object. It returns regional probabilities and conditional-H4 marker support, distinct from component-pair colocalisation. See the <a href="../../gsuite/docs/gmap-workflow.html#standalone-abf-colocalisation">worked example</a>. GWAS association is implemented separately in <a href="#association-mapping">glma</a>; Bayesian fine-mapping and posterior-set interpretation are described below.</p>
 </section>
 <section id="native-bayesian-inference" class="level2">
 <h2 class="anchored" data-anchor-id="native-bayesian-inference">Native Bayesian inference</h2>
@@ -1071,7 +1071,7 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <section id="native-regional-bayesian-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="native-regional-bayesian-analysis">Native regional Bayesian analysis</h2>
 <p>gmap’s optional <code>gmap::bayes</code> component fits or summarizes one-region BayesC/BayesR models through installed gbayes. It preserves marker alignment, region coordinates, trait/effect units and the complete native posterior. Results include marker rankings and the posterior expected active-marker count, calculated as the sum of marginal PIPs. Existing gbayes priors and learning controls pass through.</p>
-<p>These posterior summaries describe marker support. Separate set helpers below interpret marginal PIPs or component assignments. These summaries do not themselves perform colocalisation or estimate regional heritability. The separate <code>coloc()</code> interface consumes multi-effect evidence. Inputs are already aligned. The experimental <code>gmap()</code> R binding returns regional posterior estimates, native set controls and chain diagnostics for named regions and traits, with regional preparation shared across traits. The standalone colocalisation target acquires no Bayesian dependency. Focused checks cover posterior reuse, metadata/ranking semantics and installed interfaces.</p>
+<p>These posterior summaries describe marker support. Separate set helpers below interpret marginal PIPs or component assignments. These summaries do not themselves perform colocalisation or estimate regional heritability. The separate <code>gmap(task="coloc")</code> interface consumes multi-effect evidence. Inputs are already aligned. The experimental <code>gmap()</code> R binding returns regional posterior estimates, native set controls and chain diagnostics for named regions and traits, with regional preparation shared across traits. The standalone colocalisation target acquires no Bayesian dependency. Focused checks cover posterior reuse, metadata/ranking semantics and installed interfaces.</p>
 </section>
 <section id="native-single-effect-inference" class="level2">
 <h2 class="anchored" data-anchor-id="native-single-effect-inference">Native single-effect inference</h2>
@@ -1102,12 +1102,10 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">region =</span> <span class="st">"locus1"</span>, <span class="at">trait =</span> <span class="st">"height"</span>, <span class="at">quantity =</span> <span class="st">"pip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Prior values above are illustrative and must match the supplied data scale. Controls and seeds are shared across fits; use separate calls for different priors or independent random streams. Matching named LDlist eigenpairs are verified and reused; otherwise each region is decomposed once across traits. Persistent caching remains explicit through <code>ldprep(task="eigen")</code>. <code>control$sets</code> exposes method-specific native set controls. BayesC/BayesR retain pooled and per-chain PIPs, with native between-chain spread summaries; these are not convergence certificates or Monte Carlo standard errors.</p>
 <p>For traits analysed in independent samples, the saved fits can be compared:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>shared <span class="ot">&lt;-</span> gsuite<span class="sc">::</span><span class="fu">coloc</span>(fit, fit, <span class="at">trait1 =</span> <span class="st">"height"</span>, <span class="at">trait2 =</span> <span class="st">"weight"</span>,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">regions =</span> <span class="st">"locus1"</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">control =</span> <span class="fu">list</span>(<span class="at">complete_region_coverage =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">non_overlapping_samples =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(shared)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shared)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>shared <span class="ot">&lt;-</span> gsuite<span class="sc">::</span><span class="fu">gmap</span>(<span class="fu">list</span>(fit, fit), <span class="at">task=</span><span class="st">"coloc"</span>, <span class="at">trait1=</span><span class="st">"height"</span>, <span class="at">trait2=</span><span class="st">"weight"</span>, <span class="at">regions=</span><span class="st">"locus1"</span>, <span class="at">control=</span><span class="fu">list</span>(<span class="at">complete_region_coverage =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">non_overlapping_samples =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(shared)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shared)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The two assertions require complete regional coverage and independent trait samples; they must describe the actual analysis. This route requires converged full-likelihood multi-effect fits, uniform marker priors and the same complete LD reference. It consumes stored component evidence without fitting or eigen computation. LD files must remain available for checked purity calculations. H0–H4 probabilities belong to individual component pairs, not the entire region. Inactive, low-purity, incomplete and duplicate components remain labelled; no eligible pairs is not evidence for H0. Summaries and plots of completed results work from saved R objects without accessing LD files.</p>
 <p>OLS beta/SE/n preparation is available through <code>gmap_stat()</code>; see below and the <a href="../../gsuite/docs/gmap-workflow.html">worked simulation tutorial</a>. No cross-reference or overlapping-sample colocalisation is exposed.</p>
 </section>
@@ -1121,7 +1119,7 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 </section>
 <section id="covariance-models-through-the-r-interface" class="level2">
 <h2 class="anchored" data-anchor-id="covariance-models-through-the-r-interface">Covariance models through the R interface</h2>
-<p><code>gcorr_covariance()</code> retains labelled continuous genetic covariance and full joint sampling covariance. <code>gcorr()</code> exposes recursive SEM, descriptive partial-correlation networks and fixed-graph GGM through the existing native gcorr fitter. Parameter tables, trait units and estimation metadata remain explicit. Fitted SEM paths and free GGM edges support native joint Wald tests. Coordinated multivariate GNOVA annotation categories and SumHer architecture components can reuse the same models, with cross-group contrasts based on the retained joint jackknife covariance. See the <a href="../../gsuite/docs/covariance-models.html">covariance-model workflow</a>.</p>
+<p><code>gcorr(method="covariance", task="prepare")</code> retains labelled continuous genetic covariance and full joint sampling covariance. <code>gcorr()</code> exposes recursive SEM, descriptive partial-correlation networks and fixed-graph GGM through the existing native gcorr fitter. Parameter tables, trait units and estimation metadata remain explicit. Fitted SEM paths and free GGM edges support native joint Wald tests. Coordinated multivariate GNOVA annotation categories and SumHer architecture components can reuse the same models, with cross-group contrasts based on the retained joint jackknife covariance. See the <a href="../../gsuite/docs/covariance-models.html">covariance-model workflow</a>.</p>
 
 
 </section>

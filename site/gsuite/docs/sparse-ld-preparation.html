@@ -465,7 +465,7 @@ window.Quarto = {
 <h1>Sparse-LD preparation contract</h1>
 <section id="scope-and-ownership" class="level2">
 <h2 class="anchored" data-anchor-id="scope-and-ownership">Scope and ownership</h2>
-<p><code>gs_gprep(Glist, task = "sparseld", ...)</code> validates an existing prepared <code>gs_genotypes</code> descriptor, resolves its physical BED rows and marker records, and delegates computation and persistence to gmat. gsuite owns only the public task, validation, selection, and returned R descriptor. gmat owns the numerical kernel, CSR storage, validation, and LD-score scan. gbits remains the existing packed BED access path. BED remains the genotype store, and neither a dense genotype matrix nor a dense genome-wide LD matrix is constructed.</p>
+<p><code>gprep(Glist, task = "sparseld", ...)</code> validates an existing prepared <code>gs_genotypes</code> descriptor, resolves its physical BED rows and marker records, and delegates computation and persistence to gmat. gsuite owns only the public task, validation, selection, and returned R descriptor. gmat owns the numerical kernel, CSR storage, validation, and LD-score scan. gbits remains the existing packed BED access path. BED remains the genotype store, and neither a dense genotype matrix nor a dense genome-wide LD matrix is constructed.</p>
 <p>The input is never prepared implicitly. Unknown tasks and the separate <code>"ldscores"</code> task fail. qgg and sblr are read-only qualification references and are not runtime dependencies.</p>
 </section>
 <section id="sample-and-marker-resolution" class="level2">

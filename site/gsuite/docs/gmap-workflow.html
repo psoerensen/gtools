@@ -521,7 +521,7 @@ window.Quarto = {
 
 <section id="the-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="the-workflow">The workflow</h2>
-<p>Start with aligned GWAS results and a saved <code>LDlist</code>. Prepare the statistics, fit each region and trait, inspect marker support, then compare fitted multi-effect components with <code>coloc()</code>.</p>
+<p>Start with aligned GWAS results and a saved <code>LDlist</code>. Prepare the statistics, fit each region and trait, inspect marker support, then compare fitted multi-effect components with <code>gmap(task="coloc")</code>.</p>
 <p>This example requires a development installation of gsuite and gsim. Download <a href="../tools/examples/run_gmap_workflow.R">the complete R script</a> and run it from your working directory with <code>source("run_gmap_workflow.R")</code>. It writes one reusable result bundle and supporting files under <code>build/examples/gmap-workflow</code>; rerunning replaces those example outputs. Set <code>options(gsuite.mapping.out = "another-directory")</code> to choose another location. The website displays saved results and does not run models.</p>
 </section>
 <section id="prepare-summary-statistics" class="level2">
@@ -714,14 +714,17 @@ X^\mathsf{T}X \approx D^{1/2} R D^{1/2},\qquad D=\operatorname{diag}(d_j).
 </section>
 <section id="compare-the-traits-without-refitting" class="level2">
 <h2 class="anchored" data-anchor-id="compare-the-traits-without-refitting">Compare the traits without refitting</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>shared <span class="ot">&lt;-</span> <span class="fu">coloc</span>(multi, multi, <span class="at">trait1 =</span> <span class="st">"A"</span>, <span class="at">trait2 =</span> <span class="st">"B"</span>,</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">complete_region_coverage =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">non_overlapping_samples =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(shared)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>shared<span class="sc">$</span>estimates</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>shared<span class="sc">$</span>component_status</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shared, <span class="at">region =</span> <span class="st">"shared"</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shared, <span class="at">region =</span> <span class="st">"distinct"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>shared <span class="ot">&lt;-</span> <span class="fu">gmap</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(multi, multi), <span class="at">task =</span> <span class="st">"coloc"</span>, <span class="at">method =</span> <span class="st">"components"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait1 =</span> <span class="st">"A"</span>, <span class="at">trait2 =</span> <span class="st">"B"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">complete_region_coverage =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">non_overlapping_samples =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(shared)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>shared<span class="sc">$</span>estimates</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>shared<span class="sc">$</span>component_status</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shared, <span class="at">region =</span> <span class="st">"shared"</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shared, <span class="at">region =</span> <span class="st">"distinct"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../website/assets/gmap-workflow/coloc.png" class="img-fluid figure-img"></p>
@@ -739,7 +742,7 @@ X^\mathsf{T}X \approx D^{1/2} R D^{1/2},\qquad D=\operatorname{diag}(d_j).
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>example<span class="sc">$</span>timing</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(example<span class="sc">$</span>fits<span class="sc">$</span>bayesr)</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(example<span class="sc">$</span>coloc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>workflow.rds</code> contains the summaries, prepared statistics, truth, fitted objects and checks. <code>report.txt</code> records summaries and package versions. The directory also contains two figures and compact CSV tables. Saved fits can be plotted without the LD files; a new <code>coloc()</code> call requires the reference files so that eligibility and reference checks can run.</p>
+<p><code>workflow.rds</code> contains the summaries, prepared statistics, truth, fitted objects and checks. <code>report.txt</code> records summaries and package versions. The directory also contains two figures and compact CSV tables. Saved fits can be plotted without the LD files; a new <code>gmap(task="coloc")</code> call requires the reference files so that eligibility and reference checks can run.</p>
 </section>
 <section id="standalone-abf-colocalisation" class="level2">
 <h2 class="anchored" data-anchor-id="standalone-abf-colocalisation">Standalone ABF colocalisation</h2>
@@ -747,18 +750,20 @@ X^\mathsf{T}X \approx D^{1/2} R D^{1/2},\qquad D=\operatorname{diag}(d_j).
 <div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>markers <span class="ot">&lt;-</span> regions<span class="sc">$</span>shared</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>first <span class="ot">&lt;-</span> gwas<span class="sc">$</span>A[<span class="fu">match</span>(markers, gwas<span class="sc">$</span>A<span class="sc">$</span>marker), ]</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>second <span class="ot">&lt;-</span> gwas<span class="sc">$</span>B[<span class="fu">match</span>(markers, gwas<span class="sc">$</span>B<span class="sc">$</span>marker), ]</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>abf <span class="ot">&lt;-</span> gsuite<span class="sc">::</span><span class="fu">coloc</span>(first, second, <span class="at">method =</span> <span class="st">"abf"</span>,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait1 =</span> <span class="st">"A"</span>, <span class="at">trait2 =</span> <span class="st">"B"</span>, <span class="at">regions =</span> <span class="st">"shared"</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">phenotype_sd =</span> <span class="fu">sqrt</span>(example<span class="sc">$</span>phenotype_variance[<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>)]),</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">p1 =</span> <span class="fl">1e-4</span>, <span class="at">p2 =</span> <span class="fl">1e-4</span>, <span class="at">p12 =</span> <span class="fl">1e-5</span>),</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">effect_prior =</span> <span class="fu">list</span>(<span class="at">trait1_sd_fraction =</span> .<span class="dv">15</span>, <span class="at">trait2_sd_fraction =</span> .<span class="dv">15</span>),</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">complete_region_coverage =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">non_overlapping_samples =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">sensitivity =</span> <span class="fu">list</span>(<span class="at">lower_shared =</span> <span class="fu">list</span>(<span class="at">p1 =</span> <span class="fl">1e-4</span>, <span class="at">p2 =</span> <span class="fl">1e-4</span>, <span class="at">p12 =</span> <span class="fl">1e-6</span>)))</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(abf)</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>abf<span class="sc">$</span>details<span class="sc">$</span>shared<span class="sc">$</span>shared_variant_given_H4</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(abf)</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(abf, <span class="at">quantity =</span> <span class="st">"shared_variant"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>abf <span class="ot">&lt;-</span> <span class="fu">gmap</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(first, second), <span class="at">task =</span> <span class="st">"coloc"</span>, <span class="at">method =</span> <span class="st">"abf"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait1 =</span> <span class="st">"A"</span>, <span class="at">trait2 =</span> <span class="st">"B"</span>, <span class="at">regions =</span> <span class="st">"shared"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">phenotype_sd =</span> <span class="fu">sqrt</span>(example<span class="sc">$</span>phenotype_variance[<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>)]),</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">p1 =</span> <span class="fl">1e-4</span>, <span class="at">p2 =</span> <span class="fl">1e-4</span>, <span class="at">p12 =</span> <span class="fl">1e-5</span>),</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">effect_prior =</span> <span class="fu">list</span>(<span class="at">trait1_sd_fraction =</span> .<span class="dv">15</span>, <span class="at">trait2_sd_fraction =</span> .<span class="dv">15</span>),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">complete_region_coverage =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                 <span class="at">non_overlapping_samples =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">sensitivity =</span> <span class="fu">list</span>(<span class="at">lower_shared =</span> <span class="fu">list</span>(<span class="at">p1 =</span> <span class="fl">1e-4</span>, <span class="at">p2 =</span> <span class="fl">1e-4</span>, <span class="at">p12 =</span> <span class="fl">1e-6</span>))</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(abf)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>abf<span class="sc">$</span>details<span class="sc">$</span>shared<span class="sc">$</span>shared_variant_given_H4</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(abf)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(abf, <span class="at">quantity =</span> <span class="st">"shared_variant"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Each table requires <code>marker</code>, <code>allele1</code>, <code>allele2</code>, <code>beta</code> and <code>se</code>. Rows and alleles must match exactly. <code>allele1</code> is the counted allele; effects and standard errors are on the phenotype scale per allele. Phenotype <strong>standard deviations</strong> are supplied here, unlike the variances passed to <code>gmap_stat()</code>. The effect-prior SD is the specified fraction of each phenotype SD. Binary/log-odds, z-only and p-value-only inputs are not supported, and phenotype SD is never inferred.</p>
 <p>H0 means neither trait is associated, H1/H2 one trait alone, H3 distinct causal variants and H4 a shared causal variant. Here these are <strong>regional probabilities under the single-causal model</strong>. The earlier multi-effect results instead apply to individual component pairs; they must not be added into a regional posterior. Marker probabilities are conditional on H4, not marginal fine-mapping PIPs.</p>
 <p>The sensitivity table changes association priors while retaining the same ABFs and effect priors. Different effect priors require another call. Both regional coverage and sample independence are explicit caller assertions. Selected MR instruments alone do not provide complete regional data. Evidence for shared association is not by itself evidence for a causal effect of one trait on another.</p>

@@ -60,7 +60,7 @@ write.table(data.frame(seq_len(nref), seq_len(nref), 0L, 0L, 0L, -9L),
             row.names = FALSE, col.names = FALSE)
 rm(W)
 
-LD <- ldprep(gs_gprep(bedfiles = paste0(prefix, ".bed")),
+LD <- ldprep(gprep(bedfiles = paste0(prefix, ".bed")),
              reference = "simulation", task = "sparseld",
              out_prefix = file.path(out, "LD"), max_distance_bp = 0,
              max_distance_variants = size, r2 = 0, nthreads = 1,

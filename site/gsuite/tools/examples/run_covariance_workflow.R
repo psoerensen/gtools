@@ -8,8 +8,7 @@ G <- tcrossprod(loading)+diag(c(.4,.5,.6,.7))
 dimnames(G) <- list(tt,tt)
 labels <- unlist(lapply(seq_along(tt),function(j) paste(tt[j:4],tt[j],sep="|")))
 V <- .0004*.3^abs(outer(1:10,1:10,"-"));dimnames(V) <- list(labels,labels)
-input <- gcorr_covariance(G,V,continuous=TRUE,units=setNames(rep("standardized units",4),tt),
-  provenance="Constructed one-factor covariance; illustrative full sampling covariance")
+input <- gcorr(G, method="covariance", task="prepare", sampling_covariance=V, continuous=TRUE, units=setNames(rep("standardized units",4),tt), provenance="Constructed one-factor covariance; illustrative full sampling covariance")
 model <- list(variables=c(tt,"F"),
   parameters=data.frame(name=c(paste0("l",tt),paste0("v",tt)),start=c(rep(.5,4),rep(.6,4)),lower=c(rep(-Inf,4),rep(1e-8,4))),
   entries=data.frame(matrix=c(rep("directed",4),rep("disturbance",5)),

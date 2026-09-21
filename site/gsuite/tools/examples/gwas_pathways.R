@@ -30,7 +30,7 @@ write.table(data.frame(rep(1:4,each=60),ids,0,rep(seq_len(60)*1000,4),"A","G"),
   paste0(prefix,".bim"),quote=FALSE,row.names=FALSE,col.names=FALSE)
 write.table(data.frame(seq_len(n),seq_len(n),0,0,0,-9),paste0(prefix,".fam"),
   quote=FALSE,row.names=FALSE,col.names=FALSE)
-LD<-ldprep(gs_gprep(bedfiles=paste0(prefix,".bed")),reference="artificial-in-sample",
+LD<-ldprep(gprep(bedfiles=paste0(prefix,".bed")),reference="artificial-in-sample",
   assembly="artificial",task="sparseld",out_prefix=file.path(out,"LD"),
   max_distance_bp=0,max_distance_variants=60,r2=0,nthreads=1,overwrite=TRUE)
 md<-LD$resource$markers

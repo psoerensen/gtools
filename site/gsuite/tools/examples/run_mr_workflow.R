@@ -15,7 +15,7 @@ for(j in seq_len(ncol(W))) {
 close(con)
 write.table(data.frame(1,ids,0,seq_along(ids)*1000,"A","G"),paste0(prefix,".bim"),quote=FALSE,row.names=FALSE,col.names=FALSE)
 write.table(data.frame(1:nrow(W),1:nrow(W),0,0,0,-9),paste0(prefix,".fam"),quote=FALSE,row.names=FALSE,col.names=FALSE)
-LD <- ldprep(gs_gprep(bedfiles=paste0(prefix,".bed")),reference="artificial-MR",ancestry="artificial",
+LD <- ldprep(gprep(bedfiles=paste0(prefix,".bed")),reference="artificial-MR",ancestry="artificial",
   assembly="artificial",task="sparseld",out_prefix=file.path(out,"LD"),
   max_distance_bp=0,max_distance_variants=20,r2=0,nthreads=1,overwrite=TRUE)
 i <- 0:11;sign <- ifelse(i%%2,-1,1)

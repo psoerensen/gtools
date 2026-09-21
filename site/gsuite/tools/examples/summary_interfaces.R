@@ -14,7 +14,7 @@ for(j in seq_len(m)) {
 close(con)
 write.table(data.frame("1",ids,seq_len(m)/10,seq_len(m)*1000,"A","G"),paste0(prefix,".bim"),quote=FALSE,row.names=FALSE,col.names=FALSE)
 write.table(data.frame(seq_len(n),seq_len(n),0,0,0,-9),paste0(prefix,".fam"),quote=FALSE,row.names=FALSE,col.names=FALSE)
-Glist<-gs_gprep(bedfiles=paste0(prefix,".bed"))
+Glist<-gprep(bedfiles=paste0(prefix,".bed"))
 LD<-ldprep(Glist,reference="artificial-full",assembly="artificial",task="sparseld",out_prefix=file.path(out,"LD"),max_distance_bp=0,max_distance_variants=m,r2=0,nthreads=1,overwrite=TRUE)
 beta<-c(.2,-.15,.1,rep(0,m-3))
 simulation<-gsim::gsim(W=W,architecture="fixed",nt=1,beta=beta,h2=.3,standardize_W=TRUE,scale_effects=TRUE,seed=7,compute_sumstats=FALSE)
@@ -23,7 +23,7 @@ summaries<-function(rows) {
   X<-scale(W[rows,,drop=FALSE],center=TRUE,scale=FALSE);yc<-y[rows]-mean(y[rows]);d<-colSums(X^2);xy<-drop(crossprod(X,yc))
   b<-xy/d;se<-sqrt((sum(yc^2)-xy^2/d)/((length(rows)-2)*d))
   raw<-data.frame(marker=ids,allele1="A",allele2="G",chromosome="1",position_bp=seq_len(m)*1000,beta=b,se=se,n=length(rows),p_value=2*pnorm(-abs(b/se)))
-  gprep_stat(raw,LD,task="standardize")$stat
+  gstat(raw,LD,task="standardize")$stat
 }
 full<-summaries(seq_len(n));training<-summaries(1:6000);validation<-summaries(6001:n)
 ridge<-gscore(full,LD,method="ridge",control=list(penalty=.1))

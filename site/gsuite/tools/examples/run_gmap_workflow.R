@@ -34,7 +34,7 @@ write.table(data.frame(rep(1:2,each=size),ids,0,rep(seq_len(size)*1000,2),"A","G
   paste0(prefix,".bim"),quote=FALSE,row.names=FALSE,col.names=FALSE)
 write.table(data.frame(1:nref,1:nref,0,0,0,-9),paste0(prefix,".fam"),
   quote=FALSE,row.names=FALSE,col.names=FALSE)
-LD <- ldprep(gs_gprep(bedfiles=paste0(prefix,".bed")),reference="artificial-panel",
+LD <- ldprep(gprep(bedfiles=paste0(prefix,".bed")),reference="artificial-panel",
   assembly="artificial",task="sparseld",out_prefix=file.path(out,"LD"),
   max_distance_bp=0,max_distance_variants=size,r2=0,nthreads=1,overwrite=TRUE)
 for(r in names(regions)) LD <- ldprep(LDlist=LD,task="eigen",markers=regions[[r]],region_name=r)
@@ -83,15 +83,11 @@ for(method in c("bayesc","bayesr","multi_effect")) {
 equivalence <- do.call(rbind,equivalence)
 stopifnot(max(equivalence$max_pip_error)<1e-8,max(equivalence$max_mean_error)<1e-8,
   all(fits$multi_effect$diagnostic_summary$converged))
-shared <- coloc(fits$multi_effect,fits$multi_effect,trait1="A",trait2="B",
-  control=list(complete_region_coverage=TRUE,non_overlapping_samples=TRUE))
+shared <- gmap(list(fits$multi_effect, fits$multi_effect), task="coloc", trait1="A", trait2="B", control=list(complete_region_coverage=TRUE,non_overlapping_samples=TRUE))
 # Single-causal ABF route uses the regional GWAS summaries directly, without LD.
 abf <- lapply(names(regions),function(region) {
   ix <- match(regions[[region]],gwas$A$marker)
-  coloc(gwas$A[ix,],gwas$B[ix,],method="abf",trait1="A",trait2="B",regions=region,
-    phenotype_sd=sqrt(c(A=A$variance,B=B$variance)),
-    control=list(complete_region_coverage=TRUE,non_overlapping_samples=TRUE),
-    sensitivity=list(lower_shared=list(p1=1e-4,p2=1e-4,p12=1e-6)))
+  gmap(list(gwas$A[ix,], gwas$B[ix,]), task="coloc", method="abf", trait1="A", trait2="B", regions=region, phenotype_sd=sqrt(c(A=A$variance,B=B$variance)), control=list(complete_region_coverage=TRUE,non_overlapping_samples=TRUE), sensitivity=list(lower_shared=list(p1=1e-4,p2=1e-4,p12=1e-6)))
 })
 names(abf) <- names(regions)
 write.csv(do.call(rbind,lapply(abf,`[[`,"estimates")),file.path(out,"abf.csv"),row.names=FALSE)
