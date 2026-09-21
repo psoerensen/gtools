@@ -706,8 +706,8 @@ Completed example, with recorded limits
 </section>
 <section id="bayesian-regression-parameters-marker-effects-and-uncertainty" class="level3">
 <h3 class="anchored" data-anchor-id="bayesian-regression-parameters-marker-effects-and-uncertainty">Bayesian regression: parameters, marker effects and uncertainty</h3>
-<p>BayesC and BayesR fit trait A across all 50,000 markers. The original runs fixed residual variance at 0.7, with fixed effect-variance and mixture settings chosen using the simulated architecture. <strong>These hyperparameters were not estimated.</strong> They are shown alongside estimated quantities in the <a href="../website/assets/simulated-genomics/bayesian-fit-summary.txt">fit summaries</a> and <a href="../website/assets/simulated-genomics/bayesian-posterior.csv">posterior table</a>.</p>
-<p>To report heritability, the same seeded chains were repeated with the existing native posterior summaries enabled. Marker means and PIPs were checked to be identical to the original fits. For each joint effect draw <span class="math inline">\(b\)</span>, the reported quantity is</p>
+<p>BayesC and BayesR fit trait A across all 50,000 markers, with residual variance fixed at 0.7 and fixed effect-variance and mixture settings chosen using the simulated architecture. <strong>These hyperparameters were not estimated.</strong> They are shown alongside estimated quantities in the <a href="../website/assets/simulated-genomics/bayesian-fit-summary.txt">fit summaries</a> and <a href="../website/assets/simulated-genomics/bayesian-posterior.csv">posterior table</a>.</p>
+<p>Heritability is summarized from joint posterior draws of the marker effects. For each draw <span class="math inline">\(b\)</span>, the reported quantity is</p>
 <p><span class="math display">\[
 h^2_{\mathrm{ref}} = \frac{b^{\mathsf T}R_{\mathrm{ref}}b}{V_y},
 \qquad V_y=1.
@@ -756,7 +756,7 @@ h^2_{\mathrm{ref}} = \frac{b^{\mathsf T}R_{\mathrm{ref}}b}{V_y},
 </tbody>
 </table>
 <p><strong>The Bayesian heritability estimates are substantially above truth</strong>, and both intervals exclude it. R-hat is approximately one and bulk ESS is about 2,038 and 1,901 for heritability; agreement between chains does not establish statistical accuracy. The cause is not resolved by this reporting exercise. The fixed priors, approximate summary likelihood and sampling implementation need to be distinguished in a focused follow-up. These results must not be presented as successful heritability recovery. Using the observed training phenotype variance instead of population variance changes the truth comparator to 0.290, which does not explain the discrepancy.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extend the existing fit call; preserve its prior, controls and seeds.</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Request posterior heritability summaries using the LD reference.</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(prepared<span class="sc">$</span>A, LDlist, <span class="at">method =</span> <span class="st">"bayesc"</span>, <span class="at">trait =</span> <span class="st">"A"</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">prior =</span> prior, <span class="at">control =</span> control,</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">posterior =</span> <span class="fu">list</span>(<span class="at">reference =</span> LDlist,</span>
@@ -788,7 +788,7 @@ h^2_{\mathrm{ref}} = \frac{b^{\mathsf T}R_{\mathrm{ref}}b}{V_y},
 <figcaption>Regional inclusion probabilities, shared versus distinct causal signals, and held-out genetic prediction. H3 denotes distinct causal variants and H4 a shared variant.</figcaption>
 </figure>
 </div>
-<p>The genome-wide BayesC/BayesR fits use two chains each and fixed priors, with posterior mean effects passed to <code>gscore()</code>. After correcting repeated full-panel preparation in the sparse-LD adapter, BayesC took 90.86 seconds and BayesR 217.82 seconds for 50,000 markers and 1,200 sweeps per chain. A matched installed-sblr BayesC run took 87.43 seconds on the same machine; see the qualification record for timing scope and limitations.</p>
+<p>The genome-wide BayesC/BayesR fits use two chains each and fixed priors, with posterior mean effects passed to <code>gscore()</code>. BayesC took 90.86 seconds and BayesR 217.82 seconds for 50,000 markers and 1,200 sweeps per chain. A matched installed-sblr BayesC run took 87.43 seconds on the same machine; see the qualification record for timing scope and limitations.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
