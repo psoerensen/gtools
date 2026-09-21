@@ -269,6 +269,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Sparse LD preparation</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gsea-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gene sets and pathways</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -518,7 +524,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>gsea</td>
 <td>Native gene-set and genomic-feature enrichment: prepared sets, aggregate statistics, over-representation, resampling, preranked GSEA, competitive GLS, MAGMA-route summary preprocessing and scalar/multitrait Bayesian pathways</td>
-<td>Reuses gsolve factors; optional <code>gsea::bayes</code> shares pathway preparation and delegates scalar/multitrait BayesC/BayesR inference to gbayes. No R interface yet. Association belongs in glma; LDSC/SumHer enrichment remains in gcorr</td>
+<td>Reuses gsolve factors; optional <code>gsea::bayes</code> shares pathway preparation and delegates scalar/multitrait BayesC/BayesR inference to gbayes. <code>gsea()</code> exposes set-based ORA, preranked, competitive, bounded MAGMA and Bayesian workflows. Association belongs in glma; LDSC/SumHer enrichment remains in gcorr</td>
 </tr>
 <tr class="even">
 <td>gsuite</td>
@@ -603,6 +609,10 @@ ul.task-list li input[type="checkbox"] {
     glma --&gt; adapter
     gsuite[gsuite R package] --&gt; gbits
     gsuite --&gt; gmat
+    gsea_bayes["gsea::bayes"] --&gt; gbayes
+    gsea_bayes --&gt; gsea
+    gsea --&gt; gsolve
+    gsuite --&gt; gsea_bayes
     gsuite --&gt; gmap_bayes
     gsuite --&gt; gbayes
     gsuite --&gt; glma

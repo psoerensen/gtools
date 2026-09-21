@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>formula-reml – gtools</title>
+<title>Gene-set and pathway analysis – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -157,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-catalog.html">Models and R interface</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/formula-reml.html">Formulas and covariance components</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gsea-workflow.html">Gene sets and pathways</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -212,13 +212,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Tutorials</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
@@ -305,7 +305,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gsea-workflow.html" class="sidebar-item-text sidebar-link">
+  <a href="../../gsuite/docs/gsea-workflow.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Gene sets and pathways</span></a>
   </div>
 </li>
@@ -313,13 +313,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Models and R interface</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/model-catalog.html" class="sidebar-item-text sidebar-link">
@@ -334,7 +334,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/formula-reml.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../gsuite/docs/formula-reml.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Formulas and covariance components</span></a>
   </div>
 </li>
@@ -450,87 +450,164 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#formula-and-variance-component-compiled-mme-reml" id="toc-formula-and-variance-component-compiled-mme-reml" class="nav-link active" data-scroll-target="#formula-and-variance-component-compiled-mme-reml">Formula and variance-component compiled-MME REML</a>
-  <ul class="collapse">
-  <li><a href="#runnable-single-trait-example" id="toc-runnable-single-trait-example" class="nav-link" data-scroll-target="#runnable-single-trait-example">Runnable single-trait example</a></li>
-  <li><a href="#formula-lowering" id="toc-formula-lowering" class="nav-link" data-scroll-target="#formula-lowering">Formula lowering</a></li>
-  <li><a href="#components-resources-and-results" id="toc-components-resources-and-results" class="nav-link" data-scroll-target="#components-resources-and-results">Components, resources, and results</a></li>
-  </ul></li>
+  <li><a href="#a-complete-artificial-example" id="toc-a-complete-artificial-example" class="nav-link active" data-scroll-target="#a-complete-artificial-example">A complete artificial example</a></li>
+  <li><a href="#selected-genes-or-a-ranked-list" id="toc-selected-genes-or-a-ranked-list" class="nav-link" data-scroll-target="#selected-genes-or-a-ranked-list">Selected genes or a ranked list</a></li>
+  <li><a href="#competitive-regression" id="toc-competitive-regression" class="nav-link" data-scroll-target="#competitive-regression">Competitive regression</a></li>
+  <li><a href="#the-bounded-magma-route" id="toc-the-bounded-magma-route" class="nav-link" data-scroll-target="#the-bounded-magma-route">The bounded MAGMA route</a></li>
+  <li><a href="#joint-bayesian-pathways" id="toc-joint-bayesian-pathways" class="nav-link" data-scroll-target="#joint-bayesian-pathways">Joint Bayesian pathways</a></li>
+  <li><a href="#results-units-and-bounds" id="toc-results-units-and-bounds" class="nav-link" data-scroll-target="#results-units-and-bounds">Results, units and bounds</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-catalog.html">Models and R interface</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/formula-reml.html">Formulas and covariance components</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gsea-workflow.html">Gene sets and pathways</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Gene-set and pathway analysis</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="formula-and-variance-component-compiled-mme-reml" class="level1">
-<h1>Formula and variance-component compiled-MME REML</h1>
-<p>For the new data-frame shorthand, optional starts, fixed solves and genetic random regression, begin with <a href="../../gsuite/docs/pedigree-analysis.html">Pedigree analysis</a>. Both <code>formula</code> and <code>formulas</code> now use the same general adapter. This page documents the specialized compiled-MME route, explicitly requested with a <code>gs_fit_control()</code> object, complete explicit covariance starts, and <code>task = "reml"</code> (or <code>greml()</code> with those same controls). Its result layout remains specialized and does not support the <code>gsolve(fit)</code> handoff. Supplying starts alone does not select it. General fits accept named controls for the selected pedigree or component fitter. Compiled controls now default to CHOLMOD selected inversion.</p>
-<p>The data-frame <code>gs_pedigree()</code> constructor described here is distinct from <code>gs_model_pedigree()</code>, the ordered-parent constructor used by the <a href="../../gsuite/docs/r-interface.html#structured-terms">persistent-model API</a>. The two signatures are not interchangeable and do not dispatch implicitly.</p>
-<p><code>greml()</code> is the estimation entry point; <code>gfit()</code> remains available with <code>task = "reml"</code>. Model incidence comes from formulas, pedigree relationships come from <code>gs_pedigree()</code>, and explicit positive-interior covariance starts come from named <code>gvc()</code> components. The interface lowers one immutable model to greml’s public compiled-MME plan, creates one numerical session, optimizes, and finalizes BLUPs from the retained accepted response state.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>PED <span class="ot">&lt;-</span> <span class="fu">gs_pedigree</span>(pedigree, <span class="at">id =</span> <span class="st">"id"</span>, <span class="at">sire =</span> <span class="st">"sire"</span>, <span class="at">dam =</span> <span class="st">"dam"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gfit</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  BW <span class="sc">~</span> sex <span class="sc">+</span> batch <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  records,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">animal =</span> <span class="fu">gvc</span>(<span class="st">"id"</span>, <span class="st">"BW"</span>, PED, <span class="at">start =</span> <span class="dv">1</span>),</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">residual =</span> <span class="fu">gvc</span>(<span class="st">"residual"</span>, <span class="st">"BW"</span>, <span class="at">start =</span> <span class="dv">1</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">gs_fit_control</span>(<span class="at">direct_backend =</span> <span class="st">"cholmod"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For multiple traits, <code>formulas</code> is a named list and each component start is an SPD matrix in the declared trait order. Each trait has a separate fixed-effect block. Scalar records are ordered by formula-list order and original data-row order. An <code>NA</code> response is absent; observed traits from the same data row form one complete or incomplete patterned residual unit. Missing fixed covariates, nonfinite observed responses, and missing pedigree identifiers are errors.</p>
-<section id="runnable-single-trait-example" class="level2">
-<h2 class="anchored" data-anchor-id="runnable-single-trait-example">Runnable single-trait example</h2>
-<p>From the repository root, with gsuite installed, run:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/run_single_trait_pedigree_example.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <a href="../tools/examples/run_single_trait_pedigree_example.R">complete example</a> starts with two ordinary data frames: <code>data</code> has one observation per row (<code>id</code>, <code>BW</code>, factor <code>sex</code>, continuous covariate <code>x</code>); <code>pedigree</code> has one animal per row (<code>id</code>, <code>sire</code>, <code>dam</code>). It reuses the small deterministic BW formula-test illustration, not a random draw from the fitted pedigree model. Its artificial sex labels vary across records of an animal; real data should use consistent animal sex. These toy values illustrate the API, not biological inference or variance recovery.</p>
-<p>The formula <code>BW ~ sex + x + (1 | id)</code> supplies fixed effects and animal incidence. A separate <code>gs_pedigree()</code> relationship and named <code>animal</code> and <code>residual</code> components supply covariance structure and positive starting variances. Under this model, animal covariance is the pedigree relationship times the animal variance; residuals are independent with a common variance. Repeated observations share the animal effect, with no additional permanent environment effect. Starts are not fixed variances.</p>
-<p>IDs, not row positions, align the tables. Pedigree rows may be reordered; unknown parents use <code>NA</code>, while known parents must be listed. Observation IDs absent from the pedigree are errors. Animal <code>a8</code> has no observations but remains in the pedigree and receives a conditional animal prediction from relatives.</p>
-<p><code>summary(fit)</code> displays covariance estimates and convergence, <code>coef(fit)</code> returns fixed effects, and the public <code>fit$random_effects$animal</code> table contains IDs and animal BLUPs (not full predicted body weights). <code>fit$converged</code> and <code>fit$convergence_reason</code> expose the stopping result. Prediction tables follow pedigree order, so compare them by ID. Prediction for new data and prediction uncertainty are not supported on this formula route.</p>
-<p>For development verification only, select the existing isolated installation before sourcing the same example:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.libPaths</span>(<span class="fu">c</span>(<span class="fu">file.path</span>(<span class="st">"build"</span>, <span class="st">"r-library"</span>), <span class="fu">.libPaths</span>()))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/run_single_trait_pedigree_example.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><code>gsea()</code> connects prepared gene-level evidence to the native gsea library. The same named sets and explicit gene background support several questions:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Question</th>
+<th>Main result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ora</code></td>
+<td>Are selected genes over-represented in a set?</td>
+<td>Hypergeometric upper-tail p-value and fold enrichment</td>
+</tr>
+<tr class="even">
+<td><code>preranked</code></td>
+<td>Does a set concentrate towards either end of a gene ranking?</td>
+<td>ES, NES, leading edge and gene-label permutation p-value</td>
+</tr>
+<tr class="odd">
+<td><code>competitive</code></td>
+<td>Is a gene score associated with a pathway after covariate adjustment?</td>
+<td>GLS coefficient, standard error and upper-tail enrichment p-value</td>
+</tr>
+<tr class="even">
+<td><code>magma</code></td>
+<td>What does the bounded MAGMA summary workflow estimate from prepared gene p-values?</td>
+<td>Probit-score preprocessing and competitive set regression</td>
+</tr>
+<tr class="odd">
+<td><code>bayesc</code>, <code>bayesr</code></td>
+<td>Which pathway effects are supported under a joint shrinkage model?</td>
+<td>Posterior means, variances, PIPs and chain summaries</td>
+</tr>
+</tbody>
+</table>
+<p>The last two choices also accept several traits fitted jointly. Bayesian PIPs are probabilities under the specified model and priors; they are not p-values. This interface does not perform SNP-to-gene preparation or gene-ID conversion. The <a href="../../gsuite/docs/methods.html#capability-overview">capability overview</a> describes the separate native gene-evidence operations.</p>
+<section id="a-complete-artificial-example" class="level2">
+<h2 class="anchored" data-anchor-id="a-complete-artificial-example">A complete artificial example</h2>
+<p><a href="../tools/examples/gsea_workflow.R">Download the runnable R example</a>. It contains all six methods and uses 120 artificial genes and three overlapping pathways. This is an interface demonstration, not a comparative calibration study.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsuite)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2401</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>genes <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"gene"</span>, <span class="fu">seq_len</span>(<span class="dv">120</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>sets <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pathway_A=</span>genes[<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>], <span class="at">pathway_B=</span>genes[<span class="dv">21</span><span class="sc">:</span><span class="dv">45</span>],</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">pathway_C=</span>genes[<span class="dv">71</span><span class="sc">:</span><span class="dv">95</span>])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">vapply</span>(sets, <span class="cf">function</span>(s) <span class="fu">as.numeric</span>(genes <span class="sc">%in%</span> s), <span class="fu">numeric</span>(<span class="dv">120</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>noise <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">240</span>),<span class="dv">120</span>,<span class="dv">2</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait_A=</span><span class="fu">data.frame</span>(<span class="at">gene=</span>genes, <span class="at">score=</span><span class="dv">2</span><span class="sc">*</span>X[,<span class="dv">1</span>]<span class="sc">+</span>noise[,<span class="dv">1</span>]),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait_B=</span><span class="fu">data.frame</span>(<span class="at">gene=</span>genes, <span class="at">score=</span><span class="fl">1.5</span><span class="sc">*</span>X[,<span class="dv">1</span>]<span class="sc">+</span>X[,<span class="dv">2</span>]<span class="sc">+</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                      .<span class="dv">3</span><span class="sc">*</span>noise[,<span class="dv">1</span>]<span class="sc">+</span><span class="fu">sqrt</span>(.<span class="dv">91</span>)<span class="sc">*</span>noise[,<span class="dv">2</span>])</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>stat</code> is a data frame for one trait or a named list for several traits. Every frame must contain the same unique character <code>gene</code> IDs in the same order. All genes in the declared background remain in the analysis, including genes outside every set. Unknown or duplicate set members are errors. Set overlap is allowed. For competitive and Bayesian regression, a labelled numeric feature matrix can replace binary set membership.</p>
 </section>
-<section id="formula-lowering" class="level2">
-<h2 class="anchored" data-anchor-id="formula-lowering">Formula lowering</h2>
-<p>The only random grammar is exactly <code>(1 | variable)</code>. A scalar formula has one or two distinct terms, with at most one pedigree component and one independent identity component. Multitrait formulas retain one shared pedigree term. Random slopes, more than two terms, duplicate terms, <code>||</code>, nesting, crossing, functions, interactions, and expressions on the grouping side are rejected. After removing the random terms, base R <code>model.frame()</code> and <code>model.matrix()</code> build the fixed design and preserve coefficient names, contrasts, factor levels, and the formula environment.</p>
-<p>Random incidence is never materialized as an R matrix. Each observed scalar record supplies a pedigree entity ID, trait/member ID, residual unit and coordinate, and a unit random-intercept weight directly to the compiled-MME specification. This first version may materialize a dense R fixed-effect <code>model.matrix()</code> and therefore targets moderate in-memory data frames.</p>
+<section id="selected-genes-or-a-ranked-list" class="level2">
+<h2 class="anchored" data-anchor-id="selected-genes-or-a-ranked-list">Selected genes or a ranked list</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ora <span class="ot">&lt;-</span> <span class="fu">gsea</span>(<span class="fu">transform</span>(stat<span class="sc">$</span>trait_A, <span class="at">selected=</span>score<span class="sc">&gt;</span><span class="dv">2</span>), sets, <span class="st">"ora"</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">control=</span><span class="fu">list</span>(<span class="at">adjustment=</span><span class="st">"BH"</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ranked <span class="ot">&lt;-</span> <span class="fu">gsea</span>(stat<span class="sc">$</span>trait_A, sets, <span class="st">"preranked"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">control=</span><span class="fu">list</span>(<span class="at">replicates=</span><span class="dv">999</span>, <span class="at">seed=</span><span class="dv">2401</span>, <span class="at">adjustment=</span><span class="st">"BH"</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ranked<span class="sc">$</span>pathways</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>ranked<span class="sc">$</span>details<span class="sc">$</span>trait<span class="sc">$</span>leading_edge</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ranked)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>ORA requires a logical <code>selected</code> column over the complete background; the selection rule is the caller’s decision. Preranked GSEA uses a finite <code>score</code>, a stable decreasing ranking and whole-background gene-label permutations. It does not correct for LD or perform phenotype permutations. Excluded sets and unavailable directional inference remain in the result with diagnostics. <code>adjustment="BH"</code> or <code>"BY"</code> adjusts the tested p-values, not pooled NES values as in Broad GSEA’s FDR calculation. Defaults are no adjustment, exponent 1, set sizes 1–500, seed 1, 999 permutations and one thread.</p>
 </section>
-<section id="components-resources-and-results" class="level2">
-<h2 class="anchored" data-anchor-id="components-resources-and-results">Components, resources, and results</h2>
-<p>Scalar fits accept one identity component, one pedigree component, or one of each, plus one homogeneous residual component. Formula order determines the random coefficient blocks and covariance-parameter order. Pedigree levels use external pedigree order, including unphenotyped animals. Identity levels use the sorted observed character or integer domain. Every record contributes a unit weight directly to each present component, including the data-induced pedigree/identity cross block; no R incidence matrix is built.</p>
-<p>For example, repeatability and a common-environment model use the same bounded composition rule:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ID <span class="ot">&lt;-</span> <span class="fu">gs_identity</span>()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>repeatability <span class="ot">&lt;-</span> <span class="fu">gfit</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> sex <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> animal_id) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> permanent_id), records,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">animal =</span> <span class="fu">gvc</span>(<span class="st">"animal_id"</span>, <span class="st">"y"</span>, PED, <span class="at">start =</span> <span class="fl">0.8</span>),</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">permanent =</span> <span class="fu">gvc</span>(<span class="st">"permanent_id"</span>, <span class="st">"y"</span>, ID, <span class="at">start =</span> <span class="fl">0.4</span>),</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">residual =</span> <span class="fu">gvc</span>(<span class="st">"residual"</span>, <span class="st">"y"</span>, <span class="at">start =</span> <span class="fl">0.3</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">gs_fit_control</span>(<span class="at">direct_backend =</span> <span class="st">"cholmod"</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>common_environment <span class="ot">&lt;-</span> <span class="fu">gfit</span>(</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> sex <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> animal_id) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> environment), records,</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">animal =</span> <span class="fu">gvc</span>(<span class="st">"animal_id"</span>, <span class="st">"y"</span>, PED, <span class="at">start =</span> <span class="fl">0.8</span>),</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">environment =</span> <span class="fu">gvc</span>(<span class="st">"environment"</span>, <span class="st">"y"</span>, ID, <span class="at">start =</span> <span class="fl">0.4</span>),</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">residual =</span> <span class="fu">gvc</span>(<span class="st">"residual"</span>, <span class="st">"y"</span>, <span class="at">start =</span> <span class="fl">0.3</span>)</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">gs_fit_control</span>(<span class="at">direct_backend =</span> <span class="st">"cholmod"</span>)</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Starts remain mandatory finite positive scalars or finite symmetric positive-definite matrices. Covariance boundaries and automatic rank repair are not attempted.</p>
-<p><code>gs_fit_control()</code> maps backend, direct/support threads, exact trace route, optimizer bounds, coefficient dimension, factor memory, selected-inverse workspace, exact trace systems, RHS workspace, and linear-solve controls directly to the public greml session. A failed preflight does not silently change backend, trace route, batch width, or solver. Diagnostics report the required and configured RHS bytes, peak RHS width, resident coefficient vectors, workspace category, limit result, overflow result, and zero numerical work after rejection.</p>
-<p>PARDISO uses its own requested internal thread count and coordinate-exact traces. CHOLMOD uses serial support work and selected inversion. Generic support execution remains independent; an unsupported request is returned as <code>not_supported</code> before solver work. No GNU OpenMP layer is introduced.</p>
-<p>The returned <code>gs_fit</code> owns covariance estimates, fixed effects, animal BLUPs in external pedigree order, caller-record mappings, optional fitted values, residuals and <code>Py</code>, score/standard-AI diagnostics, optimizer history, resource preflight, work counters, and retained-state diagnostics. <code>print()</code>, <code>summary()</code>, <code>coef()</code>, <code>fitted()</code>, <code>residuals()</code>, <code>logLik()</code>, and <code>nobs()</code> are provided. Record methods fail clearly when record values were omitted.</p>
-<p>Genomic relationships, random slopes, correlated random components, more than one pedigree or identity component, multitrait repeatability, heterogeneous or serial residual covariance, covariance boundaries, PEV/reliability, prediction from new data, disk-backed data, formula dependencies, Bayesian tasks, JSON, Python, and R-side public plan/session objects remain deliberately outside this compiled-MME formula interface.</p>
+<section id="competitive-regression" class="level2">
+<h2 class="anchored" data-anchor-id="competitive-regression">Competitive regression</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gsea</span>(stat, sets, <span class="st">"competitive"</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">sampling=</span><span class="fu">list</span>(<span class="at">gene_covariance=</span><span class="st">"independent"</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">control=</span><span class="fu">list</span>(<span class="at">adjustment=</span><span class="st">"BH"</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>pathways</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">trait=</span><span class="st">"trait_A"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Classical methods analyse traits separately, with adjustment within each trait. Competitive regression fits pathways jointly by default; <code>joint=FALSE</code> fits each pathway separately with the same covariates and background. Covariates are a numeric matrix with gene row names or a data frame with <code>gene</code> and numeric columns; an intercept is added internally. Encode factors explicitly.</p>
+<p>Regression always requires <code>sampling$gene_covariance</code>. Supply <code>"independent"</code> only when that working assumption is intended, or provide a labelled covariance matrix / named list of labelled blocks that partition the complete background. Block labels are used explicitly to map to gene order. Blocks must be symmetric positive definite; singular designs fail rather than silently drop columns. Student-t inference is a working approximation for non-Gaussian gene scores.</p>
+</section>
+<section id="the-bounded-magma-route" class="level2">
+<h2 class="anchored" data-anchor-id="the-bounded-magma-route">The bounded MAGMA route</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>gene_p <span class="ot">&lt;-</span> <span class="fu">transform</span>(stat<span class="sc">$</span>trait_A,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_value=</span><span class="fu">pnorm</span>(score,<span class="at">lower.tail=</span><span class="cn">FALSE</span>), <span class="at">marker_count=</span><span class="dv">10</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">effective_parameters=</span><span class="dv">8</span>, <span class="at">sample_size=</span><span class="dv">10000</span>, <span class="at">mean_minor_allele_count=</span><span class="dv">2000</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>magma <span class="ot">&lt;-</span> <span class="fu">gsea</span>(gene_p, sets, <span class="st">"magma"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">sampling=</span><span class="fu">list</span>(<span class="at">gene_covariance=</span><span class="st">"independent"</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">control=</span><span class="fu">list</span>(<span class="at">adjustment=</span><span class="st">"BH"</span>))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>magma<span class="sc">$</span>pathways</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>magma<span class="sc">$</span>preparation<span class="sc">$</span>trait</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These artificial p-values illustrate the API. Real analyses require calibrated gene-level evidence. Native preprocessing applies the documented probit transformation, clipping and gene-property corrections; the default adjusts the outcome for internal covariates before fitting each pathway separately. Constant internal covariates are reported. <code>correct_size</code>, <code>correct_density</code>, <code>correct_sample_size</code> and <code>correct_mac</code> default to <code>TRUE</code>; their positive input columns are required whenever enabled. <code>truncate</code> and <code>residualize_internal</code> also default to <code>TRUE</code>; bounds are <code>lower_z_bound=-3</code>, <code>upper_z_sd=6</code> and <code>covariate_sd_bound=5</code>. External custom covariates use <code>competitive</code> instead.</p>
+<p>For this method, gene dependence means <strong>quadratic-score correlation</strong>, with nonnegative entries and unit diagonal. The native workflow applies the recorded working-correlation power (default 1.1). This is not exact covariance of the transformed probit scores. It is a defined subset of MAGMA’s workflow, not full MAGMA equivalence. SNP-to-gene tests, allele alignment and reference preparation are separate native operations and are not hidden inside this call.</p>
+</section>
+<section id="joint-bayesian-pathways" class="level2">
+<h2 class="anchored" data-anchor-id="joint-bayesian-pathways">Joint Bayesian pathways</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Omega <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,.<span class="dv">3</span>,.<span class="dv">3</span>,<span class="dv">1</span>),<span class="dv">2</span>,<span class="at">dimnames=</span><span class="fu">list</span>(<span class="fu">names</span>(stat),<span class="fu">names</span>(stat)))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">2</span>);<span class="fu">dimnames</span>(G)<span class="ot">&lt;-</span><span class="fu">dimnames</span>(Omega)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gsea</span>(stat, sets, <span class="st">"bayesr"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sampling=</span><span class="fu">list</span>(<span class="at">gene_covariance=</span><span class="st">"independent"</span>,<span class="at">trait_covariance=</span>Omega),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior=</span><span class="fu">list</span>(<span class="at">effect_covariance=</span>G),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">control=</span><span class="fu">list</span>(<span class="at">burnin=</span><span class="dv">100</span>,<span class="at">sampling_sweeps=</span><span class="dv">1000</span>,<span class="at">seeds=</span><span class="fu">c</span>(<span class="dv">11</span>,<span class="dv">29</span>)))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>pathways                 <span class="co"># trait-specific effects and PIPs</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>joint                    <span class="co"># probability of activity in any trait</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>parameters<span class="sc">$</span>joint         <span class="co"># prepared-scale parameter summaries</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>diagnostics<span class="sc">$</span>joint        <span class="co"># conditioning, threads and chain PIP spread</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">trait=</span><span class="st">"trait_A"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(fit, <span class="st">"pathway-fit.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Bayesian models fit all pathways jointly and adjust both response and features for the shared nuisance design. They support overlapping pathways and proper priors when the number of features exceeds the number of genes; highly dependent sets can still make individual PIPs difficult to interpret.</p>
+<p>For one trait, supply <code>prior=list(residual_variance=1,effect_variance=1)</code> with values chosen for the prepared score scale. BayesC defaults to inclusion probability 0.5. Scalar BayesR defaults to weights <code>(0.7,0.1,0.1,0.1)</code> and variance multipliers <code>(0,0.01,0.1,1)</code>. Optional scalar learning flags are <code>estimate_effect_variance</code>, <code>estimate_residual_variance</code> and <code>estimate_weights</code>. The corresponding priors are <code>effect_variance_prior=list(df=...,scale=...)</code>, <code>residual_variance_prior=list(df=...,scale=...)</code> and positive <code>weight_prior</code> counts.</p>
+<p>Joint fits require a labelled <code>effect_covariance</code> prior and a separate, fixed residual <code>trait_covariance</code> on original response units. The latter describes remaining gene-score dependence between traits, not pathway-effect covariance. All traits share genes, features, covariates and gene dependence. The native likelihood uses a separable gene-by-trait covariance model. It does not infer sample overlap or substitute a genetic-correlation matrix for residual covariance.</p>
+<p>By default, joint models enumerate activity patterns across 2–12 traits. For larger trait sets, explicitly provide restricted binary <code>patterns</code> with labelled trait columns, distinct rows and the null row first; the native maximum is 64 traits. A restricted pattern set changes the model. <code>pattern_weights</code> default to equal probabilities. Joint BayesC has one positive component scale, 1; BayesR uses <code>(0.01,0.1,1)</code> with equal conditional component weights. The null is represented by the null pattern, not a zero component scale.</p>
+<p>Joint learning is optional: <code>estimate_covariance</code> requires <code>covariance_prior=list(df=...,scale=...)</code> (an inverse-Wishart scale matrix); <code>estimate_pattern_weights</code> requires positive <code>pattern_prior</code> counts; and BayesR’s <code>estimate_component_weights</code> requires positive <code>component_prior</code> counts. The residual trait covariance stays fixed.</p>
+</section>
+<section id="results-units-and-bounds" class="level2">
+<h2 class="anchored" data-anchor-id="results-units-and-bounds">Results, units and bounds</h2>
+<ul>
+<li><code>pathways</code> retains method-specific statistics; <code>summary()</code> also returns parameters, diagnostics and provenance. <code>plot()</code> requires a trait choice when several are present. No automatic significance or PIP cutoff is applied.</li>
+<li>Bayesian pathway means and variances use original response/feature units. Priors, native chain traces and parameter summaries use prepared coordinates. <code>preparation</code> records response and feature scales and nuisance rank.</li>
+<li><code>scale_response</code> and <code>scale_features</code> default to <code>TRUE</code>. Chain defaults are 100 burn-in sweeps, 1,000 sampling sweeps, thinning 1, seeds <code>(1,2)</code> and one thread. <code>retain_diagnostics=TRUE</code> retains parameter traces. Joint <code>retain_pattern_probabilities=TRUE</code> additionally stores pathway-by-pattern probabilities. Chain PIP spread is not an ESS or R-hat convergence check.</li>
+<li>Regression defaults bound features (255 classical / 4,096 Bayesian), user covariates (128), each covariance block (2,048 genes) and preparation payload (512 MiB). Bayesian preparation checks its native payload estimate; the R classical check bounds the feature matrix, not total process memory. Joint sampler storage has a separate 256 MiB <code>memory_limit_bytes</code> estimate.</li>
+<li>Competitive fits permit at most 256 coefficients by default and require reciprocal condition at least <code>1e-10</code>; both controls are configurable. The bounded MAGMA route retains those native limits. No dense whole-genome covariance is formed when explicitly partitioned blocks are supplied.</li>
+</ul>
+<p>The focused R checks compare ORA to the hypergeometric calculation, GLS to a dense R reference, and unadjusted MAGMA preprocessing to the corresponding competitive fit. Bayesian checks cover chains, units, labels, joint probabilities, learning and serialization. These integration checks complement the small native oracles; they do not establish broad genomic calibration or full package qualification.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

@@ -333,6 +333,12 @@ window.Quarto = {
  <span class="menu-text">Sparse LD preparation</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gsea-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gene sets and pathways</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -609,12 +615,12 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td>Gene-set and genomic-feature enrichment</td>
-<td>gsea</td>
-<td>Native only: preranked GSEA with ES/NES, leading edges and seeded gene-label inference (no adaptive extreme tails); blockwise competitive GLS with covariates and joint features; a bounded MAGMA 1.10 summary-statistic route with explicit preprocessing; optional scalar/multitrait Bayesian pathway regression using gbayes BayesC/BayesR, joint effects/PIPs and chain summaries (multitrait residual dependence is explicit and fixed; latent pathway covariance/weights can be learned); explicit universe/set preparation, sum/mean/max/count statistics, one-sided hypergeometric over-representation, seeded block circular shifts or permutations, and optional BH/BY adjustment. No R binding</td>
+<td><code>gsea()</code> / gsea</td>
+<td>R: ORA, preranked GSEA with ES/NES, leading edges and seeded gene-label inference (no adaptive extreme tails); blockwise competitive GLS with covariates and joint features; a bounded MAGMA 1.10 summary-statistic route with explicit preprocessing; optional scalar/multitrait Bayesian pathway regression using gbayes BayesC/BayesR, joint effects/PIPs and chain summaries (multitrait residual dependence is explicit and fixed; latent pathway covariance/weights can be learned); explicit universe/set preparation, sum/mean/max/count statistics, one-sided hypergeometric over-representation, seeded block circular shifts or permutations, and optional BH/BY adjustment. <a href="../../gsuite/docs/gsea-workflow.html">Pathway workflow</a>; aggregate/block-resampling operations remain native-only</td>
 </tr>
 </tbody>
 </table>
-<p>The native MAGMA comparison covers SNP-wise mean gene evidence and competitive pathway analysis with MAGMA 1.10 preprocessing. A small pinned comparison checked 40 genes and two pathways. This is not complete MAGMA equivalence: other gene models, rare-variant preprocessing, missing-data handling and singular-matrix pruning remain outside the route. Its controlled tail evaluator may return unavailable for difficult spectra or tails rather than use a silent fallback. Bayesian pathway analysis remains planned using gbayes.</p>
+<p>The native MAGMA comparison covers SNP-wise mean gene evidence and competitive pathway analysis with MAGMA 1.10 preprocessing. A small pinned comparison checked 40 genes and two pathways. This is not complete MAGMA equivalence: other gene models, rare-variant preprocessing, missing-data handling and singular-matrix pruning remain outside the route. Its controlled tail evaluator may return unavailable for difficult spectra or tails rather than use a silent fallback. Scalar and joint multitrait Bayesian pathway analysis is exposed through <code>gsea()</code>, reusing gbayes for sampling and parameter learning.</p>
 <p>Selected native operations remain outside the R bindings, including the general gscore fitting/model-selection workflows and the standalone single-effect Bayesian entry point. Native gsea and gene-evidence components were added on 21 September 2026. Checks cover independent small calculations, pinned ACAT comparison and a connected native example, not broad GWAS calibration. Competitive GLS uses supplied gene-covariance blocks; its Student-t inference is a working approximation for non-Gaussian gene scores. It does not claim full MAGMA or Pascal equivalence. Python interfaces remain planned. Multivariate Bayesian residual-covariance learning and arbitrary sampling overlap across different LD references are not exposed. See the <a href="../../gsuite/docs/status.html#qualification-limits">current qualification limits</a> before interpreting capability as validated use.</p>
 </section>
 <section id="pedigree-formula-workflows" class="level2">
