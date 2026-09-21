@@ -10,7 +10,7 @@ out <- normalizePath(out, winslash="/", mustWork=TRUE)
 resume <- "--resume" %in% commandArgs(TRUE)
 only_arg <- grep("^--only=",commandArgs(TRUE),value=TRUE)
 only <- if(length(only_arg)) strsplit(sub("^--only=","",only_arg),",",fixed=TRUE)[[1]] else NULL
-stage_names <- c("data","ld","gwas","gcorr","annotation","gbayes","gscore","gmap","gsea")
+stage_names <- c("data","ld","gwas","gcorr","annotation","gbayes","gscore","gmap","gsea","gbayes-summary")
 if(!is.null(only) && any(!only %in% stage_names)) stop("Unknown --only stage")
 seed <- 20260921L
 n <- 10000L; m <- 50000L; size <- 100L; nr <- m %/% size
@@ -281,6 +281,21 @@ pathways <- stage("gsea", {
   list(evidence=evidence,controlled=controlled,fits=fits,genes=genes,sets=sets)
 })
 
+# Capture joint-draw genetic variance without changing the original samplers or
+# overwriting the original timing evidence. Fixed hyperparameters are not learned.
+bayesian_summary <- stage("gbayes-summary", {
+  fits <- lapply(names(bayesian),function(method) {
+    original <- bayesian[[method]]
+    fit <- gbayes(gwas$prepared$A,LD,method=method,trait="A",
+      prior=original$prior,control=original$control,
+      posterior=list(reference=LD,phenotype_variance=c(A=1)))
+    stopifnot(identical(fit$estimates,original$estimates),
+      identical(fit$parameter_mean,original$parameter_mean))
+    fit
+  })
+  setNames(fits,names(bayesian))
+})
+
 if(!is.null(only)) {
   cat("SELECTED_STAGES|completed; full report requires all stages\n")
 } else {
@@ -320,7 +335,7 @@ tail_comparison <- do.call(rbind,lapply(traits,function(t) {
     approximate_method=approx$tail_method,moment_fallback=approx$moment_fallback)
 }))
 write.csv(tail_comparison,file.path(out,"gene-tail-comparison.csv"),row.names=FALSE)
-stages <- c("data","ld","gwas","gcorr","annotation","gbayes","gscore","gmap","gsea")
+stages <- stage_names
 timings <- do.call(rbind,lapply(stages,function(k) {
   s<-readRDS(file.path(out,paste0(k,".rds")))
   data.frame(stage=k,seconds=s$seconds,started=as.character(s$started),script_md5=s$script_md5,
@@ -341,11 +356,125 @@ chain_summary <- do.call(rbind,lapply(names(bayesian),function(k) {
     effect_correlation=cor(e$mean,data$simulation$B[,"A"]*data$dosage_sd[,"A"]))
 }))
 write.csv(chain_summary,file.path(out,"chains.csv"),row.names=FALSE)
+
+# LD can make a marker with zero direct effect significant as well.
+association_summary <- do.call(rbind,lapply(traits,function(t) {
+  s <- gwas$stat[[t]]; causal <- data$simulation$B[,t]!=0
+  detected <- s$p_value < .05/m
+  stopifnot(identical(s$marker,rownames(data$simulation$B)),
+    all(is.finite(s$p_value)),all(s$p_value>=0 & s$p_value<=1))
+  data.frame(trait=t,markers=m,causal_markers=sum(causal),
+    threshold=.05/m,significant_markers=sum(detected),
+    significant_causal=sum(detected & causal),
+    significant_zero_effect=sum(detected & !causal))
+}))
+write.csv(association_summary,file.path(out,"association-summary.csv"),row.names=FALSE)
+posterior_table <- do.call(rbind,lapply(names(bayesian_summary),function(method) {
+  fit <- bayesian_summary[[method]]
+  stopifnot(identical(fit$estimates,bayesian[[method]]$estimates))
+  tab <- fit$posterior; tab$method <- method; tab$truth <- NA_real_
+  tab$truth[tab$parameter=="h2[A]"] <- data$truth_h2["A"]
+  tab$truth[tab$parameter=="active_markers"] <- sum(data$simulation$B[,"A"]!=0)
+  tab
+}))
+write.csv(posterior_table,file.path(out,"bayesian-posterior.csv"),row.names=FALSE)
+capture.output(for(method in names(bayesian_summary)) {
+  cat("\n",toupper(method),"; fixed hyperparameters; conditional posterior summaries\n")
+  print(summary(bayesian_summary[[method]]))
+},file=file.path(out,"bayesian-fit-summary.txt"))
 draw <- function(name, code, width=1800,height=1100) {
   png(file.path(out,paste0(name,".png")),width=width,height=height,res=150)
   tryCatch(force(code),finally=dev.off())
 }
 palette <- c("#28678b","#bf6b2d","#38836c")
+causal_colour <- "#c55a11"
+region_index <- rep(seq_len(nr),each=size)
+marker_x <- (seq_len(m)-.5)/size+.5
+draw("association-manhattan", {
+  par(mfrow=c(3,1),mar=c(3.8,4.5,2.8,1),oma=c(0,0,1,0),las=1)
+  for(t in traits) {
+    s <- gwas$stat[[t]]; causal <- data$simulation$B[,t]!=0
+    y <- -log10(pmax(s$p_value,.Machine$double.xmin))
+    plot(marker_x,y,type="n",xlim=c(.5,nr+.5),ylim=c(0,max(y)*1.13),
+      xlab="Artificial region (100 markers each)",ylab="-log10(p)",
+      main=paste("Linear GWAS: trait",t))
+    rect(.5,-1,80.5,max(y)*1.2,col="#edf4fa",border=NA)
+    points(marker_x[!causal],y[!causal],pch=16,cex=.32,
+      col=ifelse(region_index[!causal]%%2,"#64748b","#aab5c3"))
+    points(marker_x[causal],y[causal],pch=17,cex=.48,col=causal_colour)
+    abline(h=-log10(.05/m),lty=2,col="#333333")
+    legend("topright",c("True causal marker","Zero direct effect (may tag a causal marker)",
+      "0.05 / 50,000 per trait"),pch=c(17,16,NA),lty=c(NA,NA,2),
+      col=c(causal_colour,"#64748b","#333333"),bty="n",cex=.72)
+  }
+},height=1500)
+
+draw("bayesian-markers", {
+  par(mfrow=c(2,2),mar=c(4.5,4.8,3,1),las=1)
+  truth_effect <- data$simulation$B[,"A"]*data$dosage_sd[,"A"]/
+    sd(data$simulation$Y[rows$A,"A"])
+  causal <- truth_effect!=0
+  for(method in names(bayesian_summary)) {
+    e <- bayesian_summary[[method]]$estimates
+    plot(marker_x,e$pip,type="n",ylim=c(0,1.12),
+      xlab="Artificial region",ylab="Posterior inclusion probability",
+      main=paste(toupper(method),"- trait A"))
+    points(marker_x[!causal],e$pip[!causal],pch=16,cex=.3,col="#aab5c3")
+    points(marker_x[causal],e$pip[causal],pch=17,cex=.5,col=causal_colour)
+    legend("topright",c("True causal","Zero direct effect"),pch=c(17,16),
+      col=c(causal_colour,"#aab5c3"),bty="n",cex=.8)
+    limits <- extendrange(range(c(truth_effect,e$mean)))
+    plot(truth_effect,e$mean,type="n",xlim=limits,ylim=limits,
+      xlab="True standardized effect",ylab="Posterior mean effect",
+      main="Marker-effect recovery")
+    abline(0,1,lty=2,col="#555555")
+    points(truth_effect[!causal],e$mean[!causal],pch=16,cex=.35,col="#aab5c3")
+    points(truth_effect[causal],e$mean[causal],pch=17,cex=.55,col=causal_colour)
+  }
+},height=1250)
+
+draw("bayesian-heritability", {
+  par(mfrow=c(2,2),mar=c(4.5,4.8,3,1),las=1)
+  for(method in names(bayesian_summary)) {
+    fit <- bayesian_summary[[method]]
+    traces <- lapply(fit$quantities$chains,function(chain)
+      as.numeric(chain$genetic$covariance_trace[,1]))
+    h <- fit$posterior[fit$posterior$parameter=="h2[A]",]
+    stopifnot(nrow(h)==1L,all(is.finite(unlist(traces))),
+      abs(mean(unlist(traces))-h$mean)<1e-10)
+    yrange <- extendrange(range(c(unlist(traces),data$truth_h2["A"])))
+    plot(seq_along(traces[[1]]),traces[[1]],type="n",ylim=yrange,
+      xlab="Retained draw within chain",ylab="Reference heritability",
+      main=paste(toupper(method),"- two chains"))
+    for(k in seq_along(traces)) lines(traces[[k]],col=adjustcolor(palette[k],.65))
+    abline(h=data$truth_h2["A"],lty=2)
+    legend("topright",c("Chain 1","Chain 2","Population truth"),
+      col=c(palette[1:2],"black"),lty=c(1,1,2),bty="n",cex=.8)
+    hist(unlist(traces),breaks=35,col="#c6dbea",border="white",
+      xlim=yrange,xlab="Reference heritability",main="Conditional posterior",ylab="Draw count")
+    abline(v=data$truth_h2["A"],lty=2,lwd=2)
+    abline(v=h$mean,col=palette[1],lwd=2)
+    abline(v=c(h$lower,h$upper),col=palette[1],lty=3)
+    legend("topright",c("Population truth","Posterior mean","95% interval"),
+      col=c("black",palette[1],palette[1]),lty=c(2,1,3),bty="n",cex=.8)
+  }
+},height=1250)
+
+draw("bayesian-prediction", {
+  par(mfrow=c(1,2),mar=c(4.8,4.8,3,1),las=1)
+  truth_score <- as.numeric(scale(data$simulation$G[holdout,"A"],scale=FALSE))/
+    sd(data$simulation$Y[rows$A,"A"])
+  for(method in names(bayesian_summary)) {
+    p <- as.numeric(scale(scoring$prediction$scores[,method],scale=FALSE))
+    lim <- extendrange(range(c(truth_score,p)))
+    plot(truth_score,p,pch=16,cex=.55,col=adjustcolor(palette[1],.45),
+      xlim=lim,ylim=lim,xlab="True genetic value / training phenotype SD",
+      ylab="Predicted genetic value (centered)",
+      main=sprintf("%s: r = %.3f",toupper(method),cor(p,truth_score)))
+    abline(0,1,lty=2,col="#555555")
+  }
+},height=800)
+
 draw("heritability", {
   par(mfrow=c(2,2),mar=c(5,5,4,2),las=1)
   for(t in traits) {

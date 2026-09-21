@@ -1,0 +1,106 @@
+
+ BAYESC ; fixed hyperparameters; conditional posterior summaries
+bayesc / A : 50000 markers, 2 chains
+Posterior expected active markers: 1230.485 
+Maximum between-chain PIP range: 0.065 
+Parameter means (including fixed values):
+$residual_variance
+[1] 0.7
+
+$effect_variance
+[1] 3e-04
+
+$weights
+[1] 0.98 0.02
+
+Retained posterior summaries; interval probability 0.95 
+               parameter estimated    status draws         mean          sd
+       residual_variance     FALSE available  2000    0.7000000  0.00000000
+         effect_variance     FALSE available  2000    0.0003000  0.00000000
+          active_markers      TRUE available  2000 1230.4850000 32.34634319
+                weight_0     FALSE available  2000    0.9800000  0.00000000
+                weight_1     FALSE available  2000    0.0200000  0.00000000
+ genetic_covariance[A,A]      TRUE available  2000    0.5365881  0.02129658
+                   h2[A]      TRUE available  2000    0.5365881  0.02129658
+       median        lower        upper    hpd_lower    hpd_upper
+    0.7000000    0.7000000    0.7000000    0.7000000    0.7000000
+    0.0003000    0.0003000    0.0003000    0.0003000    0.0003000
+ 1230.0000000 1164.0000000 1295.0000000 1161.0000000 1291.0000000
+    0.9800000    0.9800000    0.9800000    0.9800000    0.9800000
+    0.0200000    0.0200000    0.0200000    0.0200000    0.0200000
+    0.5358047    0.4960329    0.5788152    0.4956782    0.5781695
+    0.5358047    0.4960329    0.5788152    0.4956782    0.5781695
+ diagnostic_status      rhat ess_bulk    mcse_mean
+       not_updated       NaN      NaN          NaN
+       not_updated       NaN      NaN          NaN
+         available 1.0004045 2121.206 0.7021097387
+       not_updated       NaN      NaN          NaN
+       not_updated       NaN      NaN          NaN
+         available 0.9993286 2038.428 0.0004702805
+         available 0.9993286 2038.428 0.0004702805
+Reference-population genetic covariance (posterior mean):
+          A
+A 0.5365881
+Genetic correlation (conditional on positive variances):
+  A
+A 1
+Heritability using supplied phenotype variances:
+        A 
+0.5365881 
+Diagnostics are not a convergence certificate.
+
+ BAYESR ; fixed hyperparameters; conditional posterior summaries
+bayesr / A : 50000 markers, 2 chains
+Posterior expected active markers: 1181.726 
+Maximum between-chain PIP range: 0.073 
+Parameter means (including fixed values):
+$residual_variance
+[1] 0.7
+
+$effect_variance
+[1] 0.0007731959
+
+$weights
+[1] 0.980 0.006 0.007 0.007
+
+Retained posterior summaries; interval probability 0.95 
+               parameter estimated    status draws         mean          sd
+       residual_variance     FALSE available  2000 7.000000e-01  0.00000000
+         effect_variance     FALSE available  2000 7.731959e-04  0.00000000
+          active_markers      TRUE available  2000 1.181726e+03 32.46948234
+                weight_0     FALSE available  2000 9.800000e-01  0.00000000
+                weight_1     FALSE available  2000 6.000000e-03  0.00000000
+                weight_2     FALSE available  2000 7.000000e-03  0.00000000
+                weight_3     FALSE available  2000 7.000000e-03  0.00000000
+ genetic_covariance[A,A]      TRUE available  2000 6.144804e-01  0.02900986
+                   h2[A]      TRUE available  2000 6.144804e-01  0.02900986
+       median        lower        upper    hpd_lower    hpd_upper
+ 7.000000e-01 7.000000e-01 7.000000e-01 7.000000e-01 7.000000e-01
+ 7.731959e-04 7.731959e-04 7.731959e-04 7.731959e-04 7.731959e-04
+ 1.181000e+03 1.119342e+03 1.247658e+03 1.119000e+03 1.246000e+03
+ 9.800000e-01 9.800000e-01 9.800000e-01 9.800000e-01 9.800000e-01
+ 6.000000e-03 6.000000e-03 6.000000e-03 6.000000e-03 6.000000e-03
+ 7.000000e-03 7.000000e-03 7.000000e-03 7.000000e-03 7.000000e-03
+ 7.000000e-03 7.000000e-03 7.000000e-03 7.000000e-03 7.000000e-03
+ 6.141016e-01 5.606324e-01 6.724456e-01 5.612546e-01 6.727083e-01
+ 6.141016e-01 5.606324e-01 6.724456e-01 5.612546e-01 6.727083e-01
+ diagnostic_status      rhat ess_bulk    mcse_mean
+       not_updated       NaN      NaN          NaN
+       not_updated       NaN      NaN          NaN
+         available 1.0004982 1875.664 0.7508046181
+       not_updated       NaN      NaN          NaN
+       not_updated       NaN      NaN          NaN
+       not_updated       NaN      NaN          NaN
+       not_updated       NaN      NaN          NaN
+         available 0.9998317 1901.393 0.0006642316
+         available 0.9998317 1901.393 0.0006642316
+Reference-population genetic covariance (posterior mean):
+          A
+A 0.6144804
+Genetic correlation (conditional on positive variances):
+  A
+A 1
+Heritability using supplied phenotype variances:
+        A 
+0.6144804 
+Diagnostics are not a convergence certificate.

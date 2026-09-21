@@ -1,0 +1,4 @@
+"trait","markers","causal_markers","threshold","significant_markers","significant_causal","significant_zero_effect"
+"A",50000,984,1e-06,3,3,0
+"B",50000,984,1e-06,3,3,0
+"C",50000,984,1e-06,2,2,0
