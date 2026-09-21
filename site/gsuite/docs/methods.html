@@ -537,7 +537,7 @@ window.Quarto = {
 <p>This catalogue maps development capabilities to their owning repository. <strong>Implemented</strong> means the capability is implemented in development code and exercised by relevant repository validation; it does not claim production-scale qualification. <strong>Experimental</strong> identifies a present but deliberately provisional integration surface. <strong>Planned</strong> identifies work with no current implementation. Availability through R is stated separately; gsuite has no public software release yet.</p>
 <section id="capability-overview" class="level2">
 <h2 class="anchored" data-anchor-id="capability-overview">Capability overview</h2>
-<p>Reviewed against the development interfaces on 20 September 2026. These are available workflows, not claims of full upstream-software parity or broad statistical calibration. Each guide records its supported inputs and limits.</p>
+<p>Reviewed against the development interfaces on 20 September 2026. These are available workflows, not claims of full upstream-software parity or broad statistical calibration. Each guide records its supported inputs and limits. The mixed-model entry points were updated on 21 September 2026; see the <a href="../../gsuite/docs/gsolve-greml.html#estimate-or-solve-from-r">estimate/solve contract</a>.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -550,7 +550,7 @@ window.Quarto = {
 <tr class="odd">
 <td>Pedigree, multivariate and longitudinal mixed models</td>
 <td>greml, gsolve</td>
-<td><code>gfit()</code> and persistent model interfaces; <a href="../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a>, <a href="../../gsuite/docs/model-catalog.html">LMM catalog</a></td>
+<td><code>greml()</code> for variance estimation, <code>gsolve()</code> for fixed-covariance solving, <code>gfit()</code> and persistent model interfaces; <a href="../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a>, <a href="../../gsuite/docs/model-catalog.html">LMM catalog</a></td>
 </tr>
 <tr class="even">
 <td>Genotypes, marker QC, sparse LD, LD scores and regional eigenpairs</td>

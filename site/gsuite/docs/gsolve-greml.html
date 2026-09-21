@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -441,6 +476,7 @@ window.Quarto = {
   <ul>
   <li><a href="#numerical-and-mixed-model-routes" id="toc-numerical-and-mixed-model-routes" class="nav-link active" data-scroll-target="#numerical-and-mixed-model-routes">Numerical and mixed-model routes</a>
   <ul class="collapse">
+  <li><a href="#estimate-or-solve-from-r" id="toc-estimate-or-solve-from-r" class="nav-link" data-scroll-target="#estimate-or-solve-from-r">Estimate or solve from R</a></li>
   <li><a href="#numerical-and-statistical-boundary" id="toc-numerical-and-statistical-boundary" class="nav-link" data-scroll-target="#numerical-and-statistical-boundary">Numerical and statistical boundary</a></li>
   <li><a href="#covariance-and-coefficient-routes" id="toc-covariance-and-coefficient-routes" class="nav-link" data-scroll-target="#covariance-and-coefficient-routes">Covariance and coefficient routes</a></li>
   <li><a href="#scaling-and-execution" id="toc-scaling-and-execution" class="nav-link" data-scroll-target="#scaling-and-execution">Scaling and execution</a></li>
@@ -479,6 +515,26 @@ window.Quarto = {
 <section id="numerical-and-mixed-model-routes" class="level1">
 <h1>Numerical and mixed-model routes</h1>
 <p>This guide explains route choice and scaling. The <a href="../../gsuite/docs/model-catalog.html">model catalog</a> owns capability status, the <a href="../../gsuite/docs/primitive-registry.html">primitive registry</a> owns reusable mechanism mappings, and <a href="../../gsuite/docs/architecture.html">architecture</a> owns package dependencies. A native primitive does not establish a qualified public R route.</p>
+<section id="estimate-or-solve-from-r" class="level2">
+<h2 class="anchored" data-anchor-id="estimate-or-solve-from-r">Estimate or solve from R</h2>
+<p><code>greml()</code> estimates variance components; <code>gsolve()</code> holds them fixed and returns fixed effects and random-effect predictions. Both use the same formula/data/pedigree and explicit <code>gvc()</code> specifications as <code>gfit()</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">greml</span>(<span class="at">formula =</span> BW <span class="sc">~</span> sex <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id),</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> data, <span class="at">pedigree =</span> pedigree)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>variance_components</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># The same model/data specification, now with fixed covariance values.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>solved <span class="ot">&lt;-</span> <span class="fu">gsolve</span>(<span class="at">formula =</span> BW <span class="sc">~</span> sex <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id), <span class="at">data =</span> data,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">pedigree =</span> pedigree, <span class="at">vc =</span> <span class="fu">c</span>(<span class="at">id =</span> <span class="dv">1</span>, <span class="at">residual =</span> <span class="dv">1</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional shortcut: reuse the prepared model and its fitted covariance values.</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>resolved <span class="ot">&lt;-</span> <span class="fu">gsolve</span>(fit)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>resolved_pcg <span class="ot">&lt;-</span> <span class="fu">gsolve</span>(fit, <span class="at">control =</span> <span class="fu">list</span>(<span class="at">linear_solver =</span> <span class="st">"pcg"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Starting values are optional for <code>greml()</code>. Direct <code>gsolve()</code> calls require all covariance values. For <code>gsolve(fit)</code>, the default is to use the fitted values, requiring successful status and REML convergence. A complete named <code>vc</code> list/vector can override them; names identify components, and matrix coordinates retain the fitted trait/basis order. Such an override solves the stated fixed model and does not turn a failed REML fit into a successful one.</p>
+<p>The handoff reuses prepared records, sparse design and ID mappings. It supports saving/reloading the fit with <code>saveRDS()</code> / <code>readRDS()</code>. Numerical factors are rebuilt for the new solve. Fits therefore retain their analysis data; consider this when sharing saved objects. Supplying a new <code>control</code> replaces the route-specific controls; omitting it inherits the fit’s controls.</p>
+<p>Single-trait, multitrait and longitudinal pedigree formulas support the existing PCG and sparse-direct routes. CHOLMOD is the default direct backend. The explicit single-response component route, including correlated channels and grouped/AR(1)/exponential residuals, uses its existing direct solvers. Backend availability depends on the installed build. General <code>gs_model</code> workflows and low-level numerical <code>gsuite_solve()</code> retain their own APIs.</p>
+<p><code>gfit(task = "reml")</code> and <code>gfit(task = "solve")</code> remain available. The older compiled route selected by <code>gs_fit_control()</code> is REML-only: <code>greml()</code> can use it, but its fit cannot be handed to <code>gsolve()</code>. This interface change adds no new numerical algorithms or qualification claims. The <a href="../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a> shows the three main data-frame workflows. REML fits already include predictions, so a second solve is optional.</p>
+</section>
 <section id="numerical-and-statistical-boundary" class="level2">
 <h2 class="anchored" data-anchor-id="numerical-and-statistical-boundary">Numerical and statistical boundary</h2>
 <p>gsolve owns checked column-major matrix views, leading dimensions, caller-owned workspaces, square and rectangular operators, dense/sparse SPD factors, PCG, preconditioners, deterministic probes, SLQ, and numerical diagnostics. Its operator contracts declare symmetry, definiteness, concurrency, and available diagonals. Rectangular operators provide forward/transpose application and bounded column materialization.</p>
