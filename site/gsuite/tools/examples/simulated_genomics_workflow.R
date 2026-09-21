@@ -4,15 +4,15 @@
 .libPaths(c("build/r-library", .libPaths()))
 library(gsuite)
 stopifnot(requireNamespace("gsim", quietly=TRUE))
-out <- "build/examples/simulated-genomics"
+out <- getOption("gsuite.example.out", "build/examples/simulated-genomics")
 dir.create(out, recursive=TRUE, showWarnings=FALSE)
 out <- normalizePath(out, winslash="/", mustWork=TRUE)
-resume <- "--resume" %in% commandArgs(TRUE)
+resume <- getOption("gsuite.example.resume", "--resume" %in% commandArgs(TRUE))
 only_arg <- grep("^--only=",commandArgs(TRUE),value=TRUE)
 only <- if(length(only_arg)) strsplit(sub("^--only=","",only_arg),",",fixed=TRUE)[[1]] else NULL
-stage_names <- c("data","ld","gwas","gcorr","annotation","gbayes","gscore","gmap","gsea","gbayes-summary")
+stage_names <- c("data","ld","gwas","gcorr","annotation","gbayes","gscore","gmap","gsea")
 if(!is.null(only) && any(!only %in% stage_names)) stop("Unknown --only stage")
-seed <- 20260921L
+seed <- getOption("gsuite.example.seed", 20260921L)
 n <- 10000L; m <- 50000L; size <- 100L; nr <- m %/% size
 traits <- c("A", "B", "C")
 ids <- sprintf("m%05d", seq_len(m))
@@ -42,7 +42,7 @@ stage <- function(name, expression) {
   })
   seconds <- as.numeric(difftime(Sys.time(),start,units="secs"))
   saveRDS(list(value=result, started=start, seconds=seconds,
-    warnings=unique(warning_text), script_md5=unname(tools::md5sum(
+    warnings=unique(warning_text), seed=seed, script_md5=unname(tools::md5sum(
       "tools/examples/simulated_genomics_workflow.R")), session=sessionInfo(),
     versions=gsuite_versions(),
     native_md5=tools::md5sum(list.files(system.file("libs",package="gsuite"),
@@ -185,7 +185,9 @@ bayesian <- stage("gbayes", {
   fits <- list()
   elapsed <- numeric()
   for(method in c("bayesc","bayesr")) {
-    prior <- list(residual_variance=.7,effect_variance=.3/(m*.02))
+    # Working noise for the blockwise reference-LD summary likelihood; not the
+    # environmental variance. Fix this setting before generating replicates.
+    prior <- list(residual_variance=1,effect_variance=.3/(m*.02))
     if(method=="bayesc") prior$inclusion_probability <- .02 else {
       prior$weights <- c(.98,.006,.007,.007)
       prior$variance_multipliers <- c(0,.01,.1,1)
@@ -193,7 +195,8 @@ bayesian <- stage("gbayes", {
     }
     fit_start <- proc.time()[["elapsed"]]
     fits[[method]] <- gbayes(gwas$prepared$A,LD,method=method,trait="A",prior=prior,
-      control=list(burnin=200,sampling_sweeps=1000,seeds=c(11,29),threads=1))
+      control=list(burnin=200,sampling_sweeps=1000,seeds=c(11,29),threads=1),
+      posterior=list(reference=LD,phenotype_variance=c(A=1)))
     elapsed[method] <- proc.time()[["elapsed"]]-fit_start
     cat("FIT|",method,"|",round(elapsed[method],2)," seconds\n",sep=""); flush.console()
     stopifnot(all(is.finite(fits[[method]]$estimates$mean)),
@@ -223,7 +226,8 @@ scoring <- stage("gscore", {
     p<-prediction$scores[,method]
     data.frame(method=method,cor_genetic=cor(p,genetic),cor_phenotype=cor(p,phenotype),
       rmse_standardized_genetic=sqrt(mean((scale(p,scale=FALSE)-
-        scale(genetic,scale=FALSE)/sd(data$simulation$Y[rows$A,"A"]))^2)))
+        scale(genetic,scale=FALSE)/sd(data$simulation$Y[rows$A,"A"]))^2)),
+      calibration_slope=cov(p,genetic/sd(data$simulation$Y[rows$A,"A"]))/var(p))
   }))
   list(ridge=ridge,prediction=prediction,metrics=metrics,truth_score_error=centered_error)
 })
@@ -281,20 +285,8 @@ pathways <- stage("gsea", {
   list(evidence=evidence,controlled=controlled,fits=fits,genes=genes,sets=sets)
 })
 
-# Capture joint-draw genetic variance without changing the original samplers or
-# overwriting the original timing evidence. Fixed hyperparameters are not learned.
-bayesian_summary <- stage("gbayes-summary", {
-  fits <- lapply(names(bayesian),function(method) {
-    original <- bayesian[[method]]
-    fit <- gbayes(gwas$prepared$A,LD,method=method,trait="A",
-      prior=original$prior,control=original$control,
-      posterior=list(reference=LD,phenotype_variance=c(A=1)))
-    stopifnot(identical(fit$estimates,original$estimates),
-      identical(fit$parameter_mean,original$parameter_mean))
-    fit
-  })
-  setNames(fits,names(bayesian))
-})
+# Collect posterior quantities during fitting; no repeated sampler execution.
+bayesian_summary <- bayesian
 
 if(!is.null(only)) {
   cat("SELECTED_STAGES|completed; full report requires all stages\n")
@@ -383,6 +375,7 @@ capture.output(for(method in names(bayesian_summary)) {
   print(summary(bayesian_summary[[method]]))
 },file=file.path(out,"bayesian-fit-summary.txt"))
 draw <- function(name, code, width=1800,height=1100) {
+  if(!getOption("gsuite.example.figures", TRUE)) return(invisible(NULL))
   png(file.path(out,paste0(name,".png")),width=width,height=height,res=150)
   tryCatch(force(code),finally=dev.off())
 }
@@ -390,6 +383,7 @@ palette <- c("#28678b","#bf6b2d","#38836c")
 causal_colour <- "#c55a11"
 region_index <- rep(seq_len(nr),each=size)
 marker_x <- (seq_len(m)-.5)/size+.5
+source("tools/examples/simulated_genomics_summaries.R", local=TRUE)
 draw("association-manhattan", {
   par(mfrow=c(3,1),mar=c(3.8,4.5,2.8,1),oma=c(0,0,1,0),las=1)
   for(t in traits) {

@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="A connected 10,000-individual, 50,000-marker example with known truth.">
+<meta name="description" content="A connected 10,000-individual, 50,000-marker example with known truth and ten new simulations.">
 
 <title>One simulated dataset across six genomic modules – gtools</title>
 <style>
@@ -497,6 +497,7 @@ window.Quarto = {
   <li><a href="#mapping-and-held-out-prediction" id="toc-mapping-and-held-out-prediction" class="nav-link" data-scroll-target="#mapping-and-held-out-prediction">Mapping and held-out prediction</a></li>
   <li><a href="#pathways" id="toc-pathways" class="nav-link" data-scroll-target="#pathways">Pathways</a></li>
   </ul></li>
+  <li><a href="#results-across-simulations" id="toc-results-across-simulations" class="nav-link" data-scroll-target="#results-across-simulations">Results across simulations</a></li>
   <li><a href="#run-and-inspect" id="toc-run-and-inspect" class="nav-link" data-scroll-target="#run-and-inspect">Run and inspect</a></li>
   </ul>
 </nav>
@@ -511,7 +512,7 @@ window.Quarto = {
 
 <div>
   <div class="description">
-    A connected 10,000-individual, 50,000-marker example with known truth.
+    A connected 10,000-individual, 50,000-marker example with known truth and ten new simulations.
   </div>
 </div>
 
@@ -538,7 +539,7 @@ Completed example, with recorded limits
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>All six modules ran on the same simulated dataset. Five gene-level p-values could not be certified by the controlled-series route; pathway analyses use the explicitly approximate default route for every gene. Additional Bayesian reporting shows reference-heritability estimates well above simulated truth; that discrepancy is unresolved. Other uncertainty limitations are retained below. This is one integration example, not full statistical qualification. See the <a href="../../gsuite/docs/simulated-genomics-qualification.html#current-execution-status-2026-09-21">execution record</a>.</p>
+<p>All six modules ran on the same simulated dataset. Five gene-level p-values could not be certified by the controlled-series route; pathway analyses use the explicitly approximate default route for every gene. Bayesian summaries use a fixed working-noise scale appropriate to this reference-LD example. Other uncertainty limitations are retained below. This is an integration example, not full statistical qualification. See the <a href="../../gsuite/docs/simulated-genomics-qualification.html#working-scale-and-repeated-simulations">execution record</a>.</p>
 </div>
 </div>
 <section id="what-this-example-demonstrates" class="level2">
@@ -594,7 +595,7 @@ Completed example, with recorded limits
 </tr>
 <tr class="odd">
 <td>Replicates</td>
-<td>One, with fixed seeds; no seed selection</td>
+<td>One detailed example, followed by ten new simulations with fixed settings</td>
 </tr>
 </tbody>
 </table>
@@ -649,6 +650,13 @@ Completed example, with recorded limits
 </div>
 <p>Each panel shows all 50,000 markers from <strong>glma</strong>, with a dashed reference line at <span class="math inline">\(p=0.05/50{,}000=10^{-6}\)</span> for that trait. Positions follow the 500 artificial regions, not human chromosomes. A causal variant need not reach this threshold: most effects are small and each GWAS uses 3,000 individuals. Conversely, a grey marker can be associated through LD with a causal variant; grey significant points are not automatically false-positive associations.</p>
 <p>The <a href="../website/assets/simulated-genomics/association-summary.csv">association summary</a> reports the numbers of causal markers and threshold crossings separately. Each trait has 984 causal markers; 985 distinct markers affect at least one trait. There are three threshold crossings for A, three for B and two for C; all are directly causal in this draw. The 15 direct comparisons with R ordinary least squares remain the independent numerical check of these scans.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/simulated-genomics/association-effects.png" class="img-fluid figure-img"></p>
+<figcaption>Estimated versus true marginal GWAS effects for the three traits, on the raw-dosage scale.</figcaption>
+</figure>
+</div>
+<p>The target here is the <strong>marginal effect</strong>, <span class="math inline">\(R_{\mathrm{pop}}B\)</span>, which includes LD with other causal variants. The diagonal represents equality. Direct causal effects <span class="math inline">\(B\)</span> are a different target and are used for the Bayesian comparison below.</p>
 </section>
 <section id="heritability-and-genetic-correlation" class="level3">
 <h3 class="anchored" data-anchor-id="heritability-and-genetic-correlation">Heritability and genetic correlation</h3>
@@ -703,10 +711,18 @@ Completed example, with recorded limits
 <p>The baseline fits underestimate heritability in this draw. Effects are concentrated in the first 80 regions, which also occupy the lower-LD end of the generator. The annotation-aware model represents this heterogeneity and gives estimates closer to truth here. This contrast is about model assumptions; it does not rank software implementations or establish bias across repetitions. SumHer uses ordinary LD scores as tagging weights and one baseline architecture component, explaining its near-identical results to baseline LDSC in this setup.</p>
 <p>The uncertainty bars show estimate plus/minus 1.96 jackknife standard errors, using the 500 regions as blocks. They are illustrative normal approximations, not an interval-coverage evaluation. Correlations are imprecise with 3,000 individuals per trait: baseline LDSC gives B/C rg = <strong>1.095</strong> (SE 0.331), and annotation-aware LDSC gives <strong>1.052</strong> (SE 0.228), versus truth <strong>0.726</strong>. These out-of-range estimates remain visible; they are not clipped to one.</p>
 <p>HESS, SUPERGNOVA and LAVA also returned the requested covariances in 20 predetermined regions. HESS standard errors were unavailable for 40 of the 60 trait-pair/region results because its plug-in genetic/residual matrices did not meet the positive-semidefinite requirement. SUPERGNOVA returned all 60 standard errors. The exercised LAVA covariance route does not return standard errors. Finite point estimates do not remove those uncertainty limitations.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/simulated-genomics/regional-annotation.png" class="img-fluid figure-img"></p>
+<figcaption>Regional genetic covariance estimates against population truth, and LDSC annotation heritabilities.</figcaption>
+</figure>
+</div>
+<p>Each regional panel contains 20 predetermined regions and three trait pairs. Covariances use phenotype-standardized units. The annotation panel compares the enriched and background contributions to total heritability; the categories are disjoint and exhaustive. Points for regions and traits from the same dataset are dependent. <a href="../website/assets/simulated-genomics/estimation-summary.csv">Download the labelled truth comparisons</a>.</p>
 </section>
 <section id="bayesian-regression-parameters-marker-effects-and-uncertainty" class="level3">
 <h3 class="anchored" data-anchor-id="bayesian-regression-parameters-marker-effects-and-uncertainty">Bayesian regression: parameters, marker effects and uncertainty</h3>
-<p>BayesC and BayesR fit trait A across all 50,000 markers, with residual variance fixed at 0.7 and fixed effect-variance and mixture settings chosen using the simulated architecture. <strong>These hyperparameters were not estimated.</strong> They are shown alongside estimated quantities in the <a href="../website/assets/simulated-genomics/bayesian-fit-summary.txt">fit summaries</a> and <a href="../website/assets/simulated-genomics/bayesian-posterior.csv">posterior table</a>.</p>
+<p>BayesC and BayesR fit trait A across all 50,000 markers, with the summary-likelihood working-noise scale fixed at one and fixed effect-variance and mixture settings chosen using the simulated architecture. <strong>These hyperparameters were not estimated.</strong> They are shown alongside estimated quantities in the <a href="../website/assets/simulated-genomics/bayesian-fit-summary.txt">fit summaries</a> and <a href="../website/assets/simulated-genomics/bayesian-posterior.csv">posterior table</a>.</p>
+<p>The API calls this setting <code>residual_variance</code>. Here it represents working noise for standardized marginal summaries and blockwise reference LD, rather than the simulated environmental variance of 0.7. Sample correlations between population blocks contribute additional noise to those summaries. A value of one is the checked approximation used throughout this example; it is not a universal setting for individual-level or complete in-sample regressions.</p>
 <p>Heritability is summarized from joint posterior draws of the marker effects. For each draw <span class="math inline">\(b\)</span>, the reported quantity is</p>
 <p><span class="math display">\[
 h^2_{\mathrm{ref}} = \frac{b^{\mathsf T}R_{\mathrm{ref}}b}{V_y},
@@ -714,12 +730,6 @@ h^2_{\mathrm{ref}} = \frac{b^{\mathsf T}R_{\mathrm{ref}}b}{V_y},
 \]</span></p>
 <p>Here <span class="math inline">\(R_{\mathrm{ref}}\)</span> is the prepared pooled LD reference and effects are on the standardized phenotype/dosage scale. This includes LD and joint posterior effect uncertainty; it is not the variance of posterior mean predictions or the sum of squared posterior mean effects. The intervals are conditional on the fixed priors, supplied phenotype variance and approximate LD likelihood. They exclude LD-reference uncertainty. Because priors use knowledge of the simulation, this is not an independent test of heritability recovery.</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 26%">
-<col style="width: 26%">
-<col style="width: 26%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Trait-A quantity</th>
@@ -732,30 +742,30 @@ h^2_{\mathrm{ref}} = \frac{b^{\mathsf T}R_{\mathrm{ref}}b}{V_y},
 <tr class="odd">
 <td>Reference heritability, posterior mean</td>
 <td style="text-align: right;">0.296</td>
-<td style="text-align: right;">0.537</td>
-<td style="text-align: right;">0.614</td>
+<td style="text-align: right;">0.311</td>
+<td style="text-align: right;">0.307</td>
 </tr>
 <tr class="even">
 <td>Conditional 95% interval</td>
 <td style="text-align: right;">—</td>
-<td style="text-align: right;">0.496–0.579</td>
-<td style="text-align: right;">0.561–0.672</td>
+<td style="text-align: right;">0.280–0.342</td>
+<td style="text-align: right;">0.266–0.348</td>
 </tr>
 <tr class="odd">
 <td>Active markers, posterior mean</td>
 <td style="text-align: right;">984</td>
-<td style="text-align: right;">1,230</td>
-<td style="text-align: right;">1,182</td>
+<td style="text-align: right;">993</td>
+<td style="text-align: right;">988</td>
 </tr>
 <tr class="even">
 <td>Active markers, conditional 95% interval</td>
 <td style="text-align: right;">—</td>
-<td style="text-align: right;">1,164–1,295</td>
-<td style="text-align: right;">1,119–1,248</td>
+<td style="text-align: right;">933–1,056</td>
+<td style="text-align: right;">928–1,049</td>
 </tr>
 </tbody>
 </table>
-<p><strong>The Bayesian heritability estimates are substantially above truth</strong>, and both intervals exclude it. R-hat is approximately one and bulk ESS is about 2,038 and 1,901 for heritability; agreement between chains does not establish statistical accuracy. The cause is not resolved by this reporting exercise. The fixed priors, approximate summary likelihood and sampling implementation need to be distinguished in a focused follow-up. These results must not be presented as successful heritability recovery. Using the observed training phenotype variance instead of population variance changes the truth comparator to 0.290, which does not explain the discrepancy.</p>
+<p>Both heritability intervals contain population truth in this draw. R-hat is approximately one and bulk ESS is about 2,028 and 1,908. These diagnostics describe Monte Carlo sampling, not statistical calibration. Expected active markers are the sum of marginal PIPs, not a count above a PIP threshold. The <a href="../website/assets/simulated-genomics/bayesian-summary.csv">marker summary</a> also reports effect recovery, PIPs by causal status and differences between chains.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Request posterior heritability summaries using the LD reference.</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(prepared<span class="sc">$</span>A, LDlist, <span class="at">method =</span> <span class="st">"bayesc"</span>, <span class="at">trait =</span> <span class="st">"A"</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">prior =</span> prior, <span class="at">control =</span> control,</span>
@@ -781,20 +791,29 @@ h^2_{\mathrm{ref}} = \frac{b^{\mathsf T}R_{\mathrm{ref}}b}{V_y},
 <section id="mapping-and-held-out-prediction" class="level3">
 <h3 class="anchored" data-anchor-id="mapping-and-held-out-prediction">Mapping and held-out prediction</h3>
 <p>The two regions were selected before fitting. Region 1 contains a shared causal variant; region 2 contains distinct causal variants for A and B. The fitted multi-effect model uses one component, matching this deliberately simple regional truth. ABF colocalisation uses the same complete regional summaries from disjoint samples and its at-most-one-causal-variant-per-trait assumption.</p>
-<p>All four regional fits converged. ABF H4 is effectively one for the shared signal, and H3 is effectively one for the distinct signals in this draw.</p>
+<p>All four regional fits converged. ABF H4 is effectively one for the shared signal, and H3 is effectively one for the distinct signals in this draw. The <a href="../website/assets/simulated-genomics/credible-sets-summary.csv">credible-set summary</a> records set size, completeness, LD checks and whether the known causal marker is included for each region and trait. Here all four sets contain one marker, the true causal variant, and pass the recorded LD checks. These are component assignment sets from a one-component fit, not a guarantee that every causal variant would be covered in a more complex region.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../website/assets/simulated-genomics/mapping-prediction.png" class="img-fluid figure-img"></p>
 <figcaption>Regional inclusion probabilities, shared versus distinct causal signals, and held-out genetic prediction. H3 denotes distinct causal variants and H4 a shared variant.</figcaption>
 </figure>
 </div>
-<p>The genome-wide BayesC/BayesR fits use two chains each and fixed priors, with posterior mean effects passed to <code>gscore()</code>. BayesC took 90.86 seconds and BayesR 217.82 seconds for 50,000 markers and 1,200 sweeps per chain. A matched installed-sblr BayesC run took 87.43 seconds on the same machine; see the qualification record for timing scope and limitations.</p>
+<p>The genome-wide BayesC/BayesR fits use two chains each and fixed priors, with posterior mean effects passed to <code>gscore()</code>. Each chain runs 200 burn-in and 1,000 retained sweeps. The qualification record distinguishes historical timings from the current runs, which also collect posterior genetic variance.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Score</th>
 <th style="text-align: right;">Correlation with genetic truth</th>
 <th style="text-align: right;">Correlation with phenotype</th>
+<th style="text-align: right;">Genetic RMSE</th>
+<th style="text-align: right;">Calibration slope</th>
 </tr>
 </thead>
 <tbody>
@@ -802,16 +821,22 @@ h^2_{\mathrm{ref}} = \frac{b^{\mathsf T}R_{\mathrm{ref}}b}{V_y},
 <td>Ridge</td>
 <td style="text-align: right;">0.139</td>
 <td style="text-align: right;">0.086</td>
+<td style="text-align: right;">1.896</td>
+<td style="text-align: right;">0.039</td>
 </tr>
 <tr class="even">
 <td>BayesC</td>
-<td style="text-align: right;">0.393</td>
-<td style="text-align: right;">0.222</td>
+<td style="text-align: right;">0.489</td>
+<td style="text-align: right;">0.279</td>
+<td style="text-align: right;">0.466</td>
+<td style="text-align: right;">1.385</td>
 </tr>
 <tr class="odd">
 <td>BayesR</td>
-<td style="text-align: right;">0.406</td>
-<td style="text-align: right;">0.233</td>
+<td style="text-align: right;">0.510</td>
+<td style="text-align: right;">0.290</td>
+<td style="text-align: right;">0.454</td>
+<td style="text-align: right;">1.053</td>
 </tr>
 </tbody>
 </table>
@@ -822,7 +847,7 @@ h^2_{\mathrm{ref}} = \frac{b^{\mathsf T}R_{\mathrm{ref}}b}{V_y},
 <figcaption>Predicted versus true genetic values for the 1,000 held-out individuals, for BayesC and BayesR. Both axes use the training phenotype SD; the dashed line is equality.</figcaption>
 </figure>
 </div>
-<p>The scatterplots show every held-out individual. Values are centered on both axes, with no separate rescaling of predictions to force agreement with truth. Posterior mean predictions include shrinkage and estimation error, so correlation and agreement with the equality line measure different aspects of prediction. Useful prediction does not resolve the heritability discrepancy above.</p>
+<p>The scatterplots show every held-out individual. Values are centered on both axes, with no separate rescaling of predictions to force agreement with truth. Posterior mean predictions include shrinkage and estimation error, so correlation and agreement with the equality line measure different aspects of prediction. The prediction table also reports RMSE and a calibration slope from regressing standardized genetic truth on the predicted score. A slope of one is the calibration target; it is a different measure from correlation. RMSE uses the same standardized genetic-value units. BayesC’s slope above one indicates predictions are too compressed in this test sample; BayesR is closer to one. The fixed ridge setting performs poorly here and has not been tuned.</p>
 </section>
 <section id="pathways" class="level3">
 <h3 class="anchored" data-anchor-id="pathways">Pathways</h3>
@@ -836,17 +861,94 @@ h^2_{\mathrm{ref}} = \frac{b^{\mathsf T}R_{\mathrm{ref}}b}{V_y},
 </div>
 <p>The enriched pathway has nominal bounded-MAGMA p-values of <strong>0.0086, 0.00077 and 0.0018</strong> for A, B and C. Its Bayesian PIP for trait A is <strong>0.9995</strong>, compared with <strong>0.0705</strong> for background and <strong>0.0315</strong> for mixed. ORA, preranked GSEA and competitive regression also show the strongest evidence for the enriched set in this draw. Pathway p-values here are unadjusted; the different methods use different null hypotheses, so their magnitudes do not rank method quality.</p>
 <p>P-values and posterior inclusion probabilities answer different questions and are shown on separate scales. One simulated dataset cannot establish pathway false-discovery control, credible-set coverage or comparative power.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/simulated-genomics/pathway-comparison.png" class="img-fluid figure-img"></p>
+<figcaption>Four frequentist pathway summaries for trait A alongside the separate Bayesian PIP scale.</figcaption>
+</figure>
+</div>
 </section>
+</section>
+<section id="results-across-simulations" class="level2">
+<h2 class="anchored" data-anchor-id="results-across-simulations">Results across simulations</h2>
+<p>Ten new datasets repeat the same 10,000-individual, 50,000-marker design. Genotypes, marker effects and phenotypes are regenerated each time. The regions, annotations, sample split, priors, chain lengths and working-noise scale are fixed before these runs. The detailed example above is excluded from the aggregate. No seeds are selected or replaced based on their results.</p>
+<p><strong>All ten runs completed.</strong> Mean population heritability for trait A was 0.300. The Bayesian results below summarize the ten datasets; their priors remain fixed and truth-informed, so agreement is conditional on those settings.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Trait-A summary across ten simulations</th>
+<th style="text-align: right;">BayesC</th>
+<th style="text-align: right;">BayesR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mean reference heritability estimate</td>
+<td style="text-align: right;">0.312</td>
+<td style="text-align: right;">0.307</td>
+</tr>
+<tr class="even">
+<td>Heritability RMSE against population truth</td>
+<td style="text-align: right;">0.0126</td>
+<td style="text-align: right;">0.0099</td>
+</tr>
+<tr class="odd">
+<td>Posterior intervals containing truth</td>
+<td style="text-align: right;">10/10</td>
+<td style="text-align: right;">10/10</td>
+</tr>
+<tr class="even">
+<td>Mean held-out correlation with genetic truth</td>
+<td style="text-align: right;">0.503</td>
+<td style="text-align: right;">0.519</td>
+</tr>
+<tr class="odd">
+<td>Mean prediction calibration slope (target 1)</td>
+<td style="text-align: right;">1.458</td>
+<td style="text-align: right;">1.094</td>
+</tr>
+</tbody>
+</table>
+<p>Baseline LDSC, GNOVA and SumHer underestimate heritability on average in this nonuniform architecture. Annotation-aware LDSC changes the mean estimates to 0.310, 0.439 and 0.394 for A, B and C, against mean truths of 0.300, 0.398 and 0.349. Accounting for enrichment reduces systematic underestimation here but can overshoot; it does not improve every trait’s RMSE.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/simulated-genomics/replicate-estimation.png" class="img-fluid figure-img"></p>
+<figcaption>Heritability estimation errors by trait and method, and mean genetic-correlation error across three trait pairs for each simulation.</figcaption>
+</figure>
+</div>
+<p>Each point represents one simulation; short black lines show means. Zero is the estimation-error target. Genetic-correlation errors are first averaged over the three pairs within a simulation, so the pairs are not presented as independent repetitions. <a href="../website/assets/simulated-genomics/replicate-accuracy.csv">Download accuracy summaries</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/simulated-genomics/replicate-prediction-mapping.png" class="img-fluid figure-img"></p>
+<figcaption>Held-out prediction correlation and calibration, component-set causal coverage and colocalisation probabilities across simulations.</figcaption>
+</figure>
+</div>
+<p>The prediction sample is held out in every simulation. Ridge retains its single fixed penalty; the comparison does not tune or rank optimized methods. Mapping still examines the two deliberately simple, strong-signal regions. Repeated success there does not establish performance under multiple weak or correlated causal signals.</p>
+<p>All 40 component credible sets contain their simulated causal variant; each set contains one marker. Colocalisation assigns probability effectively one to the appropriate shared- or distinct-causal hypothesis in these easy regions. The mean Bayesian pathway PIP is 0.894 for the enriched set, compared with 0.054 for background and 0.038 for mixed. The downloadable tables retain variation across datasets and the other pathway methods.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/simulated-genomics/replicate-uncertainty.png" class="img-fluid figure-img"></p>
+<figcaption>Observed trait-A interval coverage, regional standard-error availability, gene-tail diagnostics and out-of-range genetic correlations.</figcaption>
+</figure>
+</div>
+<p>Coverage counts show how many available intervals contain population truth. Frequentist intervals use estimate plus/minus 1.96 method-specific standard errors; Bayesian intervals are conditional equal-tailed posterior intervals. The constructions are different. Missing intervals remain missing. The LAVA covariance route exercised here supplies no standard errors. Annotation-level correlations can also be undefined when a component’s estimated heritability is nonpositive. The corresponding variance estimates and missing correlations remain in the tables; they are not clipped or removed. The gene-tail panel distinguishes unavailable controlled-series results from the approximate route’s recorded moment-matching fallbacks. A returned approximate p-value is not a controlled-error certificate.</p>
+<p>Across the ten runs, HESS supplies standard errors for <strong>189 of 600</strong> regional covariances, SUPERGNOVA for <strong>600 of 600</strong>, and the exercised LAVA route for none. Six annotation-category correlations are undefined. Controlled-series gene p-values are unavailable for <strong>60 of 30,000</strong> gene/trait calculations. The separate approximate route returns all 30,000, including <strong>11 explicitly recorded moment-matching fallbacks</strong>.</p>
+<p>With only ten simulations, one outcome changes a proportion by ten percentage points. These results are descriptive checks under one non-null design, not precise calibration, a null false-positive assessment or general method rankings. The <a href="../website/assets/simulated-genomics/replicate-status.csv">run status</a> lists every planned seed and its outcome. The <a href="../website/assets/simulated-genomics/replicate-results.zip">replicate tables</a> contain labelled estimates, truths, posterior diagnostics, mapping, pathways, prediction metrics and availability counts.</p>
 </section>
 <section id="run-and-inspect" class="level2">
 <h2 class="anchored" data-anchor-id="run-and-inspect">Run and inspect</h2>
 <p>From the gsuite checkout with its development library prepared:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/simulated_genomics_workflow.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Outputs stay in <code>build/examples/simulated-genomics/</code>: ten fixed stage RDS files, the reusable genotype/LD resources, compact tables, fit summaries and seven figures. Each stage file contains its result, warnings, timing, script hash, R session and installed native versions. Repeat execution replaces these named outputs.</p>
+<p>Outputs stay in <code>build/examples/simulated-genomics/</code>: nine fixed stage RDS files, the reusable genotype/LD resources, compact tables, fit summaries and ten figures. Each stage file contains its result, warnings, timing, script hash, R session and installed native versions. Repeat execution replaces these named outputs.</p>
 <p>Download the compact result tables: <a href="../website/assets/simulated-genomics/correlation.csv">correlation estimates</a>, <a href="../website/assets/simulated-genomics/prediction.csv">prediction</a>, <a href="../website/assets/simulated-genomics/pathways.csv">pathways</a>, <a href="../website/assets/simulated-genomics/availability.csv">numerical availability</a>, <a href="../website/assets/simulated-genomics/gene-tail-comparison.csv">gene-tail comparison</a> and <a href="../website/assets/simulated-genomics/timings.csv">stage timings</a>. Additional downloads: <a href="../website/assets/simulated-genomics/association-summary.csv">GWAS summary</a>, <a href="../website/assets/simulated-genomics/bayesian-posterior.csv">Bayesian parameters and uncertainty</a> and <a href="../website/assets/simulated-genomics/bayesian-fit-summary.txt">printed fit summaries</a>.</p>
 <p>After an interruption, the same script/design can resume from completed stages:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/examples/simulated_genomics_workflow.R <span class="at">--resume</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Regenerate after changing completed-stage code or assumptions; the resume option does not infer which cached results have become invalid.</p>
+<p>Run the ten repetitions and then summarize their saved results:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/examples/simulated_genomics_replicates.R</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/examples/report_simulated_genomics_replicates.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For two concurrent R processes, run the replicate script once with <code>--worker=1</code> and once with <code>--worker=2</code>, then run the report after both finish. Use either the sequential or the two-worker form, not both concurrently. Large working files are overwritten within each worker directory. One compact result per planned replicate is retained, including failures. Existing results are reused only when the seed and recorded script identities agree.</p>
+<p>Download the <a href="../tools/examples/simulated_genomics_replicates.R">replicate runner</a>, <a href="../tools/examples/report_simulated_genomics_replicates.R">report script</a> and <a href="../tools/examples/simulated_genomics_summaries.R">shared summary helper</a> alongside the main workflow script, preserving their relative paths.</p>
 <p>Read the <a href="../../gsuite/docs/simulated-genomics-qualification.html">qualification record</a> for the scientific targets, check definitions and untested capabilities. The existing <a href="../../gsuite/docs/gcorr-method-comparison.html">smaller replicated comparison</a> is a separate simulation design; its results are not pooled with this example.</p>
 
 

@@ -1,0 +1,5 @@
+"region","trait","causal_marker","sets","total_members","causal_covered","all_complete","all_pass_ld","converged"
+"region001","A","m00050",1,1,TRUE,TRUE,TRUE,TRUE
+"region001","B","m00050",1,1,TRUE,TRUE,TRUE,TRUE
+"region002","A","m00125",1,1,TRUE,TRUE,TRUE,TRUE
+"region002","B","m00175",1,1,TRUE,TRUE,TRUE,TRUE
