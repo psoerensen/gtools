@@ -610,6 +610,7 @@ V_g = \frac{b^{\mathsf T}Cb}{N},
 \]</span></p>
 <p>where <code>residual_adjustment</code> is <span class="math inline">\(a\)</span> and defaults to 0.9. The normalized summary convention supplies <span class="math inline">\(y^{\mathsf T}y=N\)</span> and likelihood dimension <span class="math inline">\(N\)</span>. Chain traces record <code>residual_variance</code>, <code>genetic_variance</code> and <code>working_residual_variance</code> separately. This route follows the established sblr scalar reference-LD transition, but it does not turn reference LD into an exact in-sample likelihood.</p>
 <p>For exact learning, set <code>residual_policy="in_sample"</code> and provide <code>normalization=list(response_ss=..., likelihood_dimension=..., in_sample_ld=TRUE)</code>. Complete same-sample LD and common <span class="math inline">\(N\)</span> are checked. The older <code>estimate_residual_variance=TRUE</code> spelling still resolves to this exact route when no policy is supplied.</p>
+<p>For explicitly disjoint LD blocks, <code>control$block_residual</code> can declare one response sum of squares, likelihood dimension, prior, initial residual variance and genetic-variance denominator per block. The native operator rejects retained cross-block LD. The modes <code>sample</code>, <code>all_mix</code>, <code>mix</code> and <code>fixed</code> expose the corresponding block-scale policies. This is an advanced route: block labels must be named in complete LD marker order, and the normalizations must already be on the fitted summary-likelihood scale.</p>
 </section>
 <section id="a-complete-example-and-reusable-effects" class="level2">
 <h2 class="anchored" data-anchor-id="a-complete-example-and-reusable-effects">A complete example and reusable effects</h2>
@@ -633,6 +634,7 @@ V_g = \frac{b^{\mathsf T}Cb}{N},
 <section id="execution-and-current-scope" class="level2">
 <h2 class="anchored" data-anchor-id="execution-and-current-scope">Execution and current scope</h2>
 <p>The fit consumes existing sparse LD files and does not need genotype files. Default <code>storage="memory"</code> materializes sparse LD, including its reverse index, but never a dense matrix. <code>max_ld_entries=1e7</code> limits stored upper-triangle entries; it is not a total RAM limit. Memory also grows with markers and chains. For larger resources, <code>storage="disk"</code> uses the native bounded column reader and requires <code>threads=1</code>. <code>threads&gt;1</code> with memory storage parallelizes chains, not marker updates. Exact seeds are recorded and thread allocation does not change a chain’s random-number stream.</p>
+<p>Optional <code>control$ld_swap</code> settings request reversible active/null relocations between retained strong-LD neighbours. Sparse memory and disk operators prepare bounded neighbour lists without a dense LD matrix. The transition includes proposal asymmetry and marker-specific probability/variance priors; attempted, accepted and acceptance-rate diagnostics are returned in <code>fit$ld_swap</code>. The default probability is zero.</p>
 <p>Omitted LD entries are treated as zero. The supplied matrix is assumed positive semidefinite; truncating or thresholding LD can violate this, and the interface does not silently repair it. Reference mismatch remains a separate concern. The example uses complete, matching LD to keep these issues out of the demonstration.</p>
 <p>Study-specific references are described below. Regional sets and colocalisation remain in the <a href="../../gsuite/docs/gmap-workflow.html">mapping workflow</a>.</p>
 </section>
@@ -688,7 +690,8 @@ V_g = \frac{b^{\mathsf T}Cb}{N},
 </tr>
 </tbody>
 </table>
-<p>Shared LD uses <span class="math inline">\(E(S)=CB\)</span> and <span class="math inline">\(\operatorname{Cov}(\operatorname{vec}S)=\Omega\otimes C\)</span>. <code>Omega</code> is neither a genetic covariance matrix nor a matrix of overlap counts. The simulated example obtains it from the known residual covariance, transformed to standardized phenotype units. Real data need a justified estimate/input on that scale. The interface does not infer overlap or estimate this covariance. Arbitrary differing LD and marker-specific overlap are outside this route.</p>
+<p>With shared LD, <code>control=list(estimate_sampling_covariance=TRUE)</code> can learn <code>Omega</code> when <code>sampling</code> also supplies the labelled <code>response_crossproduct</code> and <code>likelihood_dimension</code>, and <code>prior</code> supplies <code>sampling_covariance_prior=list(df=..., scale=...)</code>. Marginal GWAS statistics do not contain the response cross-product, so it is never inferred. The posterior mean is returned as <code>fit$parameter_mean$sampling_covariance</code>.</p>
+<p>Shared LD uses <span class="math inline">\(E(S)=CB\)</span> and <span class="math inline">\(\operatorname{Cov}(\operatorname{vec}S)=\Omega\otimes C\)</span>. <code>Omega</code> is neither a genetic covariance matrix nor a matrix of overlap counts. The simulated example obtains it from the known residual covariance, transformed to standardized phenotype units. Real data need a justified estimate/input on that scale. The interface does not infer overlap or a missing response cross-product. Arbitrary differing LD and marker-specific overlap are outside this route.</p>
 <p>Independent summaries additionally allow <code>control=list(sample_size="variable")</code>. That approximation requires explicit named <code>sampling$study_sample_size</code> metadata as well as per-marker <code>n</code>. Study sizes do not replace the per-marker values. No mean or maximum sample size is invented. Residual scales stay fixed in both modes.</p>
 </section>
 <section id="activity-patterns-and-magnitude-components" class="level3">
@@ -741,9 +744,15 @@ V_g = \frac{b^{\mathsf T}Cb}{N},
 <td>Centred log-linear relative effect variance</td>
 <td>One marker multiplier scaling the latent effect-covariance matrix</td>
 </tr>
+<tr class="odd">
+<td><code>bayess</code></td>
+<td>BayesS MAF exponent through centred log heterozygosity</td>
+<td>The same shared MAF exponent scales the latent effect-covariance matrix</td>
+</tr>
 </tbody>
 </table>
 <p>Each role accepts its own numeric design matrix. Row names must match the LD marker IDs exactly; column names must be unique. Binary or continuous columns are allowed, including overlapping annotations. Native preparation centres each column across the supplied markers, <strong>without standardising it</strong>. Do not add an intercept column. Annotation units therefore affect the coefficient prior.</p>
+<p><code>annotation=list(bayess=list(allele_frequency=...))</code> is a convenience specialization. Frequencies must be named in LD marker order and lie inside <span class="math inline">\((0,1)\)</span>. Its coefficient <code>maf_exponent_s</code> is the BayesS exponent <span class="math inline">\(S\)</span> in <span class="math inline">\(q_j\propto\{2p_j(1-p_j)\}^S\)</span>; <code>initial_s</code>, <code>learn</code>, <code>coefficient_prior_sd</code>, <code>update_every</code> and <code>maximum_evaluations</code> map to the same native variance model.</p>
 <p>Using the data from the <a href="../tools/examples/run_gbayes_workflow.R">example script</a>:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Artificial annotations; they do not represent biological categories.</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">category=</span><span class="fu">as.numeric</span>(<span class="fu">seq_len</span>(m) <span class="sc">%%</span> <span class="dv">3</span>L<span class="sc">==</span><span class="dv">0</span>), <span class="at">position=</span><span class="fu">seq_len</span>(m)<span class="sc">/</span>m)</span>
