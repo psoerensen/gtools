@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Simulation evidence, numerical checks and limits for selected gsuite workflows.">
 
-<title>prediction-error – gtools</title>
+<title>Qualifications – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,61 +21,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-264a0fc3a96c72ca7334393e02078ef0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-264a0fc3a96c72ca7334393e02078ef0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -103,47 +69,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="../../gsuite/website/styles.css">
+<link rel="stylesheet" href="../gsuite/website/styles.css">
 </head>
 
-<body class="nav-sidebar docked nav-fixed quarto-light">
+<body class="nav-sidebar docked nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../../index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">gtools</span>
     </a>
   </div>
@@ -154,11 +91,11 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../gsuite/index.html" aria-current="page"> 
+    <a class="nav-link active" href="../gsuite/index.html" aria-current="page"> 
 <span class="menu-text">gsuite</span></a>
   </li>  
   <li class="nav-item">
@@ -186,7 +123,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-catalog.html">Reference</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/prediction-error.html">Prediction and uncertainty</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../gsuite/qualifications.html">Qualifications</a></li><li class="breadcrumb-item"><a href="../gsuite/qualifications.html">Qualification overview</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -200,7 +137,7 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/index.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Overview</span></a>
   </div>
 </li>
@@ -215,25 +152,25 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/architecture.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/architecture.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Architecture and libraries</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/methods.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/methods.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Capabilities and methods</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/downloads.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/downloads.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Software availability</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Current status</span></a>
   </div>
 </li>
@@ -250,37 +187,37 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">All tutorials</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/pedigree-analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/pedigree-analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Pedigree analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/simulated-genomics-workflow.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/simulated-genomics-workflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Connected genomic analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/summary-statistic-workflow.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/summary-statistic-workflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Saved LD analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Analysis with an assistant</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/model-development-with-an-assistant.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/model-development-with-an-assistant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Developing a model with an assistant</span></a>
   </div>
 </li>
@@ -297,67 +234,67 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/guides.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/guides.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">All guides</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/summary-statistic-analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/summary-statistic-analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Heritability and genetic correlation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gbayes-workflow.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/gbayes-workflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bayesian regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gmap-workflow.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/gmap-workflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Fine-mapping and colocalisation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gsea-workflow.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/gsea-workflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gene sets and pathways</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/mr-workflow.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/mr-workflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Mendelian randomisation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/covariance-models.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/covariance-models.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">SEM and graphical models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/summary-interfaces.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/summary-interfaces.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Scoring and summary interfaces</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/genotype-preparation.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/genotype-preparation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Genotype preparation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/genotype-filtering.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/genotype-filtering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Marker filtering</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/sparse-ld-preparation.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/sparse-ld-preparation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Sparse LD preparation</span></a>
   </div>
 </li>
@@ -365,34 +302,34 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
  <span class="menu-text">Qualifications</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/qualifications.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/qualifications.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Qualification overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/simulated-genomics-qualification.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/simulated-genomics-qualification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Connected genomic evidence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gcorr-method-comparison.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/gcorr-method-comparison.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">gcorr comparison results</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Current limits</span></a>
   </div>
 </li>
@@ -400,82 +337,82 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
  <span class="menu-text">Reference</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/model-catalog.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/model-catalog.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Mixed-model catalog</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/model-recipes.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/model-recipes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Model recipes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/formula-reml.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/formula-reml.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Formulas and covariance components</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/r-interface.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/r-interface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Persistent R interface</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/prediction-error.html" class="sidebar-item-text sidebar-link active">
+  <a href="../gsuite/docs/prediction-error.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Prediction and uncertainty</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Model representation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gsolve-greml.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/gsolve-greml.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Numerical routes</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gmat-integration.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/gmat-integration.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Matrix integration</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/multitrait-pedigree-reml.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/multitrait-pedigree-reml.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Multitrait computations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/longitudinal-pedigree-reml.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/longitudinal-pedigree-reml.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Longitudinal computations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/primitive-registry.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/primitive-registry.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Model primitives</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/model-reductions.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/model-reductions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Model reductions</span></a>
   </div>
 </li>
@@ -492,13 +429,13 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/benchmarks.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/benchmarks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Benchmark overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/benchmarks/pedigree_50k_dmu/README.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/benchmarks/pedigree_50k_dmu/README.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Pedigree models: gsuite versus DMU</span></a>
   </div>
 </li>
@@ -515,19 +452,19 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/presentations.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/presentations.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">All presentations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/slides/ai-programme-strategy.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/slides/ai-programme-strategy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Programme strategy</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/slides/ai-research-methods-teaching.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/slides/ai-research-methods-teaching.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Technical presentation</span></a>
   </div>
 </li>
@@ -535,7 +472,7 @@ window.Quarto = {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/README.html" class="sidebar-item-text sidebar-link">
+  <a href="../gsuite/docs/README.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Documentation index</span></a>
   </div>
 </li>
@@ -544,51 +481,43 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#pedigree-pev-reliability-and-trajectory-uncertainty" id="toc-pedigree-pev-reliability-and-trajectory-uncertainty" class="nav-link active" data-scroll-target="#pedigree-pev-reliability-and-trajectory-uncertainty">Pedigree PEV, reliability, and trajectory uncertainty</a></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-catalog.html">Reference</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/prediction-error.html">Prediction and uncertainty</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../gsuite/qualifications.html">Qualifications</a></li><li class="breadcrumb-item"><a href="../gsuite/qualifications.html">Qualification overview</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Qualifications</h1>
+</div>
+
+<div>
+  <div class="description">
+    Simulation evidence, numerical checks and limits for selected gsuite workflows.
+  </div>
+</div>
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
-<section id="pedigree-pev-reliability-and-trajectory-uncertainty" class="level1">
-<h1>Pedigree PEV, reliability, and trajectory uncertainty</h1>
-<p>The pedigree controls accept <code>prediction_error = "none"</code> (the default), <code>"selected_inverse"</code>, or <code>"selected_solve"</code>. Exact uncertainty is available for the single-trait, incomplete-multitrait, and longitudinal pedigree interfaces when a compatible accepted sparse-direct factor is retained. <code>selected_inverse</code> remains CHOLMOD-only. <code>selected_solve</code> is qualified for PARDISO and may be used with CHOLMOD for parity.</p>
-<p>The example assumes prepared single-trait <code>records</code> and a supported PARDISO build. Omitted starts use the existing initializer.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">gs_pedigree_reml_control</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">linear_solver =</span> <span class="st">"sparse_direct"</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">direct_backend =</span> <span class="st">"pardiso"</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prediction_error =</span> <span class="st">"selected_solve"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">prediction_error_animals =</span> <span class="fu">c</span>(<span class="st">"animal-17"</span>, <span class="st">"animal-3"</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum_prediction_error_target_systems =</span> <span class="dv">64</span>L,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">prediction_error_rhs_batch_size =</span> <span class="dv">8</span>L,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum_prediction_error_entries =</span> <span class="dv">4096</span>L,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum_prediction_error_memory_bytes =</span> <span class="dv">8</span> <span class="sc">*</span> <span class="dv">1024</span><span class="sc">^</span><span class="dv">3</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gs_pedigree_fit</span>(records, <span class="at">control =</span> control)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(fit<span class="sc">$</span>status<span class="sc">$</span>ok), <span class="fu">isTRUE</span>(fit<span class="sc">$</span>optimizer_converged),</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">isTRUE</span>(fit<span class="sc">$</span>prediction_error<span class="sc">$</span>status<span class="sc">$</span>ok),</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">identical</span>(fit<span class="sc">$</span>prediction_error<span class="sc">$</span>availability, <span class="st">"available"</span>))</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>prediction_error[<span class="fu">c</span>(<span class="st">"prediction_error_variance"</span>, <span class="st">"reliability"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The result is conditional plug-in uncertainty from the random-effect block of the inverse of the complete MME. Single-trait reliability uses the pedigree kernel’s animal-specific <span class="math inline">\(A_{ii}=1+F_i\)</span>. Multitrait output contains full within-animal covariance blocks. Longitudinal output contains coefficient blocks and PEV, SEP, prior variance, reliability, and accuracy for observed and prediction basis rows in caller order.</p>
-<p>For a single-trait animal effect, the reported quantities satisfy</p>
-<p><span class="math display">\[
-\mathrm{Rel}_i = 1 - \frac{\mathrm{PEV}_i}{\hat\sigma_a^2 A_{ii}},
-\qquad \mathrm{SEP}_i = \sqrt{\mathrm{PEV}_i},
-\qquad \mathrm{Accuracy}_i = \sqrt{\mathrm{Rel}_i}.
-\]</span></p>
-<p>These calculations condition on the supplied or estimated covariance parameters; they do not include uncertainty from estimating those parameters. Accuracy here is a model-based quantity, not an observed correlation with known breeding values or a cross-validation result. Only roundoff-sized violations are adjusted and reported; materially invalid PEV or reliability values produce an error status.</p>
-<p>The data-frame <code>gfit()</code> pedigree route accepts the corresponding named pedigree controls and retains uncertainty in <code>diagnostics(fit)$native$prediction_error</code>. The separate compiled route selected by <code>gs_fit_control()</code> currently requires <code>prediction_error = "none"</code>. The persistent and component interfaces have their own uncertainty contracts; these pedigree settings do not apply to every <code>gs_fit</code> object.</p>
-<p>For <code>selected_solve</code>, let <code>T</code> be the canonical coefficient targets implied by the requested animals and let <code>E_T</code> contain their coordinate columns. The native calculation solves <span class="math inline">\(CX=E_T\)</span> in bounded column-major batches and extracts the target rows, giving exactly <span class="math inline">\(C^{-1}[T,T]\)</span>. Targets are sorted for the internal solve and mapped back to the caller’s requested animal and trait order. Duplicate or invalid targets are rejected.</p>
-<p>This is not selected inversion. It uses ordinary documented retained-factor multi-RHS solves, and its work grows with the number <span class="math inline">\(K=\lvert T\rvert\)</span> of target coefficient columns. Preflight reports <code>K</code> systems, <span class="math inline">\(\lceil K/\texttt{batch\_size}\rceil\)</span> batches, <span class="math inline">\(K^2\)</span> returned inverse entries, RHS workspace, returned-block workspace, projected peak workspace, configured system/entry/memory limits, factor validity, and direct/support threads. An over-limit request fails before the first target solve. Neither a dense MME nor a full dense inverse is built.</p>
-<p>Both exact routes perform no additional symbolic analysis, numerical factorization, response solve, likelihood, trace, score, or AI evaluation. Target solves are counted separately from response, trace, and AI solves. PCG, an incompatible direct backend, or an invalid retained factor fails explicitly; there is no coordinate, stochastic, backend, or prediction-error-method fallback. CHOLMOD selected inversion remains the scalable exact route for large requested inverse closures, while PARDISO <code>selected_solve</code> is intended for resource-bounded target sets.</p>
+</header>
+
+
+<p>Qualifications show what has been checked with known truth or independent numerical calculations. They are separate from <a href="../gsuite/tutorials.html">Tutorials</a>, which teach workflows, and <a href="../gsuite/benchmarks.html">Benchmarks</a>, which compare performance.</p>
+<section id="current-evidence" class="level2">
+<h2 class="anchored" data-anchor-id="current-evidence">Current evidence</h2>
+<ul>
+<li><a href="../gsuite/docs/simulated-genomics-qualification.html">Connected genomic qualification</a>: the maintained simulation design and selected checks across glma, gcorr, gbayes, gscore, gmap and gsea. The <a href="../gsuite/docs/simulated-genomics-workflow.html">worked analysis</a> shows how the modules are used together.</li>
+<li><a href="../gsuite/docs/gcorr-method-comparison.html">gcorr method comparison</a>: six summary-statistic methods on a separate two-trait simulation, with figures, replicated errors and availability.</li>
+<li><a href="../gsuite/docs/status.html#qualification-limits">Current scope and qualification limits</a>: package-level and model-level checks that remain incomplete.</li>
+</ul>
+<p>The connected qualification currently has one combined record. Library-specific qualification pages will be added after the agreed shared gsim simulation design has been implemented and evaluated. Existing evidence remains identified by its own simulation design; results from different designs are not pooled.</p>
 
 
 </section>
