@@ -1,3 +1,0 @@
-"method","true_active","expected_active","effect_correlation","effect_rmse","mean_pip_causal","mean_pip_zero_effect","pip_above_half","causal_pip_above_half","max_chain_pip_range"
-"bayesc",984,992.767,0.515485915432505,0.00212103415742364,0.0295660569105691,0.0196603966051901,4,3,0.052
-"bayesr",984,988.319,0.515648360928795,0.00207290864092941,0.0289883130081301,0.0195812489799249,6,3,0.048

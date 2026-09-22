@@ -215,5 +215,5 @@
 "ldsc_annotation_rg","reference","all",NA,"rg","B","C",1.05219403485277,0.726436203745438,0.605882938146848,1.49850513155869,"normal_approximation:block_jackknife",""
 "ldsc_annotation_rg","annotation_category","enriched",NA,"rg","B","C",0.983691159025941,0.765213846114845,0.69209556517342,1.27528675287846,"normal_approximation:block_jackknife",""
 "ldsc_annotation_rg","annotation_category","background",NA,"rg","B","C",1.37580847339741,0.606188290169462,-1.24162326235381,3.99324020914862,"normal_approximation:block_jackknife",""
-"bayesc","reference","all",NA,"h2","A",NA,0.310832787820649,0.295802449290938,0.280299945191193,0.342347029535501,"conditional_equal_tailed_posterior",""
-"bayesr","reference","all",NA,"h2","A",NA,0.306771439629312,0.295802449290938,0.265913961911795,0.34847967843889,"conditional_equal_tailed_posterior",""
+"bayesc","reference","all",NA,"h2","A",NA,0.106537652764473,0.295802449290938,0.0784002108784158,0.142018859357074,"conditional_equal_tailed_posterior",""
+"bayesr","reference","all",NA,"h2","A",NA,0.210846176204824,0.295802449290938,0.161553928374499,0.263251741596111,"conditional_equal_tailed_posterior",""

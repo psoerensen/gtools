@@ -185,17 +185,31 @@ bayesian <- stage("gbayes", {
   fits <- list()
   elapsed <- numeric()
   for(method in c("bayesc","bayesr")) {
-    # Working noise for the blockwise reference-LD summary likelihood; not the
-    # environmental variance. Fix this setting before generating replicates.
-    prior <- list(residual_variance=1,effect_variance=.3/(m*.02))
-    if(method=="bayesc") prior$inclusion_probability <- .02 else {
-      prior$weights <- c(.98,.006,.007,.007)
-      prior$variance_multipliers <- c(0,.01,.1,1)
-      prior$effect_variance <- .3/(m*sum(prior$weights*prior$variance_multipliers))
+    active_probability <- .02
+    h2_start <- .30
+    multipliers <- c(0,.01,.1,1)
+    weights <- c(1-active_probability,rep(active_probability/3,3))
+    expected_multiplier <- if(method=="bayesc") active_probability else
+      sum(weights*multipliers)
+    vb_start <- h2_start/(m*expected_multiplier)
+    prior <- list(residual_variance=1-h2_start,effect_variance=vb_start,
+      residual_variance_prior=list(df=4,scale=.5*(1-h2_start)),
+      effect_variance_prior=list(df=4,scale=.5*vb_start))
+    if(method=="bayesc") {
+      prior$inclusion_probability <- active_probability
+      prior$weight_prior <- 5000*c(1-active_probability,active_probability)
+    } else {
+      prior$weights <- weights
+      prior$variance_multipliers <- multipliers
+      prior$weight_prior <- 5000*weights
     }
     fit_start <- proc.time()[["elapsed"]]
     fits[[method]] <- gbayes(gwas$prepared$A,LD,method=method,trait="A",prior=prior,
-      control=list(burnin=200,sampling_sweeps=1000,seeds=c(11,29),threads=1),
+      control=list(burnin=500,
+        sampling_sweeps=if(method=="bayesc") 700 else 5000,
+        seeds=c(11,29,47,71),threads=4,
+        residual_policy="reference_ld",residual_adjustment=.9,
+        estimate_effect_variance=TRUE,estimate_weights=TRUE),
       posterior=list(reference=LD,phenotype_variance=c(A=1)))
     elapsed[method] <- proc.time()[["elapsed"]]-fit_start
     cat("FIT|",method,"|",round(elapsed[method],2)," seconds\n",sep=""); flush.console()
@@ -370,10 +384,12 @@ posterior_table <- do.call(rbind,lapply(names(bayesian_summary),function(method)
   tab
 }))
 write.csv(posterior_table,file.path(out,"bayesian-posterior.csv"),row.names=FALSE)
-capture.output(for(method in names(bayesian_summary)) {
-  cat("\n",toupper(method),"; fixed hyperparameters; conditional posterior summaries\n")
+fit_summary <- capture.output(for(method in names(bayesian_summary)) {
+  cat("\n",toupper(method),"; learned residual, effect and mixture parameters\n")
   print(summary(bayesian_summary[[method]]))
-},file=file.path(out,"bayesian-fit-summary.txt"))
+})
+writeLines(sub("[[:space:]]+$","",fit_summary),
+  file.path(out,"bayesian-fit-summary.txt"),useBytes=TRUE)
 draw <- function(name, code, width=1800,height=1100) {
   if(!getOption("gsuite.example.figures", TRUE)) return(invisible(NULL))
   png(file.path(out,paste0(name,".png")),width=width,height=height,res=150)
@@ -514,6 +530,31 @@ draw("mapping-prediction", {
   barplot(scoring$metrics$cor_genetic,names.arg=scoring$metrics$method,col=palette,
     ylim=c(0,1),ylab="Correlation with true genetic value",main="1,000 held-out individuals")
 })
+draw("regional-mapping", {
+  par(mfrow=c(1,3),mar=c(5,5,4,2),las=1)
+  for(r in names(regions)[1:2]) {
+    e<-mapping$fit$estimates
+    a<-e[e$region==r & e$trait=="A",];b<-e[e$region==r & e$trait=="B",]
+    plot(seq_len(size),a$pip,type="h",col=palette[1],lwd=2,ylim=c(0,1),xaxt="n",
+      xlab="Marker within region",ylab="Posterior inclusion probability",main=r)
+    axis(1,c(1,25,50,75,100))
+    lines(seq_len(size)+.2,b$pip,type="h",col=palette[2],lwd=2)
+    causal<-which(rowSums(abs(data$simulation$B[regions[[r]],1:2,drop=FALSE]))>0)
+    abline(v=causal,lty=3,col="#777777")
+    legend("topright",c("Trait A","Trait B","Causal position"),
+      col=c(palette[1:2],"#777777"),lty=c(1,1,3),bty="n",cex=.8)
+  }
+  probabilities<-sapply(mapping$coloc,function(f)
+    as.numeric(f$estimates[1,paste0("H",0:4)]))
+  barplot(probabilities,beside=TRUE,names.arg=c("Shared signal","Distinct signals"),
+    col=c("#cccccc","#95b8d1","#e3b793",palette[1],palette[2]),
+    ylim=c(0,1.18),yaxt="n",ylab="Posterior probability",
+    main="Regional ABF colocalisation")
+  axis(2,seq(0,1,.2))
+  legend("top",paste0("H",0:4),
+    fill=c("#cccccc","#95b8d1","#e3b793",palette[1:2]),
+    bty="n",cex=.7,horiz=TRUE)
+},height=620)
 draw("pathways", {
   par(mfrow=c(2,2),mar=c(5,5,4,2),las=1)
   for(t in traits) {
