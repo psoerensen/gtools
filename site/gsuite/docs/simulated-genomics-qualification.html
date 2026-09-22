@@ -165,6 +165,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#supported-reference-ld-recipe" id="toc-supported-reference-ld-recipe" class="nav-link" data-scroll-target="#supported-reference-ld-recipe">Supported reference-LD recipe</a></li>
   <li><a href="#qualification-design-and-outcome" id="toc-qualification-design-and-outcome" class="nav-link" data-scroll-target="#qualification-design-and-outcome">Qualification design and outcome</a></li>
+  <li><a href="#advanced-bayesian-transitions" id="toc-advanced-bayesian-transitions" class="nav-link" data-scroll-target="#advanced-bayesian-transitions">Advanced Bayesian transitions</a></li>
   </ul></li>
   <li><a href="#other-numerical-findings" id="toc-other-numerical-findings" class="nav-link" data-scroll-target="#other-numerical-findings">Other numerical findings</a></li>
   <li><a href="#qualification-limits" id="toc-qualification-limits" class="nav-link" data-scroll-target="#qualification-limits">Qualification limits</a></li>
@@ -339,6 +340,67 @@ window.Quarto = {
 <p><a href="../website/assets/simulated-genomics/gbayes-reference-ld-summary.csv">Download the method summary</a> or the <a href="../website/assets/simulated-genomics/gbayes-reference-ld-replicates.csv">five-repetition results</a>.</p>
 <p>Small fixed-seed native checks also show that the BayesC and BayesR transitions agree with the corresponding installed sblr calculations to numerical precision. With complete same-sample LD, posterior mean effects correlate 0.9975 for BayesC and 0.9994 for BayesR with individual-level sblr effects. These checks connect the supported R workflow to its native implementation.</p>
 </section>
+<section id="advanced-bayesian-transitions" class="level3">
+<h3 class="anchored" data-anchor-id="advanced-bayesian-transitions">Advanced Bayesian transitions</h3>
+<p>A second fixed five-repetition qualification covers four advanced transitions under their intended data contracts. Block residual learning uses two disjoint summary-likelihood blocks with separate response normalizations. BayesS uses 600 markers, 300 nonzero effects and a known MAF exponent. The multivariate design uses three continuous traits measured on the same 1,800 individuals, complete shared LD, and the observed response cross-product required to learn sampling covariance. The relocation design uses 20 strongly correlated marker pairs.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 26%">
+<col style="width: 26%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Result across five simulations</th>
+<th style="text-align: right;">Truth or comparator</th>
+<th style="text-align: right;">Posterior result</th>
+<th style="text-align: right;">Mean absolute error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Block residual variance</td>
+<td style="text-align: right;">0.683</td>
+<td style="text-align: right;">0.681</td>
+<td style="text-align: right;">0.0023</td>
+</tr>
+<tr class="even">
+<td>BayesS MAF exponent</td>
+<td style="text-align: right;">-0.500</td>
+<td style="text-align: right;">-0.395</td>
+<td style="text-align: right;">0.2182</td>
+</tr>
+<tr class="odd">
+<td>Latent effect-covariance entries</td>
+<td style="text-align: right;">0.00192</td>
+<td style="text-align: right;">0.00202</td>
+<td style="text-align: right;">0.00023</td>
+</tr>
+<tr class="even">
+<td>Sampling-covariance entries</td>
+<td style="text-align: right;">0.440</td>
+<td style="text-align: right;">0.439</td>
+<td style="text-align: right;">0.0159</td>
+</tr>
+<tr class="odd">
+<td>Genetic-score correlation with and without LD relocation</td>
+<td style="text-align: right;">0.98417</td>
+<td style="text-align: right;">0.98406</td>
+<td style="text-align: right;">0.00012</td>
+</tr>
+</tbody>
+</table>
+<p>All predeclared criteria passed. Accepted LD relocation fractions ranged from 0.321 to 0.538, while genetic-score correlation remained stable. This supports using the move to traverse equivalent strong-LD representations; it does not claim that the data can distinguish causal markers from nearly identical proxies. The BayesS result supports learning a broad MAF–variance trend in this informative design, not precise estimation of small MAF effects in every dataset.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/simulated-genomics/gbayes-extensions-qualification.png" class="img-fluid figure-img"></p>
+<figcaption>Recovery of block residual scales, the BayesS exponent, latent effect covariance and sampling covariance across five simulations.</figcaption>
+</figure>
+</div>
+<p><a href="../website/assets/simulated-genomics/gbayes-extensions-summary.csv">Download the method summary</a> or the <a href="../website/assets/simulated-genomics/gbayes-extensions-replicates.csv">five-repetition results</a>.</p>
+<p>Exact continuation is checked separately because it is a computational identity, not a simulation-performance question. Saving after one segment and restoring the native state reproduces the final state, random-number generator and trace tail of an uninterrupted scalar or multivariate chain.</p>
+</section>
 </section>
 <section id="other-numerical-findings" class="level2">
 <h2 class="anchored" data-anchor-id="other-numerical-findings">Other numerical findings</h2>
@@ -356,13 +418,14 @@ window.Quarto = {
 <section id="qualification-limits" class="level2">
 <h2 class="anchored" data-anchor-id="qualification-limits">Qualification limits</h2>
 <p>This evidence covers one continuous-trait simulation design with a predefined LD structure, architecture and sample split. Ten repetitions provide a useful descriptive check, but not precise power, false-positive, coverage or method ranking statements.</p>
-<p>The connected qualification does not cover binary traits, population structure, multi-ancestry analysis, realistic LD-reference mismatch, alternative LD windows or <span class="math inline">\(r^2\)</span> thresholds, MR/SEM/GGM, Bayesian annotation learning, multivariate Bayesian fitting, LOCO association, every interface option, or complete package/platform qualification. Literature attribution and pedigree/greml/gsolve qualification are maintained separately.</p>
+<p>The connected qualification does not cover binary traits, population structure, multi-ancestry analysis, realistic LD-reference mismatch, alternative LD windows or <span class="math inline">\(r^2\)</span> thresholds, MR/SEM/GGM, Bayesian annotation learning beyond the BayesS specialization, arbitrary sampling overlap, LOCO association, every interface option, or complete package/platform qualification. Literature attribution and pedigree/greml/gsolve qualification are maintained separately.</p>
 </section>
 <section id="reproduction-and-results" class="level2">
 <h2 class="anchored" data-anchor-id="reproduction-and-results">Reproduction and results</h2>
 <p>The maintained example is <a href="../tools/examples/simulated_genomics_workflow.R">simulated_genomics_workflow.R</a>. Its outputs are written under <code>build/examples/simulated-genomics/</code>. The public <a href="../../gsuite/docs/simulated-genomics-workflow.html">workflow</a> presents the figures and principal results without executing analyses during website rendering.</p>
 <p>The ten simulations are produced by <a href="../tools/examples/simulated_genomics_replicates.R">simulated_genomics_replicates.R</a> and summarized by <a href="../tools/examples/report_simulated_genomics_replicates.R">report_simulated_genomics_replicates.R</a>. The public workflow links the maintained aggregate truth comparisons and availability summaries used in its figures.</p>
 <p>The supported BayesC/BayesR reference-LD result is reproduced by <a href="../tools/validation/qualify_gbayes_reference_ld.R">qualify_gbayes_reference_ld.R</a>. Raw fits and prepared LD resources remain under <code>build/qualification/gbayes-reference-ld/</code>; only the compact result tables and figure are published.</p>
+<p>The block residual, BayesS, multivariate covariance and LD relocation result is reproduced by <a href="../tools/validation/qualify_gbayes_extensions.R">qualify_gbayes_extensions.R</a>. Its raw resources remain under <code>build/qualification/gbayes-extensions/</code>.</p>
 <p>The complete package check was not part of this workflow qualification.</p>
 
 
