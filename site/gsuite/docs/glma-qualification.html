@@ -566,6 +566,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#use" id="toc-use" class="nav-link" data-scroll-target="#use">Use</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#one-dataset-illustration" id="toc-one-dataset-illustration" class="nav-link" data-scroll-target="#one-dataset-illustration">One-dataset illustration</a></li>
+  <li><a href="#loco-timing-check" id="toc-loco-timing-check" class="nav-link" data-scroll-target="#loco-timing-check">LOCO timing check</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -622,7 +624,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p>The linear checks compare selected markers with R ordinary least squares. The separate LOCO timing run uses the second simulated dataset, groups artificial regions into 20 chromosomes and fits a 500-marker background. LOCO was timed once, so repeatability was not assessed. This unrelated-individual design does not establish mixed-model null-tail calibration, parameter recovery or a benefit over ordinary regression.</p>
+<p>The linear checks compare selected markers with R ordinary least squares.</p>
+</section>
+<section id="one-dataset-illustration" class="level2">
+<h2 class="anchored" data-anchor-id="one-dataset-illustration">One-dataset illustration</h2>
+<p>The Manhattan plot shows trait A in prescribed replicate 10. Orange triangles mark known causal markers; other markers can also give a signal through LD. The shaded first 80 regions have a higher simulated causal-marker frequency. The dashed line is the per-trait 0.05 / 50,000 threshold.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/genomic-qualification/glma-manhattan.png" class="img-fluid figure-img"></p>
+<figcaption>Linear GWAS Manhattan plot for trait A in replicate 10, with known causal markers marked.</figcaption>
+</figure>
+</div>
+<p>The effect plot compares estimated single-marker coefficients with their <strong>true marginal effects</strong> at the 935 known causal markers (correlation 0.689). The true marginal effect includes the known population LD around each direct generating effect. Across all 50,000 markers, mostly with near-zero true effects, sampling noise dominates (correlation 0.143).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../website/assets/genomic-qualification/glma-effects.png" class="img-fluid figure-img"></p>
+<figcaption>True versus estimated marginal effects for known causal markers in trait A, replicate 10.</figcaption>
+</figure>
+</div>
+<p><a href="../website/assets/genomic-qualification/glma-causal-effects.csv">Causal-marker effect pairs</a></p>
+</section>
+<section id="loco-timing-check" class="level2">
+<h2 class="anchored" data-anchor-id="loco-timing-check">LOCO timing check</h2>
+<p>The separate LOCO timing run uses the second simulated dataset, groups artificial regions into 20 chromosomes and fits a 500-marker background. LOCO was timed once, so repeatability was not assessed. This unrelated-individual design does not establish mixed-model null-tail calibration, parameter recovery or a benefit over ordinary regression.</p>
 <p><a href="../website/assets/genomic-qualification/association.csv">Association counts</a> · <a href="../website/assets/genomic-qualification/loco.csv">LOCO timing record</a></p>
 
 

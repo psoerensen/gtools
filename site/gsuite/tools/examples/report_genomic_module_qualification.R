@@ -23,12 +23,74 @@ loco <- data.frame(replicate = 2L, seed = loco_record$seed,
                    fitted_genetic_variance = loco_record$background$genetic_variance,
                    script_md5 = unname(loco_record$script_md5))
 write.csv(loco, file.path(root, "loco.csv"), row.names = FALSE)
+# Use the retained stages from the final prescribed seed for an illustration.
+# The ten-replicate summaries above remain the evidence across datasets.
+illustration_root <- file.path(root, "worker-2")
+data_stage <- readRDS(file.path(illustration_root, "data.rds"))
+gwas_stage <- readRDS(file.path(illustration_root, "gwas.rds"))
+stopifnot(identical(data_stage$seed, runs[[10L]]$seed),
+          identical(gwas_stage$seed, runs[[10L]]$seed),
+          identical(data_stage$script_md5, gwas_stage$script_md5))
+sim_data <- data_stage$value
+gwas_a <- gwas_stage$value$stat$A
+direct <- sim_data$simulation$B[, "A"]
+m <- length(direct); size <- 100L; nr <- m %/% size
+stopifnot(m == 50000L, identical(gwas_a$marker, rownames(sim_data$simulation$B)))
+rho <- seq(.2, .8, length.out = nr)
+true_marginal <- unlist(lapply(seq_len(nr), function(r) {
+  j <- (r - 1L) * size + seq_len(size)
+  as.vector(rho[r]^abs(outer(seq_len(size), seq_len(size), "-")) %*% direct[j])
+}), use.names = FALSE)
+estimated <- gwas_a$beta
+causal <- direct != 0
+reported <- runs[[10L]]$results$marginal_effects
+reported <- reported[reported$trait == "A", ]
+stopifnot(nrow(reported) == 1L,
+          abs(cor(true_marginal, estimated) - reported$correlation) < 1e-12,
+          all(is.finite(c(true_marginal, estimated, gwas_a$p_value))))
+write.csv(data.frame(marker = gwas_a$marker[causal],
+                     region = gwas_a$block[causal],
+                     true_marginal_effect = true_marginal[causal],
+                     estimated_marginal_effect = estimated[causal],
+                     p_value = gwas_a$p_value[causal]),
+          file.path(root, "glma-causal-effects.csv"), row.names = FALSE)
+png(file.path(root, "glma-manhattan.png"), width = 2000, height = 850, res = 150)
+tryCatch({
+  par(mar = c(5, 5, 3, 1), las = 1)
+  x <- (seq_len(m) - .5) / size + .5
+  y <- -log10(pmax(gwas_a$p_value, .Machine$double.xmin))
+  plot(x, y, type = "n", xlim = c(.5, nr + .5), ylim = c(0, max(y) * 1.12),
+       xlab = "Artificial region (100 markers each)", ylab = expression(-log[10](p)),
+       main = "Linear GWAS: trait A, replicate 10")
+  rect(.5, -1, 80.5, max(y) * 1.2, col = "#edf4fa", border = NA)
+  points(x[!causal], y[!causal], pch = 16, cex = .38,
+         col = ifelse(((seq_len(m) - 1L) %/% size)[!causal] %% 2L,
+                      "#64748b", "#aab5c3"))
+  points(x[causal], y[causal], pch = 17, cex = .58, col = "#c55a11")
+  abline(h = -log10(.05 / m), lty = 2, col = "#333333")
+  legend("topright", c("Known causal marker", "Other marker", "0.05 / 50,000 threshold"),
+         pch = c(17, 16, NA), lty = c(NA, NA, 2),
+         col = c("#c55a11", "#64748b", "#333333"), bty = "n", cex = .8)
+}, finally = dev.off())
+png(file.path(root, "glma-effects.png"), width = 1250, height = 1050, res = 150)
+tryCatch({
+  par(mar = c(5.5, 5.5, 3, 1), las = 1)
+  lim <- extendrange(range(c(true_marginal[causal], estimated[causal])))
+  plot(true_marginal[causal], estimated[causal], pch = 16, cex = .6,
+       col = adjustcolor("#c55a11", alpha.f = .42), xlim = lim, ylim = lim,
+       xlab = "True marginal effect (population LD)",
+       ylab = "Estimated single-marker GWAS effect",
+       main = "Known causal markers: trait A, replicate 10")
+  abline(0, 1, lty = 2, col = "#333333")
+  legend("topleft", "Identity line", lty = 2, col = "#333333", bty = "n", cex = .85)
+}, finally = dev.off())
 public_assets <- "website/assets/genomic-qualification"
 dir.create(public_assets, recursive = TRUE, showWarnings = FALSE)
 asset_names <- c("status.csv", "source-hashes.csv", "checks.csv", "accuracy.csv",
   "association.csv", "estimation.csv", "availability.csv", "bayesian.csv", "posterior.csv",
   "prediction.csv", "credible_sets.csv", "coloc.csv", "pathways.csv",
-  "tails.csv", "loco.csv", "replicate-estimation.png",
+  "tails.csv", "loco.csv", "glma-causal-effects.csv", "glma-manhattan.png",
+  "glma-effects.png", "replicate-estimation.png",
   "replicate-prediction-mapping.png")
 stopifnot(all(file.copy(file.path(root, asset_names),
                         file.path(public_assets, asset_names), overwrite = TRUE)))
@@ -78,6 +140,23 @@ save_page("glma", c(opening("glma", "methods.md#association-mapping"),
     c("LOCO calibration factor (seed 2)", fmt(loco$calibration_factor))
   )), "",
   "The linear checks compare selected markers with R ordinary least squares.",
+  "", "## One-dataset illustration", "",
+  "The Manhattan plot shows trait A in prescribed replicate 10. Orange triangles",
+  "mark known causal markers; other markers can also give a signal through LD.",
+  "The shaded first 80 regions have a higher simulated causal-marker frequency.",
+  "The dashed line is the per-trait 0.05 / 50,000 threshold.", "",
+  "![Linear GWAS Manhattan plot for trait A in replicate 10, with known causal markers marked.](../website/assets/genomic-qualification/glma-manhattan.png)",
+  "", paste0("The effect plot compares estimated single-marker coefficients with ",
+             "their **true marginal effects** at the ", sum(causal),
+             " known causal markers (correlation ", fmt(cor(true_marginal[causal],
+             estimated[causal])), "). The true marginal effect includes the ",
+             "known population LD around each direct generating effect. ",
+             "Across all 50,000 markers, mostly with near-zero true effects, ",
+             "sampling noise dominates (correlation ",
+             fmt(cor(true_marginal, estimated)), ")."), "",
+  "![True versus estimated marginal effects for known causal markers in trait A, replicate 10.](../website/assets/genomic-qualification/glma-effects.png)",
+  "", "[Causal-marker effect pairs](../website/assets/genomic-qualification/glma-causal-effects.csv)",
+  "", "## LOCO timing check", "",
   "The separate LOCO timing run uses the second simulated dataset, groups",
   "artificial regions into 20 chromosomes and fits a 500-marker background.",
   "LOCO was timed once, so repeatability was not assessed. This unrelated-individual",
