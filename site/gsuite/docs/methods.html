@@ -699,7 +699,7 @@ window.Quarto = {
 <tr class="odd">
 <td>Regional Bayesian mapping and posterior sets</td>
 <td>gbayes, gmap</td>
-<td><code>gmap()</code>; <a href="../../gsuite/docs/gmap-workflow.html">mapping workflow</a>. Regions/traits fit separately; marginal-PIP sets and component sets have different meanings</td>
+<td><code>gmap()</code>; <a href="../../gsuite/docs/gmap-workflow.html">mapping workflow</a>. Aligned summaries support separate regional fits; saved individual BED fits support checked in-sample LD interpretation of global PIPs without refitting. Marginal-PIP groups and component sets have different meanings</td>
 </tr>
 <tr class="even">
 <td>ABF and component-pair colocalisation</td>
@@ -1205,6 +1205,7 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 </section>
 <section id="regional-bayesian-r-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="regional-bayesian-r-workflow">Regional Bayesian R workflow</h2>
+<p>For an individual-level BayesC/BayesR fit, <code>gmap(fit, LD, regions, Glist=prepared_Glist)</code> reuses the saved global posterior. The Glist must carry in-sample sparse LD prepared from exactly the fitted people and markers. Sample order, physical BED offsets, alleles and frequencies are checked. Within-region LD must be complete by default. Native gmap groups the fitted marginal PIPs; the result is neither a regional refit nor a component credible set. This route also accepts a joint-trait BED fit and retains trait labels. See the <a href="../../gsuite/docs/gmap-workflow.html#from-an-individual-level-bed-fit-to-regional-marker-support">BED-to-gmap workflow</a>.</p>
 <p><code>gmap()</code> accepts an aligned LDlist and exact sufficient-statistic columns <code>marker</code>, <code>allele1</code>, <code>allele2</code>, <code>score</code> (<span class="math inline">\(X^T y\)</span>) and <code>marker_ss</code> (<span class="math inline">\(\operatorname{diag}(X^T X)\)</span>). It fits each named region/trait separately using BayesC, BayesR or multi-effect inference. It does not convert GWAS z scores or beta/SE automatically. The supplied LD and marker scales define the working cross-products; a reference approximation does not become exact cohort LD.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gmap</span>(<span class="fu">list</span>(<span class="at">height =</span> stat_height, <span class="at">weight =</span> stat_weight), LD,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">regions =</span> <span class="fu">list</span>(<span class="at">locus1 =</span> markers_locus1, <span class="at">locus2 =</span> markers_locus2),</span>

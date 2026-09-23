@@ -666,7 +666,7 @@ window.Quarto = {
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>joint <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(<span class="at">data=</span>phenotypes, <span class="at">Glist=</span>G, <span class="at">trait=</span>traits, <span class="at">method=</span><span class="st">"bayesr"</span>,</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior=</span><span class="fu">list</span>(<span class="at">effect_covariance=</span>Vb, <span class="at">residual_covariance=</span>Ve))</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(joint)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For now, <code>posterior</code> reference/partition/prediction requests remain on the summary-statistic route. Regional credible sets and colocalisation belong to <a href="../../gsuite/docs/gmap-workflow.html"><code>gmap()</code></a>; they are not inferred from the global-fit PIPs.</p>
+<p>For now, <code>posterior</code> reference/partition/prediction requests remain on the summary-statistic route. A saved BED fit can be passed to <a href="../../gsuite/docs/gmap-workflow.html#from-an-individual-level-bed-fit-to-regional-marker-support"><code>gmap()</code></a> with in-sample sparse LD for regional marginal-PIP groups. These are not component credible sets or regional refits. Component credible sets and colocalisation use the separate regional mapping routes.</p>
 </section>
 <section id="start-with-aligned-statistics-and-ld" class="level2">
 <h2 class="anchored" data-anchor-id="start-with-aligned-statistics-and-ld">Start with aligned statistics and LD</h2>
