@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -151,7 +186,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/qualifications.html">Qualifications</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/genomic-qualification-design.html">Shared simulation design</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/qualifications.html">Qualifications</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/genomic-qualification-design.html">Shared simulation design (gsim)</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -346,7 +381,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/genomic-qualification-design.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Shared simulation design</span></a>
+ <span class="menu-text">Shared simulation design (gsim)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -559,20 +594,21 @@ window.Quarto = {
   <li><a href="#shared-genomic-qualification-design" id="toc-shared-genomic-qualification-design" class="nav-link active" data-scroll-target="#shared-genomic-qualification-design">Shared genomic qualification design</a>
   <ul class="collapse">
   <li><a href="#population-and-truth" id="toc-population-and-truth" class="nav-link" data-scroll-target="#population-and-truth">Population and truth</a></li>
+  <li><a href="#generate-a-replicate-in-r" id="toc-generate-a-replicate-in-r" class="nav-link" data-scroll-target="#generate-a-replicate-in-r">Generate a replicate in R</a></li>
   <li><a href="#checks-and-interpretation" id="toc-checks-and-interpretation" class="nav-link" data-scroll-target="#checks-and-interpretation">Checks and interpretation</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/qualifications.html">Qualifications</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/genomic-qualification-design.html">Shared simulation design</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/qualifications.html">Qualifications</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/genomic-qualification-design.html">Shared simulation design (gsim)</a></li></ol></nav></header>
 
 
 
 
 <section id="shared-genomic-qualification-design" class="level1">
 <h1>Shared genomic qualification design</h1>
-<p>This design fixes the inputs for the new ten-replicate qualification across glma, gcorr, gbayes, gscore, gmap and gsea. The runnable source is <a href="../tools/examples/simulated_genomics_workflow.R">the connected simulation</a>, <a href="../tools/examples/qualify_genomic_modules.R">the fixed-seed runner</a> and <a href="../tools/examples/qualify_glma_loco.R">the LOCO scan</a>. The <a href="../tools/examples/report_genomic_module_qualification.R">report driver</a> reads the saved compact results. Website rendering never runs these analyses.</p>
+<p>This design fixes the inputs for the new ten-replicate qualification across glma, gcorr, gbayes, gscore, gmap and gsea. The runnable source is <a href="../tools/examples/simulated_genomics_workflow.R">the connected simulation using gsim</a>, <a href="../tools/examples/qualify_genomic_modules.R">the fixed-seed runner</a> and <a href="../tools/examples/qualify_glma_loco.R">the LOCO scan</a>. The <a href="../tools/examples/report_genomic_module_qualification.R">report driver</a> reads the saved compact results. Website rendering never runs these analyses.</p>
 <section id="population-and-truth" class="level2">
 <h2 class="anchored" data-anchor-id="population-and-truth">Population and truth</h2>
 <p>Each seed generates 10,000 unrelated individuals, 50,000 biallelic markers in 500 independent artificial LD regions, and three continuous traits. Disjoint groups of 3,000 supply one GWAS per trait; 1,000 other individuals are reserved for scoring. The pooled 9,000 GWAS individuals supply the matched LD reference. The workflow writes the genotypes blockwise to a packed BED file, then uses <code>gsim</code> to generate phenotypes from declared effects and the prepared panel. It records causal effects, genetic values, residual covariance and sample assignments. Population LD and the generating effects determine the heritability, covariance, correlation and marginal-effect truth; fitted LD does not define truth.</p>
@@ -583,6 +619,74 @@ window.Quarto = {
 <li><strong>Annotation enrichment:</strong> causal effects are more frequent in the first 80 regions, with predefined artificial genes and pathways.</li>
 </ol>
 <p>These are patterns within each simulated dataset, not three independent phenotype-generating scenarios. Ten fixed seeds are prescribed; failed seeds are recorded and never replaced. The run reuses the established connected workflow and saves compact results by seed, with hashes, package versions, warnings, status and stage timings. Large genotypes, fits and LD resources remain in the ignored build cache. Two R workers process odd and even seeds concurrently; elapsed times describe this machine and workload, not an isolated benchmark.</p>
+</section>
+<section id="generate-a-replicate-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="generate-a-replicate-in-r">Generate a replicate in R</h2>
+<p>The code below shows the data-generation part of the connected workflow. Run it from the gsuite repository root with development installations of gsuite and <a href="https://psoerensen.github.io/gsim/">gsim</a>. Change <code>replicate</code> from 1 through 10 to use the prescribed seeds. Genotypes are written one marker at a time to PLINK BED files; <code>gsim</code> then generates the phenotypes from known effects. The <a href="../tools/examples/simulated_genomics_workflow.R">complete runnable workflow</a> also records the population truth, prepares LD and runs the six analyses.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.libPaths</span>(<span class="fu">c</span>(<span class="st">"build/r-library"</span>, <span class="fu">.libPaths</span>()))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsuite)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsim)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>replicate <span class="ot">&lt;-</span> <span class="dv">1</span>L</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>seed <span class="ot">&lt;-</span> <span class="dv">20262000</span>L <span class="sc">+</span> <span class="dv">100</span>L <span class="sc">*</span> replicate</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(seed)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10000</span>L; m <span class="ot">&lt;-</span> <span class="dv">50000</span>L; size <span class="ot">&lt;-</span> <span class="dv">100</span>L; nr <span class="ot">&lt;-</span> m <span class="sc">%/%</span> size</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ids <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"m%05d"</span>, <span class="fu">seq_len</span>(m))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>individuals <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"id%05d"</span>, <span class="fu">seq_len</span>(n))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>region <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">sprintf</span>(<span class="st">"region%03d"</span>, <span class="fu">seq_len</span>(nr)), <span class="at">each =</span> size)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>rho <span class="ot">&lt;-</span> <span class="fu">seq</span>(.<span class="dv">2</span>, .<span class="dv">8</span>, <span class="at">length.out =</span> nr)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>rows <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">lapply</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">2</span>, <span class="cf">function</span>(k) k <span class="sc">*</span> <span class="dv">3000</span>L <span class="sc">+</span> <span class="fu">seq_len</span>(<span class="dv">3000</span>L)), traits)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>holdout <span class="ot">&lt;-</span> <span class="dv">9001</span><span class="sc">:</span><span class="dv">10000</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"build/examples/simulated-genomics"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">sprintf</span>(<span class="st">"replicate-%02d"</span>, replicate))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(out, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>prefix <span class="ot">&lt;-</span> <span class="fu">file.path</span>(out, <span class="st">"genotypes"</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">file</span>(<span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>), <span class="st">"wb"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">writeBin</span>(<span class="fu">as.raw</span>(<span class="fu">c</span>(<span class="dv">0x6c</span>, <span class="dv">0x1b</span>, <span class="dv">0x01</span>)), con)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq_len</span>(m)) {</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  w <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">2</span>, .<span class="dv">3</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> (j <span class="sc">-</span> <span class="dv">1</span>L) <span class="sc">%/%</span> size <span class="sc">+</span> <span class="dv">1</span>L</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> ((j <span class="sc">-</span> <span class="dv">1</span>L) <span class="sc">%%</span> size) {</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    keep <span class="ot">&lt;-</span> <span class="fu">runif</span>(n) <span class="sc">&lt;</span> rho[r]</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    w[keep] <span class="ot">&lt;-</span> previous[keep]</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  previous <span class="ot">&lt;-</span> w</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  codes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>L, <span class="dv">2</span>L, <span class="dv">0</span>L)[w <span class="sc">+</span> <span class="dv">1</span>L]</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeBin</span>(<span class="fu">as.raw</span>(<span class="fu">colSums</span>(<span class="fu">matrix</span>(codes, <span class="dv">4</span>L) <span class="sc">*</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">16</span>, <span class="dv">64</span>))), con)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="fu">close</span>(con)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">data.frame</span>(<span class="fu">rep</span>(<span class="fu">seq_len</span>(nr), <span class="at">each =</span> size), ids, <span class="dv">0</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">as.character</span>(<span class="fu">rep</span>(<span class="fu">seq_len</span>(size) <span class="sc">*</span> <span class="dv">1000</span>L, nr)), <span class="st">"A"</span>, <span class="st">"G"</span>),</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>            <span class="fu">paste0</span>(prefix, <span class="st">".bim"</span>), <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>            <span class="at">col.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">data.frame</span>(individuals, individuals, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="dv">9</span>),</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>            <span class="fu">paste0</span>(prefix, <span class="st">".fam"</span>), <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>            <span class="at">col.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>))</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>active <span class="ot">&lt;-</span> <span class="fu">runif</span>(m) <span class="sc">&lt;</span> <span class="fu">ifelse</span>(<span class="fu">rep</span>(<span class="fu">seq_len</span>(nr), <span class="at">each =</span> size) <span class="sc">&lt;=</span> <span class="dv">80</span>, .<span class="dv">08</span>, .<span class="dv">008</span>)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, m, <span class="dv">3</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(ids, traits))</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>correlation <span class="ot">&lt;-</span> <span class="fu">matrix</span>(.<span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">3</span>); <span class="fu">diag</span>(correlation) <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>B[active, ] <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="fu">sum</span>(active) <span class="sc">*</span> <span class="dv">3</span>, <span class="at">sd =</span> .<span class="dv">035</span>), <span class="fu">sum</span>(active), <span class="dv">3</span>) <span class="sc">%*%</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">chol</span>(correlation)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>B[<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>, ] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>B[<span class="dv">50</span>, ] <span class="ot">&lt;-</span> .<span class="dv">5</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>B[<span class="dv">125</span>, <span class="dv">1</span>] <span class="ot">&lt;-</span> .<span class="dv">5</span>; B[<span class="dv">175</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>] <span class="ot">&lt;-</span> .<span class="dv">5</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>simulation <span class="ot">&lt;-</span> gsim<span class="sc">::</span><span class="fu">gsim</span>(</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist, <span class="at">nt =</span> <span class="dv">3</span>, <span class="at">architecture =</span> <span class="st">"fixed"</span>, <span class="at">beta =</span> B,</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">h2 =</span> <span class="fu">c</span>(.<span class="dv">3</span>, .<span class="dv">4</span>, .<span class="dv">35</span>), <span class="at">vg =</span> <span class="fu">c</span>(.<span class="dv">3</span>, .<span class="dv">4</span>, .<span class="dv">35</span>), <span class="at">re =</span> <span class="dv">0</span>,</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardize_W =</span> <span class="cn">FALSE</span>, <span class="at">scale_effects =</span> <span class="cn">TRUE</span>, <span class="at">seed =</span> seed <span class="sc">+</span> <span class="dv">1</span>L,</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">compute_sumstats =</span> <span class="cn">FALSE</span>, <span class="at">chunk_size =</span> <span class="dv">64</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(simulation<span class="sc">$</span>Y) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(simulation<span class="sc">$</span>G) <span class="ot">&lt;-</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(simulation<span class="sc">$</span>B) <span class="ot">&lt;-</span> traits</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">list</span>(<span class="at">seed =</span> seed, <span class="at">Glist =</span> Glist, <span class="at">simulation =</span> simulation,</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>             <span class="at">gwas_rows =</span> rows, <span class="at">holdout_rows =</span> holdout, <span class="at">region =</span> region, <span class="at">rho =</span> rho),</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>        <span class="fu">file.path</span>(out, <span class="st">"simulation.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first 80 regions have a higher causal-marker probability; the first two regions also contain the declared shared and distinct signals. The GWAS groups, holdout and pooled LD reference are fixed by the row indices above. The saved object includes generating effects and individual genetic values. The qualification workflow additionally computes population heritability and genetic-correlation truth from those effects and the known LD construction.</p>
 </section>
 <section id="checks-and-interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="checks-and-interpretation">Checks and interpretation</h2>
