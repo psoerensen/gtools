@@ -317,8 +317,50 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/genomic-qualification-design.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shared simulation design</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/glma-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association scans (glma)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/gcorr-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heritability and correlation (gcorr)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/gbayes-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian regression (gbayes)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/gscore-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prediction (gscore)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/gmap-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regional mapping (gmap)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../gsuite/docs/gsea-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genes and pathways (gsea)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../gsuite/docs/simulated-genomics-qualification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Connected genomic evidence</span></a>
+ <span class="menu-text">Earlier connected evidence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -510,14 +552,27 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>Qualifications show what has been checked with known truth or independent numerical calculations. They are separate from <a href="../gsuite/tutorials.html">Tutorials</a>, which teach workflows, and <a href="../gsuite/benchmarks.html">Benchmarks</a>, which compare performance.</p>
-<section id="current-evidence" class="level2">
-<h2 class="anchored" data-anchor-id="current-evidence">Current evidence</h2>
+<section id="shared-genomic-simulation" class="level2">
+<h2 class="anchored" data-anchor-id="shared-genomic-simulation">Shared genomic simulation</h2>
+<p>The <a href="../gsuite/docs/genomic-qualification-design.html">simulation design</a> fixes ten seeds, 10,000 individuals, 50,000 markers and known generating effects. Each page shows how to use one library and what was checked on the same datasets:</p>
 <ul>
-<li><a href="../gsuite/docs/simulated-genomics-qualification.html">Connected genomic qualification</a>: the maintained simulation design and selected checks across glma, gcorr, gbayes, gscore, gmap and gsea. The <a href="../gsuite/docs/simulated-genomics-workflow.html">worked analysis</a> shows how the modules are used together.</li>
+<li><a href="../gsuite/docs/glma-qualification.html">glma: association scans</a></li>
+<li><a href="../gsuite/docs/gcorr-qualification.html">gcorr: heritability and genetic correlation</a></li>
+<li><a href="../gsuite/docs/gbayes-qualification.html">gbayes: Bayesian regression</a></li>
+<li><a href="../gsuite/docs/gscore-qualification.html">gscore: held-out prediction</a></li>
+<li><a href="../gsuite/docs/gmap-qualification.html">gmap: regional mapping and colocalisation</a></li>
+<li><a href="../gsuite/docs/gsea-qualification.html">gsea: genes and pathways</a></li>
+</ul>
+<p>The <a href="../gsuite/docs/simulated-genomics-workflow.html">worked analysis</a> connects the six modules in one workflow. Results are descriptive for the specified simulation; the library pages state the relevant limits.</p>
+</section>
+<section id="other-evidence" class="level2">
+<h2 class="anchored" data-anchor-id="other-evidence">Other evidence</h2>
+<ul>
+<li><a href="../gsuite/docs/simulated-genomics-qualification.html">Earlier connected genomic qualification</a>: prior focused checks, including a separate reference-LD parameter-learning qualification.</li>
 <li><a href="../gsuite/docs/gcorr-method-comparison.html">gcorr method comparison</a>: six summary-statistic methods on a separate two-trait simulation, with figures, replicated errors and availability.</li>
 <li><a href="../gsuite/docs/status.html#qualification-limits">Current scope and qualification limits</a>: package-level and model-level checks that remain incomplete.</li>
 </ul>
-<p>The connected qualification currently has one combined record. Library-specific qualification pages will be added after the agreed shared gsim simulation design has been implemented and evaluated. Existing evidence remains identified by its own simulation design; results from different designs are not pooled.</p>
+<p>Evidence from different simulation designs is identified separately and is not pooled.</p>
 
 
 </section>

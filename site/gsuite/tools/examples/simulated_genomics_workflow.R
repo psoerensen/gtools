@@ -192,24 +192,19 @@ bayesian <- stage("gbayes", {
     expected_multiplier <- if(method=="bayesc") active_probability else
       sum(weights*multipliers)
     vb_start <- h2_start/(m*expected_multiplier)
-    prior <- list(residual_variance=1-h2_start,effect_variance=vb_start,
-      residual_variance_prior=list(df=4,scale=.5*(1-h2_start)),
-      effect_variance_prior=list(df=4,scale=.5*vb_start))
+    prior <- list(residual_variance=1,effect_variance=vb_start)
     if(method=="bayesc") {
       prior$inclusion_probability <- active_probability
-      prior$weight_prior <- 5000*c(1-active_probability,active_probability)
     } else {
       prior$weights <- weights
       prior$variance_multipliers <- multipliers
-      prior$weight_prior <- 5000*weights
     }
     fit_start <- proc.time()[["elapsed"]]
     fits[[method]] <- gbayes(gwas$prepared$A,LD,method=method,trait="A",prior=prior,
       control=list(burnin=500,
         sampling_sweeps=if(method=="bayesc") 700 else 5000,
         seeds=c(11,29,47,71),threads=4,
-        residual_policy="reference_ld",residual_adjustment=.9,
-        estimate_effect_variance=TRUE,estimate_weights=TRUE),
+        residual_policy="fixed"),
       posterior=list(reference=LD,phenotype_variance=c(A=1)))
     elapsed[method] <- proc.time()[["elapsed"]]-fit_start
     cat("FIT|",method,"|",round(elapsed[method],2)," seconds\n",sep=""); flush.console()
@@ -385,7 +380,7 @@ posterior_table <- do.call(rbind,lapply(names(bayesian_summary),function(method)
 }))
 write.csv(posterior_table,file.path(out,"bayesian-posterior.csv"),row.names=FALSE)
 fit_summary <- capture.output(for(method in names(bayesian_summary)) {
-  cat("\n",toupper(method),"; learned residual, effect and mixture parameters\n")
+  cat("\n",toupper(method),"; fixed residual, effect and mixture parameters\n")
   print(summary(bayesian_summary[[method]]))
 })
 writeLines(sub("[[:space:]]+$","",fit_summary),

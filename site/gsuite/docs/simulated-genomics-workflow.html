@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="A connected 10,000-individual, 50,000-marker example with known truth and ten new simulations.">
+<meta name="description" content="A connected 10,000-individual, 50,000-marker example with known truth and replicated checks.">
 
 <title>One simulated dataset across six genomic modules – gtools</title>
 <style>
@@ -381,8 +381,50 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/genomic-qualification-design.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shared simulation design</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/glma-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association scans (glma)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gcorr-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heritability and correlation (gcorr)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gbayes-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian regression (gbayes)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gscore-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prediction (gscore)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gmap-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regional mapping (gmap)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gsea-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genes and pathways (gsea)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/simulated-genomics-qualification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Connected genomic evidence</span></a>
+ <span class="menu-text">Earlier connected evidence</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -561,7 +603,7 @@ window.Quarto = {
   <li><a href="#regional-mapping-and-colocalisation" id="toc-regional-mapping-and-colocalisation" class="nav-link" data-scroll-target="#regional-mapping-and-colocalisation">Regional mapping and colocalisation</a></li>
   <li><a href="#pathways" id="toc-pathways" class="nav-link" data-scroll-target="#pathways">Pathways</a></li>
   </ul></li>
-  <li><a href="#results-across-simulations" id="toc-results-across-simulations" class="nav-link" data-scroll-target="#results-across-simulations">Results across simulations</a></li>
+  <li><a href="#earlier-connected-results-across-simulations" id="toc-earlier-connected-results-across-simulations" class="nav-link" data-scroll-target="#earlier-connected-results-across-simulations">Earlier connected results across simulations</a></li>
   <li><a href="#run-and-inspect" id="toc-run-and-inspect" class="nav-link" data-scroll-target="#run-and-inspect">Run and inspect</a></li>
   </ul>
 </nav>
@@ -576,7 +618,7 @@ window.Quarto = {
 
 <div>
   <div class="description">
-    A connected 10,000-individual, 50,000-marker example with known truth and ten new simulations.
+    A connected 10,000-individual, 50,000-marker example with known truth and replicated checks.
   </div>
 </div>
 
@@ -603,13 +645,13 @@ Completed example and supported recipes
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>All six modules ran on the same simulated dataset. Pathway analyses use the documented saddlepoint route, which returned all requested gene statistics. BayesC and BayesR use the separately qualified matched-reference recipe, including explicit priors, four chains and diagnostic thresholds. See the consolidated <a href="../../gsuite/docs/simulated-genomics-qualification.html">qualification record</a> for the exact supported settings and numerical scope.</p>
+<p>All six modules ran on the same simulated dataset. Pathway analyses use the documented saddlepoint route, which returned all requested gene statistics. The connected 50K-marker BayesC and BayesR fits use declared fixed parameter values. Parameter learning is checked in a separate matched-reference study; see the <a href="../../gsuite/docs/simulated-genomics-qualification.html">qualification record</a> for its settings and numerical scope.</p>
 </div>
 </div>
 <section id="what-this-example-demonstrates" class="level2">
 <h2 class="anchored" data-anchor-id="what-this-example-demonstrates">What this example demonstrates</h2>
 <p>Start with a simulated population, run GWAS, then reuse its summary statistics and LD for Bayesian regression, genetic correlation, fine-mapping, scoring and pathway analysis. All model calls use the current <strong>gsuite R interfaces</strong>.</p>
-<p>This is the first connected qualification example for <strong>glma, gbayes, gcorr, gmap, gscore and gsea</strong>. It checks selected calculations and demonstrates representative methods at this scale. It does not establish calibration of every supported method or option.</p>
+<p>This connected example covers <strong>glma, gbayes, gcorr, gmap, gscore and gsea</strong>. It checks selected calculations and demonstrates representative methods at this scale. It does not establish calibration of every supported method or option. The <a href="../../gsuite/qualifications.html">library-specific qualification pages</a> report a separate fixed set of ten simulations using the same design.</p>
 </section>
 <section id="one-population-explicit-sample-groups" class="level2">
 <h2 class="anchored" data-anchor-id="one-population-explicit-sample-groups">One population, explicit sample groups</h2>
@@ -659,7 +701,7 @@ Completed example and supported recipes
 </tr>
 <tr class="odd">
 <td>Replicates</td>
-<td>One detailed example, followed by ten new simulations with fixed settings</td>
+<td>One detailed example and an earlier set of ten fixed simulations</td>
 </tr>
 </tbody>
 </table>
@@ -680,7 +722,7 @@ Completed example and supported recipes
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">control =</span> <span class="fu">list</span>(<span class="at">intercept =</span> <span class="st">"fixed_one"</span>,</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">overlap_intercept =</span> <span class="dv">0</span>))</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Bayesian regression: learn scalar parameters in two short chains.</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Bayesian regression: fixed declared parameters, four posterior chains.</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>bayesian <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(prepared<span class="sc">$</span>A, LDlist, <span class="at">method =</span> <span class="st">"bayesc"</span>,</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                  <span class="at">prior =</span> prior, <span class="at">control =</span> control)</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
@@ -903,9 +945,9 @@ V_g=b^{\mathsf T}R_{\mathrm{ref}}b.
 </div>
 </section>
 </section>
-<section id="results-across-simulations" class="level2">
-<h2 class="anchored" data-anchor-id="results-across-simulations">Results across simulations</h2>
-<p>Ten new datasets repeat the same 10,000-individual, 50,000-marker design. Genotypes, marker effects and phenotypes are regenerated each time. The regions, annotations, sample split, priors, chain lengths and working-noise scale are fixed before these runs. The detailed example above is excluded from the aggregate. No seeds are selected or replaced based on their results.</p>
+<section id="earlier-connected-results-across-simulations" class="level2">
+<h2 class="anchored" data-anchor-id="earlier-connected-results-across-simulations">Earlier connected results across simulations</h2>
+<p>Ten datasets repeat the same 10,000-individual, 50,000-marker design. Genotypes, marker effects and phenotypes are regenerated each time. The regions, annotations, sample split, priors, chain lengths and working-noise scale are fixed before these runs. The detailed example above is excluded from the aggregate. No seeds are selected or replaced based on their results.</p>
 <p><strong>All ten runs completed.</strong> Mean population heritability for trait A was 0.300. These repetitions provide the connected checks for correlation, regional mapping and pathway analysis. The separate five-repetition Bayesian qualification above is the maintained evidence for the supported parameter-learning recipe.</p>
 <p>Baseline LDSC, GNOVA and SumHer underestimate heritability on average in this nonuniform architecture. Annotation-aware LDSC changes the mean estimates to 0.310, 0.439 and 0.394 for A, B and C, against mean truths of 0.300, 0.398 and 0.349. Accounting for enrichment reduces systematic underestimation here but can overshoot; it does not improve every trait’s RMSE.</p>
 <div class="quarto-figure quarto-figure-center">

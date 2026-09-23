@@ -1,5 +1,5 @@
 # Summarize all ten planned attempts; no new simulations or model fits.
-root <- "build/examples/simulated-genomics/replicates"
+root <- getOption("gsuite.qualify.root", "build/examples/simulated-genomics/replicates")
 plan <- read.csv(file.path(root,"plan.csv"))
 paths <- file.path(root,sprintf("replicate-%02d.rds",plan$replicate))
 stopifnot(nrow(plan)==10L,all(file.exists(paths)))
@@ -14,6 +14,10 @@ if(!length(completed)) stop("No completed replicates; inspect status.csv")
 stopifnot(all(vapply(completed,function(x)identical(x$scripts,completed[[1]]$scripts),logical(1))))
 stopifnot(all(vapply(completed,function(x)all(vapply(x$results$provenance$stages,
   function(s)identical(s$seed,x$seed),logical(1))),logical(1))))
+native_reference <- completed[[1]]$results$provenance$stages$data$native_md5
+stopifnot(all(vapply(completed,function(x)all(vapply(x$results$provenance$stages,
+  function(s)identical(s$native_md5,native_reference) &&
+    identical(unname(s$script_md5),unname(x$scripts[[1L]])),logical(1))),logical(1))))
 ld_identities <- vapply(completed,function(x)
   paste(unname(x$results$provenance$LD_checksums),collapse=":"),character(1))
 stopifnot(!anyDuplicated(ld_identities))
