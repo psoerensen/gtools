@@ -275,6 +275,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gshare-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Learning across datasets</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Analysis with an assistant</span></a>
   </div>
@@ -656,7 +662,7 @@ window.Quarto = {
 <p>The <a href="../../gsuite/docs/simulated-genomics-workflow.html">connected genomic example</a> exercises representative routes across six modules using one 10K-individual, 50K-marker simulation. Its <a href="../../gsuite/docs/simulated-genomics-qualification.html">qualification record</a> distinguishes execution checks and truth comparisons from untested capabilities.</p>
 <section id="capability-overview" class="level2">
 <h2 class="anchored" data-anchor-id="capability-overview">Capability overview</h2>
-<p>Reviewed against the development interfaces on 20 September 2026. These are available workflows, not claims of full upstream-software parity or broad statistical calibration. Each guide records its supported inputs and limits. The mixed-model entry points were updated on 21 September 2026; see the <a href="../../gsuite/docs/gsolve-greml.html#estimate-or-solve-from-r">estimate/solve contract</a>.</p>
+<p>Reviewed against the development interfaces on 20 September 2026. These are available workflows, not claims of full upstream-software parity or broad statistical calibration. Each guide records its supported inputs and limits. The mixed-model entry points were updated on 21 September 2026; see the <a href="../../gsuite/docs/gsolve-greml.html#estimate-or-solve-from-r">estimate/solve contract</a>. The bounded gshare R workflow was added on 23 September 2026.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -667,66 +673,71 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
+<td>Local Bayesian fitting and one-way cross-site transfer</td>
+<td>gshare, gbayes</td>
+<td><code>gshare()</code>, <code>gshare_transfer()</code>, <code>write_gshare()</code> and <code>read_gshare()</code>; <a href="../../gsuite/docs/gshare-workflow.html">tutorial</a>. MCMC with explicit coordinates, at most 512 dense columns; no automatic alignment or privacy guarantee.</td>
+</tr>
+<tr class="even">
 <td>Pedigree, multivariate and longitudinal mixed models</td>
 <td>greml, gsolve</td>
 <td><code>greml()</code> for variance estimation, <code>gsolve()</code> for fixed-covariance solving, <code>gfit()</code> and persistent model interfaces; <a href="../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a>, <a href="../../gsuite/docs/model-catalog.html">LMM catalog</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Genotypes, marker QC, sparse LD, LD scores and regional eigenpairs</td>
 <td>gmat, gbits, gsolve</td>
 <td><code>gprep()</code>, <code>gfilter()</code>, <code>ldprep()</code>; <a href="../../gsuite/docs/genotype-preparation.html">genotype preparation</a>, <a href="#independent-ld-references">LD references</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>LDSC, GNOVA, SumHer, HESS/rho-HESS, SUPERGNOVA, LAVA and HDL-L</td>
 <td>gcorr</td>
 <td><code>gcorr()</code>; <a href="../../gsuite/docs/summary-statistic-analysis.html#capability-table">task and uncertainty coverage</a>. SUPERGNOVA exposes covariance only; HDL-L exposes two continuous traits per fit, with inference under evaluation</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>SEM, partial-correlation networks and fixed-graph GGM</td>
 <td>gcorr</td>
 <td><code>gcorr()</code>; <a href="../../gsuite/docs/covariance-models.html">covariance models</a>, including supported annotation/component comparisons; saved GNOVA category fits also support conditional summaries through gcorr(), with paired-delete SEs</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>GSMR, GSMR2, IVW, Egger and weighted-median MR</td>
 <td>gcorr</td>
 <td>Explicit instrument preparation followed by <code>gcorr(task="mr")</code>; <a href="../../gsuite/docs/mr-workflow.html">MR workflow</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>BayesC/BayesR from individual BED or aligned summaries, several traits or independent studies, parameter and annotation learning</td>
 <td>gbayes</td>
 <td><code>gbayes()</code>; <a href="../../gsuite/docs/gbayes-workflow.html">Bayesian regression</a>, including native individual-level preparation, genetic summaries, BayesS variance scaling, block residual policies, LD relocation moves and explicit covariance learning</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Regional Bayesian mapping and posterior sets</td>
 <td>gbayes, gmap</td>
 <td><code>gmap()</code>; <a href="../../gsuite/docs/gmap-workflow.html">mapping workflow</a>. Aligned summaries support separate regional fits; saved individual BED fits support checked in-sample LD interpretation of global PIPs without refitting. Marginal-PIP groups and component sets have different meanings</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>ABF and component-pair colocalisation</td>
 <td>gmap</td>
 <td><code>gmap(task="coloc")</code>; <a href="../../gsuite/docs/gmap-workflow.html#standalone-abf-colocalisation">colocalisation</a>, with method-specific assumptions</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Linear/logistic GWAS and quantitative-trait LOCO association</td>
 <td>glma</td>
 <td><code>glma()</code>; <a href="#association-mapping">association scope</a>. Binary logistic tests do not adjust for relatedness</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Scoring, summary-weight construction and posterior prediction</td>
 <td>gscore, gbayes</td>
 <td>Native scoring APIs; selected-individual score uncertainty through <a href="../../gsuite/docs/gbayes-workflow.html#predict-selected-individuals-with-uncertainty"><code>gbayes()</code></a>. <code>gscore()</code> now exposes weight fitting, independent-summary selection/refitting and BED application; <a href="../../gsuite/docs/summary-interfaces.html">guide</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Genotype, pedigree and phenotype simulation</td>
 <td>gsim</td>
 <td>Separate public R package; <a href="https://psoerensen.github.io/gsim/">gsim documentation</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Marker-set association evidence</td>
 <td>glma, gsolve</td>
 <td><code>gstat(..., sets=..., method="quadratic")</code>: LD-aware weighted quadratic marker-set tests and reusable Gaussian-null gene-score covariance. ACAT remains native-only. Default quadratic tails are approximate except for equal positive eigenvalues; an optional controlled positive-series evaluator reports accuracy and term-budget failures</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Gene-set and genomic-feature enrichment</td>
 <td><code>gsea()</code> / gsea</td>
 <td>R: ORA, preranked GSEA with ES/NES, leading edges and seeded gene-label inference (no adaptive extreme tails); blockwise competitive GLS with covariates and joint features; a bounded MAGMA 1.10 summary-statistic route with explicit preprocessing; optional scalar/multitrait Bayesian pathway regression using gbayes BayesC/BayesR, joint effects/PIPs and chain summaries (multitrait residual dependence is explicit and fixed; latent pathway covariance/weights can be learned); explicit universe/set preparation, sum/mean/max/count statistics, one-sided hypergeometric over-representation, seeded block circular shifts or permutations, and optional BH/BY adjustment. <a href="../../gsuite/docs/gsea-workflow.html">Pathway workflow</a>; aggregate/block-resampling operations remain native-only</td>

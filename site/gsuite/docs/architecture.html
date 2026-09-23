@@ -211,6 +211,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gshare-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Learning across datasets</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Analysis with an assistant</span></a>
   </div>
@@ -575,6 +581,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="responsibilities" class="level2">
 <h2 class="anchored" data-anchor-id="responsibilities">Responsibilities</h2>
+<p><code>gshare()</code> delegates Bayesian fitting to gbayes through the native gshare orchestration layer. gshare owns dataset identity, coordinate contracts and portable posterior messages; gsuite owns the R interface. The current R route is one-way MCMC transfer with a bounded dense design. See the <a href="../../gsuite/docs/gshare-workflow.html">transfer tutorial</a>.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -585,64 +592,69 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
+<td>gshare</td>
+<td>Learning across separate datasets and versioned posterior-transfer messages</td>
+<td>Reuses gbayes inference and gsolve numerics; no network, encryption or formal privacy mechanism</td>
+</tr>
+<tr class="even">
 <td>gbits</td>
 <td>Packed genotype storage, PLINK BED access, selections, transformations, genotype products, and weighted covariance/normal operators</td>
 <td>Does not own genomic resource metadata, general solvers, or statistical models</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gmat</td>
 <td>BED/BIM/FAM resources, ordered panels, sparse-LD construction and storage, sparse-LD algebra, and LD scores</td>
 <td>Delegates BED decoding to gbits and does not fit LD-score regressions</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>gsolve</td>
 <td>Model-independent operators, factorizations, eigensystems, selected inversion, preconditioned conjugate gradient, probes, stochastic log determinants and shared positive quadratic-tail approximation</td>
 <td>Contains no genotype, likelihood, or mixed-model semantics; integrates external sparse factorization backends</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>greml</td>
 <td>ML/REML covariance models, exact and stochastic inference, sparse mixed-model equations, optimization, prediction, and uncertainty</td>
 <td>Uses gsolve for numerical primitives and does not own genotype formats</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>gcorr</td>
 <td>LDSC, GNOVA, SumHer, HESS/rho-HESS, SUPERGNOVA, LAVA, HDL-L; covariance-summary SEM/GGM and prepared-instrument MR</td>
 <td>Consumes gmat LD resources and gsolve numerics; colocalisation belongs in gmap</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gscore</td>
 <td>Multi-score BED application, scoring-specific weight construction/selection and prepared prediction targets</td>
 <td>Core scoring remains standalone; optional gscore::summary reuses gbayes inference. gsuite binds selected posterior prediction and a standalone gscore() fit/select/apply interface</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="https://github.com/psoerensen/gsim">gsim</a></td>
 <td>User-facing R simulation of genotypes, pedigrees and observation records</td>
 <td>Owns simulation workflows; generated data can be used in gsuite analyses</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>glma</td>
 <td>Native linear, binary logistic and Gaussian mixed/LOCO association plus prior-selected LOCO fitting, structure checks, calibration, offset testing and prepared summary-statistic gene evidence/ACAT</td>
 <td>Uses installed gmat/gbits, greml and gbayes; gsuite exposes binary and quantitative-trait routes through <code>glma()</code>, sharing genotype reads for multiple exact linear traits and immutable preparation for LOCO traits</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>gmap</td>
 <td>Native colocalisation, regional Bayesian analysis and posterior-set interpretation</td>
 <td>Core is standalone; optional gmap::bayes uses gbayes; gsuite binds regional Bayesian fitting, ABF and component colocalisation</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gbayes</td>
 <td>Native Bayesian regression and single-/multi-effect inference</td>
 <td>Uses packed individual BED data, gmat cross-products or prepared factors; single-/multivariate regression through gsuite::gbayes and regional inference through gsuite::gmap</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>gsea</td>
 <td>Native gene-set and genomic-feature enrichment: prepared sets, aggregate statistics, over-representation, resampling, preranked GSEA, competitive GLS, MAGMA-route summary preprocessing and scalar/multitrait Bayesian pathways</td>
 <td>Reuses gsolve factors; optional <code>gsea::bayes</code> shares pathway preparation and delegates scalar/multitrait BayesC/BayesR inference to gbayes. <code>gstat()</code> supplies separate gene evidence; <code>gsea()</code> exposes set-based ORA, preranked, competitive, bounded MAGMA and Bayesian workflows. Association belongs in glma; LDSC/SumHer enrichment remains in gcorr</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gsuite</td>
 <td>Unified R/native entry point and suite-level integration documentation</td>
-<td>Binds selected gsolve, greml, gbits, gmat, gcorr, glma, gscore and gmap/gbayes capabilities and requires the gbits gsolve adapter</td>
+<td>Binds selected gsolve, greml, gbits, gmat, gcorr, glma, gscore, gshare and gmap/gbayes capabilities and requires the gbits gsolve adapter</td>
 </tr>
 </tbody>
 </table>
