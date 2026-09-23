@@ -599,6 +599,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#a-complete-genomic-example" id="toc-a-complete-genomic-example" class="nav-link active" data-scroll-target="#a-complete-genomic-example">A complete genomic example</a></li>
+  <li><a href="#fit-from-prepared-bed-genotypes" id="toc-fit-from-prepared-bed-genotypes" class="nav-link" data-scroll-target="#fit-from-prepared-bed-genotypes">Fit from prepared BED genotypes</a></li>
   <li><a href="#agree-on-coordinates-before-fitting" id="toc-agree-on-coordinates-before-fitting" class="nav-link" data-scroll-target="#agree-on-coordinates-before-fitting">Agree on coordinates before fitting</a></li>
   <li><a href="#fit-at-the-source-site" id="toc-fit-at-the-source-site" class="nav-link" data-scroll-target="#fit-at-the-source-site">Fit at the source site</a></li>
   <li><a href="#create-and-save-the-receiving-prior" id="toc-create-and-save-the-receiving-prior" class="nav-link" data-scroll-target="#create-and-save-the-receiving-prior">Create and save the receiving prior</a></li>
@@ -636,36 +637,65 @@ window.Quarto = {
 
 
 <p><code>gshare()</code> fits a local BayesC model using native MCMC. A source site can share marker-wise posterior summaries, which become a prior at a receiving site. The receiving site updates that prior with its own observations. This workflow keeps individual records local; it does not implement encryption or a formal privacy guarantee.</p>
-<p>This first R workflow accepts an explicitly prepared numeric matrix with at most <strong>512 markers</strong>. It is suited to small examples and regions. It does not yet connect BED/Glist or LDlist directly, or claim genome-wide performance. The native library also has joint-site and variational routes; those are not exposed by this R entry point.</p>
+<p>The R workflow accepts either an explicitly prepared numeric matrix with at most <strong>512 markers</strong>, or a checked <code>Glist</code> backed by packed BED. The BED route does not form a dense genotype matrix, marker cross-product or GRM. Neither route claims genome-wide performance. The native library also has joint-site and variational routes; those are not exposed by this R entry point.</p>
 <section id="a-complete-genomic-example" class="level2">
 <h2 class="anchored" data-anchor-id="a-complete-genomic-example">A complete genomic example</h2>
-<p>Download the <a href="../tools/examples/gshare_workflow.R">self-contained R script</a>. It uses gsim to generate founder genotypes from a synthetic phased reference: 100 markers, 500 training individuals at site A, 1,500 at B, and 1,000 held-out individuals. Ten shared causal markers have different, correlated effect sizes at the two sites. No external reference download is required.</p>
+<p>Download the <a href="../tools/examples/gshare_workflow.R">dense demonstration</a> or the <a href="../tools/examples/gshare_bed_workflow.R">BED comparison</a>. It uses gsim to generate founder genotypes from a synthetic phased reference: 100 markers, 500 training individuals at site A, 1,500 at B, and 1,000 held-out individuals. Ten shared causal markers have different, correlated effect sizes at the two sites. No external reference download is required.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/gshare_workflow.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Run from the gsuite repository with development gsuite and gsim installed. The script writes its data, transfer file, fitted objects, comparison table and figures under <code>build/examples/gshare-workflow/</code>. Native gshare and gbayes are included by the normal gsuite developer build; the script does not compile them.</p>
+<p>Run from the gsuite repository with development gsuite and gsim installed. The first script writes its data, transfer file, fitted objects, comparison table and figures under <code>build/examples/gshare-workflow/</code>. The BED comparison reuses those same gsim genotypes and writes results under <code>build/examples/gshare-bed/</code>. Native gshare and gbayes are included by the normal gsuite developer build; the scripts do not compile them.</p>
+</section>
+<section id="fit-from-prepared-bed-genotypes" class="level2">
+<h2 class="anchored" data-anchor-id="fit-from-prepared-bed-genotypes">Fit from prepared BED genotypes</h2>
+<p>Prepare each site’s selected samples with <code>gprep()</code>. Supply the same named reference frequencies at both sites: the fitted predictors are <span class="math inline">\((g-2f)/\sqrt{2f(1-f)}\)</span>. The prepared Glist supplies BED/BIM/FAM identity, marker order and counted allele; the phenotype data frame is matched by <code>id</code>. The phenotype must already follow the declared covariate preparation.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>reference_frequency <span class="ot">&lt;-</span> <span class="fu">setNames</span>(reference_frequencies, marker_ids)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>GA <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="st">"site-A.bed"</span>, <span class="at">ids =</span> site_A_ids)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>GB <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="st">"site-B.bed"</span>, <span class="at">ids =</span> site_B_ids)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>fit_A <span class="ot">&lt;-</span> <span class="fu">gshare</span>(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> GA, <span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">id =</span> site_A_ids, <span class="at">height =</span> yA),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference_frequency =</span> reference_frequency,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">site =</span> <span class="st">"site-A"</span>, <span class="at">trait =</span> <span class="st">"height"</span>, <span class="at">units =</span> <span class="st">"cm"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">covariates =</span> <span class="st">"phenotype adjusted for age and sex"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">residual_variance =</span> <span class="dv">1</span>, <span class="at">effect_variance =</span> .<span class="dv">04</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">inclusion_probability =</span> .<span class="dv">1</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>message <span class="ot">&lt;-</span> <span class="fu">gshare_transfer</span>(fit_A, <span class="at">multiplier =</span> .<span class="dv">7</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                           <span class="at">heterogeneity_variance =</span> .<span class="dv">0204</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">write_gshare</span>(message, <span class="st">"site-A.gshare"</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>fit_B <span class="ot">&lt;-</span> <span class="fu">gshare</span>(</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> GB, <span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">id =</span> site_B_ids, <span class="at">height =</span> yB),</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference_frequency =</span> reference_frequency,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">site =</span> <span class="st">"site-B"</span>, <span class="at">trait =</span> <span class="st">"height"</span>, <span class="at">units =</span> <span class="st">"cm"</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">covariates =</span> <span class="st">"phenotype adjusted for age and sex"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">residual_variance =</span> <span class="dv">1</span>),</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">transfer =</span> <span class="fu">read_gshare</span>(<span class="st">"site-A.gshare"</span>), <span class="at">disjoint =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The code assumes both BED files use the same marker IDs, counted alleles and order. No allele flipping or reordering occurs. <code>gshare()</code> checks the selected metadata and frequency-derived scaling; mismatches fail. <code>disjoint = TRUE</code> asserts non-overlapping individuals but cannot independently detect hidden overlap. The numeric priors are illustration settings on the supplied scale.</p>
 </section>
 <section id="agree-on-coordinates-before-fitting" class="level2">
 <h2 class="anchored" data-anchor-id="agree-on-coordinates-before-fitting">Agree on coordinates before fitting</h2>
 <p><code>XA</code> and <code>XB</code> must describe the same columns, in the same order and units. <code>yA</code> and <code>yB</code> must have the declared phenotype meaning and prior covariate adjustment. No intercept, centering, scaling or alignment is performed silently.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>markers <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">marker =</span> <span class="fu">colnames</span>(XA),</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">allele =</span> counted_alleles,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">center =</span> reference_centers,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> reference_scales</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>markers <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">marker =</span> <span class="fu">colnames</span>(XA),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">allele =</span> counted_alleles,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">center =</span> reference_centers,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> reference_scales</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For genotype dosages the example uses the same independent donor-reference frequencies at both sites: <span class="math inline">\(X_j=(W_j-2f_j)/\sqrt{2f_j(1-f_j)}\)</span>. The metadata describe those already prepared columns; they do not transform the supplied matrix. Receiver coordinates must match exactly. Hidden overlap or incorrect metadata cannot be discovered by matching labels.</p>
 </section>
 <section id="fit-at-the-source-site" class="level2">
 <h2 class="anchored" data-anchor-id="fit-at-the-source-site">Fit at the source site</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fit_A <span class="ot">&lt;-</span> <span class="fu">gshare</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">X =</span> XA, <span class="at">y =</span> yA, <span class="at">site =</span> <span class="st">"site-A"</span>, <span class="at">markers =</span> markers,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait =</span> <span class="st">"height"</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">covariates =</span> <span class="st">"adjusted for age and sex"</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">residual_variance =</span> <span class="dv">1</span>, <span class="at">effect_variance =</span> .<span class="dv">04</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">inclusion_probability =</span> .<span class="dv">1</span>),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">burnin =</span> <span class="dv">2000</span>, <span class="at">sampling_sweeps =</span> <span class="dv">8000</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">seeds =</span> <span class="fu">c</span>(<span class="dv">2027</span>, <span class="dv">2029</span>), <span class="at">threads =</span> <span class="dv">1</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>fit_A</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fit_A<span class="sc">$</span>effects)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fit_A <span class="ot">&lt;-</span> <span class="fu">gshare</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">X =</span> XA, <span class="at">y =</span> yA, <span class="at">site =</span> <span class="st">"site-A"</span>, <span class="at">markers =</span> markers,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait =</span> <span class="st">"height"</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">covariates =</span> <span class="st">"adjusted for age and sex"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">residual_variance =</span> <span class="dv">1</span>, <span class="at">effect_variance =</span> .<span class="dv">04</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">inclusion_probability =</span> .<span class="dv">1</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">burnin =</span> <span class="dv">2000</span>, <span class="at">sampling_sweeps =</span> <span class="dv">8000</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">seeds =</span> <span class="fu">c</span>(<span class="dv">2027</span>, <span class="dv">2029</span>), <span class="at">threads =</span> <span class="dv">1</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>fit_A</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fit_A<span class="sc">$</span>effects)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Choose priors on your supplied response and predictor scale; the values above illustrate the example rather than provide universal defaults. Each marker has a posterior mean, variance and inclusion probability (PIP). <code>chains</code> contains per-chain means, PIPs and residual-variance summaries.</p>
 </section>
 <section id="create-and-save-the-receiving-prior" class="level2">
@@ -674,34 +704,34 @@ window.Quarto = {
 <p><span class="math display">\[
 b_B = r b_A + \epsilon,\qquad \epsilon\sim N(0,\tau^2).
 \]</span></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>message <span class="ot">&lt;-</span> <span class="fu">gshare_transfer</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  fit_A, <span class="at">multiplier =</span> .<span class="dv">7</span>, <span class="at">heterogeneity_variance =</span> .<span class="dv">0204</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probability_floor =</span> <span class="fl">1e-6</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>message</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write_gshare</span>(message, <span class="st">"site-A.gshare"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>message <span class="ot">&lt;-</span> <span class="fu">gshare_transfer</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  fit_A, <span class="at">multiplier =</span> .<span class="dv">7</span>, <span class="at">heterogeneity_variance =</span> .<span class="dv">0204</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probability_floor =</span> <span class="fl">1e-6</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>message</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write_gshare</span>(message, <span class="st">"site-A.gshare"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The message carries PIPs and conditional active-effect means/variances, coordinates, source ID and sample count, source prior settings and transfer settings. It contains no individual records, local cross-products or chains. The format is native schema 1, independent of R serialization. Existing files are protected unless <code>overwrite=TRUE</code> is explicit.</p>
-<p>The multiplier and heterogeneity variance are supplied assumptions, not learned by this workflow. A positive probability floor explicitly permits endpoint regularization, whose count is recorded. A source PIP of zero still fails: there are no sampled active-effect moments to transfer, so further source sampling or a different representation is needed.</p>
+<p>The multiplier and heterogeneity variance are supplied assumptions, not learned by this workflow. A positive probability floor explicitly permits endpoint regularization, whose count is recorded. For MCMC, gbayes averages each marker’s full-conditional inclusion probability and probability-weighted active-effect moments over retained sweeps. This supports a marker whose sampled PIP is zero in a finite chain. The returned <code>effects</code> retain both sampled <code>pip</code> and <code>conditional_inclusion</code>; the message uses the latter. A numerically zero conditional inclusion probability is rejected because its active moments cannot be computed reliably. A probability floor cannot repair that case.</p>
 </section>
 <section id="load-and-fit-at-the-receiving-site" class="level2">
 <h2 class="anchored" data-anchor-id="load-and-fit-at-the-receiving-site">Load and fit at the receiving site</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>received <span class="ot">&lt;-</span> <span class="fu">read_gshare</span>(<span class="st">"site-A.gshare"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>fit_B <span class="ot">&lt;-</span> <span class="fu">gshare</span>(</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">X =</span> XB, <span class="at">y =</span> yB, <span class="at">site =</span> <span class="st">"site-B"</span>, <span class="at">markers =</span> markers,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait =</span> <span class="st">"height"</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">covariates =</span> <span class="st">"adjusted for age and sex"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">residual_variance =</span> <span class="dv">1</span>),</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">transfer =</span> received, <span class="at">disjoint =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">burnin =</span> <span class="dv">2000</span>, <span class="at">sampling_sweeps =</span> <span class="dv">8000</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">seeds =</span> <span class="fu">c</span>(<span class="dv">2027</span>, <span class="dv">2029</span>))</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>fit_B</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>fit_B<span class="sc">$</span>evidence_ids</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>received <span class="ot">&lt;-</span> <span class="fu">read_gshare</span>(<span class="st">"site-A.gshare"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fit_B <span class="ot">&lt;-</span> <span class="fu">gshare</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">X =</span> XB, <span class="at">y =</span> yB, <span class="at">site =</span> <span class="st">"site-B"</span>, <span class="at">markers =</span> markers,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait =</span> <span class="st">"height"</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">covariates =</span> <span class="st">"adjusted for age and sex"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">residual_variance =</span> <span class="dv">1</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">transfer =</span> received, <span class="at">disjoint =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">burnin =</span> <span class="dv">2000</span>, <span class="at">sampling_sweeps =</span> <span class="dv">8000</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">seeds =</span> <span class="fu">c</span>(<span class="dv">2027</span>, <span class="dv">2029</span>))</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>fit_B</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>fit_B<span class="sc">$</span>evidence_ids</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The receiving effect prior comes entirely from the message. Do not add the source likelihood, reapply its original prior, or use overlapping observations. The receiving fit records both evidence IDs and cannot be retransferred through this single-hop interface. The receiver may contradict source evidence through its own likelihood; it is not copying the source estimates.</p>
 <p>For explicit local residual learning, add <code>residual_variance_prior=list(df=4,scale=1)</code> to <code>prior</code> and set <code>control$estimate_residual_variance=TRUE</code>. Set <code>likelihood_dimension</code> to the appropriate residual likelihood dimension after covariate elimination. Effect-variance and inclusion-weight learning are excluded from this transfer interface; general Bayesian modelling remains available through <code>gbayes()</code>.</p>
 </section>
 <section id="what-the-genomic-demonstration-shows" class="level2">
 <h2 class="anchored" data-anchor-id="what-the-genomic-demonstration-shows">What the genomic demonstration shows</h2>
-<p>The R workflow reproduces the earlier native calculation on the same fixed simulation. For site B:</p>
+<p>The packed-BED comparison uses the same 100-marker, unequal-sample-size simulation for source and receiver fits. It holds the chosen priors and MCMC settings fixed within each scenario. The table reports held-out genetic-value RMSE; smaller is better. The joint fit is a fixed-parameter <strong>dense-statistics reference</strong>, not a packed-BED fit.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 20%">
@@ -711,27 +741,40 @@ b_B = r b_A + \epsilon,\qquad \epsilon\sim N(0,\tau^2).
 </colgroup>
 <thead>
 <tr class="header">
-<th>Fit</th>
-<th style="text-align: right;">Held-out genetic-value RMSE</th>
-<th style="text-align: right;">Correlation with true genetic value</th>
-<th style="text-align: right;">Mean PIP at true causal markers</th>
+<th>Effect relationship at the receiver</th>
+<th style="text-align: right;">Separate BED</th>
+<th style="text-align: right;">Transfer BED</th>
+<th style="text-align: right;">Joint dense reference</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Separate local fit</td>
-<td style="text-align: right;">0.1323</td>
-<td style="text-align: right;">0.8830</td>
-<td style="text-align: right;">0.3051</td>
+<td>Similar effects</td>
+<td style="text-align: right;">0.1148</td>
+<td style="text-align: right;">0.0956</td>
+<td style="text-align: right;">0.0916</td>
 </tr>
 <tr class="even">
-<td>Receiving fit after transfer</td>
-<td style="text-align: right;">0.1000</td>
-<td style="text-align: right;">0.9380</td>
-<td style="text-align: right;">0.5525</td>
+<td>Moderate heterogeneity</td>
+<td style="text-align: right;">0.1323</td>
+<td style="text-align: right;">0.0999</td>
+<td style="text-align: right;">0.0934</td>
+</tr>
+<tr class="odd">
+<td>Two receiver-only causal markers</td>
+<td style="text-align: right;">0.1405</td>
+<td style="text-align: right;">0.1079</td>
+<td style="text-align: right;">0.1006</td>
+</tr>
+<tr class="even">
+<td>Wrong, overconfident transfer</td>
+<td style="text-align: right;">0.1321</td>
+<td style="text-align: right;">0.1608</td>
+<td style="text-align: right;">0.1784</td>
 </tr>
 </tbody>
 </table>
+<p>The receiver-only case improves overall genetic-value prediction in this realization, despite violating the shared-activity prior. It does not show correct localization of the receiver-only markers. In the last row, the transfer assumes an opposite effect direction with almost no heterogeneity; the resulting harm shows why the relation must be justified or learned from independent information. These are four controlled scenarios from one genotype realization, not replicated performance estimates. The simulated effect relations are supplied to the transfer; they are not estimated.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../website/assets/gshare/prediction.png" class="img-fluid figure-img" style="width:75.0%"></p>
@@ -744,9 +787,9 @@ b_B = r b_A + \epsilon,\qquad \epsilon\sim N(0,\tau^2).
 <figcaption>Marker PIPs before and after transfer. Red triangles identify the simulated causal markers.</figcaption>
 </figure>
 </div>
-<p>The source, separate and receiving estimates match the previous native driver to floating-point precision (maximum effect-mean difference below <span class="math inline">\(4\times10^{-15}\)</span>; PIPs identical). Saving and loading the message also preserves the receiving fit. This checks the R/native connection and persistence, rather than providing an independent statistical validation.</p>
-<p>The separate native joint fixed-parameter fit gave site-B RMSE 0.093. Sharing did not improve site A in that joint fit. These are illustrative results from one realization, not a general performance guarantee. Transfer is directional: site A’s fit is unchanged by the one-way workflow shown here.</p>
-<p>The script writes <code>comparison.csv</code>, <code>prediction.png</code>, <code>pips.png</code> and the fitted objects. Inspect chain summaries as well as plots. Genetic values and noisy observed phenotypes have different prediction targets.</p>
+<p>With identical standardized coordinates and seeds, the packed and dense source fits differed in posterior effect means by at most <span class="math inline">\(1.75\times10^{-15}\)</span>. The BED script also compares the source conditional inclusion summaries and the receiving effects against the dense route, and checks that saving and loading the message reproduces the receiving fit. These checks cover the packed/native connection and persistence; they are not an independent statistical validation. Transfer is directional: site A’s fit is unchanged by the one-way workflow.</p>
+<p>One separate execution check reused a prepared gsim panel and selected 600 markers for 500 source and 1,500 receiver individuals. With one chain, 100 burn-in and 300 sampling sweeps, the source fit took 0.64 seconds and the receiving fit took 2.91 seconds. Peak working memory of the <strong>whole R process</strong> was 262 MiB, including package loading and genotype preparation. The shorter chain is for execution cost only; these fits were not used to assess inference quality. The <a href="../tools/examples/gshare_bed_large.R">script</a> records the values in <code>build/examples/gshare-bed-large/execution.csv</code>.</p>
+<p>Run the BED script from the repository with <code>fit</code>, run the native <code>genomic_two_sites</code> driver on each written statistics file for the joint reference, then run the script with <code>report</code>. Its generated <code>comparison.csv</code>, timings, messages and fit objects remain under <code>build/examples/gshare-bed/</code>. The earlier <a href="../tools/examples/gshare_workflow.R">dense demonstration</a> writes <code>prediction.png</code> and <code>pips.png</code>, shown above. Inspect chain summaries as well as prediction scores. Genetic values and noisy observed phenotypes are different prediction targets.</p>
 </section>
 <section id="limits-and-information-sharing" class="level2">
 <h2 class="anchored" data-anchor-id="limits-and-information-sharing">Limits and information sharing</h2>
