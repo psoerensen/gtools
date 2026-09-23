@@ -566,6 +566,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#use" id="toc-use" class="nav-link" data-scroll-target="#use">Use</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#individual-level-bed-comparison" id="toc-individual-level-bed-comparison" class="nav-link" data-scroll-target="#individual-level-bed-comparison">Individual-level BED comparison</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -636,6 +637,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <p>The 50K-marker connected fits hold residual variance, effect scale and mixture weights fixed at declared values. They estimate marker effects and their posterior genetic summaries. <a href="../../gsuite/docs/simulated-genomics-qualification.html#bayesian-linear-regression-qualification">Separate evidence</a> covers parameter learning with a matched independent LD reference. The interval counts above describe conditional posterior intervals, not calibrated frequentist coverage.</p>
 <p><a href="../website/assets/genomic-qualification/bayesian.csv">Effect recovery</a> · <a href="../website/assets/genomic-qualification/posterior.csv">Posterior diagnostics</a></p>
+</section>
+<section id="individual-level-bed-comparison" class="level2">
+<h2 class="anchored" data-anchor-id="individual-level-bed-comparison">Individual-level BED comparison</h2>
+<p>The native BED route was compared directly with <code>sblr::stblr_bed()</code> on the same <code>gsim</code>-generated genotypes and phenotype. Both fits used the same 3,000 people, the first 1,000 markers, allele frequencies, starting variances, mixture weights and two-chain full-sweep settings. Variance and weight learning were disabled in this comparison so that the fitted conditional models matched.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 26%">
+<col style="width: 26%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th style="text-align: right;">Marker-effect correlation</th>
+<th style="text-align: right;">PIP correlation</th>
+<th style="text-align: right;">Mean absolute PIP difference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>BayesC</td>
+<td style="text-align: right;">0.998</td>
+<td style="text-align: right;">0.986</td>
+<td style="text-align: right;">0.0056</td>
+</tr>
+<tr class="even">
+<td>BayesR</td>
+<td style="text-align: right;">0.999</td>
+<td style="text-align: right;">0.984</td>
+<td style="text-align: right;">0.0066</td>
+</tr>
+</tbody>
+</table>
+<p>Both implementations assigned PIP 1.0 to the two simulated causal markers in this subset (<code>m00050</code> and <code>m00125</code>). We also checked parameter learning on 1,000 people and 200 markers, matching the variance and mixture-weight priors used by sblr. Marker-effect and PIP correlations were 0.999 and 0.995 for BayesC, and 0.999 and 0.995 for BayesR. Posterior mean residual variances were 0.929 versus 0.929 for BayesC, and 0.934 versus 0.933 for BayesR (sblr versus gsuite). The corresponding BayesR effect-variance means were 0.049 and 0.055; these short stochastic chains do not establish precise agreement for that parameter.</p>
+<p>This is a focused implementation comparison, not a full method or performance qualification. The selected markers are only part of the 50,000-marker simulation, and each sampler uses its own random-number sequence. The <a href="../tools/validation/qualify_gbayes_bed.R">comparison script</a> reproduces the fits after the <a href="../tools/examples/simulated_genomics_workflow.R">shared simulation</a> has prepared <code>build/examples/simulated-genomics/data.rds</code>; it writes its intermediate results only under <code>build/examples/gbayes-bed-comparison/</code>.</p>
 
 
 </section>
