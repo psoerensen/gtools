@@ -186,7 +186,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/qualifications.html">Qualifications</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/genomic-qualification-design.html">Shared simulation design (gsim)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/qualifications.html">Software validation</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/genomic-qualification-design.html">Shared simulation design (gsim)</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -366,7 +366,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Qualifications</span></a>
+ <span class="menu-text">Software validation</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -375,7 +375,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/qualifications.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Qualification overview</span></a>
+ <span class="menu-text">Validation overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -591,7 +591,7 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#shared-genomic-qualification-design" id="toc-shared-genomic-qualification-design" class="nav-link active" data-scroll-target="#shared-genomic-qualification-design">Shared genomic qualification design</a>
+  <li><a href="#shared-genomic-simulation-design" id="toc-shared-genomic-simulation-design" class="nav-link active" data-scroll-target="#shared-genomic-simulation-design">Shared genomic simulation design</a>
   <ul class="collapse">
   <li><a href="#population-and-truth" id="toc-population-and-truth" class="nav-link" data-scroll-target="#population-and-truth">Population and truth</a></li>
   <li><a href="#generate-a-replicate-in-r" id="toc-generate-a-replicate-in-r" class="nav-link" data-scroll-target="#generate-a-replicate-in-r">Generate a replicate in R</a></li>
@@ -601,14 +601,14 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/qualifications.html">Qualifications</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/genomic-qualification-design.html">Shared simulation design (gsim)</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/qualifications.html">Software validation</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/genomic-qualification-design.html">Shared simulation design (gsim)</a></li></ol></nav></header>
 
 
 
 
-<section id="shared-genomic-qualification-design" class="level1">
-<h1>Shared genomic qualification design</h1>
-<p>This design fixes the inputs for the new ten-replicate qualification across glma, gcorr, gbayes, gscore, gmap and gsea. The runnable source is <a href="../tools/examples/simulated_genomics_workflow.R">the connected simulation using gsim</a>, <a href="../tools/examples/qualify_genomic_modules.R">the fixed-seed runner</a> and <a href="../tools/examples/qualify_glma_loco.R">the LOCO scan</a>. The <a href="../tools/examples/report_genomic_module_qualification.R">report driver</a> reads the saved compact results. Website rendering never runs these analyses.</p>
+<section id="shared-genomic-simulation-design" class="level1">
+<h1>Shared genomic simulation design</h1>
+<p>This design fixes the inputs for ten focused software validation runs across glma, gcorr, gbayes, gscore, gmap and gsea. The runnable source is <a href="../tools/examples/simulated_genomics_workflow.R">the connected simulation using gsim</a>, <a href="../tools/examples/qualify_genomic_modules.R">the fixed-seed runner</a> and <a href="../tools/examples/qualify_glma_loco.R">the LOCO scan</a>. The <a href="../tools/examples/report_genomic_module_qualification.R">report driver</a> reads the saved compact results. Website rendering never runs these analyses.</p>
 <section id="population-and-truth" class="level2">
 <h2 class="anchored" data-anchor-id="population-and-truth">Population and truth</h2>
 <p>Each seed generates 10,000 unrelated individuals, 50,000 biallelic markers in 500 independent artificial LD regions, and three continuous traits. Disjoint groups of 3,000 supply one GWAS per trait; 1,000 other individuals are reserved for scoring. The pooled 9,000 GWAS individuals supply the matched LD reference. The workflow writes the genotypes blockwise to a packed BED file, then uses <code>gsim</code> to generate phenotypes from declared effects and the prepared panel. It records causal effects, genetic values, residual covariance and sample assignments. Population LD and the generating effects determine the heritability, covariance, correlation and marginal-effect truth; fitted LD does not define truth.</p>
@@ -686,15 +686,15 @@ window.Quarto = {
 <span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">list</span>(<span class="at">seed =</span> seed, <span class="at">Glist =</span> Glist, <span class="at">simulation =</span> simulation,</span>
 <span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>             <span class="at">gwas_rows =</span> rows, <span class="at">holdout_rows =</span> holdout, <span class="at">region =</span> region, <span class="at">rho =</span> rho),</span>
 <span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>        <span class="fu">file.path</span>(out, <span class="st">"simulation.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The first 80 regions have a higher causal-marker probability; the first two regions also contain the declared shared and distinct signals. The GWAS groups, holdout and pooled LD reference are fixed by the row indices above. The saved object includes generating effects and individual genetic values. The qualification workflow additionally computes population heritability and genetic-correlation truth from those effects and the known LD construction.</p>
+<p>The first 80 regions have a higher causal-marker probability; the first two regions also contain the declared shared and distinct signals. The GWAS groups, holdout and pooled LD reference are fixed by the row indices above. The saved object includes generating effects and individual genetic values. The connected workflow additionally computes population heritability and genetic-correlation truth from those effects and the known LD construction.</p>
 </section>
 <section id="checks-and-interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="checks-and-interpretation">Checks and interpretation</h2>
 <p>Exact linear GWAS results are checked against selected R ordinary least-squares calculations within <span class="math inline">\(10^{-9}\)</span>. Applying the true marker effects as a score must reproduce centered simulated genetic values within <span class="math inline">\(10^{-9}\)</span>. All requested results, unavailable estimates and numerical statuses are retained. Point estimates, intervals, prediction, posterior diagnostics, causal-marker coverage and pathway results are summarized across the ten attempts without replacing unfavorable outcomes.</p>
 <p>The <a href="../website/assets/genomic-qualification/status.csv">run status</a> and <a href="../website/assets/genomic-qualification/checks.csv">numerical checks</a> list each prescribed seed. The <a href="../website/assets/genomic-qualification/source-hashes.csv">source hashes</a> identify the R drivers used. The library pages link the compact result tables used in their summaries.</p>
-<p>The connected 50K-marker BayesC and BayesR fits hold residual variance, effect-variance scale and mixture weights at declared values. They check posterior effects, heritability summaries, chain behavior and held-out scores under that contract. The separate <a href="../../gsuite/docs/simulated-genomics-qualification.html#bayesian-linear-regression-qualification">reference-LD qualification</a> is the evidence for learning these parameters with a matched independent reference and its prescribed sparse-LD construction.</p>
+<p>The connected 50K-marker BayesC and BayesR fits hold residual variance, effect-variance scale and mixture weights at declared values. They check posterior effects, heritability summaries, chain behavior and held-out scores under that contract. The separate <a href="../../gsuite/docs/simulated-genomics-qualification.html#bayesian-linear-regression-qualification">reference-LD parameter-learning checks</a> is the evidence for learning these parameters with a matched independent reference and its prescribed sparse-LD construction.</p>
 <p>One additional glma LOCO timing run uses the genotypes and trait A phenotype from seed 2, grouping the 500 artificial regions into 20 artificial chromosomes. It tests all 50,000 markers against a 500-marker background with two operation-local threads. This one run checks execution and timing. The unrelated-individual design and subset background do not qualify mixed-model null-tail calibration or heritability estimation. LOCO is not part of the ten repeated library comparisons.</p>
-<p>Ten replicates support descriptive truth comparisons, not precise coverage, power, false-positive-rate or method-ranking claims. The LD reference overlaps the GWAS individuals. Binary traits, population structure, ancestry mismatch, independent external LD panels and complete package/platform qualification are outside this design.</p>
+<p>Ten replicates support descriptive truth comparisons, not precise coverage, power, false-positive-rate or method-ranking claims. The LD reference overlaps the GWAS individuals. Binary traits, population structure, ancestry mismatch, independent external LD panels and complete package/platform validation are outside this design.</p>
 
 
 </section>

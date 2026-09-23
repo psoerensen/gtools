@@ -46,8 +46,11 @@ save_page <- function(name, lines) {
              useBytes = TRUE)
 }
 opening <- function(lib, guide) c(
-  paste0("# ", lib, " qualification"), "",
-  paste0("Ten fixed simulations use the [shared design](genomic-qualification-design.md). ",
+  paste0("# ", lib, " software validation"), "",
+  paste0("These focused simulation checks assess selected behavior of the gsuite ",
+         "implementation on ten fixed datasets from the ",
+         "[shared design](genomic-qualification-design.md). ",
+         "They do not revalidate the statistical method or cover every setting. ",
          "The [", lib, " guide](", guide, ") describes inputs and options. ",
          "The [runnable workflow](../tools/examples/simulated_genomics_workflow.R) ",
          "contains the exact settings."), "")

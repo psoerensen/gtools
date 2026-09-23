@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Simulation evidence, numerical checks and limits for selected gsuite workflows.">
+<meta name="description" content="Focused simulation checks, numerical evidence and limits for selected gsuite implementations.">
 
-<title>Qualifications – gtools</title>
+<title>Software validation – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -123,7 +123,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../gsuite/qualifications.html">Qualifications</a></li><li class="breadcrumb-item"><a href="../gsuite/qualifications.html">Qualification overview</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../gsuite/qualifications.html">Software validation</a></li><li class="breadcrumb-item"><a href="../gsuite/qualifications.html">Validation overview</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -303,7 +303,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Qualifications</span></a>
+ <span class="menu-text">Software validation</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -312,7 +312,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../gsuite/qualifications.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Qualification overview</span></a>
+ <span class="menu-text">Validation overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -527,14 +527,14 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../gsuite/qualifications.html">Qualifications</a></li><li class="breadcrumb-item"><a href="../gsuite/qualifications.html">Qualification overview</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../gsuite/qualifications.html">Software validation</a></li><li class="breadcrumb-item"><a href="../gsuite/qualifications.html">Validation overview</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Qualifications</h1>
+<h1 class="title">Software validation</h1>
 </div>
 
 <div>
   <div class="description">
-    Simulation evidence, numerical checks and limits for selected gsuite workflows.
+    Focused simulation checks, numerical evidence and limits for selected gsuite implementations.
   </div>
 </div>
 
@@ -551,7 +551,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Qualifications show what has been checked with known truth or independent numerical calculations. They are separate from <a href="../gsuite/tutorials.html">Tutorials</a>, which teach workflows, and <a href="../gsuite/benchmarks.html">Benchmarks</a>, which compare performance.</p>
+<p>These focused simulation checks ask whether selected <strong>gsuite implementations</strong> behave as expected with known truth or independent numerical calculations. The statistical methods were established in the original literature; these checks do not establish them anew or cover every supported setting. <a href="../gsuite/tutorials.html">Tutorials</a> teach workflows, while <a href="../gsuite/benchmarks.html">Benchmarks</a> compare performance.</p>
 <section id="shared-genomic-simulation" class="level2">
 <h2 class="anchored" data-anchor-id="shared-genomic-simulation">Shared genomic simulation</h2>
 <p>The <a href="../gsuite/docs/genomic-qualification-design.html">shared simulation design (gsim)</a> fixes ten seeds, 10,000 individuals, 50,000 markers and known generating effects. Each page shows how to use one library and what was checked on the same datasets:</p>
@@ -568,7 +568,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="other-evidence" class="level2">
 <h2 class="anchored" data-anchor-id="other-evidence">Other evidence</h2>
 <ul>
-<li><a href="../gsuite/docs/simulated-genomics-qualification.html">Earlier connected genomic qualification</a>: prior focused checks, including a separate reference-LD parameter-learning qualification.</li>
+<li><a href="../gsuite/docs/simulated-genomics-qualification.html">Earlier connected genomic checks</a>: prior focused checks, including a separate reference-LD parameter-learning qualification.</li>
 <li><a href="../gsuite/docs/gcorr-method-comparison.html">gcorr method comparison</a>: six summary-statistic methods on a separate two-trait simulation, with figures, replicated errors and availability.</li>
 <li><a href="../gsuite/docs/status.html#qualification-limits">Current scope and qualification limits</a>: package-level and model-level checks that remain incomplete.</li>
 </ul>

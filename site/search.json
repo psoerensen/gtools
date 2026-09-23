@@ -2,156 +2,156 @@
   {
     "objectID": "gsuite/docs/gsea-qualification.html",
     "href": "gsuite/docs/gsea-qualification.html",
-    "title": "gsea qualification",
+    "title": "gsea software validation",
     "section": "",
-    "text": "Ten fixed simulations use the shared design. The gsea guide describes inputs and options. The runnable workflow contains the exact settings.\n\n\nevidence &lt;- gstat(stat, LDlist, sets = genes, blocks = blocks,\n                  metadata = metadata,\n                  control = list(independent_blocks = TRUE,\n                                 tail_method = \"saddlepoint\"))\nfit &lt;- gsea(evidence$stat, pathways, method = \"competitive\",\n            sampling = evidence$sampling)\n\n\n\n\n\n\nMethod\nEnriched p &lt; 0.05\nBackground p &lt; 0.05\n\n\n\n\nora\n15/30\n0/30\n\n\npreranked\n30/30\n1/30\n\n\ncompetitive\n30/30\n1/30\n\n\nmagma\n26/30\n0/30\n\n\n\nThe scalar BayesC pathway analysis reports posterior inclusion probabilities on a separate scale:\n\n\n\nPathway\nMean PIP\n\n\n\n\nenriched\n0.828\n\n\nbackground\n0.066\n\n\nmixed\n0.048\n\n\n\nThe controlled gene-tail calculation was available for 29945/30000 requested tests; the documented saddlepoint route was available for 30000/30000. Its moment fallback was used 12 times.\nThe enriched and background sets are artificial and fixed before analysis. Counts are descriptive across dependent traits and pathways; they are not power or false-positive-rate estimates. PIPs and p-values have different interpretations.\nPathway results · Gene-tail availability",
+    "text": "These focused simulation checks assess selected behavior of the gsuite implementation on ten fixed datasets from the shared design. They do not revalidate the statistical method or cover every setting. The gsea guide describes inputs and options. The runnable workflow contains the exact settings.\n\n\nevidence &lt;- gstat(stat, LDlist, sets = genes, blocks = blocks,\n                  metadata = metadata,\n                  control = list(independent_blocks = TRUE,\n                                 tail_method = \"saddlepoint\"))\nfit &lt;- gsea(evidence$stat, pathways, method = \"competitive\",\n            sampling = evidence$sampling)\n\n\n\n\n\n\nMethod\nEnriched p &lt; 0.05\nBackground p &lt; 0.05\n\n\n\n\nora\n15/30\n0/30\n\n\npreranked\n30/30\n1/30\n\n\ncompetitive\n30/30\n1/30\n\n\nmagma\n26/30\n0/30\n\n\n\nThe scalar BayesC pathway analysis reports posterior inclusion probabilities on a separate scale:\n\n\n\nPathway\nMean PIP\n\n\n\n\nenriched\n0.828\n\n\nbackground\n0.066\n\n\nmixed\n0.048\n\n\n\nThe controlled gene-tail calculation was available for 29945/30000 requested tests; the documented saddlepoint route was available for 30000/30000. Its moment fallback was used 12 times.\nThe enriched and background sets are artificial and fixed before analysis. Counts are descriptive across dependent traits and pathways; they are not power or false-positive-rate estimates. PIPs and p-values have different interpretations.\nPathway results · Gene-tail availability",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Genes and pathways (gsea)"
     ]
   },
   {
     "objectID": "gsuite/docs/gsea-qualification.html#use",
     "href": "gsuite/docs/gsea-qualification.html#use",
-    "title": "gsea qualification",
+    "title": "gsea software validation",
     "section": "",
     "text": "evidence &lt;- gstat(stat, LDlist, sets = genes, blocks = blocks,\n                  metadata = metadata,\n                  control = list(independent_blocks = TRUE,\n                                 tail_method = \"saddlepoint\"))\nfit &lt;- gsea(evidence$stat, pathways, method = \"competitive\",\n            sampling = evidence$sampling)",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Genes and pathways (gsea)"
     ]
   },
   {
     "objectID": "gsuite/docs/gsea-qualification.html#results",
     "href": "gsuite/docs/gsea-qualification.html#results",
-    "title": "gsea qualification",
+    "title": "gsea software validation",
     "section": "",
     "text": "Method\nEnriched p &lt; 0.05\nBackground p &lt; 0.05\n\n\n\n\nora\n15/30\n0/30\n\n\npreranked\n30/30\n1/30\n\n\ncompetitive\n30/30\n1/30\n\n\nmagma\n26/30\n0/30\n\n\n\nThe scalar BayesC pathway analysis reports posterior inclusion probabilities on a separate scale:\n\n\n\nPathway\nMean PIP\n\n\n\n\nenriched\n0.828\n\n\nbackground\n0.066\n\n\nmixed\n0.048\n\n\n\nThe controlled gene-tail calculation was available for 29945/30000 requested tests; the documented saddlepoint route was available for 30000/30000. Its moment fallback was used 12 times.\nThe enriched and background sets are artificial and fixed before analysis. Counts are descriptive across dependent traits and pathways; they are not power or false-positive-rate estimates. PIPs and p-values have different interpretations.\nPathway results · Gene-tail availability",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Genes and pathways (gsea)"
     ]
   },
   {
     "objectID": "gsuite/docs/gscore-qualification.html",
     "href": "gsuite/docs/gscore-qualification.html",
-    "title": "gscore qualification",
+    "title": "gscore software validation",
     "section": "",
-    "text": "Ten fixed simulations use the shared design. The gscore guide describes inputs and options. The runnable workflow contains the exact settings.\n\n\nweights &lt;- gscore(prepared$A, LDlist, method = \"ridge\",\n                  control = list(penalty = 1))\nprediction &lt;- gscore(task = \"apply\", Glist = held_out_Glist,\n                     weights = weights$weights,\n                     allele_frequencies = frequencies)\n\n\n\n\n\n\n\n\n\n\n\n\nWeights\nMean r with genetic value\nMean r with phenotype\nMean calibration slope\n\n\n\n\nridge\n0.158\n0.091\n0.046\n\n\nbayesc\n0.495\n0.274\n1.488\n\n\nbayesr\n0.512\n0.282\n1.106\n\n\n\nApplying the true effects reproduced centered simulated genetic values within 7.33e-15 at worst. This checks marker order and coding. Prediction quality depends on the fitted weights and the deliberately difficult polygenic architecture.\nThe ridge fit uses a fixed penalty of 1 without tuning. Its low held-out correlation and calibration slope are reported as observed; this setting is an execution check, not a recommended prediction recipe.\n\n\n\nHeld-out prediction, regional mapping and colocalisation across the fixed simulations.\n\n\nHeld-out prediction results",
+    "text": "These focused simulation checks assess selected behavior of the gsuite implementation on ten fixed datasets from the shared design. They do not revalidate the statistical method or cover every setting. The gscore guide describes inputs and options. The runnable workflow contains the exact settings.\n\n\nweights &lt;- gscore(prepared$A, LDlist, method = \"ridge\",\n                  control = list(penalty = 1))\nprediction &lt;- gscore(task = \"apply\", Glist = held_out_Glist,\n                     weights = weights$weights,\n                     allele_frequencies = frequencies)\n\n\n\n\n\n\n\n\n\n\n\n\nWeights\nMean r with genetic value\nMean r with phenotype\nMean calibration slope\n\n\n\n\nridge\n0.158\n0.091\n0.046\n\n\nbayesc\n0.495\n0.274\n1.488\n\n\nbayesr\n0.512\n0.282\n1.106\n\n\n\nApplying the true effects reproduced centered simulated genetic values within 7.33e-15 at worst. This checks marker order and coding. Prediction quality depends on the fitted weights and the deliberately difficult polygenic architecture.\nThe ridge fit uses a fixed penalty of 1 without tuning. Its low held-out correlation and calibration slope are reported as observed; this setting is an execution check, not a recommended prediction recipe.\n\n\n\nHeld-out prediction, regional mapping and colocalisation across the fixed simulations.\n\n\nHeld-out prediction results",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Prediction (gscore)"
     ]
   },
   {
     "objectID": "gsuite/docs/gscore-qualification.html#use",
     "href": "gsuite/docs/gscore-qualification.html#use",
-    "title": "gscore qualification",
+    "title": "gscore software validation",
     "section": "",
     "text": "weights &lt;- gscore(prepared$A, LDlist, method = \"ridge\",\n                  control = list(penalty = 1))\nprediction &lt;- gscore(task = \"apply\", Glist = held_out_Glist,\n                     weights = weights$weights,\n                     allele_frequencies = frequencies)",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Prediction (gscore)"
     ]
   },
   {
     "objectID": "gsuite/docs/gscore-qualification.html#results",
     "href": "gsuite/docs/gscore-qualification.html#results",
-    "title": "gscore qualification",
+    "title": "gscore software validation",
     "section": "",
     "text": "Weights\nMean r with genetic value\nMean r with phenotype\nMean calibration slope\n\n\n\n\nridge\n0.158\n0.091\n0.046\n\n\nbayesc\n0.495\n0.274\n1.488\n\n\nbayesr\n0.512\n0.282\n1.106\n\n\n\nApplying the true effects reproduced centered simulated genetic values within 7.33e-15 at worst. This checks marker order and coding. Prediction quality depends on the fitted weights and the deliberately difficult polygenic architecture.\nThe ridge fit uses a fixed penalty of 1 without tuning. Its low held-out correlation and calibration slope are reported as observed; this setting is an execution check, not a recommended prediction recipe.\n\n\n\nHeld-out prediction, regional mapping and colocalisation across the fixed simulations.\n\n\nHeld-out prediction results",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Prediction (gscore)"
     ]
   },
   {
     "objectID": "gsuite/docs/gcorr-qualification.html",
     "href": "gsuite/docs/gcorr-qualification.html",
-    "title": "gcorr qualification",
+    "title": "gcorr software validation",
     "section": "",
-    "text": "Ten fixed simulations use the shared design. The gcorr guide describes inputs and options. The runnable workflow contains the exact settings.\n\n\ngenome &lt;- gcorr(stat, LDlist, method = \"ldsc\", task = \"rg\")\npartition &lt;- gcorr(stat, annotated_LD, annotation = annotation,\n                   method = \"ldsc\", task = \"rg\")\n\n\n\nTrait A heritability and A–B genetic correlation are shown below. Other traits, regions and uncertainty availability remain in the compact result tables.\n\n\n\n\n\n\n\n\n\n\n\n\nMethod\nh2 estimate\nh2 truth\nh2 bias\nrg estimate\nrg truth\nrg bias\n\n\n\n\nLDSC\n0.263\n0.300\n-0.037\n0.551\n0.564\n-0.013\n\n\nGNOVA\n0.259\n0.300\n-0.041\n0.553\n0.564\n-0.012\n\n\nSumHer\n0.263\n0.300\n-0.037\n0.551\n0.564\n-0.013\n\n\nAnnotation LDSC\n0.347\n0.300\n0.047\n0.547\n0.564\n-0.018\n\n\n\n\n\n\nHeritability and genetic-correlation error across the fixed simulations.\n\n\nThese methods have different assumptions and uncertainty constructions. Ten replicates do not establish interval coverage or rank methods. Estimates that were unavailable or outside the correlation range are retained in the results.\nSeed-level estimates · Accuracy summary · Uncertainty availability",
+    "text": "These focused simulation checks assess selected behavior of the gsuite implementation on ten fixed datasets from the shared design. They do not revalidate the statistical method or cover every setting. The gcorr guide describes inputs and options. The runnable workflow contains the exact settings.\n\n\ngenome &lt;- gcorr(stat, LDlist, method = \"ldsc\", task = \"rg\")\npartition &lt;- gcorr(stat, annotated_LD, annotation = annotation,\n                   method = \"ldsc\", task = \"rg\")\n\n\n\nTrait A heritability and A–B genetic correlation are shown below. Other traits, regions and uncertainty availability remain in the compact result tables.\n\n\n\n\n\n\n\n\n\n\n\n\nMethod\nh2 estimate\nh2 truth\nh2 bias\nrg estimate\nrg truth\nrg bias\n\n\n\n\nLDSC\n0.263\n0.300\n-0.037\n0.551\n0.564\n-0.013\n\n\nGNOVA\n0.259\n0.300\n-0.041\n0.553\n0.564\n-0.012\n\n\nSumHer\n0.263\n0.300\n-0.037\n0.551\n0.564\n-0.013\n\n\nAnnotation LDSC\n0.347\n0.300\n0.047\n0.547\n0.564\n-0.018\n\n\n\n\n\n\nHeritability and genetic-correlation error across the fixed simulations.\n\n\nThese methods have different assumptions and uncertainty constructions. Ten replicates do not establish interval coverage or rank methods. Estimates that were unavailable or outside the correlation range are retained in the results.\nSeed-level estimates · Accuracy summary · Uncertainty availability",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Heritability and correlation (gcorr)"
     ]
   },
   {
     "objectID": "gsuite/docs/gcorr-qualification.html#use",
     "href": "gsuite/docs/gcorr-qualification.html#use",
-    "title": "gcorr qualification",
+    "title": "gcorr software validation",
     "section": "",
     "text": "genome &lt;- gcorr(stat, LDlist, method = \"ldsc\", task = \"rg\")\npartition &lt;- gcorr(stat, annotated_LD, annotation = annotation,\n                   method = \"ldsc\", task = \"rg\")",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Heritability and correlation (gcorr)"
     ]
   },
   {
     "objectID": "gsuite/docs/gcorr-qualification.html#results",
     "href": "gsuite/docs/gcorr-qualification.html#results",
-    "title": "gcorr qualification",
+    "title": "gcorr software validation",
     "section": "",
     "text": "Trait A heritability and A–B genetic correlation are shown below. Other traits, regions and uncertainty availability remain in the compact result tables.\n\n\n\n\n\n\n\n\n\n\n\n\nMethod\nh2 estimate\nh2 truth\nh2 bias\nrg estimate\nrg truth\nrg bias\n\n\n\n\nLDSC\n0.263\n0.300\n-0.037\n0.551\n0.564\n-0.013\n\n\nGNOVA\n0.259\n0.300\n-0.041\n0.553\n0.564\n-0.012\n\n\nSumHer\n0.263\n0.300\n-0.037\n0.551\n0.564\n-0.013\n\n\nAnnotation LDSC\n0.347\n0.300\n0.047\n0.547\n0.564\n-0.018\n\n\n\n\n\n\nHeritability and genetic-correlation error across the fixed simulations.\n\n\nThese methods have different assumptions and uncertainty constructions. Ten replicates do not establish interval coverage or rank methods. Estimates that were unavailable or outside the correlation range are retained in the results.\nSeed-level estimates · Accuracy summary · Uncertainty availability",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Heritability and correlation (gcorr)"
     ]
   },
   {
     "objectID": "gsuite/docs/genomic-qualification-design.html",
     "href": "gsuite/docs/genomic-qualification-design.html",
-    "title": "Shared genomic qualification design",
+    "title": "Shared genomic simulation design",
     "section": "",
-    "text": "This design fixes the inputs for the new ten-replicate qualification across glma, gcorr, gbayes, gscore, gmap and gsea. The runnable source is the connected simulation using gsim, the fixed-seed runner and the LOCO scan. The report driver reads the saved compact results. Website rendering never runs these analyses.\n\n\nEach seed generates 10,000 unrelated individuals, 50,000 biallelic markers in 500 independent artificial LD regions, and three continuous traits. Disjoint groups of 3,000 supply one GWAS per trait; 1,000 other individuals are reserved for scoring. The pooled 9,000 GWAS individuals supply the matched LD reference. The workflow writes the genotypes blockwise to a packed BED file, then uses gsim to generate phenotypes from declared effects and the prepared panel. It records causal effects, genetic values, residual covariance and sample assignments. Population LD and the generating effects determine the heritability, covariance, correlation and marginal-effect truth; fitted LD does not define truth.\nOne data-generating process contains three named evaluation patterns:\n\nDistributed effects: effects across regions permit genome-wide GWAS, heritability, genetic correlation, Bayesian regression and prediction checks.\nShared and distinct regional signals: the first two regions have known shared and distinct causal variants for fine-mapping and colocalisation.\nAnnotation enrichment: causal effects are more frequent in the first 80 regions, with predefined artificial genes and pathways.\n\nThese are patterns within each simulated dataset, not three independent phenotype-generating scenarios. Ten fixed seeds are prescribed; failed seeds are recorded and never replaced. The run reuses the established connected workflow and saves compact results by seed, with hashes, package versions, warnings, status and stage timings. Large genotypes, fits and LD resources remain in the ignored build cache. Two R workers process odd and even seeds concurrently; elapsed times describe this machine and workload, not an isolated benchmark.\n\n\n\nThe code below shows the data-generation part of the connected workflow. Run it from the gsuite repository root with development installations of gsuite and gsim. Change replicate from 1 through 10 to use the prescribed seeds. Genotypes are written one marker at a time to PLINK BED files; gsim then generates the phenotypes from known effects. The complete runnable workflow also records the population truth, prepares LD and runs the six analyses.\n.libPaths(c(\"build/r-library\", .libPaths()))\nlibrary(gsuite)\nlibrary(gsim)\n\nreplicate &lt;- 1L\nseed &lt;- 20262000L + 100L * replicate\nset.seed(seed)\nn &lt;- 10000L; m &lt;- 50000L; size &lt;- 100L; nr &lt;- m %/% size\ntraits &lt;- c(\"A\", \"B\", \"C\")\nids &lt;- sprintf(\"m%05d\", seq_len(m))\nindividuals &lt;- sprintf(\"id%05d\", seq_len(n))\nregion &lt;- rep(sprintf(\"region%03d\", seq_len(nr)), each = size)\nrho &lt;- seq(.2, .8, length.out = nr)\nrows &lt;- setNames(lapply(0:2, function(k) k * 3000L + seq_len(3000L)), traits)\nholdout &lt;- 9001:10000\n\nout &lt;- file.path(\"build/examples/simulated-genomics\",\n                 sprintf(\"replicate-%02d\", replicate))\ndir.create(out, recursive = TRUE, showWarnings = FALSE)\nprefix &lt;- file.path(out, \"genotypes\")\ncon &lt;- file(paste0(prefix, \".bed\"), \"wb\")\nwriteBin(as.raw(c(0x6c, 0x1b, 0x01)), con)\nfor (j in seq_len(m)) {\n  w &lt;- rbinom(n, 2, .3)\n  r &lt;- (j - 1L) %/% size + 1L\n  if ((j - 1L) %% size) {\n    keep &lt;- runif(n) &lt; rho[r]\n    w[keep] &lt;- previous[keep]\n  }\n  previous &lt;- w\n  codes &lt;- c(3L, 2L, 0L)[w + 1L]\n  writeBin(as.raw(colSums(matrix(codes, 4L) * c(1, 4, 16, 64))), con)\n}\nclose(con)\nwrite.table(data.frame(rep(seq_len(nr), each = size), ids, 0,\n                       as.character(rep(seq_len(size) * 1000L, nr)), \"A\", \"G\"),\n            paste0(prefix, \".bim\"), quote = FALSE, row.names = FALSE,\n            col.names = FALSE)\nwrite.table(data.frame(individuals, individuals, 0, 0, 0, -9),\n            paste0(prefix, \".fam\"), quote = FALSE, row.names = FALSE,\n            col.names = FALSE)\nGlist &lt;- gprep(bedfiles = paste0(prefix, \".bed\"))\n\nactive &lt;- runif(m) &lt; ifelse(rep(seq_len(nr), each = size) &lt;= 80, .08, .008)\nB &lt;- matrix(0, m, 3, dimnames = list(ids, traits))\ncorrelation &lt;- matrix(.6, 3, 3); diag(correlation) &lt;- 1\nB[active, ] &lt;- matrix(rnorm(sum(active) * 3, sd = .035), sum(active), 3) %*%\n  chol(correlation)\nB[1:200, ] &lt;- 0\nB[50, ] &lt;- .5\nB[125, 1] &lt;- .5; B[175, 2:3] &lt;- .5\n\nsimulation &lt;- gsim::gsim(\n  Glist = Glist, nt = 3, architecture = \"fixed\", beta = B,\n  h2 = c(.3, .4, .35), vg = c(.3, .4, .35), re = 0,\n  standardize_W = FALSE, scale_effects = TRUE, seed = seed + 1L,\n  compute_sumstats = FALSE, chunk_size = 64\n)\ncolnames(simulation$Y) &lt;- colnames(simulation$G) &lt;-\n  colnames(simulation$B) &lt;- traits\nsaveRDS(list(seed = seed, Glist = Glist, simulation = simulation,\n             gwas_rows = rows, holdout_rows = holdout, region = region, rho = rho),\n        file.path(out, \"simulation.rds\"))\nThe first 80 regions have a higher causal-marker probability; the first two regions also contain the declared shared and distinct signals. The GWAS groups, holdout and pooled LD reference are fixed by the row indices above. The saved object includes generating effects and individual genetic values. The qualification workflow additionally computes population heritability and genetic-correlation truth from those effects and the known LD construction.\n\n\n\nExact linear GWAS results are checked against selected R ordinary least-squares calculations within \\(10^{-9}\\). Applying the true marker effects as a score must reproduce centered simulated genetic values within \\(10^{-9}\\). All requested results, unavailable estimates and numerical statuses are retained. Point estimates, intervals, prediction, posterior diagnostics, causal-marker coverage and pathway results are summarized across the ten attempts without replacing unfavorable outcomes.\nThe run status and numerical checks list each prescribed seed. The source hashes identify the R drivers used. The library pages link the compact result tables used in their summaries.\nThe connected 50K-marker BayesC and BayesR fits hold residual variance, effect-variance scale and mixture weights at declared values. They check posterior effects, heritability summaries, chain behavior and held-out scores under that contract. The separate reference-LD qualification is the evidence for learning these parameters with a matched independent reference and its prescribed sparse-LD construction.\nOne additional glma LOCO timing run uses the genotypes and trait A phenotype from seed 2, grouping the 500 artificial regions into 20 artificial chromosomes. It tests all 50,000 markers against a 500-marker background with two operation-local threads. This one run checks execution and timing. The unrelated-individual design and subset background do not qualify mixed-model null-tail calibration or heritability estimation. LOCO is not part of the ten repeated library comparisons.\nTen replicates support descriptive truth comparisons, not precise coverage, power, false-positive-rate or method-ranking claims. The LD reference overlaps the GWAS individuals. Binary traits, population structure, ancestry mismatch, independent external LD panels and complete package/platform qualification are outside this design.",
+    "text": "This design fixes the inputs for ten focused software validation runs across glma, gcorr, gbayes, gscore, gmap and gsea. The runnable source is the connected simulation using gsim, the fixed-seed runner and the LOCO scan. The report driver reads the saved compact results. Website rendering never runs these analyses.\n\n\nEach seed generates 10,000 unrelated individuals, 50,000 biallelic markers in 500 independent artificial LD regions, and three continuous traits. Disjoint groups of 3,000 supply one GWAS per trait; 1,000 other individuals are reserved for scoring. The pooled 9,000 GWAS individuals supply the matched LD reference. The workflow writes the genotypes blockwise to a packed BED file, then uses gsim to generate phenotypes from declared effects and the prepared panel. It records causal effects, genetic values, residual covariance and sample assignments. Population LD and the generating effects determine the heritability, covariance, correlation and marginal-effect truth; fitted LD does not define truth.\nOne data-generating process contains three named evaluation patterns:\n\nDistributed effects: effects across regions permit genome-wide GWAS, heritability, genetic correlation, Bayesian regression and prediction checks.\nShared and distinct regional signals: the first two regions have known shared and distinct causal variants for fine-mapping and colocalisation.\nAnnotation enrichment: causal effects are more frequent in the first 80 regions, with predefined artificial genes and pathways.\n\nThese are patterns within each simulated dataset, not three independent phenotype-generating scenarios. Ten fixed seeds are prescribed; failed seeds are recorded and never replaced. The run reuses the established connected workflow and saves compact results by seed, with hashes, package versions, warnings, status and stage timings. Large genotypes, fits and LD resources remain in the ignored build cache. Two R workers process odd and even seeds concurrently; elapsed times describe this machine and workload, not an isolated benchmark.\n\n\n\nThe code below shows the data-generation part of the connected workflow. Run it from the gsuite repository root with development installations of gsuite and gsim. Change replicate from 1 through 10 to use the prescribed seeds. Genotypes are written one marker at a time to PLINK BED files; gsim then generates the phenotypes from known effects. The complete runnable workflow also records the population truth, prepares LD and runs the six analyses.\n.libPaths(c(\"build/r-library\", .libPaths()))\nlibrary(gsuite)\nlibrary(gsim)\n\nreplicate &lt;- 1L\nseed &lt;- 20262000L + 100L * replicate\nset.seed(seed)\nn &lt;- 10000L; m &lt;- 50000L; size &lt;- 100L; nr &lt;- m %/% size\ntraits &lt;- c(\"A\", \"B\", \"C\")\nids &lt;- sprintf(\"m%05d\", seq_len(m))\nindividuals &lt;- sprintf(\"id%05d\", seq_len(n))\nregion &lt;- rep(sprintf(\"region%03d\", seq_len(nr)), each = size)\nrho &lt;- seq(.2, .8, length.out = nr)\nrows &lt;- setNames(lapply(0:2, function(k) k * 3000L + seq_len(3000L)), traits)\nholdout &lt;- 9001:10000\n\nout &lt;- file.path(\"build/examples/simulated-genomics\",\n                 sprintf(\"replicate-%02d\", replicate))\ndir.create(out, recursive = TRUE, showWarnings = FALSE)\nprefix &lt;- file.path(out, \"genotypes\")\ncon &lt;- file(paste0(prefix, \".bed\"), \"wb\")\nwriteBin(as.raw(c(0x6c, 0x1b, 0x01)), con)\nfor (j in seq_len(m)) {\n  w &lt;- rbinom(n, 2, .3)\n  r &lt;- (j - 1L) %/% size + 1L\n  if ((j - 1L) %% size) {\n    keep &lt;- runif(n) &lt; rho[r]\n    w[keep] &lt;- previous[keep]\n  }\n  previous &lt;- w\n  codes &lt;- c(3L, 2L, 0L)[w + 1L]\n  writeBin(as.raw(colSums(matrix(codes, 4L) * c(1, 4, 16, 64))), con)\n}\nclose(con)\nwrite.table(data.frame(rep(seq_len(nr), each = size), ids, 0,\n                       as.character(rep(seq_len(size) * 1000L, nr)), \"A\", \"G\"),\n            paste0(prefix, \".bim\"), quote = FALSE, row.names = FALSE,\n            col.names = FALSE)\nwrite.table(data.frame(individuals, individuals, 0, 0, 0, -9),\n            paste0(prefix, \".fam\"), quote = FALSE, row.names = FALSE,\n            col.names = FALSE)\nGlist &lt;- gprep(bedfiles = paste0(prefix, \".bed\"))\n\nactive &lt;- runif(m) &lt; ifelse(rep(seq_len(nr), each = size) &lt;= 80, .08, .008)\nB &lt;- matrix(0, m, 3, dimnames = list(ids, traits))\ncorrelation &lt;- matrix(.6, 3, 3); diag(correlation) &lt;- 1\nB[active, ] &lt;- matrix(rnorm(sum(active) * 3, sd = .035), sum(active), 3) %*%\n  chol(correlation)\nB[1:200, ] &lt;- 0\nB[50, ] &lt;- .5\nB[125, 1] &lt;- .5; B[175, 2:3] &lt;- .5\n\nsimulation &lt;- gsim::gsim(\n  Glist = Glist, nt = 3, architecture = \"fixed\", beta = B,\n  h2 = c(.3, .4, .35), vg = c(.3, .4, .35), re = 0,\n  standardize_W = FALSE, scale_effects = TRUE, seed = seed + 1L,\n  compute_sumstats = FALSE, chunk_size = 64\n)\ncolnames(simulation$Y) &lt;- colnames(simulation$G) &lt;-\n  colnames(simulation$B) &lt;- traits\nsaveRDS(list(seed = seed, Glist = Glist, simulation = simulation,\n             gwas_rows = rows, holdout_rows = holdout, region = region, rho = rho),\n        file.path(out, \"simulation.rds\"))\nThe first 80 regions have a higher causal-marker probability; the first two regions also contain the declared shared and distinct signals. The GWAS groups, holdout and pooled LD reference are fixed by the row indices above. The saved object includes generating effects and individual genetic values. The connected workflow additionally computes population heritability and genetic-correlation truth from those effects and the known LD construction.\n\n\n\nExact linear GWAS results are checked against selected R ordinary least-squares calculations within \\(10^{-9}\\). Applying the true marker effects as a score must reproduce centered simulated genetic values within \\(10^{-9}\\). All requested results, unavailable estimates and numerical statuses are retained. Point estimates, intervals, prediction, posterior diagnostics, causal-marker coverage and pathway results are summarized across the ten attempts without replacing unfavorable outcomes.\nThe run status and numerical checks list each prescribed seed. The source hashes identify the R drivers used. The library pages link the compact result tables used in their summaries.\nThe connected 50K-marker BayesC and BayesR fits hold residual variance, effect-variance scale and mixture weights at declared values. They check posterior effects, heritability summaries, chain behavior and held-out scores under that contract. The separate reference-LD parameter-learning checks is the evidence for learning these parameters with a matched independent reference and its prescribed sparse-LD construction.\nOne additional glma LOCO timing run uses the genotypes and trait A phenotype from seed 2, grouping the 500 artificial regions into 20 artificial chromosomes. It tests all 50,000 markers against a 500-marker background with two operation-local threads. This one run checks execution and timing. The unrelated-individual design and subset background do not qualify mixed-model null-tail calibration or heritability estimation. LOCO is not part of the ten repeated library comparisons.\nTen replicates support descriptive truth comparisons, not precise coverage, power, false-positive-rate or method-ranking claims. The LD reference overlaps the GWAS individuals. Binary traits, population structure, ancestry mismatch, independent external LD panels and complete package/platform validation are outside this design.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Shared simulation design (gsim)"
     ]
   },
   {
     "objectID": "gsuite/docs/genomic-qualification-design.html#population-and-truth",
     "href": "gsuite/docs/genomic-qualification-design.html#population-and-truth",
-    "title": "Shared genomic qualification design",
+    "title": "Shared genomic simulation design",
     "section": "",
     "text": "Each seed generates 10,000 unrelated individuals, 50,000 biallelic markers in 500 independent artificial LD regions, and three continuous traits. Disjoint groups of 3,000 supply one GWAS per trait; 1,000 other individuals are reserved for scoring. The pooled 9,000 GWAS individuals supply the matched LD reference. The workflow writes the genotypes blockwise to a packed BED file, then uses gsim to generate phenotypes from declared effects and the prepared panel. It records causal effects, genetic values, residual covariance and sample assignments. Population LD and the generating effects determine the heritability, covariance, correlation and marginal-effect truth; fitted LD does not define truth.\nOne data-generating process contains three named evaluation patterns:\n\nDistributed effects: effects across regions permit genome-wide GWAS, heritability, genetic correlation, Bayesian regression and prediction checks.\nShared and distinct regional signals: the first two regions have known shared and distinct causal variants for fine-mapping and colocalisation.\nAnnotation enrichment: causal effects are more frequent in the first 80 regions, with predefined artificial genes and pathways.\n\nThese are patterns within each simulated dataset, not three independent phenotype-generating scenarios. Ten fixed seeds are prescribed; failed seeds are recorded and never replaced. The run reuses the established connected workflow and saves compact results by seed, with hashes, package versions, warnings, status and stage timings. Large genotypes, fits and LD resources remain in the ignored build cache. Two R workers process odd and even seeds concurrently; elapsed times describe this machine and workload, not an isolated benchmark.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Shared simulation design (gsim)"
     ]
   },
   {
     "objectID": "gsuite/docs/genomic-qualification-design.html#generate-a-replicate-in-r",
     "href": "gsuite/docs/genomic-qualification-design.html#generate-a-replicate-in-r",
-    "title": "Shared genomic qualification design",
+    "title": "Shared genomic simulation design",
     "section": "",
-    "text": "The code below shows the data-generation part of the connected workflow. Run it from the gsuite repository root with development installations of gsuite and gsim. Change replicate from 1 through 10 to use the prescribed seeds. Genotypes are written one marker at a time to PLINK BED files; gsim then generates the phenotypes from known effects. The complete runnable workflow also records the population truth, prepares LD and runs the six analyses.\n.libPaths(c(\"build/r-library\", .libPaths()))\nlibrary(gsuite)\nlibrary(gsim)\n\nreplicate &lt;- 1L\nseed &lt;- 20262000L + 100L * replicate\nset.seed(seed)\nn &lt;- 10000L; m &lt;- 50000L; size &lt;- 100L; nr &lt;- m %/% size\ntraits &lt;- c(\"A\", \"B\", \"C\")\nids &lt;- sprintf(\"m%05d\", seq_len(m))\nindividuals &lt;- sprintf(\"id%05d\", seq_len(n))\nregion &lt;- rep(sprintf(\"region%03d\", seq_len(nr)), each = size)\nrho &lt;- seq(.2, .8, length.out = nr)\nrows &lt;- setNames(lapply(0:2, function(k) k * 3000L + seq_len(3000L)), traits)\nholdout &lt;- 9001:10000\n\nout &lt;- file.path(\"build/examples/simulated-genomics\",\n                 sprintf(\"replicate-%02d\", replicate))\ndir.create(out, recursive = TRUE, showWarnings = FALSE)\nprefix &lt;- file.path(out, \"genotypes\")\ncon &lt;- file(paste0(prefix, \".bed\"), \"wb\")\nwriteBin(as.raw(c(0x6c, 0x1b, 0x01)), con)\nfor (j in seq_len(m)) {\n  w &lt;- rbinom(n, 2, .3)\n  r &lt;- (j - 1L) %/% size + 1L\n  if ((j - 1L) %% size) {\n    keep &lt;- runif(n) &lt; rho[r]\n    w[keep] &lt;- previous[keep]\n  }\n  previous &lt;- w\n  codes &lt;- c(3L, 2L, 0L)[w + 1L]\n  writeBin(as.raw(colSums(matrix(codes, 4L) * c(1, 4, 16, 64))), con)\n}\nclose(con)\nwrite.table(data.frame(rep(seq_len(nr), each = size), ids, 0,\n                       as.character(rep(seq_len(size) * 1000L, nr)), \"A\", \"G\"),\n            paste0(prefix, \".bim\"), quote = FALSE, row.names = FALSE,\n            col.names = FALSE)\nwrite.table(data.frame(individuals, individuals, 0, 0, 0, -9),\n            paste0(prefix, \".fam\"), quote = FALSE, row.names = FALSE,\n            col.names = FALSE)\nGlist &lt;- gprep(bedfiles = paste0(prefix, \".bed\"))\n\nactive &lt;- runif(m) &lt; ifelse(rep(seq_len(nr), each = size) &lt;= 80, .08, .008)\nB &lt;- matrix(0, m, 3, dimnames = list(ids, traits))\ncorrelation &lt;- matrix(.6, 3, 3); diag(correlation) &lt;- 1\nB[active, ] &lt;- matrix(rnorm(sum(active) * 3, sd = .035), sum(active), 3) %*%\n  chol(correlation)\nB[1:200, ] &lt;- 0\nB[50, ] &lt;- .5\nB[125, 1] &lt;- .5; B[175, 2:3] &lt;- .5\n\nsimulation &lt;- gsim::gsim(\n  Glist = Glist, nt = 3, architecture = \"fixed\", beta = B,\n  h2 = c(.3, .4, .35), vg = c(.3, .4, .35), re = 0,\n  standardize_W = FALSE, scale_effects = TRUE, seed = seed + 1L,\n  compute_sumstats = FALSE, chunk_size = 64\n)\ncolnames(simulation$Y) &lt;- colnames(simulation$G) &lt;-\n  colnames(simulation$B) &lt;- traits\nsaveRDS(list(seed = seed, Glist = Glist, simulation = simulation,\n             gwas_rows = rows, holdout_rows = holdout, region = region, rho = rho),\n        file.path(out, \"simulation.rds\"))\nThe first 80 regions have a higher causal-marker probability; the first two regions also contain the declared shared and distinct signals. The GWAS groups, holdout and pooled LD reference are fixed by the row indices above. The saved object includes generating effects and individual genetic values. The qualification workflow additionally computes population heritability and genetic-correlation truth from those effects and the known LD construction.",
+    "text": "The code below shows the data-generation part of the connected workflow. Run it from the gsuite repository root with development installations of gsuite and gsim. Change replicate from 1 through 10 to use the prescribed seeds. Genotypes are written one marker at a time to PLINK BED files; gsim then generates the phenotypes from known effects. The complete runnable workflow also records the population truth, prepares LD and runs the six analyses.\n.libPaths(c(\"build/r-library\", .libPaths()))\nlibrary(gsuite)\nlibrary(gsim)\n\nreplicate &lt;- 1L\nseed &lt;- 20262000L + 100L * replicate\nset.seed(seed)\nn &lt;- 10000L; m &lt;- 50000L; size &lt;- 100L; nr &lt;- m %/% size\ntraits &lt;- c(\"A\", \"B\", \"C\")\nids &lt;- sprintf(\"m%05d\", seq_len(m))\nindividuals &lt;- sprintf(\"id%05d\", seq_len(n))\nregion &lt;- rep(sprintf(\"region%03d\", seq_len(nr)), each = size)\nrho &lt;- seq(.2, .8, length.out = nr)\nrows &lt;- setNames(lapply(0:2, function(k) k * 3000L + seq_len(3000L)), traits)\nholdout &lt;- 9001:10000\n\nout &lt;- file.path(\"build/examples/simulated-genomics\",\n                 sprintf(\"replicate-%02d\", replicate))\ndir.create(out, recursive = TRUE, showWarnings = FALSE)\nprefix &lt;- file.path(out, \"genotypes\")\ncon &lt;- file(paste0(prefix, \".bed\"), \"wb\")\nwriteBin(as.raw(c(0x6c, 0x1b, 0x01)), con)\nfor (j in seq_len(m)) {\n  w &lt;- rbinom(n, 2, .3)\n  r &lt;- (j - 1L) %/% size + 1L\n  if ((j - 1L) %% size) {\n    keep &lt;- runif(n) &lt; rho[r]\n    w[keep] &lt;- previous[keep]\n  }\n  previous &lt;- w\n  codes &lt;- c(3L, 2L, 0L)[w + 1L]\n  writeBin(as.raw(colSums(matrix(codes, 4L) * c(1, 4, 16, 64))), con)\n}\nclose(con)\nwrite.table(data.frame(rep(seq_len(nr), each = size), ids, 0,\n                       as.character(rep(seq_len(size) * 1000L, nr)), \"A\", \"G\"),\n            paste0(prefix, \".bim\"), quote = FALSE, row.names = FALSE,\n            col.names = FALSE)\nwrite.table(data.frame(individuals, individuals, 0, 0, 0, -9),\n            paste0(prefix, \".fam\"), quote = FALSE, row.names = FALSE,\n            col.names = FALSE)\nGlist &lt;- gprep(bedfiles = paste0(prefix, \".bed\"))\n\nactive &lt;- runif(m) &lt; ifelse(rep(seq_len(nr), each = size) &lt;= 80, .08, .008)\nB &lt;- matrix(0, m, 3, dimnames = list(ids, traits))\ncorrelation &lt;- matrix(.6, 3, 3); diag(correlation) &lt;- 1\nB[active, ] &lt;- matrix(rnorm(sum(active) * 3, sd = .035), sum(active), 3) %*%\n  chol(correlation)\nB[1:200, ] &lt;- 0\nB[50, ] &lt;- .5\nB[125, 1] &lt;- .5; B[175, 2:3] &lt;- .5\n\nsimulation &lt;- gsim::gsim(\n  Glist = Glist, nt = 3, architecture = \"fixed\", beta = B,\n  h2 = c(.3, .4, .35), vg = c(.3, .4, .35), re = 0,\n  standardize_W = FALSE, scale_effects = TRUE, seed = seed + 1L,\n  compute_sumstats = FALSE, chunk_size = 64\n)\ncolnames(simulation$Y) &lt;- colnames(simulation$G) &lt;-\n  colnames(simulation$B) &lt;- traits\nsaveRDS(list(seed = seed, Glist = Glist, simulation = simulation,\n             gwas_rows = rows, holdout_rows = holdout, region = region, rho = rho),\n        file.path(out, \"simulation.rds\"))\nThe first 80 regions have a higher causal-marker probability; the first two regions also contain the declared shared and distinct signals. The GWAS groups, holdout and pooled LD reference are fixed by the row indices above. The saved object includes generating effects and individual genetic values. The connected workflow additionally computes population heritability and genetic-correlation truth from those effects and the known LD construction.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Shared simulation design (gsim)"
     ]
   },
   {
     "objectID": "gsuite/docs/genomic-qualification-design.html#checks-and-interpretation",
     "href": "gsuite/docs/genomic-qualification-design.html#checks-and-interpretation",
-    "title": "Shared genomic qualification design",
+    "title": "Shared genomic simulation design",
     "section": "",
-    "text": "Exact linear GWAS results are checked against selected R ordinary least-squares calculations within \\(10^{-9}\\). Applying the true marker effects as a score must reproduce centered simulated genetic values within \\(10^{-9}\\). All requested results, unavailable estimates and numerical statuses are retained. Point estimates, intervals, prediction, posterior diagnostics, causal-marker coverage and pathway results are summarized across the ten attempts without replacing unfavorable outcomes.\nThe run status and numerical checks list each prescribed seed. The source hashes identify the R drivers used. The library pages link the compact result tables used in their summaries.\nThe connected 50K-marker BayesC and BayesR fits hold residual variance, effect-variance scale and mixture weights at declared values. They check posterior effects, heritability summaries, chain behavior and held-out scores under that contract. The separate reference-LD qualification is the evidence for learning these parameters with a matched independent reference and its prescribed sparse-LD construction.\nOne additional glma LOCO timing run uses the genotypes and trait A phenotype from seed 2, grouping the 500 artificial regions into 20 artificial chromosomes. It tests all 50,000 markers against a 500-marker background with two operation-local threads. This one run checks execution and timing. The unrelated-individual design and subset background do not qualify mixed-model null-tail calibration or heritability estimation. LOCO is not part of the ten repeated library comparisons.\nTen replicates support descriptive truth comparisons, not precise coverage, power, false-positive-rate or method-ranking claims. The LD reference overlaps the GWAS individuals. Binary traits, population structure, ancestry mismatch, independent external LD panels and complete package/platform qualification are outside this design.",
+    "text": "Exact linear GWAS results are checked against selected R ordinary least-squares calculations within \\(10^{-9}\\). Applying the true marker effects as a score must reproduce centered simulated genetic values within \\(10^{-9}\\). All requested results, unavailable estimates and numerical statuses are retained. Point estimates, intervals, prediction, posterior diagnostics, causal-marker coverage and pathway results are summarized across the ten attempts without replacing unfavorable outcomes.\nThe run status and numerical checks list each prescribed seed. The source hashes identify the R drivers used. The library pages link the compact result tables used in their summaries.\nThe connected 50K-marker BayesC and BayesR fits hold residual variance, effect-variance scale and mixture weights at declared values. They check posterior effects, heritability summaries, chain behavior and held-out scores under that contract. The separate reference-LD parameter-learning checks is the evidence for learning these parameters with a matched independent reference and its prescribed sparse-LD construction.\nOne additional glma LOCO timing run uses the genotypes and trait A phenotype from seed 2, grouping the 500 artificial regions into 20 artificial chromosomes. It tests all 50,000 markers against a 500-marker background with two operation-local threads. This one run checks execution and timing. The unrelated-individual design and subset background do not qualify mixed-model null-tail calibration or heritability estimation. LOCO is not part of the ten repeated library comparisons.\nTen replicates support descriptive truth comparisons, not precise coverage, power, false-positive-rate or method-ranking claims. The LD reference overlaps the GWAS individuals. Binary traits, population structure, ancestry mismatch, independent external LD panels and complete package/platform validation are outside this design.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Shared simulation design (gsim)"
     ]
   },
@@ -892,7 +892,7 @@
     "href": "gsuite/docs/README.html",
     "title": "Documentation index",
     "section": "",
-    "text": "Choose a section according to the task. gsuite remains in private development; gsim and gact have their own public sites.\n\n\n\nOverview\nTutorials: complete analyses\nGuides: individual methods and data preparation\nQualifications: simulation evidence and limits\nBenchmarks: performance comparisons\nPresentations: slides and discussion\n\n\n\n\n\nArchitecture and libraries\nCapabilities and R workflows\nSoftware availability\nCurrent status\n\n\n\n\n\nMixed-model catalog\nAssociation scan scope\nModel recipes\nFormulas and covariance components\nPersistent R interface\nModel representation\nNumerical routes\nMatrix integration\n\n\n\n\n\ngsim documentation\ngact documentation",
+    "text": "Choose a section according to the task. gsuite remains in private development; gsim and gact have their own public sites.\n\n\n\nOverview\nTutorials: complete analyses\nGuides: individual methods and data preparation\nSoftware validation: focused simulation checks and limits\nBenchmarks: performance comparisons\nPresentations: slides and discussion\n\n\n\n\n\nArchitecture and libraries\nCapabilities and R workflows\nSoftware availability\nCurrent status\n\n\n\n\n\nMixed-model catalog\nAssociation scan scope\nModel recipes\nFormulas and covariance components\nPersistent R interface\nModel representation\nNumerical routes\nMatrix integration\n\n\n\n\n\ngsim documentation\ngact documentation",
     "crumbs": [
       "gsuite",
       "Documentation index"
@@ -903,7 +903,7 @@
     "href": "gsuite/docs/README.html#start-here",
     "title": "Documentation index",
     "section": "",
-    "text": "Overview\nTutorials: complete analyses\nGuides: individual methods and data preparation\nQualifications: simulation evidence and limits\nBenchmarks: performance comparisons\nPresentations: slides and discussion",
+    "text": "Overview\nTutorials: complete analyses\nGuides: individual methods and data preparation\nSoftware validation: focused simulation checks and limits\nBenchmarks: performance comparisons\nPresentations: slides and discussion",
     "crumbs": [
       "gsuite",
       "Documentation index"
@@ -2085,37 +2085,37 @@
   {
     "objectID": "gsuite/qualifications.html",
     "href": "gsuite/qualifications.html",
-    "title": "Qualifications",
+    "title": "Software validation",
     "section": "",
-    "text": "Qualifications show what has been checked with known truth or independent numerical calculations. They are separate from Tutorials, which teach workflows, and Benchmarks, which compare performance.",
+    "text": "These focused simulation checks ask whether selected gsuite implementations behave as expected with known truth or independent numerical calculations. The statistical methods were established in the original literature; these checks do not establish them anew or cover every supported setting. Tutorials teach workflows, while Benchmarks compare performance.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
-      "Qualification overview"
+      "Software validation",
+      "Validation overview"
     ]
   },
   {
     "objectID": "gsuite/qualifications.html#shared-genomic-simulation",
     "href": "gsuite/qualifications.html#shared-genomic-simulation",
-    "title": "Qualifications",
+    "title": "Software validation",
     "section": "Shared genomic simulation",
     "text": "Shared genomic simulation\nThe shared simulation design (gsim) fixes ten seeds, 10,000 individuals, 50,000 markers and known generating effects. Each page shows how to use one library and what was checked on the same datasets:\n\nglma: association scans\ngcorr: heritability and genetic correlation\ngbayes: Bayesian regression\ngscore: held-out prediction\ngmap: regional mapping and colocalisation\ngsea: genes and pathways\n\nThe worked analysis connects the six modules in one workflow. Results are descriptive for the specified simulation; the library pages state the relevant limits.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
-      "Qualification overview"
+      "Software validation",
+      "Validation overview"
     ]
   },
   {
     "objectID": "gsuite/qualifications.html#other-evidence",
     "href": "gsuite/qualifications.html#other-evidence",
-    "title": "Qualifications",
+    "title": "Software validation",
     "section": "Other evidence",
-    "text": "Other evidence\n\nEarlier connected genomic qualification: prior focused checks, including a separate reference-LD parameter-learning qualification.\ngcorr method comparison: six summary-statistic methods on a separate two-trait simulation, with figures, replicated errors and availability.\nCurrent scope and qualification limits: package-level and model-level checks that remain incomplete.\n\nEvidence from different simulation designs is identified separately and is not pooled.",
+    "text": "Other evidence\n\nEarlier connected genomic checks: prior focused checks, including a separate reference-LD parameter-learning qualification.\ngcorr method comparison: six summary-statistic methods on a separate two-trait simulation, with figures, replicated errors and availability.\nCurrent scope and qualification limits: package-level and model-level checks that remain incomplete.\n\nEvidence from different simulation designs is identified separately and is not pooled.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
-      "Qualification overview"
+      "Software validation",
+      "Validation overview"
     ]
   },
   {
@@ -2123,7 +2123,7 @@
     "href": "gsuite/tutorials.html",
     "title": "Tutorials",
     "section": "",
-    "text": "Choose a complete analysis to learn how gsuite is used. Detailed options and data-preparation steps are collected under Guides; results used to assess the software are under Qualifications.\nThe examples require a development installation of gsuite; see software availability.",
+    "text": "Choose a complete analysis to learn how gsuite is used. Detailed options and data-preparation steps are collected under Guides; results used to assess the software are under Software validation.\nThe examples require a development installation of gsuite; see software availability.",
     "crumbs": [
       "gsuite",
       "Tutorials",
@@ -2190,7 +2190,7 @@
     "href": "index.html#start-with-gsuite",
     "title": "gtools",
     "section": "Start with gsuite",
-    "text": "Start with gsuite\n\nCapabilities: available analyses, R access and limits.\nTutorials: four complete analysis paths.\nGuides: method and data-preparation detail.\nQualifications: simulation evidence and current limits.\nBenchmarks: comparison with DMU, including the runtime figure.\nPackage availability: current status and future release plans.\nPresentations: slides about AI-assisted research and software development.\n\nThe package websites remain independently maintained. gtools provides a shared entry point; it does not duplicate the gsim or gact websites."
+    "text": "Start with gsuite\n\nCapabilities: available analyses, R access and limits.\nTutorials: four complete analysis paths.\nGuides: method and data-preparation detail.\nSoftware validation: focused simulation checks and current limits.\nBenchmarks: comparison with DMU, including the runtime figure.\nPackage availability: current status and future release plans.\nPresentations: slides about AI-assisted research and software development.\n\nThe package websites remain independently maintained. gtools provides a shared entry point; it does not duplicate the gsim or gact websites."
   },
   {
     "objectID": "gsuite/index.html",
@@ -2219,7 +2219,7 @@
     "href": "gsuite/index.html#explore-gsuite",
     "title": "gsuite",
     "section": "Explore gsuite",
-    "text": "Explore gsuite\n\n\nTutorials\nFour complete analysis paths, from pedigree data to summary statistics.\n\n\nGuides\nMethod details, inputs and data preparation.\n\n\nQualifications\nKnown-truth simulations, numerical checks and current limits.\n\n\nArchitecture and libraries\nUnderstand the components, their responsibilities and how they connect.\n\n\nCapabilities and R workflows\nFind an analysis, its R interface and the relevant scope notes.\n\n\nBenchmarks\nExplore numerical comparisons and runtime evidence, including DMU.",
+    "text": "Explore gsuite\n\n\nTutorials\nFour complete analysis paths, from pedigree data to summary statistics.\n\n\nGuides\nMethod details, inputs and data preparation.\n\n\nSoftware validation\nFocused checks of gsuite implementations using simulated truth and numerical references.\n\n\nArchitecture and libraries\nUnderstand the components, their responsibilities and how they connect.\n\n\nCapabilities and R workflows\nFind an analysis, its R interface and the relevant scope notes.\n\n\nBenchmarks\nExplore numerical comparisons and runtime evidence, including DMU.",
     "crumbs": [
       "gsuite",
       "Overview"
@@ -2241,7 +2241,7 @@
     "href": "gsuite/guides.html",
     "title": "Guides",
     "section": "",
-    "text": "These guides explain individual methods and inputs in more detail than the Tutorials. For results that assess the implementations, see Qualifications.",
+    "text": "These guides explain individual methods and inputs in more detail than the Tutorials. For results that assess the implementations, see Software validation.",
     "crumbs": [
       "gsuite",
       "Guides",
@@ -2321,11 +2321,11 @@
     ]
   },
   {
-    "objectID": "gsuite/benchmarks.html#other-qualification-evidence",
-    "href": "gsuite/benchmarks.html#other-qualification-evidence",
+    "objectID": "gsuite/benchmarks.html#other-validation-evidence",
+    "href": "gsuite/benchmarks.html#other-validation-evidence",
     "title": "Benchmarks",
-    "section": "Other qualification evidence",
-    "text": "Other qualification evidence\nAdditional development campaigns cover pedigree solvers, qgdata, genotype preparation and sparse LD. Their full reports are not included in the public snapshot. See the evidence and qualification limits for the scope of available evidence and unresolved failures.",
+    "section": "Other validation evidence",
+    "text": "Other validation evidence\nAdditional development campaigns cover pedigree solvers, qgdata, genotype preparation and sparse LD. Their full reports are not included in the public snapshot. See the evidence and qualification limits for the scope of available evidence and unresolved failures.",
     "crumbs": [
       "gsuite",
       "Benchmarks",
@@ -3384,7 +3384,7 @@
     "text": "This example connects gsim, LD preparation and gcorr in one short run. The first example demonstrates that the methods run on common inputs and produce sensible estimates. A small extension below repeats the same design on 20 new datasets. There is no parameter search or seed selection.\n\n\n\nGenome-wide estimates and regional genetic covariance from one simulation. Dashed lines show the truth for the realized effects.\n\n\nThe top panels show estimates with estimate ± 1.96 jackknife SE bars. These are illustrative normal-approximation intervals, not a coverage evaluation. Each lower panel contains the same 20 regions, with identical axis limits. Regional panels show point estimates; they do not imply that uncertainty is zero.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "gcorr comparison results"
     ]
   },
@@ -3396,7 +3396,7 @@
     "text": "This example connects gsim, LD preparation and gcorr in one short run. The first example demonstrates that the methods run on common inputs and produce sensible estimates. A small extension below repeats the same design on 20 new datasets. There is no parameter search or seed selection.\n\n\n\nGenome-wide estimates and regional genetic covariance from one simulation. Dashed lines show the truth for the realized effects.\n\n\nThe top panels show estimates with estimate ± 1.96 jackknife SE bars. These are illustrative normal-approximation intervals, not a coverage evaluation. Each lower panel contains the same 20 regions, with identical axis limits. Regional panels show point estimates; they do not imply that uncertainty is zero.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "gcorr comparison results"
     ]
   },
@@ -3408,7 +3408,7 @@
     "text": "Simulation settings\n\n\n\n\n\n\n\nSetting\nValue\n\n\n\n\nTraits\nTwo continuous traits, A and B\n\n\nGWAS sample size\n10,000 per trait; disjoint samples\n\n\nIndependent LD reference\n4,000 individuals from the same generator\n\n\nMarkers\n600, arranged in 20 independent regions of 30\n\n\nGenotypes\nBinomial dosages, allele frequency 0.3, copy-or-redraw correlation within regions\n\n\nWithin-region LD\nAdjacent-marker correlation ranges from 0.15 to 0.85 across regions\n\n\nEffects and phenotypes\ngsim 0.9.0; all markers have normally distributed additive effects\n\n\nTarget h2 / effect correlation\n0.30, 0.40 / 0.60\n\n\nSeed\n20260915 for the generator; 20260916 for gsim\n\n\n\nThe small script supplies correlated genotypes to gsim(W = ...); gsim generates the effects and phenotypes. This artificial LD construction is not a demographic simulation. It provides differing LD scores without reference data downloads. Marginal regressions are calculated separately in the two disjoint GWAS samples. Their t statistics are supplied as z statistics, using the large-sample approximation. All marker identities and allele directions are aligned by construction; no harmonization is needed for this generated example.\nThe reference is prepared once as a separate LDlist, saved and reloaded. All three regional methods reuse its cached eigensystems. LD files remain unchanged during fitting. Every within-region correlation is retained; regions are treated as independent chromosomes for LD preparation.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "gcorr comparison results"
     ]
   },
@@ -3420,7 +3420,7 @@
     "text": "What counts as truth?\nThe effect draw does not have to reproduce its generating correlation exactly. For this draw, the population h2 values are 0.299 and 0.395, and the genetic correlation is 0.540, rather than the generating value of 0.60.\nTruth is calculated from the realized gsim effects and the known population covariance of the genotype generator, not from the estimated reference LD. After converting standardized effects to raw-dosage effects, for region \\(r\\):\n\\[\nG_r = B_r^\\mathsf{T}\\Sigma_r B_r,\n\\qquad (\\Sigma_r)_{jk}=2(0.3)(0.7)\\rho_r^{|j-k|}.\n\\]\nThe regions are independent, so \\(G=\\sum_r G_r\\). Total phenotypic variances combine its diagonal with gsim’s residual variances. Regional covariance is scaled by the square root of the two total phenotypic variances; it is not a within-region genetic correlation. The script also checks that the effect conversion reproduces gsim’s individual genetic values.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "gcorr comparison results"
     ]
   },
@@ -3432,7 +3432,7 @@
     "text": "Results\n\n\n\nMethod\nh2 A (SE)\nh2 B (SE)\nrg (SE)\n\n\n\n\nRealized population truth\n0.299\n0.395\n0.540\n\n\nLDSC\n0.303 (0.038)\n0.422 (0.046)\n0.558 (0.048)\n\n\nGNOVA\n0.337 (0.077)\n0.398 (0.096)\n0.466 (0.073)\n\n\nSumHer\n0.303 (0.038)\n0.422 (0.046)\n0.558 (0.048)\n\n\n\nLDSC uses a fixed marginal intercept of one. Cross-trait sampling intercepts are fixed at zero because the samples are disjoint. SumHer uses a single baseline architecture and ordinary LD scores as explicit tagging weights. Its near-identical results to LDSC here should not be generalized to other architecture or intercept settings. The 20 regions are also the jackknife blocks; this small number limits interpretation of the uncertainty bars.\nHESS/rho-HESS and LAVA use all retained regional components in this example; SUPERGNOVA uses its supported default component selection. The three methods estimate the same regional covariance target, with different estimation rules. HESS and LAVA closely track each other in this draw. SUPERGNOVA shows more scatter, including a lower estimate in the region with the largest true covariance. One draw cannot establish bias or rank the methods.\n\n\n\nAnalysis\nFit calls\nObserved elapsed time\n\n\n\n\nLDSC, both h2 and rg\n2\n0.83 s\n\n\nGNOVA, both h2 and rg\n2\n0.74 s\n\n\nSumHer, both h2 and rg\n2\n0.81 s\n\n\nHESS/rho-HESS, 20 regional covariances\n1\n0.55 s\n\n\nSUPERGNOVA, 20 regional covariances\n1\n0.53 s\n\n\nLAVA, 20 regional covariances\n1\n0.56 s\n\n\n\nTimes are single observations on the development laptop, including the R interface and result assembly, excluding simulation and LD preparation. They are not a performance benchmark. LD preparation uses one thread.\nAll nine fit calls returned, all requested estimates were finite, and the result tables reported no out-of-range flags. All 60 regional fits reused cached eigensystems. HESS and SUPERGNOVA return regional covariance SEs; the current LAVA covariance call does not return estimator SEs. That missing uncertainty remains explicit in the saved results and diagnostics.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "gcorr comparison results"
     ]
   },
@@ -3444,7 +3444,7 @@
     "text": "Twenty additional datasets\nThe same design was repeated on 20 new seeded datasets, regenerating genotypes, effects, phenotypes and the independent LD reference each time. Seeds were fixed in advance as 20260915 + 100 * (1:20); none were selected or discarded based on results. Every error uses that replicate’s own realized population truth. These are not repeated fits of the first dataset.\n\n\n\nErrors across 20 simulated datasets. Zero indicates agreement with each dataset’s realized truth.\n\n\nEach genome-wide panel has 20 points per method. The regional panel shows one mean error per replicate, averaging its 20 regions. This exposes a systematic shift but can hide offsetting regional errors; the regional RMSE below therefore uses the individual region errors. The 400 regions are not treated as 400 independent simulation replicates.\n\n\n\nMethod\nQuantity\nMean error\nRMSE\n\n\n\n\nLDSC\nh2 A\n-0.0051\n0.0126\n\n\nLDSC\nh2 B\n-0.0044\n0.0188\n\n\nLDSC\nrg\n-0.0119\n0.0344\n\n\nGNOVA\nh2 A\n0.0129\n0.0670\n\n\nGNOVA\nh2 B\n0.0041\n0.0513\n\n\nGNOVA\nrg\n-0.0032\n0.0656\n\n\nSumHer\nh2 A\n-0.0051\n0.0126\n\n\nSumHer\nh2 B\n-0.0044\n0.0188\n\n\nSumHer\nrg\n-0.0119\n0.0344\n\n\nHESS/rho-HESS\nRegional covariance\n0.000032\n0.002000\n\n\nSUPERGNOVA\nRegional covariance\n-0.001219\n0.004099\n\n\nLAVA\nRegional covariance\n-0.000010\n0.001985\n\n\n\nHere mean error is the average of estimate minus truth; RMSE is the square root of the mean squared error. Genome-wide rows contain 20 estimates each; regional rows contain 400 estimates each across 20 datasets. Their units differ, so RMSE should be compared within the same quantity.\nIn this simple architecture, LDSC and SumHer remain almost identical and GNOVA shows greater variability. HESS and LAVA have small average regional errors. SUPERGNOVA shows a negative average regional covariance error and larger RMSE with its current default component selection. The comparison does not determine whether that difference comes from component selection, finite reference LD or another method assumption. It warrants a focused check before making a general claim about relative accuracy; no settings were tuned here.\n\nAvailability and exploratory interval coverage\nAll 180 fit calls returned, and all 1,380 expected point estimates were finite, with no result-table out-of-range flags. The 1,200 regional results reused cached eigensystems. One HESS covariance SE (replicate 6, region 18) was unavailable because its joint uncertainty calculation requires positive semidefinite estimated genetic and residual matrices. Its point estimate remains in the error summaries. LAVA covariance SEs were unavailable throughout because that output is not implemented for this call.\nFor intervals formed as estimate ± 1.96 SE, coverage was:\n\n\n\nMethod\nh2 A\nh2 B\nrg\nRegional covariance\n\n\n\n\nLDSC\n20/20\n20/20\n20/20\n—\n\n\nGNOVA\n18/20\n18/20\n20/20\n—\n\n\nSumHer\n20/20\n20/20\n20/20\n—\n\n\nHESS/rho-HESS\n—\n—\n—\n375/399 available intervals\n\n\nSUPERGNOVA\n—\n—\n—\n383/400\n\n\nLAVA\n—\n—\n—\nUnavailable\n\n\n\nThese are descriptive counts, not a calibration certificate. Twenty datasets give coarse coverage estimates, regional results share datasets, and the score methods use only 20 jackknife blocks. Missing SEs are excluded from the interval denominator and reported explicitly rather than counted as covered.\nThe simulation run took approximately 5.4 minutes on the development laptop, including simulation, LD preparation and fitting. Average fit-call times ranged from 0.31 to 0.46 seconds. These timings are descriptive and do not constitute a controlled performance comparison.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "gcorr comparison results"
     ]
   },
@@ -3456,7 +3456,7 @@
     "text": "Run it again\nFrom the gsuite repository root, with the development packages installed:\n.libPaths(c(\"build/r-library\", .libPaths()))\nsource(\"tools/examples/run_gcorr_comparison.R\")\nFor the 20-replicate extension, use the same library setup and run:\nsource(\"tools/examples/run_gcorr_replicates.R\")\nReplicate outputs stay in build/examples/gcorr-comparison/replicates/. Compact estimates, diagnostics, timings and provenance are retained for every replicate. The working/ subdirectory is reused for genotypes, LD and full fits, so only the final replicate’s larger files remain. The original single-run outputs are preserved. Rscript tools/examples/run_gcorr_replicates.R --summarize regenerates the summaries and figure from the saved compact results without running new simulations.\nThe script regenerates the same seeded dataset and replaces only its named outputs in build/examples/gcorr-comparison/. That ignored folder contains the simulation, reference files, saved LDlist, fitted objects, estimate and diagnostic tables, timings, PNG/PDF figures and a session/provenance manifest. There is one script and one output folder; no intermediate run directories.\nThe website displays a reviewed figure and result table. Rendering it does not run the simulation. See the saved-LD workflow and method capabilities for the broader interface and limitations.\nThis demonstrates a working analysis chain and provides a small repeated comparison under one deliberately simple design. The observed coverage counts do not establish general calibration, realistic genetic architecture or equivalence to every option in the original software packages.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "gcorr comparison results"
     ]
   },
@@ -3792,7 +3792,7 @@
     "text": "This records the earlier connected genomic simulation and separate Bayesian parameter-learning qualifications. The shared genomic simulation has a newer fixed set of ten draws and separate pages for each library. Results from these runs are not pooled with the newer set. Development history, failed runs and exploratory diagnostics are deliberately excluded.\n\n\nThe workflow connects glma, gcorr, gbayes, gscore, gmap and gsea through the gsuite R interfaces. One detailed dataset provides figures and worked results. Ten independently simulated datasets repeat the same fixed design for a small descriptive qualification.\nThe qualification asks whether the modules can share prepared genomic data, summary statistics and LD resources; whether requested analyses complete; and whether their outputs behave sensibly relative to known simulation truth. A separate five-repetition design qualifies the supported BayesC and BayesR reference-LD recipe. The results are descriptive checks rather than a ranking of competing methods.\n\n\n\n\n10,000 unrelated simulated individuals and 50,000 biallelic markers.\n500 independent 100-marker regions with within-region correlation ranging from 0.2 to 0.8.\nThree continuous traits with target heritabilities 0.30, 0.40 and 0.35.\nEffects enriched in the first 80 regions.\nRegion 1 contains a shared causal variant for two traits; region 2 contains distinct causal variants.\nThree disjoint GWAS samples of 3,000 individuals and 1,000 held-out individuals for prediction.\nA pooled LD reference constructed from the 9,000 GWAS individuals. It retains every pair within each simulated region with \\(r^2=0\\) and no cross-region LD.\n\nPopulation truth is calculated from the simulated effects and the known population LD, rather than from the observed reference matrix.\n\n\n\n\n\n\n\n\n\n\n\nComponent\nExercised capability\nOutcome\n\n\n\n\nglma\nThree 50,000-marker linear GWAS scans\nAll marker fits completed; 150 selected marker/trait comparisons across the ten repetitions agreed with R OLS within \\(10^{-9}\\)\n\n\ngcorr\nLDSC, GNOVA, SumHer, annotation-aware LDSC, HESS, SUPERGNOVA and LAVA\nPoint estimates completed; truth comparisons, unavailable uncertainty and out-of-range correlations remain visible\n\n\ngbayes\nBayesC and BayesR using sparse reference LD\nThe supported parameter-learning recipe passed all heritability, effect-recovery, prediction and chain-diagnostic criteria across five simulations\n\n\ngscore\nRidge, BayesC and BayesR scoring\nHeld-out scoring completed; truth-effect scoring agreed with simulated genetic values within numerical tolerance\n\n\ngmap\nRegional multi-effect mapping and ABF colocalisation\nThe deliberately simple shared and distinct causal signals were recovered in all repetitions\n\n\ngstat and gsea\nGene statistics, ORA, preranked GSEA, competitive regression, bounded MAGMA and Bayesian pathway analysis\nAll requested gene and pathway statistics completed through the documented saddlepoint gene-tail route\n\n\n\nAll ten planned repetitions completed. Seeds were fixed in advance and no failed simulation was replaced. Native operation-local thread counts were one.\n\n\n\n\n\nUse the scalar BayesC and BayesR reference-LD workflow as follows:\n\nStandardize the continuous phenotype and dosage scale, align summary statistics to the LD reference, and retain the allele labels.\nUse a matched reference population. The qualification uses 3,000 GWAS individuals and an independent reference of 9,000 individuals.\nConstruct sparse LD with a 1,000-marker window and \\(r^2=0.001\\).\nUse residual_policy = \"reference_ld\" and residual_adjustment = 0.9.\nSet priors to the intended architecture. Here the expected nonzero proportion is 0.02. BayesR uses variance multipliers \\((0,0.01,0.1,1)\\) and active-component proportions \\((0.012,0.006,0.002)\\). Mixture weights use an explicit Dirichlet strength of 5,000.\nRun four chains. Use 500 burn-in sweeps, followed by 700 retained sweeps for BayesC or 5,000 for BayesR. Require maximum R-hat at most 1.05 and minimum bulk ESS at least 100 for the reported scalar parameters.\n\nThe sampler learns residual variance, marker-effect variance and mixture probabilities. It returns posterior marker effects, PIPs, parameter traces and joint-draw reference heritability. Posterior-mean effects can be passed to gscore() without changing marker order or allele orientation.\n\n\n\nFive fixed simulations use 3,000 study individuals, 2,000 markers, 40 causal markers and target heritability 0.30. BayesC is evaluated under a homogeneous normal-effect architecture. BayesR is evaluated under its matching three-component variance mixture. Each simulation receives a separately generated reference panel from the same genotype population. No failed draw was replaced.\n\n\n\nResult across five simulations\nBayesC\nBayesR\n\n\n\n\nMean reference truth\n0.294\n0.312\n\n\nMean posterior heritability\n0.305\n0.297\n\n\nHeritability bias\n+0.011\n-0.015\n\n\nHeritability RMSE\n0.023\n0.021\n\n\nConditional intervals containing truth\n5/5\n5/5\n\n\nMean marker-effect correlation with truth\n0.927\n0.943\n\n\nMean genetic-score correlation with truth\n0.941\n0.951\n\n\nMean prediction calibration slope\n0.950\n0.992\n\n\nMaximum R-hat\n1.004\n1.005\n\n\nMinimum bulk ESS\n1,240\n1,182\n\n\n\nThe predeclared criteria required absolute heritability bias at most 0.05, RMSE at most 0.075, at least four of five intervals containing truth, mean effect correlation at least 0.80, mean score correlation at least 0.90, maximum R-hat at most 1.05 and minimum bulk ESS at least 100. Both methods passed every criterion.\n\n\n\nBayesC and BayesR reference-heritability recovery, marker-effect recovery and genetic-score recovery across five simulations. Open circles in the left panel are the reference truth for each simulation.\n\n\nDownload the method summary or the five-repetition results.\nSmall fixed-seed native checks also show that the BayesC and BayesR transitions agree with the corresponding installed sblr calculations to numerical precision. With complete same-sample LD, posterior mean effects correlate 0.9975 for BayesC and 0.9994 for BayesR with individual-level sblr effects. These checks connect the supported R workflow to its native implementation.\n\n\n\nA second fixed five-repetition qualification covers four advanced transitions under their intended data contracts. Block residual learning uses two disjoint summary-likelihood blocks with separate response normalizations. BayesS uses 600 markers, 300 nonzero effects and a known MAF exponent. The multivariate design uses three continuous traits measured on the same 1,800 individuals, complete shared LD, and the observed response cross-product required to learn sampling covariance. The relocation design uses 20 strongly correlated marker pairs.\n\n\n\n\n\n\n\n\n\nResult across five simulations\nTruth or comparator\nPosterior result\nMean absolute error\n\n\n\n\nBlock residual variance\n0.683\n0.681\n0.0023\n\n\nBayesS MAF exponent\n-0.500\n-0.395\n0.2182\n\n\nLatent effect-covariance entries\n0.00192\n0.00202\n0.00023\n\n\nSampling-covariance entries\n0.440\n0.439\n0.0159\n\n\nGenetic-score correlation with and without LD relocation\n0.98417\n0.98406\n0.00012\n\n\n\nAll predeclared criteria passed. Accepted LD relocation fractions ranged from 0.321 to 0.538, while genetic-score correlation remained stable. This supports using the move to traverse equivalent strong-LD representations; it does not claim that the data can distinguish causal markers from nearly identical proxies. The BayesS result supports learning a broad MAF–variance trend in this informative design, not precise estimation of small MAF effects in every dataset.\n\n\n\nRecovery of block residual scales, the BayesS exponent, latent effect covariance and sampling covariance across five simulations.\n\n\nDownload the method summary or the five-repetition results.\nExact continuation is checked separately because it is a computational identity, not a simulation-performance question. Saving after one segment and restoring the native state reproduces the final state, random-number generator and trace tail of an uninterrupted scalar or multivariate chain.\n\n\n\n\nAcross the ten repetitions:\n\nMean trait heritabilities were 0.300, 0.398 and 0.349.\nAnnotation-aware LDSC means were 0.310, 0.439 and 0.394. Baseline LDSC, GNOVA and SumHer generally underestimated heritability in this deliberately nonuniform architecture.\nAll 40 component credible sets contained the simulated causal marker in the two simple mapping regions.\nHESS supplied standard errors for 189 of 600 regional covariance estimates; SUPERGNOVA supplied 600 of 600; the exercised LAVA route supplies none.\nSix annotation-category genetic correlations were undefined because an estimated component heritability was nonpositive.\nThe documented saddlepoint gene-tail route returned all 30,000 requested p-values; 11 calculations used the recorded moment-matching fallback.\n\nUnavailable values and out-of-range genetic correlations are retained in the public tables. They are not clipped, silently replaced or removed.\n\n\n\nThis evidence covers one continuous-trait simulation design with a predefined LD structure, architecture and sample split. Ten repetitions provide a useful descriptive check, but not precise power, false-positive, coverage or method ranking statements.\nThe connected qualification does not cover binary traits, population structure, multi-ancestry analysis, realistic LD-reference mismatch, alternative LD windows or \\(r^2\\) thresholds, MR/SEM/GGM, Bayesian annotation learning beyond the BayesS specialization, arbitrary sampling overlap, LOCO association, every interface option, or complete package/platform qualification. Literature attribution and pedigree/greml/gsolve qualification are maintained separately.\n\n\n\nThe maintained example is simulated_genomics_workflow.R. Its outputs are written under build/examples/simulated-genomics/. The public workflow presents the figures and principal results without executing analyses during website rendering.\nThe ten simulations are produced by simulated_genomics_replicates.R and summarized by report_simulated_genomics_replicates.R. The public workflow links the maintained aggregate truth comparisons and availability summaries used in its figures.\nThe supported BayesC/BayesR reference-LD result is reproduced by qualify_gbayes_reference_ld.R. Raw fits and prepared LD resources remain under build/qualification/gbayes-reference-ld/; only the compact result tables and figure are published.\nThe block residual, BayesS, multivariate covariance and LD relocation result is reproduced by qualify_gbayes_extensions.R. Its raw resources remain under build/qualification/gbayes-extensions/.\nThe complete package check was not part of this workflow qualification.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Earlier connected evidence"
     ]
   },
@@ -3804,7 +3804,7 @@
     "text": "The workflow connects glma, gcorr, gbayes, gscore, gmap and gsea through the gsuite R interfaces. One detailed dataset provides figures and worked results. Ten independently simulated datasets repeat the same fixed design for a small descriptive qualification.\nThe qualification asks whether the modules can share prepared genomic data, summary statistics and LD resources; whether requested analyses complete; and whether their outputs behave sensibly relative to known simulation truth. A separate five-repetition design qualifies the supported BayesC and BayesR reference-LD recipe. The results are descriptive checks rather than a ranking of competing methods.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Earlier connected evidence"
     ]
   },
@@ -3816,7 +3816,7 @@
     "text": "10,000 unrelated simulated individuals and 50,000 biallelic markers.\n500 independent 100-marker regions with within-region correlation ranging from 0.2 to 0.8.\nThree continuous traits with target heritabilities 0.30, 0.40 and 0.35.\nEffects enriched in the first 80 regions.\nRegion 1 contains a shared causal variant for two traits; region 2 contains distinct causal variants.\nThree disjoint GWAS samples of 3,000 individuals and 1,000 held-out individuals for prediction.\nA pooled LD reference constructed from the 9,000 GWAS individuals. It retains every pair within each simulated region with \\(r^2=0\\) and no cross-region LD.\n\nPopulation truth is calculated from the simulated effects and the known population LD, rather than from the observed reference matrix.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Earlier connected evidence"
     ]
   },
@@ -3828,7 +3828,7 @@
     "text": "Component\nExercised capability\nOutcome\n\n\n\n\nglma\nThree 50,000-marker linear GWAS scans\nAll marker fits completed; 150 selected marker/trait comparisons across the ten repetitions agreed with R OLS within \\(10^{-9}\\)\n\n\ngcorr\nLDSC, GNOVA, SumHer, annotation-aware LDSC, HESS, SUPERGNOVA and LAVA\nPoint estimates completed; truth comparisons, unavailable uncertainty and out-of-range correlations remain visible\n\n\ngbayes\nBayesC and BayesR using sparse reference LD\nThe supported parameter-learning recipe passed all heritability, effect-recovery, prediction and chain-diagnostic criteria across five simulations\n\n\ngscore\nRidge, BayesC and BayesR scoring\nHeld-out scoring completed; truth-effect scoring agreed with simulated genetic values within numerical tolerance\n\n\ngmap\nRegional multi-effect mapping and ABF colocalisation\nThe deliberately simple shared and distinct causal signals were recovered in all repetitions\n\n\ngstat and gsea\nGene statistics, ORA, preranked GSEA, competitive regression, bounded MAGMA and Bayesian pathway analysis\nAll requested gene and pathway statistics completed through the documented saddlepoint gene-tail route\n\n\n\nAll ten planned repetitions completed. Seeds were fixed in advance and no failed simulation was replaced. Native operation-local thread counts were one.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Earlier connected evidence"
     ]
   },
@@ -3840,7 +3840,7 @@
     "text": "Use the scalar BayesC and BayesR reference-LD workflow as follows:\n\nStandardize the continuous phenotype and dosage scale, align summary statistics to the LD reference, and retain the allele labels.\nUse a matched reference population. The qualification uses 3,000 GWAS individuals and an independent reference of 9,000 individuals.\nConstruct sparse LD with a 1,000-marker window and \\(r^2=0.001\\).\nUse residual_policy = \"reference_ld\" and residual_adjustment = 0.9.\nSet priors to the intended architecture. Here the expected nonzero proportion is 0.02. BayesR uses variance multipliers \\((0,0.01,0.1,1)\\) and active-component proportions \\((0.012,0.006,0.002)\\). Mixture weights use an explicit Dirichlet strength of 5,000.\nRun four chains. Use 500 burn-in sweeps, followed by 700 retained sweeps for BayesC or 5,000 for BayesR. Require maximum R-hat at most 1.05 and minimum bulk ESS at least 100 for the reported scalar parameters.\n\nThe sampler learns residual variance, marker-effect variance and mixture probabilities. It returns posterior marker effects, PIPs, parameter traces and joint-draw reference heritability. Posterior-mean effects can be passed to gscore() without changing marker order or allele orientation.\n\n\n\nFive fixed simulations use 3,000 study individuals, 2,000 markers, 40 causal markers and target heritability 0.30. BayesC is evaluated under a homogeneous normal-effect architecture. BayesR is evaluated under its matching three-component variance mixture. Each simulation receives a separately generated reference panel from the same genotype population. No failed draw was replaced.\n\n\n\nResult across five simulations\nBayesC\nBayesR\n\n\n\n\nMean reference truth\n0.294\n0.312\n\n\nMean posterior heritability\n0.305\n0.297\n\n\nHeritability bias\n+0.011\n-0.015\n\n\nHeritability RMSE\n0.023\n0.021\n\n\nConditional intervals containing truth\n5/5\n5/5\n\n\nMean marker-effect correlation with truth\n0.927\n0.943\n\n\nMean genetic-score correlation with truth\n0.941\n0.951\n\n\nMean prediction calibration slope\n0.950\n0.992\n\n\nMaximum R-hat\n1.004\n1.005\n\n\nMinimum bulk ESS\n1,240\n1,182\n\n\n\nThe predeclared criteria required absolute heritability bias at most 0.05, RMSE at most 0.075, at least four of five intervals containing truth, mean effect correlation at least 0.80, mean score correlation at least 0.90, maximum R-hat at most 1.05 and minimum bulk ESS at least 100. Both methods passed every criterion.\n\n\n\nBayesC and BayesR reference-heritability recovery, marker-effect recovery and genetic-score recovery across five simulations. Open circles in the left panel are the reference truth for each simulation.\n\n\nDownload the method summary or the five-repetition results.\nSmall fixed-seed native checks also show that the BayesC and BayesR transitions agree with the corresponding installed sblr calculations to numerical precision. With complete same-sample LD, posterior mean effects correlate 0.9975 for BayesC and 0.9994 for BayesR with individual-level sblr effects. These checks connect the supported R workflow to its native implementation.\n\n\n\nA second fixed five-repetition qualification covers four advanced transitions under their intended data contracts. Block residual learning uses two disjoint summary-likelihood blocks with separate response normalizations. BayesS uses 600 markers, 300 nonzero effects and a known MAF exponent. The multivariate design uses three continuous traits measured on the same 1,800 individuals, complete shared LD, and the observed response cross-product required to learn sampling covariance. The relocation design uses 20 strongly correlated marker pairs.\n\n\n\n\n\n\n\n\n\nResult across five simulations\nTruth or comparator\nPosterior result\nMean absolute error\n\n\n\n\nBlock residual variance\n0.683\n0.681\n0.0023\n\n\nBayesS MAF exponent\n-0.500\n-0.395\n0.2182\n\n\nLatent effect-covariance entries\n0.00192\n0.00202\n0.00023\n\n\nSampling-covariance entries\n0.440\n0.439\n0.0159\n\n\nGenetic-score correlation with and without LD relocation\n0.98417\n0.98406\n0.00012\n\n\n\nAll predeclared criteria passed. Accepted LD relocation fractions ranged from 0.321 to 0.538, while genetic-score correlation remained stable. This supports using the move to traverse equivalent strong-LD representations; it does not claim that the data can distinguish causal markers from nearly identical proxies. The BayesS result supports learning a broad MAF–variance trend in this informative design, not precise estimation of small MAF effects in every dataset.\n\n\n\nRecovery of block residual scales, the BayesS exponent, latent effect covariance and sampling covariance across five simulations.\n\n\nDownload the method summary or the five-repetition results.\nExact continuation is checked separately because it is a computational identity, not a simulation-performance question. Saving after one segment and restoring the native state reproduces the final state, random-number generator and trace tail of an uninterrupted scalar or multivariate chain.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Earlier connected evidence"
     ]
   },
@@ -3852,7 +3852,7 @@
     "text": "Across the ten repetitions:\n\nMean trait heritabilities were 0.300, 0.398 and 0.349.\nAnnotation-aware LDSC means were 0.310, 0.439 and 0.394. Baseline LDSC, GNOVA and SumHer generally underestimated heritability in this deliberately nonuniform architecture.\nAll 40 component credible sets contained the simulated causal marker in the two simple mapping regions.\nHESS supplied standard errors for 189 of 600 regional covariance estimates; SUPERGNOVA supplied 600 of 600; the exercised LAVA route supplies none.\nSix annotation-category genetic correlations were undefined because an estimated component heritability was nonpositive.\nThe documented saddlepoint gene-tail route returned all 30,000 requested p-values; 11 calculations used the recorded moment-matching fallback.\n\nUnavailable values and out-of-range genetic correlations are retained in the public tables. They are not clipped, silently replaced or removed.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Earlier connected evidence"
     ]
   },
@@ -3864,7 +3864,7 @@
     "text": "This evidence covers one continuous-trait simulation design with a predefined LD structure, architecture and sample split. Ten repetitions provide a useful descriptive check, but not precise power, false-positive, coverage or method ranking statements.\nThe connected qualification does not cover binary traits, population structure, multi-ancestry analysis, realistic LD-reference mismatch, alternative LD windows or \\(r^2\\) thresholds, MR/SEM/GGM, Bayesian annotation learning beyond the BayesS specialization, arbitrary sampling overlap, LOCO association, every interface option, or complete package/platform qualification. Literature attribution and pedigree/greml/gsolve qualification are maintained separately.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Earlier connected evidence"
     ]
   },
@@ -3876,115 +3876,115 @@
     "text": "The maintained example is simulated_genomics_workflow.R. Its outputs are written under build/examples/simulated-genomics/. The public workflow presents the figures and principal results without executing analyses during website rendering.\nThe ten simulations are produced by simulated_genomics_replicates.R and summarized by report_simulated_genomics_replicates.R. The public workflow links the maintained aggregate truth comparisons and availability summaries used in its figures.\nThe supported BayesC/BayesR reference-LD result is reproduced by qualify_gbayes_reference_ld.R. Raw fits and prepared LD resources remain under build/qualification/gbayes-reference-ld/; only the compact result tables and figure are published.\nThe block residual, BayesS, multivariate covariance and LD relocation result is reproduced by qualify_gbayes_extensions.R. Its raw resources remain under build/qualification/gbayes-extensions/.\nThe complete package check was not part of this workflow qualification.",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Earlier connected evidence"
     ]
   },
   {
     "objectID": "gsuite/docs/glma-qualification.html",
     "href": "gsuite/docs/glma-qualification.html",
-    "title": "glma qualification",
+    "title": "glma software validation",
     "section": "",
-    "text": "Ten fixed simulations use the shared design. The glma guide describes inputs and options. The runnable workflow contains the exact settings.\n\n\nlinear &lt;- glma(y, Glist, method = \"linear\", threads = 1)\nloco &lt;- glma(y, chromosome_Glist, method = \"infinitesimal_loco\",\n             algorithm = \"observation_pcg\",\n             background_markers = seq(1, 50000, by = 100), threads = 2)\n\n\n\n\n\n\nCheck\nObserved result\n\n\n\n\nLinear marker tests\n1,500,000\n\n\nMaximum selected OLS difference\n9.49e-15\n\n\nMedian time, three linear scans\n352.0 seconds\n\n\nLOCO tests with successful status (seed 2)\n50000/50000\n\n\nLOCO elapsed time (seed 2)\n38.0 seconds\n\n\nLOCO calibration factor (seed 2)\n1.000\n\n\n\nThe linear checks compare selected markers with R ordinary least squares. The separate LOCO timing run uses the second simulated dataset, groups artificial regions into 20 chromosomes and fits a 500-marker background. LOCO was timed once, so repeatability was not assessed. This unrelated-individual design does not establish mixed-model null-tail calibration, parameter recovery or a benefit over ordinary regression.\nAssociation counts · LOCO timing record",
+    "text": "These focused simulation checks assess selected behavior of the gsuite implementation on ten fixed datasets from the shared design. They do not revalidate the statistical method or cover every setting. The glma guide describes inputs and options. The runnable workflow contains the exact settings.\n\n\nlinear &lt;- glma(y, Glist, method = \"linear\", threads = 1)\nloco &lt;- glma(y, chromosome_Glist, method = \"infinitesimal_loco\",\n             algorithm = \"observation_pcg\",\n             background_markers = seq(1, 50000, by = 100), threads = 2)\n\n\n\n\n\n\nCheck\nObserved result\n\n\n\n\nLinear marker tests\n1,500,000\n\n\nMaximum selected OLS difference\n9.49e-15\n\n\nMedian time, three linear scans\n352.0 seconds\n\n\nLOCO tests with successful status (seed 2)\n50000/50000\n\n\nLOCO elapsed time (seed 2)\n38.0 seconds\n\n\nLOCO calibration factor (seed 2)\n1.000\n\n\n\nThe linear checks compare selected markers with R ordinary least squares. The separate LOCO timing run uses the second simulated dataset, groups artificial regions into 20 chromosomes and fits a 500-marker background. LOCO was timed once, so repeatability was not assessed. This unrelated-individual design does not establish mixed-model null-tail calibration, parameter recovery or a benefit over ordinary regression.\nAssociation counts · LOCO timing record",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Association scans (glma)"
     ]
   },
   {
     "objectID": "gsuite/docs/glma-qualification.html#use",
     "href": "gsuite/docs/glma-qualification.html#use",
-    "title": "glma qualification",
+    "title": "glma software validation",
     "section": "",
     "text": "linear &lt;- glma(y, Glist, method = \"linear\", threads = 1)\nloco &lt;- glma(y, chromosome_Glist, method = \"infinitesimal_loco\",\n             algorithm = \"observation_pcg\",\n             background_markers = seq(1, 50000, by = 100), threads = 2)",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Association scans (glma)"
     ]
   },
   {
     "objectID": "gsuite/docs/glma-qualification.html#results",
     "href": "gsuite/docs/glma-qualification.html#results",
-    "title": "glma qualification",
+    "title": "glma software validation",
     "section": "",
     "text": "Check\nObserved result\n\n\n\n\nLinear marker tests\n1,500,000\n\n\nMaximum selected OLS difference\n9.49e-15\n\n\nMedian time, three linear scans\n352.0 seconds\n\n\nLOCO tests with successful status (seed 2)\n50000/50000\n\n\nLOCO elapsed time (seed 2)\n38.0 seconds\n\n\nLOCO calibration factor (seed 2)\n1.000\n\n\n\nThe linear checks compare selected markers with R ordinary least squares. The separate LOCO timing run uses the second simulated dataset, groups artificial regions into 20 chromosomes and fits a 500-marker background. LOCO was timed once, so repeatability was not assessed. This unrelated-individual design does not establish mixed-model null-tail calibration, parameter recovery or a benefit over ordinary regression.\nAssociation counts · LOCO timing record",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Association scans (glma)"
     ]
   },
   {
     "objectID": "gsuite/docs/gbayes-qualification.html",
     "href": "gsuite/docs/gbayes-qualification.html",
-    "title": "gbayes qualification",
+    "title": "gbayes software validation",
     "section": "",
-    "text": "Ten fixed simulations use the shared design. The gbayes guide describes inputs and options. The runnable workflow contains the exact settings.\n\n\nfit &lt;- gbayes(prepared$A, LDlist, method = \"bayesc\", trait = \"A\",\n              prior = prior, control = list(residual_policy = \"fixed\",\n                                          burnin = 500, sampling_sweeps = 700,\n                                          seeds = c(11, 29, 47, 71)))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMethod\nh2 estimate\nh2 truth\nbias\nRMSE\nintervals\neffect r\nmax R-hat\n\n\n\n\nbayesc\n0.313\n0.300\n0.013\n0.014\n10/10\n0.510\n1.002\n\n\nbayesr\n0.306\n0.300\n0.006\n0.010\n10/10\n0.513\n1.000\n\n\n\nThe 50K-marker connected fits hold residual variance, effect scale and mixture weights fixed at declared values. They estimate marker effects and their posterior genetic summaries. Separate evidence covers parameter learning with a matched independent LD reference. The interval counts above describe conditional posterior intervals, not calibrated frequentist coverage.\nEffect recovery · Posterior diagnostics",
+    "text": "These focused simulation checks assess selected behavior of the gsuite implementation on ten fixed datasets from the shared design. They do not revalidate the statistical method or cover every setting. The gbayes guide describes inputs and options. The runnable workflow contains the exact settings.\n\n\nfit &lt;- gbayes(prepared$A, LDlist, method = \"bayesc\", trait = \"A\",\n              prior = prior, control = list(residual_policy = \"fixed\",\n                                          burnin = 500, sampling_sweeps = 700,\n                                          seeds = c(11, 29, 47, 71)))\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nMethod\nh2 estimate\nh2 truth\nbias\nRMSE\nintervals\neffect r\nmax R-hat\n\n\n\n\nbayesc\n0.313\n0.300\n0.013\n0.014\n10/10\n0.510\n1.002\n\n\nbayesr\n0.306\n0.300\n0.006\n0.010\n10/10\n0.513\n1.000\n\n\n\nThe 50K-marker connected fits hold residual variance, effect scale and mixture weights fixed at declared values. They estimate marker effects and their posterior genetic summaries. Separate evidence covers parameter learning with a matched independent LD reference. The interval counts above describe conditional posterior intervals, not calibrated frequentist coverage.\nEffect recovery · Posterior diagnostics",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Bayesian regression (gbayes)"
     ]
   },
   {
     "objectID": "gsuite/docs/gbayes-qualification.html#use",
     "href": "gsuite/docs/gbayes-qualification.html#use",
-    "title": "gbayes qualification",
+    "title": "gbayes software validation",
     "section": "",
     "text": "fit &lt;- gbayes(prepared$A, LDlist, method = \"bayesc\", trait = \"A\",\n              prior = prior, control = list(residual_policy = \"fixed\",\n                                          burnin = 500, sampling_sweeps = 700,\n                                          seeds = c(11, 29, 47, 71)))",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Bayesian regression (gbayes)"
     ]
   },
   {
     "objectID": "gsuite/docs/gbayes-qualification.html#results",
     "href": "gsuite/docs/gbayes-qualification.html#results",
-    "title": "gbayes qualification",
+    "title": "gbayes software validation",
     "section": "",
     "text": "Method\nh2 estimate\nh2 truth\nbias\nRMSE\nintervals\neffect r\nmax R-hat\n\n\n\n\nbayesc\n0.313\n0.300\n0.013\n0.014\n10/10\n0.510\n1.002\n\n\nbayesr\n0.306\n0.300\n0.006\n0.010\n10/10\n0.513\n1.000\n\n\n\nThe 50K-marker connected fits hold residual variance, effect scale and mixture weights fixed at declared values. They estimate marker effects and their posterior genetic summaries. Separate evidence covers parameter learning with a matched independent LD reference. The interval counts above describe conditional posterior intervals, not calibrated frequentist coverage.\nEffect recovery · Posterior diagnostics",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Bayesian regression (gbayes)"
     ]
   },
   {
     "objectID": "gsuite/docs/gmap-qualification.html",
     "href": "gsuite/docs/gmap-qualification.html",
-    "title": "gmap qualification",
+    "title": "gmap software validation",
     "section": "",
-    "text": "Ten fixed simulations use the shared design. The gmap guide describes inputs and options. The runnable workflow contains the exact settings.\n\n\nmapping_stat &lt;- gmap_stat(stat, LDlist,\n                          phenotype_variance = phenotype_variance)\nfit &lt;- gmap(mapping_stat[c(\"A\", \"B\")], LDlist,\n            regions = regions, method = \"multi_effect\",\n            prior = prior, control = control)\nshared &lt;- gmap(stat[c(\"A\", \"B\")], task = \"coloc\",\n               method = \"abf\", trait1 = \"A\", trait2 = \"B\",\n               regions = regions[1])\n\n\n\n\n\n\nCheck\nTen-replicate result\n\n\n\n\nComponent sets containing the causal marker\n40/40\n\n\nRegional fits converged\n40/40\n\n\nMean H4 in shared-signal region\n1.000\n\n\nMean H3 in distinct-signal region\n1.000\n\n\n\n\n\n\nHeld-out prediction, regional mapping and colocalisation across the fixed simulations.\n\n\nThe first two regions were constructed for these hypotheses and contain one causal variant per trait. This is a focused regional check, not broad credible-set coverage or colocalisation calibration across realistic loci.\nComponent credible sets · Colocalisation probabilities",
+    "text": "These focused simulation checks assess selected behavior of the gsuite implementation on ten fixed datasets from the shared design. They do not revalidate the statistical method or cover every setting. The gmap guide describes inputs and options. The runnable workflow contains the exact settings.\n\n\nmapping_stat &lt;- gmap_stat(stat, LDlist,\n                          phenotype_variance = phenotype_variance)\nfit &lt;- gmap(mapping_stat[c(\"A\", \"B\")], LDlist,\n            regions = regions, method = \"multi_effect\",\n            prior = prior, control = control)\nshared &lt;- gmap(stat[c(\"A\", \"B\")], task = \"coloc\",\n               method = \"abf\", trait1 = \"A\", trait2 = \"B\",\n               regions = regions[1])\n\n\n\n\n\n\nCheck\nTen-replicate result\n\n\n\n\nComponent sets containing the causal marker\n40/40\n\n\nRegional fits converged\n40/40\n\n\nMean H4 in shared-signal region\n1.000\n\n\nMean H3 in distinct-signal region\n1.000\n\n\n\n\n\n\nHeld-out prediction, regional mapping and colocalisation across the fixed simulations.\n\n\nThe first two regions were constructed for these hypotheses and contain one causal variant per trait. This is a focused regional check, not broad credible-set coverage or colocalisation calibration across realistic loci.\nComponent credible sets · Colocalisation probabilities",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Regional mapping (gmap)"
     ]
   },
   {
     "objectID": "gsuite/docs/gmap-qualification.html#use",
     "href": "gsuite/docs/gmap-qualification.html#use",
-    "title": "gmap qualification",
+    "title": "gmap software validation",
     "section": "",
     "text": "mapping_stat &lt;- gmap_stat(stat, LDlist,\n                          phenotype_variance = phenotype_variance)\nfit &lt;- gmap(mapping_stat[c(\"A\", \"B\")], LDlist,\n            regions = regions, method = \"multi_effect\",\n            prior = prior, control = control)\nshared &lt;- gmap(stat[c(\"A\", \"B\")], task = \"coloc\",\n               method = \"abf\", trait1 = \"A\", trait2 = \"B\",\n               regions = regions[1])",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Regional mapping (gmap)"
     ]
   },
   {
     "objectID": "gsuite/docs/gmap-qualification.html#results",
     "href": "gsuite/docs/gmap-qualification.html#results",
-    "title": "gmap qualification",
+    "title": "gmap software validation",
     "section": "",
     "text": "Check\nTen-replicate result\n\n\n\n\nComponent sets containing the causal marker\n40/40\n\n\nRegional fits converged\n40/40\n\n\nMean H4 in shared-signal region\n1.000\n\n\nMean H3 in distinct-signal region\n1.000\n\n\n\n\n\n\nHeld-out prediction, regional mapping and colocalisation across the fixed simulations.\n\n\nThe first two regions were constructed for these hypotheses and contain one causal variant per trait. This is a focused regional check, not broad credible-set coverage or colocalisation calibration across realistic loci.\nComponent credible sets · Colocalisation probabilities",
     "crumbs": [
       "gsuite",
-      "Qualifications",
+      "Software validation",
       "Regional mapping (gmap)"
     ]
   }

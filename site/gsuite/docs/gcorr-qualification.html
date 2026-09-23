@@ -157,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/qualifications.html">Qualifications</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gcorr-qualification.html">Heritability and correlation (gcorr)</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/qualifications.html">Software validation</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gcorr-qualification.html">Heritability and correlation (gcorr)</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -337,7 +337,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Qualifications</span></a>
+ <span class="menu-text">Software validation</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -346,7 +346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/qualifications.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Qualification overview</span></a>
+ <span class="menu-text">Validation overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -562,7 +562,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#gcorr-qualification" id="toc-gcorr-qualification" class="nav-link active" data-scroll-target="#gcorr-qualification">gcorr qualification</a>
+  <li><a href="#gcorr-software-validation" id="toc-gcorr-software-validation" class="nav-link active" data-scroll-target="#gcorr-software-validation">gcorr software validation</a>
   <ul class="collapse">
   <li><a href="#use" id="toc-use" class="nav-link" data-scroll-target="#use">Use</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
@@ -571,14 +571,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/qualifications.html">Qualifications</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gcorr-qualification.html">Heritability and correlation (gcorr)</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/qualifications.html">Software validation</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gcorr-qualification.html">Heritability and correlation (gcorr)</a></li></ol></nav></header>
 
 
 
 
-<section id="gcorr-qualification" class="level1">
-<h1>gcorr qualification</h1>
-<p>Ten fixed simulations use the <a href="../../gsuite/docs/genomic-qualification-design.html">shared design</a>. The <a href="../../gsuite/docs/summary-statistic-analysis.html">gcorr guide</a> describes inputs and options. The <a href="../tools/examples/simulated_genomics_workflow.R">runnable workflow</a> contains the exact settings.</p>
+<section id="gcorr-software-validation" class="level1">
+<h1>gcorr software validation</h1>
+<p>These focused simulation checks assess selected behavior of the gsuite implementation on ten fixed datasets from the <a href="../../gsuite/docs/genomic-qualification-design.html">shared design</a>. They do not revalidate the statistical method or cover every setting. The <a href="../../gsuite/docs/summary-statistic-analysis.html">gcorr guide</a> describes inputs and options. The <a href="../tools/examples/simulated_genomics_workflow.R">runnable workflow</a> contains the exact settings.</p>
 <section id="use" class="level2">
 <h2 class="anchored" data-anchor-id="use">Use</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>genome <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(stat, LDlist, <span class="at">method =</span> <span class="st">"ldsc"</span>, <span class="at">task =</span> <span class="st">"rg"</span>)</span>
