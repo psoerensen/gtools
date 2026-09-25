@@ -211,12 +211,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gshare-workflow.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Learning across datasets</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Analysis with an assistant</span></a>
   </div>
@@ -242,6 +236,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/guides.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">All guides</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gshare-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Learning across datasets</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -581,7 +581,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="responsibilities" class="level2">
 <h2 class="anchored" data-anchor-id="responsibilities">Responsibilities</h2>
-<p><code>gshare()</code> delegates Bayesian fitting to gbayes through the native gshare orchestration layer. gshare owns dataset identity, coordinate contracts and portable posterior messages; gsuite owns the R interface. The current R route is one-way MCMC transfer with either a bounded dense design or checked packed-BED preparation through a Glist. Source and receiver keep genotypes locally; conditional marker moments are computed in gbayes. See the <a href="../../gsuite/docs/gshare-workflow.html">transfer tutorial</a>. <code>gshare_bmm()</code> is a separate continuous-mixture route: gbayes owns the component sampler, gshare checks source estimates and evidence identities, and gsuite prepares data and exposes the fit. Its <a href="../../gsuite/docs/gshare-tl-bmm.html">worked example</a> distinguishes source allocations from BayesC inclusion probabilities.</p>
+<p>gshare owns the rules for learning across separate datasets: study identity, aligned genetic coordinates, transferable summaries and evidence checks. gbayes supplies Bayesian calculations and gsolve supplies numerical methods. The native library contains several research routes, but gsuite’s single R interface for this area has not yet been designed. See the <a href="../../gsuite/docs/gshare-workflow.html">scientific guide</a>.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -729,6 +729,8 @@ ul.task-list li input[type="checkbox"] {
     gmap_bayes --&gt; gsolve
     gbayes[gbayes] --&gt; gmat
     gbayes --&gt; gsolve
+    gshare[gshare] --&gt; gbayes
+    gshare --&gt; gsolve
     glma[glma] --&gt; gbayes
     glma --&gt; greml
     glma --&gt; gmat
@@ -741,6 +743,7 @@ ul.task-list li input[type="checkbox"] {
     gsuite --&gt; gsea_bayes
     gsuite --&gt; gmap_bayes
     gsuite --&gt; gbayes
+    gsuite --&gt; gshare
     gsuite --&gt; glma
     gsuite --&gt; gcorr
     gsuite --&gt; greml

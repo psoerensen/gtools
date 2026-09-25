@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Fit locally, share a compact Bayesian message, and update at another site.">
+<meta name="description" content="What can be learned when individual records cannot be combined, and what must be agreed before analysis.">
 
-<title>Learn across datasets with posterior transfer – gtools</title>
+<title>Learning across separate datasets – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -104,35 +69,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../gsuite/website/styles.css">
 </head>
@@ -187,7 +123,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gshare-workflow.html">Learning across datasets</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/guides.html">Guides</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gshare-workflow.html">Learning across datasets</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -242,13 +178,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Tutorials</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
@@ -275,12 +211,6 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../gsuite/docs/gshare-workflow.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Learning across datasets</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Analysis with an assistant</span></a>
   </div>
@@ -295,17 +225,23 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Guides</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/guides.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">All guides</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/gshare-workflow.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Learning across datasets</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -598,28 +534,25 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#a-complete-genomic-example" id="toc-a-complete-genomic-example" class="nav-link active" data-scroll-target="#a-complete-genomic-example">A complete genomic example</a></li>
-  <li><a href="#fit-from-prepared-bed-genotypes" id="toc-fit-from-prepared-bed-genotypes" class="nav-link" data-scroll-target="#fit-from-prepared-bed-genotypes">Fit from prepared BED genotypes</a></li>
-  <li><a href="#agree-on-coordinates-before-fitting" id="toc-agree-on-coordinates-before-fitting" class="nav-link" data-scroll-target="#agree-on-coordinates-before-fitting">Agree on coordinates before fitting</a></li>
-  <li><a href="#fit-at-the-source-site" id="toc-fit-at-the-source-site" class="nav-link" data-scroll-target="#fit-at-the-source-site">Fit at the source site</a></li>
-  <li><a href="#create-and-save-the-receiving-prior" id="toc-create-and-save-the-receiving-prior" class="nav-link" data-scroll-target="#create-and-save-the-receiving-prior">Create and save the receiving prior</a></li>
-  <li><a href="#load-and-fit-at-the-receiving-site" id="toc-load-and-fit-at-the-receiving-site" class="nav-link" data-scroll-target="#load-and-fit-at-the-receiving-site">Load and fit at the receiving site</a></li>
-  <li><a href="#what-the-genomic-demonstration-shows" id="toc-what-the-genomic-demonstration-shows" class="nav-link" data-scroll-target="#what-the-genomic-demonstration-shows">What the genomic demonstration shows</a></li>
-  <li><a href="#limits-and-information-sharing" id="toc-limits-and-information-sharing" class="nav-link" data-scroll-target="#limits-and-information-sharing">Limits and information sharing</a></li>
+  <li><a href="#two-ways-to-learn-from-another-study" id="toc-two-ways-to-learn-from-another-study" class="nav-link active" data-scroll-target="#two-ways-to-learn-from-another-study">Two ways to learn from another study</a></li>
+  <li><a href="#what-must-agree-across-studies" id="toc-what-must-agree-across-studies" class="nav-link" data-scroll-target="#what-must-agree-across-studies">What must agree across studies</a></li>
+  <li><a href="#what-is-shared" id="toc-what-is-shared" class="nav-link" data-scroll-target="#what-is-shared">What is shared</a></li>
+  <li><a href="#interpreting-a-transferred-result" id="toc-interpreting-a-transferred-result" class="nav-link" data-scroll-target="#interpreting-a-transferred-result">Interpreting a transferred result</a></li>
+  <li><a href="#current-availability" id="toc-current-availability" class="nav-link" data-scroll-target="#current-availability">Current availability</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gshare-workflow.html">Learning across datasets</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/guides.html">Guides</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gshare-workflow.html">Learning across datasets</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Learn across datasets with posterior transfer</h1>
+<h1 class="title">Learning across separate datasets</h1>
 </div>
 
 <div>
   <div class="description">
-    Fit locally, share a compact Bayesian message, and update at another site.
+    What can be learned when individual records cannot be combined, and what must be agreed before analysis.
   </div>
 </div>
 
@@ -636,165 +569,40 @@ window.Quarto = {
 </header>
 
 
-<p><code>gshare()</code> fits a local BayesC model using native MCMC. A source site can share marker-wise posterior summaries, which become a prior at a receiving site. The receiving site updates that prior with its own observations. This workflow keeps individual records local; it does not implement encryption or a formal privacy guarantee.</p>
-<p>The R workflow accepts either an explicitly prepared numeric matrix with at most <strong>512 markers</strong>, or a checked <code>Glist</code> backed by packed BED. The BED route does not form a dense genotype matrix, marker cross-product or GRM. Neither route claims genome-wide performance. The native library also has joint-site and variational routes; those are not exposed by this R entry point.</p>
-<section id="a-complete-genomic-example" class="level2">
-<h2 class="anchored" data-anchor-id="a-complete-genomic-example">A complete genomic example</h2>
-<p>Download the <a href="../tools/examples/gshare_workflow.R">dense demonstration</a> or the <a href="../tools/examples/gshare_bed_workflow.R">BED comparison</a>. It uses gsim to generate founder genotypes from a synthetic phased reference: 100 markers, 500 training individuals at site A, 1,500 at B, and 1,000 held-out individuals. Ten shared causal markers have different, correlated effect sizes at the two sites. No external reference download is required.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/gshare_workflow.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Run from the gsuite repository with development gsuite and gsim installed. The first script writes its data, transfer file, fitted objects, comparison table and figures under <code>build/examples/gshare-workflow/</code>. The BED comparison reuses those same gsim genotypes and writes results under <code>build/examples/gshare-bed/</code>. Native gshare and gbayes are included by the normal gsuite developer build; the scripts do not compile them.</p>
+<p>Studies often measure the same trait in different cohorts, populations or organisations, while individual records must remain where they were collected. gshare explores how one study can inform another by exchanging carefully defined statistical information instead of pooling observations.</p>
+<p>The scientific question comes first: which information should be shared, how comparable are the studies, and when should the receiving study trust the source? The R interface for this work has <strong>not yet been designed</strong>. The native library contains several research implementations, but their current development wrappers are not the future user interface.</p>
+<section id="two-ways-to-learn-from-another-study" class="level2">
+<h2 class="anchored" data-anchor-id="two-ways-to-learn-from-another-study">Two ways to learn from another study</h2>
+<p>One approach sends a compact summary of a fitted Bayesian model. The receiving study combines that summary with its own observations. This is useful when the studies are expected to share many genetic effects, while still allowing the receiving study to update them with local evidence.</p>
+<p>A second approach treats source effect estimates as possible centres for the receiving effects. Each marker may resemble a local effect or one of the source effects. Annotation information can also be used experimentally to guide which source is more plausible or how much effects vary around it.</p>
+<p>These approaches answer different questions. A zero-effect mixture component can describe whether a marker is active. A continuous source-centred mixture instead describes which effect pattern a marker resembles; its allocation probabilities are not probabilities that the marker has a nonzero effect.</p>
 </section>
-<section id="fit-from-prepared-bed-genotypes" class="level2">
-<h2 class="anchored" data-anchor-id="fit-from-prepared-bed-genotypes">Fit from prepared BED genotypes</h2>
-<p>Prepare each site’s selected samples with <code>gprep()</code>. Supply the same named reference frequencies at both sites: the fitted predictors are <span class="math inline">\((g-2f)/\sqrt{2f(1-f)}\)</span>. The prepared Glist supplies BED/BIM/FAM identity, marker order and counted allele; the phenotype data frame is matched by <code>id</code>. The phenotype must already follow the declared covariate preparation.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>reference_frequency <span class="ot">&lt;-</span> <span class="fu">setNames</span>(reference_frequencies, marker_ids)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>GA <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="st">"site-A.bed"</span>, <span class="at">ids =</span> site_A_ids)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>GB <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="st">"site-B.bed"</span>, <span class="at">ids =</span> site_B_ids)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>fit_A <span class="ot">&lt;-</span> <span class="fu">gshare</span>(</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> GA, <span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">id =</span> site_A_ids, <span class="at">height =</span> yA),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference_frequency =</span> reference_frequency,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">site =</span> <span class="st">"site-A"</span>, <span class="at">trait =</span> <span class="st">"height"</span>, <span class="at">units =</span> <span class="st">"cm"</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">covariates =</span> <span class="st">"phenotype adjusted for age and sex"</span>,</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">residual_variance =</span> <span class="dv">1</span>, <span class="at">effect_variance =</span> .<span class="dv">04</span>,</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">inclusion_probability =</span> .<span class="dv">1</span>)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>message <span class="ot">&lt;-</span> <span class="fu">gshare_transfer</span>(fit_A, <span class="at">multiplier =</span> .<span class="dv">7</span>,</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                           <span class="at">heterogeneity_variance =</span> .<span class="dv">0204</span>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">write_gshare</span>(message, <span class="st">"site-A.gshare"</span>)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>fit_B <span class="ot">&lt;-</span> <span class="fu">gshare</span>(</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> GB, <span class="at">data =</span> <span class="fu">data.frame</span>(<span class="at">id =</span> site_B_ids, <span class="at">height =</span> yB),</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference_frequency =</span> reference_frequency,</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">site =</span> <span class="st">"site-B"</span>, <span class="at">trait =</span> <span class="st">"height"</span>, <span class="at">units =</span> <span class="st">"cm"</span>,</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">covariates =</span> <span class="st">"phenotype adjusted for age and sex"</span>,</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">residual_variance =</span> <span class="dv">1</span>),</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">transfer =</span> <span class="fu">read_gshare</span>(<span class="st">"site-A.gshare"</span>), <span class="at">disjoint =</span> <span class="cn">TRUE</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The code assumes both BED files use the same marker IDs, counted alleles and order. No allele flipping or reordering occurs. <code>gshare()</code> checks the selected metadata and frequency-derived scaling; mismatches fail. <code>disjoint = TRUE</code> asserts non-overlapping individuals but cannot independently detect hidden overlap. The numeric priors are illustration settings on the supplied scale.</p>
+<section id="what-must-agree-across-studies" class="level2">
+<h2 class="anchored" data-anchor-id="what-must-agree-across-studies">What must agree across studies</h2>
+<p>Before any transfer analysis, the studies need an explicit agreement on:</p>
+<ul>
+<li>the trait and its measurement units;</li>
+<li>marker identity, order and counted allele;</li>
+<li>genotype centring and scaling;</li>
+<li>phenotype and covariate preparation;</li>
+<li>whether samples overlap;</li>
+<li>which study is the source and which is the receiver; and</li>
+<li>whether the analysis uses individual-level genotypes or an approximate LD reference.</li>
+</ul>
+<p>Names and declarations help detect mistakes, but they cannot prove that cohorts are independent or that alleles and units were prepared correctly.</p>
 </section>
-<section id="agree-on-coordinates-before-fitting" class="level2">
-<h2 class="anchored" data-anchor-id="agree-on-coordinates-before-fitting">Agree on coordinates before fitting</h2>
-<p><code>XA</code> and <code>XB</code> must describe the same columns, in the same order and units. <code>yA</code> and <code>yB</code> must have the declared phenotype meaning and prior covariate adjustment. No intercept, centering, scaling or alignment is performed silently.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>markers <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">marker =</span> <span class="fu">colnames</span>(XA),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">allele =</span> counted_alleles,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">center =</span> reference_centers,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> reference_scales</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For genotype dosages the example uses the same independent donor-reference frequencies at both sites: <span class="math inline">\(X_j=(W_j-2f_j)/\sqrt{2f_j(1-f_j)}\)</span>. The metadata describe those already prepared columns; they do not transform the supplied matrix. Receiver coordinates must match exactly. Hidden overlap or incorrect metadata cannot be discovered by matching labels.</p>
+<section id="what-is-shared" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-shared">What is shared</h2>
+<p>Depending on the method, a source may share effect estimates, uncertainty summaries or local sufficient statistics. Individual observations need not leave the source study. Shared summaries can still reveal information, however. gshare does not provide encryption, a network service or a formal privacy guarantee.</p>
 </section>
-<section id="fit-at-the-source-site" class="level2">
-<h2 class="anchored" data-anchor-id="fit-at-the-source-site">Fit at the source site</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fit_A <span class="ot">&lt;-</span> <span class="fu">gshare</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">X =</span> XA, <span class="at">y =</span> yA, <span class="at">site =</span> <span class="st">"site-A"</span>, <span class="at">markers =</span> markers,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait =</span> <span class="st">"height"</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">covariates =</span> <span class="st">"adjusted for age and sex"</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">residual_variance =</span> <span class="dv">1</span>, <span class="at">effect_variance =</span> .<span class="dv">04</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">inclusion_probability =</span> .<span class="dv">1</span>),</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">burnin =</span> <span class="dv">2000</span>, <span class="at">sampling_sweeps =</span> <span class="dv">8000</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">seeds =</span> <span class="fu">c</span>(<span class="dv">2027</span>, <span class="dv">2029</span>), <span class="at">threads =</span> <span class="dv">1</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>fit_A</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fit_A<span class="sc">$</span>effects)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Choose priors on your supplied response and predictor scale; the values above illustrate the example rather than provide universal defaults. Each marker has a posterior mean, variance and inclusion probability (PIP). <code>chains</code> contains per-chain means, PIPs and residual-variance summaries.</p>
+<section id="interpreting-a-transferred-result" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-a-transferred-result">Interpreting a transferred result</h2>
+<p>A transferred model should always be compared with a model fitted only in the receiving study. Improvement is not guaranteed: an unrelated source, mismatched effect scale or poorly estimated source effects can cause negative transfer. Prediction, effect recovery and sampler precision are separate questions.</p>
+<p>The current native evidence includes small numerical checks, bounded genomic examples and deliberately retained negative or inconclusive results. It does not establish that one method is generally best, that source uncertainty is fully propagated, or that every workflow is ready for biobank-scale use.</p>
 </section>
-<section id="create-and-save-the-receiving-prior" class="level2">
-<h2 class="anchored" data-anchor-id="create-and-save-the-receiving-prior">Create and save the receiving prior</h2>
-<p>The current model assumes shared activity but heterogeneous effects. For an active marker,</p>
-<p><span class="math display">\[
-b_B = r b_A + \epsilon,\qquad \epsilon\sim N(0,\tau^2).
-\]</span></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>message <span class="ot">&lt;-</span> <span class="fu">gshare_transfer</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  fit_A, <span class="at">multiplier =</span> .<span class="dv">7</span>, <span class="at">heterogeneity_variance =</span> .<span class="dv">0204</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probability_floor =</span> <span class="fl">1e-6</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>message</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write_gshare</span>(message, <span class="st">"site-A.gshare"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The message carries PIPs and conditional active-effect means/variances, coordinates, source ID and sample count, source prior settings and transfer settings. It contains no individual records, local cross-products or chains. The format is native schema 1, independent of R serialization. Existing files are protected unless <code>overwrite=TRUE</code> is explicit.</p>
-<p>The multiplier and heterogeneity variance are supplied assumptions, not learned by this workflow. A positive probability floor explicitly permits endpoint regularization, whose count is recorded. For MCMC, gbayes averages each marker’s full-conditional inclusion probability and probability-weighted active-effect moments over retained sweeps. This supports a marker whose sampled PIP is zero in a finite chain. The returned <code>effects</code> retain both sampled <code>pip</code> and <code>conditional_inclusion</code>; the message uses the latter. A numerically zero conditional inclusion probability is rejected because its active moments cannot be computed reliably. A probability floor cannot repair that case.</p>
-</section>
-<section id="load-and-fit-at-the-receiving-site" class="level2">
-<h2 class="anchored" data-anchor-id="load-and-fit-at-the-receiving-site">Load and fit at the receiving site</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>received <span class="ot">&lt;-</span> <span class="fu">read_gshare</span>(<span class="st">"site-A.gshare"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fit_B <span class="ot">&lt;-</span> <span class="fu">gshare</span>(</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">X =</span> XB, <span class="at">y =</span> yB, <span class="at">site =</span> <span class="st">"site-B"</span>, <span class="at">markers =</span> markers,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait =</span> <span class="st">"height"</span>, <span class="at">units =</span> <span class="st">"cm"</span>, <span class="at">covariates =</span> <span class="st">"adjusted for age and sex"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">residual_variance =</span> <span class="dv">1</span>),</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">transfer =</span> received, <span class="at">disjoint =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">burnin =</span> <span class="dv">2000</span>, <span class="at">sampling_sweeps =</span> <span class="dv">8000</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">seeds =</span> <span class="fu">c</span>(<span class="dv">2027</span>, <span class="dv">2029</span>))</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>fit_B</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>fit_B<span class="sc">$</span>evidence_ids</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The receiving effect prior comes entirely from the message. Do not add the source likelihood, reapply its original prior, or use overlapping observations. The receiving fit records both evidence IDs and cannot be retransferred through this single-hop interface. The receiver may contradict source evidence through its own likelihood; it is not copying the source estimates.</p>
-<p>For explicit local residual learning, add <code>residual_variance_prior=list(df=4,scale=1)</code> to <code>prior</code> and set <code>control$estimate_residual_variance=TRUE</code>. Set <code>likelihood_dimension</code> to the appropriate residual likelihood dimension after covariate elimination. Effect-variance and inclusion-weight learning are excluded from this transfer interface; general Bayesian modelling remains available through <code>gbayes()</code>.</p>
-</section>
-<section id="what-the-genomic-demonstration-shows" class="level2">
-<h2 class="anchored" data-anchor-id="what-the-genomic-demonstration-shows">What the genomic demonstration shows</h2>
-<p>The packed-BED comparison uses the same 100-marker, unequal-sample-size simulation for source and receiver fits. It holds the chosen priors and MCMC settings fixed within each scenario. The table reports held-out genetic-value RMSE; smaller is better. The joint fit is a fixed-parameter <strong>dense-statistics reference</strong>, not a packed-BED fit.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 26%">
-<col style="width: 26%">
-<col style="width: 26%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Effect relationship at the receiver</th>
-<th style="text-align: right;">Separate BED</th>
-<th style="text-align: right;">Transfer BED</th>
-<th style="text-align: right;">Joint dense reference</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Similar effects</td>
-<td style="text-align: right;">0.1148</td>
-<td style="text-align: right;">0.0956</td>
-<td style="text-align: right;">0.0916</td>
-</tr>
-<tr class="even">
-<td>Moderate heterogeneity</td>
-<td style="text-align: right;">0.1323</td>
-<td style="text-align: right;">0.0999</td>
-<td style="text-align: right;">0.0934</td>
-</tr>
-<tr class="odd">
-<td>Two receiver-only causal markers</td>
-<td style="text-align: right;">0.1405</td>
-<td style="text-align: right;">0.1079</td>
-<td style="text-align: right;">0.1006</td>
-</tr>
-<tr class="even">
-<td>Wrong, overconfident transfer</td>
-<td style="text-align: right;">0.1321</td>
-<td style="text-align: right;">0.1608</td>
-<td style="text-align: right;">0.1784</td>
-</tr>
-</tbody>
-</table>
-<p>The receiver-only case improves overall genetic-value prediction in this realization, despite violating the shared-activity prior. It does not show correct localization of the receiver-only markers. In the last row, the transfer assumes an opposite effect direction with almost no heterogeneity; the resulting harm shows why the relation must be justified or learned from independent information. These are four controlled scenarios from one genotype realization, not replicated performance estimates. The simulated effect relations are supplied to the transfer; they are not estimated.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../website/assets/gshare/prediction.png" class="img-fluid figure-img" style="width:75.0%"></p>
-<figcaption>Prediction error at the receiving site. Lower RMSE is better.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../website/assets/gshare/pips.png" class="img-fluid figure-img"></p>
-<figcaption>Marker PIPs before and after transfer. Red triangles identify the simulated causal markers.</figcaption>
-</figure>
-</div>
-<p>With identical standardized coordinates and seeds, the packed and dense source fits differed in posterior effect means by at most <span class="math inline">\(1.75\times10^{-15}\)</span>. The BED script also compares the source conditional inclusion summaries and the receiving effects against the dense route, and checks that saving and loading the message reproduces the receiving fit. These checks cover the packed/native connection and persistence; they are not an independent statistical validation. Transfer is directional: site A’s fit is unchanged by the one-way workflow.</p>
-<p>One separate execution check reused a prepared gsim panel and selected 600 markers for 500 source and 1,500 receiver individuals. With one chain, 100 burn-in and 300 sampling sweeps, the source fit took 0.64 seconds and the receiving fit took 2.91 seconds. Peak working memory of the <strong>whole R process</strong> was 262 MiB, including package loading and genotype preparation. The shorter chain is for execution cost only; these fits were not used to assess inference quality. The <a href="../tools/examples/gshare_bed_large.R">script</a> records the values in <code>build/examples/gshare-bed-large/execution.csv</code>.</p>
-<p>Run the BED script from the repository with <code>fit</code>, run the native <code>genomic_two_sites</code> driver on each written statistics file for the joint reference, then run the script with <code>report</code>. Its generated <code>comparison.csv</code>, timings, messages and fit objects remain under <code>build/examples/gshare-bed/</code>. The earlier <a href="../tools/examples/gshare_workflow.R">dense demonstration</a> writes <code>prediction.png</code> and <code>pips.png</code>, shown above. Inspect chain summaries as well as prediction scores. Genetic values and noisy observed phenotypes are different prediction targets.</p>
-</section>
-<section id="limits-and-information-sharing" class="level2">
-<h2 class="anchored" data-anchor-id="limits-and-information-sharing">Limits and information sharing</h2>
-<p>Marker-wise transfer discards posterior dependence under LD and approximates active-effect distributions by Gaussians. Numerical reference checks on small examples support the implemented computation; the genomic example is one realization, not replicated calibration. The variational receiving route showed substantial PIP differences under LD and is intentionally absent here.</p>
-<p>Files are structurally validated, but are neither encrypted nor authenticated. Posterior summaries may reveal information about a dataset. Dataset IDs and an explicit independence assertion guard against obvious double counting; they cannot establish actual sample independence or a privacy guarantee.</p>
+<section id="current-availability" class="level2">
+<h2 class="anchored" data-anchor-id="current-availability">Current availability</h2>
+<p>The native gshare library implements several research workflows and records their limitations in its own capability guide. gsuite does not yet offer a supported R interface for them. The intended outcome is one coherent gshare interface, designed around scientific tasks rather than separate functions for each implementation. Its inputs, results and method choices still need to be agreed before a user tutorial or API reference is written.</p>
 
 
 </section>
