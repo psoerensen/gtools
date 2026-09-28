@@ -598,7 +598,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>These interfaces connect existing native components. Preparation is explicit; estimators do not silently align alleles or change the marker universe. Current standalone examples are shown below.</p>
+<p>These interfaces connect existing native components. Preparation is explicit; estimators do not silently align alleles or change the marker universe. Current examples are shown below.</p>
 <section id="prepare-once-then-choose-the-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-once-then-choose-the-analysis">Prepare once, then choose the analysis</h2>
 <p>For already aligned input, no preparation call is necessary. Otherwise, <code>gbase::checkStat()</code> maps user columns to an ordinary qgg-style checked data frame, validates values, harmonizes against Glist alleles and applies explicit QC thresholds:</p>
@@ -619,7 +619,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> gscore<span class="sc">::</span><span class="fu">gscore</span>(weights, target_Glist)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>scores<span class="sc">$</span>scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>clump_threshold()</code> is the only scoring-specific weight construction route. Other weights come from their statistical model owner, for example <code>gbayes_fit$weights</code>. The portable weight frame declares marker coordinates, effect and other alleles, allele frequency, and one or more numeric score columns. <code>gscore()</code> aligns exact or swapped alleles to every active Glist BED component, preserves selected sample order, and records omitted weighted markers. It supports standardized or raw mean-imputed dosage coding and applies multiple score columns in one call.</p>
-<p>The standalone package does not fit ridge, L1 or mixture models and does not select models on validation summaries. Those are statistical-learning tasks, not genomic scoring. Root <code>gsuite::gscore()</code> was removed without a compatibility alias after the standalone application and C+T workflows were qualified.</p>
+<p><code>gscore</code> does not fit ridge, L1 or mixture models and does not select models on validation summaries. Those are statistical-learning tasks, not genomic scoring.</p>
 </section>
 <section id="additional-bayesian-inference-engines" class="level2">
 <h2 class="anchored" data-anchor-id="additional-bayesian-inference-engines">Additional Bayesian inference engines</h2>
@@ -632,7 +632,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">prior=</span><span class="fu">list</span>(<span class="at">p=</span>.<span class="dv">01</span>, <span class="at">h2=</span>.<span class="dv">4</span>),</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">control=</span><span class="fu">list</span>(<span class="at">seed=</span><span class="dv">17</span>, <span class="at">burnin=</span><span class="dv">500</span>, <span class="at">sampling_sweeps=</span><span class="dv">1000</span>))</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(vb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>These routes belong to the standalone <code>gbayes</code> package; root <code>gsuite</code> no longer exports a Bayesian dispatcher. They accept one trait and a Glist containing prepared sparse LD, and return the common standalone <code>gbayes_fit</code> contract with method-specific estimates and diagnostics.</p>
+<p>These routes accept one trait and a Glist containing prepared sparse LD, and return the common <code>gbayes_fit</code> contract with method-specific estimates and diagnostics.</p>
 <ul>
 <li><strong>Point-normal Gibbs:</strong> <code>p</code> and <code>h2</code> determine the initial prior. Controls include <code>burnin=500</code>, <code>sampling_sweeps=200</code>, <code>seed=1</code>, <code>sparse=FALSE</code> and <code>auto_update=FALSE</code>. Native parameter paths remain visible. Marker variances are not supplied by this engine and remain unavailable.</li>
 <li><strong>Point-normal / mixture variational:</strong> fixed priors, <code>maximum_iterations=200</code> and <code>tolerance=1e-8</code>. Optional <code>windows</code> is a two-column matrix of one-based inclusive ranges. Windows may overlap; a single ordered window pass does not establish whole-panel convergence. Objective/drift/window diagnostics remain available; posterior variances are variational approximations.</li>
@@ -648,7 +648,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>)))</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>sem <span class="ot">&lt;-</span> <span class="fu">gcorr_grouped_sem</span>(grouped, sem_model)</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ggm <span class="ot">&lt;-</span> <span class="fu">gcorr_grouped_ggm</span>(grouped, edges)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The standalone package accepts a coordinated continuous-trait GNOVA or SumHer fit that retains full cross-group jackknife covariance. It returns joint SEM or fixed-graph GGM estimates and exposes explicit cross-group test functions. See the <a href="../../gsuite/docs/covariance-models.html">covariance guide</a> and the deterministic <a href="../tools/examples/run_grouped_covariance_workflow.R">example</a>. Regional LAVA partial-correlation and regression analyses remain separate workflows.</p>
+<p><code>gcorr</code> accepts a coordinated continuous-trait GNOVA or SumHer fit that retains full cross-group jackknife covariance. It returns joint SEM or fixed-graph GGM estimates and exposes explicit cross-group test functions. See the <a href="../../gsuite/docs/covariance-models.html">covariance guide</a> and the deterministic <a href="../tools/examples/run_grouped_covariance_workflow.R">example</a>. Regional LAVA partial-correlation and regression analyses remain separate workflows.</p>
 
 
 </section>

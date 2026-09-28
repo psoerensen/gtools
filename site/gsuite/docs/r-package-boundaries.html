@@ -130,13 +130,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#r-package-boundaries" id="toc-r-package-boundaries" class="nav-link active" data-scroll-target="#r-package-boundaries">R package boundaries</a>
   <ul class="collapse">
   <li><a href="#dependency-rule" id="toc-dependency-rule" class="nav-link" data-scroll-target="#dependency-rule">Dependency rule</a></li>
-  <li><a href="#authoritative-distribution-matrix" id="toc-authoritative-distribution-matrix" class="nav-link" data-scroll-target="#authoritative-distribution-matrix">Authoritative distribution matrix</a></li>
+  <li><a href="#package-map" id="toc-package-map" class="nav-link" data-scroll-target="#package-map">Package map</a></li>
   <li><a href="#what-belongs-in-gbase" id="toc-what-belongs-in-gbase" class="nav-link" data-scroll-target="#what-belongs-in-gbase">What belongs in gbase</a></li>
-  <li><a href="#current-gsuite-exports-and-intended-owners" id="toc-current-gsuite-exports-and-intended-owners" class="nav-link" data-scroll-target="#current-gsuite-exports-and-intended-owners">Current gsuite exports and intended owners</a></li>
+  <li><a href="#r-interfaces-by-package" id="toc-r-interfaces-by-package" class="nav-link" data-scroll-target="#r-interfaces-by-package">R interfaces by package</a></li>
   <li><a href="#present-native-dependency-closures" id="toc-present-native-dependency-closures" class="nav-link" data-scroll-target="#present-native-dependency-closures">Present native dependency closures</a></li>
   <li><a href="#summary-statistics-integration" id="toc-summary-statistics-integration" class="nav-link" data-scroll-target="#summary-statistics-integration">Summary-statistics integration</a></li>
-  <li><a href="#first-package-and-boundary-demonstration" id="toc-first-package-and-boundary-demonstration" class="nav-link" data-scroll-target="#first-package-and-boundary-demonstration">First package and boundary demonstration</a></li>
-  <li><a href="#extraction-order" id="toc-extraction-order" class="nav-link" data-scroll-target="#extraction-order">Extraction order</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -150,7 +148,6 @@ ul.task-list li input[type="checkbox"] {
 <section id="r-package-boundaries" class="level1">
 <h1>R package boundaries</h1>
 <p>The R layer is divided by user task instead of placing every interface in one large gsuite package. The root <code>gsuite</code> package remains the ecosystem identity, website and integration surface. Independently distributed task capabilities are R/native pairs: an R package owns the user contract and its corresponding native library owns the implementation. Each task package can be installed and used without the root package.</p>
-<p>This document defines the package boundary. The first task cutover is complete: genetic-correlation interfaces now live only in <code>packages/gcorr</code>, with no root forwarder or backward-compatible dispatcher.</p>
 <section id="dependency-rule" class="level2">
 <h2 class="anchored" data-anchor-id="dependency-rule">Dependency rule</h2>
 <p>The dependency direction is:</p>
@@ -160,8 +157,8 @@ task packages do not import gsuite
 task packages depend on each other only for an explicit scientific workflow</code></pre>
 <p><code>gbase</code> must not depend on a task package. It may use the installed public gmat and gbits native interfaces for the agreed task-neutral genotype-preparation contract. A task package must not depend on the root gsuite package. This prevents dependency cycles and lets users install one task without installing the complete suite.</p>
 </section>
-<section id="authoritative-distribution-matrix" class="level2">
-<h2 class="anchored" data-anchor-id="authoritative-distribution-matrix">Authoritative distribution matrix</h2>
+<section id="package-map" class="level2">
+<h2 class="anchored" data-anchor-id="package-map">Package map</h2>
 <p>This is the canonical map of R/native distribution units. Method details belong in the <a href="../../gsuite/docs/methods.html#capability-overview">capability overview</a>; native transitive dependencies belong in the build manifests.</p>
 <table class="caption-top table">
 <colgroup>
@@ -180,7 +177,7 @@ task packages depend on each other only for an explicit scientific workflow</cod
 <tr class="odd">
 <td><code>gsuite</code></td>
 <td>Root bridge over gsolve, greml, gbits, gmat, gbayes, gshare and <code>gbits::gsolve_adapter</code></td>
-<td>Ecosystem identity, website and retained integration interfaces. It does not link gcorr and is not imported by task packages.</td>
+<td>Mixed-model, solver and integration interfaces.</td>
 </tr>
 <tr class="even">
 <td><code>gbase</code></td>
@@ -218,13 +215,13 @@ task packages depend on each other only for an explicit scientific workflow</cod
 <td>Enrichment; re-exports <code>glma::vegas()</code> for the connected workflow.</td>
 </tr>
 <tr class="odd">
-<td>No standalone R package</td>
+<td><code>gsuite</code> native dependencies</td>
 <td>gbits, gmat, gsolve, greml and gshare</td>
-<td>Native infrastructure or capabilities retained through the root integration surface. No new standalone R package is currently planned; existing root greml, gsolve and gshare interfaces remain unchanged pending a separate decision.</td>
+<td>Native infrastructure used by the root integration interfaces.</td>
 </tr>
 </tbody>
 </table>
-<p><code>gsim</code> remains the separate simulation package and exchanges ordinary data with the analysis ecosystem; it is not part of this repository’s private task-package binary builder.</p>
+<p><code>gsim</code> is the simulation package and exchanges ordinary data with the analysis packages.</p>
 </section>
 <section id="what-belongs-in-gbase" class="level2">
 <h2 class="anchored" data-anchor-id="what-belongs-in-gbase">What belongs in gbase</h2>
@@ -249,8 +246,8 @@ task packages depend on each other only for an explicit scientific workflow</cod
 </ul>
 <p>Those responsibilities remain with gmat/data preparation, the relevant task package, gshare, or the gsuite umbrella.</p>
 </section>
-<section id="current-gsuite-exports-and-intended-owners" class="level2">
-<h2 class="anchored" data-anchor-id="current-gsuite-exports-and-intended-owners">Current gsuite exports and intended owners</h2>
+<section id="r-interfaces-by-package" class="level2">
+<h2 class="anchored" data-anchor-id="r-interfaces-by-package">R interfaces by package</h2>
 <p>The groups below cover the current exported interface.</p>
 <table class="caption-top table">
 <colgroup>
@@ -259,8 +256,8 @@ task packages depend on each other only for an explicit scientific workflow</cod
 </colgroup>
 <thead>
 <tr class="header">
-<th>Current exports</th>
-<th>Intended R owner</th>
+<th>Interface</th>
+<th>R package</th>
 </tr>
 </thead>
 <tbody>
@@ -273,8 +270,8 @@ task packages depend on each other only for an explicit scientific workflow</cod
 <td>gbase</td>
 </tr>
 <tr class="odd">
-<td><code>gbase::gfilter()</code>, <code>ld_scores()</code>, <code>ld_region()</code> and <code>ld_eigen()</code> over Glist; private low-level BED/LD helpers</td>
-<td>gbase. Root duplicates and the public <code>LDlist</code>/<code>ldprep()</code> compatibility layer have been removed</td>
+<td><code>gbase::gfilter()</code>, <code>ld_scores()</code>, <code>ld_region()</code> and <code>ld_eigen()</code> over Glist</td>
+<td>gbase</td>
 </tr>
 <tr class="even">
 <td><code>gcorr()</code> and its fit, summary, plot, covariance, annotation and MR methods</td>
@@ -282,49 +279,45 @@ task packages depend on each other only for an explicit scientific workflow</cod
 </tr>
 <tr class="odd">
 <td><code>gscore()</code>, <code>clump_threshold()</code> and score prediction methods</td>
-<td>gscore; root exports removed without aliases after qualification. C+T is scoring-specific, while fitted association and posterior effects remain with their model packages</td>
+<td>gscore; C+T is scoring-specific, while fitted association and posterior effects remain with their model packages</td>
 </tr>
 <tr class="even">
 <td><code>gbayes()</code> and Bayesian fit, continuation, posterior and prediction methods</td>
-<td>gbayes; duplicate root exports removed after qualification</td>
+<td>gbayes</td>
 </tr>
 <tr class="odd">
-<td>Standalone <code>glma()</code> and association-result methods</td>
-<td>glma; root exports removed after equivalence qualification</td>
+<td><code>glma()</code> and association-result methods</td>
+<td>glma</td>
 </tr>
 <tr class="even">
 <td><code>vegas()</code> marker-set association evidence</td>
-<td>glma implementation and native integration; gsea public re-export and <code>gsea_input()</code> handoff; root <code>gstat()</code> removed without an alias</td>
+<td>glma implementation and native integration; gsea re-export and <code>gsea_input()</code> handoff</td>
 </tr>
 <tr class="odd">
 <td><code>gmap()</code>, <code>gmap_stat()</code>, <code>gmap_bed()</code> and focused mapping/colocalisation methods</td>
-<td>gmap; root exports removed without aliases after qualification</td>
+<td>gmap</td>
 </tr>
 <tr class="even">
 <td><code>gsea()</code> and enrichment-result methods</td>
-<td>gsea; root exports removed after full classical and Bayesian equivalence qualification</td>
+<td>gsea</td>
 </tr>
 <tr class="odd">
 <td><code>greml()</code>, persistent mixed-model, pedigree, multivariate, longitudinal and component-model constructors and methods</td>
-<td>Root gsuite integration surface backed by native greml; unchanged</td>
+<td>gsuite, backed by greml</td>
 </tr>
 <tr class="even">
 <td><code>gsolve()</code>, <code>gsuite_solve()</code> and solver result methods</td>
-<td>Root gsuite integration surface backed by native gsolve; unchanged</td>
+<td>gsuite, backed by gsolve</td>
 </tr>
 <tr class="odd">
-<td>Current <code>gshare*</code>, read and write wrappers</td>
-<td>Root gsuite integration surface backed by native gshare; preserve unchanged until a separate interface decision</td>
+<td><code>gshare*</code>, read and write wrappers</td>
+<td>gsuite, backed by gshare</td>
 </tr>
 <tr class="even">
-<td>Former root <code>sumstat()</code></td>
-<td>Replaced by <code>gbase::checkStat()</code>; removed without a compatibility alias</td>
-</tr>
-<tr class="odd">
 <td><code>gsuite_versions()</code> and cross-task workflows</td>
 <td>gsuite umbrella</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>diagnostics()</code> generic and future common result conventions</td>
 <td>Candidate for gbase after method compatibility is audited</td>
 </tr>
@@ -361,7 +354,7 @@ task packages depend on each other only for an explicit scientific workflow</cod
 </tr>
 <tr class="even">
 <td>gbayes</td>
-<td>exact private Windows closure: gbayes, gmat, gbits and gsolve; no CHOLMOD, MKL, PARDISO or OpenMP runtime in the qualified portable profile</td>
+<td>gbayes, gmat, gbits and gsolve; no CHOLMOD, MKL, PARDISO or OpenMP runtime in the qualified portable profile</td>
 </tr>
 <tr class="odd">
 <td>glma</td>
@@ -377,31 +370,11 @@ task packages depend on each other only for an explicit scientific workflow</cod
 </tr>
 </tbody>
 </table>
-<p>Each extraction must confirm its exact installed dependency closure before a package DESCRIPTION is finalized.</p>
+<p>Each package build verifies its installed dependency closure.</p>
 </section>
 <section id="summary-statistics-integration" class="level2">
 <h2 class="anchored" data-anchor-id="summary-statistics-integration">Summary-statistics integration</h2>
-<p><code>gbase::checkStat()</code> maps, validates, harmonizes and filters ordinary qgg-style data frames. Task packages then validate the exact columns they consume. The removed root <code>sumstat()</code> and its LDlist-coupled preparation object are not part of the standalone package contract.</p>
-</section>
-<section id="first-package-and-boundary-demonstration" class="level2">
-<h2 class="anchored" data-anchor-id="first-package-and-boundary-demonstration">First package and boundary demonstration</h2>
-<p>The independently buildable task-neutral package is under <a href="../../gsuite/packages/gbase/README.html"><code>packages/gbase/</code></a>. Its focused test constructs one common effect/standard-error object and maps it to two separate adapter inputs:</p>
-<ul>
-<li>an exchange payload retaining effects, uncertainty, coordinates and alleles;</li>
-<li>a correlation input deriving Z while retaining marker and allele order.</li>
-</ul>
-<p>The demonstration deliberately does not place task adapters in gbase. gshare interface work is deferred.</p>
-<p>The first private compiled task-package proof is <code>gcorr</code>, described by the <a href="../../gsuite/docs/summary-statistic-analysis.html">summary-statistic analysis guide</a>. It imports gbase, never the root gsuite package, and exposes focused ordinary and partitioned LDSC, ordinary and binary-annotation GNOVA, SumHer architecture workflows, and reusable regional HESS/rho-HESS, SUPERGNOVA, LAVA, and HDL-L preparation and fits through installed public gcorr and gmat interfaces. The standalone LAVA surface includes binary reconstruction, seeded simulation inference, partial correlation and genetic regression. Its thin package-owned dispatcher selects migrated methods without retaining the root task contract. It also exposes strict continuous-trait covariance preparation, structural SEM, descriptive conditional networks, and fixed-graph GGM fits and tests through installed public gcorr interfaces. GNOVA categories and SumHer components or transformed categories can be fitted jointly with their retained cross-group jackknife uncertainty. Prepared-instrument MR consumes aligned ordinary effect/SE data frames, explicit effect units and signed LD, then exposes focused GSMR, GSMR2, IVW, MR-Egger and weighted-median fits plus thin dispatcher routes without the root task/control contract. Its build pins the qualified native gcorr, gmat and gsolve versions and ABIs; package loading checks the actual DLLs. The full native gcorr library remains intact. Its private Windows binary uses the common capability-qualified <code>task-packages-portable</code> prefix, whose gsolve dependency has optional CHOLMOD, MKL dense-kernel, PARDISO and OpenMP backends disabled, and contains only the resulting gcorr, gmat, gsolve and gbits closure. It is not a public release artifact.</p>
-</section>
-<section id="extraction-order" class="level2">
-<h2 class="anchored" data-anchor-id="extraction-order">Extraction order</h2>
-<ol type="1">
-<li>Keep gbase independently buildable; use its ordinary checked data-frame contract from <code>checkStat()</code> and move <code>gbase::gprep()</code> plus Glist ownership into its small qualified gmat/gbits native closure. See <a href="../../gsuite/docs/genotype-preparation.html">genotype preparation</a>.</li>
-<li>Define and verify private development and binary-package rules.</li>
-<li>Establish gcorr as the first private compiled task package and remove the root gcorr interface after direct numerical equivalence qualification. Completed without compatibility aliases.</li>
-<li>Extract glma, gscore, gbayes, gmap and gsea based on their verified dependency closures. These seven task packages are now present. The glma extraction and root cutover are complete under the package boundary recorded here: root <code>gstat()</code> became standalone <code>vegas()</code> with no compatibility alias. The gsea extraction and root cutover are also complete: all classical, scalar Bayesian and joint Bayesian dispatcher routes matched before the duplicate root export and native adapter were removed. The standalone gscore extraction and root cutover are complete under the <a href="../../gsuite/docs/summary-interfaces.html#construct-and-apply-genomic-scores">scoring workflow</a>: it consumes portable allele-labelled weights and the gbase-owned Glist, while weight learning remains with model owners. Standalone gbayes owns the documented conversion from <code>b</code>, <code>seb</code> and <code>n</code> to its native standardized likelihood scale. Do not create standalone greml, gsolve or gshare R packages without a separate decision; keep their current root interfaces.</li>
-<li>Keep Python implementation deferred; later Python interfaces should mirror these task and data contracts rather than the historical R file layout.</li>
-</ol>
+<p><code>gbase::checkStat()</code> maps, validates, harmonizes and filters ordinary qgg-style data frames. Analysis packages then validate the exact columns they consume.</p>
 
 
 </section>

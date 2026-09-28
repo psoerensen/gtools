@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Standalone gbayes workflows for checked summaries, Glist genotypes, posterior quantities and scoring.">
+<meta name="description" content="Bayesian regression with checked summaries, Glist genotypes, posterior quantities and scoring.">
 
 <title>Bayesian genomic regression – gtools</title>
 <style>
@@ -569,8 +569,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#package-ownership" id="toc-package-ownership" class="nav-link active" data-scroll-target="#package-ownership">Package ownership</a></li>
-  <li><a href="#prepare-genotypes-and-summaries" id="toc-prepare-genotypes-and-summaries" class="nav-link" data-scroll-target="#prepare-genotypes-and-summaries">Prepare genotypes and summaries</a></li>
+  <li><a href="#prepare-genotypes-and-summaries" id="toc-prepare-genotypes-and-summaries" class="nav-link active" data-scroll-target="#prepare-genotypes-and-summaries">Prepare genotypes and summaries</a></li>
   <li><a href="#scalar-bayesc-and-bayesr" id="toc-scalar-bayesc-and-bayesr" class="nav-link" data-scroll-target="#scalar-bayesc-and-bayesr">Scalar BayesC and BayesR</a></li>
   <li><a href="#additional-summary-engines" id="toc-additional-summary-engines" class="nav-link" data-scroll-target="#additional-summary-engines">Additional summary engines</a></li>
   <li><a href="#multivariate-and-study-specific-fits" id="toc-multivariate-and-study-specific-fits" class="nav-link" data-scroll-target="#multivariate-and-study-specific-fits">Multivariate and study-specific fits</a></li>
@@ -593,7 +592,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    Standalone gbayes workflows for checked summaries, Glist genotypes, posterior quantities and scoring.
+    Bayesian regression with checked summaries, Glist genotypes, posterior quantities and scoring.
   </div>
 </div>
 
@@ -610,10 +609,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="package-ownership" class="level2">
-<h2 class="anchored" data-anchor-id="package-ownership">Package ownership</h2>
-<p>Bayesian marker-effect fitting belongs to the separate private <code>gbayes</code> R package. The duplicate <code>gsuite::gbayes()</code> dispatcher has been removed without a forwarding wrapper or compatibility signature. The package imports <code>gbase</code>, never root <code>gsuite</code>, and calls only installed public native interfaces.</p>
-<p>The main interface is:</p>
+<p>The main interface is <code>gbayes::gbayes()</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">stat =</span> <span class="cn">NULL</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
@@ -627,7 +623,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">continuation =</span> <span class="cn">NULL</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>stat + Glist</code> selects a summary-statistics likelihood. <code>data + Glist</code> selects an individual-level BED likelihood. A named list of checked summary frames or several named phenotype columns selects the multivariate route. Unsupported method/data combinations fail explicitly.</p>
-</section>
 <section id="prepare-genotypes-and-summaries" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-genotypes-and-summaries">Prepare genotypes and summaries</h2>
 <p><code>gbase::gprep()</code> owns the qgg-style Glist contract. Sparse LD is added to the same object rather than creating another public descriptor.</p>
@@ -749,19 +744,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="apply-portable-posterior-weights" class="level2">
 <h2 class="anchored" data-anchor-id="apply-portable-posterior-weights">Apply portable posterior weights</h2>
-<p>When genotype coding is identified, <code>fit$weights</code> is directly consumable by the standalone scoring package:</p>
+<p>When genotype coding is identified, <code>fit$weights</code> is directly consumable by <code>gscore()</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> gscore<span class="sc">::</span><span class="fu">gscore</span>(fit<span class="sc">$</span>weights, target)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Weight learning remains with <code>gbayes</code>; score application remains with <code>gscore</code>. Raw association effects are not automatically Bayesian weights, and conventional clumping and thresholding remains <code>gscore::clump_threshold()</code>.</p>
 </section>
 <section id="regional-interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="regional-interpretation">Regional interpretation</h2>
-<p>Standalone <code>gmap::gmap_bed()</code> can consume a saved individual-BED <code>gbayes_fit</code> together with sparse LD prepared from the same Glist samples and physical marker selection:</p>
+<p><code>gmap::gmap_bed()</code> can consume a saved individual-BED <code>gbayes_fit</code> together with sparse LD prepared from the same Glist samples and physical marker selection:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mapped <span class="ot">&lt;-</span> gmap<span class="sc">::</span><span class="fu">gmap_bed</span>(fit, Glist, regions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This interprets global marginal PIPs by region without refitting. Marginal-PIP groups are not component credible sets.</p>
 </section>
 <section id="qualification-status" class="level2">
 <h2 class="anchored" data-anchor-id="qualification-status">Qualification status</h2>
-<p>The private package passed its complete source check with no errors or warnings, isolated installation beside <code>gbase</code>, focused deterministic tests, exact Windows DLL-closure and SHA-256 audit, retained-root equivalence gates and clean binary loading. The two source-check NOTEs are the expected installed DLL size and the conservative compiled-code scan of the bundled native DLL closure. See the <a href="../../gsuite/docs/r-package-boundaries.html">package boundary and qualification overview</a>.</p>
+<p>The package passed its complete source check with no errors or warnings, focused deterministic tests, an exact Windows DLL-closure and SHA-256 audit, and clean binary loading. The two source-check NOTEs concern installed DLL size and the conservative compiled-code scan of the bundled native DLL closure.</p>
 
 
 </section>

@@ -607,7 +607,7 @@ window.Quarto = {
   <li><a href="#inspect-estimates-sets-and-chains" id="toc-inspect-estimates-sets-and-chains" class="nav-link" data-scroll-target="#inspect-estimates-sets-and-chains">Inspect estimates, sets and chains</a></li>
   <li><a href="#compare-the-traits-without-refitting" id="toc-compare-the-traits-without-refitting" class="nav-link" data-scroll-target="#compare-the-traits-without-refitting">Compare the traits without refitting</a></li>
   <li><a href="#numerical-checks-and-saved-results" id="toc-numerical-checks-and-saved-results" class="nav-link" data-scroll-target="#numerical-checks-and-saved-results">Numerical checks and saved results</a></li>
-  <li><a href="#standalone-abf-colocalisation" id="toc-standalone-abf-colocalisation" class="nav-link" data-scroll-target="#standalone-abf-colocalisation">Standalone ABF colocalisation</a></li>
+  <li><a href="#abf-colocalisation" id="toc-abf-colocalisation" class="nav-link" data-scroll-target="#abf-colocalisation">ABF colocalisation</a></li>
   </ul>
 </nav>
     </div>
@@ -641,7 +641,7 @@ window.Quarto = {
 <section id="the-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="the-workflow">The workflow</h2>
 <p>There are two routes. A saved individual-level BED <code>gbayes::gbayes()</code> fit can be interpreted by region using LD from the <strong>same people and markers</strong>. This reuses the global posterior and does not refit it. Alternatively, start with aligned GWAS results and a Glist augmented with sparse LD. Prepare the statistics, fit each region and trait, inspect marker support, then compare fitted multi-effect components with <code>gmap_coloc_components()</code>.</p>
-<p>This example requires development installations of gbase, gbayes, gmap and gsim. The website displays saved results and does not run models. The current standalone calls are shown below; a refreshed end-to-end script remains separate work.</p>
+<p>This example requires development installations of gbase, gbayes, gmap and gsim. The website displays saved results and does not run models. The current calls are shown below; a refreshed end-to-end script remains separate work.</p>
 </section>
 <section id="from-an-individual-level-bed-fit-to-regional-marker-support" class="level2">
 <h2 class="anchored" data-anchor-id="from-an-individual-level-bed-fit-to-regional-marker-support">From an individual-level BED fit to regional marker support</h2>
@@ -879,8 +879,8 @@ X^\mathsf{T}X \approx D^{1/2} R D^{1/2},\qquad D=\operatorname{diag}(d_j).
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(example<span class="sc">$</span>coloc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>workflow.rds</code> contains the summaries, prepared statistics, truth, fitted objects and checks. <code>report.txt</code> records summaries and package versions. The directory also contains two figures and compact CSV tables. Saved fits can be plotted without the LD files; a new <code>gmap_coloc_components()</code> call requires the reference files so that eligibility and reference checks can run.</p>
 </section>
-<section id="standalone-abf-colocalisation" class="level2">
-<h2 class="anchored" data-anchor-id="standalone-abf-colocalisation">Standalone ABF colocalisation</h2>
+<section id="abf-colocalisation" class="level2">
+<h2 class="anchored" data-anchor-id="abf-colocalisation">ABF colocalisation</h2>
 <p>For <strong>at most one causal variant per trait</strong>, compare the aligned GWAS tables directly. This route uses native gmap ABFs; it does not require an LD object, <code>gmap_stat()</code> or a Bayesian fine-mapping fit. The example’s two cohorts are disjoint, and each selected region contains one generating causal variant per trait, so it is suitable for illustrating this model.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>markers <span class="ot">&lt;-</span> regions<span class="sc">$</span>shared</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>first <span class="ot">&lt;-</span> gwas<span class="sc">$</span>A[<span class="fu">match</span>(markers, gwas<span class="sc">$</span>A<span class="sc">$</span>marker), ]</span>

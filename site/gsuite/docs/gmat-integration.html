@@ -564,7 +564,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#scope" id="toc-scope" class="nav-link active" data-scroll-target="#scope">Scope</a></li>
-  <li><a href="#private-serializable-objects" id="toc-private-serializable-objects" class="nav-link" data-scroll-target="#private-serializable-objects">Private serializable objects</a></li>
+  <li><a href="#serializable-bridge-objects" id="toc-serializable-bridge-objects" class="nav-link" data-scroll-target="#serializable-bridge-objects">Serializable bridge objects</a></li>
   <li><a href="#identity-and-ordering" id="toc-identity-and-ordering" class="nav-link" data-scroll-target="#identity-and-ordering">Identity and ordering</a></li>
   <li><a href="#numerical-contract" id="toc-numerical-contract" class="nav-link" data-scroll-target="#numerical-contract">Numerical contract</a></li>
   <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
@@ -604,9 +604,9 @@ window.Quarto = {
 <pre class="text"><code>BED/BIM/FAM → ordered BedPanel selections → disk sparse LD → LD scores</code></pre>
 <p>It is a thin binding to installed public <code>gmat</code> interfaces. <code>gbits</code> owns BED decoding; <code>gmat</code> owns resource validation, panel mappings, sparse-LD construction and disk validation, and LD-score algorithms. <code>gsuite</code> validates R values and translates results and errors. No genotype decoder, dense LD matrix, sparse-LD algorithm, or score algorithm is implemented in R.</p>
 </section>
-<section id="private-serializable-objects" class="level2">
-<h2 class="anchored" data-anchor-id="private-serializable-objects">Private serializable objects</h2>
-<p>These low-level objects document the internal bridge. They are no longer root exports; users work through <code>gbase::gprep()</code> and its Glist-owned LD utilities.</p>
+<section id="serializable-bridge-objects" class="level2">
+<h2 class="anchored" data-anchor-id="serializable-bridge-objects">Serializable bridge objects</h2>
+<p>These low-level objects document the internal bridge used by <code>gbase::gprep()</code> and its Glist-owned LD utilities.</p>
 <ul>
 <li><code>gsuite_bed_resource</code> retains canonical BED/BIM/FAM paths, physical counts, and literal ordered BIM/FAM metadata.</li>
 <li><code>gsuite_bed_panel</code> retains component resources, exact selections, selected metadata, and zero-based native source mappings.</li>

@@ -174,7 +174,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="gbase" class="level1">
 <h1>gbase</h1>
-<p><code>gbase</code> contains small, task-neutral R data contracts shared by the gsuite ecosystem. It performs no statistical fitting. Its genotype preparation contract uses the installed public <code>gmat</code>, <code>gbits</code>, and <code>gsolve</code> interfaces, with a qualified native prefix checked during compilation and native versions and ABIs checked again when the package loads. <code>gsolve</code> is used only for verified dense regional eigensystems; the portable private binary has no CHOLMOD, MKL, PARDISO, or OpenMP runtime dependency.</p>
+<p><code>gbase</code> contains small, task-neutral R data contracts shared by the gsuite ecosystem. It performs no statistical fitting. Its genotype preparation contract uses the installed public <code>gmat</code>, <code>gbits</code>, and <code>gsolve</code> interfaces, with a qualified native prefix checked during compilation and native versions and ABIs checked again when the package loads. <code>gsolve</code> is used only for verified dense regional eigensystems; the portable binary has no CHOLMOD, MKL, PARDISO, or OpenMP runtime dependency.</p>
 <p>Summary statistics use the established qgg workflow: <code>checkStat()</code> maps and aligns an ordinary data frame to Glist, applies explicit QC, and returns an ordinary data frame with familiar short column names:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -196,7 +196,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">ld_scores</span>(Glist)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>region <span class="ot">&lt;-</span> <span class="fu">ld_region</span>(Glist, <span class="at">markers =</span> markers[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>spectrum <span class="ot">&lt;-</span> <span class="fu">ld_eigen</span>(Glist, <span class="at">markers =</span> markers[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>There is no standalone <code>LDlist</code> contract in gbase. Sparse-LD construction and ownership stay on the Glist returned by <code>gprep(task = "sparseld")</code>.</p>
+<p>Sparse-LD construction and metadata stay on the Glist returned by <code>gprep(task = "sparseld")</code>.</p>
 
 
 </section>

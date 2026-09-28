@@ -632,7 +632,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gcorr</span>(prepared, <span class="at">method =</span> <span class="st">"weighted_median"</span>, <span class="at">seed =</span> <span class="dv">19</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>GSMR and GSMR2 apply their distinct HEIDI procedures unless explicitly disabled. IVW, Egger and weighted median use the prepared set before HEIDI and require approximately independent instruments. Weighted median always requires an explicit seed. Reverse-direction analysis must prepare again from the original candidate summaries.</p>
 <p>Effects retain outcome units per exposure unit. Instrument strength, HEIDI or agreement across estimators does not establish the exclusion restriction. The interface supports univariable, explicitly non-overlapping-sample analyses; it does not provide multivariable or overlapping-sample MR.</p>
-<p>The historical root <code>task="prepare_mr"</code>/<code>task="mr"</code> signatures were removed without aliases.</p>
 
 
 </section>

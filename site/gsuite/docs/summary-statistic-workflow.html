@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Use checked summary-statistics data frames and explicit LD inputs with the private gcorr package.">
+<meta name="description" content="Use checked summary-statistics data frames and explicit LD inputs with gcorr.">
 
-<title>Standalone genetic-correlation workflow – gtools</title>
+<title>Genetic-correlation workflow – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -579,12 +579,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/summary-statistic-workflow.html">Saved LD analysis</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Standalone genetic-correlation workflow</h1>
+<h1 class="title">Genetic-correlation workflow</h1>
 </div>
 
 <div>
   <div class="description">
-    Use checked summary-statistics data frames and explicit LD inputs with the private gcorr package.
+    Use checked summary-statistics data frames and explicit LD inputs with gcorr.
   </div>
 </div>
 
@@ -603,7 +603,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="prepare-summary-statistics" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-summary-statistics">Prepare summary statistics</h2>
-<p>Fitting belongs to the separate <code>gcorr</code> package. Its input is an ordinary data frame with qgg-style names. When a Glist reference is available, <code>gbase::checkStat()</code> performs marker mapping, allele alignment and explicit QC. A task package never imports <code>gsuite</code>.</p>
+<p>The input is an ordinary data frame with qgg-style names. When a Glist reference is available, <code>gbase::checkStat()</code> performs marker mapping, allele alignment and explicit QC. A task package never imports <code>gsuite</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gcorr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -621,7 +621,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">marker_count =</span> <span class="dv">50000</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>estimates</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Use <code>gcorr_gnova()</code> or <code>gcorr_sumher()</code> when their explicit score and annotation inputs are available. Regional workflows first call <code>gcorr_prepare_regions()</code> and then a focused HESS, SUPERGNOVA, LAVA or HDL-L function. See <a href="../../gsuite/docs/summary-statistic-analysis.html">the complete method contract</a>.</p>
-<p>There is no root <code>gsuite::gcorr()</code> compatibility route.</p>
 
 
 </section>
