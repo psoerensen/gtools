@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Source repositories and the current binary-release status for gsuite libraries.">
+<meta name="description" content="Install public packages and check the availability of gsuite packages.">
 
 <title>Downloads – gtools</title>
 <style>
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -540,7 +575,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Source repositories and the current binary-release status for gsuite libraries.
+    Install public packages and check the availability of gsuite packages.
   </div>
 </div>
 
@@ -557,44 +592,79 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="public-packages" class="level2">
-<h2 class="anchored" data-anchor-id="public-packages">Public packages</h2>
-<p>gsim and gact are already public. Use their own documentation for current installation requirements, examples and release availability.</p>
+<section id="available-now" class="level2">
+<h2 class="anchored" data-anchor-id="available-now">Available now</h2>
+<p>Install the public packages directly from GitHub. Install <code>remotes</code> once if it is not already available:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="gsim" class="level3">
+<h3 class="anchored" data-anchor-id="gsim">gsim</h3>
+<p>Simulation of genotypes, pedigrees and phenotypes:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"psoerensen/gsim"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="https://psoerensen.github.io/gsim/">Documentation and examples</a> · <a href="https://github.com/psoerensen/gsim">Source and releases</a></p>
+</section>
+<section id="gact" class="level3">
+<h3 class="anchored" data-anchor-id="gact">gact</h3>
+<p>Genomic association data, annotations and analysis workflows:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"psoerensen/gact"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><a href="https://psoerensen.github.io/gact/">Documentation and tutorials</a> · <a href="https://github.com/psoerensen/gact">Source and releases</a></p>
+<p>Some gact workflows use additional packages or external data resources. Check the linked tutorial for the requirements of the workflow you want to run.</p>
+</section>
+</section>
+<section id="in-development" class="level2">
+<h2 class="anchored" data-anchor-id="in-development">In development</h2>
+<p>The following R packages are documented on this site but are not yet available for public installation.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Package</th>
 <th>Purpose</th>
-<th>Documentation</th>
-<th>Releases</th>
+<th>Availability</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>gsim</td>
-<td>Genotype, pedigree and phenotype simulation</td>
-<td><a href="https://psoerensen.github.io/gsim/">Installation and examples</a></td>
-<td><a href="https://github.com/psoerensen/gsim/releases">Releases page</a></td>
+<td>gsuite</td>
+<td>Integrated genomic analysis workflows</td>
+<td>In development</td>
 </tr>
 <tr class="even">
-<td>gact</td>
-<td>Genomic association data, annotations and analysis workflows</td>
-<td><a href="https://psoerensen.github.io/gact/">Installation and tutorials</a></td>
-<td><a href="https://github.com/psoerensen/gact/releases">Releases page</a></td>
+<td>gbase</td>
+<td>Shared data contracts</td>
+<td>In development</td>
+</tr>
+<tr class="odd">
+<td>gbayes</td>
+<td>Bayesian genomic regression</td>
+<td>In development</td>
+</tr>
+<tr class="even">
+<td>gcorr</td>
+<td>Genetic correlation</td>
+<td>In development</td>
+</tr>
+<tr class="odd">
+<td>glma</td>
+<td>Association mapping</td>
+<td>In development</td>
+</tr>
+<tr class="even">
+<td>gmap</td>
+<td>Fine-mapping and colocalisation</td>
+<td>In development</td>
+</tr>
+<tr class="odd">
+<td>gscore</td>
+<td>Genomic scoring and prediction</td>
+<td>In development</td>
+</tr>
+<tr class="even">
+<td>gsea</td>
+<td>Gene-set enrichment</td>
+<td>In development</td>
 </tr>
 </tbody>
 </table>
-<p>These packages retain their existing repositories and release processes. gtools links to them; it does not mirror their source or release assets.</p>
-</section>
-<section id="gsuite" class="level2">
-<h2 class="anchored" data-anchor-id="gsuite">gsuite</h2>
-<p>gsuite remains in private development. There is no public gsuite installation download yet. The tutorials describe its current development interfaces and require an existing development installation plus the stated dependencies. Website examples do not install or build those dependencies.</p>
-<p>The website presents methods, workflows and selected evidence before software release. Documented capabilities have specific validation scopes; they do not imply complete package or platform qualification.</p>
-</section>
-<section id="future-gsuite-releases" class="level2">
-<h2 class="anchored" data-anchor-id="future-gsuite-releases">Future gsuite releases</h2>
-<p>The intended policy is private development with public source snapshots for approved, versioned releases. Source snapshots and any approved installation artifacts will be published separately from website updates through gtools. No release is created by publishing a tutorial or updating a figure.</p>
-<p>Availability of binary distributions depends on the relevant third-party licences and distribution requirements. Existing licensing policies remain unchanged; this website does not grant new redistribution permissions.</p>
+<p>Installation commands and supported platforms will be added here as packages are released.</p>
 
 
 </section>

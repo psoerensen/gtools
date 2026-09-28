@@ -1956,7 +1956,7 @@
     "href": "gsuite/downloads.html",
     "title": "Downloads",
     "section": "",
-    "text": "gsim and gact are already public. Use their own documentation for current installation requirements, examples and release availability.\n\n\n\nPackage\nPurpose\nDocumentation\nReleases\n\n\n\n\ngsim\nGenotype, pedigree and phenotype simulation\nInstallation and examples\nReleases page\n\n\ngact\nGenomic association data, annotations and analysis workflows\nInstallation and tutorials\nReleases page\n\n\n\nThese packages retain their existing repositories and release processes. gtools links to them; it does not mirror their source or release assets.",
+    "text": "Install the public packages directly from GitHub. Install remotes once if it is not already available:\ninstall.packages(\"remotes\")\n\n\nSimulation of genotypes, pedigrees and phenotypes:\nremotes::install_github(\"psoerensen/gsim\")\nDocumentation and examples · Source and releases\n\n\n\nGenomic association data, annotations and analysis workflows:\nremotes::install_github(\"psoerensen/gact\")\nDocumentation and tutorials · Source and releases\nSome gact workflows use additional packages or external data resources. Check the linked tutorial for the requirements of the workflow you want to run.",
     "crumbs": [
       "gsuite",
       "About gsuite",
@@ -1964,11 +1964,11 @@
     ]
   },
   {
-    "objectID": "gsuite/downloads.html#public-packages",
-    "href": "gsuite/downloads.html#public-packages",
+    "objectID": "gsuite/downloads.html#available-now",
+    "href": "gsuite/downloads.html#available-now",
     "title": "Downloads",
     "section": "",
-    "text": "gsim and gact are already public. Use their own documentation for current installation requirements, examples and release availability.\n\n\n\nPackage\nPurpose\nDocumentation\nReleases\n\n\n\n\ngsim\nGenotype, pedigree and phenotype simulation\nInstallation and examples\nReleases page\n\n\ngact\nGenomic association data, annotations and analysis workflows\nInstallation and tutorials\nReleases page\n\n\n\nThese packages retain their existing repositories and release processes. gtools links to them; it does not mirror their source or release assets.",
+    "text": "Install the public packages directly from GitHub. Install remotes once if it is not already available:\ninstall.packages(\"remotes\")\n\n\nSimulation of genotypes, pedigrees and phenotypes:\nremotes::install_github(\"psoerensen/gsim\")\nDocumentation and examples · Source and releases\n\n\n\nGenomic association data, annotations and analysis workflows:\nremotes::install_github(\"psoerensen/gact\")\nDocumentation and tutorials · Source and releases\nSome gact workflows use additional packages or external data resources. Check the linked tutorial for the requirements of the workflow you want to run.",
     "crumbs": [
       "gsuite",
       "About gsuite",
@@ -1976,23 +1976,11 @@
     ]
   },
   {
-    "objectID": "gsuite/downloads.html#gsuite",
-    "href": "gsuite/downloads.html#gsuite",
+    "objectID": "gsuite/downloads.html#in-development",
+    "href": "gsuite/downloads.html#in-development",
     "title": "Downloads",
-    "section": "gsuite",
-    "text": "gsuite\ngsuite remains in private development. There is no public gsuite installation download yet. The tutorials describe its current development interfaces and require an existing development installation plus the stated dependencies. Website examples do not install or build those dependencies.\nThe website presents methods, workflows and selected evidence before software release. Documented capabilities have specific validation scopes; they do not imply complete package or platform qualification.",
-    "crumbs": [
-      "gsuite",
-      "About gsuite",
-      "Software availability"
-    ]
-  },
-  {
-    "objectID": "gsuite/downloads.html#future-gsuite-releases",
-    "href": "gsuite/downloads.html#future-gsuite-releases",
-    "title": "Downloads",
-    "section": "Future gsuite releases",
-    "text": "Future gsuite releases\nThe intended policy is private development with public source snapshots for approved, versioned releases. Source snapshots and any approved installation artifacts will be published separately from website updates through gtools. No release is created by publishing a tutorial or updating a figure.\nAvailability of binary distributions depends on the relevant third-party licences and distribution requirements. Existing licensing policies remain unchanged; this website does not grant new redistribution permissions.",
+    "section": "In development",
+    "text": "In development\nThe following R packages are documented on this site but are not yet available for public installation.\n\n\n\nPackage\nPurpose\nAvailability\n\n\n\n\ngsuite\nIntegrated genomic analysis workflows\nIn development\n\n\ngbase\nShared data contracts\nIn development\n\n\ngbayes\nBayesian genomic regression\nIn development\n\n\ngcorr\nGenetic correlation\nIn development\n\n\nglma\nAssociation mapping\nIn development\n\n\ngmap\nFine-mapping and colocalisation\nIn development\n\n\ngscore\nGenomic scoring and prediction\nIn development\n\n\ngsea\nGene-set enrichment\nIn development\n\n\n\nInstallation commands and supported platforms will be added here as packages are released.",
     "crumbs": [
       "gsuite",
       "About gsuite",
