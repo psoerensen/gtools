@@ -1,6 +1,8 @@
 # Runnable GWAS -> native gene evidence -> pathway analysis demonstration.
 # Outputs stay in one directory; genotypes are used only to create this example.
-library(gsuite)
+.libPaths(c(file.path("build", "task-packages", "gsea", "binary-library"),
+  .libPaths()))
+library(gsea)
 stopifnot(requireNamespace("gsim",quietly=TRUE))
 out<-getOption("gsuite.gsea.out","build/examples/gwas-pathways")
 dir.create(out,recursive=TRUE,showWarnings=FALSE)
@@ -30,10 +32,10 @@ write.table(data.frame(rep(1:4,each=60),ids,0,rep(seq_len(60)*1000,4),"A","G"),
   paste0(prefix,".bim"),quote=FALSE,row.names=FALSE,col.names=FALSE)
 write.table(data.frame(seq_len(n),seq_len(n),0,0,0,-9),paste0(prefix,".fam"),
   quote=FALSE,row.names=FALSE,col.names=FALSE)
-LD<-ldprep(gprep(bedfiles=paste0(prefix,".bed")),reference="artificial-in-sample",
-  assembly="artificial",task="sparseld",out_prefix=file.path(out,"LD"),
+Glist<-gbase::gprep(bedfiles=paste0(prefix,".bed"))
+Glist<-gbase::gprep(Glist=Glist,task="sparseld",out_prefix=file.path(out,"LD"),
   max_distance_bp=0,max_distance_variants=60,r2=0,nthreads=1,overwrite=TRUE)
-md<-LD$resource$markers
+md<-Glist$sparseLD$marker_metadata
 X<-scale(W,center=TRUE,scale=FALSE);d<-colSums(X^2)
 make_trait<-function(active,seed) {
   b<-rep(0,m);b[ids %in% unlist(genes[active],use.names=FALSE)]<-.018
@@ -46,20 +48,25 @@ make_trait<-function(active,seed) {
 }
 stat<-list(trait_A=make_trait(sets$pathway_A,111),
            trait_B=make_trait(c(sets$pathway_A,sets$pathway_B),222))
+statistics<-Map(function(s,trait) data.frame(
+  rsids=s$marker,chr=md$chromosome,pos=md$base_pair_position,
+  ea=s$allele1,nea=s$allele2,stat=s$z,n=n),stat,names(stat))
 # Counts come from these GWAS individuals, not from reference-N labels.
 minor_count<-pmin(colSums(W),2*n-colSums(W))
-metadata<-data.frame(gene=gene_ids,sample_size=n,
+metadata<-data.frame(set=gene_ids,sample_size=n,
   mean_minor_allele_count=vapply(genes,function(g)mean(minor_count[match(g,ids)]),numeric(1)))
 started<-proc.time()[["elapsed"]]
-evidence<-gstat(stat,LD,sets=genes,method="quadratic",blocks=blocks,metadata=metadata,
+evidence<-vegas(statistics,Glist,sets=genes,blocks=blocks,metadata=metadata,
   control=list(independent_blocks=TRUE,tail_method="controlled_series"))
 stopifnot(all(vapply(evidence$stat,function(s)all(s$p_available&s$p_value>0&s$p_value<1),logical(1))))
+input<-gsea_input(evidence)
+gene_stat<-input$stat;gene_sampling<-input$sampling
 fits<-list(
-  ora=gsea(lapply(evidence$stat,function(s)transform(s,selected=p_value<.05)),sets,"ora",control=list(adjustment="BH")),
-  preranked=gsea(evidence$stat,sets,"preranked",control=list(seed=31,replicates=999,adjustment="BH")),
-  competitive=gsea(evidence$stat,sets,"competitive",sampling=evidence$sampling,control=list(adjustment="BH")),
-  magma=gsea(evidence$stat,sets,"magma",sampling=evidence$sampling,control=list(adjustment="BH")),
-  bayesc=gsea(evidence$stat["trait_A"],sets,"bayesc",sampling=evidence$sampling,
+  ora=gsea(lapply(gene_stat,function(s)transform(s,selected=p_value<.05)),sets,"ora",control=list(adjustment="BH")),
+  preranked=gsea(gene_stat,sets,"preranked",control=list(seed=31,replicates=999,adjustment="BH")),
+  competitive=gsea(gene_stat,sets,"competitive",sampling=gene_sampling,control=list(adjustment="BH")),
+  magma=gsea(gene_stat,sets,"magma",sampling=gene_sampling,control=list(adjustment="BH")),
+  bayesc=gsea(gene_stat["trait_A"],sets,"bayesc",sampling=gene_sampling,
     prior=list(residual_variance=1,effect_variance=1),control=list(burnin=100,sampling_sweeps=1000,seeds=c(11,29)))
 )
 elapsed<-proc.time()[["elapsed"]]-started
@@ -70,13 +77,13 @@ results<-do.call(rbind,lapply(names(fits),function(method) {
     pip=if("pip"%in%names(p))p$pip else NA_real_)
 }))
 write.csv(results,file.path(out,"pathways.csv"),row.names=FALSE)
-saveRDS(list(evidence=evidence,fits=fits,sets=sets,stat=stat,LDlist=LD,
+saveRDS(list(evidence=evidence,fits=fits,sets=sets,statistics=statistics,Glist=Glist,
             metadata=metadata,gene_to_marker=genes,elapsed_seconds=elapsed),file.path(out,"workflow.rds"))
 png(file.path(out,"gwas-pathways.png"),width=1800,height=1100,res=150)
 par(mfrow=c(2,2),mar=c(4,4,3,1))
 for(trait in names(stat)) {
   s<-evidence$stat[[trait]];active<-if(trait=="trait_A")sets$pathway_A else c(sets$pathway_A,sets$pathway_B)
-  plot(seq_len(ngenes),-log10(s$p_value),pch=16,col=ifelse(s$gene%in%active,"#c05a22","#38678f"),
+  plot(seq_len(ngenes),-log10(s$p_value),pch=16,col=ifelse(s$set%in%active,"#c05a22","#38678f"),
     xlab="Artificial gene index",ylab="Gene -log10(p)",main=trait)
   legend("topright",c("Contains simulated effects","Other genes"),pch=16,col=c("#c05a22","#38678f"),bty="n",cex=.8)
 }

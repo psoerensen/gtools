@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -606,7 +571,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#availability-and-exploratory-interval-coverage" id="toc-availability-and-exploratory-interval-coverage" class="nav-link" data-scroll-target="#availability-and-exploratory-interval-coverage">Availability and exploratory interval coverage</a></li>
   </ul></li>
-  <li><a href="#run-it-again" id="toc-run-it-again" class="nav-link" data-scroll-target="#run-it-again">Run it again</a></li>
+  <li><a href="#recorded-results" id="toc-recorded-results" class="nav-link" data-scroll-target="#recorded-results">Recorded results</a></li>
   </ul>
 </nav>
     </div>
@@ -956,15 +921,9 @@ G_r = B_r^\mathsf{T}\Sigma_r B_r,
 <p>The simulation run took approximately <strong>5.4 minutes</strong> on the development laptop, including simulation, LD preparation and fitting. Average fit-call times ranged from 0.31 to 0.46 seconds. These timings are descriptive and do not constitute a controlled performance comparison.</p>
 </section>
 </section>
-<section id="run-it-again" class="level2">
-<h2 class="anchored" data-anchor-id="run-it-again">Run it again</h2>
-<p>From the gsuite repository root, with the development packages installed:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.libPaths</span>(<span class="fu">c</span>(<span class="st">"build/r-library"</span>, <span class="fu">.libPaths</span>()))</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/run_gcorr_comparison.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For the 20-replicate extension, use the same library setup and run:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/run_gcorr_replicates.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Replicate outputs stay in <code>build/examples/gcorr-comparison/replicates/</code>. Compact estimates, diagnostics, timings and provenance are retained for every replicate. The <code>working/</code> subdirectory is reused for genotypes, LD and full fits, so only the final replicate’s larger files remain. The original single-run outputs are preserved. <code>Rscript tools/examples/run_gcorr_replicates.R --summarize</code> regenerates the summaries and figure from the saved compact results without running new simulations.</p>
-<p>The script regenerates the same seeded dataset and replaces only its named outputs in <code>build/examples/gcorr-comparison/</code>. That ignored folder contains the simulation, reference files, saved LDlist, fitted objects, estimate and diagnostic tables, timings, PNG/PDF figures and a session/provenance manifest. There is one script and one output folder; no intermediate run directories.</p>
+<section id="recorded-results" class="level2">
+<h2 class="anchored" data-anchor-id="recorded-results">Recorded results</h2>
+<p>The published figure and result table preserve the reviewed single-run and 20-replicate outcomes. They are not regenerated during website rendering. Current executable validation uses the standalone gcorr package tests and its private binary-package workflow.</p>
 <p>The website displays a reviewed figure and result table. Rendering it does not run the simulation. See the <a href="../../gsuite/docs/summary-statistic-workflow.html">saved-LD workflow</a> and <a href="../../gsuite/docs/summary-statistic-analysis.html#capability-table">method capabilities</a> for the broader interface and limitations.</p>
 <p>This demonstrates a working analysis chain and provides a small repeated comparison under one deliberately simple design. The observed coverage counts do not establish general calibration, realistic genetic architecture or equivalence to every option in the original software packages.</p>
 

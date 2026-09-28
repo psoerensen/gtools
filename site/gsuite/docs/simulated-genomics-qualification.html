@@ -575,7 +575,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#other-numerical-findings" id="toc-other-numerical-findings" class="nav-link" data-scroll-target="#other-numerical-findings">Other numerical findings</a></li>
   <li><a href="#qualification-limits" id="toc-qualification-limits" class="nav-link" data-scroll-target="#qualification-limits">Qualification limits</a></li>
-  <li><a href="#reproduction-and-results" id="toc-reproduction-and-results" class="nav-link" data-scroll-target="#reproduction-and-results">Reproduction and results</a></li>
+  <li><a href="#recorded-results" id="toc-recorded-results" class="nav-link" data-scroll-target="#recorded-results">Recorded results</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -826,12 +826,9 @@ window.Quarto = {
 <p>This evidence covers one continuous-trait simulation design with a predefined LD structure, architecture and sample split. Ten repetitions provide a useful descriptive check, but not precise power, false-positive, coverage or method ranking statements.</p>
 <p>The connected qualification does not cover binary traits, population structure, multi-ancestry analysis, realistic LD-reference mismatch, alternative LD windows or <span class="math inline">\(r^2\)</span> thresholds, MR/SEM/GGM, Bayesian annotation learning beyond the BayesS specialization, arbitrary sampling overlap, LOCO association, every interface option, or complete package/platform qualification. Literature attribution and pedigree/greml/gsolve qualification are maintained separately.</p>
 </section>
-<section id="reproduction-and-results" class="level2">
-<h2 class="anchored" data-anchor-id="reproduction-and-results">Reproduction and results</h2>
-<p>The maintained example is <a href="../tools/examples/simulated_genomics_workflow.R">simulated_genomics_workflow.R</a>. Its outputs are written under <code>build/examples/simulated-genomics/</code>. The public <a href="../../gsuite/docs/simulated-genomics-workflow.html">workflow</a> presents the figures and principal results without executing analyses during website rendering.</p>
-<p>The ten simulations are produced by <a href="../tools/examples/simulated_genomics_replicates.R">simulated_genomics_replicates.R</a> and summarized by <a href="../tools/examples/report_simulated_genomics_replicates.R">report_simulated_genomics_replicates.R</a>. The public workflow links the maintained aggregate truth comparisons and availability summaries used in its figures.</p>
-<p>The supported BayesC/BayesR reference-LD result is reproduced by <a href="../tools/validation/qualify_gbayes_reference_ld.R">qualify_gbayes_reference_ld.R</a>. Raw fits and prepared LD resources remain under <code>build/qualification/gbayes-reference-ld/</code>; only the compact result tables and figure are published.</p>
-<p>The block residual, BayesS, multivariate covariance and LD relocation result is reproduced by <a href="../tools/validation/qualify_gbayes_extensions.R">qualify_gbayes_extensions.R</a>. Its raw resources remain under <code>build/qualification/gbayes-extensions/</code>.</p>
+<section id="recorded-results" class="level2">
+<h2 class="anchored" data-anchor-id="recorded-results">Recorded results</h2>
+<p>The public <a href="../../gsuite/docs/simulated-genomics-workflow.html">workflow</a> presents the retained figures and principal results without executing analyses during website rendering. The published compact tables preserve the aggregate truth comparisons, availability summaries, BayesC/BayesR reference-LD results and extension checks. Current supported calls are documented by the standalone package guides and their focused deterministic tests.</p>
 <p>The complete package check was not part of this workflow qualification.</p>
 
 

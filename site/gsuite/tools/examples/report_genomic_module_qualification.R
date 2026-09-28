@@ -86,7 +86,7 @@ tryCatch({
 }, finally = dev.off())
 public_assets <- "website/assets/genomic-qualification"
 dir.create(public_assets, recursive = TRUE, showWarnings = FALSE)
-asset_names <- c("status.csv", "source-hashes.csv", "checks.csv", "accuracy.csv",
+asset_names <- c("status.csv", "checks.csv", "accuracy.csv",
   "association.csv", "estimation.csv", "availability.csv", "bayesian.csv", "posterior.csv",
   "prediction.csv", "credible_sets.csv", "coloc.csv", "pathways.csv",
   "tails.csv", "loco.csv", "glma-causal-effects.csv", "glma-manhattan.png",
@@ -107,15 +107,16 @@ save_page <- function(name, lines) {
   writeLines(lines, file.path("docs", paste0(name, "-qualification.md")),
              useBytes = TRUE)
 }
-opening <- function(lib, guide) c(
+opening <- function(lib, guide, note = character()) c(
   paste0("# ", lib, " software validation"), "",
-  paste0("These focused simulation checks assess selected behavior of the gsuite ",
-         "implementation on ten fixed datasets from the ",
+  note, if (length(note)) "" else character(),
+  paste0("These recorded simulation results assess selected behavior on ten fixed ",
+         "datasets from the ",
          "[shared design](genomic-qualification-design.md). ",
          "They do not revalidate the statistical method or cover every setting. ",
-         "The [", lib, " guide](", guide, ") describes inputs and options. ",
-         "The [runnable workflow](../tools/examples/simulated_genomics_workflow.R) ",
-         "contains the exact settings."), "")
+         "The use snippets show the current standalone package interfaces. This ",
+         "report step summarizes retained artifacts and does not rerun analyses. ",
+         "The [", lib, " guide](", guide, ") describes current inputs and options."), "")
 
 association <- tables$association
 checks <- summary$checks
@@ -123,10 +124,11 @@ gwas_time <- tables$timings$seconds[tables$timings$stage == "gwas"]
 stopifnot(all(status$status == "completed"),
           all(checks$max_ols_error < 1e-9),
           all(checks$truth_score_error < 1e-9), length(gwas_time) == 10L)
-save_page("glma", c(opening("glma", "methods.md#association-mapping"),
+save_page("glma", c(opening("glma", "methods.md#association-mapping", c(
+  "The usage snippet shows the supported `glma` package calls.")),
   "## Use", "",
-  "```r", "linear <- glma(y, Glist, method = \"linear\", threads = 1)",
-  "loco <- glma(y, chromosome_Glist, method = \"infinitesimal_loco\",",
+  "```r", "linear <- glma::glma(y, Glist, method = \"linear\", threads = 1)",
+  "loco <- glma::glma(y, chromosome_Glist, method = \"infinitesimal_loco\",",
   "             algorithm = \"observation_pcg\",",
   "             background_markers = seq(1, 50000, by = 100), threads = 2)",
   "```", "",
@@ -183,9 +185,13 @@ gc_rows <- lapply(seq_along(gc_methods), function(j) {
 })
 save_page("gcorr", c(opening("gcorr", "summary-statistic-analysis.md"),
   "## Use", "", "```r",
-  "genome <- gcorr(stat, LDlist, method = \"ldsc\", task = \"rg\")",
-  "partition <- gcorr(stat, annotated_LD, annotation = annotation,",
-  "                   method = \"ldsc\", task = \"rg\")",
+  "genome <- gcorr::gcorr(statistics, ld_scores = ld_scores, blocks = blocks,",
+  "                       method = \"ldsc\")",
+  "partition <- gcorr::gcorr(statistics,",
+  "  annotation_ld_scores = annotation_ld_scores,",
+  "  weight_ld_scores = ld_scores, annotation_sums = annotation_sums,",
+  "  blocks = blocks, reference_sample_size = reference_sample_size,",
+  "  method = \"ldsc\")",
   "```", "", "## Results", "",
   "Trait A heritability and A–B genetic correlation are shown below. Other traits,",
   "regions and uncertainty availability remain in the compact result tables.", "",
@@ -208,9 +214,11 @@ bayes_rows <- lapply(c("bayesc", "bayesr"), function(method) {
     fmt(h$rmse), paste0(h$covered, "/", h$intervals),
     fmt(mean(e$effect_correlation)), fmt(max(q$rhat)))
 })
-save_page("gbayes", c(opening("gbayes", "gbayes-workflow.qmd"),
+save_page("gbayes", c(opening("gbayes", "gbayes-workflow.qmd", c(
+  "Current fitting uses `gbayes::gbayes()` with checked ordinary summary data",
+  "and `gbase` Glist resources.")),
   "## Use", "", "```r",
-  "fit <- gbayes(prepared$A, LDlist, method = \"bayesc\", trait = \"A\",",
+  "fit <- gbayes::gbayes(statistics$A, LD_Glist, method = \"bayesc\", trait = \"A\",",
   "              prior = prior, control = list(residual_policy = \"fixed\",",
   "                                          burnin = 500, sampling_sweeps = 700,",
   "                                          seeds = c(11, 29, 47, 71)))",
@@ -231,13 +239,14 @@ score_rows <- lapply(c("ridge", "bayesc", "bayesr"), function(method) {
   c(method, fmt(mean(x$cor_genetic)), fmt(mean(x$cor_phenotype)),
     fmt(mean(x$calibration_slope)))
 })
-save_page("gscore", c(opening("gscore", "summary-interfaces.qmd"),
+save_page("gscore", c(opening("gscore", "summary-interfaces.qmd", c(
+  "Current scoring uses `gscore::gscore(weights, Glist)`; weight learning belongs",
+  "to glma, gbayes or another statistical model owner, and conventional C+T uses",
+  "`gscore::clump_threshold()`.")),
   "## Use", "", "```r",
-  "weights <- gscore(prepared$A, LDlist, method = \"ridge\",",
-  "                  control = list(penalty = 1))",
-  "prediction <- gscore(task = \"apply\", Glist = held_out_Glist,",
-  "                     weights = weights$weights,",
-  "                     allele_frequencies = frequencies)",
+  "ct_weights <- gscore::clump_threshold(statistics$A, reference_Glist,",
+  "  p_threshold = 5e-8, r2_threshold = 0.1, window_bp = 250000)",
+  "prediction <- gscore::gscore(gbayes_fit$weights, held_out_Glist)",
   "```", "", "## Results", "",
   tab(c("Weights", "Mean r with genetic value", "Mean r with phenotype", "Mean calibration slope"), score_rows), "",
   paste0("Applying the true effects reproduced centered simulated genetic values ",
@@ -256,14 +265,15 @@ shared <- coloc[coloc$truth == "H4", ]
 distinct <- coloc[coloc$truth == "H3", ]
 save_page("gmap", c(opening("gmap", "gmap-workflow.qmd"),
   "## Use", "", "```r",
-  "mapping_stat <- gmap_stat(stat, LDlist,",
+  "mapping_stat <- gmap::gmap_stat(stat, Glist,",
   "                          phenotype_variance = phenotype_variance)",
-  "fit <- gmap(mapping_stat[c(\"A\", \"B\")], LDlist,",
+  "fit <- gmap::gmap(mapping_stat[c(\"A\", \"B\")], Glist,",
   "            regions = regions, method = \"multi_effect\",",
   "            prior = prior, control = control)",
-  "shared <- gmap(stat[c(\"A\", \"B\")], task = \"coloc\",",
-  "               method = \"abf\", trait1 = \"A\", trait2 = \"B\",",
-  "               regions = regions[1])",
+  "shared <- gmap::gmap_coloc(",
+  "  stat$A, stat$B, region = names(regions)[1],",
+  "  phenotype_sd1 = sqrt(phenotype_variance[[\"A\"]]),",
+  "  phenotype_sd2 = sqrt(phenotype_variance[[\"B\"]]))",
   "```", "", "## Results", "",
   tab(c("Check", "Ten-replicate result"), list(
     c("Component sets containing the causal marker", paste0(sum(sets$causal_covered), "/", nrow(sets))),
@@ -292,14 +302,18 @@ bayes_pathway_rows <- lapply(c("enriched", "background", "mixed"), function(path
   stopifnot(nrow(x) == 10L, all(is.finite(x$pip)))
   c(pathway, fmt(mean(x$pip)))
 })
-save_page("gsea", c(opening("gsea", "gsea-workflow.qmd"),
+save_page("gsea", c(opening("gsea", "gsea-workflow.qmd", c(
+  "The usage snippet shows the supported `vegas()`-to-`gsea()` mapping. Focused",
+  "deterministic tests cover each standalone dispatcher route.")),
   "## Use", "", "```r",
-  "evidence <- gstat(stat, LDlist, sets = genes, blocks = blocks,",
+  "library(gsea)",
+  "evidence <- vegas(statistics, LD_Glist, sets = genes, blocks = blocks,",
   "                  metadata = metadata,",
   "                  control = list(independent_blocks = TRUE,",
   "                                 tail_method = \"saddlepoint\"))",
-  "fit <- gsea(evidence$stat, pathways, method = \"competitive\",",
-  "            sampling = evidence$sampling)",
+  "input <- gsea_input(evidence)",
+  "fit <- gsea(input$stat, pathways, method = \"competitive\",",
+  "            sampling = input$sampling)",
   "```", "", "## Results", "",
   tab(c("Method", "Enriched p < 0.05", "Background p < 0.05"), method_rows), "",
   "The scalar BayesC pathway analysis reports posterior inclusion probabilities",

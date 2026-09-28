@@ -617,7 +617,7 @@ window.Quarto = {
 <h1>Marker-QC contract</h1>
 <section id="scope-and-ownership" class="level2">
 <h2 class="anchored" data-anchor-id="scope-and-ownership">Scope and ownership</h2>
-<p><code>gfilter()</code> is gsuite’s summary-only marker-selection operation. It accepts the strict serializable <code>c("gs_genotypes", "Glist")</code> descriptor produced by <code>gprep(task = "prepare")</code> and returns a plain marker-ID vector. It does not mutate the descriptor, read packed BED genotype bytes, write BED or CSR files, decode a genotype matrix, or construct sparse LD. gmat and gbits remain unchanged owners of metadata/LD and packed-genotype operations respectively.</p>
+<p><code>gbase::gfilter()</code> is the summary-only marker-selection operation. It accepts the strict serializable <code>c("gs_genotypes", "Glist")</code> descriptor produced by <code>gbase::gprep(task = "prepare")</code> and returns a plain marker-ID vector. It does not mutate the descriptor, read packed BED genotype bytes, write BED or CSR files, decode a genotype matrix, or construct sparse LD. gmat and gbits remain unchanged owners of metadata/LD and packed-genotype operations respectively.</p>
 <p>Marker identity is canonical chromosome/file/BIM order. Every required chromosome-wise field is checked for the same shape, and IDs must be complete and globally unique. The existing preparation validator also reopens the BIM/FAM/BED descriptors and verifies source mappings. Genotype counts must be nonnegative integers whose sum equals the exact summary population recorded by <code>sample_source_indices_0based</code> and <code>provenance$summary_samples</code>. MAF must agree with <code>n0</code>, <code>n1</code>, and <code>n2</code>. Thus a study-sample preparation uses that selected population rather than the complete FAM count.</p>
 </section>
 <section id="boundary-rules" class="level2">
@@ -636,19 +636,19 @@ window.Quarto = {
 </section>
 <section id="exact-hwe-definition" class="level2">
 <h2 class="anchored" data-anchor-id="exact-hwe-definition">Exact HWE definition</h2>
-<p>For each biallelic marker, gsuite conditions on the observed sample count and minor-allele copy count and enumerates every feasible heterozygote count with the same allele total. The two-sided p-value is the sum of conditional genotype probabilities no greater than the observed genotype probability. Probabilities within relative tolerance <code>1e-12</code> are treated as ties. This is the conventional probability-ordering exact test. Monomorphic markers receive p-value 1. All-missing or structurally invalid counts are descriptor errors; any otherwise nonfinite HWE result is conservatively excluded when HWE filtering is enabled.</p>
+<p>For each biallelic marker, gbase conditions on the observed sample count and minor-allele copy count and enumerates every feasible heterozygote count with the same allele total. The two-sided p-value is the sum of conditional genotype probabilities no greater than the observed genotype probability. Probabilities within relative tolerance <code>1e-12</code> are treated as ties. This is the conventional probability-ordering exact test. Monomorphic markers receive p-value 1. All-missing or structurally invalid counts are descriptor errors; any otherwise nonfinite HWE result is conservatively excluded when HWE filtering is enabled.</p>
 <p>qgg 1.1.6 instead uses a one-degree-of-freedom Pearson chi-square calculation. The tested version’s <code>gfilter()</code> also has disabled-mask hazards, relies on incomplete positional/name alignment, and subsets its combined mask incorrectly during INFO filtering. gsuite deliberately uses the exact test, complete identity validation, independent full-length masks, and an explicit default HWE threshold of <code>1e-12</code>. It also freezes the documented inclusive MAF boundary.</p>
 </section>
 <section id="workflow" class="level2">
 <h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gprep</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">study =</span> <span class="st">"Reference"</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">bedfiles =</span> bedfiles,</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"prepare"</span>,</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">nthreads =</span> <span class="dv">4</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>rsids <span class="ot">&lt;-</span> <span class="fu">gfilter</span>(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>rsids <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gfilter</span>(</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">maf =</span> <span class="fl">0.01</span>,</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing =</span> <span class="fl">0.05</span>,</span>
@@ -657,7 +657,7 @@ window.Quarto = {
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">indels =</span> <span class="cn">TRUE</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gprep</span>(</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">rsids =</span> rsids,</span>

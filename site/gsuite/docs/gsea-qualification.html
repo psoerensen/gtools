@@ -584,15 +584,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="gsea-software-validation" class="level1">
 <h1>gsea software validation</h1>
-<p>These focused simulation checks assess selected behavior of the gsuite implementation on ten fixed datasets from the <a href="../../gsuite/docs/genomic-qualification-design.html">shared design</a>. They do not revalidate the statistical method or cover every setting. The <a href="../../gsuite/docs/gsea-workflow.html">gsea guide</a> describes inputs and options. The <a href="../tools/examples/simulated_genomics_workflow.R">runnable workflow</a> contains the exact settings.</p>
+<p>The usage snippet shows the supported <code>vegas()</code>-to-<code>gsea()</code> mapping. Focused deterministic tests cover each standalone dispatcher route.</p>
+<p>These recorded simulation results assess selected behavior on ten fixed datasets from the <a href="../../gsuite/docs/genomic-qualification-design.html">shared design</a>. They do not revalidate the statistical method or cover every setting. The use snippets show the current standalone package interfaces. This report step summarizes retained artifacts and does not rerun analyses. The <a href="../../gsuite/docs/gsea-workflow.html">gsea guide</a> describes current inputs and options.</p>
 <section id="use" class="level2">
 <h2 class="anchored" data-anchor-id="use">Use</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>evidence <span class="ot">&lt;-</span> <span class="fu">gstat</span>(stat, LDlist, <span class="at">sets =</span> genes, <span class="at">blocks =</span> blocks,</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">metadata =</span> metadata,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">independent_blocks =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">tail_method =</span> <span class="st">"saddlepoint"</span>))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gsea</span>(evidence<span class="sc">$</span>stat, pathways, <span class="at">method =</span> <span class="st">"competitive"</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">sampling =</span> evidence<span class="sc">$</span>sampling)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsea)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>evidence <span class="ot">&lt;-</span> <span class="fu">vegas</span>(statistics, LD_Glist, <span class="at">sets =</span> genes, <span class="at">blocks =</span> blocks,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">metadata =</span> metadata,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">independent_blocks =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">tail_method =</span> <span class="st">"saddlepoint"</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">gsea_input</span>(evidence)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gsea</span>(input<span class="sc">$</span>stat, pathways, <span class="at">method =</span> <span class="st">"competitive"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">sampling =</span> input<span class="sc">$</span>sampling)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>

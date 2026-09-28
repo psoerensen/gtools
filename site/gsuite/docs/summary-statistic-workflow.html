@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="A runnable three-trait example: genome-wide, annotation, regional and conditional analysis.">
+<meta name="description" content="Use checked summary-statistics data frames and explicit LD inputs with the private gcorr package.">
 
-<title>From a saved LD reference to genetic analysis – gtools</title>
+<title>Standalone genetic-correlation workflow – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -569,14 +569,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#read-the-supplied-inputs" id="toc-read-the-supplied-inputs" class="nav-link active" data-scroll-target="#read-the-supplied-inputs">Read the supplied inputs</a></li>
-  <li><a href="#prepare-ld-once" id="toc-prepare-ld-once" class="nav-link" data-scroll-target="#prepare-ld-once">Prepare LD once</a></li>
-  <li><a href="#genome-wide-h2-and-genetic-correlation" id="toc-genome-wide-h2-and-genetic-correlation" class="nav-link" data-scroll-target="#genome-wide-h2-and-genetic-correlation">Genome-wide h2 and genetic correlation</a></li>
-  <li><a href="#partition-by-annotation" id="toc-partition-by-annotation" class="nav-link" data-scroll-target="#partition-by-annotation">Partition by annotation</a></li>
-  <li><a href="#regional-analysis" id="toc-regional-analysis" class="nav-link" data-scroll-target="#regional-analysis">Regional analysis</a></li>
-  <li><a href="#conditional-relationships" id="toc-conditional-relationships" class="nav-link" data-scroll-target="#conditional-relationships">Conditional relationships</a></li>
-  <li><a href="#save-the-analysis-and-verify-reuse" id="toc-save-the-analysis-and-verify-reuse" class="nav-link" data-scroll-target="#save-the-analysis-and-verify-reuse">Save the analysis and verify reuse</a></li>
-  <li><a href="#what-has-been-checked" id="toc-what-has-been-checked" class="nav-link" data-scroll-target="#what-has-been-checked">What has been checked</a></li>
+  <li><a href="#prepare-summary-statistics" id="toc-prepare-summary-statistics" class="nav-link active" data-scroll-target="#prepare-summary-statistics">Prepare summary statistics</a></li>
+  <li><a href="#fit-a-focused-method" id="toc-fit-a-focused-method" class="nav-link" data-scroll-target="#fit-a-focused-method">Fit a focused method</a></li>
   </ul>
 </nav>
     </div>
@@ -585,12 +579,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/summary-statistic-workflow.html">Saved LD analysis</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">From a saved LD reference to genetic analysis</h1>
+<h1 class="title">Standalone genetic-correlation workflow</h1>
 </div>
 
 <div>
   <div class="description">
-    A runnable three-trait example: genome-wide, annotation, regional and conditional analysis.
+    Use checked summary-statistics data frames and explicit LD inputs with the private gcorr package.
   </div>
 </div>
 
@@ -607,182 +601,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This example uses <strong>artificial data supplied with gsuite</strong>: 96 reference individuals, 48 markers in six regions and three continuous-trait summary datasets. It demonstrates the complete workflow on a tiny analysis universe, not a realistic genome-wide study or a test of statistical calibration. The <a href="../../gsuite/docs/summary-statistic-analysis.html">method guide</a> explains assumptions and the <a href="../../gsuite/docs/summary-statistic-analysis.html#capability-table">capability table</a> lists support.</p>
-<p>Run the blocks in order in a development installation of gsuite. They write only to <code>build/examples/summary-statistic-workflow/</code>, relative to the working directory. Running them again reuses the saved LD reference.</p>
-<section id="read-the-supplied-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="read-the-supplied-inputs">Read the supplied inputs</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsuite)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"summary-statistic"</span>, <span class="at">package =</span> <span class="st">"gsuite"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nzchar</span>(input))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"build"</span>, <span class="st">"examples"</span>, <span class="st">"summary-statistic-workflow"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(out, <span class="at">recursive =</span> <span class="cn">TRUE</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="fu">file.path</span>(input, <span class="st">"statistics.tsv"</span>))</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>categories <span class="ot">&lt;-</span> <span class="fu">read.delim</span>(<span class="fu">file.path</span>(input, <span class="st">"annotation.tsv"</span>))</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>annotation <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(categories[<span class="fu">c</span>(<span class="st">"baseline"</span>, <span class="st">"category"</span>)])</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(annotation) <span class="ot">&lt;-</span> categories<span class="sc">$</span>marker</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">split</span>(observed<span class="sc">$</span>marker, observed<span class="sc">$</span>region)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">lapply</span>(traits, <span class="cf">function</span>(trait) {</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">marker =</span> observed<span class="sc">$</span>marker, <span class="at">z =</span> observed[[trait]],</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>             <span class="at">n =</span> observed<span class="sc">$</span>n, <span class="at">block =</span> observed<span class="sc">$</span>region)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>}), traits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>All markers and alleles are already aligned. For real studies, alignment is a separate task. The six regions also serve as toy jackknife blocks; six blocks are too few for a well-supported genome-wide uncertainty analysis. Block design and LD-reference suitability need scientific justification in a real study.</p>
+<section id="prepare-summary-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-summary-statistics">Prepare summary statistics</h2>
+<p>Fitting belongs to the separate <code>gcorr</code> package. Its input is an ordinary data frame with qgg-style names. When a Glist reference is available, <code>gbase::checkStat()</code> performs marker mapping, allele alignment and explicit QC. A task package never imports <code>gsuite</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gcorr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>markers <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"rs"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>statistics <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">rsids =</span> markers, <span class="at">chr =</span> <span class="st">"1"</span>, <span class="at">pos =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ea =</span> <span class="st">"A"</span>, <span class="at">nea =</span> <span class="st">"G"</span>, <span class="at">stat =</span> <span class="fu">seq</span>(<span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="at">length.out =</span> <span class="dv">20</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="prepare-ld-once" class="level2">
-<h2 class="anchored" data-anchor-id="prepare-ld-once">Prepare LD once</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>saved <span class="ot">&lt;-</span> <span class="fu">file.path</span>(out, <span class="st">"LDlist.rds"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>source_files <span class="ot">&lt;-</span> <span class="fu">file.path</span>(input, <span class="fu">c</span>(<span class="st">"reference.bed"</span>, <span class="st">"reference.bim"</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"reference.fam"</span>, <span class="st">"annotation.tsv"</span>))</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>source_md5 <span class="ot">&lt;-</span> <span class="fu">unname</span>(tools<span class="sc">::</span><span class="fu">md5sum</span>(source_files))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(saved)) {</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Work on copies; the installed example data are never removed.</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  copies <span class="ot">&lt;-</span> <span class="fu">file.path</span>(out, <span class="fu">basename</span>(source_files[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]))</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">file.copy</span>(source_files[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], copies, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> copies[<span class="dv">1</span>])</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  LD <span class="ot">&lt;-</span> <span class="fu">ldprep</span>(Glist, <span class="at">reference =</span> <span class="st">"toy-reference"</span>, <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">out_prefix =</span> <span class="fu">file.path</span>(out, <span class="st">"reference-LD"</span>),</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">max_distance_bp =</span> <span class="dv">0</span>, <span class="at">max_distance_variants =</span> <span class="dv">8</span>,</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>               <span class="at">r2 =</span> <span class="dv">0</span>, <span class="at">nthreads =</span> <span class="dv">1</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  LD <span class="ot">&lt;-</span> <span class="fu">ldprep</span>(<span class="at">LDlist =</span> LD, <span class="at">task =</span> <span class="st">"scores"</span>, <span class="at">annotation =</span> annotation)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (region <span class="cf">in</span> <span class="fu">names</span>(regions)) {</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    LD <span class="ot">&lt;-</span> <span class="fu">ldprep</span>(<span class="at">LDlist =</span> LD, <span class="at">task =</span> <span class="st">"eigen"</span>, <span class="at">markers =</span> regions[[region]],</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                 <span class="at">region_name =</span> region)</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">attr</span>(LD, <span class="st">"example_source_md5"</span>) <span class="ot">&lt;-</span> source_md5</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">saveRDS</span>(LD, saved)</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rm</span>(Glist, LD)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">file.remove</span>(copies)))</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>LD <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(saved)</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_LDlist</span>(LD)</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">identical</span>(<span class="fu">attr</span>(LD, <span class="st">"example_source_md5"</span>), source_md5))</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">identical</span>(stat<span class="sc">$</span>A<span class="sc">$</span>marker, LD<span class="sc">$</span>resource<span class="sc">$</span>markers<span class="sc">$</span>marker_id))</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>reference_before <span class="ot">&lt;-</span> tools<span class="sc">::</span><span class="fu">md5sum</span>(<span class="fu">unlist</span>(LD<span class="sc">$</span>resource<span class="sc">$</span>paths))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The LD files must remain at their recorded paths. Genotype input files are no longer needed by the analysis. Full regional eigensystems are saved once; methods verify and reuse them, applying their own component-selection rules. Here all within-region correlations are retained. Chromosome-local construction excludes between-region LD; this is an explicit assumption of this toy example. If example inputs change, use a new output directory rather than reusing an old reference. The input fingerprint guards against accidental stale reuse.</p>
-</section>
-<section id="genome-wide-h2-and-genetic-correlation" class="level2">
-<h2 class="anchored" data-anchor-id="genome-wide-h2-and-genetic-correlation">Genome-wide h2 and genetic correlation</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The simulation has no marginal inflation and independent sampling errors.</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>genome_h2 <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(stat, LD, <span class="at">method =</span> <span class="st">"ldsc"</span>, <span class="at">task =</span> <span class="st">"h2"</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">control =</span> <span class="fu">list</span>(<span class="at">intercept =</span> <span class="st">"fixed_one"</span>))</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>genome_rg <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(stat, LD, <span class="at">method =</span> <span class="st">"ldsc"</span>, <span class="at">task =</span> <span class="st">"rg"</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">control =</span> <span class="fu">list</span>(<span class="at">intercept =</span> <span class="st">"fixed_one"</span>, <span class="at">overlap_intercept =</span> <span class="dv">0</span>))</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(genome_h2)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(genome_rg)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>genome_rg<span class="sc">$</span>matrices[[LD<span class="sc">$</span>reference]]<span class="sc">$</span>reference<span class="sc">$</span>all<span class="sc">$</span>rg</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(genome_rg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>“Genome-wide” here means the complete 48-marker analysis universe. Fixed intercepts are justified by the data generator, not recommended as universal defaults. <code>gcorr()</code> otherwise estimates LDSC intercepts. Check estimates, uncertainty and diagnostics together; a point estimate alone is not evidence of a nonzero genetic correlation.</p>
-<p>For the bundled data, the genome-wide h2 estimates are approximately:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Trait</th>
-<th style="text-align: right;">h2</th>
-<th style="text-align: right;">Jackknife SE</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>A</td>
-<td style="text-align: right;">0.209</td>
-<td style="text-align: right;">0.075</td>
-</tr>
-<tr class="even">
-<td>B</td>
-<td style="text-align: right;">0.640</td>
-<td style="text-align: right;">0.334</td>
-</tr>
-<tr class="odd">
-<td>C</td>
-<td style="text-align: right;">0.270</td>
-<td style="text-align: right;">0.084</td>
-</tr>
-</tbody>
-</table>
-<p>The wide uncertainty for B illustrates why a small example should not be used to assess estimator accuracy. These are results for the fixed artificial input, not target values that a real dataset should reproduce.</p>
-</section>
-<section id="partition-by-annotation" class="level2">
-<h2 class="anchored" data-anchor-id="partition-by-annotation">Partition by annotation</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>partitioned <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(stat, LD, <span class="at">annotation =</span> annotation,</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">method =</span> <span class="st">"ldsc"</span>, <span class="at">task =</span> <span class="st">"h2"</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">control =</span> <span class="fu">list</span>(<span class="at">intercept =</span> <span class="st">"fixed_one"</span>))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>partitioned<span class="sc">$</span>estimates</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(partitioned, <span class="at">scope =</span> <span class="st">"annotation_category"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>partitioned<span class="sc">$</span>details[partitioned<span class="sc">$</span>details<span class="sc">$</span>quantity <span class="sc">==</span> <span class="st">"tau"</span>, ]</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The same columns can instead define SumHer architecture components.</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>architecture <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(stat, LD, <span class="at">annotation =</span> annotation,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">method =</span> <span class="st">"sumher"</span>, <span class="at">task =</span> <span class="st">"rg"</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">control =</span> <span class="fu">list</span>(<span class="at">tagging =</span> <span class="fu">ld_scores</span>(LD), <span class="at">overlap_intercept =</span> <span class="dv">0</span>))</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>architecture<span class="sc">$</span>matrices[[LD<span class="sc">$</span>reference]]<span class="sc">$</span>architecture_component</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The subset overlaps the baseline, so category heritabilities must not be added together. In SumHer the columns define model components, a different estimand. Ordinary LD scores are an explicit illustrative choice of tagging weights; tagging and model-weighted scores are separate inputs. Differences between LDSC and SumHer on these data do not identify which estimator is preferable.</p>
-</section>
-<section id="regional-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="regional-analysis">Regional analysis</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Region methods do not use score-method jackknife labels.</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>regional_stat <span class="ot">&lt;-</span> <span class="fu">lapply</span>(stat, <span class="cf">function</span>(s) s[<span class="fu">c</span>(<span class="st">"marker"</span>, <span class="st">"z"</span>, <span class="st">"n"</span>)])</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sampling <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="fu">length</span>(traits))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(sampling) <span class="ot">&lt;-</span> <span class="fu">list</span>(traits, traits)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>regional_control <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">sampling_correlation =</span> sampling,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">explained_ld_fraction =</span> <span class="dv">1</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>regional <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(regional_stat, LD, <span class="at">regions =</span> regions,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"lava"</span>, <span class="at">task =</span> <span class="st">"rg"</span>, <span class="at">control =</span> regional_control)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regional)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>regional<span class="sc">$</span>matrices[[LD<span class="sc">$</span>reference]]<span class="sc">$</span>region<span class="sc">$</span>region1<span class="sc">$</span>cov</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(regional)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>All traits share one fit per region. The identity sampling-correlation matrix matches the independent noise columns in the generator. It must be replaced by an appropriate overlap model for real data. This call provides point estimates and univariate screening; it does not request bivariate simulation inference. An rg plot without bars therefore does not imply exact estimation.</p>
-</section>
-<section id="conditional-relationships" class="level2">
-<h2 class="anchored" data-anchor-id="conditional-relationships">Conditional relationships</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>conditional_control <span class="ot">&lt;-</span> regional_control</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>conditional_control<span class="sc">$</span>inference <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">seed =</span> <span class="dv">42</span>, <span class="at">pvalue_draws =</span> <span class="dv">2000</span>,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">interval_draws =</span> <span class="dv">2000</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>partial <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(regional_stat, LD, <span class="at">regions =</span> regions,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">method =</span> <span class="st">"lava"</span>, <span class="at">task =</span> <span class="st">"partial_rg"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">targets =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>), <span class="at">conditioned_on =</span> <span class="st">"C"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">control =</span> conditional_control)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>regression <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(regional_stat, LD, <span class="at">regions =</span> regions,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">method =</span> <span class="st">"lava"</span>, <span class="at">task =</span> <span class="st">"regression"</span>,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">outcome =</span> <span class="st">"A"</span>, <span class="at">predictors =</span> <span class="fu">c</span>(<span class="st">"B"</span>, <span class="st">"C"</span>),</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">control =</span> conditional_control)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(partial)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(partial)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>regression<span class="sc">$</span>estimates</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>regression<span class="sc">$</span>details[regression<span class="sc">$</span>details<span class="sc">$</span>quantity <span class="sc">%in%</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">c</span>(<span class="st">"r_squared"</span>, <span class="st">"explained_genetic_variance"</span>), ]</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">vapply</span>(partial<span class="sc">$</span>diagnostics, <span class="cf">function</span>(d) d<span class="sc">$</span>inference<span class="sc">$</span>pvalue_precision_met,</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>       <span class="fu">logical</span>(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Partial rg asks about the A/B genetic relationship conditional on C. Regression predicts the regional genetic component of A from B and C. Neither establishes causality. Inference checks native eligibility and conditioning requirements; unavailable results remain missing with reasons.</p>
-<p>The small simulation budgets keep this example quick. Inspect Monte Carlo precision, retained draws and budget flags before interpreting p-values or intervals. A very small reported p-value can still have inadequate Monte Carlo precision. These intervals have no simultaneous coverage or automatic multiple-testing correction.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../website/assets/summary-statistic-partial.png" class="img-fluid figure-img"></p>
-<figcaption>Partial genetic correlation between A and B conditional on C in the six artificial regions. Bars are native 95% simulation intervals for the fixed seed and 2,000-draw example.</figcaption>
-</figure>
-</div>
-<p>In this run, the p-value precision target is met for regions 4 and 5, but not for regions 1, 2, 3 and 6. A small p-value does not remove the need to inspect its Monte Carlo diagnostics. The figure illustrates the workflow rather than establishing significance, calibration or a causal relationship.</p>
-</section>
-<section id="save-the-analysis-and-verify-reuse" class="level2">
-<h2 class="anchored" data-anchor-id="save-the-analysis-and-verify-reuse">Save the analysis and verify reuse</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fits <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">genome_h2 =</span> genome_h2, <span class="at">genome_rg =</span> genome_rg,</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">partitioned =</span> partitioned, <span class="at">architecture =</span> architecture,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">regional =</span> regional, <span class="at">partial =</span> partial, <span class="at">regression =</span> regression)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(fits, <span class="fu">file.path</span>(out, <span class="st">"fits.rds"</span>))</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">names</span>(fits), <span class="cf">function</span>(name) {</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cbind</span>(<span class="at">analysis =</span> name, fits[[name]]<span class="sc">$</span>estimates)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>}))</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(results, <span class="fu">file.path</span>(out, <span class="st">"estimates.csv"</span>), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">identical</span>(reference_before, tools<span class="sc">::</span><span class="fu">md5sum</span>(<span class="fu">unlist</span>(LD<span class="sc">$</span>resource<span class="sc">$</span>paths))))</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">vapply</span>(regional<span class="sc">$</span>diagnostics, <span class="cf">function</span>(d) d<span class="sc">$</span>eigensystem_reused,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">logical</span>(<span class="dv">1</span>))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Keep the fits, input provenance and diagnostics with the report. Re-running the blocks in a fresh R session reads the saved LDlist and leaves its files unchanged. This verifies resource reuse, not the suitability of the reference for another population or the correctness of an unverified alignment.</p>
-</section>
-<section id="what-has-been-checked" class="level2">
-<h2 class="anchored" data-anchor-id="what-has-been-checked">What has been checked</h2>
-<p>The exact tutorial blocks ran successfully in separate R processes, with identical result tables and unchanged saved LD files. The focused gcorr/LDlist suite passed 587 checks, including direct R-to-native comparisons, saved spectra, binary/mixed inputs in the method tests and explicit unavailable-result handling. The illustrated tutorial itself uses continuous traits.</p>
-<p>These checks validate the implementation and workflow. They do not establish calibration on realistic GWAS data, upstream-software parity, a clean package-wide release qualification or support on untested platforms.</p>
+<section id="fit-a-focused-method" class="level2">
+<h2 class="anchored" data-anchor-id="fit-a-focused-method">Fit a focused method</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ld_scores <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="at">length.out =</span> <span class="dv">20</span>), markers)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>blocks <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">rep</span>(<span class="fu">paste0</span>(<span class="st">"b"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), <span class="at">each =</span> <span class="dv">4</span>), markers)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gcorr_ldsc</span>(statistics, ld_scores, blocks,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">marker_count =</span> <span class="dv">50000</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>estimates</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Use <code>gcorr_gnova()</code> or <code>gcorr_sumher()</code> when their explicit score and annotation inputs are available. Regional workflows first call <code>gcorr_prepare_regions()</code> and then a focused HESS, SUPERGNOVA, LAVA or HDL-L function. See <a href="../../gsuite/docs/summary-statistic-analysis.html">the complete method contract</a>.</p>
+<p>There is no root <code>gsuite::gcorr()</code> compatibility route.</p>
 
 
 </section>

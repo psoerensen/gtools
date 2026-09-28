@@ -3,8 +3,9 @@
 # The main workflow treats each 100-marker region as a separate LD block. For
 # LOCO, group those same markers into 20 artificial chromosomes; no genotypes or
 # phenotypes are regenerated. This keeps the chromosome exclusion meaningful.
-.libPaths(c("build/r-library", .libPaths()))
-library(gsuite)
+.libPaths(c(file.path("build", "task-packages", "glma", "binary-library"),
+  .libPaths()))
+library(glma)
 args <- commandArgs(TRUE)
 root_arg <- getOption("gsuite.qualify.loco.root", if(length(args) == 1L) args[[1L]] else NULL)
 stopifnot(is.character(root_arg), length(root_arg) == 1L)
@@ -28,11 +29,11 @@ bim[[1L]] <- (region - 1L) %/% 25L + 1L
 bim[[4L]] <- ((region - 1L) %% 25L) * 1000000L + bim[[4L]]
 write.table(bim, paths[[2L]], quote = FALSE, col.names = FALSE, row.names = FALSE)
 ids <- sprintf("id%05d", 1:3000)
-panel <- gprep(bedfiles = paths[[1L]], ids = ids)
+panel <- gbase::gprep(bedfiles = paths[[1L]], ids = ids)
 y <- data$simulation$Y[, "A"]
 names(y) <- sprintf("id%05d", seq_len(nrow(data$simulation$Y)))
 started <- Sys.time()
-fit <- glma(y, panel, method = "infinitesimal_loco",
+fit <- glma::glma(y, panel, method = "infinitesimal_loco",
             algorithm = "observation_pcg", threads = 2L,
             block_size = 256L, background_markers = seq.int(1L, 50000L, by = 100L),
             controls = list(seed = seed))

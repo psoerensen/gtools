@@ -174,28 +174,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="gbase" class="level1">
 <h1>gbase</h1>
-<p><code>gbase</code> contains small, task-neutral R data contracts shared by the gsuite ecosystem. It performs no statistical fitting and has no compiled dependencies.</p>
-<p>The first contract represents one trait’s ordered, allele-labelled summary statistics:</p>
+<p><code>gbase</code> contains small, task-neutral R data contracts shared by the gsuite ecosystem. It performs no statistical fitting. Its genotype preparation contract uses the installed public <code>gmat</code>, <code>gbits</code>, and <code>gsolve</code> interfaces, with a qualified native prefix checked during compilation and native versions and ABIs checked again when the package loads. <code>gsolve</code> is used only for verified dense regional eigensystems; the portable private binary has no CHOLMOD, MKL, PARDISO, or OpenMP runtime dependency.</p>
+<p>Summary statistics use the established qgg workflow: <code>checkStat()</code> maps and aligns an ordinary data frame to Glist, applies explicit QC, and returns an ordinary data frame with familiar short column names:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">summary_statistics</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">marker =</span> <span class="fu">c</span>(<span class="st">"rs1"</span>, <span class="st">"rs2"</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">chromosome =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"1"</span>),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">c</span>(<span class="dv">101</span>, <span class="dv">205</span>),</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">effect_allele =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"C"</span>),</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">other_allele =</span> <span class="fu">c</span>(<span class="st">"G"</span>, <span class="st">"T"</span>),</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">effect =</span> <span class="fu">c</span>(<span class="fl">0.12</span>, <span class="sc">-</span><span class="fl">0.08</span>),</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">standard_error =</span> <span class="fu">c</span>(<span class="fl">0.04</span>, <span class="fl">0.03</span>),</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">marker_sample_count =</span> <span class="fu">c</span>(<span class="dv">1200</span>, <span class="dv">1198</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait =</span> <span class="st">"height"</span>,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">response_units =</span> <span class="st">"standard deviations"</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">analysis_model =</span> <span class="st">"additive dosage adjusted for age, sex and PCs 1-10"</span>,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">sample_count =</span> <span class="dv">1200</span>,</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">provenance =</span> <span class="fu">list</span>(<span class="at">source =</span> <span class="st">"study-a"</span>)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The object does not claim that alleles are aligned, samples are disjoint, or the supplied provenance is true. Preparation belongs to the relevant data package, exchange policy belongs to gshare, and statistical work belongs to the task package.</p>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> <span class="fu">checkStat</span>(<span class="at">Glist =</span> Glist, <span class="at">stat =</span> raw_stat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The result has no special summary-statistics class, constructor or accessor. Each task function validates the columns it uses. Exchange policy belongs to gshare, and statistical work belongs to the task package.</p>
+<p>PLINK genotype resources are prepared once and remain serializable:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">c</span>(<span class="st">"chr1.bed"</span>, <span class="st">"chr2.bed"</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">out_prefix =</span> <span class="st">"reference"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_distance_bp =</span> <span class="dv">1000000</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_distance_variants =</span> <span class="dv">1000</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">r2 =</span> <span class="fl">0.01</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The second call returns the same <code>Glist</code> contract augmented with its sparse-LD descriptor; it does not introduce a separate genotype or LD owner.</p>
+<p>The same Glist is the input to task-neutral marker and LD utilities:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>markers <span class="ot">&lt;-</span> <span class="fu">gfilter</span>(Glist)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">ld_scores</span>(Glist)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>region <span class="ot">&lt;-</span> <span class="fu">ld_region</span>(Glist, <span class="at">markers =</span> markers[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>spectrum <span class="ot">&lt;-</span> <span class="fu">ld_eigen</span>(Glist, <span class="at">markers =</span> markers[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>There is no standalone <code>LDlist</code> contract in gbase. Sparse-LD construction and ownership stay on the Glist returned by <code>gprep(task = "sparseld")</code>.</p>
 
 
 </section>

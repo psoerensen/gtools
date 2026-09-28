@@ -564,7 +564,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#scope" id="toc-scope" class="nav-link active" data-scroll-target="#scope">Scope</a></li>
-  <li><a href="#serializable-objects" id="toc-serializable-objects" class="nav-link" data-scroll-target="#serializable-objects">Serializable objects</a></li>
+  <li><a href="#private-serializable-objects" id="toc-private-serializable-objects" class="nav-link" data-scroll-target="#private-serializable-objects">Private serializable objects</a></li>
   <li><a href="#identity-and-ordering" id="toc-identity-and-ordering" class="nav-link" data-scroll-target="#identity-and-ordering">Identity and ordering</a></li>
   <li><a href="#numerical-contract" id="toc-numerical-contract" class="nav-link" data-scroll-target="#numerical-contract">Numerical contract</a></li>
   <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
@@ -604,8 +604,9 @@ window.Quarto = {
 <pre class="text"><code>BED/BIM/FAM → ordered BedPanel selections → disk sparse LD → LD scores</code></pre>
 <p>It is a thin binding to installed public <code>gmat</code> interfaces. <code>gbits</code> owns BED decoding; <code>gmat</code> owns resource validation, panel mappings, sparse-LD construction and disk validation, and LD-score algorithms. <code>gsuite</code> validates R values and translates results and errors. No genotype decoder, dense LD matrix, sparse-LD algorithm, or score algorithm is implemented in R.</p>
 </section>
-<section id="serializable-objects" class="level2">
-<h2 class="anchored" data-anchor-id="serializable-objects">Serializable objects</h2>
+<section id="private-serializable-objects" class="level2">
+<h2 class="anchored" data-anchor-id="private-serializable-objects">Private serializable objects</h2>
+<p>These low-level objects document the internal bridge. They are no longer root exports; users work through <code>gbase::gprep()</code> and its Glist-owned LD utilities.</p>
 <ul>
 <li><code>gsuite_bed_resource</code> retains canonical BED/BIM/FAM paths, physical counts, and literal ordered BIM/FAM metadata.</li>
 <li><code>gsuite_bed_panel</code> retains component resources, exact selections, selected metadata, and zero-based native source mappings.</li>
@@ -622,7 +623,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="numerical-contract">Numerical contract</h2>
 <p>Raw PLINK dosage counts BIM allele 1 (<code>00 → 2</code>, <code>01 → missing</code>, <code>10 → 1</code>, <code>11 → 0</code>). Sparse LD centres and scales observed dosage using <span class="math inline">\(p=\operatorname{mean}(g)/2\)</span> and <span class="math inline">\(\sqrt{2p(1-p)}\)</span>; missing calls become standardized zero. Only same-chromosome pairs inside every active distance window are considered, and <span class="math inline">\(r^2\geq\texttt{r2\_threshold}\)</span> is retained. The disk CSR stores sorted strict-upper float correlations and has an implicit unit diagonal.</p>
 <p>Ordinary, finite-sample-corrected, partitioned, and corrected partitioned scores stream the validated disk CSR. Corrected off-diagonal contributions are <span class="math inline">\(r^2-\frac{1-r^2}{N-2}\)</span> with <code>N</code> from disk metadata and are not clamped. Annotation values may be binary, overlapping, continuous, negative, or zero.</p>
-<p>Window boundaries are inclusive and positive windows are combined. Disabling both requires explicit full-LD authorization. Disk creation validates a same- directory staging set before publication, refuses existing owned targets by default, and publishes metadata last. The <code>gprep(task = "sparseld")</code> contract and compatibility views are specified in <a href="../../gsuite/docs/sparse-ld-preparation.html">sparse-LD preparation</a>.</p>
+<p>Window boundaries are inclusive and positive windows are combined. Disabling both requires explicit full-LD authorization. Disk creation validates a same- directory staging set before publication, refuses existing owned targets by default, and publishes metadata last. The <code>gbase::gprep(task = "sparseld")</code> contract and compatibility views are specified in <a href="../../gsuite/docs/sparse-ld-preparation.html">sparse-LD preparation</a>.</p>
 </section>
 <section id="limitations" class="level2">
 <h2 class="anchored" data-anchor-id="limitations">Limitations</h2>

@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Use a shared covariance summary for recursive structural models and fixed Gaussian graphs.">
+<meta name="description" content="Focused structural and graphical models in the standalone gcorr package.">
 
-<title>Genetic covariance, SEM and graphical models – gtools</title>
+<title>Genetic covariance models – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -104,35 +104,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../gsuite/website/styles.css">
 </head>
@@ -598,15 +569,10 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#one-input-different-questions" id="toc-one-input-different-questions" class="nav-link active" data-scroll-target="#one-input-different-questions">One input, different questions</a></li>
-  <li><a href="#prepare-covariance-summaries" id="toc-prepare-covariance-summaries" class="nav-link" data-scroll-target="#prepare-covariance-summaries">Prepare covariance summaries</a></li>
-  <li><a href="#fit-a-common-factor-with-an-explicit-sem-table" id="toc-fit-a-common-factor-with-an-explicit-sem-table" class="nav-link" data-scroll-target="#fit-a-common-factor-with-an-explicit-sem-table">Fit a common factor with an explicit SEM table</a></li>
-  <li><a href="#inspect-and-fit-a-graphical-model" id="toc-inspect-and-fit-a-graphical-model" class="nav-link" data-scroll-target="#inspect-and-fit-a-graphical-model">Inspect and fit a graphical model</a></li>
-  <li><a href="#test-specified-hypotheses" id="toc-test-specified-hypotheses" class="nav-link" data-scroll-target="#test-specified-hypotheses">Test specified hypotheses</a></li>
-  <li><a href="#reuse-an-existing-gcorr-result" id="toc-reuse-an-existing-gcorr-result" class="nav-link" data-scroll-target="#reuse-an-existing-gcorr-result">Reuse an existing gcorr result</a></li>
-  <li><a href="#fit-and-compare-models-across-annotations" id="toc-fit-and-compare-models-across-annotations" class="nav-link" data-scroll-target="#fit-and-compare-models-across-annotations">Fit and compare models across annotations</a></li>
-  <li><a href="#a-runnable-annotation-example" id="toc-a-runnable-annotation-example" class="nav-link" data-scroll-target="#a-runnable-annotation-example">A runnable annotation example</a></li>
-  <li><a href="#read-the-diagnostics-before-interpreting-parameters" id="toc-read-the-diagnostics-before-interpreting-parameters" class="nav-link" data-scroll-target="#read-the-diagnostics-before-interpreting-parameters">Read the diagnostics before interpreting parameters</a></li>
+  <li><a href="#prepare-covariance-summaries" id="toc-prepare-covariance-summaries" class="nav-link active" data-scroll-target="#prepare-covariance-summaries">Prepare covariance summaries</a></li>
+  <li><a href="#structural-models" id="toc-structural-models" class="nav-link" data-scroll-target="#structural-models">Structural models</a></li>
+  <li><a href="#graphical-models" id="toc-graphical-models" class="nav-link" data-scroll-target="#graphical-models">Graphical models</a></li>
+  <li><a href="#grouped-models" id="toc-grouped-models" class="nav-link" data-scroll-target="#grouped-models">Grouped models</a></li>
   </ul>
 </nav>
     </div>
@@ -615,12 +581,12 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/guides.html">Guides</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/covariance-models.html">SEM and graphical models</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Genetic covariance, SEM and graphical models</h1>
+<h1 class="title">Genetic covariance models</h1>
 </div>
 
 <div>
   <div class="description">
-    Use a shared covariance summary for recursive structural models and fixed Gaussian graphs.
+    Focused structural and graphical models in the standalone gcorr package.
   </div>
 </div>
 
@@ -637,182 +603,47 @@ window.Quarto = {
 </header>
 
 
-<section id="one-input-different-questions" class="level2">
-<h2 class="anchored" data-anchor-id="one-input-different-questions">One input, different questions</h2>
-<p>SEM describes a specified factor or path model for genetic covariance. A Gaussian graphical model describes relationships conditional on the remaining traits. Both use the existing native gcorr covariance fitter through <code>gcorr()</code>. Neither a directed path nor a partial correlation alone establishes causality.</p>
-<p><a href="../tools/examples/run_covariance_workflow.R">Download the complete example</a>. It constructs four-trait covariance summaries from one common factor, supplies an illustrative full sampling covariance, and fits both models. It saves a result bundle, two tables and one figure under <code>build/examples/covariance-workflow</code>. This checks the workflow; it is not a GWAS simulation or a calibration study.</p>
-</section>
 <section id="prepare-covariance-summaries" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-covariance-summaries">Prepare covariance summaries</h2>
-<p>The genetic covariance matrix <span class="math inline">\(G\)</span> and the sampling covariance <span class="math inline">\(V\)</span> of its estimated entries are different objects. Four traits give ten distinct covariance moments, so <span class="math inline">\(G\)</span> is <span class="math inline">\(4\times4\)</span> and <span class="math inline">\(V\)</span> is <span class="math inline">\(10\times10\)</span>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsuite)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>loadings <span class="ot">&lt;-</span> <span class="fu">c</span>(.<span class="dv">8</span>, .<span class="dv">7</span>, .<span class="dv">6</span>, .<span class="dv">5</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">tcrossprod</span>(loadings) <span class="sc">+</span> <span class="fu">diag</span>(<span class="fu">c</span>(.<span class="dv">4</span>, .<span class="dv">5</span>, .<span class="dv">6</span>, .<span class="dv">7</span>))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(G) <span class="ot">&lt;-</span> <span class="fu">list</span>(traits, traits)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>moments <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A|A"</span>, <span class="st">"B|A"</span>, <span class="st">"C|A"</span>, <span class="st">"D|A"</span>, <span class="st">"B|B"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>             <span class="st">"C|B"</span>, <span class="st">"D|B"</span>, <span class="st">"C|C"</span>, <span class="st">"D|C"</span>, <span class="st">"D|D"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> .<span class="dv">0004</span> <span class="sc">*</span> .<span class="dv">3</span><span class="sc">^</span><span class="fu">abs</span>(<span class="fu">outer</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="st">"-"</span>))</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(V) <span class="ot">&lt;-</span> <span class="fu">list</span>(moments, moments)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  G, <span class="at">method =</span> <span class="st">"covariance"</span>, <span class="at">task =</span> <span class="st">"prepare"</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">sampling_covariance =</span> V, <span class="at">continuous =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">units =</span> <span class="fu">setNames</span>(<span class="fu">rep</span>(<span class="st">"standardized units"</span>, <span class="dv">4</span>), traits),</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">provenance =</span> <span class="st">"Constructed common-factor example"</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Moment order follows the lower triangle <strong>column by column</strong>, including the diagonal. Names and order must match exactly. The input retains trait units, provenance and, when extracted from a fit, reference and estimation metadata. Saving the ordinary R list with <code>saveRDS()</code> needs no native pointer.</p>
+<p><code>gcorr_covariance()</code> requires a finite labelled continuous-trait covariance matrix, compatible named units and, for model fitting, the full joint sampling covariance of lower-column moments.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gcorr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, .<span class="dv">3</span>, .<span class="dv">2</span>, .<span class="dv">3</span>, <span class="dv">1</span>, .<span class="dv">4</span>, .<span class="dv">2</span>, .<span class="dv">4</span>, <span class="dv">1</span>), <span class="dv">3</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(traits, traits))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"A|A"</span>, <span class="st">"B|A"</span>, <span class="st">"C|A"</span>, <span class="st">"B|B"</span>, <span class="st">"C|B"</span>, <span class="st">"C|C"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>V <span class="ot">&lt;-</span> <span class="fu">diag</span>(.<span class="dv">001</span>, <span class="dv">6</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(V) <span class="ot">&lt;-</span> <span class="fu">list</span>(labels, labels)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">gcorr_covariance</span>(G, V, <span class="at">continuous =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">units =</span> <span class="fu">setNames</span>(<span class="fu">rep</span>(<span class="st">"standard deviations"</span>, <span class="dv">3</span>), traits))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="fit-a-common-factor-with-an-explicit-sem-table" class="level2">
-<h2 class="anchored" data-anchor-id="fit-a-common-factor-with-an-explicit-sem-table">Fit a common factor with an explicit SEM table</h2>
-<p>The model uses <span class="math inline">\(x=Bx+\varepsilon\)</span>, with disturbance covariance <span class="math inline">\(S\)</span> and <span class="math inline">\(G=[(I-B)^{-1}S(I-B)^{-T}]_{\mathrm{observed}}\)</span>. Here a latent factor <code>F</code> has fixed variance one and four free loadings.</p>
+<section id="structural-models" class="level2">
+<h2 class="anchored" data-anchor-id="structural-models">Structural models</h2>
+<p><code>gcorr_sem()</code> consumes an explicit recursive model with variables, parameter starts/bounds and directed or disturbance entries. <code>gcorr_sem_test()</code> tests named linear constraints using the fitted joint parameter covariance.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">variables =</span> <span class="fu">c</span>(traits, <span class="st">"F"</span>),</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters =</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">"l"</span>, traits), <span class="fu">paste0</span>(<span class="st">"v"</span>, traits)),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">start =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">5</span>, <span class="dv">4</span>), <span class="fu">rep</span>(.<span class="dv">6</span>, <span class="dv">4</span>)),</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="fl">1e-8</span>, <span class="dv">4</span>))),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">entries =</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">matrix =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"directed"</span>, <span class="dv">4</span>), <span class="fu">rep</span>(<span class="st">"disturbance"</span>, <span class="dv">5</span>)),</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">row =</span> <span class="fu">c</span>(traits, traits, <span class="st">"F"</span>),</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">column =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"F"</span>, <span class="dv">4</span>), traits, <span class="st">"F"</span>),</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">parameter =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">"l"</span>, traits), <span class="fu">paste0</span>(<span class="st">"v"</span>, traits), <span class="st">""</span>),</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">8</span>), <span class="dv">1</span>)))</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>sem <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(input, <span class="at">method =</span> <span class="st">"sem"</span>, <span class="at">task =</span> <span class="st">"fit"</span>, <span class="at">model =</span> model)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sem)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>sem<span class="sc">$</span>fitted_covariance</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>sem<span class="sc">$</span>diagnostics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For <code>directed</code>, <code>column</code> points to <code>row</code>. For <code>disturbance</code>, each symmetric pair is supplied once. An empty parameter name fixes an entry to <code>value</code>; a named parameter uses <code>value=0</code>. Reusing a parameter name imposes equality. Unlisted entries are zero. Disturbance variances must be specified, and the directed graph must be acyclic. Factor scale and orientation follow constraints and starts. The same tables can therefore describe observed-variable path models as well as latent-factor models; this interface does not parse lavaan syntax.</p>
-<p>The constructed data have loadings 0.8, 0.7, 0.6 and 0.5 and specific variances 0.4, 0.5, 0.6 and 0.7. These provide a direct numerical check of the fitted table.</p>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters =</span> <span class="fu">data.frame</span>(<span class="at">name =</span> <span class="fu">c</span>(<span class="st">"lA"</span>, <span class="st">"lB"</span>, <span class="st">"lC"</span>, <span class="st">"vA"</span>, <span class="st">"vB"</span>, <span class="st">"vC"</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">start =</span> <span class="fu">c</span>(<span class="fu">rep</span>(.<span class="dv">5</span>, <span class="dv">3</span>), <span class="fu">rep</span>(.<span class="dv">7</span>, <span class="dv">3</span>)),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="fl">1e-8</span>, <span class="dv">3</span>)), <span class="at">upper =</span> <span class="fu">rep</span>(<span class="cn">Inf</span>, <span class="dv">6</span>)),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">entries =</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">matrix =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"directed"</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">"disturbance"</span>, <span class="dv">4</span>)),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">row =</span> <span class="fu">c</span>(traits, traits, <span class="st">"F"</span>), <span class="at">column =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"F"</span>, <span class="dv">3</span>), traits, <span class="st">"F"</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">parameter =</span> <span class="fu">c</span>(<span class="st">"lA"</span>, <span class="st">"lB"</span>, <span class="st">"lC"</span>, <span class="st">"vA"</span>, <span class="st">"vB"</span>, <span class="st">"vC"</span>, <span class="st">""</span>),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">value =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">6</span>), <span class="dv">1</span>)))</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>sem <span class="ot">&lt;-</span> <span class="fu">gcorr_sem</span>(input, model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="inspect-and-fit-a-graphical-model" class="level2">
-<h2 class="anchored" data-anchor-id="inspect-and-fit-a-graphical-model">Inspect and fit a graphical model</h2>
-<p>A descriptive network computes <span class="math inline">\(\Omega=G^{-1}\)</span> and <span class="math inline">\(\rho_{ij\mid\mathrm{rest}}=-\Omega_{ij}/\sqrt{\Omega_{ii}\Omega_{jj}}\)</span>. It needs no sampling covariance and supplies no edge-selection inference.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>network <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(input, <span class="at">method =</span> <span class="st">"ggm"</span>, <span class="at">task =</span> <span class="st">"network"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>network<span class="sc">$</span>partial_correlation</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(network)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>graph <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">edges =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ggm <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(input, <span class="at">method =</span> <span class="st">"ggm"</span>, <span class="at">task =</span> <span class="st">"fit"</span>, <span class="at">model =</span> graph)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ggm)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ggm<span class="sc">$</span>edges</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ggm<span class="sc">$</span>network<span class="sc">$</span>partial_correlation</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ggm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The fixed graph allows A–B, B–C and C–D edges; all other precision off-diagonals are fixed zero. All diagonals are estimated. This chain deliberately restricts the common-factor covariance and need not fit it exactly. Fixed zeros are not estimated edges with zero standard errors. Specify a graph on substantive grounds; selecting it from the same estimates changes the inference problem.</p>
+<section id="graphical-models" class="level2">
+<h2 class="anchored" data-anchor-id="graphical-models">Graphical models</h2>
+<p><code>gcorr_ggm_network()</code> reports the descriptive all-trait conditional network. <code>gcorr_ggm()</code> fits an explicitly allowed fixed graph; it performs no graph search. <code>gcorr_ggm_test()</code> tests selected fitted free edges.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>edges <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>network <span class="ot">&lt;-</span> <span class="fu">gcorr_ggm_network</span>(input)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>graph <span class="ot">&lt;-</span> <span class="fu">gcorr_ggm</span>(input, edges)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>edge_test <span class="ot">&lt;-</span> <span class="fu">gcorr_ggm_test</span>(graph, edges[<span class="dv">1</span>, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="test-specified-hypotheses" class="level2">
-<h2 class="anchored" data-anchor-id="test-specified-hypotheses">Test specified hypotheses</h2>
-<p>Tests use the fitted parameter covariance and call the native gcorr constraint components. For SEM, each row of <span class="math inline">\(R\)</span> defines one linear hypothesis <span class="math inline">\(R\theta=c\)</span>. Column names must exactly match the fitted parameter table.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="fu">nrow</span>(sem<span class="sc">$</span>estimates),</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"equal lA and lB"</span>, <span class="st">"lC equals 0.5"</span>),</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                  sem<span class="sc">$</span>estimates<span class="sc">$</span>parameter))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>R[<span class="dv">1</span>, <span class="fu">c</span>(<span class="st">"lA"</span>, <span class="st">"lB"</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>R[<span class="dv">2</span>, <span class="st">"lC"</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>sem_test <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(sem, <span class="at">method =</span> <span class="st">"sem"</span>, <span class="at">task =</span> <span class="st">"test"</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">constraints =</span> R, <span class="at">control =</span> <span class="fu">list</span>(<span class="at">target =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>)))</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>sem_test<span class="sc">$</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This is one joint two-degree-of-freedom Wald test. Test a single path with one row, or test several paths jointly with several independent rows. Repeating a constraint does not create additional evidence; dependent constraints return an unavailable result with a reason.</p>
-<p>For a fitted GGM, select one or more edges that were free in the original graph:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>edge_test <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(ggm, <span class="at">method =</span> <span class="st">"ggm"</span>, <span class="at">task =</span> <span class="st">"test"</span>,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">edges =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>edge_test<span class="sc">$</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The native test evaluates whether the selected precision entries are jointly zero in the fitted encompassing graph. This is equivalent to zero partial correlation for those edges. Fixed or absent edges cannot be tested as fitted parameters. The test does not compare two independently fitted objectives and does not validate a graph chosen after inspecting the same data.</p>
-</section>
-<section id="reuse-an-existing-gcorr-result" class="level2">
-<h2 class="anchored" data-anchor-id="reuse-an-existing-gcorr-result">Reuse an existing gcorr result</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sumher_fit is a multivariate SumHer fit with coordinated jackknife blocks.</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(sumher_fit,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">method=</span><span class="st">"covariance"</span>, <span class="at">task=</span><span class="st">"prepare"</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">continuous=</span><span class="cn">TRUE</span>, <span class="at">units=</span><span class="fu">c</span>(<span class="at">A =</span> <span class="st">"standardized units"</span>, <span class="at">B =</span> <span class="st">"standardized units"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">C =</span> <span class="st">"standardized units"</span>, <span class="at">D =</span> <span class="st">"standardized units"</span>), <span class="at">scope=</span><span class="st">"reference"</span>, <span class="at">component=</span><span class="st">"all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For compatible multivariate SumHer results, the helper extracts both <span class="math inline">\(G\)</span> and the full joint <span class="math inline">\(V\)</span> by labels, including cross-entry uncertainty. A single architecture component can be selected explicitly instead of the total. It does not combine components, regions or ancestries.</p>
-<p>Other existing gcorr results can provide a complete point matrix for descriptive networks. Fitting also requires a correctly labelled full sampling covariance supplied explicitly when the result does not expose it. Marginal SEs are never substituted. In particular, LAVA’s component sampling covariance is not <span class="math inline">\(V\)</span> for estimated covariance moments. Binary/mixed inputs are outside this interface.</p>
-</section>
-<section id="fit-and-compare-models-across-annotations" class="level2">
-<h2 class="anchored" data-anchor-id="fit-and-compare-models-across-annotations">Fit and compare models across annotations</h2>
-<p>A coordinated multivariate GNOVA fit can supply several annotation-category covariance matrices and their complete joint block-jackknife covariance. A coordinated SumHer fit supplies the corresponding architecture components. The same prespecified model can then be fitted to every selected group:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># stat, LD and annotation have already been aligned and prepared.</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>source_fit <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  stat, LD,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation =</span> annotation,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"gnova"</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"rg"</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">overlap_intercept =</span> <span class="dv">0</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>grouped_sem <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  source_fit,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"sem"</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"fit"</span>,</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation =</span> <span class="fu">c</span>(<span class="st">"coding"</span>, <span class="st">"regulatory"</span>),</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">units =</span> <span class="fu">setNames</span>(<span class="fu">rep</span>(<span class="st">"standardized units"</span>, <span class="fu">length</span>(source_fit<span class="sc">$</span>traits)),</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>                   source_fit<span class="sc">$</span>traits)</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>grouped_sem<span class="sc">$</span>estimates</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>grouped_sem<span class="sc">$</span>parameter_sampling_covariance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <code>annotation</code> argument selects covariance groups here. It remains the marker-by-annotation input when estimating GNOVA or SumHer. If it is omitted, all available categories or components are fitted. <code>units</code> explicitly records the common continuous-trait scale.</p>
-<p>Column labels combine group and parameter names. A comparison of one loading between two annotations is therefore an ordinary named contrast:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fu">nrow</span>(grouped_sem<span class="sc">$</span>estimates),</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="st">"coding minus regulatory lA"</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                  grouped_sem<span class="sc">$</span>estimates<span class="sc">$</span>label))</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>R[<span class="dv">1</span>, <span class="fu">c</span>(<span class="st">"coding::lA"</span>, <span class="st">"regulatory::lA"</span>)] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>loading_test <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(grouped_sem, <span class="at">method =</span> <span class="st">"sem"</span>, <span class="at">task =</span> <span class="st">"test"</span>,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">constraints =</span> R)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>loading_test<span class="sc">$</span>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For a grouped GGM, <code>fit$partial_correlations$estimates</code> contains labelled free edges and their full cross-group covariance. The same constraint form compares partial correlations. Set <code>control = list(quantity = "precision")</code> only when a precision-parameter contrast is the intended estimand.</p>
-</section>
-<section id="a-runnable-annotation-example" class="level2">
-<h2 class="anchored" data-anchor-id="a-runnable-annotation-example">A runnable annotation example</h2>
-<p><a href="../tools/examples/run_grouped_covariance_workflow.R">Download and run the complete four-trait example</a>. It uses gsim to generate 10,000 individuals with summary statistics at 800 markers, a separate 2,000-individual LD reference, 40 jackknife blocks and two disjoint, artificial marker annotations. The script prepares LD, estimates annotation-specific covariance with multivariate GNOVA, fits the same one-factor SEM and fixed GGM in each group, and tests one named cross-group contrast for each model. It writes results and diagnostics to <code>build/examples/grouped-covariance-workflow/</code>.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../website/assets/grouped-covariance.png" class="img-fluid figure-img" alt="Four heatmaps compare coding and regulatory genetic correlations with GGM partial correlations among traits A, B, C and D. The genetic correlations are broadly positive; the fixed graph sets the A-D partial correlation to zero."></p>
-<figcaption>Genetic correlations and fixed-graph partial correlations for two artificial annotation groups. Cells show point estimates; the A-D precision edge is fixed to zero in both GGM fits.</figcaption>
-</figure>
-</div>
-<p>The SEM fixes the factor variance to one. The GGM specifies all pairwise edges except A–D, which is fixed absent. Both groups converged and returned identified, non-boundary fits with joint inference available. Two selected results illustrate why the cross-group covariance matters:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 26%">
-<col style="width: 26%">
-<col style="width: 26%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Quantity</th>
-<th style="text-align: right;">Coding estimate (SE)</th>
-<th style="text-align: right;">Regulatory estimate (SE)</th>
-<th style="text-align: right;">Cross-group Wald <span class="math inline">\(p\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>SEM loading for A</td>
-<td style="text-align: right;">0.284 (0.030)</td>
-<td style="text-align: right;">0.310 (0.046)</td>
-<td style="text-align: right;">0.639</td>
-</tr>
-<tr class="even">
-<td>GGM partial correlation A–B</td>
-<td style="text-align: right;">0.089 (0.116)</td>
-<td style="text-align: right;">0.034 (0.080)</td>
-<td style="text-align: right;">0.665</td>
-</tr>
-</tbody>
-</table>
-<p>These are results from one artificial dataset, not calibrated evidence about annotation differences or a comparison of SEM and GGM as scientific models. The figure shows point estimates only; the saved tables include SEs, joint contrasts and per-group diagnostics. The full group-by-group source covariance and joint sampling covariance are retained with the model results.</p>
-<p>Every group fit remains in <code>fit$fits</code>, including failures and diagnostics. Joint inference is withheld if any selected group lacks regular inference or the cross-group covariance is missing or invalid. GNOVA categories may overlap; their difference is a comparison of the reported category quantities, not an estimate of mutually exclusive or uniquely attributable effects. SumHer architecture components have a different meaning and remain labelled as such.</p>
-</section>
-<section id="read-the-diagnostics-before-interpreting-parameters" class="level2">
-<h2 class="anchored" data-anchor-id="read-the-diagnostics-before-interpreting-parameters">Read the diagnostics before interpreting parameters</h2>
-<p>Fitting uses diagonally weighted least squares, full-<span class="math inline">\(V\)</span> sandwich uncertainty and a residual-contrast fit test. It is not an individual-level Gaussian likelihood. Check <code>available</code>, <code>converged</code>, <code>identified</code>, <code>boundary</code> and <code>inference_available</code>. Boundary, singular or poorly conditioned cases may withhold estimates or inference; tests are then returned as unavailable rather than assigned a statistic. The interface does not repair matrices. Feasible alternative starts can assess sensitivity to local optima. The separate full-weight residual statistic is reported without a general chi-square p-value.</p>
-<p>These are continuous covariance models, not full replacements for Genomic SEM or graphical-model packages. Automatic model search, binary extensions and selection-aware inference are not exposed here. Grouped comparisons currently require one coordinated multivariate GNOVA or SumHer fit, one LD reference and a complete, finite and adequately conditioned joint block-jackknife covariance. With too few effective blocks, the covariance can be rank deficient even though every entry is present; the fit then remains unavailable with a diagnostic. See the <a href="../../gsuite/docs/mr-workflow.html">MR workflow</a> for instrument-based directional analysis and <a href="../../gsuite/docs/summary-statistic-analysis.html">summary-statistic guide</a> for covariance estimation.</p>
+<section id="grouped-models" class="level2">
+<h2 class="anchored" data-anchor-id="grouped-models">Grouped models</h2>
+<p><code>gcorr_grouped_covariance()</code> extracts GNOVA categories, SumHer architecture components or transformed SumHer categories with their full cross-group jackknife covariance. <code>gcorr_grouped_sem()</code> and <code>gcorr_grouped_ggm()</code> apply one prespecified model across groups; their test functions propagate cross-group uncertainty. Marginal standard errors are never substituted for the required joint covariance.</p>
+<p>All these interfaces belong only to the standalone package. The removed root dispatcher is not supported.</p>
 
 
 </section>

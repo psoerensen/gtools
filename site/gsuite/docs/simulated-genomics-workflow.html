@@ -610,7 +610,7 @@ window.Quarto = {
   <li><a href="#pathways" id="toc-pathways" class="nav-link" data-scroll-target="#pathways">Pathways</a></li>
   </ul></li>
   <li><a href="#earlier-connected-results-across-simulations" id="toc-earlier-connected-results-across-simulations" class="nav-link" data-scroll-target="#earlier-connected-results-across-simulations">Earlier connected results across simulations</a></li>
-  <li><a href="#run-and-inspect" id="toc-run-and-inspect" class="nav-link" data-scroll-target="#run-and-inspect">Run and inspect</a></li>
+  <li><a href="#inspect-the-recorded-results" id="toc-inspect-the-recorded-results" class="nav-link" data-scroll-target="#inspect-the-recorded-results">Inspect the recorded results</a></li>
   </ul>
 </nav>
     </div>
@@ -656,7 +656,7 @@ Completed example and supported recipes
 </div>
 <section id="what-this-example-demonstrates" class="level2">
 <h2 class="anchored" data-anchor-id="what-this-example-demonstrates">What this example demonstrates</h2>
-<p>Start with a simulated population, run GWAS, then reuse its summary statistics and LD for Bayesian regression, genetic correlation, fine-mapping, scoring and pathway analysis. All model calls use the current <strong>gsuite R interfaces</strong>.</p>
+<p>Start with a simulated population, run GWAS, then reuse its summary statistics and LD for Bayesian regression, genetic correlation, fine-mapping, scoring and pathway analysis. Genetic correlation now uses the standalone <strong>gcorr</strong> R package; the other calls use their current task-package or umbrella interfaces.</p>
 <p>This connected example covers <strong>glma, gbayes, gcorr, gmap, gscore and gsea</strong>. It checks selected calculations and demonstrates representative methods at this scale. It does not establish calibration of every supported method or option. The <a href="../../gsuite/qualifications.html">library-specific qualification pages</a> report a separate fixed set of ten simulations using the same design.</p>
 </section>
 <section id="one-population-explicit-sample-groups" class="level2">
@@ -716,38 +716,40 @@ Completed example and supported recipes
 </section>
 <section id="the-connected-workflow" class="level2">
 <h2 class="anchored" data-anchor-id="the-connected-workflow">The connected workflow</h2>
-<p>These excerpts show the model calls. Sample selection, truth construction, effect units and complete settings are in the <a href="../tools/examples/simulated_genomics_workflow.R">runnable script</a>.</p>
+<p>These excerpts show the current supported model calls. The retained results use the sample selection, truth construction and effect units defined in the <a href="../../gsuite/docs/genomic-qualification-design.html">shared design</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Association: one selected GWAS group and its phenotype.</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>association <span class="ot">&lt;-</span> <span class="fu">glma</span>(y, Glist, <span class="at">method =</span> <span class="st">"linear"</span>, <span class="at">threads =</span> <span class="dv">1</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>association <span class="ot">&lt;-</span> glma<span class="sc">::</span><span class="fu">glma</span>(y, Glist, <span class="at">method =</span> <span class="st">"linear"</span>, <span class="at">threads =</span> <span class="dv">1</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare aligned summaries separately from fitting.</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>prepared <span class="ot">&lt;-</span> <span class="fu">sumstat</span>(stat, LDlist, <span class="at">task =</span> <span class="st">"standardize"</span>)<span class="sc">$</span>stat</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>prepared <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">checkStat</span>(stat, Glist)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Genome-wide genetic correlation from three trait tables.</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>correlation <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(stat, LDlist, <span class="at">method =</span> <span class="st">"ldsc"</span>, <span class="at">task =</span> <span class="st">"rg"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">control =</span> <span class="fu">list</span>(<span class="at">intercept =</span> <span class="st">"fixed_one"</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">overlap_intercept =</span> <span class="dv">0</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Genome-wide genetic correlation from prepared public inputs.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>correlation <span class="ot">&lt;-</span> gcorr<span class="sc">::</span><span class="fu">gcorr</span>(statistics, <span class="at">ld_scores =</span> ld_scores,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                            <span class="at">blocks =</span> blocks, <span class="at">method =</span> <span class="st">"ldsc"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                            <span class="at">overlap_intercept =</span> <span class="dv">0</span>)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Bayesian regression: fixed declared parameters, four posterior chains.</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>bayesian <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(prepared<span class="sc">$</span>A, LDlist, <span class="at">method =</span> <span class="st">"bayesc"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>bayesian <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(statistics<span class="sc">$</span>A, Glist, <span class="at">method =</span> <span class="st">"bayesc"</span>,</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                  <span class="at">prior =</span> prior, <span class="at">control =</span> control)</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Regional mapping after explicit OLS sufficient-statistic preparation.</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>mapping_stat <span class="ot">&lt;-</span> <span class="fu">gmap_stat</span>(stat, LDlist, <span class="at">phenotype_variance =</span> phenotype_variance)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>mapping <span class="ot">&lt;-</span> <span class="fu">gmap</span>(mapping_stat, LDlist, <span class="at">regions =</span> regions,</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">"multi_effect"</span>, <span class="at">prior =</span> prior, <span class="at">control =</span> control)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply allele-labelled weights with explicit coding to held-out individuals.</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> <span class="fu">gscore</span>(<span class="at">task =</span> <span class="st">"apply"</span>, <span class="at">Glist =</span> test_Glist,</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                     <span class="at">weights =</span> weights, <span class="at">allele_frequencies =</span> frequencies)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>mapping_stat <span class="ot">&lt;-</span> gmap<span class="sc">::</span><span class="fu">gmap_stat</span>(statistics, LD_Glist,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                               <span class="at">phenotype_variance =</span> phenotype_variance)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>mapping <span class="ot">&lt;-</span> gmap<span class="sc">::</span><span class="fu">gmap</span>(mapping_stat, LD_Glist, <span class="at">regions =</span> regions,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">"multi_effect"</span>, <span class="at">prior =</span> prior, <span class="at">control =</span> control)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply allele-labelled weights with explicit coding to held-out individuals.</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> gscore<span class="sc">::</span><span class="fu">gscore</span>(weights, test_Glist)</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate marker evidence, then analyse pathways of genes.</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>evidence <span class="ot">&lt;-</span> <span class="fu">gstat</span>(stat, LDlist, <span class="at">sets =</span> genes, <span class="at">blocks =</span> blocks,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>evidence <span class="ot">&lt;-</span> glma<span class="sc">::</span><span class="fu">vegas</span>(statistics, LD_Glist, <span class="at">sets =</span> genes, <span class="at">blocks =</span> blocks,</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">metadata =</span> metadata,</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                 <span class="at">control =</span> <span class="fu">list</span>(<span class="at">independent_blocks =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                                <span class="at">tail_method =</span> <span class="st">"saddlepoint"</span>))</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>pathways <span class="ot">&lt;-</span> <span class="fu">gsea</span>(evidence<span class="sc">$</span>stat, pathway_sets, <span class="at">method =</span> <span class="st">"competitive"</span>,</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sampling =</span> evidence<span class="sc">$</span>sampling)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>gene_stat <span class="ot">&lt;-</span> <span class="fu">lapply</span>(evidence<span class="sc">$</span>stat, <span class="cf">function</span>(x) <span class="fu">transform</span>(x, <span class="at">gene =</span> set))</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>gene_sampling <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">gene_covariance =</span> evidence<span class="sc">$</span>sampling<span class="sc">$</span>set_covariance)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>pathways <span class="ot">&lt;-</span> <span class="fu">gsea</span>(gene_stat, pathway_sets, <span class="at">method =</span> <span class="st">"competitive"</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sampling =</span> gene_sampling)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>prior</code> and <code>control</code> placeholders differ between Bayesian regression and regional mapping. They are explicit in the script. No universal prior scale is assumed across methods.</p>
 </section>
 <section id="results" class="level2">
@@ -841,7 +843,7 @@ V_e^{\mathrm{work}}=V_e+0.9V_g,
 V_g=b^{\mathsf T}R_{\mathrm{ref}}b.
 \]</span></p>
 <p>Priors specify an expected nonzero proportion of 0.02. BayesR uses variance multipliers <span class="math inline">\((0,0.01,0.1,1)\)</span> and active-component proportions <span class="math inline">\((0.012,0.006,0.002)\)</span>. Mixture probabilities use an explicit Dirichlet strength of 5,000. Four chains use 500 burn-in sweeps and retain 700 BayesC or 5,000 BayesR sweeps.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(prepared, LDlist, <span class="at">method =</span> <span class="st">"bayesc"</span>, <span class="at">trait =</span> <span class="st">"trait"</span>,</span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(statistics, Glist, <span class="at">method =</span> <span class="st">"bayesc"</span>, <span class="at">trait =</span> <span class="st">"trait"</span>,</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> prior,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">residual_policy =</span> <span class="st">"reference_ld"</span>,</span>
@@ -853,7 +855,7 @@ V_g=b^{\mathsf T}R_{\mathrm{ref}}b.
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">seeds =</span> <span class="fu">c</span>(<span class="dv">101</span>, <span class="dv">102</span>, <span class="dv">103</span>, <span class="dv">104</span>),</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">threads =</span> <span class="dv">4</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">posterior =</span> <span class="fu">list</span>(<span class="at">reference =</span> LDlist,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">posterior =</span> <span class="fu">list</span>(<span class="at">reference =</span> LD_Glist,</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>                   <span class="at">phenotype_variance =</span> <span class="fu">c</span>(<span class="at">trait =</span> <span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <table class="caption-top table">
 <thead>
@@ -933,7 +935,7 @@ V_g=b^{\mathsf T}R_{\mathrm{ref}}b.
 </section>
 <section id="pathways" class="level3">
 <h3 class="anchored" data-anchor-id="pathways">Pathways</h3>
-<p><code>gstat()</code> aggregates marker evidence into 1,000 artificial genes, retaining within-region gene dependence. The supported workflow uses the saddlepoint tail calculation for all 3,000 gene-by-trait statistics. Every statistic was returned in the detailed example, with no moment-matching fallback.</p>
+<p><code>glma::vegas()</code> aggregates marker evidence into 1,000 artificial genes, retaining within-region gene dependence. The supported workflow uses the saddlepoint tail calculation for all 3,000 gene-by-trait statistics. Every statistic was returned in the detailed example, with no moment-matching fallback.</p>
 <p>The completed <code>gsea()</code> calls cover ORA, preranked GSEA, competitive regression, the bounded MAGMA route and a scalar Bayesian pathway model. The enriched pathway covers the simulated enriched regions; the mixed pathway samples genes across the genome, and the background pathway covers regions with lower causal-marker probability. Background does not mean zero genetic effects.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -967,22 +969,9 @@ V_g=b^{\mathsf T}R_{\mathrm{ref}}b.
 <p>Across the ten runs, HESS supplies standard errors for <strong>189 of 600</strong> regional covariances, SUPERGNOVA for <strong>600 of 600</strong>, and the exercised LAVA route for none. Six annotation-category correlations are undefined because an estimated component heritability is nonpositive. The supported saddlepoint gene-tail route returns all 30,000 gene/trait p-values; <strong>11</strong> use its recorded moment-matching fallback. These availability and fallback flags remain in the downloadable tables.</p>
 <p>With only ten simulations, one outcome changes a proportion by ten percentage points. These results are descriptive checks under one non-null design, not precise calibration, a null false-positive assessment or general method rankings. The <a href="../website/assets/simulated-genomics/replicate-status.csv">run status</a> lists every planned seed and its outcome. The linked aggregate tables retain the labelled truth comparisons and numerical availability used above.</p>
 </section>
-<section id="run-and-inspect" class="level2">
-<h2 class="anchored" data-anchor-id="run-and-inspect">Run and inspect</h2>
-<p>From the gsuite checkout with its development library prepared:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/simulated_genomics_workflow.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Outputs stay in <code>build/examples/simulated-genomics/</code>: nine fixed stage RDS files, the reusable genotype/LD resources, compact tables, fit summaries and figures. Each stage file contains its result, warnings, timing, script hash, R session and installed native versions. Repeat execution replaces these named outputs.</p>
+<section id="inspect-the-recorded-results" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-the-recorded-results">Inspect the recorded results</h2>
 <p>Download the compact result tables: <a href="../website/assets/simulated-genomics/correlation.csv">correlation estimates</a>, <a href="../website/assets/simulated-genomics/pathways.csv">pathways</a>, <a href="../website/assets/simulated-genomics/availability.csv">numerical availability</a>, <a href="../website/assets/simulated-genomics/gene-tail-comparison.csv">gene-tail comparison</a> and <a href="../website/assets/simulated-genomics/timings.csv">stage timings</a>. Additional downloads: <a href="../website/assets/simulated-genomics/association-summary.csv">GWAS summary</a>, <a href="../website/assets/simulated-genomics/gbayes-reference-ld-summary.csv">Bayesian qualification summary</a> and <a href="../website/assets/simulated-genomics/gbayes-reference-ld-replicates.csv">Bayesian repetition results</a>.</p>
-<p>After an interruption, the same script/design can resume from completed stages:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/examples/simulated_genomics_workflow.R <span class="at">--resume</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Regenerate after changing completed-stage code or assumptions; the resume option does not infer which cached results have become invalid.</p>
-<p>Run the ten repetitions and then summarize their saved results:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/examples/simulated_genomics_replicates.R</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/examples/report_simulated_genomics_replicates.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For two concurrent R processes, run the replicate script once with <code>--worker=1</code> and once with <code>--worker=2</code>, then run the report after both finish. Use either the sequential or the two-worker form, not both concurrently. Large working files are overwritten within each worker directory. One compact result per planned replicate is retained, including failures. Existing results are reused only when the seed and recorded script identities agree.</p>
-<p>Download the <a href="../tools/examples/simulated_genomics_replicates.R">replicate runner</a>, <a href="../tools/examples/report_simulated_genomics_replicates.R">report script</a> and <a href="../tools/examples/simulated_genomics_summaries.R">shared summary helper</a> alongside the main workflow script, preserving their relative paths.</p>
-<p>Run the supported five-repetition BayesC/BayesR qualification with:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/validation/qualify_gbayes_reference_ld.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Read the <a href="../../gsuite/docs/simulated-genomics-qualification.html">qualification record</a> for the scientific targets, check definitions and untested capabilities. The existing <a href="../../gsuite/docs/gcorr-method-comparison.html">smaller replicated comparison</a> is a separate simulation design; its results are not pooled with this example.</p>
 
 

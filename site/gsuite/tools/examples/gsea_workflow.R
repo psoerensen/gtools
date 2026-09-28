@@ -1,4 +1,6 @@
-library(gsuite)
+.libPaths(c(file.path("build", "task-packages", "gsea", "binary-library"),
+  .libPaths()))
+library(gsea)
 set.seed(2401)
 genes <- paste0("gene", seq_len(120))
 sets <- list(pathway_A=genes[1:25], pathway_B=genes[21:45],
