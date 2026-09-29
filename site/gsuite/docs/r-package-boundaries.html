@@ -176,7 +176,7 @@ task packages depend on each other only for an explicit scientific workflow</cod
 <tbody>
 <tr class="odd">
 <td><code>gsuite</code></td>
-<td>Root bridge over gsolve, greml, gbits, gmat, gbayes, gshare and <code>gbits::gsolve_adapter</code></td>
+<td>Root bridge over gsolve, greml, gbits, gmat and <code>gbits::gsolve_adapter</code></td>
 <td>Mixed-model, solver and integration interfaces.</td>
 </tr>
 <tr class="even">
@@ -216,8 +216,8 @@ task packages depend on each other only for an explicit scientific workflow</cod
 </tr>
 <tr class="odd">
 <td><code>gsuite</code> native dependencies</td>
-<td>gbits, gmat, gsolve, greml and gshare</td>
-<td>Native infrastructure used by the root integration interfaces.</td>
+<td>gbits, gmat, gsolve, greml and <code>gbits::gsolve_adapter</code></td>
+<td>Native infrastructure used by the public root integration interfaces.</td>
 </tr>
 </tbody>
 </table>
@@ -242,10 +242,9 @@ task packages depend on each other only for an explicit scientific workflow</cod
 <li>genotype, LD or matrix storage;</li>
 <li>statistical fitting, priors or sampler controls;</li>
 <li>scoring, correlation or association algorithms;</li>
-<li>cross-dataset permissions and disclosure policy;</li>
 <li>orchestration across tasks.</li>
 </ul>
-<p>Those responsibilities remain with gmat/data preparation, the relevant task package, gshare, or the gsuite umbrella.</p>
+<p>Those responsibilities remain with gmat/data preparation, the relevant task package or the gsuite umbrella.</p>
 </section>
 <section id="r-interfaces-by-package" class="level2">
 <h2 class="anchored" data-anchor-id="r-interfaces-by-package">R interfaces by package</h2>
@@ -311,14 +310,10 @@ task packages depend on each other only for an explicit scientific workflow</cod
 <td>gsuite, backed by gsolve</td>
 </tr>
 <tr class="odd">
-<td><code>gshare*</code>, read and write wrappers</td>
-<td>gsuite, backed by gshare</td>
-</tr>
-<tr class="even">
 <td><code>gsuite_versions()</code> and cross-task workflows</td>
 <td>gsuite umbrella</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>diagnostics()</code> generic and future common result conventions</td>
 <td>Candidate for gbase after method compatibility is audited</td>
 </tr>

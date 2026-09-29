@@ -179,7 +179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> <span class="fu">checkStat</span>(<span class="at">Glist =</span> Glist, <span class="at">stat =</span> raw_stat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The result has no special summary-statistics class, constructor or accessor. Each task function validates the columns it uses. Exchange policy belongs to gshare, and statistical work belongs to the task package.</p>
+<p>The result has no special summary-statistics class, constructor or accessor. Each task function validates the columns it uses, and statistical work belongs to the task package.</p>
 <p>PLINK genotype resources are prepared once and remain serializable:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">c</span>(<span class="st">"chr1.bed"</span>, <span class="st">"chr2.bed"</span>))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(</span>
