@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Object, ordering and numerical contracts for the low-level BED-to-LD workflow.">
+<meta name="description" content="Ownership and ordering contracts for genotype panels and sparse LD.">
 
-<title>gmat R integration – gtools</title>
+<title>gmat integration – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,35 +69,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../gsuite/website/styles.css">
 </head>
@@ -230,6 +201,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/simulated-genomics-workflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Connected genomic analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/glma-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -566,7 +543,6 @@ window.Quarto = {
   <li><a href="#scope" id="toc-scope" class="nav-link active" data-scroll-target="#scope">Scope</a></li>
   <li><a href="#serializable-bridge-objects" id="toc-serializable-bridge-objects" class="nav-link" data-scroll-target="#serializable-bridge-objects">Serializable bridge objects</a></li>
   <li><a href="#identity-and-ordering" id="toc-identity-and-ordering" class="nav-link" data-scroll-target="#identity-and-ordering">Identity and ordering</a></li>
-  <li><a href="#numerical-contract" id="toc-numerical-contract" class="nav-link" data-scroll-target="#numerical-contract">Numerical contract</a></li>
   <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
   </ul>
 </nav>
@@ -576,12 +552,12 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/docs/model-catalog.html">Reference</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/gmat-integration.html">Matrix integration</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">gmat R integration</h1>
+<h1 class="title">gmat integration</h1>
 </div>
 
 <div>
   <div class="description">
-    Object, ordering and numerical contracts for the low-level BED-to-LD workflow.
+    Ownership and ordering contracts for genotype panels and sparse LD.
   </div>
 </div>
 
@@ -600,34 +576,27 @@ window.Quarto = {
 
 <section id="scope" class="level2">
 <h2 class="anchored" data-anchor-id="scope">Scope</h2>
-<p>The first <code>gmat</code> binding provides one explicit workflow:</p>
-<pre class="text"><code>BED/BIM/FAM → ordered BedPanel selections → disk sparse LD → LD scores</code></pre>
-<p>It is a thin binding to installed public <code>gmat</code> interfaces. <code>gbits</code> owns BED decoding; <code>gmat</code> owns resource validation, panel mappings, sparse-LD construction and disk validation, and LD-score algorithms. <code>gsuite</code> validates R values and translates results and errors. No genotype decoder, dense LD matrix, sparse-LD algorithm, or score algorithm is implemented in R.</p>
+<p>The R workflow has one owner at each layer:</p>
+<pre class="text"><code>gbase Glist → gbase sparse-LD preparation → gmat disk resource → task packages</code></pre>
+<p><code>gbase::gprep()</code> owns genotype preparation and augments a Glist with sparse-LD identity, marker and sample selections, paths, settings, and provenance. <code>gbits</code> owns BED decoding. <code>gmat</code> owns panel mappings, sparse-LD computation, the disk format, validation, and readers. Task packages accept the Glist and use installed public <code>gmat</code> interfaces from C++.</p>
 </section>
 <section id="serializable-bridge-objects" class="level2">
 <h2 class="anchored" data-anchor-id="serializable-bridge-objects">Serializable bridge objects</h2>
-<p>These low-level objects document the internal bridge used by <code>gbase::gprep()</code> and its Glist-owned LD utilities.</p>
+<p>Root <code>gsuite</code> retains only the BED resource and panel objects needed by its own internal genotype integration:</p>
 <ul>
 <li><code>gsuite_bed_resource</code> retains canonical BED/BIM/FAM paths, physical counts, and literal ordered BIM/FAM metadata.</li>
 <li><code>gsuite_bed_panel</code> retains component resources, exact selections, selected metadata, and zero-based native source mappings.</li>
-<li><code>gsuite_sparse_ld</code> retains the output prefix and five resource paths, dimensions, settings, execution mode, and disk marker sidecar. The CSR payload stays on disk.</li>
 </ul>
-<p>These list-style S3 objects have no external pointers. Later operations reopen and validate paths; <code>gsuite_sparse_ld_open()</code> reconstructs a descriptor from a prefix in a fresh session.</p>
+<p>These list-style S3 objects have no external pointers. Sparse-LD preparation and access are not duplicated in root <code>gsuite</code>.</p>
 </section>
 <section id="identity-and-ordering" class="level2">
 <h2 class="anchored" data-anchor-id="identity-and-ordering">Identity and ordering</h2>
 <p>Component order is list order. Components must have identical ordered <code>(family_id, individual_id)</code> pairs before selection. Sample identities and per-component marker IDs are resolved exactly, and requested order is preserved. Global marker order concatenates component selections. Duplicate or missing identities are errors. Nothing silently sorts chromosomes, positions, markers, samples, or alleles.</p>
-<p>Annotation tables require explicit unique marker row names and unique column names. Their marker-ID set must equal the disk marker set; rows may be supplied in another order because <code>gmat</code> realigns them by exact identity. Column order is preserved.</p>
-</section>
-<section id="numerical-contract" class="level2">
-<h2 class="anchored" data-anchor-id="numerical-contract">Numerical contract</h2>
-<p>Raw PLINK dosage counts BIM allele 1 (<code>00 → 2</code>, <code>01 → missing</code>, <code>10 → 1</code>, <code>11 → 0</code>). Sparse LD centres and scales observed dosage using <span class="math inline">\(p=\operatorname{mean}(g)/2\)</span> and <span class="math inline">\(\sqrt{2p(1-p)}\)</span>; missing calls become standardized zero. Only same-chromosome pairs inside every active distance window are considered, and <span class="math inline">\(r^2\geq\texttt{r2\_threshold}\)</span> is retained. The disk CSR stores sorted strict-upper float correlations and has an implicit unit diagonal.</p>
-<p>Ordinary, finite-sample-corrected, partitioned, and corrected partitioned scores stream the validated disk CSR. Corrected off-diagonal contributions are <span class="math inline">\(r^2-\frac{1-r^2}{N-2}\)</span> with <code>N</code> from disk metadata and are not clamped. Annotation values may be binary, overlapping, continuous, negative, or zero.</p>
-<p>Window boundaries are inclusive and positive windows are combined. Disabling both requires explicit full-LD authorization. Disk creation validates a same- directory staging set before publication, refuses existing owned targets by default, and publishes metadata last. The <code>gbase::gprep(task = "sparseld")</code> contract and compatibility views are specified in <a href="../../gsuite/docs/sparse-ld-preparation.html">sparse-LD preparation</a>.</p>
+<p>The <code>gbase::gprep(task = "sparseld")</code> contract, numerical conventions, and Glist fields are specified in <a href="../../gsuite/docs/sparse-ld-preparation.html">sparse-LD preparation</a>.</p>
 </section>
 <section id="limitations" class="level2">
 <h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
-<p>The binding does not harmonize alleles, flip dosage, convert genome builds, parse summary statistics, fit LD-score regressions, create dense LD, or add a general matrix class. All five files in a persistent <code>gmat</code> resource must remain available together.</p>
+<p>The integration does not harmonize alleles, flip dosage, convert genome builds, or parse summary statistics. All five files in a persistent <code>gmat</code> sparse-LD resource must remain available together.</p>
 <p>See the gmat method catalogue for the complete native contracts.</p>
 
 

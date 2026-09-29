@@ -269,6 +269,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/glma-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/summary-statistic-workflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Saved LD analysis</span></a>
   </div>
@@ -683,14 +689,14 @@ window.Quarto = {
 <td><code>greml()</code> for variance estimation, <code>gsolve()</code> for fixed-covariance solving, <code>gfit()</code> and persistent model interfaces; <a href="../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a>, <a href="../../gsuite/docs/model-catalog.html">LMM catalog</a></td>
 </tr>
 <tr class="odd">
-<td>Genotypes, marker QC, sparse LD, LD scores and regional eigenpairs</td>
+<td>Genotypes, marker QC, sparse LD, independent blocks, LD scores and regional eigenpairs</td>
 <td>gmat, gbits, gsolve</td>
-<td><code>gbase::gprep()</code> prepares and augments Glist resources; <code>gbase::gfilter()</code>, <code>ld_scores()</code>, <code>ld_region()</code> and <code>ld_eigen()</code> consume the same Glist; <a href="../../gsuite/docs/genotype-preparation.html">genotype preparation</a>, <a href="#independent-ld-references">LD resources</a></td>
+<td><code>gbase::gprep()</code> prepares and augments Glist resources; <code>validate_Glist()</code> checks their lightweight descriptor and <code>verify_ld()</code> performs explicit full integrity verification; <code>define_ld_blocks()</code> verifies a block partition once; <code>gbase::gfilter()</code>, <code>ld_scores()</code>, <code>ld_region()</code> and <code>ld_eigen()</code> consume the same Glist; <a href="../../gsuite/docs/genotype-preparation.html">genotype preparation</a>, <a href="#independent-ld-references">LD resources</a></td>
 </tr>
 <tr class="even">
 <td>LDSC, GNOVA, SumHer, HESS/rho-HESS, SUPERGNOVA, LAVA and HDL-L</td>
 <td>gcorr</td>
-<td>Focused functions are selectable through <code>gcorr(method=...)</code>. Regional preparation verifies one immutable spectrum for reuse by independent/joint HESS, SUPERGNOVA, HDL-L, and LAVA marginal, binary, simulation, partial-correlation and regression workflows. <a href="../../gsuite/docs/summary-statistic-analysis.html#capability-table">Task and uncertainty coverage</a>. SUPERGNOVA exposes covariance only; HDL-L exposes two continuous traits per fit, with inference under evaluation</td>
+<td>Focused functions are selectable through <code>gcorr(method=...)</code>. Glist regional preparation reuses one sparse-LD reader and verifies one immutable spectrum per region for independent/joint HESS, SUPERGNOVA, HDL-L, and LAVA marginal, binary, simulation, partial-correlation and regression workflows. <a href="../../gsuite/docs/summary-statistic-analysis.html#capability-table">Task and uncertainty coverage</a>. SUPERGNOVA exposes covariance only; HDL-L exposes two continuous traits per fit, with inference under evaluation</td>
 </tr>
 <tr class="odd">
 <td>SEM, partial-correlation networks and fixed-graph GGM</td>
@@ -703,9 +709,9 @@ window.Quarto = {
 <td><code>gcorr_prepare_mr()</code> plus focused method functions and thin <code>gcorr(..., method=)</code> dispatch consume aligned ordinary summary-statistics data frames, explicit effect units and signed LD. See the <a href="../../gsuite/docs/mr-workflow.html">MR workflow</a>.</td>
 </tr>
 <tr class="odd">
-<td>BayesC/BayesR from individual BED or aligned summaries, several traits or independent studies, parameter and annotation learning</td>
+<td>BayesC/BayesR from individual BED or aligned summaries, annotation-informed block-eigen regression, several traits or independent studies</td>
 <td>gbayes</td>
-<td>Learned scalar and multivariate summary/BED BayesC/BayesR, shared-LD or independent sampling, study-specific Glist references and marker unions, annotations, covariance learning, posterior capture and continuation, genetic covariance, reporting partitions and selected-individual score uncertainty, and four focused single-trait summary engines; <a href="../../gsuite/docs/gbayes-workflow.html">Bayesian regression</a>.</td>
+<td>Learned scalar and multivariate summary/BED BayesC/BayesR, plus single-trait <code>sbayesrc</code> over verified Glist LD blocks with retained eigensystems and component annotations. Shared-LD or independent sampling, study-specific references, covariance learning, posterior capture and continuation, genetic covariance, reporting partitions, selected-individual score uncertainty and four focused summary engines are available; <a href="../../gsuite/docs/gbayes-workflow.html">Bayesian regression</a>.</td>
 </tr>
 <tr class="even">
 <td>Regional Bayesian mapping and posterior sets</td>
@@ -1034,29 +1040,23 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td>gbase</td>
-<td><code>gbase::gprep(task = "sparseld")</code> orchestration returning an augmented Glist with selected physical BED mappings, transactional gmat CSR, aligned AF, and ordinary LD scores</td>
+<td><code>gbase::gprep(task = "sparseld")</code> orchestration returning an augmented Glist with selected physical BED mappings, transactional gmat CSR, aligned AF, ordinary LD scores, lightweight descriptor validation and explicit full <code>verify_ld()</code> integrity checks</td>
 <td>Experimental</td>
 <td><a href="../../gsuite/docs/sparse-ld-preparation.html">sparse-LD preparation</a></td>
 </tr>
 <tr class="even">
-<td>gbase</td>
-<td>Disk sparse-LD construction and reopening; ordinary, corrected, partitioned, and corrected partitioned LD scores</td>
-<td>Task-neutral interface over installed gmat</td>
-<td><a href="../../gsuite/docs/gmat-integration.html">gmat R integration</a></td>
-</tr>
-<tr class="odd">
 <td>gmap</td>
 <td>Regional BayesC/BayesR and marginal/component posterior sets via unified native gmap built with Bayesian support</td>
 <td>Broader native controls remain outside the focused R interface</td>
 <td><a href="#native-regional-bayesian-analysis">Regional posterior interpretation</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gbayes</td>
 <td>Single-/multi-effect fitting with optional prior-variance learning</td>
 <td>Implemented</td>
 <td><a href="#native-single-effect-inference">Single-/multi-effect inference</a>; <a href="../../gsuite/docs/gbayes-workflow.html">Bayesian workflow</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>gbayes</td>
 <td>Scalar BayesC/BayesR plus point-normal, continuous-shrinkage and variational summaries; multivariate fits, independent studies, annotation and parameter learning, posterior genetic summaries</td>
 <td>Summary/BED fitting, independent study references, annotations, covariance learning, posterior capture and continuation, genetic-covariance reporting, partitions and selected-individual uncertainty are implemented.</td>
@@ -1151,8 +1151,9 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">max_distance_bp =</span> <span class="dv">1000000</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(Glist, <span class="st">"Glist-EUR.rds"</span>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"Glist-EUR.rds"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">ld_scores</span>(Glist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>Glist$sparseLD</code> retains authoritative marker order, alleles, chromosome, position, reference sample count, file paths, checksums and construction settings. RDS saves the descriptor, not the external LD files. Native inspection rejects accidental replacement; it does not establish population suitability. Scores are computed from that same resource:</p>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>gbase<span class="sc">::</span><span class="fu">verify_ld</span>(Glist) <span class="co"># once after transfer or download</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">ld_scores</span>(Glist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>Glist$sparseLD</code> retains authoritative marker order, alleles, chromosome, position, reference sample count, file paths, checksums and construction settings. <code>ldfiles</code>, <code>idsLD</code>, and <code>rsidsLD</code> identify the same persisted resource, reference samples, and matrix-ordered markers. RDS saves the descriptor, not the external LD files. <code>validate_Glist()</code> checks this identity and alignment without rescanning the CSR; <code>verify_ld()</code> performs the full native structure, checksum, and recorded-score verification after a transfer or when corruption is suspected. Neither check establishes population suitability. Scores are computed from that same resource:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">ld_scores</span>(Glist, <span class="at">annotations =</span> annotation,</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">corrected =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Annotation rows are aligned by exact marker identity. Corrected scores use the selected reference sample count and retain negative corrected contributions. All scores reflect retained sparse pairs; omitted correlations are not reconstructed. Summary harmonization remains separate.</p>
@@ -1161,9 +1162,9 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <p>Select a region using unique marker IDs already in reference order:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>R_region <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">ld_region</span>(Glist, <span class="at">markers =</span> region_markers)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>eig <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">ld_eigen</span>(Glist, <span class="at">markers =</span> region_markers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>gmat extracts the dense regional matrix through its validated streaming reader; no full CSR is loaded. gsolve computes the complete symmetric eigensystem using its existing Eigen backend and verifies reconstruction, residual and orthogonality. The result contains descending <code>values</code>, column <code>vectors</code> with marker row names, and numerical <code>diagnostics</code>. Singular or indefinite matrices are not silently repaired: zero and negative eigenvalues remain available to method-specific checks. Thresholded or windowed sparse LD is not necessarily positive semidefinite.</p>
-<p>The eigensystem is computed from the verified regional matrix on demand. The full decomposition takes quadratic storage and cubic computation; increasing the dimension limit is an explicit choice. Omitted sparse correlations remain zero, the diagonal is one, and no harmonization, clipping or PSD repair occurs.</p>
-<p>The native gcorr library can now consume the underlying resources through score adapters and <code>PreparedRegionalLd</code>. HESS, rho-HESS, SUPERGNOVA and LAVA have single-region overloads that reuse a complete checked eigensystem; LDSC and GNOVA already accept prepared gmat score inputs. gsolve can verify imported eigenvalues and vectors against a regional matrix without rerunning the eigensolver. This dense verification is performed once on native import, followed by reuse across fits. The <a href="../../gsuite/docs/summary-statistic-analysis.html">gcorr R interface</a> connects selected methods to these resources, including explicit joint HESS/rho-HESS correction with regional and total uncertainty. It adds no cross-ancestry estimator and also exposes shared LAVA matrices and native conditional inference.</p>
+<p>gmat opens the checked resource once per high-level call and reuses one indexed reader across regions; no full CSR is loaded and only the active dense matrix is materialized. gsolve computes the complete symmetric eigensystem using its existing Eigen backend and verifies reconstruction, residual and orthogonality. The result contains descending <code>values</code>, column <code>vectors</code> with marker row names, and numerical <code>diagnostics</code>. Singular or indefinite matrices are not silently repaired: zero and negative eigenvalues remain available to method-specific checks. Thresholded or windowed sparse LD is not necessarily positive semidefinite.</p>
+<p>The eigensystem is computed from the checked regional matrix on demand and can be reused across traits or fits for that region. The full decomposition takes quadratic storage and cubic computation; increasing the dimension limit is an explicit choice. Omitted sparse correlations remain zero, the diagonal is one, and no harmonization, clipping or PSD repair occurs.</p>
+<p>The gcorr R interface prepares all named regions from one Glist-backed native reader and retains one <code>PreparedRegionalLd</code> per region. HESS, rho-HESS, SUPERGNOVA and LAVA have single-region overloads that reuse a complete checked eigensystem; LDSC and GNOVA already accept prepared gmat score inputs. gsolve can verify imported eigenvalues and vectors against a regional matrix without rerunning the eigensolver. This dense verification is performed once on native import, followed by reuse across fits. The <a href="../../gsuite/docs/summary-statistic-analysis.html">gcorr R interface</a> connects selected methods to these resources, including explicit joint HESS/rho-HESS correction with regional and total uncertainty. It adds no cross-ancestry estimator and also exposes shared LAVA matrices and native conditional inference.</p>
 <p>Across these methods, result tables use explicit reference, region, annotation-category and architecture-component labels. Named h2/cov/rg matrices share one layout; method-specific uncertainty, native diagnostics and inconsistent pairwise estimates remain visible. See <a href="../../gsuite/docs/summary-statistic-analysis.html#result-and-uncertainty-conventions">result conventions</a>.</p>
 <p>The interface also exposes SumHer architecture-component and reference-total h2/cov/rg. Multiple traits use the native coordinated marginal and pairwise fits, with joint fixed-weight jackknife covariance when blocks are supplied. Tagging weights are explicit and separate from architecture-weighted scores; no cross-ancestry or full upstream-software parity is implied.</p>
 <p>Regional LAVA also accepts explicit binary-trait metadata, reusing Glist allele frequencies for native logistic-Wald reconstruction. Observed and liability h2 remain distinct; binary/mixed pairs use the existing screening and optional bivariate simulation inference. LAVA shares each regional fit across traits and exposes partial correlations, multiple regression, explained variance and supported conditional/omnibus inference.</p>

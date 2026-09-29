@@ -240,6 +240,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/glma-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/summary-statistic-workflow.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Saved LD analysis</span></a>
   </div>
@@ -620,7 +626,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gcorr_ldsc</span>(statistics, ld_scores, blocks,</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">marker_count =</span> <span class="dv">50000</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>estimates</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Use <code>gcorr_gnova()</code> or <code>gcorr_sumher()</code> when their explicit score and annotation inputs are available. Regional workflows first call <code>gcorr_prepare_regions()</code> and then a focused HESS, SUPERGNOVA, LAVA or HDL-L function. See <a href="../../gsuite/docs/summary-statistic-analysis.html">the complete method contract</a>.</p>
+<p>Use <code>gcorr_gnova()</code> or <code>gcorr_sumher()</code> when their explicit score and annotation inputs are available. Regional workflows pass a sparse-LD Glist and named marker regions to <code>gcorr_prepare_regions()</code>, then call a focused HESS, SUPERGNOVA, LAVA or HDL-L function. See <a href="../../gsuite/docs/summary-statistic-analysis.html">the complete method contract</a>.</p>
 
 
 </section>

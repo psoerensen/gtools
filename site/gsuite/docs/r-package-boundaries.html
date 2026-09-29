@@ -232,6 +232,7 @@ task packages depend on each other only for an explicit scientific workflow</cod
 <li>validation of marker identity, positions, alleles and supplied numerical columns;</li>
 <li>explicit allele-oriented variant keys;</li>
 <li><code>gbase::gprep()</code> preparation and sparse-LD publication plus the serializable Glist contract shared by individual-level task packages;</li>
+<li><code>gbase::define_ld_blocks()</code> one-time verification and serialization of an exhaustive independent-block partition tied to the sparse-LD identity;</li>
 <li>summary-based marker filtering and Glist-owned LD scores, regional matrices, and complete verified regional eigensystems.</li>
 </ul>
 <p><code>checkStat()</code> follows the established qgg workflow and returns an ordinary data frame. Its canonical columns are <code>rsids</code>, <code>chr</code>, <code>pos</code>, <code>ea</code>, <code>nea</code>, with the available analysis columns among <code>eaf</code>, <code>b</code>, <code>seb</code>, <code>stat</code>, <code>p</code>, <code>n</code> and <code>info</code>. Downstream functions validate the subset they require. Gbase does not require a public summary-statistics class, constructor, accessor or print method.</p>
@@ -262,7 +263,7 @@ task packages depend on each other only for an explicit scientific workflow</cod
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>gbase::gprep()</code> prepare/sparseld routes, Glist validation and printing</td>
+<td><code>gbase::gprep()</code> prepare/sparseld routes, lightweight Glist validation, explicit <code>verify_ld()</code> integrity checks and printing</td>
 <td>gbase</td>
 </tr>
 <tr class="even">

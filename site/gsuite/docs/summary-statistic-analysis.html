@@ -239,6 +239,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/glma-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/summary-statistic-workflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Saved LD analysis</span></a>
   </div>
@@ -616,19 +622,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="regional-methods" class="level2">
 <h2 class="anchored" data-anchor-id="regional-methods">Regional methods</h2>
-<p><code>gcorr_prepare_regions()</code> validates named signed-LD correlation matrices and their complete eigensystems once. The resulting session-bound preparation is accepted by:</p>
+<p><code>gcorr_prepare_regions()</code> reads named marker regions directly from Glist sparse LD through one native reader. It validates each complete eigensystem once; the resulting session-bound preparation is accepted by:</p>
 <ul>
 <li><code>gcorr_hess()</code> and <code>gcorr_rho_hess()</code>;</li>
 <li><code>gcorr_supergnova()</code>;</li>
 <li><code>gcorr_lava()</code>, <code>gcorr_lava_partial()</code> and <code>gcorr_lava_regression()</code>;</li>
 <li><code>gcorr_hdll()</code>.</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>regional_ld <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">4</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dimnames</span>(regional_ld) <span class="ot">&lt;-</span> <span class="fu">list</span>(markers[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], markers[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">gcorr_prepare_regions</span>(<span class="fu">list</span>(<span class="at">locus =</span> regional_ld),</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference_sample_size =</span> <span class="dv">5000</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>regional <span class="ot">&lt;-</span> <span class="fu">gcorr_hess</span>(one, regions, <span class="at">maximum_components =</span> <span class="dv">0</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">minimum_eigenvalue =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">gcorr_prepare_regions</span>(Glist,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">regions =</span> <span class="fu">list</span>(<span class="at">locus =</span> markers[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>regional <span class="ot">&lt;-</span> <span class="fu">gcorr_hess</span>(one, regions, <span class="at">maximum_components =</span> <span class="dv">0</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">minimum_eigenvalue =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Named signed-LD matrices plus their reference sample sizes remain supported when a Glist is not available.</p>
 <p>The summary data frame must contain every regional marker. LAVA sampling correlations, binary-trait metadata and simulation seeds are explicit. SUPERGNOVA exposes covariance rather than correlation. HDL-L accepts exactly two continuous traits per fit. Joint HESS/rho-HESS requires disjoint prepared regions and reports its correction explicitly.</p>
 </section>
 <section id="capability-table" class="level2">

@@ -239,6 +239,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/glma-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/summary-statistic-workflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Saved LD analysis</span></a>
   </div>
@@ -572,6 +578,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#use" id="toc-use" class="nav-link" data-scroll-target="#use">Use</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#block-eigen-execution" id="toc-block-eigen-execution" class="nav-link" data-scroll-target="#block-eigen-execution">Block-eigen execution</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -643,6 +650,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <p>The 50K-marker connected fits hold residual variance, effect scale and mixture weights fixed at declared values. They estimate marker effects and their posterior genetic summaries. <a href="../../gsuite/docs/simulated-genomics-qualification.html#bayesian-linear-regression-qualification">Separate evidence</a> covers parameter learning with a matched independent LD reference. The interval counts above describe conditional posterior intervals, not calibrated frequentist coverage.</p>
 <p><a href="../website/assets/genomic-qualification/bayesian.csv">Effect recovery</a> · <a href="../website/assets/genomic-qualification/posterior.csv">Posterior diagnostics</a></p>
+</section>
+<section id="block-eigen-execution" class="level2">
+<h2 class="anchored" data-anchor-id="block-eigen-execution">Block-eigen execution</h2>
+<p>The bounded block-eigen validation uses 512 markers, verified independent LD blocks and summary effects generated from the same reference. It confirms one native block load and eigensystem decomposition per block, square peak dense-block storage, and the exact full-positive-rank reduction to ordinary BayesR under matched controls.</p>
+<p>For this synthetic spectrum, 99.5% retained positive mass kept 504 of 512 coordinates, so retained-factor memory fell by only 1.6%. Its LD-weighted posterior difference from the full fit was within the independent-seed Monte Carlo baseline. These results validate execution and diagnostics only; they do not establish a generally optimal retention threshold, population-scale speed, or external SBayesRC equivalence.</p>
 
 
 </section>

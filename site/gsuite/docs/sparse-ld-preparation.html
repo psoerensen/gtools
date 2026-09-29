@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -229,6 +264,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="../../gsuite/docs/simulated-genomics-workflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Connected genomic analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../gsuite/docs/glma-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association analysis</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -602,7 +643,17 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="disk-and-r-descriptors">Disk and R descriptors</h2>
 <p>The canonical gmat format is <code>sparse_ld_csr</code>, format version 1. For prefix <code>P</code>, it owns exactly <code>P.row_ptr.u64.bin</code>, <code>P.col_idx.u32.0based.bin</code>, <code>P.values.f32.bin</code>, <code>P.markers.tsv</code>, and <code>P.meta.txt</code>. The first three contain a strict-upper CSR with zero-based columns and native fixed-width scalar types; the marker sidecar freezes identity and physical source mappings. Exact sizes, row pointers, sorted columns, finite values, dimensions, and marker metadata are validated before publication and on reopen.</p>
 <p>Writes use a same-directory staging set. <code>overwrite = FALSE</code> refuses any existing owned target. Explicit overwrite replaces only that five-file set; metadata is published last as the commit marker. Staging and partially published new files are cleaned on failure.</p>
-<p>The returned object remains <code>c("gs_genotypes", "Glist")</code>. Its canonical <code>sparseLD</code> member records prefix, format/version, paths, sample/marker counts, nnz, component files, physical one-based <code>rows</code>/<code>cls</code>, aligned AF, marker and sample IDs, zero-based mappings, thresholds/windows, block/thread settings, and provenance. Top-level <code>ldfiles</code>, <code>rsidsLD</code>, <code>idsLD</code>, and <code>ldscores</code> are deterministic compatibility views of that descriptor. No external pointer is stored, so <code>saveRDS()</code>/<code>readRDS()</code> is exact and the files can be reopened after reload.</p>
+<p>The returned object remains <code>c("gs_genotypes", "Glist")</code>. Its canonical <code>sparseLD</code> member records prefix, format/version, paths, sample/marker counts, nnz, component files, physical one-based <code>rows</code>/<code>cls</code>, aligned AF, marker and sample IDs, zero-based mappings, thresholds/windows, block/thread settings, and provenance. Top-level <code>ldfiles</code>, <code>idsLD</code>, and <code>rsidsLD</code> are the public resource, reference-sample, and ordered-marker identities for that same LD computation; <code>ldscores</code> carries its aligned ordinary scores. Validation requires these views to agree with <code>sparseLD</code>, so they cannot describe a different resource. No external pointer is stored, so <code>saveRDS()</code>/<code>readRDS()</code> is exact and the files can be reopened after reload.</p>
+<p>Creation fully validates the published native resource and records checksums and ordinary LD scores. Normal <code>validate_Glist()</code> calls check the serializable descriptor, identity fields, canonical file availability, dimensions, and alignment without hashing or rescanning the complete CSR payload. Use <code>verify_ld()</code> after receiving, copying, or downloading a resource, or when corruption is suspected; it reopens the native resource and verifies its structure and metadata, recorded checksums, and ordinary LD scores. Sparse-LD files are immutable between verification and analysis.</p>
+<p>Native consumers open that already-checked identity once per high-level call. The shared gmat reader loads descriptor metadata and row pointers immediately. Regional reads seek directly to selected CSR rows; the first active-column request builds one O(marker count) reverse index that later column windows reuse. Multiple regions, marker sets, traits or chains share the same reader; only the active dense regional matrix or bounded column page is materialized. This keeps repeated full verification out of numerical loops. Consumers do not retain a process-global reader or store an external pointer in Glist, so R serialization and explicit resource ownership remain unchanged.</p>
+<p>Independent blocks can be attached after sparse-LD preparation:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>blocks <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">block_id =</span> <span class="fu">c</span>(<span class="st">"1a"</span>, <span class="st">"1b"</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">first_marker =</span> <span class="fu">c</span>(<span class="st">"rs1"</span>, <span class="st">"rs101"</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">last_marker =</span> <span class="fu">c</span>(<span class="st">"rs100"</span>, <span class="st">"rs200"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">define_ld_blocks</span>(Glist, blocks)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The blocks must be ordered, contiguous, exhaustive and confined to one chromosome each. Definition performs one complete native traversal and rejects any retained cross-block correlation. The resulting <code>ldBlocks</code> manifest is tied to the recorded sparse-LD checksums and survives serialization. C++ consumers can then open one session reader and materialize one block at a time; eigensystem truncation and statistical likelihood choices are not stored in Glist.</p>
 <p>The core payload layout is readable by the committed sblr CSR reader. The tested qgg 1.1.6 sparse-LD task instead writes fixed-width band files, so compatibility with qgg is numerical rather than a shared persistent format. No converter or sblr adapter is introduced.</p>
 </section>
 <section id="complexity" class="level2">
