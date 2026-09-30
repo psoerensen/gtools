@@ -534,7 +534,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#package-map" id="toc-package-map" class="nav-link active" data-scroll-target="#package-map">Package map</a></li>
+  <li><a href="#native-capabilities-and-r-availability" id="toc-native-capabilities-and-r-availability" class="nav-link active" data-scroll-target="#native-capabilities-and-r-availability">Native capabilities and R availability</a></li>
   <li><a href="#shared-genomic-resources" id="toc-shared-genomic-resources" class="nav-link" data-scroll-target="#shared-genomic-resources">Shared genomic resources</a></li>
   <li><a href="#analysis-flow" id="toc-analysis-flow" class="nav-link" data-scroll-target="#analysis-flow">Analysis flow</a></li>
   <li><a href="#mixed-models-and-numerical-methods" id="toc-mixed-models-and-numerical-methods" class="nav-link" data-scroll-target="#mixed-models-and-numerical-methods">Mixed models and numerical methods</a></li>
@@ -570,69 +570,87 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>gsuite is organised by user task. Shared data preparation lives in <code>gbase</code>; analysis methods live in independently installable R packages; numerical and statistical computation remains in the corresponding native libraries. The root <code>gsuite</code> package provides the mixed-model and solver interfaces and serves as the ecosystem documentation and integration point.</p>
-<section id="package-map" class="level2">
-<h2 class="anchored" data-anchor-id="package-map">Package map</h2>
+<section id="native-capabilities-and-r-availability" class="level2">
+<h2 class="anchored" data-anchor-id="native-capabilities-and-r-availability">Native capabilities and R availability</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>R package</th>
-<th>Main role</th>
-<th>Native owner</th>
+<th>Native library</th>
+<th>Capability</th>
+<th>Immediate boundary</th>
+<th>Standalone R package</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>gbase</code></td>
-<td>Glist preparation, marker filtering, checked summary statistics, sparse LD, LD scores and regional eigenpairs</td>
-<td>gmat, gbits and gsolve public interfaces</td>
+<td>gbits</td>
+<td>Packed genotype storage, PLINK BED access, selections, transformations and genotype products</td>
+<td>Does not own genomic resource metadata, general solvers or statistical models</td>
+<td>No; used through <code>gbase</code> and root <code>gsuite</code></td>
 </tr>
 <tr class="even">
-<td><code>glma</code></td>
-<td>Linear, logistic and LOCO association; <code>vegas()</code> marker-set tests</td>
+<td>gmat</td>
+<td>Ordered genotype panels, matrix and sparse-LD resources, LD algebra and LD scores</td>
+<td>Delegates packed BED decoding to gbits and does not fit downstream statistical models</td>
+<td>No; task-neutral access is through <code>gbase</code></td>
+</tr>
+<tr class="odd">
+<td>gsolve</td>
+<td>General operators, factorizations, eigensystems and iterative or direct numerical methods</td>
+<td>Contains no genotype, likelihood or mixed-model semantics</td>
+<td>No; solver interfaces are in root <code>gsuite</code>, with regional eigensystems also used by <code>gbase</code></td>
+</tr>
+<tr class="even">
+<td>greml</td>
+<td>Mixed-model construction, ML/REML inference, prediction and uncertainty</td>
+<td>Uses gsolve numerical primitives and does not own genotype formats</td>
+<td>No; mixed-model interfaces are in root <code>gsuite</code></td>
+</tr>
+<tr class="odd">
 <td>glma</td>
+<td>Linear, logistic and LOCO association plus LD-aware marker-set evidence</td>
+<td>Association evidence belongs here; enrichment belongs to gsea</td>
+<td>Yes: <code>glma</code></td>
 </tr>
-<tr class="odd">
-<td><code>gbayes</code></td>
-<td>Bayesian regression, posterior summaries and prediction</td>
+<tr class="even">
 <td>gbayes</td>
+<td>Bayesian regression, parameter learning and posterior calculations</td>
+<td>Does not own fine-mapping interpretation or score application</td>
+<td>Yes: <code>gbayes</code></td>
 </tr>
-<tr class="even">
-<td><code>gscore</code></td>
-<td>Score application and C+T weight construction</td>
+<tr class="odd">
 <td>gscore</td>
-</tr>
-<tr class="odd">
-<td><code>gmap</code></td>
-<td>Fine-mapping, posterior sets and colocalisation</td>
-<td>gmap, with gbayes for Bayesian fitting</td>
+<td>Scoring-specific transformations and efficient score application</td>
+<td>Model fitting remains with association or Bayesian model owners</td>
+<td>Yes: <code>gscore</code></td>
 </tr>
 <tr class="even">
-<td><code>gcorr</code></td>
-<td>Genetic correlation, covariance models and Mendelian randomisation</td>
+<td>gmap</td>
+<td>Regional fine-mapping, posterior-set interpretation and colocalisation</td>
+<td>Reuses gbayes for Bayesian fitting</td>
+<td>Yes: <code>gmap</code></td>
+</tr>
+<tr class="odd">
 <td>gcorr</td>
-</tr>
-<tr class="odd">
-<td><code>gsea</code></td>
-<td>Gene-set and genomic-feature enrichment; re-exports <code>glma::vegas()</code></td>
-<td>gsea, with optional gbayes-backed pathway models</td>
+<td>LD-score and regional correlation methods, covariance models and MR</td>
+<td>Consumes prepared LD resources; colocalisation belongs to gmap</td>
+<td>Yes: <code>gcorr</code></td>
 </tr>
 <tr class="even">
-<td><code>gsuite</code></td>
-<td>Mixed models, numerical solving, version reporting and suite integration</td>
-<td>greml and gsolve, with gbits/gmat support</td>
-</tr>
-<tr class="odd">
-<td><code>gsim</code></td>
-<td>Genotype, pedigree, phenotype and observation-data simulation</td>
-<td>gsim</td>
+<td>gsea</td>
+<td>Gene-set and genomic-feature enrichment</td>
+<td>Reuses glma marker-set evidence and optional gbayes pathway models</td>
+<td>Yes: <code>gsea</code></td>
 </tr>
 </tbody>
 </table>
+<p><code>gbase</code> is the standalone shared R package for task-neutral genotype, summary statistics and LD preparation. <code>gsim</code> is the standalone R package for simulation. The root <code>gsuite</code> package contains the mixed-model and solver integration and the suite-level version and documentation interfaces.</p>
 <p>The <a href="../../gsuite/docs/methods.html#capability-overview">capability overview</a> lists the analyses available through each package. The <a href="../../gsuite/docs/r-package-boundaries.html">package-boundary guide</a> records the dependency rules.</p>
 </section>
 <section id="shared-genomic-resources" class="level2">
