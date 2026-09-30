@@ -784,12 +784,16 @@ X^\mathsf{T}X \approx D^{1/2} R D^{1/2},\qquad D=\operatorname{diag}(d_j).
 <h2 class="anchored" data-anchor-id="inspect-estimates-sets-and-chains">Inspect estimates, sets and chains</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bayesr)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bayesr<span class="sc">$</span>estimates)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>bayesr<span class="sc">$</span>sets<span class="sc">$</span>shared<span class="sc">$</span>A</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>bayesr<span class="sc">$</span>details<span class="sc">$</span>shared<span class="sc">$</span>A<span class="sc">$</span>chain_agreement</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bayesr, <span class="at">region =</span> <span class="st">"shared"</span>, <span class="at">trait =</span> <span class="st">"A"</span>, <span class="at">quantity =</span> <span class="st">"chains"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multi)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>multi<span class="sc">$</span>sets<span class="sc">$</span>shared<span class="sc">$</span>A</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(multi, <span class="at">region =</span> <span class="st">"shared"</span>, <span class="at">trait =</span> <span class="st">"A"</span>, <span class="at">quantity =</span> <span class="st">"objective"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>posterior_sets <span class="ot">&lt;-</span> <span class="fu">gmap_sets</span>(bayesr)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>posterior_sets<span class="sc">$</span>summary</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>posterior_sets<span class="sc">$</span>members</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">gmap_bfdr</span>(bayesr, <span class="at">threshold =</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>))</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">gmap_bfdr</span>(bayesr, <span class="at">target =</span> <span class="fl">0.05</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>bayesr<span class="sc">$</span>details<span class="sc">$</span>shared<span class="sc">$</span>A<span class="sc">$</span>chain_agreement</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(bayesr, <span class="at">region =</span> <span class="st">"shared"</span>, <span class="at">trait =</span> <span class="st">"A"</span>, <span class="at">quantity =</span> <span class="st">"chains"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(multi)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>multi<span class="sc">$</span>sets<span class="sc">$</span>shared<span class="sc">$</span>A</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(multi, <span class="at">region =</span> <span class="st">"shared"</span>, <span class="at">trait =</span> <span class="st">"A"</span>, <span class="at">quantity =</span> <span class="st">"objective"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../website/assets/gmap-workflow/mapping.png" class="img-fluid figure-img"></p>
@@ -847,6 +851,8 @@ X^\mathsf{T}X \approx D^{1/2} R D^{1/2},\qquad D=\operatorname{diag}(d_j).
 </table>
 <p>The top-marker PIPs exceed 0.99999. Each fit returned one complete set. All four multi-effect fits converged in two sweeps. The largest BayesR PIP range between the two chains was 0.014. These strong signals make an easy workflow demonstration, not a demanding fine-mapping evaluation.</p>
 <p>BayesC/BayesR report PIPs pooled over the two chains. Chain-specific PIPs and ranges are available; agreement alone does not certify convergence. Their sets group marginal PIP mass within LD neighbourhoods. Multi-effect sets represent component assignment probabilities. These set probabilities are not interchangeable, and this one simulation does not establish coverage. The sum of PIPs is the expected number of active markers, not necessarily the number of independent signals.</p>
+<p><code>gmap_sets()</code> keeps the native interpretation in its <code>meaning</code> column: <code>marginal_pip_mass</code> for BayesC/BayesR neighbourhood groups and <code>component_assignment</code> for multi-effect credible sets. Its summary table also retains completeness, pairwise LD purity, incomplete-LD, duplicate and fit-status fields. The member table gives the markers, posterior weights and LD to the lead.</p>
+<p><code>gmap_bfdr()</code> uses only marker PIPs. At threshold <span class="math inline">\(t\)</span>, its expected number of false discoveries is <span class="math inline">\(\sum_{j:PIP_j\ge t}(1-PIP_j)\)</span> and BFDR is that value divided by the number selected. With <code>target</code>, it returns the largest marker group defined by a PIP threshold whose BFDR is no larger than the target. This posterior summary does not provide a frequentist FDR guarantee.</p>
 </section>
 <section id="compare-the-traits-without-refitting" class="level2">
 <h2 class="anchored" data-anchor-id="compare-the-traits-without-refitting">Compare the traits without refitting</h2>
