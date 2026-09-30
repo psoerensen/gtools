@@ -590,7 +590,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Genetic-correlation analysis uses the <code>gcorr</code> R package.</p>
 <section id="input-boundary" class="level2">
 <h2 class="anchored" data-anchor-id="input-boundary">Input boundary</h2>
-<p>Every trait is an ordinary data frame using the qgg column names <code>rsids</code>, <code>chr</code>, <code>pos</code>, <code>ea</code>, <code>nea</code>, <code>stat</code>, and <code>n</code>. Here <code>stat</code> is the signed Z statistic. Use <code>gbase::checkStat()</code> when a Glist reference is available and alignment or QC is required. Marker order, coordinates and allele orientation must already agree across traits. The package never intersects, flips or rescales traits. LD scores, annotations, delete blocks and regional signed-LD matrices are explicit inputs prepared outside the fit. A single data frame uses the label <code>"trait"</code>; pass a uniquely named list whenever a method or result requires a specific trait name.</p>
+<p>Every trait is an ordinary data frame using the qgg column names <code>rsids</code>, <code>chr</code>, <code>pos</code>, <code>ea</code>, <code>nea</code>, <code>stat</code>, and <code>n</code>. Here <code>stat</code> is the signed Z statistic. Use <code>gbase::checkStat()</code> when a Glist reference is available and alignment or QC is required. Marker order, coordinates and allele orientation must already agree across traits. The package never intersects, flips or rescales traits. The high-level <code>ldsc()</code> workflow obtains LD scores, annotation scores and reference metadata from a Glist; the focused interfaces also accept those quantities explicitly. A single data frame uses the label <code>"trait"</code>; pass a uniquely named list for multiple traits.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gcorr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -600,18 +600,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="genome-wide-methods" class="level2">
 <h2 class="anchored" data-anchor-id="genome-wide-methods">Genome-wide methods</h2>
-<p>The authoritative focused functions are:</p>
+<p>The recommended LDSC interface uses the same <code>stat</code> contract as <code>glma::vegas()</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ordinary <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(<span class="at">stat =</span> one, <span class="at">Glist =</span> Glist, <span class="at">what =</span> <span class="st">"h2"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>multiple <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">stat =</span> <span class="fu">list</span>(<span class="at">height =</span> height_stat, <span class="at">bmi =</span> bmi_stat),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">what =</span> <span class="st">"rg"</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>partitioned <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(<span class="at">stat =</span> one, <span class="at">Glist =</span> Glist,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> <span class="fu">list</span>(<span class="at">coding =</span> coding_markers, <span class="at">regulatory =</span> regulatory_markers),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual =</span> <span class="cn">TRUE</span>, <span class="at">what =</span> <span class="st">"h2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Marker sets are named marker-ID vectors and may overlap. Glist supplies the ordinary and annotation-specific LD scores and reference sample size. Deterministic contiguous delete blocks are generated when <code>blocks</code> is omitted. The result retains the full fit and adds convenient <code>h2</code> and <code>rg</code> components.</p>
+<p>The explicit focused functions are:</p>
 <ul>
 <li><code>gcorr_ldsc()</code> and <code>gcorr_ldsc_partitioned()</code>;</li>
 <li><code>gcorr_gnova()</code> for ordinary or binary-annotation GNOVA;</li>
 <li><code>gcorr_sumher()</code> for architecture components and optional categories.</li>
 </ul>
-<p>The package-owned <code>gcorr(..., method=)</code> dispatcher selects these methods but has no <code>task</code> selector or control list.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="at">length.out =</span> <span class="dv">20</span>), markers)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>blocks <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">rep</span>(<span class="fu">paste0</span>(<span class="st">"b"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), <span class="at">each =</span> <span class="dv">4</span>), markers)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>ldsc <span class="ot">&lt;-</span> <span class="fu">gcorr_ldsc</span>(one, scores, blocks, <span class="at">marker_count =</span> <span class="dv">50000</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>gnova <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(one, <span class="at">blocks =</span> blocks, <span class="at">ld_scores =</span> scores, <span class="at">method =</span> <span class="st">"gnova"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The package-owned <code>gcorr(..., method=)</code> dispatcher also selects the focused methods but has no <code>task</code> selector or control list.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="at">length.out =</span> <span class="dv">20</span>), markers)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>blocks <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">rep</span>(<span class="fu">paste0</span>(<span class="st">"b"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>), <span class="at">each =</span> <span class="dv">4</span>), markers)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>explicit <span class="ot">&lt;-</span> <span class="fu">gcorr_ldsc</span>(one, scores, blocks, <span class="at">marker_count =</span> <span class="dv">50000</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>gnova <span class="ot">&lt;-</span> <span class="fu">gcorr</span>(one, <span class="at">blocks =</span> blocks, <span class="at">ld_scores =</span> scores, <span class="at">method =</span> <span class="st">"gnova"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Partitioned LDSC requires annotation LD scores, weighting LD scores and annotation sums. Annotated GNOVA additionally requires the matching binary annotation matrix and reference-panel sample size. SumHer requires uncorrected architecture LD scores, component weight sums and separate tagging values. These quantities are not inferred from one another.</p>
 </section>
 <section id="regional-methods" class="level2">
@@ -623,10 +636,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>gcorr_lava()</code>, <code>gcorr_lava_partial()</code> and <code>gcorr_lava_regression()</code>;</li>
 <li><code>gcorr_hdll()</code>.</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">gcorr_prepare_regions</span>(Glist,</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">regions =</span> <span class="fu">list</span>(<span class="at">locus =</span> markers[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>regional <span class="ot">&lt;-</span> <span class="fu">gcorr_hess</span>(one, regions, <span class="at">maximum_components =</span> <span class="dv">0</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">minimum_eigenvalue =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">gcorr_prepare_regions</span>(Glist,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">regions =</span> <span class="fu">list</span>(<span class="at">locus =</span> markers[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>regional <span class="ot">&lt;-</span> <span class="fu">gcorr_hess</span>(one, regions, <span class="at">maximum_components =</span> <span class="dv">0</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">minimum_eigenvalue =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Named signed-LD matrices plus their reference sample sizes remain supported when a Glist is not available.</p>
 <p>The summary data frame must contain every regional marker. LAVA sampling correlations, binary-trait metadata and simulation seeds are explicit. SUPERGNOVA exposes covariance rather than correlation. HDL-L accepts exactly two continuous traits per fit. Joint HESS/rho-HESS requires disjoint prepared regions and reports its correction explicitly.</p>
 </section>
@@ -647,41 +660,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
+<td>Convenient LDSC workflow</td>
+<td><code>ldsc()</code></td>
+<td>checked <code>stat</code>; Glist or named ordinary LD scores; optional named marker sets</td>
+</tr>
+<tr class="even">
 <td>Ordinary LDSC</td>
 <td><code>gcorr_ldsc()</code></td>
 <td>named LD scores, delete blocks, marker universe</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Partitioned LDSC</td>
 <td><code>gcorr_ldsc_partitioned()</code></td>
 <td>annotation/weight scores, sums, blocks, reference metadata</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>GNOVA</td>
 <td><code>gcorr_gnova()</code></td>
 <td>ordinary scores or binary annotation inputs; pair overlap intercepts</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>SumHer</td>
 <td><code>gcorr_sumher()</code></td>
 <td>architecture scores and sums, tagging, blocks</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>HESS/rho-HESS</td>
 <td><code>gcorr_hess()</code>, <code>gcorr_rho_hess()</code></td>
 <td>prepared regional LD and overlap metadata</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>SUPERGNOVA</td>
 <td><code>gcorr_supergnova()</code></td>
 <td>two traits, regional LD, overlap intercept and variance</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>LAVA</td>
 <td><code>gcorr_lava*()</code></td>
 <td>regional LD, sampling correlation, optional seeded inference</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>HDL-L</td>
 <td><code>gcorr_hdll()</code></td>
 <td>two traits, regional LD and shared sample count</td>
