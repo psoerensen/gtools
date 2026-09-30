@@ -685,6 +685,7 @@ ul.task-list li input[type="checkbox"] {
     ld["Glist sparse LD"] --&gt; vegas
     vegas --&gt; genes["Gene-level evidence"]
     genes --&gt; enrichment["gsea::gsea()"]</code></pre>
+<p>The VEGAS step processes the supplied marker sets directly: one sparse-LD reader is reused, each set is prepared once, and all traits are evaluated before that region is released. Cross-gene covariance, when required by a downstream enrichment model, is a separate explicit input.</p>
 <p>Method-specific controls, outputs and qualification limits belong in the <a href="../../gsuite/docs/methods.html">method catalogue</a> and the linked workflow guides, rather than on this architecture page.</p>
 </section>
 <section id="mixed-models-and-numerical-methods" class="level2">

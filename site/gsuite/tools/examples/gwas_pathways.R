@@ -16,7 +16,6 @@ for(j in seq_len(m)) if((j-1L)%%60L) {
   copy<-runif(n)<.25;W[copy,j]<-W[copy,j-1L]
 }
 genes<-stats::setNames(lapply(seq_len(ngenes),function(g)ids[(3*g-2):(3*g)]),gene_ids)
-blocks<-split(gene_ids,rep(paste0("chr",1:4),each=20))
 sets<-list(pathway_A=gene_ids[1:15],pathway_B=gene_ids[31:45],
            pathway_C=gene_ids[61:75])
 # Save a counted-allele A reference and retain all within-chromosome correlations.
@@ -56,18 +55,14 @@ minor_count<-pmin(colSums(W),2*n-colSums(W))
 metadata<-data.frame(set=gene_ids,sample_size=n,
   mean_minor_allele_count=vapply(genes,function(g)mean(minor_count[match(g,ids)]),numeric(1)))
 started<-proc.time()[["elapsed"]]
-evidence<-vegas(statistics,Glist,sets=genes,blocks=blocks,metadata=metadata,
-  control=list(independent_blocks=TRUE,tail_method="controlled_series"))
+evidence<-vegas(statistics,Glist,sets=genes,metadata=metadata,
+  control=list(tail_method="controlled_series"),verbose=TRUE)
 stopifnot(all(vapply(evidence$stat,function(s)all(s$p_available&s$p_value>0&s$p_value<1),logical(1))))
 input<-gsea_input(evidence)
-gene_stat<-input$stat;gene_sampling<-input$sampling
+gene_stat<-input$stat
 fits<-list(
   ora=gsea(lapply(gene_stat,function(s)transform(s,selected=p_value<.05)),sets,"ora",control=list(adjustment="BH")),
-  preranked=gsea(gene_stat,sets,"preranked",control=list(seed=31,replicates=999,adjustment="BH")),
-  competitive=gsea(gene_stat,sets,"competitive",sampling=gene_sampling,control=list(adjustment="BH")),
-  magma=gsea(gene_stat,sets,"magma",sampling=gene_sampling,control=list(adjustment="BH")),
-  bayesc=gsea(gene_stat["trait_A"],sets,"bayesc",sampling=gene_sampling,
-    prior=list(residual_variance=1,effect_variance=1),control=list(burnin=100,sampling_sweeps=1000,seeds=c(11,29)))
+  preranked=gsea(gene_stat,sets,"preranked",control=list(seed=31,replicates=999,adjustment="BH"))
 )
 elapsed<-proc.time()[["elapsed"]]-started
 results<-do.call(rbind,lapply(names(fits),function(method) {
@@ -87,13 +82,15 @@ for(trait in names(stat)) {
     xlab="Artificial gene index",ylab="Gene -log10(p)",main=trait)
   legend("topright",c("Contains simulated effects","Other genes"),pch=16,col=c("#c05a22","#38678f"),bty="n",cex=.8)
 }
-a<-fits$magma$pathways
-values<-sapply(names(stat),function(t)-log10(pmax(a$p_value[a$trait==t],.Machine$double.xmin)))
+preranked<-fits$preranked$pathways
+values<-sapply(names(stat),function(t)-log10(pmax(preranked$p_value[preranked$trait==t],.Machine$double.xmin)))
 barplot(t(values),beside=TRUE,names.arg=names(sets),col=c("#38678f","#c05a22"),
-        ylab="Pathway -log10(p)",main="Bounded MAGMA workflow")
+        ylab="Pathway -log10(p)",main="Preranked enrichment")
 legend("topright",names(stat),fill=c("#38678f","#c05a22"),bty="n",cex=.8)
-barplot(fits$bayesc$pathways$pip,names.arg=names(sets),ylim=c(0,1),col="#3b8775",
-        ylab="Posterior inclusion probability",main="BayesC: trait_A (working score model)")
+ora<-fits$ora$pathways
+values<-sapply(names(stat),function(t)-log10(pmax(ora$p_value[ora$trait==t],.Machine$double.xmin)))
+barplot(t(values),beside=TRUE,names.arg=names(sets),col=c("#38678f","#c05a22"),
+        ylab="Pathway -log10(p)",main="Over-representation analysis")
 dev.off()
 print(evidence)
 print(results,row.names=FALSE)

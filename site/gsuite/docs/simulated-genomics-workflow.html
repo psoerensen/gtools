@@ -742,14 +742,11 @@ Completed example and supported recipes
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> gscore<span class="sc">::</span><span class="fu">gscore</span>(weights, test_Glist)</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate marker evidence, then analyse pathways of genes.</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>evidence <span class="ot">&lt;-</span> glma<span class="sc">::</span><span class="fu">vegas</span>(statistics, LD_Glist, <span class="at">sets =</span> genes, <span class="at">blocks =</span> blocks,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>evidence <span class="ot">&lt;-</span> glma<span class="sc">::</span><span class="fu">vegas</span>(statistics, LD_Glist, <span class="at">sets =</span> genes,</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">metadata =</span> metadata,</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                 <span class="at">control =</span> <span class="fu">list</span>(<span class="at">independent_blocks =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                                <span class="at">tail_method =</span> <span class="st">"saddlepoint"</span>))</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>gene_stat <span class="ot">&lt;-</span> <span class="fu">lapply</span>(evidence<span class="sc">$</span>stat, <span class="cf">function</span>(x) <span class="fu">transform</span>(x, <span class="at">gene =</span> set))</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>gene_sampling <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">gene_covariance =</span> evidence<span class="sc">$</span>sampling<span class="sc">$</span>set_covariance)</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>pathways <span class="ot">&lt;-</span> <span class="fu">gsea</span>(gene_stat, pathway_sets, <span class="at">method =</span> <span class="st">"competitive"</span>,</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sampling =</span> gene_sampling)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                 <span class="at">control =</span> <span class="fu">list</span>(<span class="at">tail_method =</span> <span class="st">"saddlepoint"</span>))</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>gene_stat <span class="ot">&lt;-</span> <span class="fu">lapply</span>(evidence<span class="sc">$</span>stat, <span class="cf">function</span>(x) <span class="fu">transform</span>(x, <span class="at">gene =</span> set))</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>pathways <span class="ot">&lt;-</span> <span class="fu">gsea</span>(gene_stat, pathway_sets, <span class="at">method =</span> <span class="st">"preranked"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>prior</code> and <code>control</code> placeholders differ between Bayesian regression and regional mapping. They are explicit in the script. No universal prior scale is assumed across methods.</p>
 </section>
 <section id="results" class="level2">
@@ -935,8 +932,8 @@ V_g=b^{\mathsf T}R_{\mathrm{ref}}b.
 </section>
 <section id="pathways" class="level3">
 <h3 class="anchored" data-anchor-id="pathways">Pathways</h3>
-<p><code>glma::vegas()</code> aggregates marker evidence into 1,000 artificial genes, retaining within-region gene dependence. The supported workflow uses the saddlepoint tail calculation for all 3,000 gene-by-trait statistics. Every statistic was returned in the detailed example, with no moment-matching fallback.</p>
-<p>The completed <code>gsea()</code> calls cover ORA, preranked GSEA, competitive regression, the bounded MAGMA route and a scalar Bayesian pathway model. The enriched pathway covers the simulated enriched regions; the mixed pathway samples genes across the genome, and the background pathway covers regions with lower causal-marker probability. Background does not mean zero genetic effects.</p>
+<p><code>glma::vegas()</code> aggregates marker evidence into 1,000 artificial genes, processing each gene region once for all three traits. The supported workflow uses the saddlepoint tail calculation for all 3,000 gene-by-trait statistics. Every statistic was returned in the detailed example, with no moment-matching fallback.</p>
+<p>The retained analysis artifacts also compare ORA, preranked GSEA, competitive regression, the bounded MAGMA route and a scalar Bayesian pathway model. The current direct VEGAS handoff covers ORA and preranked analysis; the covariance- based methods require a separately prepared gene covariance. The enriched pathway covers the simulated enriched regions; the mixed pathway samples genes across the genome, and the background pathway covers regions with lower causal-marker probability. Background does not mean zero genetic effects.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="../website/assets/simulated-genomics/pathways.png" class="img-fluid figure-img"></p>
