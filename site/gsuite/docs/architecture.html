@@ -644,7 +644,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>gsea</td>
-<td>Gene-set and genomic-feature enrichment</td>
+<td>Gene-set enrichment, genomic-feature regression and chromosome-held-out gene ranking</td>
 <td>Reuses glma marker-set evidence and optional gbayes pathway models</td>
 <td>Yes: <code>gsea</code></td>
 </tr>
@@ -677,7 +677,7 @@ ul.task-list li input[type="checkbox"] {
 <li>gscore applies prepared weights, while model fitting remains with the model owner;</li>
 <li>gmap performs regional fine-mapping, posterior-set and Bayesian-FDR interpretation, and colocalisation;</li>
 <li>gcorr fits summary-statistic correlation, covariance and MR models; and</li>
-<li>gsea performs enrichment after gene or feature evidence has been prepared.</li>
+<li>gsea performs enrichment or PoPS-style gene ranking after gene or feature evidence has been prepared.</li>
 </ul>
 <p>A connected association-to-enrichment workflow therefore follows:</p>
 <pre class="mermaid"><code>flowchart LR
