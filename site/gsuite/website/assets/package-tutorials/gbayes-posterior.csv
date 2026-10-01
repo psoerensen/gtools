@@ -1,0 +1,6 @@
+"parameter","mean","sd","lower","upper","rhat","ess_bulk"
+"residual_variance",1,0,1,1,,
+"effect_variance",3e-04,0,3e-04,3e-04,,
+"active_markers",988.286071428571,30.5508663205355,929,1048,0.999888587992789,2774.96336714709
+"weight_0",0.98,0,0.98,0.98,,
+"weight_1",0.02,0,0.02,0.02,,
