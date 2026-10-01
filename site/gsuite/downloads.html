@@ -623,55 +623,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gmap"</span>, <span class="st">"gscore"</span>, <span class="st">"gsea"</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>These are source packages. Windows users need the Rtools version matching R; macOS users need Xcode Command Line Tools; Linux and HPC users need the C++17 toolchain configured for their R installation.</p>
+<section id="direct-source-downloads" class="level3">
+<h3 class="anchored" data-anchor-id="direct-source-downloads">Direct source downloads</h3>
+<p>Using <code>install.packages()</code> with the repository URL above is recommended because R resolves package dependencies automatically. The source archives can also be downloaded directly for offline transfer or installation on HPC systems.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Package</th>
 <th>Purpose</th>
-<th>Source release</th>
+<th>Download</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>gbase</td>
 <td>Shared data contracts</td>
-<td>0.1.0</td>
+<td><a href="repository/src/contrib/gbase_0.1.0.tar.gz">gbase 0.1.0</a></td>
 </tr>
 <tr class="even">
 <td>gbayes</td>
 <td>Bayesian genomic regression</td>
-<td>0.1.0</td>
+<td><a href="repository/src/contrib/gbayes_0.1.0.tar.gz">gbayes 0.1.0</a></td>
 </tr>
 <tr class="odd">
 <td>gcorr</td>
 <td>Genetic correlation</td>
-<td>0.1.0</td>
+<td><a href="repository/src/contrib/gcorr_0.1.0.tar.gz">gcorr 0.1.0</a></td>
 </tr>
 <tr class="even">
 <td>glma</td>
 <td>Association mapping</td>
-<td>0.1.0</td>
+<td><a href="repository/src/contrib/glma_0.1.0.tar.gz">glma 0.1.0</a></td>
 </tr>
 <tr class="odd">
 <td>gmap</td>
 <td>Fine-mapping and colocalisation</td>
-<td>0.1.0</td>
+<td><a href="repository/src/contrib/gmap_0.1.0.tar.gz">gmap 0.1.0</a></td>
 </tr>
 <tr class="even">
 <td>gscore</td>
 <td>Genomic scoring and prediction</td>
-<td>0.1.0</td>
+<td><a href="repository/src/contrib/gscore_0.1.0.tar.gz">gscore 0.1.0</a></td>
 </tr>
 <tr class="odd">
 <td>gsea</td>
 <td>Gene-set enrichment</td>
-<td>0.1.0</td>
+<td><a href="repository/src/contrib/gsea_0.1.0.tar.gz">gsea 0.1.0</a></td>
 </tr>
 </tbody>
 </table>
+<p><a href="repository/src/contrib/SHA256SUMS">SHA-256 checksums</a> · <a href="repository/src/contrib/PACKAGES">R package index</a></p>
+<p>Direct archive installation does not resolve dependencies automatically. Install <code>gbase</code> first and use the repository method when possible.</p>
 <p>The root <code>gsuite</code> integration package is not part of this source release.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
