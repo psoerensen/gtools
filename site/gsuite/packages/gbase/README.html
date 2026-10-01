@@ -174,7 +174,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="gbase" class="level1">
 <h1>gbase</h1>
-<p><code>gbase</code> contains small, task-neutral R data contracts shared by the gsuite ecosystem. It performs no statistical fitting. Its genotype preparation contract uses the installed public <code>gmat</code>, <code>gbits</code>, and <code>gsolve</code> interfaces, with a qualified native prefix checked during compilation and native versions and ABIs checked again when the package loads. <code>gsolve</code> is used only for verified dense regional eigensystems; the portable binary has no CHOLMOD, MKL, PARDISO, or OpenMP runtime dependency.</p>
+<p><code>gbase</code> contains small, task-neutral R data contracts shared by the gsuite ecosystem. It performs no statistical fitting. Its genotype preparation contract uses the installed public <code>gmat</code>, <code>gbits</code>, and <code>gsolve</code> interfaces, with a qualified native prefix checked during compilation and native versions and ABIs checked again when the package loads. <code>gsolve</code> is used only for verified dense regional eigensystems; the portable binary disables CHOLMOD, MKL and PARDISO while retaining OpenMP support.</p>
 <p>Summary statistics use the established qgg workflow: <code>checkStat()</code> maps and aligns an ordinary data frame to Glist, applies explicit QC, and returns an ordinary data frame with familiar short column names:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>

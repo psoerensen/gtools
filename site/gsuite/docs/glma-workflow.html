@@ -782,26 +782,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  statistics,</span>
 <span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  LD_Glist,</span>
 <span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> sets,</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">TRUE</span></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>evidence</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>evidence<span class="sc">$</span>stat<span class="sc">$</span>trait[<span class="fu">c</span>(<span class="st">"set"</span>, <span class="st">"marker_count"</span>, <span class="st">"statistic"</span>,</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="st">"score"</span>, <span class="st">"p_value"</span>, <span class="st">"p_available"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Each marker set defines one region. Native code keeps one sparse-LD reader open, loads one region, prepares it once, evaluates every supplied trait, and then releases that region before moving to the next. <code>gsea::vegas()</code> is the same function re-exported for pathway workflows.</p>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">threads =</span> <span class="dv">4</span>,</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">TRUE</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>evidence</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>evidence<span class="sc">$</span>stat<span class="sc">$</span>trait[<span class="fu">c</span>(<span class="st">"set"</span>, <span class="st">"marker_count"</span>, <span class="st">"statistic"</span>,</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  <span class="st">"score"</span>, <span class="st">"p_value"</span>, <span class="st">"p_available"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Each marker set defines one region. The one-call form opens one sparse-LD reader and prepares eigenvalue spectra in bounded batches across marker sets. For repeated analyses, prepare the spectra once and reuse the ordinary serializable R object for any number of checked traits:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>prepared <span class="ot">&lt;-</span> <span class="fu">prepare_vegas</span>(LD_Glist, sets, <span class="at">threads =</span> <span class="dv">4</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(prepared, <span class="st">"vegas-reference.rds"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>evidence_A <span class="ot">&lt;-</span> <span class="fu">vegas</span>(statistics, <span class="at">prepared =</span> prepared)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>evidence_B <span class="ot">&lt;-</span> <span class="fu">vegas</span>(statistics_B, <span class="at">prepared =</span> prepared)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Evaluation does not reopen the LD resource or repeat the eigendecompositions. Memory remains bounded by the preparation thread count rather than the total number of sets. <code>gsea::prepare_vegas()</code> and <code>gsea::vegas()</code> re-export the same interfaces for pathway workflows.</p>
 <p>Remove the temporary sparse-LD files when the example is finished:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(<span class="fu">unlist</span>(LD_Glist<span class="sc">$</span>sparseLD<span class="sc">$</span>paths, <span class="at">use.names =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(<span class="fu">unlist</span>(LD_Glist<span class="sc">$</span>sparseLD<span class="sc">$</span>paths, <span class="at">use.names =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="save-and-report-results" class="level2">
 <h2 class="anchored" data-anchor-id="save-and-report-results">Save and report results</h2>
 <p>All results are ordinary R lists and data frames:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">list</span>(<span class="at">linear =</span> linear, <span class="at">conditional =</span> conditional,</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">logistic =</span> logistic, <span class="at">infinitesimal =</span> infinitesimal,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_selected =</span> prior_selected, <span class="at">vegas =</span> evidence),</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"glma-analysis.rds"</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(association_A, <span class="st">"trait-A-associations.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(evidence<span class="sc">$</span>stat<span class="sc">$</span>trait, <span class="st">"trait-A-marker-sets.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">list</span>(<span class="at">linear =</span> linear, <span class="at">conditional =</span> conditional,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">logistic =</span> logistic, <span class="at">infinitesimal =</span> infinitesimal,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_selected =</span> prior_selected, <span class="at">vegas =</span> evidence),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"glma-analysis.rds"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(association_A, <span class="st">"trait-A-associations.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(evidence<span class="sc">$</span>stat<span class="sc">$</span>trait, <span class="st">"trait-A-marker-sets.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For real analyses, inspect the complete <code>status</code> column, method-specific fit information and diagnostics before filtering by p-value. Multiple-testing correction, Manhattan/QQ plotting and scientific interpretation remain explicit analysis decisions rather than automatic transformations of the native output.</p>
 <p>The larger <a href="../../gsuite/docs/simulated-genomics-workflow.html">connected genomic analysis</a> shows linear GWAS and VEGAS results for 10,000 simulated individuals and 50,000 markers. The <a href="../../gsuite/docs/glma-qualification.html">glma validation page</a> records the focused numerical comparisons and their limits.</p>
 
