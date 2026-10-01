@@ -662,7 +662,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><code>glma</code> scans individual-level genotypes in a Glist. It supports quantitative linear scans, conditional scans, binary logistic scans and two leave-one- chromosome-out (LOCO) background models. Its <code>vegas()</code> function then combines aligned marker evidence within named marker sets using reference LD. This page follows the <a href="../../../gsuite/docs/package-tutorials/overview.html">shared simulation</a>, where each of three traits has a separate 6,000-person GWAS cohort.</p>
+<p><code>glma</code> scans individual-level genotypes in a Glist. It supports quantitative linear scans, conditional scans, binary logistic scans and two leave-one- chromosome-out (LOCO) background models. Its <code>vegas()</code> function then combines aligned marker evidence within named marker sets using reference LD. This page follows the <a href="../../../gsuite/docs/package-tutorials/overview.html">shared simulation</a>, where each of three traits has a separate 6,000-person GWAS cohort. First run the loading block in that overview to define <code>prefix</code>, <code>Y</code>, <code>simulation</code>, <code>reference_Glist</code> and <code>gene_sets</code>; the snippets below can then be run in order.</p>
 <section id="scan-the-quantitative-traits" class="level2">
 <h2 class="anchored" data-anchor-id="scan-the-quantitative-traits">Scan the quantitative traits</h2>
 <p>The phenotype is named by individual ID, so <code>glma()</code> can match its rows to the selected Glist sample order. A named matrix can scan several traits in the <em>same</em> cohort; this simulation instead uses disjoint cohorts and fits one trait at a time.</p>

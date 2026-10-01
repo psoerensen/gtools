@@ -662,7 +662,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><code>gsea</code> analyses gene-level evidence and named collections of genes. It re-exports <code>glma::vegas()</code> for the preceding marker-to-gene step, then offers over-representation, preranked, competitive, MAGMA-style and Bayesian pathway methods. <code>pops()</code> separately ranks genes using their features. This tutorial continues the <a href="../../../gsuite/docs/package-tutorials/overview.html">shared 20K/50K analysis</a>.</p>
+<p><code>gsea</code> analyses gene-level evidence and named collections of genes. It re-exports <code>glma::vegas()</code> for the preceding marker-to-gene step, then offers over-representation, preranked, competitive, MAGMA-style and Bayesian pathway methods. <code>pops()</code> separately ranks genes using their features. This tutorial continues the <a href="../../../gsuite/docs/package-tutorials/overview.html">shared 20K/50K analysis</a>. Run the overview’s loading block and the <a href="../../../gsuite/docs/package-tutorials/glma.html">glma VEGAS step</a> first to define <code>gene_sets</code> and <code>gene_results</code>.</p>
 <section id="from-markers-to-genes" class="level2">
 <h2 class="anchored" data-anchor-id="from-markers-to-genes">From markers to genes</h2>
 <p><a href="../../../gsuite/docs/package-tutorials/glma.html">VEGAS</a> has already converted aligned marker statistics and reference LD into one gene table per trait. <code>gsea_input()</code> checks that all traits have available p-values and the same genes in the same order, then renames the gene identifier for pathway analysis.</p>

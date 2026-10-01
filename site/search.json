@@ -160,7 +160,7 @@
     "href": "gsuite/docs/package-tutorials/gsea.html",
     "title": "Gene and pathway analysis with gsea",
     "section": "",
-    "text": "gsea analyses gene-level evidence and named collections of genes. It re-exports glma::vegas() for the preceding marker-to-gene step, then offers over-representation, preranked, competitive, MAGMA-style and Bayesian pathway methods. pops() separately ranks genes using their features. This tutorial continues the shared 20K/50K analysis.",
+    "text": "gsea analyses gene-level evidence and named collections of genes. It re-exports glma::vegas() for the preceding marker-to-gene step, then offers over-representation, preranked, competitive, MAGMA-style and Bayesian pathway methods. pops() separately ranks genes using their features. This tutorial continues the shared 20K/50K analysis. Run the overview’s loading block and the glma VEGAS step first to define gene_sets and gene_results.",
     "crumbs": [
       "gsuite",
       "Tutorials",
@@ -225,7 +225,7 @@
     "href": "gsuite/docs/package-tutorials/gmap.html",
     "title": "Regional fine-mapping with gmap",
     "section": "",
-    "text": "gmap works at a declared set of regions rather than fitting the complete genome at once. It offers regional multi-effect, BayesC and BayesR fits, posterior sets, Bayesian FDR summaries and colocalisation. It can also interpret regions from an existing individual-level gbayes fit. This page uses the A and B summaries and the LD resource from the shared simulation.",
+    "text": "gmap works at a declared set of regions rather than fitting the complete genome at once. It offers regional multi-effect, BayesC and BayesR fits, posterior sets, Bayesian FDR summaries and colocalisation. It can also interpret regions from an existing individual-level gbayes fit. This page uses the A and B summaries and the LD resource from the shared simulation. Run the overview’s loading block first for statistics, reference_Glist, Y and regions; the glma page defines the named gwas_ids.",
     "crumbs": [
       "gsuite",
       "Tutorials",
@@ -303,7 +303,7 @@
     "href": "gsuite/docs/package-tutorials/gbayes.html",
     "title": "Bayesian genomic regression with gbayes",
     "section": "",
-    "text": "gbayes fits marker effects from aligned summary statistics and the shared Glist LD reference. It also supports individual BED phenotypes, multivariate fits, annotation-informed priors and several focused summary engines. This page interprets the BayesC fit from the 20K/50K simulation; alternative calls below show other available routes without attaching the displayed BayesC numbers to them.",
+    "text": "gbayes fits marker effects from aligned summary statistics and the shared Glist LD reference. It also supports individual BED phenotypes, multivariate fits, annotation-informed priors and several focused summary engines. This page interprets the BayesC fit from the 20K/50K simulation; alternative calls below show other available routes without attaching the displayed BayesC numbers to them. Load statistics, reference_Glist, Y and panel from the linked study overview and gbase preparation, or run the complete driver there to regenerate the saved fit.",
     "crumbs": [
       "gsuite",
       "Tutorials",
@@ -4078,7 +4078,7 @@
     "href": "gsuite/docs/package-tutorials/glma.html",
     "title": "Association analysis with glma",
     "section": "",
-    "text": "glma scans individual-level genotypes in a Glist. It supports quantitative linear scans, conditional scans, binary logistic scans and two leave-one- chromosome-out (LOCO) background models. Its vegas() function then combines aligned marker evidence within named marker sets using reference LD. This page follows the shared simulation, where each of three traits has a separate 6,000-person GWAS cohort.",
+    "text": "glma scans individual-level genotypes in a Glist. It supports quantitative linear scans, conditional scans, binary logistic scans and two leave-one- chromosome-out (LOCO) background models. Its vegas() function then combines aligned marker evidence within named marker sets using reference LD. This page follows the shared simulation, where each of three traits has a separate 6,000-person GWAS cohort. First run the loading block in that overview to define prefix, Y, simulation, reference_Glist and gene_sets; the snippets below can then be run in order.",
     "crumbs": [
       "gsuite",
       "Tutorials",
@@ -4143,7 +4143,7 @@
     "href": "gsuite/docs/package-tutorials/gcorr.html",
     "title": "Heritability and genetic correlation with gcorr",
     "section": "",
-    "text": "gcorr works with aligned summary statistics. The convenient ldsc() route uses LD scores and reference metadata already held by a gbase Glist. Other public functions provide GNOVA, SumHer, regional covariance methods, covariance models and Mendelian randomisation when their additional inputs are available. This page uses the three disjoint GWAS cohorts from the shared simulation.",
+    "text": "gcorr works with aligned summary statistics. The convenient ldsc() route uses LD scores and reference metadata already held by a gbase Glist. Other public functions provide GNOVA, SumHer, regional covariance methods, covariance models and Mendelian randomisation when their additional inputs are available. This page uses the three disjoint GWAS cohorts from the shared simulation. Run the overview’s loading block first for statistics, reference_Glist and regions.",
     "crumbs": [
       "gsuite",
       "Tutorials",
@@ -4195,7 +4195,7 @@
     "href": "gsuite/docs/package-tutorials/gscore.html",
     "title": "Polygenic scoring with gscore",
     "section": "",
-    "text": "gscore applies allele-labelled marker weights to selected people in a gbase Glist. It can produce total scores, scores for named marker sets and several weight columns in one pass. It also constructs clumping-and-thresholding (C+T) weights from aligned GWAS statistics and stored sparse LD. The shared simulation holds out 2,000 individuals for this example.",
+    "text": "gscore applies allele-labelled marker weights to selected people in a gbase Glist. It can produce total scores, scores for named marker sets and several weight columns in one pass. It also constructs clumping-and-thresholding (C+T) weights from aligned GWAS statistics and stored sparse LD. The shared simulation holds out 2,000 individuals for this example. Run the overview loading block first for prefix, Y, bayes_fit, gene_sets, statistics and reference_Glist.",
     "crumbs": [
       "gsuite",
       "Tutorials",
