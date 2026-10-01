@@ -182,7 +182,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The public distribution unit consists of exactly seven R source packages: <code>gbase</code>, <code>gbayes</code>, <code>gcorr</code>, <code>glma</code>, <code>gmap</code>, <code>gscore</code>, and <code>gsea</code>. The root <code>gsuite</code> package, <code>gshare</code>, and the complete <code>gsolve</code> and <code>greml</code> libraries are not part of this repository.</p>
 <p>Users install from the conventional R repository:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">gsuite =</span> <span class="st">"https://psoerensen.github.io/gsuite/repository"</span>,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">gsuite =</span> <span class="st">"https://psoerensen.github.io/gtools/gsuite/repository"</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>))</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
@@ -213,7 +213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="release-gate" class="level2">
 <h2 class="anchored" data-anchor-id="release-gate">Release gate</h2>
-<p>Before each publication, review package versions, source-check results on release platforms, licence notices, archive contents and checksums, absence of private source, and the website wording. Pushing an approved <code>repository/</code> update to <code>main</code> activates the dedicated GitHub Pages deployment workflow.</p>
+<p>Before each publication, review package versions, source-check results on release platforms, licence notices, archive contents and checksums, absence of private source, and the website wording. Running the documented website publisher copies the approved release into <code>site/gsuite/repository</code> in the public <code>gtools</code> checkout. Pushing that reviewed snapshot activates the gtools GitHub Pages deployment workflow.</p>
 
 
 </section>

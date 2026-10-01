@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>gsuite R package repository</title>
+</head>
+<body>
+  <main>
+    <h1>gsuite R package repository</h1>
+    <p>This repository provides the public gsuite source packages for R.</p>
+    <pre><code>options(repos = c(
+  gsuite = "https://psoerensen.github.io/gtools/gsuite/repository",
+  CRAN = "https://cloud.r-project.org"
+))
+install.packages(c(
+  "gbase", "gbayes", "gcorr", "glma", "gmap", "gscore", "gsea"
+))</code></pre>
+    <p><a href="src/contrib/PACKAGES">Package index</a> ·
+       <a href="src/contrib/SHA256SUMS">SHA-256 checksums</a></p>
+  </main>
+</body>
+</html>
