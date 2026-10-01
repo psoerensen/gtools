@@ -180,7 +180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="source-package-repository" class="level1">
 <h1>Source-package repository</h1>
 <p>The public distribution unit consists of exactly seven R source packages: <code>gbase</code>, <code>gbayes</code>, <code>gcorr</code>, <code>glma</code>, <code>gmap</code>, <code>gscore</code>, and <code>gsea</code>. The root <code>gsuite</code> package, <code>gshare</code>, and the complete <code>gsolve</code> and <code>greml</code> libraries are not part of this repository.</p>
-<p>After release approval, users will install from the conventional R repository:</p>
+<p>Users install from the conventional R repository:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">gsuite =</span> <span class="st">"https://psoerensen.github.io/gsuite/repository"</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span></span>
@@ -188,7 +188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gbase"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"gbayes"</span>, <span class="st">"gcorr"</span>, <span class="st">"glma"</span>, <span class="st">"gmap"</span>, <span class="st">"gscore"</span>, <span class="st">"gsea"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This URL is the planned publication location. Do not present these commands as available until the generated candidate, licences, and release versions have been approved and deployed.</p>
+<p>The first public source release is version 0.1.0.</p>
 <section id="what-the-source-packages-contain" class="level2">
 <h2 class="anchored" data-anchor-id="what-the-source-packages-contain">What the source packages contain</h2>
 <p><code>gbase</code> builds the task-neutral <code>gbits</code> and <code>gmat</code> implementation together with bounded <code>gsolve-core</code> and <code>greml-core</code> source sets. It installs their public headers and one position-independent static archive for the task packages. The cores exclude sparse direct factorization, selected inversion, CHOLMOD, oneMKL, PARDISO, and the pedigree, longitudinal, and full mixed-model surfaces.</p>
@@ -207,13 +207,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="build-and-qualification">Build and qualification</h2>
 <p>From the gsuite checkout, with the canonical native repositories beside it:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/build/build_source_repository.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The command stages generated package sources, extracts source lists from the owners’ CMake declarations, builds and checks packages in dependency order, installs them into an isolated library, and writes the seven archives plus <code>PACKAGES</code>, <code>PACKAGES.gz</code>, and <code>PACKAGES.rds</code> under <code>repository/src/contrib</code>.</p>
+<p>The command stages generated package sources, extracts source lists from the owners’ CMake declarations, builds and checks packages in dependency order, installs them into an isolated library, and writes the seven archives plus <code>PACKAGES</code>, <code>PACKAGES.gz</code>, <code>PACKAGES.rds</code>, and <code>SHA256SUMS</code> under <code>repository/src/contrib</code>. Release assembly requires the R package <code>openssl</code> to calculate SHA-256 checksums; end users do not need it unless another dependency requires it.</p>
 <p>Use <code>--stage-only</code> to inspect generated source, <code>--build-only</code> to assemble the archives without compiling them, and <code>--skip-check</code> for an installation smoke build. <code>--from=&lt;package&gt;</code> resumes an interrupted ordered run. Those modes are partial validation.</p>
-<p><code>repository/</code> and all staging, check, object, and installation outputs are generated and ignored by Git. The build command never deploys, pushes, or changes GitHub Pages.</p>
+<p>Approved contents under <code>repository/</code> are tracked as release artifacts. All staging, check, object, and installation outputs remain generated and ignored. The build command itself never deploys, pushes, or changes GitHub Pages.</p>
 </section>
 <section id="release-gate" class="level2">
 <h2 class="anchored" data-anchor-id="release-gate">Release gate</h2>
-<p>Before publication, review package versions, source-check results on release platforms, licence notices, archive contents and checksums, absence of private source, and the website wording. Only an explicitly approved candidate may be copied to the Pages deployment.</p>
+<p>Before each publication, review package versions, source-check results on release platforms, licence notices, archive contents and checksums, absence of private source, and the website wording. Pushing an approved <code>repository/</code> update to <code>main</code> activates the dedicated GitHub Pages deployment workflow.</p>
 
 
 </section>

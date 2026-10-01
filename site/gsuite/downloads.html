@@ -610,62 +610,66 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Some gact workflows use additional packages or external data resources. Check the linked tutorial for the requirements of the workflow you want to run.</p>
 </section>
 </section>
-<section id="in-development" class="level2">
-<h2 class="anchored" data-anchor-id="in-development">In development</h2>
-<p>The following R packages are documented on this site but are not yet available for public installation.</p>
+<section id="gsuite-source-packages" class="level2">
+<h2 class="anchored" data-anchor-id="gsuite-source-packages">gsuite source packages</h2>
+<p>Install the public gsuite R packages from the source repository:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">gsuite =</span> <span class="st">"https://psoerensen.github.io/gsuite/repository"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gbase"</span>, <span class="st">"gbayes"</span>, <span class="st">"gcorr"</span>, <span class="st">"glma"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gmap"</span>, <span class="st">"gscore"</span>, <span class="st">"gsea"</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These are source packages. Windows users need the Rtools version matching R; macOS users need Xcode Command Line Tools; Linux and HPC users need the C++17 toolchain configured for their R installation.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Package</th>
 <th>Purpose</th>
-<th>Availability</th>
+<th>Source release</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>gsuite</td>
-<td>Integrated genomic analysis workflows</td>
-<td>In development</td>
-</tr>
-<tr class="even">
 <td>gbase</td>
 <td>Shared data contracts</td>
-<td>In development</td>
+<td>0.1.0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>gbayes</td>
 <td>Bayesian genomic regression</td>
-<td>In development</td>
+<td>0.1.0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>gcorr</td>
 <td>Genetic correlation</td>
-<td>In development</td>
+<td>0.1.0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>glma</td>
 <td>Association mapping</td>
-<td>In development</td>
-</tr>
-<tr class="even">
-<td>gmap</td>
-<td>Fine-mapping and colocalisation</td>
-<td>In development</td>
+<td>0.1.0</td>
 </tr>
 <tr class="odd">
-<td>gscore</td>
-<td>Genomic scoring and prediction</td>
-<td>In development</td>
+<td>gmap</td>
+<td>Fine-mapping and colocalisation</td>
+<td>0.1.0</td>
 </tr>
 <tr class="even">
+<td>gscore</td>
+<td>Genomic scoring and prediction</td>
+<td>0.1.0</td>
+</tr>
+<tr class="odd">
 <td>gsea</td>
 <td>Gene-set enrichment</td>
-<td>In development</td>
+<td>0.1.0</td>
 </tr>
 </tbody>
 </table>
-<p>Installation commands and supported platforms will be added here as packages are released.</p>
-<p>The planned release channel is a conventional R source repository at <code>https://psoerensen.github.io/gsuite/repository</code>. It will contain exactly <code>gbase</code>, <code>gbayes</code>, <code>gcorr</code>, <code>glma</code>, <code>gmap</code>, <code>gscore</code>, and <code>gsea</code>. The repository is not available until source checks, licences, and a release candidate have been approved.</p>
+<p>The root <code>gsuite</code> integration package is not part of this source release.</p>
 
 
 </section>
