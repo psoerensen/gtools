@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Reuse VEGAS gene statistics for pathway analysis and PoPS-style ranking.">
+<meta name="description" content="Turn VEGAS genes into pathway tests and rank genes with PoPS-style features.">
 
 <title>Gene and pathway analysis with gsea – gtools</title>
 <style>
@@ -158,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gsea.html">gsea: genes and pathways</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gsea.html">gsea: genes and pathways</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -235,6 +235,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../gsuite/docs/package-tutorials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Study design and reproducibility</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../gsuite/docs/package-tutorials/gbase.html" class="sidebar-item-text sidebar-link">
@@ -622,21 +628,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#rank-genes-with-features" id="toc-rank-genes-with-features" class="nav-link active" data-scroll-target="#rank-genes-with-features">Rank genes with features</a></li>
+  <li><a href="#from-markers-to-genes" id="toc-from-markers-to-genes" class="nav-link active" data-scroll-target="#from-markers-to-genes">From markers to genes</a></li>
+  <li><a href="#fit-the-magma-style-competitive-model" id="toc-fit-the-magma-style-competitive-model" class="nav-link" data-scroll-target="#fit-the-magma-style-competitive-model">Fit the MAGMA-style competitive model</a></li>
+  <li><a href="#rank-genes-from-features-with-pops" id="toc-rank-genes-from-features-with-pops" class="nav-link" data-scroll-target="#rank-genes-from-features-with-pops">Rank genes from features with PoPS</a></li>
+  <li><a href="#select-another-pathway-question" id="toc-select-another-pathway-question" class="nav-link" data-scroll-target="#select-another-pathway-question">Select another pathway question</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gsea.html">gsea: genes and pathways</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gsea.html">gsea: genes and pathways</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Gene and pathway analysis with gsea</h1>
 </div>
 
 <div>
   <div class="description">
-    Reuse VEGAS gene statistics for pathway analysis and PoPS-style ranking.
+    Turn VEGAS genes into pathway tests and rank genes with PoPS-style features.
   </div>
 </div>
 
@@ -653,19 +662,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><code>gsea</code> starts from gene-level evidence. In this example the evidence comes from <a href="../../../gsuite/docs/package-tutorials/glma.html">glma::vegas()</a>, so the marker-to-gene aggregation already accounts for reference LD and is reused for all three traits.</p>
+<p><code>gsea</code> analyses gene-level evidence and named collections of genes. It re-exports <code>glma::vegas()</code> for the preceding marker-to-gene step, then offers over-representation, preranked, competitive, MAGMA-style and Bayesian pathway methods. <code>pops()</code> separately ranks genes using their features. This tutorial continues the <a href="../../../gsuite/docs/package-tutorials/overview.html">shared 20K/50K analysis</a>.</p>
+<section id="from-markers-to-genes" class="level2">
+<h2 class="anchored" data-anchor-id="from-markers-to-genes">From markers to genes</h2>
+<p><a href="../../../gsuite/docs/package-tutorials/glma.html">VEGAS</a> has already converted aligned marker statistics and reference LD into one gene table per trait. <code>gsea_input()</code> checks that all traits have available p-values and the same genes in the same order, then renames the gene identifier for pathway analysis.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsea)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>input <span class="ot">&lt;-</span> <span class="fu">gsea_input</span>(gene_results)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>gene_stat <span class="ot">&lt;-</span> input<span class="sc">$</span>stat</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pathways <span class="ot">&lt;-</span> <span class="fu">gsea</span>(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  gene_stat,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  pathway_sets,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"magma"</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">sampling =</span> <span class="fu">list</span>(<span class="at">gene_covariance =</span> <span class="st">"independent"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Pathway sets contain gene names, just as VEGAS sets contain marker names. The result reports the competitive estimate, uncertainty and p-value for every trait and pathway.</p>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gene_stat)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gene_stat<span class="sc">$</span>A[<span class="fu">c</span>(<span class="st">"gene"</span>, <span class="st">"score"</span>, <span class="st">"p_value"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"marker_count"</span>, <span class="st">"sample_size"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>VEGAS sets contain <em>marker</em> names. The pathway sets below contain <em>gene</em> names. The simulated <code>enriched</code> set includes genes drawn from the first 80 regions; <code>background</code> and <code>mixed</code> provide comparisons.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pathway_sets <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">enriched =</span> <span class="fu">names</span>(gene_sets)[<span class="dv">1</span><span class="sc">:</span><span class="dv">160</span>],</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">background =</span> <span class="fu">names</span>(gene_sets)[<span class="dv">401</span><span class="sc">:</span><span class="dv">560</span>],</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mixed =</span> <span class="fu">names</span>(gene_sets)[<span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">999</span>, <span class="at">by =</span> <span class="dv">5</span>)]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="fit-the-magma-style-competitive-model" class="level2">
+<h2 class="anchored" data-anchor-id="fit-the-magma-style-competitive-model">Fit the MAGMA-style competitive model</h2>
+<p>The public MAGMA route consumes calibrated gene p-values and gene metadata such as marker count, effective parameters, GWAS sample size and minor-allele count. The VEGAS result carries those fields from the preceding stage. Gene dependence must be declared; the saved example deliberately uses an independent working gene covariance.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pathways <span class="ot">&lt;-</span> <span class="fu">gsea</span>(gene_stat, pathway_sets, <span class="at">method =</span> <span class="st">"magma"</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sampling =</span> <span class="fu">list</span>(<span class="at">gene_covariance =</span> <span class="st">"independent"</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>pathways<span class="sc">$</span>pathways</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>pathways<span class="sc">$</span>preparation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The table reports a competitive estimate, standard error and p-value for each trait and pathway. It shows evidence for the planted <code>enriched</code> group in all three traits. These p-values belong to the specified working model and this one simulated dataset.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -744,28 +767,162 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../../website/assets/package-tutorials/gsea-pathways.png" class="img-fluid figure-img" alt="Points and 95 percent intervals compare enriched, background and mixed pathways for three traits; the enriched pathway is positive for every trait."></p>
-<figcaption>MAGMA-style competitive pathway estimates for three traits.</figcaption>
+<p><img src="../../website/assets/package-tutorials/gsea-pathways.png" class="img-fluid figure-img" alt="Points and 95 percent intervals show positive estimates for the enriched pathway and smaller estimates for background and mixed pathways across three simulated traits."></p>
+<figcaption>Competitive pathway results for three traits.</figcaption>
 </figure>
 </div>
-<section id="rank-genes-with-features" class="level2">
-<h2 class="anchored" data-anchor-id="rank-genes-with-features">Rank genes with features</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pops_stat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">gene =</span> <span class="fu">rownames</span>(features),</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">chromosome =</span> gene_chromosome,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">score =</span> gene_stat<span class="sc">$</span>A<span class="sc">$</span>score</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>ranking <span class="ot">&lt;-</span> <span class="fu">pops</span>(</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  pops_stat,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  features,</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">sampling =</span> <span class="fu">list</span>(<span class="at">gene_covariance =</span> <span class="st">"independent"</span>),</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">control_features =</span> <span class="st">"feature001"</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ranking<span class="sc">$</span>predictions[<span class="fu">order</span>(ranking<span class="sc">$</span>predictions<span class="sc">$</span>genome_rank), ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The feature matrix must have genes as rows. The returned predictions contain the model score and genome-wide rank for each gene.</p>
-<p><a href="../../website/assets/package-tutorials/gsea-pathways.csv">Download pathway results</a> · <a href="../../website/assets/package-tutorials/gsea-top-genes.csv">download the top-ranked genes</a></p>
+<p><code>summary(pathways)</code> also returns preparation and diagnostics. The bounded MAGMA route implements its documented gene-property corrections; it does not construct gene covariance from marker LD. Supply labelled covariance blocks when gene dependence matters and can be estimated.</p>
+</section>
+<section id="rank-genes-from-features-with-pops" class="level2">
+<h2 class="anchored" data-anchor-id="rank-genes-from-features-with-pops">Rank genes from features with PoPS</h2>
+<p>PoPS-style ranking is a different question: which genes receive high feature-based priority scores? Features are numeric columns in a gene-by- feature matrix. A chromosome-held-out model scores each gene using a fit that excluded its chromosome from the training response.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>gene_names <span class="ot">&lt;-</span> <span class="fu">names</span>(gene_sets)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>region_index <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">seq_len</span>(<span class="dv">500</span>), <span class="at">each =</span> <span class="dv">2</span>L)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20260932</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>features <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="fu">length</span>(gene_names) <span class="sc">*</span> <span class="dv">100</span>L),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="fu">length</span>(gene_names),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(gene_names, <span class="fu">sprintf</span>(<span class="st">"feature%03d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>)))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>features[, <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(gene_names <span class="sc">%in%</span> pathway_sets<span class="sc">$</span>enriched)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>pops_stat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">gene =</span> gene_names,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">chromosome =</span> <span class="fu">as.character</span>(<span class="fu">ceiling</span>(region_index <span class="sc">/</span> <span class="dv">25</span>L)),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">score =</span> gene_stat<span class="sc">$</span>A<span class="sc">$</span>score</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>ranking <span class="ot">&lt;-</span> <span class="fu">pops</span>(pops_stat, features,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">sampling =</span> <span class="fu">list</span>(<span class="at">gene_covariance =</span> <span class="st">"independent"</span>),</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">control_features =</span> <span class="st">"feature001"</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ranking<span class="sc">$</span>predictions[<span class="fu">order</span>(ranking<span class="sc">$</span>predictions<span class="sc">$</span>genome_rank), ])</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>ranking<span class="sc">$</span>folds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first ten genes in the saved ranking are:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Gene</th>
+<th>Chromosome</th>
+<th>Score</th>
+<th>Genome rank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>gene0083</td>
+<td>2</td>
+<td>1.56</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>gene0092</td>
+<td>2</td>
+<td>1.24</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>gene0075</td>
+<td>2</td>
+<td>1.24</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>gene0056</td>
+<td>2</td>
+<td>1.22</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>gene0100</td>
+<td>2</td>
+<td>1.22</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>gene0066</td>
+<td>2</td>
+<td>1.21</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>gene0134</td>
+<td>3</td>
+<td>1.19</td>
+<td>7</td>
+</tr>
+<tr class="even">
+<td>gene0063</td>
+<td>2</td>
+<td>1.18</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>gene0062</td>
+<td>2</td>
+<td>1.17</td>
+<td>9</td>
+</tr>
+<tr class="even">
+<td>gene0074</td>
+<td>2</td>
+<td>1.15</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<p><code>score</code> is a model prediction from features and <code>genome_rank</code> orders those scores. Neither is a p-value, causal probability or automatic top-gene choice for a locus. The fit also retains selected features and fold diagnostics.</p>
+</section>
+<section id="select-another-pathway-question" class="level2">
+<h2 class="anchored" data-anchor-id="select-another-pathway-question">Select another pathway question</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Required gene evidence</th>
+<th>Main output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ora</code></td>
+<td>A logical <code>selected</code> flag over the complete gene background.</td>
+<td>Over-representation and fold enrichment.</td>
+</tr>
+<tr class="even">
+<td><code>preranked</code></td>
+<td>A finite signed gene <code>score</code>.</td>
+<td>Enrichment score, normalized score and permutations.</td>
+</tr>
+<tr class="odd">
+<td><code>competitive</code></td>
+<td>A finite gene <code>score</code> and declared gene covariance.</td>
+<td>Joint or separate regression effects for pathways.</td>
+</tr>
+<tr class="even">
+<td><code>magma</code></td>
+<td>Gene p-value and required gene metadata.</td>
+<td>Corrected competitive pathway statistics.</td>
+</tr>
+<tr class="odd">
+<td><code>bayesc</code>, <code>bayesr</code></td>
+<td>Gene <code>score</code>, explicit priors and gene covariance.</td>
+<td>Posterior pathway effects and inclusion probabilities.</td>
+</tr>
+</tbody>
+</table>
+<p>For a simple selected-gene or ranked-gene analysis on the same evidence:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>selected <span class="ot">&lt;-</span> <span class="fu">transform</span>(gene_stat<span class="sc">$</span>A, <span class="at">selected =</span> p_value <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ora <span class="ot">&lt;-</span> <span class="fu">gsea</span>(selected, pathway_sets, <span class="at">method =</span> <span class="st">"ora"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">adjustment =</span> <span class="st">"BH"</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ranked <span class="ot">&lt;-</span> <span class="fu">gsea</span>(gene_stat<span class="sc">$</span>A, pathway_sets, <span class="at">method =</span> <span class="st">"preranked"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">replicates =</span> <span class="dv">999</span>L, <span class="at">seed =</span> <span class="dv">2401</span>L))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The selected threshold, permutation count and adjustment are analysis choices. These alternative fits were not used to create the displayed MAGMA table. For joint Bayesian traits, the <a href="../../../gsuite/docs/gsea-workflow.html">gsea guide</a> shows the required effect covariance prior and fixed residual trait covariance. It also describes the package’s deterministic marker-level <code>gsea_preranked()</code> route.</p>
+<p><a href="../../website/assets/package-tutorials/gsea-pathways.csv">Download pathway results</a> · <a href="../../website/assets/package-tutorials/gsea-top-genes.csv">download the leading PoPS genes</a></p>
 
 
 </section>

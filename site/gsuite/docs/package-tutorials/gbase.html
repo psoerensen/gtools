@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Create a Glist, compute a reusable sparse-LD reference and align summary statistics.">
+<meta name="description" content="Build a Glist, filter markers, publish sparse LD and align GWAS statistics.">
 
 <title>Prepare genotypes and LD with gbase – gtools</title>
 <style>
@@ -158,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">gbase: data and LD</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">gbase: data and LD</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -235,6 +235,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../gsuite/docs/package-tutorials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Study design and reproducibility</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../gsuite/docs/package-tutorials/gbase.html" class="sidebar-item-text sidebar-link active">
@@ -622,22 +628,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-summary" id="toc-data-summary" class="nav-link active" data-scroll-target="#data-summary">Data summary</a></li>
-  <li><a href="#align-association-statistics" id="toc-align-association-statistics" class="nav-link" data-scroll-target="#align-association-statistics">Align association statistics</a></li>
+  <li><a href="#prepare-the-panel" id="toc-prepare-the-panel" class="nav-link active" data-scroll-target="#prepare-the-panel">Prepare the panel</a></li>
+  <li><a href="#review-marker-quality-before-ld-construction" id="toc-review-marker-quality-before-ld-construction" class="nav-link" data-scroll-target="#review-marker-quality-before-ld-construction">Review marker quality before LD construction</a></li>
+  <li><a href="#compute-and-reuse-sparse-ld" id="toc-compute-and-reuse-sparse-ld" class="nav-link" data-scroll-target="#compute-and-reuse-sparse-ld">Compute and reuse sparse LD</a></li>
+  <li><a href="#inspect-ld-and-compute-annotation-scores" id="toc-inspect-ld-and-compute-annotation-scores" class="nav-link" data-scroll-target="#inspect-ld-and-compute-annotation-scores">Inspect LD and compute annotation scores</a></li>
+  <li><a href="#align-gwas-statistics" id="toc-align-gwas-statistics" class="nav-link" data-scroll-target="#align-gwas-statistics">Align GWAS statistics</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">gbase: data and LD</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">gbase: data and LD</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Prepare genotypes and LD with gbase</h1>
 </div>
 
 <div>
   <div class="description">
-    Create a Glist, compute a reusable sparse-LD reference and align summary statistics.
+    Build a Glist, filter markers, publish sparse LD and align GWAS statistics.
   </div>
 </div>
 
@@ -654,35 +663,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><code>gbase</code> prepares the shared data objects used by the analysis packages. This example starts from one PLINK BED/BIM/FAM prefix, selects 18,000 of 20,000 individuals for the LD reference and computes LD once for 50,000 markers.</p>
+<p><code>gbase</code> owns the data boundary shared by the analysis packages. Its Glist records the selected samples and markers, physical BED locations, allele labels and marker summaries. When LD is requested, the same object also carries the sparse-LD identity, sample and marker provenance, and LD scores. This page uses the <a href="../../../gsuite/docs/package-tutorials/overview.html">shared 20K/50K simulation</a>.</p>
+<section id="prepare-the-panel" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-the-panel">Prepare the panel</h2>
+<p>Start with a SNP-major PLINK BED file and matching BIM/FAM files. <code>gprep()</code> infers the companion paths from the BED name. Sample IDs and marker IDs are selected by name and retain their documented Glist order.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>prefix <span class="ot">&lt;-</span> <span class="st">"path/to/genotypes"</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>reference_ids <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"id%05d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">18000</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>),</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> reference_ids,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">nthreads =</span> <span class="dv">4</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">out_prefix =</span> <span class="st">"analysis/reference-LD"</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_distance_bp =</span> <span class="dv">0</span>,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_distance_variants =</span> <span class="dv">100</span>,</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">r2 =</span> <span class="dv">0</span>,</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">nthreads =</span> <span class="dv">4</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">block_size =</span> <span class="dv">128</span>,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">overwrite =</span> <span class="cn">TRUE</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">define_ld_blocks</span>(Glist, ld_blocks)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">ld_scores</span>(Glist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The Glist retains marker identity, file locations and the sparse-LD manifest. Analysis packages receive this object and open the LD resource directly; it is not recomputed for each trait or marker set.</p>
-<section id="data-summary" class="level2">
-<h2 class="anchored" data-anchor-id="data-summary">Data summary</h2>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>prefix <span class="ot">&lt;-</span> <span class="st">"path/to/genotypes"</span>  <span class="co"># replace with your PLINK prefix</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>individuals <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"id%05d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20000</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>marker_ids <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"m%05d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">50000</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>reference_ids <span class="ot">&lt;-</span> individuals[<span class="dv">1</span><span class="sc">:</span><span class="dv">18000</span>]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">split</span>(marker_ids,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rep</span>(<span class="fu">sprintf</span>(<span class="st">"region%03d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>), <span class="at">each =</span> <span class="dv">100</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>panel <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>), <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>reference_Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> reference_ids, <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">sum</span>(<span class="fu">lengths</span>(panel<span class="sc">$</span>rsids)) <span class="sc">==</span> <span class="dv">50000</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">length</span>(reference_Glist<span class="sc">$</span>study_ids) <span class="sc">==</span> <span class="dv">18000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The selected-reference summaries, including allele frequencies and genotype counts, come from those 18,000 people. <code>panel</code> retains all 20,000 people for later association scans and held-out scoring.</p>
+</section>
+<section id="review-marker-quality-before-ld-construction" class="level2">
+<h2 class="anchored" data-anchor-id="review-marker-quality-before-ld-construction">Review marker quality before LD construction</h2>
+<p><code>gfilter()</code> returns marker names in file order. It can screen MAF, missingness, exact Hardy–Weinberg p-values, imputation INFO when supplied, allele ambiguity, indels and the assembly-specific MHC interval. The returned names can be fed back into <code>gprep()</code>; filtering the Glist after building LD would leave an inconsistent reference.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>retained <span class="ot">&lt;-</span> <span class="fu">gfilter</span>(reference_Glist,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">maf =</span> <span class="fl">0.01</span>, <span class="at">missing =</span> <span class="fl">0.05</span>, <span class="at">hwe =</span> <span class="fl">1e-12</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ambiguous =</span> <span class="cn">TRUE</span>, <span class="at">indels =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># For a study that applies this filter:</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>filtered_reference <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> reference_ids, <span class="at">rsids =</span> retained, <span class="at">nthreads =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The saved 20K/50K run used all 50,000 simulated markers in its LD resource; <code>filtered_reference</code> above illustrates the optional QC route and is not the source of the tables below.</p>
+</section>
+<section id="compute-and-reuse-sparse-ld" class="level2">
+<h2 class="anchored" data-anchor-id="compute-and-reuse-sparse-ld">Compute and reuse sparse LD</h2>
+<p>The simulation has 500 independent 100-marker regions. Its full within-region LD is retained with <code>r2 = 0</code>; the 100-variant window bounds the calculation. For real data, choose windows and thresholds appropriate to the intended method and report them with the reference.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"analysis"</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>reference_Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">Glist =</span> reference_Glist, <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">out_prefix =</span> <span class="st">"analysis/reference-LD"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_distance_bp =</span> <span class="dv">0</span>, <span class="at">max_distance_variants =</span> <span class="dv">100</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">r2 =</span> <span class="dv">0</span>, <span class="at">block_size =</span> <span class="dv">128</span>, <span class="at">nthreads =</span> <span class="dv">4</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>reference_Glist<span class="sc">$</span>assembly <span class="ot">&lt;-</span> <span class="st">"artificial-20k-50k"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>block_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">block_id =</span> <span class="fu">names</span>(regions),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">first_marker =</span> <span class="fu">vapply</span>(regions, <span class="st">`</span><span class="at">[</span><span class="st">`</span>, <span class="fu">character</span>(<span class="dv">1</span>), <span class="dv">1</span>L),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">last_marker =</span> <span class="fu">vapply</span>(regions, <span class="cf">function</span>(x) <span class="fu">tail</span>(x, <span class="dv">1</span>L), <span class="fu">character</span>(<span class="dv">1</span>))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>reference_Glist <span class="ot">&lt;-</span> <span class="fu">define_ld_blocks</span>(reference_Glist, block_table)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">verify_ld</span>(reference_Glist)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(reference_Glist, <span class="st">"analysis/reference-Glist.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>define_ld_blocks()</code> verifies that the named, ordered partition is exhaustive and that retained LD does not cross blocks. <code>verify_ld()</code> explicitly scans the complete resource after construction or transfer. Routine readers use the lightweight Glist identity check when opening the same immutable LD files. Keep the Glist RDS together with its referenced LD files.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -723,26 +756,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../../website/assets/package-tutorials/gbase-maf-ldscore.png" class="img-fluid figure-img" alt="Two histograms show the minor-allele-frequency and LD-score distributions for 50,000 markers."></p>
-<figcaption>Minor-allele frequencies and LD scores from the shared reference.</figcaption>
+<p><img src="../../website/assets/package-tutorials/gbase-maf-ldscore.png" class="img-fluid figure-img" alt="Histograms of minor-allele frequency and reference LD score across 50,000 simulated markers."></p>
+<figcaption>Minor-allele frequencies and LD scores from the reference.</figcaption>
 </figure>
 </div>
 </section>
-<section id="align-association-statistics" class="level2">
-<h2 class="anchored" data-anchor-id="align-association-statistics">Align association statistics</h2>
-<p>Before a summary-statistic analysis, align alleles and marker order once:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> <span class="fu">checkStat</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  raw_stat,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">excludeMAF =</span> <span class="cn">NULL</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">excludeMAFDIFF =</span> <span class="cn">NULL</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">excludeINFO =</span> <span class="cn">NULL</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">excludeCGAT =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">excludeINDEL =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">excludeMHC =</span> <span class="cn">FALSE</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The returned table is ready for <a href="../../../gsuite/docs/package-tutorials/gbayes.html">gbayes</a>, <a href="../../../gsuite/docs/package-tutorials/gcorr.html">gcorr</a>, <a href="../../../gsuite/docs/package-tutorials/gmap.html">gmap</a> and <a href="../../../gsuite/docs/package-tutorials/glma.html">VEGAS in glma</a>. The source data are simulated; replace <code>prefix</code>, <code>reference_ids</code> and <code>ld_blocks</code> with the corresponding values for your study.</p>
-<p><a href="../../website/assets/package-tutorials/gbase-summary.csv">Download the data summary</a></p>
+<section id="inspect-ld-and-compute-annotation-scores" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-ld-and-compute-annotation-scores">Inspect LD and compute annotation scores</h2>
+<p>Ordinary LD scores are already stored in the Glist. <code>ld_region()</code> returns a named dense matrix for a small ordered marker set; <code>ld_eigen()</code> returns its complete verified eigensystem. Use these for inspection or methods that need a regional matrix rather than repeatedly reading the whole reference.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>reference_Glist <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"analysis/reference-Glist.rds"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_Glist</span>(reference_Glist)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">ld_scores</span>(reference_Glist)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>R_region1 <span class="ot">&lt;-</span> <span class="fu">ld_region</span>(reference_Glist, regions<span class="sc">$</span>region001)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>eigen_region1 <span class="ot">&lt;-</span> <span class="fu">ld_eigen</span>(reference_Glist, regions<span class="sc">$</span>region001)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ld_markers <span class="ot">&lt;-</span> <span class="fu">unlist</span>(reference_Glist<span class="sc">$</span>rsidsLD, <span class="at">use.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>annotation <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">as.numeric</span>(ld_markers <span class="sc">%in%</span> regions<span class="sc">$</span>region001), <span class="at">ncol =</span> <span class="dv">1</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(ld_markers, <span class="st">"region001"</span>))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>annotation_scores <span class="ot">&lt;-</span> <span class="fu">ld_scores</span>(reference_Glist, <span class="at">annotation =</span> annotation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>An annotation score at marker <em>j</em> accumulates squared LD from <em>j</em> to the annotated markers, including LD crossing the annotation boundary. This is the input needed for standard stratified LDSC in <a href="../../../gsuite/docs/package-tutorials/gcorr.html">gcorr</a>.</p>
+</section>
+<section id="align-gwas-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="align-gwas-statistics">Align GWAS statistics</h2>
+<p><code>checkStat()</code> maps a reported GWAS table to the reference’s marker IDs, coordinates and effect-allele direction. It returns an ordinary data frame in reference order. In the simulated run, the following explicit options retain all 50,000 markers so the methods share the same marker universe:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>aligned <span class="ot">&lt;-</span> <span class="fu">checkStat</span>(reference_Glist, raw_stat,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">excludeMAF =</span> <span class="cn">NULL</span>, <span class="at">excludeMAFDIFF =</span> <span class="cn">NULL</span>, <span class="at">excludeINFO =</span> <span class="cn">NULL</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">excludeCGAT =</span> <span class="cn">FALSE</span>, <span class="at">excludeINDEL =</span> <span class="cn">FALSE</span>, <span class="at">excludeDUPS =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">excludeMHC =</span> <span class="cn">FALSE</span>, <span class="at">excludeMISS =</span> <span class="cn">NULL</span>, <span class="at">excludeHWE =</span> <span class="cn">NULL</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aligned[<span class="fu">c</span>(<span class="st">"rsids"</span>, <span class="st">"chr"</span>, <span class="st">"pos"</span>, <span class="st">"ea"</span>, <span class="st">"nea"</span>, <span class="st">"b"</span>, <span class="st">"seb"</span>, <span class="st">"p"</span>, <span class="st">"n"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>raw_stat</code> is assembled from the <a href="../../../gsuite/docs/package-tutorials/glma.html">glma association result</a>. For a real GWAS, choose QC thresholds deliberately; do not infer alleles or sample sizes from the LD reference. The aligned table is used by <a href="../../../gsuite/docs/package-tutorials/gbayes.html">gbayes</a>, <a href="../../../gsuite/docs/package-tutorials/gcorr.html">gcorr</a>, <a href="../../../gsuite/docs/package-tutorials/gmap.html">gmap</a> and VEGAS.</p>
+<p><a href="../../website/assets/package-tutorials/gbase-summary.csv">Download the reference summary</a></p>
 
 
 </section>

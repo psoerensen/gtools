@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Fit BayesC to aligned summary statistics and a reusable LD reference.">
+<meta name="description" content="Fit BayesC, inspect posterior diagnostics and carry marker weights into prediction.">
 
 <title>Bayesian genomic regression with gbayes – gtools</title>
 <style>
@@ -158,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbayes.html">gbayes: Bayesian regression</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbayes.html">gbayes: Bayesian regression</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -235,6 +235,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../gsuite/docs/package-tutorials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Study design and reproducibility</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../gsuite/docs/package-tutorials/gbase.html" class="sidebar-item-text sidebar-link">
@@ -617,20 +623,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#fit-one-summary-trait" id="toc-fit-one-summary-trait" class="nav-link active" data-scroll-target="#fit-one-summary-trait">Fit one summary trait</a></li>
+  <li><a href="#interpret-marker-support" id="toc-interpret-marker-support" class="nav-link" data-scroll-target="#interpret-marker-support">Interpret marker support</a></li>
+  <li><a href="#choose-the-model-and-data-route" id="toc-choose-the-model-and-data-route" class="nav-link" data-scroll-target="#choose-the-model-and-data-route">Choose the model and data route</a></li>
+  <li><a href="#continue-or-request-posterior-quantities" id="toc-continue-or-request-posterior-quantities" class="nav-link" data-scroll-target="#continue-or-request-posterior-quantities">Continue or request posterior quantities</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbayes.html">gbayes: Bayesian regression</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbayes.html">gbayes: Bayesian regression</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Bayesian genomic regression with gbayes</h1>
 </div>
 
 <div>
   <div class="description">
-    Fit BayesC to aligned summary statistics and a reusable LD reference.
+    Fit BayesC, inspect posterior diagnostics and carry marker weights into prediction.
   </div>
 </div>
 
@@ -647,28 +662,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><code>gbayes</code> estimates marker effects from aligned summary statistics and the sparse-LD reference prepared by <a href="../../../gsuite/docs/package-tutorials/gbase.html">gbase</a>. This example fits trait A with four independent chains.</p>
+<p><code>gbayes</code> fits marker effects from <a href="../../../gsuite/docs/package-tutorials/glma.html">aligned summary statistics</a> and the <a href="../../../gsuite/docs/package-tutorials/gbase.html">shared Glist LD reference</a>. It also supports individual BED phenotypes, multivariate fits, annotation-informed priors and several focused summary engines. This page interprets the BayesC fit from the <a href="../../../gsuite/docs/package-tutorials/overview.html">20K/50K simulation</a>; alternative calls below show other available routes without attaching the displayed BayesC numbers to them.</p>
+<section id="fit-one-summary-trait" class="level2">
+<h2 class="anchored" data-anchor-id="fit-one-summary-trait">Fit one summary trait</h2>
+<p>Trait A contributes 6,000 GWAS individuals. Its aligned table has effect estimates <code>b</code>, standard errors <code>seb</code> and sample size <code>n</code> for every marker. The fixed BayesC prior used in the saved run expects roughly 2% of markers to be active.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbayes)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  statistics<span class="sc">$</span>A,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  reference_Glist,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesc"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait =</span> <span class="st">"A"</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">residual_variance =</span> <span class="dv">1</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">effect_variance =</span> <span class="fl">0.3</span> <span class="sc">/</span> (<span class="dv">50000</span> <span class="sc">*</span> <span class="fl">0.02</span>),</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">inclusion_probability =</span> <span class="fl">0.02</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">burnin =</span> <span class="dv">500</span>L,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">sampling_sweeps =</span> <span class="dv">700</span>L,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">seeds =</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="dv">29</span>, <span class="dv">47</span>, <span class="dv">71</span>),</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">threads =</span> <span class="dv">4</span>,</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">residual_policy =</span> <span class="st">"fixed"</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The fit separates chain-level diagnostics, posterior summaries and marker estimates. These are the posterior summaries from the representative run:</p>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual_variance =</span> <span class="dv">1</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">effect_variance =</span> <span class="fl">0.3</span> <span class="sc">/</span> (<span class="dv">50000</span> <span class="sc">*</span> <span class="fl">0.02</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">inclusion_probability =</span> <span class="fl">0.02</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">burnin =</span> <span class="dv">500</span>L,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">sampling_sweeps =</span> <span class="dv">700</span>L,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">seeds =</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="dv">29</span>, <span class="dv">47</span>, <span class="dv">71</span>),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">threads =</span> <span class="dv">4</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual_policy =</span> <span class="st">"fixed"</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(statistics<span class="sc">$</span>A, reference_Glist,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesc"</span>, <span class="at">trait =</span> <span class="st">"A"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> prior, <span class="at">control =</span> control)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The fit returns one row per marker in <code>fit$estimates</code>, a portable allele-labelled <code>fit$weights</code> table, posterior parameter summaries and chain diagnostics. These are the saved parameter summaries:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -729,18 +745,171 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<p>Residual variance, effect variance and the mixture weights were fixed here, so their posterior standard deviations are zero and R-hat/ESS are blank. <code>active_markers</code> was sampled; its R-hat and bulk ESS are meaningful chain checks. Inspect the complete diagnostics and chain traces before treating a fit as stable:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>posterior</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>diagnostics</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>chains</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="interpret-marker-support" class="level2">
+<h2 class="anchored" data-anchor-id="interpret-marker-support">Interpret marker support</h2>
+<p><code>mean</code> is the posterior mean effect and <code>pip</code> is the posterior inclusion probability. PIP measures support for a nonzero effect under this model and prior; it is neither a GWAS p-value nor proof that one LD-correlated marker is the unique causal variant.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Marker</th>
+<th>Position</th>
+<th>Mean</th>
+<th>Variance</th>
+<th>PIP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>m00050</td>
+<td>50,000</td>
+<td>0.131</td>
+<td>1.033e-04</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>m00125</td>
+<td>25,000</td>
+<td>0.139</td>
+<td>1.082e-04</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>m06170</td>
+<td>70,000</td>
+<td>0.0395</td>
+<td>1.627e-04</td>
+<td>0.964</td>
+</tr>
+<tr class="even">
+<td>m06958</td>
+<td>58,000</td>
+<td>-0.0378</td>
+<td>1.844e-04</td>
+<td>0.948</td>
+</tr>
+<tr class="odd">
+<td>m02942</td>
+<td>42,000</td>
+<td>-0.0371</td>
+<td>1.949e-04</td>
+<td>0.935</td>
+</tr>
+<tr class="even">
+<td>m03380</td>
+<td>80,000</td>
+<td>-0.0362</td>
+<td>2.035e-04</td>
+<td>0.93</td>
+</tr>
+<tr class="odd">
+<td>m45456</td>
+<td>56,000</td>
+<td>-0.0312</td>
+<td>2.867e-04</td>
+<td>0.833</td>
+</tr>
+<tr class="even">
+<td>m00998</td>
+<td>98,000</td>
+<td>0.0298</td>
+<td>2.657e-04</td>
+<td>0.832</td>
+</tr>
+<tr class="odd">
+<td>m02924</td>
+<td>24,000</td>
+<td>0.0281</td>
+<td>2.866e-04</td>
+<td>0.797</td>
+</tr>
+<tr class="even">
+<td>m28637</td>
+<td>37,000</td>
+<td>0.0276</td>
+<td>2.855e-04</td>
+<td>0.794</td>
+</tr>
+</tbody>
+</table>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../../website/assets/package-tutorials/gbayes-pip.png" class="img-fluid figure-img" alt="A horizontal bar chart shows posterior inclusion probabilities for the 20 top BayesC markers."></p>
-<figcaption>Posterior inclusion probabilities for the 20 highest-ranked markers.</figcaption>
+<p><img src="../../website/assets/package-tutorials/gbayes-pip.png" class="img-fluid figure-img" alt="Horizontal bars show posterior inclusion probabilities of the 20 top-ranked markers in the simulated trait A BayesC fit."></p>
+<figcaption>Highest BayesC marker PIPs.</figcaption>
 </figure>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fit<span class="sc">$</span>estimates[<span class="fu">order</span>(fit<span class="sc">$</span>estimates<span class="sc">$</span>pip, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ])</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>weights <span class="ot">&lt;-</span> fit<span class="sc">$</span>weights</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>fit$weights</code> can be passed directly to <a href="../../../gsuite/docs/package-tutorials/gscore.html">gscore</a>. Check R-hat, effective sample size and chain traces before interpreting marker effects; the short chains here keep the tutorial run compact.</p>
-<p><a href="../../website/assets/package-tutorials/gbayes-posterior.csv">Download posterior summaries</a> · <a href="../../website/assets/package-tutorials/gbayes-top-markers.csv">download the top markers</a></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>top <span class="ot">&lt;-</span> fit<span class="sc">$</span>estimates[<span class="fu">order</span>(fit<span class="sc">$</span>estimates<span class="sc">$</span>pip, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(top[<span class="fu">c</span>(<span class="st">"marker"</span>, <span class="st">"position"</span>, <span class="st">"mean"</span>, <span class="st">"variance"</span>, <span class="st">"pip"</span>)], <span class="dv">10</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fit<span class="sc">$</span>weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>weights</code> table includes marker IDs, coordinates, alleles, allele frequencies and standardized-effect columns. <a href="../../../gsuite/docs/package-tutorials/gscore.html">gscore</a> checks these labels against a target Glist and applies the weights to held-out people.</p>
+</section>
+<section id="choose-the-model-and-data-route" class="level2">
+<h2 class="anchored" data-anchor-id="choose-the-model-and-data-route">Choose the model and data route</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Route</th>
+<th>Example call</th>
+<th>When it is useful</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Summary BayesR</td>
+<td><code>gbayes(statistics$A, reference_Glist, method = "bayesr", prior = bayesr_prior)</code></td>
+<td>Mixture of several nonzero effect scales.</td>
+</tr>
+<tr class="even">
+<td>Annotation-informed eigen blocks</td>
+<td><code>gbayes(statistics$A, reference_Glist, method = "sbayesrc", annotation = component_annotation)</code></td>
+<td>Verified independent LD blocks and marker annotations.</td>
+</tr>
+<tr class="odd">
+<td>Individual-level BayesC/R</td>
+<td><code>gbayes(data = phenotype_table, Glist = panel, method = "bayesc", trait = "A", prior = prior)</code></td>
+<td>Fit directly to selected BED genotypes and named phenotypes.</td>
+</tr>
+<tr class="even">
+<td>Focused summary approximations</td>
+<td><code>gbayes(statistics$A, reference_Glist, method = "variational")</code></td>
+<td>Deterministic variational or shrinkage analyses with their own controls.</td>
+</tr>
+<tr class="odd">
+<td>One regional effect</td>
+<td><code>gbayes_single_effect(region_stat)</code></td>
+<td>Posterior assignment probabilities under a one-effect model.</td>
+</tr>
+</tbody>
+</table>
+<p>For individual-level fitting, supply a data frame with unique character <code>id</code> and a finite pre-adjusted phenotype column:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>phenotype_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">rownames</span>(Y), <span class="at">A =</span> Y[, <span class="st">"A"</span>])</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>bed_fit <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(<span class="at">data =</span> phenotype_table, <span class="at">Glist =</span> panel,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesc"</span>, <span class="at">trait =</span> <span class="st">"A"</span>, <span class="at">prior =</span> prior)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>sbayesrc</code> requires the verified block partition from <code>gbase::define_ld_blocks()</code> and a marker-aligned component annotation. Block eigensystems are prepared once per fit and reused by its chains. The <a href="../../../gsuite/docs/gbayes-workflow.html">Bayesian workflow guide</a> gives the full annotation structure and describes BayesR, BayesS scaling, multivariate traits, study-specific references and method-specific approximation controls.</p>
+</section>
+<section id="continue-or-request-posterior-quantities" class="level2">
+<h2 class="anchored" data-anchor-id="continue-or-request-posterior-quantities">Continue or request posterior quantities</h2>
+<p>Long chains can resume from an exact saved continuation state when the model definition and marker order are unchanged. <code>posterior</code> can request genetic covariance/correlation from a declared LD reference, heritability with an explicit phenotype variance, marker partitions or predictions for selected individuals with posterior uncertainty.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fit_with_quantities <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(statistics<span class="sc">$</span>A, reference_Glist,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesc"</span>, <span class="at">trait =</span> <span class="st">"A"</span>, <span class="at">prior =</span> prior, <span class="at">control =</span> control,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">posterior =</span> <span class="fu">list</span>(<span class="at">reference =</span> reference_Glist,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">phenotype_variance =</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">1</span>)))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>fit_with_quantities<span class="sc">$</span>quantities</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Those quantities are separate from the fixed BayesC run displayed above; use the phenotype variance of your actual trait rather than the illustrative value in the snippet.</p>
+<p><a href="../../website/assets/package-tutorials/gbayes-posterior.csv">Download posterior summaries</a> · <a href="../../website/assets/package-tutorials/gbayes-top-markers.csv">download the top marker estimates</a></p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

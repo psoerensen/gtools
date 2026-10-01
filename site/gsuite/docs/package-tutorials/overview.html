@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Fit marker-level models and reuse LD for multi-trait VEGAS gene tests.">
+<meta name="description" content="Data design, reproducibility and shared objects for the package tutorials.">
 
-<title>Association analysis with glma – gtools</title>
+<title>One genomic dataset, seven R packages – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -158,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/glma.html">glma: association and VEGAS</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Study design and reproducibility</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -237,7 +237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../gsuite/docs/package-tutorials/overview.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../gsuite/docs/package-tutorials/overview.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Study design and reproducibility</span></a>
   </div>
 </li>
@@ -249,7 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../gsuite/docs/package-tutorials/glma.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../gsuite/docs/package-tutorials/glma.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">glma: association and VEGAS</span></a>
   </div>
 </li>
@@ -628,24 +628,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#scan-the-quantitative-traits" id="toc-scan-the-quantitative-traits" class="nav-link active" data-scroll-target="#scan-the-quantitative-traits">Scan the quantitative traits</a></li>
-  <li><a href="#prepare-the-shared-summary-tables" id="toc-prepare-the-shared-summary-tables" class="nav-link" data-scroll-target="#prepare-the-shared-summary-tables">Prepare the shared summary tables</a></li>
-  <li><a href="#test-genes-with-vegas" id="toc-test-genes-with-vegas" class="nav-link" data-scroll-target="#test-genes-with-vegas">Test genes with VEGAS</a></li>
-  <li><a href="#other-association-routes" id="toc-other-association-routes" class="nav-link" data-scroll-target="#other-association-routes">Other association routes</a></li>
+  <li><a href="#the-simulated-study" id="toc-the-simulated-study" class="nav-link active" data-scroll-target="#the-simulated-study">The simulated study</a></li>
+  <li><a href="#reproduce-the-complete-run" id="toc-reproduce-the-complete-run" class="nav-link" data-scroll-target="#reproduce-the-complete-run">Reproduce the complete run</a></li>
+  <li><a href="#follow-the-analysis" id="toc-follow-the-analysis" class="nav-link" data-scroll-target="#follow-the-analysis">Follow the analysis</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/glma.html">glma: association and VEGAS</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Study design and reproducibility</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Association analysis with glma</h1>
+<h1 class="title">One genomic dataset, seven R packages</h1>
 </div>
 
 <div>
   <div class="description">
-    Fit marker-level models and reuse LD for multi-trait VEGAS gene tests.
+    Data design, reproducibility and shared objects for the package tutorials.
   </div>
 </div>
 
@@ -662,274 +661,137 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><code>glma</code> scans individual-level genotypes in a Glist. It supports quantitative linear scans, conditional scans, binary logistic scans and two leave-one- chromosome-out (LOCO) background models. Its <code>vegas()</code> function then combines aligned marker evidence within named marker sets using reference LD. This page follows the <a href="../../../gsuite/docs/package-tutorials/overview.html">shared simulation</a>, where each of three traits has a separate 6,000-person GWAS cohort.</p>
-<section id="scan-the-quantitative-traits" class="level2">
-<h2 class="anchored" data-anchor-id="scan-the-quantitative-traits">Scan the quantitative traits</h2>
-<p>The phenotype is named by individual ID, so <code>glma()</code> can match its rows to the selected Glist sample order. A named matrix can scan several traits in the <em>same</em> cohort; this simulation instead uses disjoint cohorts and fits one trait at a time.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glma)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>gwas_ids <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">A =</span> <span class="fu">sprintf</span>(<span class="st">"id%05d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6000</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">B =</span> <span class="fu">sprintf</span>(<span class="st">"id%05d"</span>, <span class="dv">6001</span><span class="sc">:</span><span class="dv">12000</span>),</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">C =</span> <span class="fu">sprintf</span>(<span class="st">"id%05d"</span>, <span class="dv">12001</span><span class="sc">:</span><span class="dv">18000</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>fits <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">vector</span>(<span class="st">"list"</span>, <span class="dv">3</span>), <span class="fu">names</span>(gwas_ids))</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (trait <span class="cf">in</span> <span class="fu">names</span>(gwas_ids)) {</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  study <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>),</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">ids =</span> gwas_ids[[trait]], <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  phenotype <span class="ot">&lt;-</span> <span class="fu">setNames</span>(Y[, trait], <span class="fu">rownames</span>(Y))</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  fits[[trait]] <span class="ot">&lt;-</span> <span class="fu">glma</span>(phenotype, study,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"linear"</span>, <span class="at">threads =</span> <span class="dv">4</span>, <span class="at">block_size =</span> <span class="dv">128</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fits<span class="sc">$</span>A<span class="sc">$</span>associations[<span class="fu">c</span>(<span class="st">"marker"</span>, <span class="st">"a1"</span>, <span class="st">"a2"</span>, <span class="st">"beta"</span>, <span class="st">"se"</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"statistic"</span>, <span class="st">"p"</span>, <span class="st">"status"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>beta</code> is the effect per allele-1 dosage; <code>se</code> and <code>p</code> describe its single-marker test. <code>status</code> distinguishes tested markers from unavailable fits. In this simulated run, large signals were planted at markers including <code>m00050</code>, <code>m00125</code> and <code>m00175</code>; nearby LD can produce secondary peaks.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Trait</th>
-<th>Marker</th>
-<th>Position</th>
-<th>Beta</th>
-<th>Se</th>
-<th>P value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>C</td>
-<td>m00050</td>
-<td>50,000</td>
-<td>0.405</td>
-<td>0.0192</td>
-<td>1.318e-95</td>
-</tr>
-<tr class="even">
-<td>B</td>
-<td>m00175</td>
-<td>75,000</td>
-<td>0.386</td>
-<td>0.0192</td>
-<td>4.379e-87</td>
-</tr>
-<tr class="odd">
-<td>B</td>
-<td>m00050</td>
-<td>50,000</td>
-<td>0.339</td>
-<td>0.0194</td>
-<td>1.043e-66</td>
-</tr>
-<tr class="even">
-<td>C</td>
-<td>m00175</td>
-<td>75,000</td>
-<td>0.339</td>
-<td>0.0197</td>
-<td>1.454e-64</td>
-</tr>
-<tr class="odd">
-<td>A</td>
-<td>m00125</td>
-<td>25,000</td>
-<td>0.34</td>
-<td>0.0198</td>
-<td>1.757e-64</td>
-</tr>
-<tr class="even">
-<td>A</td>
-<td>m00050</td>
-<td>50,000</td>
-<td>0.317</td>
-<td>0.0196</td>
-<td>1.519e-57</td>
-</tr>
-<tr class="odd">
-<td>C</td>
-<td>m00049</td>
-<td>49,000</td>
-<td>0.117</td>
-<td>0.0202</td>
-<td>7.889e-09</td>
-</tr>
-<tr class="even">
-<td>B</td>
-<td>m06377</td>
-<td>77,000</td>
-<td>0.109</td>
-<td>0.0196</td>
-<td>2.732e-08</td>
-</tr>
-</tbody>
-</table>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../website/assets/package-tutorials/glma-manhattan.png" class="img-fluid figure-img" alt="Manhattan plot for a 50,000-marker linear scan, with two strong trait A peaks and a dashed genome-wide p-value threshold."></p>
-<figcaption>Trait A Manhattan plot.</figcaption>
-</figure>
-</div>
-<p>The plot shows marker p-values, not independent causal findings. The artificial regions and strong effects make the peaks especially clear.</p>
-</section>
-<section id="prepare-the-shared-summary-tables" class="level2">
-<h2 class="anchored" data-anchor-id="prepare-the-shared-summary-tables">Prepare the shared summary tables</h2>
-<p>Use <a href="../../../gsuite/docs/package-tutorials/gbase.html">gbase::checkStat()</a> to orient the scan results to the LD reference. The driver also supplies <code>chr</code>, <code>pos</code> and allele labels from the same reference metadata before alignment:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>metadata <span class="ot">&lt;-</span> reference_Glist<span class="sc">$</span>sparseLD<span class="sc">$</span>marker_metadata</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>statistics <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">names</span>(fits), <span class="cf">function</span>(trait) {</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> fits[[trait]]<span class="sc">$</span>associations</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  raw <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">rsids =</span> a<span class="sc">$</span>marker, <span class="at">chr =</span> metadata<span class="sc">$</span>chromosome,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">pos =</span> metadata<span class="sc">$</span>base_pair_position,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ea =</span> metadata<span class="sc">$</span>allele1, <span class="at">nea =</span> metadata<span class="sc">$</span>allele2,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">b =</span> a<span class="sc">$</span>beta, <span class="at">seb =</span> a<span class="sc">$</span>se, <span class="at">p =</span> a<span class="sc">$</span>p,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">length</span>(gwas_ids[[trait]])</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">checkStat</span>(reference_Glist, raw,</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">excludeMAF =</span> <span class="cn">NULL</span>, <span class="at">excludeMAFDIFF =</span> <span class="cn">NULL</span>, <span class="at">excludeINFO =</span> <span class="cn">NULL</span>,</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">excludeCGAT =</span> <span class="cn">FALSE</span>, <span class="at">excludeINDEL =</span> <span class="cn">FALSE</span>, <span class="at">excludeDUPS =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">excludeMHC =</span> <span class="cn">FALSE</span>, <span class="at">excludeMISS =</span> <span class="cn">NULL</span>, <span class="at">excludeHWE =</span> <span class="cn">NULL</span>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(statistics) <span class="ot">&lt;-</span> <span class="fu">names</span>(fits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The resulting named list is the common input for <a href="../../../gsuite/docs/package-tutorials/gcorr.html">gcorr</a>, <a href="../../../gsuite/docs/package-tutorials/gbayes.html">gbayes</a>, <a href="../../../gsuite/docs/package-tutorials/gmap.html">gmap</a> and gene aggregation below.</p>
-</section>
-<section id="test-genes-with-vegas" class="level2">
-<h2 class="anchored" data-anchor-id="test-genes-with-vegas">Test genes with VEGAS</h2>
-<p>Each gene is a vector of marker names. <code>vegas()</code> finds them in the Glist and processes all traits while each gene’s LD is available. The saved run used 1,000 artificial genes and a saddlepoint tail calculation.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>gene_metadata <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">lapply</span>(<span class="fu">names</span>(statistics), <span class="cf">function</span>(trait) {</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">set =</span> <span class="fu">names</span>(gene_sets),</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sample_size =</span> <span class="fu">length</span>(gwas_ids[[trait]]),</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_minor_allele_count =</span> <span class="fu">vapply</span>(gene_sets, <span class="cf">function</span>(markers) {</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      p <span class="ot">&lt;-</span> simulation<span class="sc">$</span>frequencies[<span class="fu">match</span>(markers, marker_ids)]</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mean</span>(<span class="dv">2</span> <span class="sc">*</span> <span class="fu">length</span>(gwas_ids[[trait]]) <span class="sc">*</span> <span class="fu">pmin</span>(p, <span class="dv">1</span> <span class="sc">-</span> p))</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    }, <span class="fu">numeric</span>(<span class="dv">1</span>))</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}), <span class="fu">names</span>(statistics))</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>gene_results <span class="ot">&lt;-</span> <span class="fu">vegas</span>(statistics, reference_Glist,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> gene_sets, <span class="at">metadata =</span> gene_metadata,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">tail_method =</span> <span class="st">"saddlepoint"</span>), <span class="at">threads =</span> <span class="dv">4</span>)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gene_results<span class="sc">$</span>stat<span class="sc">$</span>A[<span class="fu">c</span>(<span class="st">"set"</span>, <span class="st">"marker_count"</span>, <span class="st">"score"</span>,</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"p_value"</span>, <span class="st">"p_available"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The result contains one gene-level table per trait. <code>p_available</code> must be checked before <a href="../../../gsuite/docs/package-tutorials/gsea.html">gsea::gsea_input()</a> converts VEGAS output to a gene-statistics table. The leading trait A genes in the saved run were:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Set</th>
-<th>Marker count</th>
-<th>Score</th>
-<th>P value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>gene0004</td>
-<td>78</td>
-<td>23</td>
-<td>9.106e-34</td>
-</tr>
-<tr class="even">
-<td>gene0002</td>
-<td>79</td>
-<td>19.6</td>
-<td>5.177e-28</td>
-</tr>
-<tr class="odd">
-<td>gene0225</td>
-<td>73</td>
-<td>4.67</td>
-<td>1.152e-04</td>
-</tr>
-<tr class="even">
-<td>gene0936</td>
-<td>32</td>
-<td>6.93</td>
-<td>1.302e-04</td>
-</tr>
-<tr class="odd">
-<td>gene0045</td>
-<td>43</td>
-<td>4.68</td>
-<td>1.506e-04</td>
-</tr>
-<tr class="even">
-<td>gene0140</td>
-<td>70</td>
-<td>4.28</td>
-<td>2.605e-04</td>
-</tr>
-<tr class="odd">
-<td>gene0177</td>
-<td>49</td>
-<td>4.15</td>
-<td>5.355e-04</td>
-</tr>
-<tr class="even">
-<td>gene0147</td>
-<td>34</td>
-<td>4.17</td>
-<td>6.967e-04</td>
-</tr>
-</tbody>
-</table>
-<p>For repeated sets of traits against the same reference and gene definitions, prepare the LD spectra once and pass the prepared object to subsequent calls:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>prepared_genes <span class="ot">&lt;-</span> <span class="fu">prepare_vegas</span>(reference_Glist, gene_sets, <span class="at">threads =</span> <span class="dv">4</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gene_results <span class="ot">&lt;-</span> <span class="fu">vegas</span>(statistics, <span class="at">prepared =</span> prepared_genes,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">metadata =</span> gene_metadata,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">tail_method =</span> <span class="st">"saddlepoint"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The saved run used the direct <code>vegas()</code> call above; this preparation pattern is useful when analysing additional summary-statistics batches.</p>
-</section>
-<section id="other-association-routes" class="level2">
-<h2 class="anchored" data-anchor-id="other-association-routes">Other association routes</h2>
+<p>These tutorials follow one connected analysis. <code>gbase</code> prepares a PLINK BED/BIM/FAM panel and a reusable LD reference. The other packages perform association testing, Bayesian regression, genetic correlation, fine-mapping, scoring and gene-level analysis. The pages show actual tables and figures from one seeded simulation, along with the R calls that produced them.</p>
+<section id="the-simulated-study" class="level2">
+<h2 class="anchored" data-anchor-id="the-simulated-study">The simulated study</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Question</th>
-<th>Public call</th>
-<th>Important input or output distinction</th>
+<th>Component</th>
+<th>Design</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Does a marker add signal after a known marker?</td>
-<td><code>glma(..., method = "linear", condition_on = index)</code></td>
-<td><code>index</code> is a 1-based position in selected Glist marker order.</td>
+<td>Genotypes</td>
+<td>20,000 individuals and 50,000 biallelic markers in one artificial chromosome</td>
 </tr>
 <tr class="even">
-<td>Is a binary outcome associated?</td>
-<td><code>glma(binary, study, method = "logistic")</code></td>
-<td>Outcome is coded 0/1; <code>beta</code> is a log-odds effect and failures have <code>status</code>.</td>
+<td>Traits</td>
+<td>Three quantitative traits, A, B and C</td>
 </tr>
 <tr class="odd">
-<td>Is there signal after a polygenic background?</td>
-<td><code>glma(..., method = "infinitesimal_loco")</code></td>
-<td>Produces calibrated score tests with explicit background diagnostics.</td>
+<td>GWAS</td>
+<td>Three disjoint groups of 6,000 individuals, one group per trait</td>
 </tr>
 <tr class="even">
-<td>Does a selected prior improve the LOCO background?</td>
-<td><code>glma(..., method = "prior_selected_loco")</code></td>
-<td>Records prior selection, refits and effect estimates.</td>
+<td>LD reference</td>
+<td>The first 18,000 individuals; 500 independent 100-marker regions</td>
+</tr>
+<tr class="odd">
+<td>Prediction</td>
+<td>The remaining 2,000 individuals, excluded from GWAS and LD preparation</td>
+</tr>
+<tr class="even">
+<td>Gene sets</td>
+<td>1,000 artificial genes, two nonoverlapping marker sets per region</td>
+</tr>
+<tr class="odd">
+<td>Pathways</td>
+<td>Three gene collections labelled <code>enriched</code>, <code>background</code> and <code>mixed</code></td>
 </tr>
 </tbody>
 </table>
-<p>For example, a conditional scan in the same cohort is:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>study_A <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>),</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> gwas_ids<span class="sc">$</span>A, <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>phenotype_A <span class="ot">&lt;-</span> <span class="fu">setNames</span>(Y[, <span class="st">"A"</span>], <span class="fu">rownames</span>(Y))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>lead_index <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="st">"m00050"</span>, <span class="fu">unlist</span>(study_A<span class="sc">$</span>rsids, <span class="at">use.names =</span> <span class="cn">FALSE</span>))</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>conditional <span class="ot">&lt;-</span> <span class="fu">glma</span>(phenotype_A, study_A, <span class="at">method =</span> <span class="st">"linear"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition_on =</span> lead_index, <span class="at">threads =</span> <span class="dv">4</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(conditional<span class="sc">$</span>associations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>LOCO needs markers on multiple chromosomes; the one-chromosome teaching simulation cannot demonstrate a meaningful leave-one-chromosome-out fit. The <a href="../../../gsuite/docs/glma-workflow.html">full glma guide</a> works through binary, conditional and LOCO examples with a suitable small panel.</p>
-<p><a href="../../website/assets/package-tutorials/glma-top-associations.csv">Download the top marker associations</a> · <a href="../../website/assets/package-tutorials/glma-top-vegas.csv">download the leading VEGAS genes</a></p>
+<p>The simulation uses deliberately strong signals and simple independent LD regions to make the outputs readable. Effect sizes, p-values and run times are properties of this one simulated dataset. They do not establish calibration or performance on real cohorts.</p>
+</section>
+<section id="reproduce-the-complete-run" class="level2">
+<h2 class="anchored" data-anchor-id="reproduce-the-complete-run">Reproduce the complete run</h2>
+<p>Install the <a href="../../../gsuite/downloads.html">seven source packages</a> and <a href="https://psoerensen.github.io/gsim/">gsim</a>. Download the <a href="../../benchmarks/genomic_20k_50k/run.R">complete R driver</a>, place it in a new working directory and run:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> run.R <span class="at">--threads</span><span class="op">=</span>4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The driver creates the PLINK files and phenotypes, computes LD once, and runs all seven package workflows. It saves stage objects under <code>build/benchmarks/genomic-20k-50k-4cores/</code> and small result tables under <code>benchmarks/genomic_20k_50k/results/</code>. This is a substantial simulation; allow disk space for the packed genotypes and LD files. The tutorial plots and tables were generated from its saved four-thread stage objects. Package installation and compilation are outside the driver.</p>
+<p>To inspect a saved stage without repeating the analysis:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cache <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"build"</span>, <span class="st">"benchmarks"</span>, <span class="st">"genomic-20k-50k-4cores"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>stage <span class="ot">&lt;-</span> <span class="cf">function</span>(name) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">readRDS</span>(<span class="fu">file.path</span>(cache, <span class="fu">paste0</span>(name, <span class="st">".rds"</span>)))<span class="sc">$</span>value</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>reference_Glist <span class="ot">&lt;-</span> <span class="fu">stage</span>(<span class="st">"sparse_ld_and_scores"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>statistics <span class="ot">&lt;-</span> <span class="fu">stage</span>(<span class="st">"gwas_and_checkstat"</span>)<span class="sc">$</span>statistics</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>bayes_fit <span class="ot">&lt;-</span> <span class="fu">stage</span>(<span class="st">"bayesian_regression"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>base_cache <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"build"</span>, <span class="st">"benchmarks"</span>, <span class="st">"genomic-20k-50k"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>simulation_cache <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">file.exists</span>(<span class="fu">file.path</span>(cache, <span class="st">"data_simulation.rds"</span>)))</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  cache <span class="cf">else</span> base_cache</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>simulation <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">file.path</span>(simulation_cache,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data_simulation.rds"</span>))<span class="sc">$</span>value</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>prefix <span class="ot">&lt;-</span> simulation<span class="sc">$</span>prefix</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> simulation<span class="sc">$</span>simulation<span class="sc">$</span>Y</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(Y) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"id%05d"</span>, <span class="fu">seq_len</span>(<span class="fu">nrow</span>(Y)))</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>marker_ids <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"m%05d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">50000</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">split</span>(marker_ids,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rep</span>(<span class="fu">sprintf</span>(<span class="st">"region%03d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>), <span class="at">each =</span> <span class="dv">100</span>))</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>gene_sets <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (r <span class="cf">in</span> <span class="fu">seq_along</span>(regions)) {</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  cut <span class="ot">&lt;-</span> <span class="dv">20</span>L <span class="sc">+</span> r <span class="sc">%%</span> <span class="dv">60</span>L</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  gene_sets[[<span class="fu">sprintf</span>(<span class="st">"gene%04d"</span>, <span class="dv">2</span>L <span class="sc">*</span> r <span class="sc">-</span> <span class="dv">1</span>L)]] <span class="ot">&lt;-</span> regions[[r]][<span class="dv">1</span><span class="sc">:</span>cut]</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  gene_sets[[<span class="fu">sprintf</span>(<span class="st">"gene%04d"</span>, <span class="dv">2</span>L <span class="sc">*</span> r)]] <span class="ot">&lt;-</span> regions[[r]][(cut <span class="sc">+</span> <span class="dv">1</span>L)<span class="sc">:</span><span class="dv">100</span>L]</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>regions</code> and <code>gene_sets</code> are named marker vectors; <code>pathway_sets</code> in the <a href="../../../gsuite/docs/package-tutorials/gsea.html">gsea tutorial</a> contains gene names. These are different units: a gene set identifies markers in the Glist, while a pathway identifies genes already summarized by VEGAS. In an ordinary study, replace <code>prefix</code>, <code>Y</code>, the sample IDs and set definitions with your own data.</p>
+</section>
+<section id="follow-the-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="follow-the-analysis">Follow the analysis</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Tutorial</th>
+<th>Read the result as</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><a href="../../../gsuite/docs/package-tutorials/gbase.html">gbase: data and LD</a></td>
+<td>A checked Glist, sparse LD, LD scores and aligned statistics</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><a href="../../../gsuite/docs/package-tutorials/glma.html">glma: association and VEGAS</a></td>
+<td>Marker effects, p-values and LD-aware gene evidence</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><a href="../../../gsuite/docs/package-tutorials/gbayes.html">gbayes: Bayesian regression</a></td>
+<td>Posterior marker effects, diagnostics and scoring weights</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><a href="../../../gsuite/docs/package-tutorials/gcorr.html">gcorr: heritability and correlation</a></td>
+<td>Genome-wide and partitioned estimates with uncertainty</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><a href="../../../gsuite/docs/package-tutorials/gmap.html">gmap: fine-mapping</a></td>
+<td>Regional PIPs, posterior sets and fit diagnostics</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><a href="../../../gsuite/docs/package-tutorials/gscore.html">gscore: prediction</a></td>
+<td>Individual scores and marker coverage</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><a href="../../../gsuite/docs/package-tutorials/gsea.html">gsea: genes and pathways</a></td>
+<td>Pathway tests and feature-based gene ranks</td>
+</tr>
+</tbody>
+</table>
+<p>Each page also points to other supported routes. Those calls illustrate the package interface; only results explicitly labelled as part of this run appear in the displayed tables and plots.</p>
 
 
 </section>

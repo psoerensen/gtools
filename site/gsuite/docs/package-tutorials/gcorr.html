@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Run multivariate LD-score regression from aligned statistics and stored LD scores.">
+<meta name="description" content="Estimate genome-wide, partitioned and regional genetic relationships from GWAS summaries.">
 
 <title>Heritability and genetic correlation with gcorr – gtools</title>
 <style>
@@ -158,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gcorr.html">gcorr: heritability and correlation</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gcorr.html">gcorr: heritability and correlation</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -235,6 +235,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../gsuite/docs/package-tutorials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Study design and reproducibility</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../gsuite/docs/package-tutorials/gbase.html" class="sidebar-item-text sidebar-link">
@@ -622,21 +628,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#grouped-ld-score-regression" id="toc-grouped-ld-score-regression" class="nav-link active" data-scroll-target="#grouped-ld-score-regression">Grouped LD-score regression</a></li>
+  <li><a href="#estimate-genome-wide-quantities" id="toc-estimate-genome-wide-quantities" class="nav-link active" data-scroll-target="#estimate-genome-wide-quantities">Estimate genome-wide quantities</a></li>
+  <li><a href="#attribute-heritability-to-a-marker-group" id="toc-attribute-heritability-to-a-marker-group" class="nav-link" data-scroll-target="#attribute-heritability-to-a-marker-group">Attribute heritability to a marker group</a></li>
+  <li><a href="#work-at-regional-or-covariance-level" id="toc-work-at-regional-or-covariance-level" class="nav-link" data-scroll-target="#work-at-regional-or-covariance-level">Work at regional or covariance level</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gcorr.html">gcorr: heritability and correlation</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gcorr.html">gcorr: heritability and correlation</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Heritability and genetic correlation with gcorr</h1>
 </div>
 
 <div>
   <div class="description">
-    Run multivariate LD-score regression from aligned statistics and stored LD scores.
+    Estimate genome-wide, partitioned and regional genetic relationships from GWAS summaries.
   </div>
 </div>
 
@@ -653,18 +661,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><code>gcorr</code> accepts the aligned multi-trait statistics produced with <a href="../../../gsuite/docs/package-tutorials/gbase.html">gbase</a>. Ordinary LD-score regression uses the LD-score vector already stored with the Glist.</p>
+<p><code>gcorr</code> works with aligned summary statistics. The convenient <code>ldsc()</code> route uses LD scores and reference metadata already held by a <a href="../../../gsuite/docs/package-tutorials/gbase.html">gbase Glist</a>. Other public functions provide GNOVA, SumHer, regional covariance methods, covariance models and Mendelian randomisation when their additional inputs are available. This page uses the three disjoint GWAS cohorts from the <a href="../../../gsuite/docs/package-tutorials/overview.html">shared simulation</a>.</p>
+<section id="estimate-genome-wide-quantities" class="level2">
+<h2 class="anchored" data-anchor-id="estimate-genome-wide-quantities">Estimate genome-wide quantities</h2>
+<p><code>statistics</code> is a named list of aligned A, B and C tables from <a href="../../../gsuite/docs/package-tutorials/glma.html">glma</a>. The traits use the same reference markers in the same order. The disjoint GWAS cohorts justify a zero cross-trait overlap intercept in this simulated example; that assumption must be reconsidered for overlapping cohorts.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gcorr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  statistics,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  reference_Glist,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">what =</span> <span class="st">"rg"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">block_count =</span> <span class="dv">200</span>L,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">overlap_intercept =</span> <span class="dv">0</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">marginal_intercept =</span> <span class="st">"fixed_one"</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The main result contains heritabilities, genetic covariances and genetic correlations with block-jackknife uncertainty.</p>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ordinary <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(statistics, reference_Glist,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">what =</span> <span class="st">"rg"</span>, <span class="at">block_count =</span> <span class="dv">200</span>L,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">overlap_intercept =</span> <span class="dv">0</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">marginal_intercept =</span> <span class="st">"fixed_one"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ordinary<span class="sc">$</span>estimates</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ordinary<span class="sc">$</span>h2</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ordinary<span class="sc">$</span>rg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>h2</code> rows estimate SNP heritability; <code>rg</code> rows estimate the correlation between genetic effects for trait pairs. The reported standard errors use contiguous delete-block jackknife calculations.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -729,25 +740,132 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../../website/assets/package-tutorials/gcorr-rg.png" class="img-fluid figure-img" alt="A three-by-three heat map shows positive pairwise genetic correlations of approximately 0.61 to 0.75."></p>
-<figcaption>Genetic-correlation matrix for the three simulated traits.</figcaption>
+<p><img src="../../website/assets/package-tutorials/gcorr-rg.png" class="img-fluid figure-img" alt="Three-by-three heat map of estimated genetic correlations, with all cross-trait correlations positive in the simulated data."></p>
+<figcaption>Genetic-correlation matrix for A, B and C.</figcaption>
 </figure>
 </div>
-<section id="grouped-ld-score-regression" class="level2">
-<h2 class="anchored" data-anchor-id="grouped-ld-score-regression">Grouped LD-score regression</h2>
-<p>For a direct comparison of named marker groups, reuse the same stored LD scores and supply marker names:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>grouped <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  statistics,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  reference_Glist,</span>
+<p>In this one run, the estimated genetic correlations lie between about 0.61 and 0.75. A correlation describes shared genetic effects on the model’s scale; it does not establish a causal relationship between traits. The uncertainty procedure has focused validation limits, so inspect diagnostics and avoid presenting these intervals as fully calibrated for every study.</p>
+</section>
+<section id="attribute-heritability-to-a-marker-group" class="level2">
+<h2 class="anchored" data-anchor-id="attribute-heritability-to-a-marker-group">Attribute heritability to a marker group</h2>
+<p>The first 80 artificial regions form an <code>enriched</code> annotation. Standard stratified LDSC computes an annotation LD-score column; at any marker it includes LD to annotated markers, including LD that crosses the annotation boundary. The residual column covers the remaining marker membership.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>enriched_markers <span class="ot">&lt;-</span> <span class="fu">unlist</span>(regions[<span class="dv">1</span><span class="sc">:</span><span class="dv">80</span>], <span class="at">use.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>partitioned <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(statistics, reference_Glist,</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> <span class="fu">list</span>(<span class="at">enriched =</span> enriched_markers),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">what =</span> <span class="st">"rg"</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">block_count =</span> <span class="dv">200</span>L,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">overlap_intercept =</span> <span class="dv">0</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">marginal_intercept =</span> <span class="st">"fixed_one"</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Use the annotation-aware route described in the <a href="../../../gsuite/docs/summary-statistic-analysis.html">summary-statistic guide</a> when annotations must receive LD contributions from correlated markers outside their named set.</p>
-<p><a href="../../website/assets/package-tutorials/gcorr-estimates.csv">Download the estimates</a></p>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual =</span> <span class="cn">TRUE</span>, <span class="at">set_model =</span> <span class="st">"stratified"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">what =</span> <span class="st">"rg"</span>, <span class="at">block_count =</span> <span class="dv">200</span>L,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">overlap_intercept =</span> <span class="dv">0</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">marginal_intercept =</span> <span class="st">"fixed_one"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(partitioned<span class="sc">$</span>estimates,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  trait1 <span class="sc">==</span> <span class="st">"A"</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(trait2) <span class="sc">&amp;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    quantity <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"h2"</span>, <span class="st">"enrichment"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The trait A rows from this fit show a total <code>h2</code> of about 0.36, with about 0.267 attributed to the enriched category. <code>enrichment</code> compares a category’s heritability share with its marker share. It is a model-based estimate, not a count of causal variants.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Quantity</th>
+<th>Estimate</th>
+<th>Standard error</th>
+<th>P value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>all</td>
+<td>h2</td>
+<td>0.36</td>
+<td>0.0695</td>
+<td>2.139e-07</td>
+</tr>
+<tr class="even">
+<td>enriched</td>
+<td>h2</td>
+<td>0.267</td>
+<td>0.06</td>
+<td>8.372e-06</td>
+</tr>
+<tr class="odd">
+<td>enriched</td>
+<td>enrichment</td>
+<td>4.63</td>
+<td>0.541</td>
+<td>1.074e-17</td>
+</tr>
+<tr class="even">
+<td>Residual</td>
+<td>h2</td>
+<td>0.0933</td>
+<td>0.0351</td>
+<td>0.00791</td>
+</tr>
+<tr class="odd">
+<td>Residual</td>
+<td>enrichment</td>
+<td>0.308</td>
+<td>0.103</td>
+<td>0.0028</td>
+</tr>
+</tbody>
+</table>
+<p><code>set_model = "grouped"</code> is also available. It masks the existing ordinary LD-score vector by group membership and can avoid recomputing annotation scores. It answers a different grouped question because LD crossing group boundaries is not allocated to the same annotation columns:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>grouped <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(statistics, reference_Glist,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> <span class="fu">list</span>(<span class="at">enriched =</span> enriched_markers), <span class="at">residual =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_model =</span> <span class="st">"grouped"</span>, <span class="at">what =</span> <span class="st">"rg"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">block_count =</span> <span class="dv">200</span>L, <span class="at">overlap_intercept =</span> <span class="dv">0</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">marginal_intercept =</span> <span class="st">"fixed_one"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The displayed partitioned table belongs to the stratified fit, not the grouped example.</p>
+</section>
+<section id="work-at-regional-or-covariance-level" class="level2">
+<h2 class="anchored" data-anchor-id="work-at-regional-or-covariance-level">Work at regional or covariance level</h2>
+<p>One prepared regional LD object can be reused across methods and trait pairs. The preparation loads the requested regions and verifies their complete eigensystems once in the current R session:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>prepared_regions <span class="ot">&lt;-</span> <span class="fu">gcorr_prepare_regions</span>(reference_Glist,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">regions =</span> regions[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>])</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>regional_h2 <span class="ot">&lt;-</span> <span class="fu">gcorr_hess</span>(statistics<span class="sc">$</span>A, prepared_regions,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum_components =</span> <span class="dv">0</span>, <span class="at">minimum_eigenvalue =</span> <span class="dv">0</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>regional_h2<span class="sc">$</span>estimates</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This call illustrates HESS; regional results were not part of the displayed LDSC table. Regional methods require method-specific sample overlap, eigenvalue and inference choices.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Analysis</th>
+<th>Public interface</th>
+<th>Additional information needed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Genome-wide architecture</td>
+<td><code>gcorr_gnova()</code>, <code>gcorr_sumher()</code></td>
+<td>Method-specific LD scores, tagging or annotation quantities.</td>
+</tr>
+<tr class="even">
+<td>Regional heritability/covariance</td>
+<td><code>gcorr_hess()</code>, <code>gcorr_rho_hess()</code>, <code>gcorr_supergnova()</code>, <code>gcorr_lava()</code>, <code>gcorr_hdll()</code></td>
+<td>Prepared regional LD and the method’s sampling assumptions.</td>
+</tr>
+<tr class="odd">
+<td>Multitrait covariance models</td>
+<td><code>gcorr_covariance()</code>, <code>gcorr_sem()</code>, <code>gcorr_ggm()</code></td>
+<td>Labelled covariance and its sampling covariance.</td>
+</tr>
+<tr class="even">
+<td>Mendelian randomisation</td>
+<td><code>gcorr_prepare_mr()</code>, <code>gcorr_gsmr()</code>, <code>gcorr_mr_ivw()</code></td>
+<td>Harmonized instruments, signed LD and explicit exposure/outcome assumptions.</td>
+</tr>
+</tbody>
+</table>
+<p>The <a href="../../../gsuite/docs/summary-statistic-analysis.html">method guide</a> gives the exact inputs and scope for each family. <code>ordinary$diagnostics</code> and <code>partitioned$diagnostics</code> retain the fit checks and assumptions.</p>
+<p><a href="../../website/assets/package-tutorials/gcorr-estimates.csv">Download genome-wide estimates</a> · <a href="../../website/assets/package-tutorials/gcorr-partitioned.csv">download trait A partitioned estimates</a></p>
 
 
 </section>

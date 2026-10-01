@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Fine-map marker-defined regions with adaptive eigen-LD truncation.">
+<meta name="description" content="Convert aligned GWAS estimates, fit named regions and interpret PIPs, sets and colocalisation.">
 
 <title>Regional fine-mapping with gmap – gtools</title>
 <style>
@@ -158,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gmap.html">gmap: fine-mapping</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gmap.html">gmap: fine-mapping</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -235,6 +235,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../gsuite/docs/package-tutorials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Study design and reproducibility</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../gsuite/docs/package-tutorials/gbase.html" class="sidebar-item-text sidebar-link">
@@ -617,20 +623,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#prepare-the-regional-likelihood" id="toc-prepare-the-regional-likelihood" class="nav-link active" data-scroll-target="#prepare-the-regional-likelihood">Prepare the regional likelihood</a></li>
+  <li><a href="#fit-20-marker-defined-regions" id="toc-fit-20-marker-defined-regions" class="nav-link" data-scroll-target="#fit-20-marker-defined-regions">Fit 20 marker-defined regions</a></li>
+  <li><a href="#check-the-numerical-fit" id="toc-check-the-numerical-fit" class="nav-link" data-scroll-target="#check-the-numerical-fit">Check the numerical fit</a></li>
+  <li><a href="#summarize-sets-and-bayesian-fdr" id="toc-summarize-sets-and-bayesian-fdr" class="nav-link" data-scroll-target="#summarize-sets-and-bayesian-fdr">Summarize sets and Bayesian FDR</a></li>
+  <li><a href="#compare-traits-and-reuse-saved-fits" id="toc-compare-traits-and-reuse-saved-fits" class="nav-link" data-scroll-target="#compare-traits-and-reuse-saved-fits">Compare traits and reuse saved fits</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gmap.html">gmap: fine-mapping</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gmap.html">gmap: fine-mapping</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Regional fine-mapping with gmap</h1>
 </div>
 
 <div>
   <div class="description">
-    Fine-map marker-defined regions with adaptive eigen-LD truncation.
+    Convert aligned GWAS estimates, fit named regions and interpret PIPs, sets and colocalisation.
   </div>
 </div>
 
@@ -647,31 +663,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><code>gmap</code> fine-maps one or more traits in regions defined by marker names. The summary statistics are aligned with <a href="../../../gsuite/docs/package-tutorials/gbase.html">gbase</a>, and the reference Glist locates each requested marker in the stored LD resource.</p>
+<p><code>gmap</code> works at a declared set of regions rather than fitting the complete genome at once. It offers regional multi-effect, BayesC and BayesR fits, posterior sets, Bayesian FDR summaries and colocalisation. It can also interpret regions from an existing individual-level <code>gbayes</code> fit. This page uses the A and B summaries and the LD resource from the <a href="../../../gsuite/docs/package-tutorials/overview.html">shared simulation</a>.</p>
+<section id="prepare-the-regional-likelihood" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-the-regional-likelihood">Prepare the regional likelihood</h2>
+<p><code>gmap_stat()</code> converts ordinary intercept-only linear GWAS <code>b</code> and <code>seb</code> into score and information inputs using the observed phenotype variance. It checks exact marker and allele order against the complete Glist LD reference. Provide the sample variance of the phenotype in each GWAS cohort, with R’s usual <code>n - 1</code> denominator.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gmap)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>prepared <span class="ot">&lt;-</span> <span class="fu">gmap_stat</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  statistics[<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>)],</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  reference_Glist,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">phenotype_variance =</span> <span class="fu">c</span>(<span class="at">A =</span> var_A, <span class="at">B =</span> var_B)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gmap</span>(</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  prepared,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  reference_Glist,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">regions =</span> marker_sets[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>],</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"multi_effect"</span>,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">residual_variance =</span> <span class="dv">1</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">effect_variance =</span> <span class="fl">0.04</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">effects =</span> <span class="dv">1</span>L,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_sweeps =</span> <span class="dv">200</span>L,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">eigen =</span> <span class="fu">list</span>(<span class="at">retained_positive_mass =</span> <span class="fu">c</span>(<span class="fl">0.995</span>, <span class="fl">0.99</span>, <span class="fl">0.95</span>))</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The eigen-LD thresholds are tried in order. If the first fit does not converge, the successful threshold and retained rank are recorded in the diagnostics. This makes the practical fallback explicit and reproducible.</p>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>phenotype_variance <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">A =</span> <span class="fu">var</span>(Y[gwas_ids<span class="sc">$</span>A, <span class="st">"A"</span>]),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">B =</span> <span class="fu">var</span>(Y[gwas_ids<span class="sc">$</span>B, <span class="st">"B"</span>])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>prepared <span class="ot">&lt;-</span> <span class="fu">gmap_stat</span>(statistics[<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>)], reference_Glist,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">phenotype_variance =</span> phenotype_variance)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prepared<span class="sc">$</span>A[<span class="fu">c</span>(<span class="st">"rsids"</span>, <span class="st">"ea"</span>, <span class="st">"nea"</span>, <span class="st">"score"</span>, <span class="st">"information"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The conversion assumes ordinary linear regression with a common sample size within each trait. It is not an automatic conversion for mixed-model or logistic GWAS statistics. See the <a href="../../../gsuite/docs/gmap-workflow.html">full mapping guide</a> for the individual-level route and input checks.</p>
+</section>
+<section id="fit-20-marker-defined-regions" class="level2">
+<h2 class="anchored" data-anchor-id="fit-20-marker-defined-regions">Fit 20 marker-defined regions</h2>
+<p>The simulated regions each contain 100 marker names in LD-reference order. The multi-effect fit below requests one effect per region and uses a sequence of retained positive eigenvalue mass targets. If a fit needs another target, its successful target and retained rank are saved in diagnostics.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gmap</span>(prepared, reference_Glist,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">regions =</span> regions[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>], <span class="at">method =</span> <span class="st">"multi_effect"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">residual_variance =</span> <span class="dv">1</span>, <span class="at">effect_variance =</span> <span class="fl">0.04</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">effects =</span> <span class="dv">1</span>L, <span class="at">max_sweeps =</span> <span class="dv">200</span>L,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">eigen =</span> <span class="fu">list</span>(<span class="at">retained_positive_mass =</span> <span class="fu">c</span>(<span class="fl">0.995</span>, <span class="fl">0.99</span>, <span class="fl">0.95</span>))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fit<span class="sc">$</span>estimates[<span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"trait"</span>, <span class="st">"marker"</span>, <span class="st">"mean"</span>, <span class="st">"pip"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>pip</code> is a posterior inclusion probability. <code>mean</code> is the posterior mean effect in the prepared regional model. The leading markers in the saved run are:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -768,17 +788,140 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../../website/assets/package-tutorials/gmap-region.png" class="img-fluid figure-img" alt="Vertical lines show posterior inclusion probabilities for traits A and B across one 100-marker region, with a dominant signal near 50 kilobases."></p>
-<figcaption>Marker inclusion probabilities in the first fine-mapped region.</figcaption>
+<p><img src="../../website/assets/package-tutorials/gmap-region.png" class="img-fluid figure-img" alt="Regional marker PIPs for traits A and B in the first 100-marker region, with a dominant shared signal near 50 kilobases."></p>
+<figcaption>Posterior support in region001.</figcaption>
 </figure>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>posterior_sets <span class="ot">&lt;-</span> <span class="fu">gmap_sets</span>(fit)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>posterior_sets<span class="sc">$</span>summary</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>diagnostic_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Inspect <code>diagnostic_summary</code> before reporting credible sets or using post-fit colocalisation.</p>
-<p><a href="../../website/assets/package-tutorials/gmap-top-markers.csv">Download the top markers</a> · <a href="../../website/assets/package-tutorials/gmap-diagnostics.csv">download the fit diagnostics</a></p>
+<p>The plotted PIPs support <code>m00050</code> for both traits under this one-effect model. Their high values are expected for the deliberately strong planted signal.</p>
+</section>
+<section id="check-the-numerical-fit" class="level2">
+<h2 class="anchored" data-anchor-id="check-the-numerical-fit">Check the numerical fit</h2>
+<p>Before interpreting a posterior set, inspect convergence, LD completeness, retained rank and fallback attempts. The first six region/trait rows from this run were accepted on the first attempt at full rank; no fallback was needed.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Region</th>
+<th>Trait</th>
+<th>Status</th>
+<th>Retained rank</th>
+<th>Full rank</th>
+<th>Requested retained positive mass</th>
+<th>Achieved retained positive mass</th>
+<th>Attempts</th>
+<th>Fallback required</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>region001</td>
+<td>A</td>
+<td>accepted</td>
+<td>100</td>
+<td>100</td>
+<td>0.995</td>
+<td>1</td>
+<td>1</td>
+<td>FALSE</td>
+</tr>
+<tr class="even">
+<td>region001</td>
+<td>B</td>
+<td>accepted</td>
+<td>100</td>
+<td>100</td>
+<td>0.995</td>
+<td>1</td>
+<td>1</td>
+<td>FALSE</td>
+</tr>
+<tr class="odd">
+<td>region002</td>
+<td>A</td>
+<td>accepted</td>
+<td>100</td>
+<td>100</td>
+<td>0.995</td>
+<td>1</td>
+<td>1</td>
+<td>FALSE</td>
+</tr>
+<tr class="even">
+<td>region002</td>
+<td>B</td>
+<td>accepted</td>
+<td>100</td>
+<td>100</td>
+<td>0.995</td>
+<td>1</td>
+<td>1</td>
+<td>FALSE</td>
+</tr>
+<tr class="odd">
+<td>region003</td>
+<td>A</td>
+<td>accepted</td>
+<td>100</td>
+<td>100</td>
+<td>0.995</td>
+<td>1</td>
+<td>1</td>
+<td>FALSE</td>
+</tr>
+<tr class="even">
+<td>region003</td>
+<td>B</td>
+<td>accepted</td>
+<td>100</td>
+<td>100</td>
+<td>0.995</td>
+<td>1</td>
+<td>1</td>
+<td>FALSE</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(fit<span class="sc">$</span>diagnostic_summary,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"region001"</span>, <span class="st">"region002"</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(fit<span class="sc">$</span>eigen_attempts, region <span class="sc">==</span> <span class="st">"region001"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The full downloadable diagnostics include all 40 region/trait fits. A lower retained rank can change the likelihood, so the accepted threshold belongs in the reported result.</p>
+</section>
+<section id="summarize-sets-and-bayesian-fdr" class="level2">
+<h2 class="anchored" data-anchor-id="summarize-sets-and-bayesian-fdr">Summarize sets and Bayesian FDR</h2>
+<p><code>gmap_sets()</code> returns ordinary set-level and marker-level data frames. The meaning of set mass depends on the fitted method; read the <code>meaning</code> column rather than treating every set as the same type of credible set.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>posterior_sets <span class="ot">&lt;-</span> <span class="fu">gmap_sets</span>(fit)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(posterior_sets<span class="sc">$</span>summary)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(posterior_sets<span class="sc">$</span>members)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>fdr <span class="ot">&lt;-</span> <span class="fu">gmap_bfdr</span>(fit, <span class="at">target =</span> <span class="fl">0.05</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fdr[<span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"trait"</span>, <span class="st">"selected_markers"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"expected_false_discoveries"</span>, <span class="st">"bfdr"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Bayesian FDR averages <code>1 - PIP</code> among selected markers under the fitted posterior. It does not provide a frequentist FDR guarantee.</p>
+</section>
+<section id="compare-traits-and-reuse-saved-fits" class="level2">
+<h2 class="anchored" data-anchor-id="compare-traits-and-reuse-saved-fits">Compare traits and reuse saved fits</h2>
+<p>Component-pair colocalisation can use the saved multi-effect fits without refitting the regional models. The two simulated GWAS cohorts are disjoint; the complete 100-marker regions and reference are shared by both traits.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>coloc <span class="ot">&lt;-</span> <span class="fu">gmap_coloc_components</span>(fit, fit, reference_Glist,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait1 =</span> <span class="st">"A"</span>, <span class="at">trait2 =</span> <span class="st">"B"</span>, <span class="at">regions =</span> <span class="st">"region001"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">complete_region_coverage =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">non_overlapping_samples =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(coloc)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>coloc<span class="sc">$</span>estimates</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The colocalisation call illustrates a supported follow-on analysis; its probabilities were not included in the displayed run. Priors and eligibility checks are recorded in the returned result. For a global individual-level BayesC/BayesR fit, <code>gmap_bed()</code> instead groups its saved marker posterior within named regions using LD from the <em>same fitted samples</em>; those groups are not regional refits.</p>
+<p><a href="../../website/assets/package-tutorials/gmap-top-markers.csv">Download the top marker PIPs</a> · <a href="../../website/assets/package-tutorials/gmap-diagnostics.csv">download all fit diagnostics</a></p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

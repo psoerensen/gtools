@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Apply fitted marker weights to held-out individuals and return total and set scores.">
+<meta name="description" content="Apply portable marker weights to held-out genotypes, inspect coverage and compare score construction routes.">
 
 <title>Polygenic scoring with gscore – gtools</title>
 <style>
@@ -158,7 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gscore.html">gscore: polygenic scoring</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gscore.html">gscore: polygenic scoring</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -235,6 +235,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../gsuite/docs/package-tutorials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Study design and reproducibility</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../gsuite/docs/package-tutorials/gbase.html" class="sidebar-item-text sidebar-link">
@@ -617,20 +623,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#apply-bayesc-weights" id="toc-apply-bayesc-weights" class="nav-link active" data-scroll-target="#apply-bayesc-weights">Apply BayesC weights</a></li>
+  <li><a href="#evaluate-the-held-out-score" id="toc-evaluate-the-held-out-score" class="nav-link" data-scroll-target="#evaluate-the-held-out-score">Evaluate the held-out score</a></li>
+  <li><a href="#inspect-marker-and-set-coverage" id="toc-inspect-marker-and-set-coverage" class="nav-link" data-scroll-target="#inspect-marker-and-set-coverage">Inspect marker and set coverage</a></li>
+  <li><a href="#construct-another-score-from-gwas-evidence" id="toc-construct-another-score-from-gwas-evidence" class="nav-link" data-scroll-target="#construct-another-score-from-gwas-evidence">Construct another score from GWAS evidence</a></li>
+  <li><a href="#score-shape-and-coding-choices" id="toc-score-shape-and-coding-choices" class="nav-link" data-scroll-target="#score-shape-and-coding-choices">Score shape and coding choices</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gbase.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gscore.html">gscore: polygenic scoring</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/tutorials.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/overview.html">Standalone packages</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/package-tutorials/gscore.html">gscore: polygenic scoring</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Polygenic scoring with gscore</h1>
 </div>
 
 <div>
   <div class="description">
-    Apply fitted marker weights to held-out individuals and return total and set scores.
+    Apply portable marker weights to held-out genotypes, inspect coverage and compare score construction routes.
   </div>
 </div>
 
@@ -647,26 +663,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><code>gscore</code> applies marker weights to a Glist. Here the BayesC weights from <a href="../../../gsuite/docs/package-tutorials/gbayes.html">gbayes</a> are scored in 2,000 held-out individuals. Marker sets are lists of marker names; the Glist supplies their locations in the BED files.</p>
+<p><code>gscore</code> applies allele-labelled marker weights to selected people in a <a href="../../../gsuite/docs/package-tutorials/gbase.html">gbase Glist</a>. It can produce total scores, scores for named marker sets and several weight columns in one pass. It also constructs clumping-and-thresholding (C+T) weights from aligned GWAS statistics and stored sparse LD. The <a href="../../../gsuite/docs/package-tutorials/overview.html">shared simulation</a> holds out 2,000 individuals for this example.</p>
+<section id="apply-bayesc-weights" class="level2">
+<h2 class="anchored" data-anchor-id="apply-bayesc-weights">Apply BayesC weights</h2>
+<p>The <a href="../../../gsuite/docs/package-tutorials/gbayes.html">gbayes fit</a> provides standardized, portable weights for trait A. The target Glist selects only the held-out people from the same PLINK files. <code>sets</code> contain marker names; the Glist resolves their BED locations and the scorer accumulates their contributions while reading the target panel.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gscore)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>test_Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>),</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> holdout_ids,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nthreads =</span> <span class="dv">4</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> <span class="fu">gscore</span>(</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  bayes_fit<span class="sc">$</span>weights,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  test_Glist,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> marker_sets[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>],</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">include_total =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">coding =</span> <span class="st">"standardized"</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale_scores =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">threads =</span> <span class="dv">4</span>)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>prediction$scores</code> has one row per individual and columns for the requested sets and total scores. <code>prediction$coverage</code> records which weights could be matched and used.</p>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>holdout_ids <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"id%05d"</span>, <span class="dv">18001</span><span class="sc">:</span><span class="dv">20000</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>test_Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> holdout_ids, <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> <span class="fu">gscore</span>(bayes_fit<span class="sc">$</span>weights, test_Glist,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> gene_sets[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>], <span class="at">include_total =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">coding =</span> <span class="st">"standardized"</span>, <span class="at">scale_scores =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">threads =</span> <span class="dv">4</span>))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(prediction<span class="sc">$</span>scores)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(prediction<span class="sc">$</span>scores)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The score matrix has 2,000 rows in selected individual order. Its <code>A</code> column is the total BayesC score; the remaining columns are the requested gene contributions. Since <code>scale_scores = FALSE</code>, scores are not standardized again across the target cohort.</p>
+</section>
+<section id="evaluate-the-held-out-score" class="level2">
+<h2 class="anchored" data-anchor-id="evaluate-the-held-out-score">Evaluate the held-out score</h2>
+<p>Join scores to outcomes by individual ID, rather than relying on row position. Here the same <em>trait A</em> score is correlated with all three simulated outcomes; the B and C rows are cross-trait associations, not separately fitted B or C prediction models.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> Y[<span class="fu">rownames</span>(prediction<span class="sc">$</span>scores), , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>trait_A_score <span class="ot">&lt;-</span> prediction<span class="sc">$</span>scores[, <span class="st">"A"</span>]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">vapply</span>(<span class="fu">colnames</span>(observed), <span class="cf">function</span>(trait)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(trait_A_score, observed[, trait]), <span class="fu">numeric</span>(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -695,16 +718,143 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="../../website/assets/package-tutorials/gscore-prediction.png" class="img-fluid figure-img" alt="A scatter plot for 2,000 held-out individuals shows a positive relationship between the BayesC score and observed trait A, with correlation 0.305."></p>
-<figcaption>BayesC score against observed trait A in the held-out individuals.</figcaption>
+<p><img src="../../website/assets/package-tutorials/gscore-prediction.png" class="img-fluid figure-img" alt="Scatter plot of the trait A BayesC score and observed trait A in 2,000 held-out people; the sample correlation is 0.305."></p>
+<figcaption>Held-out BayesC prediction for trait A.</figcaption>
 </figure>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(prediction<span class="sc">$</span>scores[, <span class="st">"A"</span>], phenotype[holdout_ids, <span class="st">"A"</span>])</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prediction<span class="sc">$</span>coverage)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Keep the same allele coding used to estimate the weights, and review coverage before comparing scores across cohorts.</p>
-<p><a href="../../website/assets/package-tutorials/gscore-metrics.csv">Download prediction metrics</a> · <a href="../../website/assets/package-tutorials/gscore-coverage.csv">download marker coverage</a></p>
+<p>The 0.305 correlation is descriptive for one simulated holdout. Assess score calibration and transport separately when applying weights to another cohort.</p>
+</section>
+<section id="inspect-marker-and-set-coverage" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-marker-and-set-coverage">Inspect marker and set coverage</h2>
+<p><code>gscore()</code> checks marker IDs, coordinates and effect/other alleles. It handles exact and swapped allele orientation and records unmatched markers. Review these before interpreting a score, especially after moving weights between cohorts.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>prediction<span class="sc">$</span>alignment</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prediction<span class="sc">$</span>coverage)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>prediction<span class="sc">$</span>missing_set_markers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first six sets in this same-panel holdout all had complete marker coverage:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Set</th>
+<th>Requested markers</th>
+<th>Used markers</th>
+<th>Missing from Glist</th>
+<th>Missing from weights</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>gene0001</td>
+<td>21</td>
+<td>21</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>gene0002</td>
+<td>79</td>
+<td>79</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>gene0003</td>
+<td>22</td>
+<td>22</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>gene0004</td>
+<td>78</td>
+<td>78</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>gene0005</td>
+<td>23</td>
+<td>23</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>gene0006</td>
+<td>77</td>
+<td>77</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><code>control = list(missing_markers = "error")</code> makes a missing weighted marker fatal; the default records and drops it. Use that stricter setting when the expected target marker universe should match exactly.</p>
+</section>
+<section id="construct-another-score-from-gwas-evidence" class="level2">
+<h2 class="anchored" data-anchor-id="construct-another-score-from-gwas-evidence">Construct another score from GWAS evidence</h2>
+<p><code>clump_threshold()</code> uses the stored sparse LD to choose markers by GWAS p-value, LD and distance. It returns the same allele-labelled weight-table shape accepted by <code>gscore()</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ct_weights <span class="ot">&lt;-</span> <span class="fu">clump_threshold</span>(statistics<span class="sc">$</span>A, reference_Glist,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_threshold =</span> <span class="fl">5e-8</span>, <span class="at">r2_threshold =</span> <span class="fl">0.1</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">window_bp =</span> <span class="dv">250000</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ct_prediction <span class="ot">&lt;-</span> <span class="fu">gscore</span>(ct_weights, test_Glist,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">coding =</span> <span class="st">"standardized"</span>, <span class="at">scale_scores =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">threads =</span> <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This C+T call is a supported alternative; the displayed scatter and correlations use BayesC weights only. C+T needs the aligned <code>b</code>, <code>seb</code>, <code>p</code> and <code>n</code> fields plus sufficiently complete LD for its chosen window.</p>
+</section>
+<section id="score-shape-and-coding-choices" class="level2">
+<h2 class="anchored" data-anchor-id="score-shape-and-coding-choices">Score shape and coding choices</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Capability</th>
+<th>How to request it</th>
+<th>What to inspect</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Several scores at once</td>
+<td>Add numeric weight columns to one allele-labelled weight table.</td>
+<td><code>prediction$scores</code> has one column per score.</td>
+</tr>
+<tr class="even">
+<td>Gene or other marker sets</td>
+<td>Supply named marker vectors through <code>sets</code>.</td>
+<td><code>coverage</code>, <code>set_membership</code> and <code>missing_set_markers</code>.</td>
+</tr>
+<tr class="odd">
+<td>Weighted set totals</td>
+<td>Supply <code>set_weights</code> named exactly like <code>sets</code>.</td>
+<td>Confirm the intended multipliers in <code>coverage</code>.</td>
+</tr>
+<tr class="even">
+<td>Raw mean-imputed coding</td>
+<td>Set <code>coding = "raw_mean_imputed"</code> for weights defined on raw dosage.</td>
+<td>Coding and allele-frequency provenance.</td>
+</tr>
+<tr class="odd">
+<td>Cohort-standardized outputs</td>
+<td>Set <code>scale_scores = TRUE</code>.</td>
+<td>Scaling changes the reported score units.</td>
+</tr>
+</tbody>
+</table>
+<p>The public interface also exposes the lower-level <code>gscore_bed()</code> for a caller that already has physical BED indices and coefficient matrices. Most users should pass a Glist to retain identity and allele checks. See the <a href="../../../gsuite/docs/summary-interfaces.html#construct-and-apply-genomic-scores">scoring guide</a> for the weight contract.</p>
+<p><a href="../../website/assets/package-tutorials/gscore-metrics.csv">Download prediction metrics</a> · <a href="../../website/assets/package-tutorials/gscore-coverage.csv">download all set-coverage rows</a></p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
