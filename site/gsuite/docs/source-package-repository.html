@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>r-package-boundaries – gtools</title>
+<title>source-package-repository – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -127,14 +162,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#r-package-boundaries" id="toc-r-package-boundaries" class="nav-link active" data-scroll-target="#r-package-boundaries">R package boundaries</a>
+  <li><a href="#source-package-repository" id="toc-source-package-repository" class="nav-link active" data-scroll-target="#source-package-repository">Source-package repository</a>
   <ul class="collapse">
-  <li><a href="#dependency-rule" id="toc-dependency-rule" class="nav-link" data-scroll-target="#dependency-rule">Dependency rule</a></li>
-  <li><a href="#package-map" id="toc-package-map" class="nav-link" data-scroll-target="#package-map">Package map</a></li>
-  <li><a href="#what-belongs-in-gbase" id="toc-what-belongs-in-gbase" class="nav-link" data-scroll-target="#what-belongs-in-gbase">What belongs in gbase</a></li>
-  <li><a href="#r-interfaces-by-package" id="toc-r-interfaces-by-package" class="nav-link" data-scroll-target="#r-interfaces-by-package">R interfaces by package</a></li>
-  <li><a href="#present-native-dependency-closures" id="toc-present-native-dependency-closures" class="nav-link" data-scroll-target="#present-native-dependency-closures">Present native dependency closures</a></li>
-  <li><a href="#summary-statistics-integration" id="toc-summary-statistics-integration" class="nav-link" data-scroll-target="#summary-statistics-integration">Summary-statistics integration</a></li>
+  <li><a href="#what-the-source-packages-contain" id="toc-what-the-source-packages-contain" class="nav-link" data-scroll-target="#what-the-source-packages-contain">What the source packages contain</a></li>
+  <li><a href="#build-and-qualification" id="toc-build-and-qualification" class="nav-link" data-scroll-target="#build-and-qualification">Build and qualification</a></li>
+  <li><a href="#release-gate" id="toc-release-gate" class="nav-link" data-scroll-target="#release-gate">Release gate</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -145,232 +177,43 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="r-package-boundaries" class="level1">
-<h1>R package boundaries</h1>
-<p>The R layer is divided by user task instead of placing every interface in one large gsuite package. The root <code>gsuite</code> package remains the ecosystem identity, website and integration surface. Independently distributed task capabilities are R/native pairs: an R package owns the user contract and its corresponding native library owns the implementation. Each task package can be installed and used without the root package.</p>
-<section id="dependency-rule" class="level2">
-<h2 class="anchored" data-anchor-id="dependency-rule">Dependency rule</h2>
-<p>The dependency direction is:</p>
-<pre class="text"><code>gbase &lt;- gcorr, glma, gbayes, gscore, gmap, gsea
-
-task packages do not import gsuite
-task packages depend on each other only for an explicit scientific workflow</code></pre>
-<p><code>gbase</code> must not depend on a task package. Its public source distribution builds task-neutral gbits/gmat and bounded gsolve-core/greml-core source into a reusable static archive. A task package must not depend on the root gsuite package. This prevents dependency cycles and lets users install one task without installing the complete suite.</p>
-</section>
-<section id="package-map" class="level2">
-<h2 class="anchored" data-anchor-id="package-map">Package map</h2>
-<p>This is the canonical map of R/native distribution units. Method details belong in the <a href="../../gsuite/docs/methods.html#capability-overview">capability overview</a>; native transitive dependencies belong in the build manifests.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>R distribution surface</th>
-<th>Native owner shipped or linked for that surface</th>
-<th>Status and boundary</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>gsuite</code></td>
-<td>Root bridge over gsolve, greml, gbits, gmat and <code>gbits::gsolve_adapter</code></td>
-<td>Mixed-model, solver and integration interfaces.</td>
-</tr>
-<tr class="even">
-<td><code>gbase</code></td>
-<td>Task-neutral gbits/gmat plus bounded gsolve-core and greml-core source</td>
-<td>Shared Glist, summary-statistics, LD-resource and public source-build contracts. This is the deliberate exception to the one-task/one-native-owner pattern.</td>
-</tr>
-<tr class="odd">
-<td><code>gcorr</code></td>
-<td><code>libgcorr</code></td>
-<td>Genetic correlation, covariance models and MR.</td>
-</tr>
-<tr class="even">
-<td><code>glma</code></td>
-<td><code>libglma</code></td>
-<td>Association scans and the native implementation of <code>vegas()</code>.</td>
-</tr>
-<tr class="odd">
-<td><code>gbayes</code></td>
-<td><code>libgbayes</code></td>
-<td>Bayesian inference and posterior prediction.</td>
-</tr>
-<tr class="even">
-<td><code>gscore</code></td>
-<td><code>libgscore</code> and <code>libgscore_summary</code></td>
-<td>Score application and C+T; model fitting remains with model owners.</td>
-</tr>
-<tr class="odd">
-<td><code>gmap</code></td>
-<td>unified <code>libgmap</code> with Bayesian support</td>
-<td>Fine-mapping and colocalisation.</td>
-</tr>
-<tr class="even">
-<td><code>gsea</code></td>
-<td><code>libgsea</code> and <code>libgsea_bayes</code></td>
-<td>Enrichment; re-exports <code>glma::vegas()</code> for the connected workflow.</td>
-</tr>
-<tr class="odd">
-<td><code>gsuite</code> native dependencies</td>
-<td>gbits, gmat, gsolve, greml and <code>gbits::gsolve_adapter</code></td>
-<td>Native infrastructure used by the public root integration interfaces.</td>
-</tr>
-</tbody>
-</table>
-<p><code>gsim</code> is the simulation package and exchanges ordinary data with the analysis packages.</p>
-</section>
-<section id="what-belongs-in-gbase" class="level2">
-<h2 class="anchored" data-anchor-id="what-belongs-in-gbase">What belongs in gbase</h2>
-<p>Code belongs in gbase only when it is stable, task-neutral and needed by more than one task package. The package contains or will own:</p>
+<section id="source-package-repository" class="level1">
+<h1>Source-package repository</h1>
+<p>The public distribution unit consists of exactly seven R source packages: <code>gbase</code>, <code>gbayes</code>, <code>gcorr</code>, <code>glma</code>, <code>gmap</code>, <code>gscore</code>, and <code>gsea</code>. The root <code>gsuite</code> package, <code>gshare</code>, and the complete <code>gsolve</code> and <code>greml</code> libraries are not part of this repository.</p>
+<p>After release approval, users will install from the conventional R repository:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">gsuite =</span> <span class="st">"https://psoerensen.github.io/gsuite/repository"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gbase"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"gbayes"</span>, <span class="st">"gcorr"</span>, <span class="st">"glma"</span>, <span class="st">"gmap"</span>, <span class="st">"gscore"</span>, <span class="st">"gsea"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This URL is the planned publication location. Do not present these commands as available until the generated candidate, licences, and release versions have been approved and deployed.</p>
+<section id="what-the-source-packages-contain" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-source-packages-contain">What the source packages contain</h2>
+<p><code>gbase</code> builds the task-neutral <code>gbits</code> and <code>gmat</code> implementation together with bounded <code>gsolve-core</code> and <code>greml-core</code> source sets. It installs their public headers and one position-independent static archive for the task packages. The cores exclude sparse direct factorization, selected inversion, CHOLMOD, oneMKL, PARDISO, and the pedigree, longitudinal, and full mixed-model surfaces.</p>
+<p><code>gbayes</code> contains its R/Rcpp layer and Bayesian native implementation. In addition to its package DLL, it installs the public headers and a second static archive needed by <code>glma</code>, <code>gmap</code>, <code>gscore</code>, and <code>gsea</code>. Those packages therefore compile only their own native implementation instead of recompiling the large Bayesian source set. <code>gcorr</code> needs only the <code>gbase</code> archive.</p>
+<p>Every task package links the installed archives declared by its R package dependencies, so no preinstalled gsuite SDK is needed. Native files in release packages are generated from the canonical sibling repositories. They are not maintained as copied source inside this repository.</p>
+<p>The ordinary source-build requirements are:</p>
 <ul>
-<li>one-trait, allele-labelled summary-statistics data frames;</li>
-<li><code>checkStat()</code> mapping, harmonization and explicit QC of reported statistics against a Glist reference;</li>
-<li>validation of marker identity, positions, alleles and supplied numerical columns;</li>
-<li>explicit allele-oriented variant keys;</li>
-<li><code>gbase::gprep()</code> preparation and sparse-LD publication plus the serializable Glist contract shared by individual-level task packages;</li>
-<li><code>gbase::define_ld_blocks()</code> one-time verification and serialization of an exhaustive independent-block partition tied to the sparse-LD identity;</li>
-<li>summary-based marker filtering and Glist-owned LD scores, regional matrices, and complete verified regional eigensystems.</li>
+<li>Linux or HPC: R’s configured C++17 compiler;</li>
+<li>Windows: the Rtools version matching R;</li>
+<li>macOS: Xcode Command Line Tools or another compiler configured for R;</li>
+<li>R packages <code>Rcpp</code> and <code>RcppEigen</code>.</li>
 </ul>
-<p><code>checkStat()</code> follows the established qgg workflow and returns an ordinary data frame. Its canonical columns are <code>rsids</code>, <code>chr</code>, <code>pos</code>, <code>ea</code>, <code>nea</code>, with the available analysis columns among <code>eaf</code>, <code>b</code>, <code>seb</code>, <code>stat</code>, <code>p</code>, <code>n</code> and <code>info</code>. Downstream functions validate the subset they require. Gbase does not require a public summary-statistics class, constructor, accessor or print method.</p>
-<p>The following do not belong in gbase:</p>
-<ul>
-<li>automatic strand inference or downstream LD-model fitting;</li>
-<li>genotype, LD or matrix storage;</li>
-<li>statistical fitting, priors or sampler controls;</li>
-<li>scoring, correlation or association algorithms;</li>
-<li>orchestration across tasks.</li>
-</ul>
-<p>Those responsibilities remain with gmat/data preparation, the relevant task package or the gsuite umbrella.</p>
+<p>OpenMP is used when the R toolchain supplies it and otherwise the same source build remains available without OpenMP.</p>
 </section>
-<section id="r-interfaces-by-package" class="level2">
-<h2 class="anchored" data-anchor-id="r-interfaces-by-package">R interfaces by package</h2>
-<p>The groups below cover the current exported interface.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Interface</th>
-<th>R package</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>gbase::gprep()</code> prepare/sparseld routes, lightweight Glist validation, explicit <code>verify_ld()</code> integrity checks and printing</td>
-<td>gbase</td>
-</tr>
-<tr class="even">
-<td><code>checkStat()</code> user-facing summary-statistic mapping, harmonization and QC</td>
-<td>gbase</td>
-</tr>
-<tr class="odd">
-<td><code>gbase::gfilter()</code>, <code>ld_scores()</code>, <code>ld_region()</code> and <code>ld_eigen()</code> over Glist</td>
-<td>gbase</td>
-</tr>
-<tr class="even">
-<td><code>gcorr()</code> and its fit, summary, plot, covariance, annotation and MR methods</td>
-<td>gcorr</td>
-</tr>
-<tr class="odd">
-<td><code>gscore()</code>, <code>clump_threshold()</code> and score prediction methods</td>
-<td>gscore; C+T is scoring-specific, while fitted association and posterior effects remain with their model packages</td>
-</tr>
-<tr class="even">
-<td><code>gbayes()</code> and Bayesian fit, continuation, posterior and prediction methods</td>
-<td>gbayes</td>
-</tr>
-<tr class="odd">
-<td><code>glma()</code> and association-result methods</td>
-<td>glma</td>
-</tr>
-<tr class="even">
-<td><code>vegas()</code> marker-set association evidence</td>
-<td>glma implementation and native integration; gsea re-export and <code>gsea_input()</code> handoff</td>
-</tr>
-<tr class="odd">
-<td><code>gmap()</code>, <code>gmap_stat()</code>, <code>gmap_bed()</code> and focused mapping/colocalisation methods</td>
-<td>gmap</td>
-</tr>
-<tr class="even">
-<td><code>gsea()</code> and enrichment-result methods</td>
-<td>gsea</td>
-</tr>
-<tr class="odd">
-<td><code>greml()</code>, persistent mixed-model, pedigree, multivariate, longitudinal and component-model constructors and methods</td>
-<td>gsuite, backed by greml</td>
-</tr>
-<tr class="even">
-<td><code>gsolve()</code>, <code>gsuite_solve()</code> and solver result methods</td>
-<td>gsuite, backed by gsolve</td>
-</tr>
-<tr class="odd">
-<td><code>gsuite_versions()</code> and cross-task workflows</td>
-<td>gsuite umbrella</td>
-</tr>
-<tr class="even">
-<td><code>diagnostics()</code> generic and future common result conventions</td>
-<td>Candidate for gbase after method compatibility is audited</td>
-</tr>
-</tbody>
-</table>
-<p>Low-level native libraries do not automatically require user-facing R packages. In particular, gbits remains an implementation dependency unless a distinct user task emerges.</p>
+<section id="build-and-qualification" class="level2">
+<h2 class="anchored" data-anchor-id="build-and-qualification">Build and qualification</h2>
+<p>From the gsuite checkout, with the canonical native repositories beside it:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/build/build_source_repository.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The command stages generated package sources, extracts source lists from the owners’ CMake declarations, builds and checks packages in dependency order, installs them into an isolated library, and writes the seven archives plus <code>PACKAGES</code>, <code>PACKAGES.gz</code>, and <code>PACKAGES.rds</code> under <code>repository/src/contrib</code>.</p>
+<p>Use <code>--stage-only</code> to inspect generated source, <code>--build-only</code> to assemble the archives without compiling them, and <code>--skip-check</code> for an installation smoke build. <code>--from=&lt;package&gt;</code> resumes an interrupted ordered run. Those modes are partial validation.</p>
+<p><code>repository/</code> and all staging, check, object, and installation outputs are generated and ignored by Git. The build command never deploys, pushes, or changes GitHub Pages.</p>
 </section>
-<section id="present-native-dependency-closures" class="level2">
-<h2 class="anchored" data-anchor-id="present-native-dependency-closures">Present native dependency closures</h2>
-<p>These are planning boundaries, not new build declarations:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>R package</th>
-<th>Main native dependencies</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>gbase</td>
-<td>gmat and gbits for genotype/sparse-LD preparation and LD utilities; gsolve for complete verified regional eigensystems</td>
-</tr>
-<tr class="even">
-<td>gcorr</td>
-<td>gcorr, with prepared gmat LD resources</td>
-</tr>
-<tr class="odd">
-<td>gscore</td>
-<td>core gscore for BED application plus <code>gscore::summary</code> for C+T; the installed summary library currently brings gbayes, gmat, gsolve and gbits transitively</td>
-</tr>
-<tr class="even">
-<td>gbayes</td>
-<td>gbayes, gmat, gbits and gsolve; the qualified portable profile retains OpenMP while disabling CHOLMOD, MKL and PARDISO</td>
-</tr>
-<tr class="odd">
-<td>glma</td>
-<td>glma, with gmat/gbits, greml or gbayes where the selected association task requires them</td>
-</tr>
-<tr class="even">
-<td>gmap</td>
-<td>unified gmap library and gbayes, with prepared gmat resources</td>
-</tr>
-<tr class="odd">
-<td>gsea</td>
-<td>gsea and its selected gbayes companion</td>
-</tr>
-</tbody>
-</table>
-<p>Development builds may use the qualified installed native prefix. Public source packages instead extract the same canonical owner sources into generated archives; task packages link the static core installed by gbase. Packages that reuse Bayesian native code also declare gbayes and link its installed archive instead of recompiling it. See the <a href="../../gsuite/docs/source-package-repository.html">source-package repository guide</a>.</p>
-</section>
-<section id="summary-statistics-integration" class="level2">
-<h2 class="anchored" data-anchor-id="summary-statistics-integration">Summary-statistics integration</h2>
-<p><code>gbase::checkStat()</code> maps, validates, harmonizes and filters ordinary qgg-style data frames. Analysis packages then validate the exact columns they consume.</p>
+<section id="release-gate" class="level2">
+<h2 class="anchored" data-anchor-id="release-gate">Release gate</h2>
+<p>Before publication, review package versions, source-check results on release platforms, licence notices, archive contents and checksums, absence of private source, and the website wording. Only an explicitly approved candidate may be copied to the Pages deployment.</p>
 
 
 </section>

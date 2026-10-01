@@ -611,8 +611,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>partitioned <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(<span class="at">stat =</span> one, <span class="at">Glist =</span> Glist,</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> <span class="fu">list</span>(<span class="at">coding =</span> coding_markers, <span class="at">regulatory =</span> regulatory_markers),</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual =</span> <span class="cn">TRUE</span>, <span class="at">what =</span> <span class="st">"h2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Marker sets are named marker-ID vectors and may overlap. Glist supplies the ordinary and annotation-specific LD scores and reference sample size. Deterministic contiguous delete blocks are generated when <code>blocks</code> is omitted. The result retains the full fit and adds convenient <code>h2</code> and <code>rg</code> components.</p>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual =</span> <span class="cn">TRUE</span>, <span class="at">what =</span> <span class="st">"h2"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>grouped <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(<span class="at">stat =</span> one, <span class="at">Glist =</span> Glist,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> <span class="fu">list</span>(<span class="at">region1 =</span> region1_markers, <span class="at">region2 =</span> region2_markers),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_model =</span> <span class="st">"grouped"</span>, <span class="at">residual =</span> <span class="cn">TRUE</span>, <span class="at">what =</span> <span class="st">"h2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Marker sets are named marker-ID vectors and may overlap. The default <code>set_model = "stratified"</code> uses standard annotation-specific LD scores and accounts for LD crossing set boundaries. <code>set_model = "grouped"</code> instead fits the qgg-style grouped construction by masking the stored ordinary LD-score vector with focal-marker membership; it avoids a sparse-LD scan and is most appropriate when cross-boundary LD is limited. Glist supplies the ordinary and annotation-specific LD scores and reference sample size. Deterministic contiguous delete blocks are generated when <code>blocks</code> is omitted. The result records the selected set model, retains the full fit, and adds convenient <code>h2</code> and <code>rg</code> components.</p>
 <p>The explicit focused functions are:</p>
 <ul>
 <li><code>gcorr_ldsc()</code> and <code>gcorr_ldsc_partitioned()</code>;</li>
@@ -662,7 +666,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td>Convenient LDSC workflow</td>
 <td><code>ldsc()</code></td>
-<td>checked <code>stat</code>; Glist or named ordinary LD scores; optional named marker sets</td>
+<td>checked <code>stat</code>; Glist or named ordinary LD scores; optional named marker sets using stratified or grouped scores</td>
 </tr>
 <tr class="even">
 <td>Ordinary LDSC</td>
