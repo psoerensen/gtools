@@ -797,15 +797,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="construct-another-score-from-gwas-evidence" class="level2">
 <h2 class="anchored" data-anchor-id="construct-another-score-from-gwas-evidence">Construct another score from GWAS evidence</h2>
-<p><code>clump_threshold()</code> uses the stored sparse LD to choose markers by GWAS p-value, LD and distance. It returns the same allele-labelled weight-table shape accepted by <code>gscore()</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ct_weights <span class="ot">&lt;-</span> <span class="fu">clump_threshold</span>(statistics<span class="sc">$</span>A, reference_Glist,</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_threshold =</span> <span class="fl">5e-8</span>, <span class="at">r2_threshold =</span> <span class="fl">0.1</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">window_bp =</span> <span class="dv">250000</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>ct_prediction <span class="ot">&lt;-</span> <span class="fu">gscore</span>(ct_weights, test_Glist,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">coding =</span> <span class="st">"standardized"</span>, <span class="at">scale_scores =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">threads =</span> <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This C+T call is a supported alternative; the displayed scatter and correlations use BayesC weights only. C+T needs the aligned <code>b</code>, <code>seb</code>, <code>p</code> and <code>n</code> fields plus sufficiently complete LD for its chosen window.</p>
+<p><code>clump_threshold()</code> chooses markers by GWAS p-value, LD and distance. It needs an LD resource retaining every pair its requested window could inspect. The main tutorial reference has a 100-variant construction limit, so it cannot be used for a 250 kb C+T window even on this artificial panel. Construct a separate clumping reference with no variant-count limit and a base-pair window at least as wide as the clumping rule:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"analysis"</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ct_reference <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> <span class="fu">sprintf</span>(<span class="st">"id%05d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">18000</span>), <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ct_reference <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">Glist =</span> ct_reference, <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">out_prefix =</span> <span class="st">"analysis/clumping-LD"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_distance_bp =</span> <span class="dv">250000</span>, <span class="at">max_distance_variants =</span> <span class="dv">0</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">r2 =</span> <span class="fl">0.1</span>, <span class="at">block_size =</span> <span class="dv">128</span>, <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>ct_weights <span class="ot">&lt;-</span> <span class="fu">clump_threshold</span>(statistics<span class="sc">$</span>A, ct_reference,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_threshold =</span> <span class="fl">5e-8</span>, <span class="at">r2_threshold =</span> <span class="fl">0.1</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">window_bp =</span> <span class="dv">250000</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>ct_prediction <span class="ot">&lt;-</span> <span class="fu">gscore</span>(ct_weights, test_Glist,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">coding =</span> <span class="st">"standardized"</span>, <span class="at">scale_scores =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">threads =</span> <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This C+T call is a supported alternative; the displayed scatter and correlations use BayesC weights only. C+T needs the aligned <code>b</code>, <code>seb</code>, <code>p</code> and <code>n</code> fields. Save <code>ct_reference</code> with its LD files for reuse; the clumping resource does not need to be recomputed for each trait.</p>
 </section>
 <section id="score-shape-and-coding-choices" class="level2">
 <h2 class="anchored" data-anchor-id="score-shape-and-coding-choices">Score shape and coding choices</h2>

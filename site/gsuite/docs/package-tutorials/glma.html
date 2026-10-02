@@ -928,7 +928,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>conditional <span class="ot">&lt;-</span> <span class="fu">glma</span>(phenotype_A, study_A, <span class="at">method =</span> <span class="st">"linear"</span>,</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition_on =</span> lead_index, <span class="at">threads =</span> <span class="dv">4</span>)</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(conditional<span class="sc">$</span>associations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>LOCO needs markers on multiple chromosomes; the one-chromosome teaching simulation cannot demonstrate a meaningful leave-one-chromosome-out fit. The <a href="../../../gsuite/docs/glma-workflow.html">full glma guide</a> works through binary, conditional and LOCO examples with a suitable small panel.</p>
+<p>The simulation assigns a separate artificial chromosome label to each 100-marker region. Those labels do not represent real chromosome-scale backgrounds, so this dataset is not a meaningful LOCO example. The <a href="../../../gsuite/docs/glma-workflow.html">full glma guide</a> works through binary, conditional and LOCO examples with a suitable small panel.</p>
 <p><a href="../../website/assets/package-tutorials/glma-top-associations.csv">Download the top marker associations</a> · <a href="../../website/assets/package-tutorials/glma-top-vegas.csv">download the leading VEGAS genes</a></p>
 
 
