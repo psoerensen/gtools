@@ -715,6 +715,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="shared-genomic-resources" class="level2">
 <h2 class="anchored" data-anchor-id="shared-genomic-resources">Shared genomic resources</h2>
 <p>Glist is the serializable contract connecting data preparation with analysis. <code>gbase::gprep()</code> validates a PLINK panel and can attach sparse LD computed by gmat from gbits-backed genotypes. The same Glist can then be passed to analysis packages without copying the genotype or LD data into R.</p>
+<p><code>gprep(task = "eigen", sets = regionSets)</code> also prepares full regional LD eigenvalues directly from BED. gmat supplies centred unit-norm columns through gbits, gsolve supplies dense products and eigenvalues-only decomposition, and gbase attaches the named spectra and sample identities to <code>Glist$eigen</code>. The smaller sample-space Gram matrix is used when markers outnumber samples. This route is independent of sparse-LD cutoffs and does not fit a gene test. Analysis packages still require an explicit consumer interface for this resource.</p>
 <pre class="mermaid"><code>flowchart LR
     bed["PLINK BED / BIM / FAM"] --&gt; gprep["gbase::gprep()"]
     gprep --&gt; glist["Glist"]

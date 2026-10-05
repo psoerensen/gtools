@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -627,6 +662,7 @@ window.Quarto = {
   <li><a href="#files-and-identities" id="toc-files-and-identities" class="nav-link" data-scroll-target="#files-and-identities">Files and identities</a></li>
   <li><a href="#alleles-and-summaries" id="toc-alleles-and-summaries" class="nav-link" data-scroll-target="#alleles-and-summaries">Alleles and summaries</a></li>
   <li><a href="#object-schema-and-persistence" id="toc-object-schema-and-persistence" class="nav-link" data-scroll-target="#object-schema-and-persistence">Object schema and persistence</a></li>
+  <li><a href="#regional-eigenvalue-preparation" id="toc-regional-eigenvalue-preparation" class="nav-link" data-scroll-target="#regional-eigenvalue-preparation">Regional eigenvalue preparation</a></li>
   <li><a href="#complexity-and-execution" id="toc-complexity-and-execution" class="nav-link" data-scroll-target="#complexity-and-execution">Complexity and execution</a></li>
   </ul></li>
   </ul>
@@ -642,7 +678,7 @@ window.Quarto = {
 <h1><code>gs_genotypes</code> preparation contract</h1>
 <section id="bounded-scope-and-ownership" class="level2">
 <h2 class="anchored" data-anchor-id="bounded-scope-and-ownership">Bounded scope and ownership</h2>
-<p><code>gbase::gprep()</code> implements the bounded <code>"prepare"</code> and <code>"sparseld"</code> tasks. For preparation, gbase owns argument validation, orchestration, and the returned R descriptor; gmat owns strict BIM/FAM parsing and exact ordered multi-file identity; gbits owns BED header, size, offset, packed-code, and threaded count logic. The existing SNP-major PLINK BED files remain the sole persistent genotype representation. qgg is a read-only behavioural and scientific reference and is not a runtime dependency.</p>
+<p><code>gbase::gprep()</code> implements the bounded <code>"prepare"</code>, <code>"sparseld"</code>, and <code>"eigen"</code> tasks. For preparation, gbase owns argument validation, orchestration, and the returned R descriptor; gmat owns strict BIM/FAM parsing and exact ordered multi-file identity; gbits owns BED header, size, offset, packed-code, and threaded count logic. The existing SNP-major PLINK BED files remain the sole persistent genotype representation. qgg is a read-only behavioural and scientific reference and is not a runtime dependency.</p>
 <p>Sparse-LD orchestration is specified separately in <a href="../../gsuite/docs/sparse-ld-preparation.html">sparse-LD preparation</a>. <code>gbase::gprep()</code> does not add separate LD-score tasks: <code>gbase::ld_scores()</code>, <code>ld_region()</code>, and <code>ld_eigen()</code> consume the augmented Glist directly. Genetic-map import, GRMs, association, scoring, and other qgg tasks are not implemented by <code>gbase::gprep()</code>. Marker filtering is provided separately by <a href="../../gsuite/docs/genotype-filtering.html">gbase::gfilter()</a>. Unknown preparation tasks fail explicitly.</p>
 </section>
 <section id="files-and-identities" class="level2">
@@ -692,9 +728,20 @@ window.Quarto = {
 <p>The result is a plain list with class <code>c("gs_genotypes", "Glist")</code>. It carries <code>study</code>, normalized <code>bedfiles</code>/<code>bimfiles</code>/<code>famfiles</code>, complete <code>ids</code>, optional <code>study_ids</code>, <code>n</code>, <code>nchr</code>, <code>m</code>, chromosome/file-wise <code>rsids</code>, <code>mchr</code>, <code>chr</code>, <code>pos</code>, <code>map</code>, <code>a1</code>, <code>a2</code>, <code>cpra</code>, <code>af</code>, <code>af1</code>, <code>af2</code>, <code>maf</code>, <code>nmiss</code>, <code>hom</code>, <code>het</code>, <code>n0</code>, <code>n1</code>, <code>n2</code>, <code>assembly = NULL</code>, physical sample/marker mappings, format and ordering labels, and provenance. It contains neither dense genotypes nor a mandatory external pointer and therefore survives an exact <code>saveRDS()</code>/<code>readRDS()</code> round trip.</p>
 <p>gsim has a native bounded BED reader for Glist-backed simulation. It resolves selected sample and marker IDs against FAM/BIM files, checks allele orientation, and reads selected BED blocks. A custom deterministic <code>getG_fun</code> remains an explicit alternative. Check the installed gsim version before use.</p>
 </section>
+<section id="regional-eigenvalue-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="regional-eigenvalue-preparation">Regional eigenvalue preparation</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>regionSets <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">region1 =</span> Glist<span class="sc">$</span>rsids[[<span class="dv">1</span>]][<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(Glist, <span class="at">task =</span> <span class="st">"eigen"</span>, <span class="at">sets =</span> regionSets, <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>Glist<span class="sc">$</span>eigen<span class="sc">$</span>values<span class="sc">$</span>region1</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(Glist, <span class="st">"Glist-with-spectra.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>sets</code> is a nonempty uniquely named list of marker-ID vectors. All markers must exist in Glist, duplicates are rejected, and each set must belong to one chromosome. Sets may overlap and need not be contiguous. Marker membership is stored in reference/BIM order. The samples default to <code>study_ids</code> when present, otherwise all <code>ids</code>; an explicit <code>ids</code> argument selects and records another reference sample set. At least two samples are required.</p>
+<p>gmat reads unit-norm centred regional dosage columns through gbits. Missing calls are imputed to the observed marker mean; constant or all-missing markers fail with their ID. gsolve computes dense products and eigenvalues only. The spectrum is that of full within-set correlation, without sparse-LD thresholds or distance windows. No eigenvectors, clipping, statistical test, or persistent LD files are produced.</p>
+<p>For N selected samples and M markers, the smaller Gram matrix is used. When M exceeds N, the sample-space spectrum is padded with M-N exact zeros and sorted to retain the full M-value spectrum. Floating-point null eigenvalues can differ from a full marker-space decomposition at rounding level. The default <code>eigen_control$maximum_dimension = 2048</code> applies to min(N, M), not M. One region is processed at a time with O(NM + min(N,M)^2) scratch storage; only O(M) values and region identities remain on Glist. <code>nthreads</code> controls gbits decoding, while the current portable gsolve product and Eigen spectrum backends are serial and do not require OpenBLAS. No global thread setting is changed.</p>
+<p><code>Glist$eigen</code> records named <code>sets</code>, descending <code>values</code>, native <code>diagnostics</code>, selected sample IDs and offsets, controls, and provenance. It survives ordinary RDS persistence. <code>validate_Glist()</code> checks its identities and spectrum shape; it does not recompute the eigenvalues. If a downstream analysis removes markers or changes the reference samples, prepare matching spectra again. Current <code>glma::vegas()</code>/<code>prepare_vegas()</code> still use their separate sparse-LD route; a downstream adapter to this new data resource is not part of this interface.</p>
+</section>
 <section id="complexity-and-execution" class="level2">
 <h2 class="anchored" data-anchor-id="complexity-and-execution">Complexity and execution</h2>
-<p>gbits scans packed marker records directly. Selected original offsets are checked with 64-bit arithmetic. Threaded execution assigns deterministic static marker partitions and never calls R from workers. Temporary native storage is <span class="math inline">\(O(T\lceil N/4\rceil)\)</span> packed bytes for <code>T</code> workers plus <span class="math inline">\(O(M)\)</span> counts and selection mappings; no <span class="math inline">\(O(NM)\)</span> decoded matrix exists.</p>
+<p>gbits scans packed marker records directly. Selected original offsets are checked with 64-bit arithmetic. Threaded execution assigns deterministic static marker partitions and never calls R from workers. Temporary native storage is <span class="math inline">\(O(T\lceil N/4\rceil)\)</span> packed bytes for <code>T</code> workers plus <span class="math inline">\(O(M)\)</span> counts and selection mappings; preparation does not build an <span class="math inline">\(O(NM)\)</span> decoded matrix. The separate regional eigen task uses the bounded regional scratch described above.</p>
 
 
 </section>
