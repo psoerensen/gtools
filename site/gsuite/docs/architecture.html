@@ -742,10 +742,10 @@ ul.task-list li input[type="checkbox"] {
 <p>A connected association-to-enrichment workflow therefore follows:</p>
 <pre class="mermaid"><code>flowchart LR
     stats["Checked association statistics"] --&gt; vegas["glma::vegas()"]
-    ld["Glist sparse LD"] --&gt; vegas
+    ld["Glist sparse LD or regional BED spectra"] --&gt; vegas
     vegas --&gt; genes["Gene-level evidence"]
     genes --&gt; enrichment["gsea::gsea()"]</code></pre>
-<p>The VEGAS step processes the supplied marker sets directly. One sparse-LD reader prepares eigenvalue spectra in bounded parallel batches; the resulting ordinary R object can be reused across traits and sessions without reopening LD or repeating decompositions. Cross-gene covariance, when required by a downstream enrichment model, is a separate explicit input.</p>
+<p>The VEGAS step processes the supplied marker sets directly. One sparse-LD reader prepares eigenvalue spectra in bounded parallel batches; the resulting ordinary R object can be reused across traits and sessions without reopening LD or repeating decompositions. Cross-gene covariance, when required by a downstream enrichment model, is a separate explicit input. Alternatively, glma reuses the full within-region spectra stored by <code>gbase::gprep(task="eigen")</code>; constant weights require no new decomposition. Nonuniform weights continue to use the sparse-LD route. gbase owns preparation and identity validation; glma owns the statistic and tail evaluation.</p>
 <p>Method-specific controls, outputs and qualification limits belong in the <a href="../../gsuite/docs/methods.html">method catalogue</a> and the linked workflow guides, rather than on this architecture page.</p>
 </section>
 <section id="mixed-models-and-numerical-methods" class="level2">
