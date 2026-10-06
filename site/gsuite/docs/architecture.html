@@ -771,6 +771,7 @@ ul.task-list li input[type="checkbox"] {
 <li>New dependencies must follow this direction and must not introduce cycles.</li>
 </ul>
 <p><code>gsim</code> is separate from the analysis dependency graph. It creates ordinary R data that can be passed into examples and analysis packages.</p>
+<p>Regional dense MCMC follows the same ownership boundaries: gbase maps marker sets and exposes full BED LD through installed gmat decoding and R’s BLAS; native gmap validates and binds the region, then reuses native gbayes sampling. Familiar argument adapters remain in the gmap and gbayes R packages. Native gmap owns qgg-compatible marginal-PIP grouping; it does not require qgg at runtime. Standalone gbayes binds verified Glist LD blocks to native factorized BayesC/BayesR for <code>mcmc-eigen</code>, independently of the annotated SBayesRC model. Native gbayes owns retained joint-effect genetic variance and chain diagnostics; the R task packages arrange these into familiar <code>post</code> and <code>conv</code> tables. When the genetic reference is the fitted operator, accumulation reuses the cached residual quadratic.</p>
 
 
 </section>

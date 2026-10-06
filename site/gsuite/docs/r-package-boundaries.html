@@ -274,46 +274,50 @@ task packages depend on each other only for an explicit scientific workflow</cod
 <td>gbase</td>
 </tr>
 <tr class="even">
+<td><code>mapSets()</code> marker membership and <code>getLD()</code> full in-memory regional BED correlation</td>
+<td>gbase; installed gmat owns genotype decoding</td>
+</tr>
+<tr class="odd">
 <td><code>gcorr()</code> and its fit, summary, plot, covariance, annotation and MR methods</td>
 <td>gcorr</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>gscore()</code>, <code>clump_threshold()</code> and score prediction methods</td>
 <td>gscore; C+T is scoring-specific, while fitted association and posterior effects remain with their model packages</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>gbayes()</code> and Bayesian fit, continuation, posterior and prediction methods</td>
 <td>gbayes</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>glma()</code> and association-result methods</td>
 <td>glma</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>vegas()</code> marker-set association evidence</td>
 <td>glma implementation and native integration; gsea re-export and <code>gsea_input()</code> handoff</td>
 </tr>
-<tr class="odd">
-<td><code>gmap()</code>, <code>gmap_stat()</code>, <code>gmap_bed()</code> and focused mapping/colocalisation methods</td>
-<td>gmap</td>
-</tr>
 <tr class="even">
+<td><code>gmap()</code>, <code>gmap_stat()</code>, <code>gmap_bed()</code>, <code>getCredibleSets()</code> and focused mapping/colocalisation methods</td>
+<td>gmap; statistical priors, adapters and posterior grouping remain task-owned</td>
+</tr>
+<tr class="odd">
 <td><code>gsea()</code> and enrichment-result methods</td>
 <td>gsea</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>greml()</code>, persistent mixed-model, pedigree, multivariate, longitudinal and component-model constructors and methods</td>
 <td>gsuite, backed by greml</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>gsolve()</code>, <code>gsuite_solve()</code> and solver result methods</td>
 <td>gsuite, backed by gsolve</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>gsuite_versions()</code> and cross-task workflows</td>
 <td>gsuite umbrella</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>diagnostics()</code> generic and future common result conventions</td>
 <td>Candidate for gbase after method compatibility is audited</td>
 </tr>
