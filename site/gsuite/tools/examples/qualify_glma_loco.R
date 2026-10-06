@@ -34,9 +34,9 @@ y <- data$simulation$Y[, "A"]
 names(y) <- sprintf("id%05d", seq_len(nrow(data$simulation$Y)))
 started <- Sys.time()
 fit <- glma::glma(y, panel, method = "infinitesimal_loco",
-            algorithm = "observation_pcg", threads = 2L,
+            algorithm = "decoded_full", threads = 2L,
             block_size = 256L, background_markers = seq.int(1L, 50000L, by = 100L),
-            controls = list(seed = seed))
+            controls = list(split_seed = seed))
 seconds <- as.numeric(difftime(Sys.time(), started, units = "secs"))
 a <- fit$associations
 stopifnot(nrow(a) == 50000L, identical(a$marker, rownames(data$simulation$B)))
@@ -44,7 +44,7 @@ status <- table(a$status)
 causal <- data$simulation$B[, "A"] != 0
 ok <- a$status == "ok" & is.finite(a$p)
 result <- list(seed = seed, started = started, seconds = seconds,
-               method = "infinitesimal_loco", algorithm = "observation_pcg",
+               method = "infinitesimal_loco", algorithm = "decoded_full",
                traits = "A", individuals = 3000L,
                markers_tested = 50000L, background_markers = 500L,
                artificial_chromosomes = 20L, threads = 2L,

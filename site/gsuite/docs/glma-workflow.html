@@ -769,30 +769,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="account-for-a-genomic-background-with-loco" class="level2">
 <h2 class="anchored" data-anchor-id="account-for-a-genomic-background-with-loco">Account for a genomic background with LOCO</h2>
-<p>Infinitesimal fitting uses ridge chunks no wider than 128 markers, independently of the marker scan block width. Accepted chromosome-specific phenotype projections can be reused during calibration and scanning when they fit the memory budget and meet the requested accuracy. The standalone portable build supports multiple threads for substantial ridge and prior-selected matrix products through OpenMP. Prior-selected diagnostics separate initial variance work, candidate selection and chromosome refits, including score and coordinate update times. The covariance model and convergence tolerances are unchanged. The <code>algorithm</code> argument chooses the projection route; variance-ratio fitting uses chunk ridge.</p>
-<p>The infinitesimal route estimates a genomic background and refines it after excluding each chromosome. Small stochastic controls keep this teaching example quick; larger analyses should choose precision controls deliberately.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>loco_controls <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">simulation_count =</span> <span class="dv">4</span>L,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">rhe_probes =</span> <span class="dv">8</span>L,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">calibration_count =</span> <span class="dv">6</span>L,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">loco_batch_size =</span> <span class="dv">2</span>L,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">20260931</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>infinitesimal <span class="ot">&lt;-</span> <span class="fu">glma_infinitesimal_loco</span>(</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  phenotypes[, <span class="st">"trait_A"</span>],</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  covariates,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">algorithm =</span> <span class="st">"chunk_ridge"</span>,</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">block_size =</span> <span class="dv">16</span>,</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">controls =</span> loco_controls</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>infinitesimal</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>infinitesimal<span class="sc">$</span>fit[<span class="fu">c</span>(<span class="st">"genetic_variance"</span>, <span class="st">"residual_variance"</span>)]</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>infinitesimal<span class="sc">$</span>fit<span class="sc">$</span>loco</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>infinitesimal<span class="sc">$</span>diagnostics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The association table contains calibrated one-degree-of-freedom chi-square statistics and p-values. <code>beta</code> and <code>se</code> are intentionally unavailable because this score route does not label approximate effects as exact mixed-model GLS estimates.</p>
+<p>Both methods use the joint full-panel engine. The infinitesimal method fixes one Gaussian/ridge prior with equal variance on empirically standardized genotypes; it does not compare elastic or mixture priors. The standalone interface has retired the previous chromosome-specific variance-ratio search. Its <code>chunk_ridge</code>, <code>observation_pcg</code> and <code>marker_coordinates</code> algorithms and variance-search controls are no longer accepted. Use the joint product backends and controls shown here.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>infinitesimal <span class="ot">&lt;-</span> <span class="fu">glma_infinitesimal_loco</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  phenotypes[, <span class="st">"trait_A"</span>],</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  covariates,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">algorithm =</span> <span class="st">"decoded_full"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">block_size =</span> <span class="dv">16</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">controls =</span> <span class="fu">list</span>(<span class="at">scaling_factor =</span> <span class="dv">1</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>infinitesimal</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>infinitesimal<span class="sc">$</span>fit[<span class="fu">c</span>(<span class="st">"genetic_variance"</span>, <span class="st">"residual_variance"</span>)]</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>infinitesimal<span class="sc">$</span>fit<span class="sc">$</span>loco</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>infinitesimal<span class="sc">$</span>diagnostics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The explicit scaling factor keeps this small teaching example deterministic. For a real dataset, omit it to use the native cross-chromosome structure check and ridge-reference calibration when required. Streamed storage supports the decoded backends; packed backends require prepared storage. Threads are local to each operation.</p>
+<p>The variance procedure is explicit:</p>
+<ol type="1">
+<li>Project the phenotype and genotypes on the fixed covariates. Blocked RHE supplies the starting heritability, bounded to [.01, .99]. Strong-marker adjustment affects this initialization only; the final fit retains the original phenotype and all requested markers. Gaussian/ridge-only fitting fixes marker power at -1, giving equal prior weights on empirically standardized markers.</li>
+<li>Fit a shared three-point heritability grid at half, three-quarters and the starting estimate; at the lower boundary use .01, .03 and .05. Each grid point fits the full phenotype and Gaussian Monte Carlo probes: ten through 40,000 samples, three above that. The grid and the held-out Gaussian fit share genotype scans. Stabilization requires at least four sweeps and changes no greater than .005 in both heritability and normalized validation MSE. The held-out fit supplies this stopping diagnostic; it does not select among priors for the Gaussian method.</li>
+<li>Linearly interpolate a bracketed zero of the Monte Carlo equation. If the grid does not bracket a zero, retain the initial estimate and report <code>heritability_grid_used_initial = TRUE</code>. Interpolate the phenotype/residual inner product at the accepted heritability <code>h</code>, then set <code>ve = crossprod(y_residual, r(h)) / (N - p)</code> and <code>vg = h * ve / (1 - h)</code>, where <code>p</code> is the fixed-design rank including the intercept. This is an approximate stochastic variance estimator.</li>
+<li>Hold that global <code>vg</code>/<code>ve</code> pair fixed for the global and chromosome-excluded Gaussian refits. Each retained marker has prior variance <code>vg / m_active</code> on the standardized scale. Reuse projected chunk Grams and full-response grid effects for warm starts. <code>fit$loco</code> reports the shared variance pair, active marker count and fitting sweeps for each chromosome.</li>
+</ol>
+<p>The association scan tests each marker against its chromosome-excluded residual, after fixed-covariate projection, and returns effects, standard errors, chi-square statistics and p-values. These are scaled residual-offset test estimates; exact mixed-model GLS effects are not asserted. The estimator differs from the retired per-chromosome variance search, so old statistical and timing records do not establish equivalence. Broad mixed-model null-tail qualification remains open.</p>
+<p>Diagnostics identify <code>fitting_engine = "joint_full_panel_ridge"</code>, <code>variance_estimator = "blocked_rhe_mc_grid"</code>, <code>variance_shared_across_chromosomes = TRUE</code>, the marker power, candidate count, heritability and fitting/scan phases.</p>
 <p>The alternative prior-selected background chooses among native prediction priors and returns marker effects after the selected global and LOCO refits:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>prior_selected <span class="ot">&lt;-</span> <span class="fu">glma_prior_selected_loco</span>(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  phenotypes[, <span class="st">"trait_A"</span>],</span>

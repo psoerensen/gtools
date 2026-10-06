@@ -129,9 +129,12 @@ save_page("glma", c(opening("glma", "methods.md#association-mapping", c(
   "## Use", "",
   "```r", "linear <- glma::glma(y, Glist, method = \"linear\", threads = 1)",
   "loco <- glma::glma(y, chromosome_Glist, method = \"infinitesimal_loco\",",
-  "             algorithm = \"observation_pcg\",",
+  "             algorithm = \"decoded_full\",",
   "             background_markers = seq(1, 50000, by = 100), threads = 2)",
   "```", "",
+  "The LOCO records below predate the Gaussian joint engine now used by",
+  "`infinitesimal_loco`. They qualify the earlier route only; they are not timings",
+  "or calibration evidence for the replacement estimator.", "",
   "## Results", "",
   tab(c("Check", "Observed result"), list(
     c("Linear marker tests", format(sum(association$markers), big.mark = ",", scientific = FALSE)),
