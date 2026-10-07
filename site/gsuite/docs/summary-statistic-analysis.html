@@ -649,7 +649,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Genetic-correlation analysis uses the <code>gcorr</code> R package.</p>
 <section id="input-boundary" class="level2">
 <h2 class="anchored" data-anchor-id="input-boundary">Input boundary</h2>
-<p>Every trait is an ordinary data frame using the qgg column names <code>rsids</code>, <code>chr</code>, <code>pos</code>, <code>ea</code>, <code>nea</code>, <code>stat</code>, and <code>n</code>. Here <code>stat</code> is the signed Z statistic. Use <code>gbase::checkStat()</code> when a Glist reference is available and alignment or QC is required. Marker order, coordinates and allele orientation must already agree across traits. The package never intersects, flips or rescales traits. The high-level <code>ldsc()</code> workflow obtains LD scores, annotation scores and reference metadata from a Glist; the focused interfaces also accept those quantities explicitly. A single data frame uses the label <code>"trait"</code>; pass a uniquely named list for multiple traits.</p>
+<p>Every trait is an ordinary data frame using the qgg column names <code>rsids</code>, <code>chr</code>, <code>pos</code>, <code>ea</code>, <code>nea</code>, <code>stat</code>, and <code>n</code>. Here <code>stat</code> is the signed Z statistic. Use <code>gbase::checkStat()</code> when a Glist reference is available and alignment or QC is required. Marker order, coordinates and allele orientation must already agree across traits. The genome-wide fitters never intersect, flip or rescale traits. The BED HESS preparation described below explicitly matches regional markers and swaps alleles to the reference; it does not infer strand complements. The high-level <code>ldsc()</code> workflow obtains LD scores, annotation scores and reference metadata from a Glist; the focused interfaces also accept those quantities explicitly. A single data frame uses the label <code>"trait"</code>; pass a uniquely named list for multiple traits.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gcorr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -692,6 +692,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="regional-methods" class="level2">
 <h2 class="anchored" data-anchor-id="regional-methods">Regional methods</h2>
+<p>For joint HESS with limited disk space, prepare compact moments directly from the existing BED reference:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>projection <span class="ot">&lt;-</span> <span class="fu">gcorr_prepare_hess</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">CAD=</span>cad_stat, <span class="at">T2D=</span>t2d_stat), Glist, <span class="at">regions=</span>ld_regions, <span class="at">nthreads=</span><span class="dv">4</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>cad <span class="ot">&lt;-</span> <span class="fu">gcorr_fit_hess</span>(projection, <span class="st">"CAD"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>pair <span class="ot">&lt;-</span> <span class="fu">gcorr_fit_hess</span>(projection, <span class="fu">c</span>(<span class="st">"CAD"</span>,<span class="st">"T2D"</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">shared_sample_size=</span>n_shared, <span class="at">phenotypic_correlation=</span>r_phenotype)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(projection, <span class="st">"regional-hess-projections.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>gcorr_prepare_hess()</code> opens one BED panel for the batch. It computes centered, unit-norm genotypes, decomposes the smaller marker- or sample-space Gram and projects all supplied traits through the same retained components. Large genotype, Gram and eigenvector buffers are discarded after each region. The serializable object retains marker identities, ranks, spectra, trait sample sizes and quadratic/cross moments. Its spectral controls are fixed; prepare again to change truncation or summary statistics. The subsequent native fit reuses the existing joint correction and conditional uncertainty formulas.</p>
+<p>Regions must be disjoint and collectively define the modeled genetic universe. Each region must contain markers from one chromosome. One constant positive sample size per trait is required. Preparation matches the supplied regional markers and explicitly swaps alleles to BIM allele-1 dosage when necessary; strand complements and sample-size transformations are not inferred. Two-trait fits require a shared-sample count and phenotypic correlation, which are different from a cross-LDSC intercept. Binary-trait liability conversion is not performed. Negative estimates remain visible, with reasons for missing uncertainty when the conditional plug-in parameters are invalid.</p>
+<p><code>memory_limit_bytes</code> bounds a conservative estimate of numerical workspace for one region; reference metadata, summary inputs, R and allocator overhead are additional. The default smaller-Gram dimension limit is 2048. This route needs neither stored sparse LD nor a disk cache of eigenvectors. It retains separate reader-setup and per-region decode/product/eigen/projection clocks.</p>
 <p><code>gcorr_prepare_regions()</code> reads named marker regions directly from Glist sparse LD through one native reader. It validates each complete eigensystem once; the resulting session-bound preparation is accepted by:</p>
 <ul>
 <li><code>gcorr_hess()</code> and <code>gcorr_rho_hess()</code>;</li>
@@ -699,10 +709,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>gcorr_lava()</code>, <code>gcorr_lava_partial()</code> and <code>gcorr_lava_regression()</code>;</li>
 <li><code>gcorr_hdll()</code>.</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">gcorr_prepare_regions</span>(Glist,</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">regions =</span> <span class="fu">list</span>(<span class="at">locus =</span> markers[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>regional <span class="ot">&lt;-</span> <span class="fu">gcorr_hess</span>(one, regions, <span class="at">maximum_components =</span> <span class="dv">0</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">minimum_eigenvalue =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">gcorr_prepare_regions</span>(Glist,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">regions =</span> <span class="fu">list</span>(<span class="at">locus =</span> markers[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>regional <span class="ot">&lt;-</span> <span class="fu">gcorr_hess</span>(one, regions, <span class="at">maximum_components =</span> <span class="dv">0</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">minimum_eigenvalue =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Named signed-LD matrices plus their reference sample sizes remain supported when a Glist is not available.</p>
 <p>The summary data frame must contain every regional marker. LAVA sampling correlations, binary-trait metadata and simulation seeds are explicit. SUPERGNOVA exposes covariance rather than correlation. HDL-L accepts exactly two continuous traits per fit. Joint HESS/rho-HESS requires disjoint prepared regions and reports its correction explicitly.</p>
 </section>
@@ -749,8 +759,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td>HESS/rho-HESS</td>
-<td><code>gcorr_hess()</code>, <code>gcorr_rho_hess()</code></td>
-<td>prepared regional LD and overlap metadata</td>
+<td><code>gcorr_hess()</code>, <code>gcorr_rho_hess()</code>; <code>gcorr_prepare_hess()</code> plus <code>gcorr_fit_hess()</code></td>
+<td>prepared regional LD or compact BED projections; explicit overlap metadata</td>
 </tr>
 <tr class="odd">
 <td>SUPERGNOVA</td>
