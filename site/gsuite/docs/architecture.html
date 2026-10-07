@@ -698,7 +698,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>gcorr</td>
 <td>LD-score and regional correlation methods, covariance models and MR</td>
-<td>The <code>ldsc()</code> workflow consumes checked single- or multi-trait statistics and Glist-owned LD, with stratified or grouped set models; compact multi-trait BED projections support joint HESS without persistent LD/eigenvectors. Colocalisation belongs to gmap</td>
+<td>The <code>ldsc()</code> workflow consumes checked single- or multi-trait statistics and Glist-owned LD, with stratified or grouped set models. LDSC, partitioned LDSC, GNOVA and SumHer retain marker identity in R and use numeric native arrays with integer jackknife blocks and compact results. Set names are resolved once to integer rows; disjoint grouped scores retain one membership and one value per marker through native fitting; compact multi-trait BED projections use physical marker indices and one chromosome panel at a time for joint HESS without persistent LD/eigenvectors. The R adapter selects an automatic rank budget, records explicit genomic-control scaling and reports inference blockers. Native gcorr owns joint correction, the original HESS software variance systems and genome correlation jackknife, and the signed moment/strict conditional alternatives; compact R fits default to software uncertainty. Colocalisation belongs to gmap</td>
 <td>Yes: <code>gcorr</code></td>
 </tr>
 <tr class="even">
