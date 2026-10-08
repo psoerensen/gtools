@@ -1,13 +1,13 @@
 Package: gbase
-Version: 0.1.2
+Version: 0.1.3
 Depends: R (>= 4.1.0)
 Imports: Rcpp
 LinkingTo: Rcpp, RcppEigen
 Suggests: testthat (>= 3.0.0)
 License: GPL-3
-MD5sum: 389c81cbf23bb059b60b8f855c5a9e88
+MD5sum: 82b5e9c06c495700d4e8d562ecb48cc7
 NeedsCompilation: yes
-File: gbase_0.1.2.tar.gz
+File: gbase_0.1.3.tar.gz
 
 Package: gbayes
 Version: 0.1.1
@@ -32,15 +32,15 @@ NeedsCompilation: yes
 File: gcorr_0.1.9.tar.gz
 
 Package: glma
-Version: 0.1.1
+Version: 0.1.2
 Depends: R (>= 4.1.0)
 Imports: gbase (>= 0.1.2), Rcpp, utils
 LinkingTo: Rcpp, RcppEigen, gbase (>= 0.1.0), gbayes (>= 0.1.0)
 Suggests: testthat (>= 3.0.0)
 License: GPL-3
-MD5sum: 2fbc4daf5537547e1ebb565698e11d50
+MD5sum: 5ce14cb5cea4486194289d89d472a054
 NeedsCompilation: yes
-File: glma_0.1.1.tar.gz
+File: glma_0.1.2.tar.gz
 
 Package: gmap
 Version: 0.1.1
