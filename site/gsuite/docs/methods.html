@@ -683,6 +683,7 @@ window.Quarto = {
   <li><a href="#linear-regression-gwas-input-for-mapping" id="toc-linear-regression-gwas-input-for-mapping" class="nav-link" data-scroll-target="#linear-regression-gwas-input-for-mapping">Linear-regression GWAS input for mapping</a></li>
   <li><a href="#mr-through-the-r-interface" id="toc-mr-through-the-r-interface" class="nav-link" data-scroll-target="#mr-through-the-r-interface">MR through the R interface</a></li>
   <li><a href="#covariance-models-through-the-r-interface" id="toc-covariance-models-through-the-r-interface" class="nav-link" data-scroll-target="#covariance-models-through-the-r-interface">Covariance models through the R interface</a></li>
+  <li><a href="#native-matrix-free-execution-experiments" id="toc-native-matrix-free-execution-experiments" class="nav-link" data-scroll-target="#native-matrix-free-execution-experiments">Native matrix-free execution experiments</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -717,7 +718,7 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p><strong>Catalog authority.</strong> This page contains route-specific method descriptions and qualification notes. The current suite-wide LMM status is defined by the <a href="../../gsuite/docs/model-catalog.html">canonical model catalog</a>, with evidence in <a href="../../gsuite/docs/status.html#qualification-limits">model qualification</a>. An exclusion below applies only to the workflow and version being described; it is not a global gsuite capability statement.</p>
 </blockquote>
-<p>This catalogue maps development capabilities to their owning repository. <strong>Implemented</strong> means the capability is implemented in development code and exercised by relevant repository validation; it does not claim production-scale qualification. <strong>Experimental</strong> identifies a present but deliberately provisional integration surface. <strong>Planned</strong> identifies work with no current implementation. Availability through R is stated separately; gsuite has no public software release yet.</p>
+<p>This catalogue maps development capabilities to their owning repository. <strong>Implemented</strong> means the capability is implemented in development code and exercised by relevant repository validation; it does not claim production-scale qualification. <strong>Experimental</strong> identifies a present but deliberately provisional integration surface. <strong>Planned</strong> identifies work with no current implementation. Availability through R is stated separately. Seven standalone genomic R packages are public source releases. Mixed-model and solver examples use the development integration; greml/gsolve R packaging is deferred, and a root <code>gsuite</code> R release is not currently planned.</p>
 <p>The <a href="../../gsuite/docs/simulated-genomics-workflow.html">connected genomic example</a> exercises representative routes across six modules using one 10K-individual, 50K-marker simulation. Its <a href="../../gsuite/docs/simulated-genomics-qualification.html">qualification record</a> distinguishes execution checks and truth comparisons from untested capabilities.</p>
 <section id="capability-overview" class="level2">
 <h2 class="anchored" data-anchor-id="capability-overview">Capability overview</h2>
@@ -899,7 +900,7 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td>greml</td>
-<td>Unified <code>ModelSpec</code> → <code>CompiledModel</code> → <code>ModelFit</code> facade, prediction, contrasts, and uncertainty</td>
+<td>Unified <code>ModelSpec</code> â†’ <code>CompiledModel</code> â†’ <code>ModelFit</code> facade, prediction, contrasts, and uncertainty</td>
 <td>Implemented</td>
 <td>greml methods</td>
 </tr>
@@ -1214,6 +1215,10 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <section id="covariance-models-through-the-r-interface" class="level2">
 <h2 class="anchored" data-anchor-id="covariance-models-through-the-r-interface">Covariance models through the R interface</h2>
 <p><code>gcorr_covariance()</code> retains labelled continuous genetic covariance and full joint sampling covariance. Focused SEM and GGM functions expose recursive SEM, descriptive partial-correlation networks and fixed-graph GGM. Parameter tables, trait units and estimation metadata remain explicit. Fitted SEM paths and free GGM edges support native joint Wald tests. Coordinated multivariate GNOVA annotation categories and SumHer architecture components can reuse the same models, with cross-group contrasts based on the retained joint jackknife covariance. See the <a href="../../gsuite/docs/covariance-models.html">covariance-model workflow</a>.</p>
+</section>
+<section id="native-matrix-free-execution-experiments" class="level2">
+<h2 class="anchored" data-anchor-id="native-matrix-free-execution-experiments">Native matrix-free execution experiments</h2>
+<p>The generic greml PCG route now supports same-state adaptive trace-prefix extension. Native-only opt-in controls add bounded raw inverse-probe warm starts, coarse component-action reuse, solution-subspace recycling and independent-basis residual trace estimation. The latter two require experimental evaluation; determinant precision and the packed coefficient path remain separate. See native contracts. No new R controls or general scaling qualification are implied.</p>
 
 
 </section>
@@ -1623,7 +1628,7 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>gsuite is in private development. gsim and gact are public.</p>
+<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

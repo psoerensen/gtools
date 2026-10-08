@@ -628,9 +628,10 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>gsuite is organised by user task. Shared data preparation lives in <code>gbase</code>; analysis methods live in independently installable R packages; numerical and statistical computation remains in the corresponding native libraries. The root <code>gsuite</code> package provides the mixed-model and solver interfaces and serves as the ecosystem documentation and integration point.</p>
+<p>gsuite is organised by user task. Shared data preparation lives in <code>gbase</code>; analysis methods live in independently installable R packages; numerical and statistical computation remains in the corresponding native libraries. The root <code>gsuite</code> development integration currently provides mixed-model and solver R interfaces. The ecosystem documentation is maintained here independently of that integration. A root R package release is not currently planned; greml/gsolve R packaging is deferred, with separate or combined packaging undecided.</p>
 <section id="native-capabilities-and-r-availability" class="level2">
 <h2 class="anchored" data-anchor-id="native-capabilities-and-r-availability">Native capabilities and R availability</h2>
+<p>Generic matrix-free reuse is owned by greml: adaptive trace-prefix extension and opt-in bounded warm/cache controls, with experimental solution recycling and residual trace estimation. gsolve owns the corresponding RHS-relative independent-PCG, supplied-product coarse correction and orthogonal projection primitives. These native options add no R control names; packed routes retain their existing caches.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -663,13 +664,13 @@ ul.task-list li input[type="checkbox"] {
 <td>gsolve</td>
 <td>General operators, factorizations, eigensystems and iterative or direct numerical methods</td>
 <td>Contains no genotype, likelihood or mixed-model semantics</td>
-<td>No; solver interfaces are in root <code>gsuite</code>, with regional eigensystems also used by <code>gbase</code></td>
+<td>Deferred; current solver R interfaces use the development integration, with regional eigensystems also used by <code>gbase</code></td>
 </tr>
 <tr class="even">
 <td>greml</td>
 <td>Mixed-model construction, ML/REML inference, prediction and uncertainty</td>
 <td>Uses gsolve numerical primitives and does not own genotype formats</td>
-<td>No; mixed-model interfaces are in root <code>gsuite</code></td>
+<td>Deferred; current mixed-model R interfaces use the development integration</td>
 </tr>
 <tr class="odd">
 <td>glma</td>
@@ -1182,7 +1183,7 @@ ul.task-list li input[type="checkbox"] {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>gsuite is in private development. gsim and gact are public.</p>
+<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

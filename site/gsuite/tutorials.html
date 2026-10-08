@@ -617,7 +617,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>Choose a complete analysis to learn how gsuite is used. Detailed options and data-preparation steps are collected under <a href="../gsuite/guides.html">Guides</a>; results used to assess the software are under <a href="../gsuite/qualifications.html">Software validation</a>.</p>
-<p>Install the package or packages used by an example from the <a href="../gsuite/downloads.html">source-package repository</a>.</p>
+<p>For the standalone package tutorials, install the required packages from the <a href="../gsuite/downloads.html">source-package repository</a>. Pedigree and root-integration examples require an existing development installation; greml/gsolve R packaging is deferred.</p>
 <section id="standalone-package-tutorials" class="level2">
 <h2 class="anchored" data-anchor-id="standalone-package-tutorials">Standalone package tutorials</h2>
 <p>One simulated dataset with 20,000 individuals, 50,000 markers and three traits is followed across the seven public R packages. Start with the <a href="../gsuite/docs/package-tutorials/overview.html">study design and reproducibility guide</a>, then follow each package’s worked analysis. The pages explain inputs, result columns, diagnostics, alternative methods and which outputs were actually generated. Displayed results come from one representative run with a four-thread limit; they are not a performance comparison.</p>
@@ -670,6 +670,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="pedigree-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="pedigree-analysis">Pedigree analysis</h2>
+<p><strong>Development example:</strong> requires the root R integration, which is not distributed in the public source repository.</p>
 <p><a href="../gsuite/docs/pedigree-analysis.html"><strong>Fit pedigree models with R data frames</strong></a></p>
 <p>Start with a single-trait animal model, then use the same workflow for multitrait and longitudinal analyses. The tutorial shows model specification, fitting, summaries and predictions.</p>
 </section>
@@ -690,6 +691,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="working-with-an-assistant" class="level2">
 <h2 class="anchored" data-anchor-id="working-with-an-assistant">Working with an assistant</h2>
+<p>The pedigree-based walkthroughs use the development R integration.</p>
 <p><a href="../gsuite/docs/analysis-with-an-assistant.html"><strong>From a question to a reproducible analysis</strong></a></p>
 <p>Work through data, model specification, execution, diagnostics and a report.</p>
 <p><a href="../gsuite/docs/model-development-with-an-assistant.html"><strong>From a question to a supported model</strong></a></p>
@@ -1102,7 +1104,7 @@ ul.task-list li input[type="checkbox"] {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>gsuite is in private development. gsim and gact are public.</p>
+<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

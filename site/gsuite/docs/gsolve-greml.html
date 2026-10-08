@@ -700,6 +700,7 @@ window.Quarto = {
 <p>This guide explains route choice and scaling. The <a href="../../gsuite/docs/model-catalog.html">model catalog</a> owns capability status, the <a href="../../gsuite/docs/primitive-registry.html">primitive registry</a> owns reusable mechanism mappings, and <a href="../../gsuite/docs/architecture.html">architecture</a> owns package dependencies. A native primitive does not establish a qualified public R route.</p>
 <section id="estimate-or-solve-from-r" class="level2">
 <h2 class="anchored" data-anchor-id="estimate-or-solve-from-r">Estimate or solve from R</h2>
+<p>These examples use the existing root development integration. They are not provided by the seven public source packages. Future greml/gsolve R packaging is deferred, and its interface and separate or combined distribution are not yet decided.</p>
 <p><code>greml()</code> estimates variance components; <code>gsolve()</code> holds them fixed and returns fixed effects and random-effect predictions. Both use the same formula/data/pedigree and explicit <code>gvc()</code> specifications as <code>gfit()</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">greml</span>(<span class="at">formula =</span> BW <span class="sc">~</span> sex <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id),</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> data, <span class="at">pedigree =</span> pedigree)</span>
@@ -1192,7 +1193,7 @@ P=V^{-1}-V^{-1}F(F^{\mathsf T}V^{-1}F)^{-1}F^{\mathsf T}V^{-1}.
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>gsuite is in private development. gsim and gact are public.</p>
+<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

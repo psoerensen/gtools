@@ -712,7 +712,7 @@ window.Quarto = {
 
 <p>Start with two R data frames: <code>pedigree</code> contains IDs and parents; <code>data</code> contains responses, covariates and matching animal IDs. Specify effects with formulas, optionally add covariance components, then fit and inspect results. Use <code>greml()</code> to estimate variance components and <code>gsolve()</code> to solve at fixed values. <code>gfit()</code> remains available with an explicit task. All three share the same model specification. The examples share a 10,000-animal pedigree and cover single-trait, multitrait, longitudinal, repeatability, direct/maternal and structured-residual models.</p>
 <p>The aim is to estimate genetic variation, predict animal effects and interpret the fit. Simulation also provides known genetic values for comparison, which are unavailable in ordinary field data.</p>
-<p>You need a development installation of gsuite and gsim; see <a href="../../gsuite/downloads.html">Downloads</a>. No source checkout or private archive is needed. The website displays code without executing it. Copy the R blocks in order to run the examples locally.</p>
+<p>You need the existing development R integration and gsim; see <a href="../../gsuite/downloads.html">Downloads</a>. The public seven-package repository does not include that integration. A root <code>gsuite</code> R release is not currently planned; future greml/gsolve R packaging is deferred. No source checkout or private archive is needed. The website displays code without executing it. Copy the R blocks in order to run the examples locally.</p>
 <section id="prepare-ordinary-data-frames" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-ordinary-data-frames">Prepare ordinary data frames</h2>
 <p>For your own analysis, use your existing data frames (for example, from <code>read.csv()</code>). Pedigree columns are <code>id</code>, <code>sire</code> and <code>dam</code>; <code>NA</code> denotes an unknown parent. IDs are labels, not row numbers. Parents without phenotypes remain in the pedigree. Here gsim supplies a reproducible teaching example with 10,000 animals. To try a faster first run, change <code>n_animals</code> below to <code>200L</code>; the data preparation and model-fitting workflow stay the same.</p>
@@ -1753,7 +1753,7 @@ y = X\beta + Z_d a + Z_m m + e, \qquad
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>gsuite is in private development. gsim and gact are public.</p>
+<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

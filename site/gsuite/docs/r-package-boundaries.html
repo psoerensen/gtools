@@ -147,7 +147,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="r-package-boundaries" class="level1">
 <h1>R package boundaries</h1>
-<p>The R layer is divided by user task instead of placing every interface in one large gsuite package. The root <code>gsuite</code> package remains the ecosystem identity, website and integration surface. Independently distributed task capabilities are R/native pairs: an R package owns the user contract and its corresponding native library owns the implementation. Each task package can be installed and used without the root package.</p>
+<p>The R layer is divided by user task instead of placing every interface in one large gsuite package. The root <code>gsuite</code> package remains the ecosystem identity, website and development integration surface. A root R release is not currently planned; greml/gsolve R packaging is deferred, with separate or combined packaging undecided. Independently distributed task capabilities are R/native pairs: an R package owns the user contract and its corresponding native library owns the implementation. Each task package can be installed and used without the root package.</p>
 <section id="dependency-rule" class="level2">
 <h2 class="anchored" data-anchor-id="dependency-rule">Dependency rule</h2>
 <p>The dependency direction is:</p>
@@ -784,7 +784,7 @@ task packages depend on each other only for an explicit scientific workflow</cod
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>gsuite is in private development. gsim and gact are public.</p>
+<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;

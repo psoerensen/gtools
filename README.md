@@ -8,13 +8,17 @@ Public documentation for statistical genetics tools: **gsuite**, **gsim** and
 - [gsim: simulation](https://psoerensen.github.io/gsim/)
 - [gact: genomic association and annotation](https://psoerensen.github.io/gact/)
 
-gsim and gact are already public and retain their own repositories,
-documentation and release processes. gsuite is in private development; its
-tutorials describe capabilities without providing an installable release.
+gsuite is the ecosystem and documentation umbrella for seven public standalone
+R packages and native computational libraries. gsim and gact retain their own
+public repositories, documentation and release processes. The seven source
+packages are distributed under `site/gsuite/repository`. Mixed-model examples
+require the development integration; greml/gsolve R packaging is deferred,
+with separate or combined packaging undecided. A root `gsuite` R package
+release is not currently planned.
 
 `site/` contains a reviewed, static website snapshot. Website updates and
-software releases are separate decisions. Future approved gsuite releases may
-be distributed here, with their own version, licence and dependency notices.
+software releases are separate decisions. Source releases retain their own
+version, licence and dependency notices.
 The presence of documentation does not change any software licence.
 
 The root homepage is the shared entry point. `site/gsuite/` contains the gsuite
