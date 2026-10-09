@@ -634,7 +634,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#fixed-variance-single-effect-summaries" id="toc-fixed-variance-single-effect-summaries" class="nav-link active" data-scroll-target="#fixed-variance-single-effect-summaries">Fixed-variance single-effect summaries</a></li>
   <li><a href="#prepare-genotypes-and-summaries" id="toc-prepare-genotypes-and-summaries" class="nav-link" data-scroll-target="#prepare-genotypes-and-summaries">Prepare genotypes and summaries</a></li>
-  <li><a href="#scalar-bayesc-and-bayesr" id="toc-scalar-bayesc-and-bayesr" class="nav-link" data-scroll-target="#scalar-bayesc-and-bayesr">Scalar BayesC and BayesR</a></li>
+  <li><a href="#scalar-bayesc-and-bayesr" id="toc-scalar-bayesc-and-bayesr" class="nav-link" data-scroll-target="#scalar-bayesc-and-bayesr">Scalar BayesC and BayesR</a>
+  <ul class="collapse">
+  <li><a href="#scheduled-scalar-bed-fits-and-variance-decomposition" id="toc-scheduled-scalar-bed-fits-and-variance-decomposition" class="nav-link" data-scroll-target="#scheduled-scalar-bed-fits-and-variance-decomposition">Scheduled scalar BED fits and variance decomposition</a></li>
+  </ul></li>
   <li><a href="#annotation-informed-block-eigen-regression" id="toc-annotation-informed-block-eigen-regression" class="nav-link" data-scroll-target="#annotation-informed-block-eigen-regression">Annotation-informed block-eigen regression</a></li>
   <li><a href="#additional-summary-engines" id="toc-additional-summary-engines" class="nav-link" data-scroll-target="#additional-summary-engines">Additional summary engines</a></li>
   <li><a href="#multivariate-and-study-specific-fits" id="toc-multivariate-and-study-specific-fits" class="nav-link" data-scroll-target="#multivariate-and-study-specific-fits">Multivariate and study-specific fits</a></li>
@@ -763,6 +766,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Both routes support fixed or learned effect variance and mixture weights, explicit residual policies, compact posterior summaries, annotations and exact serialized continuation. Individual fits use native BED coding and return portable allele-labelled <code>fit$weights</code>.</p>
+<section id="scheduled-scalar-bed-fits-and-variance-decomposition" class="level3">
+<h3 class="anchored" data-anchor-id="scheduled-scalar-bed-fits-and-variance-decomposition">Scheduled scalar BED fits and variance decomposition</h3>
+<p>With gbayes 0.1.2 or later, scalar individual BayesC and BayesR accept <code>control$marker_schedule=list(enabled=TRUE)</code>. Defaults are <code>full_sweep_every=10</code>, <code>base_interval=50</code>, <code>maximum_interval=200</code>, <code>candidate_threshold=.001</code>, <code>candidate_lifetime=20</code>, and <code>burnin_only=FALSE</code>. A zero full-sweep interval requests full sweeps. Active and recent candidate markers are revisited; low-probability null markers can be skipped between full sweeps. Scheduling is an explicit approximation to ordinary full-sweep sampling. It is opt-in, scalar-BED-only in R, and its queue/counters are serialized for continuation.</p>
+<p><code>fit$individual_bed$variance</code> exposes native final and post-burnin means:</p>
+<p>[ V_g=|Xb|^2/n, V_{}=<em>j(x_j<sup>x_j)b_j</sup>2/n, V</em>{}=V_g-V_{}. ]</p>
+<p>The LD term can be negative. Empirical diagonal variances need not be one under the native allele-frequency/HWE coding. These quantities differ from the slab variance parameter <code>Vb</code>; BayesR component variances are its multiplier-scaled values. Residual variance <code>Ve</code> is a separate model parameter. Compute <code>h2 = Vg/(Vg+Ve)</code> at each posterior draw when reporting model-scale heritability. The variance of posterior mean predictions differs from mean posterior <code>Vg</code>.</p>
+<p>Each <code>fit$chains[[k]]$individual_bed</code> contains <code>vb_trace</code>, <code>ve_trace</code>, <code>vg_trace</code>, <code>vle_trace</code>, <code>vld_trace</code>, <code>weight_trace</code>, and log-CPO. BED traces include burn-in and every sweep; variance means average all post-burnin sweeps independently of effect thinning. Top-level traces average chains at corresponding sweeps; use per-chain traces for posterior uncertainty and diagnostics. Top-level <code>final_*</code> values average endpoints, not posterior draws. Per-chain scheduling counters are <code>scheduled_marker_updates</code> and <code>scheduled_full_sweeps</code>. Log-CPO uses retained training draws and is distinct from held-out prediction accuracy.</p>
+<p>The <a href="https://psoerensen.github.io/gact/Document/Gbayes_individual_level_simulated_data.html">gact individual-level example</a> compares full and scheduled BayesC/BayesR on sparse and moderately polygenic simulated traits, with training-only preparation and held-out scoring.</p>
+</section>
 </section>
 <section id="annotation-informed-block-eigen-regression" class="level2">
 <h2 class="anchored" data-anchor-id="annotation-informed-block-eigen-regression">Annotation-informed block-eigen regression</h2>
