@@ -769,62 +769,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="scheduled-scalar-bed-fits-and-variance-decomposition" class="level3">
 <h3 class="anchored" data-anchor-id="scheduled-scalar-bed-fits-and-variance-decomposition">Scheduled scalar BED fits and variance decomposition</h3>
 <p>With gbayes 0.1.2 or later, scalar individual BayesC and BayesR accept <code>control$marker_schedule=list(enabled=TRUE)</code>. Defaults are <code>full_sweep_every=10</code>, <code>base_interval=50</code>, <code>maximum_interval=200</code>, <code>candidate_threshold=.001</code>, <code>candidate_lifetime=20</code>, and <code>burnin_only=FALSE</code>. A zero full-sweep interval requests full sweeps. Active and recent candidate markers are revisited; low-probability null markers can be skipped between full sweeps. Scheduling is an explicit approximation to ordinary full-sweep sampling. It is opt-in, scalar-BED-only in R, and its queue/counters are serialized for continuation.</p>
+<p>For a posterior-analysis example, prefer scheduling only during burn-in:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">burnin =</span> <span class="dv">1000</span>, <span class="at">sampling_sweeps =</span> <span class="dv">2000</span>,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">seeds =</span> <span class="fu">c</span>(<span class="dv">17</span>, <span class="dv">29</span>), <span class="at">retain_diagnostics =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">marker_schedule =</span> <span class="fu">list</span>(<span class="at">enabled =</span> <span class="cn">TRUE</span>, <span class="at">burnin_only =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These counts are starting settings, not a convergence guarantee. With <code>burnin_only=TRUE</code>, every sampling sweep is full, including continuation batches with zero burn-in. With scheduling during sampling, learned global mixture weights update on periodic full sweeps and, in corrected scalar native builds, whenever the scheduled visit includes every marker. Visits that skip markers hold weights between full sweeps; an interval of ten can therefore give ten times fewer weight updates. Earlier native builds also held weights on nonperiodic visits that included every marker, needlessly slowing learning in the all-hot case. A low candidate threshold can keep all markers hot, providing no marker-visit saving. The all-hot correction changes scheduled draw sequences; continue a study with a consistent native build.</p>
+<p>Check posterior quantities separately: similar held-out accuracy and highly correlated posterior-mean predictions can coexist with poor variance or mixture-weight mixing. Inspect parameter-level R-hat, ESS, Monte Carlo error and chain traces; a single worst-parameter statistic does not describe every output. Starting <code>weights</code> or <code>inclusion_probability</code> are distinct from the Dirichlet/Beta <code>weight_prior</code> used when learning is enabled. Continuing a saved fit keeps its model and transition settings; changing a prior or scheduler requires a fresh fit. An extra continuation batch can be discarded as further warm-up before summarizing a subsequent batch. Full sweeps establish the baseline before studying approximate scheduling during sampling.</p>
 <p><code>fit$individual_bed$variance</code> exposes native final and post-burnin means:</p>
 <p>[ V_g=|Xb|^2/n, V_{}=<em>j(x_j<sup>x_j)b_j</sup>2/n, V</em>{}=V_g-V_{}. ]</p>
 <p>The LD term can be negative. Empirical diagonal variances need not be one under the native allele-frequency/HWE coding. These quantities differ from the slab variance parameter <code>Vb</code>; BayesR component variances are its multiplier-scaled values. Residual variance <code>Ve</code> is a separate model parameter. Compute <code>h2 = Vg/(Vg+Ve)</code> at each posterior draw when reporting model-scale heritability. The variance of posterior mean predictions differs from mean posterior <code>Vg</code>.</p>
 <p>Each <code>fit$chains[[k]]$individual_bed</code> contains <code>vb_trace</code>, <code>ve_trace</code>, <code>vg_trace</code>, <code>vle_trace</code>, <code>vld_trace</code>, <code>weight_trace</code>, and log-CPO. BED traces include burn-in and every sweep; variance means average all post-burnin sweeps independently of effect thinning. Top-level traces average chains at corresponding sweeps; use per-chain traces for posterior uncertainty and diagnostics. Top-level <code>final_*</code> values average endpoints, not posterior draws. Per-chain scheduling counters are <code>scheduled_marker_updates</code> and <code>scheduled_full_sweeps</code>. Log-CPO uses retained training draws and is distinct from held-out prediction accuracy.</p>
-<p>The <a href="https://psoerensen.github.io/gact/Document/Gbayes_individual_level_simulated_data.html">gact individual-level example</a> compares full and scheduled BayesC/BayesR on sparse and moderately polygenic simulated traits, with training-only preparation and held-out scoring.</p>
+<p>The <a href="https://psoerensen.github.io/gact/Document/Gbayes_individual_level_simulated_data.html">gact individual-level example</a> shows sparse-trait BayesC/BayesR with training-only preparation and held-out scoring. Its <a href="https://psoerensen.github.io/gact/Document/Gbayes_individual_level_simulated_data_advanced.html">advanced study</a> preserves the original short-run sparse/polygenic comparison and records quantity-specific prediction, variance and mixture diagnostics.</p>
 </section>
 </section>
 <section id="annotation-informed-block-eigen-regression" class="level2">
 <h2 class="anchored" data-anchor-id="annotation-informed-block-eigen-regression">Annotation-informed block-eigen regression</h2>
 <p><code>method = "sbayesrc"</code> fits a single checked summary trait with an annotation-informed BayesR prior. The Glist must contain a verified independent block partition. Each LD block is loaded and decomposed once per fit, and the prepared immutable factors are shared by all chains.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">define_ld_blocks</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">block_id =</span> block_table<span class="sc">$</span>block_id,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">first_marker =</span> block_table<span class="sc">$</span>first_marker,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">last_marker =</span> block_table<span class="sc">$</span>last_marker</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>component_design <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(annotation_table[fitted_markers, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  stat,</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"sbayesrc"</span>,</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation =</span> <span class="fu">list</span>(<span class="at">component =</span> <span class="fu">list</span>(<span class="at">design =</span> component_design)),</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">eigen_control =</span> <span class="fu">list</span>(<span class="at">retained_positive_mass =</span> <span class="fl">0.995</span>),</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">block_eigen_residual =</span> <span class="fu">list</span>(<span class="at">mode =</span> <span class="st">"all_mix"</span>)</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">define_ld_blocks</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">block_id =</span> block_table<span class="sc">$</span>block_id,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">first_marker =</span> block_table<span class="sc">$</span>first_marker,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">last_marker =</span> block_table<span class="sc">$</span>last_marker</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>component_design <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(annotation_table[fitted_markers, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  stat,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"sbayesrc"</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation =</span> <span class="fu">list</span>(<span class="at">component =</span> <span class="fu">list</span>(<span class="at">design =</span> component_design)),</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">eigen_control =</span> <span class="fu">list</span>(<span class="at">retained_positive_mass =</span> <span class="fl">0.995</span>),</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">block_eigen_residual =</span> <span class="fu">list</span>(<span class="at">mode =</span> <span class="st">"all_mix"</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The block residual update is defined on retained response coordinates: each block uses the squared retained response norm and retained rank. This is an explicit reduced-space likelihood and is not an assertion of identical normalization to GCTB or another SBayesRC implementation. Set <code>retained_positive_mass = 1</code> to retain every positive eigenvalue. On a full-rank block-diagonal reference with fixed block residuals, this route reduces to the ordinary <code>bayesr</code> sufficient-statistic fit.</p>
 <p><code>fit$diagnostics$block_eigen</code> records block loads, eigensystem decompositions, retained ranks, discarded positive mass and peak dense-block memory. The factors remain native working state; the returned fit is serializable and continuation restores sampler state without serializing dense eigenvectors.</p>
 </section>
 <section id="additional-summary-engines" class="level2">
 <h2 class="anchored" data-anchor-id="additional-summary-engines">Additional summary engines</h2>
 <p>The same dispatcher provides focused single-trait summary methods:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>point_normal <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(stat, Glist, <span class="at">method =</span> <span class="st">"point_normal"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>shrinkage <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(stat, Glist, <span class="at">method =</span> <span class="st">"continuous_shrinkage"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>variational <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(stat, Glist, <span class="at">method =</span> <span class="st">"variational"</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>mixture <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(stat, Glist, <span class="at">method =</span> <span class="st">"mixture_variational"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>point_normal <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(stat, Glist, <span class="at">method =</span> <span class="st">"point_normal"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>shrinkage <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(stat, Glist, <span class="at">method =</span> <span class="st">"continuous_shrinkage"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>variational <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(stat, Glist, <span class="at">method =</span> <span class="st">"variational"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>mixture <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(stat, Glist, <span class="at">method =</span> <span class="st">"mixture_variational"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>These retain method-specific controls and outputs. They do not silently inherit all BayesC/BayesR sampling, learning or annotation features.</p>
 </section>
 <section id="multivariate-and-study-specific-fits" class="level2">
 <h2 class="anchored" data-anchor-id="multivariate-and-study-specific-fits">Multivariate and study-specific fits</h2>
 <p>Named phenotype columns fit a joint individual-level model:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>joint <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> phenotypes,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait =</span> <span class="fu">c</span>(<span class="st">"height"</span>, <span class="st">"weight"</span>),</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesr"</span>,</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">effect_covariance =</span> effect_covariance,</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">residual_covariance =</span> residual_covariance</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>joint <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> phenotypes,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait =</span> <span class="fu">c</span>(<span class="st">"height"</span>, <span class="st">"weight"</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesr"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> <span class="fu">list</span>(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">effect_covariance =</span> effect_covariance,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">residual_covariance =</span> residual_covariance</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For summaries, <code>stat</code> may be a named trait list with one shared Glist sparse-LD reference, or a named study list paired with a named list of study-specific Glist references. Study identity remains distinct from trait identity. Local LD operators are preserved; no synthetic union LD matrix is created. Independent and shared-LD sampling assumptions are declared through <code>sampling</code>.</p>
 </section>
 <section id="annotations-and-continuation" class="level2">
@@ -835,61 +841,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="posterior-genetic-quantities" class="level2">
 <h2 class="anchored" data-anchor-id="posterior-genetic-quantities">Posterior genetic quantities</h2>
 <p>An explicitly aligned sparse-LD Glist can define the reference population for posterior genetic covariance and correlation. Heritability additionally requires an explicit phenotype variance; no denominator is inferred.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">&lt;-</span> <span class="fu">setNames</span>(marker_groups, fitted_marker_ids)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  stat,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesr"</span>,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">posterior =</span> <span class="fu">list</span>(</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">reference =</span> Glist,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">partition =</span> groups,</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">phenotype_variance =</span> <span class="fu">c</span>(<span class="at">height =</span> <span class="dv">1</span>)</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">&lt;-</span> <span class="fu">setNames</span>(marker_groups, fitted_marker_ids)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  stat,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesr"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">posterior =</span> <span class="fu">list</span>(</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">reference =</span> Glist,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">partition =</span> groups,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">phenotype_variance =</span> <span class="fu">c</span>(<span class="at">height =</span> <span class="dv">1</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>fit$quantities</code> separates genetic covariance/correlation, heritability, reporting partitions, predictions and per-chain quantities. Partition groups are reporting objects and are independent of covariance-group priors.</p>
 </section>
 <section id="predict-selected-individuals-with-uncertainty" class="level2">
 <h2 class="anchored" data-anchor-id="predict-selected-individuals-with-uncertainty">Predict selected individuals with uncertainty</h2>
 <p>Posterior score uncertainty uses an existing target Glist. Its active markers may be a strict subset of fitted markers and may span any number of BED components. Components and markers retain Glist order; requested individuals retain the supplied ID order.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>target <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gprep</span>(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">bedfiles =</span> <span class="fu">c</span>(<span class="st">"target-chr1.bed"</span>, <span class="st">"target-chr2.bed"</span>),</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> selected_ids,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">rsids =</span> selected_markers</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  stat,</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesr"</span>,</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">posterior =</span> <span class="fu">list</span>(</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">prediction =</span> <span class="fu">list</span>(</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">Glist =</span> target,</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">ids =</span> selected_ids,</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">target_set =</span> <span class="st">"validation"</span>,</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">retain_draws =</span> <span class="cn">FALSE</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>target <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gprep</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">bedfiles =</span> <span class="fu">c</span>(<span class="st">"target-chr1.bed"</span>, <span class="st">"target-chr2.bed"</span>),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> selected_ids,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">rsids =</span> selected_markers</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  stat,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesr"</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">posterior =</span> <span class="fu">list</span>(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">prediction =</span> <span class="fu">list</span>(</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">Glist =</span> target,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">ids =</span> selected_ids,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">target_set =</span> <span class="st">"validation"</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">retain_draws =</span> <span class="cn">FALSE</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The package validates exact fitted-marker availability, coordinates and counted alleles. Component projections use the public <code>gscore::summary</code> interface and are summed into one score. Coverage records fitted, used and omitted markers and the number of active BED components. Reported score covariance is posterior effect uncertainty, not phenotype predictive variance.</p>
 <p>Scalar individual-level BED fits also include <code>genetic_variance</code> (VG), <code>vle</code>, <code>vld</code> and <code>h2</code> directly in <code>fit$posterior</code>. These rows use the original per-chain draws from every post-burn-in sweep, independently of effect thinning. They report posterior mean, SD, credible intervals, R-hat, ESS and Monte Carlo error using the native summary routines. <code>h2</code> is summarized from each draw’s VG / (VG + VE). Existing <code>effect_variance</code> (VB) and <code>residual_variance</code> (VE) rows retain their effect-thinned parameter draws. Continuation summaries cover the new batch.</p>
 </section>
 <section id="apply-portable-posterior-weights" class="level2">
 <h2 class="anchored" data-anchor-id="apply-portable-posterior-weights">Apply portable posterior weights</h2>
 <p>When genotype coding is identified, <code>fit$weights</code> is directly consumable by <code>gscore()</code>. This includes block-eigen SBayesRC fits; scoring uses the portable posterior mean weights and does not need the fitted eigensystems:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> gscore<span class="sc">::</span><span class="fu">gscore</span>(fit<span class="sc">$</span>weights, target)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> gscore<span class="sc">::</span><span class="fu">gscore</span>(fit<span class="sc">$</span>weights, target)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For pathway or other marker-set scores, pass a uniquely named list of marker IDs. The target Glist resolves their BED locations and the native scorer handles overlapping or cross-file sets in one pass:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> gscore<span class="sc">::</span><span class="fu">gscore</span>(</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  fit<span class="sc">$</span>weights, target,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> marker_sets,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">include_total =</span> <span class="cn">TRUE</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> gscore<span class="sc">::</span><span class="fu">gscore</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  fit<span class="sc">$</span>weights, target,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> marker_sets,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">include_total =</span> <span class="cn">TRUE</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Weight learning remains with <code>gbayes</code>; score application remains with <code>gscore</code>. Raw association effects are not automatically Bayesian weights, and conventional clumping and thresholding remains <code>gscore::clump_threshold()</code>.</p>
 </section>
 <section id="regional-interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="regional-interpretation">Regional interpretation</h2>
 <p><code>gmap::gmap_bed()</code> can consume a saved individual-BED <code>gbayes_fit</code> together with sparse LD prepared from the same Glist samples and physical marker selection:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mapped <span class="ot">&lt;-</span> gmap<span class="sc">::</span><span class="fu">gmap_bed</span>(fit, Glist, regions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mapped <span class="ot">&lt;-</span> gmap<span class="sc">::</span><span class="fu">gmap_bed</span>(fit, Glist, regions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This interprets global marginal PIPs by region without refitting. Marginal-PIP groups are not component credible sets.</p>
 <p><code>gmap_bed()</code> is specific to individual-BED fits because it verifies the fitted sample selection, BED files and in-sample LD identity. A summary SBayesRC fit remains a whole-reference <code>gbayes_fit</code>; regional BayesC/BayesR or multi-effect models are fitted through <code>gmap()</code> with their own explicit regional likelihood.</p>
 </section>
