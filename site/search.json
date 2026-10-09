@@ -2086,14 +2086,14 @@
     "href": "index.html",
     "title": "gtools",
     "section": "",
-    "text": "gtools brings together gsuite, gsim and gact. Explore the ecosystem and its packages through methods, examples and documentation.\ngsuite is the ecosystem and documentation umbrella. Seven standalone genomic R packages are available from its source repository. gsim and gact are public packages with their own websites and repositories. R packaging for the native greml and gsolve libraries is deferred; separate or combined packaging remains undecided. A root gsuite R package release is not currently planned."
+    "text": "gtools brings together gsuite, gsim, gact and gteach. Explore analysis tools and teaching materials through methods, examples and documentation.\ngsuite is the ecosystem and documentation umbrella. Seven standalone genomic R packages are available from its source repository. gsim and gact are public packages with their own websites and repositories. gteach provides R- and Quarto-based teaching materials through its own website. R packaging for the native greml and gsolve libraries is deferred; separate or combined packaging remains undecided. A root gsuite R package release is not currently planned."
   },
   {
     "objectID": "index.html#start-with-gsuite",
     "href": "index.html#start-with-gsuite",
     "title": "gtools",
     "section": "Start with gsuite",
-    "text": "Start with gsuite\n\nCapabilities: available analyses, R access and limits.\nTutorials: standalone package workflows and development examples.\nGuides: method and data-preparation detail.\nSoftware validation: focused simulation checks and current limits.\nBenchmarks: comparison with DMU, including the runtime figure.\nPackage availability: available source packages and installation requirements.\nPresentations: slides about AI-assisted research and software development.\n\nThe package websites remain independently maintained. gtools provides a shared entry point; it does not duplicate the gsim or gact websites."
+    "text": "Start with gsuite\n\nCapabilities: available analyses, R access and limits.\nTutorials: standalone package workflows and development examples.\nGuides: method and data-preparation detail.\nSoftware validation: focused simulation checks and current limits.\nBenchmarks: comparison with DMU, including the runtime figure.\nPackage availability: available source packages and installation requirements.\nPresentations: slides about AI-assisted research and software development.\n\nThe project websites remain independently maintained. gtools provides a shared entry point; it does not duplicate the gsim, gact or gteach websites."
   },
   {
     "objectID": "gsuite/index.html",
