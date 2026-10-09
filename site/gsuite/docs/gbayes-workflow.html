@@ -647,6 +647,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#apply-portable-posterior-weights" id="toc-apply-portable-posterior-weights" class="nav-link" data-scroll-target="#apply-portable-posterior-weights">Apply portable posterior weights</a></li>
   <li><a href="#regional-interpretation" id="toc-regional-interpretation" class="nav-link" data-scroll-target="#regional-interpretation">Regional interpretation</a></li>
   <li><a href="#qualification-status" id="toc-qualification-status" class="nav-link" data-scroll-target="#qualification-status">Qualification status</a></li>
+  <li><a href="#simple-individual-level-defaults" id="toc-simple-individual-level-defaults" class="nav-link" data-scroll-target="#simple-individual-level-defaults">Simple individual-level defaults</a></li>
   </ul>
 </nav>
     </div>
@@ -902,6 +903,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="qualification-status" class="level2">
 <h2 class="anchored" data-anchor-id="qualification-status">Qualification status</h2>
 <p>The package passed its complete source check with no errors or warnings, focused deterministic tests, an exact Windows DLL-closure and SHA-256 audit, and clean binary loading. The two source-check NOTEs concern installed DLL size and the conservative compiled-code scan of the bundled native DLL closure.</p>
+</section>
+<section id="simple-individual-level-defaults" class="level2">
+<h2 class="anchored" data-anchor-id="simple-individual-level-defaults">Simple individual-level defaults</h2>
+<p>Scalar individual BED fits can omit <code>prior</code>: gbayes initializes half the observed phenotype variance as residual variance and half as nominal genetic variance. BayesC starts with inclusion probability .001; BayesR starts with weights (.95,.02,.02,.01) and multipliers (0,.01,.1,1). The marker-scale variance is VG/(m times mixture variance mass), using standardized genotype coding. This is a starting heuristic, not an empirical estimate of heritability or causal count. Variance learning uses df=4 and scale=initial variance/2; mixture learning uses unit Beta/Dirichlet concentrations. These learning priors are separate from initial mixture probabilities. Automatic runs use 1000 burn-in and 2000 sampling sweeps, thinning 5, seeds 1 and 2, one thread, retained diagnostics and full sweeps. Control overrides remain available. Explicit nonempty priors retain the existing opt-in learning controls and require proper learning priors when enabled. Scalar BED responses are centred internally without rescaling; the default likelihood dimension is n-1. The phenotype mean is recorded in provenance. An omitted prior during continuation reuses the saved prior and transition controls. Inspect <code>$prior</code>, <code>$control</code> and <code>$posterior</code>; default sweep counts and the R-hat/ESS screening message do not guarantee convergence.</p>
 
 
 </section>

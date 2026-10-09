@@ -1224,6 +1224,7 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <section id="native-matrix-free-execution-experiments" class="level2">
 <h2 class="anchored" data-anchor-id="native-matrix-free-execution-experiments">Native matrix-free execution experiments</h2>
 <p>The generic greml PCG route now supports same-state adaptive trace-prefix extension. Native-only opt-in controls add bounded raw inverse-probe warm starts, coarse component-action reuse, solution-subspace recycling and independent-basis residual trace estimation. The latter two require experimental evaluation; determinant precision and the packed coefficient path remain separate. See native contracts. No new R controls or general scaling qualification are implied.</p>
+<p>Standalone <code>gbayes::gbayes(data=..., Glist=..., method="bayesc")</code> and BayesR accept automatic phenotype-scaled BED priors with parameter learning and retained diagnostics. Scalar BED responses are centred on their original units; see the <a href="../../gsuite/docs/gbayes-workflow.html">defaults and controls</a> for initialization, explicit-prior compatibility and convergence limits.</p>
 
 
 </section>
