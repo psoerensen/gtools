@@ -628,7 +628,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#prepare-genotypes-and-summaries" id="toc-prepare-genotypes-and-summaries" class="nav-link active" data-scroll-target="#prepare-genotypes-and-summaries">Prepare genotypes and summaries</a></li>
+  <li><a href="#fixed-variance-single-effect-summaries" id="toc-fixed-variance-single-effect-summaries" class="nav-link active" data-scroll-target="#fixed-variance-single-effect-summaries">Fixed-variance single-effect summaries</a></li>
+  <li><a href="#prepare-genotypes-and-summaries" id="toc-prepare-genotypes-and-summaries" class="nav-link" data-scroll-target="#prepare-genotypes-and-summaries">Prepare genotypes and summaries</a></li>
   <li><a href="#scalar-bayesc-and-bayesr" id="toc-scalar-bayesc-and-bayesr" class="nav-link" data-scroll-target="#scalar-bayesc-and-bayesr">Scalar BayesC and BayesR</a></li>
   <li><a href="#annotation-informed-block-eigen-regression" id="toc-annotation-informed-block-eigen-regression" class="nav-link" data-scroll-target="#annotation-informed-block-eigen-regression">Annotation-informed block-eigen regression</a></li>
   <li><a href="#additional-summary-engines" id="toc-additional-summary-engines" class="nav-link" data-scroll-target="#additional-summary-engines">Additional summary engines</a></li>
@@ -683,6 +684,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">continuation =</span> <span class="cn">NULL</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>stat + Glist</code> selects a summary-statistics likelihood. <code>data + Glist</code> selects an individual-level BED likelihood. A named list of checked summary frames or several named phenotype columns selects the multivariate route. Unsupported method/data combinations fail explicitly.</p>
+<section id="fixed-variance-single-effect-summaries" class="level2">
+<h2 class="anchored" data-anchor-id="fixed-variance-single-effect-summaries">Fixed-variance single-effect summaries</h2>
+<p><code>gbayes::gbayes_single_effect(stat)</code> fits a deterministic single-effect model from an ordinary data frame with unique <code>rsids</code> and either <code>b</code>/<code>seb</code> or <code>score</code>/<code>information</code>. It accepts fixed positive <code>residual_variance</code> and <code>effect_variance</code>, optional nonnegative <code>marker_weights</code>, and output labels <code>trait</code> and <code>response_units</code>. No Glist or prepared LD resource is required by this focused interface.</p>
+<p>The per-marker result contains posterior assignment probabilities and moments. The model assumes exactly one active marker; assignment probabilities sum to one even when the evidence is weak. They are not unconditional association probabilities. This interface does not expose native single-effect variance learning or the wider BayesC/BayesR control set. For regional multi-effect fitting and posterior interpretation, use the <a href="../../gsuite/docs/gmap-workflow.html">mapping guide</a>.</p>
+</section>
 <section id="prepare-genotypes-and-summaries" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-genotypes-and-summaries">Prepare genotypes and summaries</h2>
 <p>Single-trait summary BayesC/BayesR also accepts familiar iteration and prior arguments:</p>
