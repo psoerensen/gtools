@@ -760,6 +760,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="mixed-models-and-numerical-methods" class="level2">
 <h2 class="anchored" data-anchor-id="mixed-models-and-numerical-methods">Mixed models and numerical methods</h2>
 <p>The root <code>gsuite</code> package exposes the mixed-model integration. R formulas or explicit covariance components are prepared for greml, which owns model semantics, estimation, prediction and uncertainty. greml delegates general factorization and solving to gsolve. gbits supplies packed genotype operations, and gmat owns reusable genotype-panel and matrix resources.</p>
+<p>Native greml also provides opt-in generic PCG identities and a separate common-scale profiled REML entry point for <code>V = g K + e I</code>. These remain native C++ controls; the existing R dispatch and optimizer defaults are unchanged. The changed native layouts require matching full ABI47 and core/adapter SOVERSION3 consumers. Focused numerical verification does not establish large-panel throughput or population calibration.</p>
 <pre class="mermaid"><code>flowchart LR
     input["Formula or covariance components"] --&gt; gsuite["gsuite R interface"]
     gsuite --&gt; greml["greml: model and inference"]
