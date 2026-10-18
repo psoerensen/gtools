@@ -19,7 +19,7 @@ with separate or combined packaging undecided. A root `gsuite` R package
 release is not currently planned.
 
 The [standalone YAML guide](https://psoerensen.github.io/gtools/gsuite/docs/standalone.html)
-covers the `greml` command and Linux binary installation. The documented
+covers the `gsuite` command and Linux binary installation. The documented
 GenomeDK binaries remain private validation artifacts, separate from the public
 R source-package repository.
 
