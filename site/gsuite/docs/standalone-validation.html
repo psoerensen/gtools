@@ -615,8 +615,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
 
   <ul>
-  <li><a href="#accepted-installation" id="toc-accepted-installation" class="nav-link active" data-scroll-target="#accepted-installation">Accepted installation</a></li>
-  <li><a href="#what-the-installer-checked" id="toc-what-the-installer-checked" class="nav-link" data-scroll-target="#what-the-installer-checked">What the installer checked</a></li>
+  <li><a href="#accepted-shared-v25-installation" id="toc-accepted-shared-v25-installation" class="nav-link active" data-scroll-target="#accepted-shared-v25-installation">Accepted shared v25 installation</a></li>
+  <li><a href="#current-v26-workflow-and-qualification" id="toc-current-v26-workflow-and-qualification" class="nav-link" data-scroll-target="#current-v26-workflow-and-qualification">Current v26 workflow and qualification</a></li>
+  <li><a href="#historical-v18-installation" id="toc-historical-v18-installation" class="nav-link" data-scroll-target="#historical-v18-installation">Historical v18 installation</a>
+  <ul class="collapse">
+  <li><a href="#historical-installer-checks" id="toc-historical-installer-checks" class="nav-link" data-scroll-target="#historical-installer-checks">Historical installer checks</a></li>
+  </ul></li>
   <li><a href="#scope-and-evidence" id="toc-scope-and-evidence" class="nav-link" data-scroll-target="#scope-and-evidence">Scope and evidence</a></li>
   </ul>
 </nav>
@@ -648,9 +652,67 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="accepted-installation" class="level2">
-<h2 class="anchored" data-anchor-id="accepted-installation">Accepted installation</h2>
-<p>This historical record applies to the archive and <code>greml</code> command named below. The current standalone command is <code>gsuite</code>. Renaming the frontend does not requalify or modify that archive; a new Linux bundle must run its installer checks under the new command name. No legacy command alias is provided.</p>
+<section id="accepted-shared-v25-installation" class="level2">
+<h2 class="anchored" data-anchor-id="accepted-shared-v25-installation">Accepted shared v25 installation</h2>
+<p>On 18 October 2026, the operator reported successful production of the v25 <code>gsuite</code> binary archive and validation of an independent fresh installation. The shared project installation subsequently completed successfully, including project-group permission checks and a model run with an empty home and no inherited Conda or library environment. That run also accepted the supplied truth comparison for six individuals.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Recorded value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Source bundle</td>
+<td><code>gsuite-yaml-genomedk-20261018-v25</code></td>
+</tr>
+<tr class="even">
+<td>Binary archive</td>
+<td><code>gsuite-genomedk-20261018-184901-828bc5bb.tar.gz</code></td>
+</tr>
+<tr class="odd">
+<td>Archive SHA-256</td>
+<td><code>e04e54b4151fe7e410d42eab45699481f1eccd4f311eb1b0b47ac21bbd3aa889</code></td>
+</tr>
+<tr class="even">
+<td>Standalone command</td>
+<td><code>gsuite</code></td>
+</tr>
+<tr class="odd">
+<td>Native model driver</td>
+<td><code>gsuite_model_driver</code></td>
+</tr>
+<tr class="even">
+<td>Shared prefix relative to the project root</td>
+<td><code>software/gsuite-v25</code></td>
+</tr>
+<tr class="odd">
+<td>Shared-install report directory relative to the project root</td>
+<td><code>results/gsuite-v25-shared-install-20261018-194014-e5a92909/</code></td>
+</tr>
+<tr class="even">
+<td>Shared-install scope</td>
+<td>Installer checks, project-group permissions and a clean-environment model/truth smoke test</td>
+</tr>
+</tbody>
+</table>
+<p>This acceptance is based on the operator-supplied terminal output. It supports using the shared command without access to the maintainer’s personal Conda environment. A separate collaborator account has not yet been tested. The detailed receipts remain on GenomeDK; no per-case timings or numerical values are inferred from the final success messages.</p>
+<p>The report directory retains <code>task.json</code>, collected installer receipts and the clean-environment smoke results. The shared prefix retains <code>installation.json</code> and <code>shared-installation.json</code>. These records remain the evidence for the original installed v25 binary; later source fixes do not alter that history.</p>
+</section>
+<section id="current-v26-workflow-and-qualification" class="level2">
+<h2 class="anchored" data-anchor-id="current-v26-workflow-and-qualification">Current v26 workflow and qualification</h2>
+<p>The v26 source bundle incorporates the OpenMP affinity correction behind the existing build, validation and distribution commands. It retains the same native sources and audited 20-model fixture as v25. The source archive and its entry points were checked locally; its Linux build, fixture campaign and new binary installation still require GenomeDK execution.</p>
+<p>The <a href="../../gsuite/docs/standalone.html#maintainers-the-v26-three-command-workflow">standalone guide</a> documents the three commands. The build reuses compatible native cache entries. Validation collects exact references, truth scoring and all 20 fixture models. Binary production validates both the producer installation and a fresh installation from the delivered archive. Normal validation and both new installer checks require OpenMP warning #182 to be absent from their command and nested native logs. No separate repair helper is part of this workflow.</p>
+<p>The shared v25 installation remains available to collaborators while a newer version undergoes its own validation. Neither the historical acceptance below nor the shared v25 success qualifies v26, a different archive or another host.</p>
+</section>
+<section id="historical-v18-installation" class="level2">
+<h2 class="anchored" data-anchor-id="historical-v18-installation">Historical v18 installation</h2>
+<p>The following historical record applies to the archive and <code>greml</code> command named below. The current standalone command is <code>gsuite</code>. Renaming the frontend does not requalify or modify that archive; a new Linux bundle must run its installer checks under the new command name. No legacy command alias is provided.</p>
 <p>On 18 October 2026, the operator reported successful binary production and fresh-runtime installer validation on GenomeDK. The producer completed with <code>accepted: true</code>, exit code zero, and <code>native_sources_included: false</code>. An independent <code>sha256sum -c</code> invocation in the supplied terminal output reported <code>OK</code> for the resulting archive.</p>
 <table class="caption-top table">
 <colgroup>
@@ -711,10 +773,9 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p>The matched v18 source manifest identifies the numerical/frontend revisions. The later producer fixes normalize checksum line endings and separate the external-data production recipe from the tiny example catalog. They leave numerical equations, YAML syntax and the v18 native installation unchanged.</p>
-</section>
-<section id="what-the-installer-checked" class="level2">
-<h2 class="anchored" data-anchor-id="what-the-installer-checked">What the installer checked</h2>
-<p>The producer admits an archive only after its installer has created a fresh minimal Conda runtime and completed:</p>
+<section id="historical-installer-checks" class="level3">
+<h3 class="anchored" data-anchor-id="historical-installer-checks">Historical installer checks</h3>
+<p>The v18 producer admitted its archive only after its installer created a fresh minimal Conda runtime and completed:</p>
 <ul>
 <li>Host, payload-integrity, private-library resolution and BLAS/linking checks.</li>
 <li>The configured campaign of 59 small reference checks and 38 model examples.</li>
@@ -733,10 +794,11 @@ validation/exact/summary.csv
 validation/runner/execution.json
 validation/backends/agreement.json</code></pre>
 </section>
+</section>
 <section id="scope-and-evidence" class="level2">
 <h2 class="anchored" data-anchor-id="scope-and-evidence">Scope and evidence</h2>
 <p>This establishes a successful GenomeDK binary installation with a fresh runtime and the configured small model checks. It does not establish universal Linux portability, industrial throughput, statistical calibration, or PEV precision. The installer checks architecture and the recorded glibc requirement on each recipient host. Numerical validation continues to run on installation.</p>
-<p>The production recipe for the external 1M dataset is retained under <code>recipes/</code>. It is not an installation test, and the dataset is not included. The 42 tiny YAML files remain in <code>models/</code>; the model-only end-to-end campaign runs 38 and excludes four uncertainty examples. No numerical reference was skipped to address the missing external dataset.</p>
+<p>In v18, the production recipe for the external 1M dataset was retained under <code>recipes/</code>. It was not an installation test, and the dataset was not included. The 42 tiny YAML files were retained in <code>models/</code>; the model-only end-to-end campaign ran 38 and excluded four uncertainty examples. No numerical reference was skipped to address the missing external dataset.</p>
 <p>Binary artifacts remain private validation artifacts under the existing distribution policy. This documentation publishes instructions and aggregate acceptance/provenance only; it does not publish binaries, private paths, source archives, input records or detailed HPC logs. Website publication is separate from software release approval.</p>
 <p>See the <a href="../../gsuite/docs/standalone.html">standalone user guide</a> for installation and model use, and the <a href="../../gsuite/docs/status.html#qualification-limits">general qualification limits</a>.</p>
 
