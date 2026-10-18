@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>packed-single-step-reml – gtools</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-264a0fc3a96c72ca7334393e02078ef0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../gsuite/website/styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">gtools</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+<span class="menu-text">Home</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../gsuite/index.html">
+<span class="menu-text">gsuite</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gsim/">
+<span class="menu-text">gsim</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gact/">
+<span class="menu-text">gact</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gteach/">
+<span class="menu-text">gteach</span></a>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/psoerensen/gtools">
+<span class="menu-text">GitHub</span></a>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+
+  <ul>
+  <li><a href="#reml-through-packed-sssnpblup-equations" id="toc-reml-through-packed-sssnpblup-equations" class="nav-link active" data-scroll-target="#reml-through-packed-sssnpblup-equations">REML through packed ssSNPBLUP equations</a>
+  <ul class="collapse">
+  <li><a href="#model-and-computation" id="toc-model-and-computation" class="nav-link" data-scroll-target="#model-and-computation">Model and computation</a></li>
+  <li><a href="#yaml-controls" id="toc-yaml-controls" class="nav-link" data-scroll-target="#yaml-controls">YAML controls</a></li>
+  <li><a href="#results-and-qualification" id="toc-results-and-qualification" class="nav-link" data-scroll-target="#results-and-qualification">Results and qualification</a></li>
+  <li><a href="#optional-restricted-likelihood-change" id="toc-optional-restricted-likelihood-change" class="nav-link" data-scroll-target="#optional-restricted-likelihood-change">Optional restricted-likelihood change</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="reml-through-packed-sssnpblup-equations" class="level1">
+<h1>REML through packed ssSNPBLUP equations</h1>
+<p>The experimental standalone YAML interface can estimate unstructured genetic and residual covariance matrices using the same conditional packed PCG equations as prediction. Natural covariance matrices in YAML are starting values. Numerical computation belongs to <code>greml</code>; the Python frontend validates inputs, prepares files and labels outputs. Existing R interfaces are unchanged.</p>
+<section id="model-and-computation" class="level2">
+<h2 class="anchored" data-anchor-id="model-and-computation">Model and computation</h2>
+<p>The initial route supports an ordinary pedigree, one genetic channel per trait, and a shared unstructured residual covariance across independent observation blocks. Missing traits are integrated using the observed submatrix of the current residual covariance. Fixed effects and additional identity random effects are retained; covariances of those additional effects remain fixed. Marker centering, normalization, genomic scaling, ridge/blend and any pedigree adjustment are held fixed throughout REML. This is conditional on the supplied genomic construction, rather than simultaneous estimation of its base parameters.</p>
+<p>The method is EM-REML. Conditional genetic coordinates have independent prior blocks with row precisions <code>Qnn</code>, the genomic residual precision and marker identity, all sharing the genetic covariance <code>K</code>. Each update uses posterior second moments of those coordinates, including coefficient covariance from the fixed-effect equations. Dividing their contracted moments by the total number of genetic and marker levels gives the genetic EM update. Residual updates use posterior residual moments, with missing components integrated conditionally. Fixed covariance blocks retain their supplied natural values exactly.</p>
+<p>The exact pedigree factor, ancestral reduction and packed genotype provider are reused across covariance states. The current implementation copies the sparse topology/maps when making a new numeric state; it does not refactor the pedigree. Record precisions, right-hand sides and the PCG preconditioner are refreshed. Qnn reuse avoids another pedigree factor for each new preconditioner; the shifted-pedigree option does build its covariance-dependent preconditioner factor. The existing final prediction solve independently checks the fitted model.</p>
+<p>The fit does not assemble a global equation matrix, full inverse, dense genomic relationship or marker cross-product matrix. The optional exact likelihood reference materializes bounded small coefficient matrices. Source records and trait-pattern metadata, sparse maps and factors, coefficient vectors and the selected record cache still consume memory. Old/new numeric states can coexist during refresh; this is not a bound on process RSS.</p>
+</section>
+<section id="yaml-controls" class="level2">
+<h2 class="anchored" data-anchor-id="yaml-controls">YAML controls</h2>
+<p>Use the complete packed REML example (<code>models/multitrait-packed-reml.yml</code>). The main estimation controls are:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analysis</span><span class="kw">:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">task</span><span class="kw">:</span><span class="at"> reml</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">estimate</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">genetic</span><span class="kw">,</span><span class="at"> residual</span><span class="kw">]</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">optimizer</span><span class="kw">:</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_iterations</span><span class="kw">:</span><span class="at"> </span><span class="dv">200</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">score_tolerance</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0e-6</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">step_fraction</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">traces</span><span class="kw">:</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">method</span><span class="kw">:</span><span class="at"> exact</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_solves</span><span class="kw">:</span><span class="at"> </span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>estimate</code> selects whole covariance blocks; omit a block to fix it. Packed EM does not yet support fixing individual Cholesky coordinates. <code>step_fraction</code> is the EM update fraction in <code>(0,1]</code>, not a likelihood line-search control.</p>
+<p>Exact traces solve every conditional coefficient unit column at each covariance state. They are intended for small reference problems, not industrial data. For a bounded stochastic calculation, replace the trace controls explicitly:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">traces</span><span class="kw">:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">method</span><span class="kw">:</span><span class="at"> stochastic</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">probes</span><span class="kw">:</span><span class="at"> </span><span class="dv">64</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">seed</span><span class="kw">:</span><span class="at"> </span><span class="dv">4401</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_solves</span><span class="kw">:</span><span class="at"> </span><span class="dv">10000</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_score_mcse</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.001</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The stochastic option uses a common deterministic Rademacher probe bank across covariance states and streams one query at a time. The example numbers above are syntax examples, not a calibrated industrial recommendation. Score error is in natural variance/covariance coordinates and depends on data and scaling; the probe count alone does not establish adequate precision.</p>
+<p>Each state uses one response solve plus <code>probes</code> stochastic solves, or one plus the conditional coefficient dimension for exact traces. <code>maximum_solves</code> caps their <strong>total across all states</strong>. It excludes the initial setup and subsequent independent final prediction solve, which have separate timing/iteration metrics. Every REML solve must pass both transformed and original augmented equation residual checks. The internal solve uses a numerical margin; the requested acceptance tolerances are unchanged.</p>
+<p>Convergence requires the maximum absolute free score plus twice the maximum free-score Monte Carlo standard error to be no larger than <code>score_tolerance</code>. The MCSE must also meet <code>maximum_score_mcse</code>. Exact traces have zero sampling MCSE, subject to PCG numerical error. A stochastic moment matrix that is not SPD is rejected without clipping, jitter, silent probe increases or an exact fallback.</p>
+<p>A stochastic candidate must pass one final score/precision check using an independent probe bank. Its additional response and probe solves count against the same total cap, and history marks the validation state. Failed independent validation rejects the fit; its probes never guide another update or select another validation bank. This check can add a qualification state after the last permitted covariance-update state. Score convergence does not establish uniqueness or statistical identifiability of an arbitrary covariance model.</p>
+</section>
+<section id="results-and-qualification" class="level2">
+<h2 class="anchored" data-anchor-id="results-and-qualification">Results and qualification</h2>
+<p>Results include <code>variance_components.csv</code>, <code>parameters.csv</code>, <code>reml_history.csv</code>, <code>likelihood.json</code> and <code>convergence.json</code>, plus native natural-score and score-MCSE vectors. History records scores, MCSE and cumulative solve counts. Converged fits then produce the ordinary prediction tables. Failed fits retain diagnostic parameter states and history but publish no qualified prediction tables.</p>
+<p>Likelihood reporting is optional, as described below. It does not control EM updates or replace score convergence. Exact EM has its usual likelihood monotonicity, but stochastic moment updates carry no likelihood-ascent certificate. Reported score MCSE describes trace estimation at the evaluated parameter state; it does not include variance-component estimation uncertainty or provide confidence intervals for the fitted parameters.</p>
+<p>Focused tests compare natural scores with an independent dense restricted likelihood and finite differences, verify a joint analytic covariance optimum, check missing-trait EM updates and fitted predictions, and exercise stochastic work/precision rejection. This is not a 50K or industrial runtime qualification. EM can require many covariance updates, each with many PCG solves; prediction timings cannot be reused as REML runtime estimates. The native <code>reml</code> stage covers every covariance evaluation, final stochastic check and optional likelihood diagnostic. <code>reml_likelihood</code> reports the determinant diagnostic separately. Existing fine-grained data/operator profile counters are not an aggregate REML profile; use that stage and the explicit solve totals when assessing cost.</p>
+<p>FA, serial/grouped residuals, genetic groups, metafounders, coordinate constraints, additional covariance estimation, and joint PEV output are outside this initial packed REML interface. The existing compiled sparse-direct REML implementation retains its broader covariance/constraint support and likelihood reporting.</p>
+</section>
+<section id="optional-restricted-likelihood-change" class="level2">
+<h2 class="anchored" data-anchor-id="optional-restricted-likelihood-change">Optional restricted-likelihood change</h2>
+<p>Omit <code>analysis.likelihood</code> for zero global determinant/operator-product work. To report the restricted-likelihood change <strong>from the supplied starting covariances to the final fitted covariances</strong>, add one block under <code>analysis</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">likelihood</span><span class="kw">:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">method</span><span class="kw">:</span><span class="at"> slq</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_operator_products</span><span class="kw">:</span><span class="at"> </span><span class="dv">6144</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Defaults are <code>probes: 32</code>, <code>seed: 4402</code>, <code>lanczos_steps: 32</code>, <code>check_steps: 64</code>, <code>maximum_mcse: 1.0</code> and <code>maximum_depth_change: 0.5</code>. All can be set explicitly. These illustrate controls, not calibrated production precision. The work cap must cover <code>2 * probes * (lanczos_steps + check_steps)</code> equivalent vector products: both start/final states at both depths. It is independent of the REML trace-solve cap. Earlier Lanczos breakdown can reduce actual products.</p>
+<p>The matrix-free stochastic Lanczos quadrature (SLQ) diagnostic uses common Rademacher probes at the two covariance states and both depths, with a seed stream separate from the score traces. Paired differences give an MCSE for the likelihood change. <code>depth_change</code> is the absolute change in the estimate when increasing Lanczos depth; <strong>it is a sensitivity check, not a truncation error bound</strong>. A small sampling MCSE alone cannot qualify Lanczos accuracy.</p>
+<p>For a small exact reference, use:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">likelihood</span><span class="kw">:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">method</span><span class="kw">:</span><span class="at"> exact</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_dimension</span><span class="kw">:</span><span class="at"> </span><span class="dv">256</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This materializes and factors the start/final conditional coefficient matrices, using <code>2 * coefficient_dimension</code> products. The explicit dimension cap protects against accidentally selecting a dense reference on a large model. It is a caller-selected work/shape limit, not an application RAM ceiling.</p>
+<p>Both methods evaluate <code>-0.5</code> times the change in <code>log|R_observed| + (n + marker_columns) log|K| + log|C| + y'Py</code>. <code>C</code> is the full conditional coefficient matrix, including fixed and nuisance effects. Observed residual submatrices retain missing-trait covariance. The genetic normalization includes <strong>latent marker levels</strong>. Other prior and coordinate constants cancel because data, design, genomic construction and fixed additional covariances are unchanged. A stable residual-plus-prior quadratic evaluates <code>y'Py</code>. The initial numeric model is retained for this comparison, so requesting likelihood can increase memory.</p>
+<p><code>likelihood.json</code> and <code>run.json.estimation.likelihood</code> report <code>scale: relative_to_start</code>, <code>value</code>, <code>mcse</code>, <code>depth_change</code>, operator products, seconds, message and a status:</p>
+<ul>
+<li><code>not_requested</code>: no diagnostic requested.</li>
+<li><code>not_attempted</code>: covariance fitting did not reach convergence.</li>
+<li><code>qualified</code>: the diagnostic completed and, for SLQ, met the requested targets.</li>
+<li><code>unqualified</code>: a finite SLQ estimate missed one or both precision targets.</li>
+<li><code>failed</code>: a numerical/resource diagnostic failed; no value is published.</li>
+</ul>
+<p>Unqualified/failed optional likelihood leaves a separately qualified covariance fit and predictions accepted. No probe increase or exact fallback occurs. This is a start-to-final diagnostic, not an absolute likelihood, per-iteration ascent certificate, or evidence for a global optimum. Do not compare its raw value across models with different starting covariances, fixed designs, data or genomic construction. The compiled sparse-direct route reports its existing absolute restricted likelihood with <code>scale: absolute</code> in the same output block.</p>
+<p>The complete exact example (<code>models/multitrait-packed-reml.yml</code>) and SLQ example (<code>models/multitrait-packed-reml-slq.yml</code>) share inputs. Small tests compare exact changes with an independent marginal likelihood (including nonzero markers and missing traits), and paired SLQ estimates/MCSE with an eigenvalue oracle. No industrial likelihood runtime or precision qualification follows from those checks.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button,
+          { trigger: "manual",
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/psoerensen\.github\.io\/gtools\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined;
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              }
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            }
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
+</div>
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

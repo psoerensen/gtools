@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Install the Linux command, specify a complete model and inspect predictions, timings and memory.">
+
+<title>Standalone mixed models with YAML – gtools</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-264a0fc3a96c72ca7334393e02078ef0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../gsuite/website/styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">gtools</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+<span class="menu-text">Home</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="../../gsuite/index.html" aria-current="page">
+<span class="menu-text">gsuite</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gsim/">
+<span class="menu-text">gsim</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gact/">
+<span class="menu-text">gact</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gteach/">
+<span class="menu-text">gteach</span></a>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/psoerensen/gtools">
+<span class="menu-text">GitHub</span></a>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/guides.html">Guides</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/standalone.html">Standalone mixed models</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container">
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">About gsuite</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Architecture and libraries</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capabilities and methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/downloads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software availability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Current status</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Tutorials</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All tutorials</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Standalone packages</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/package-tutorials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Study design and reproducibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/package-tutorials/gbase.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gbase: data and LD</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/package-tutorials/glma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">glma: association and VEGAS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/package-tutorials/gbayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gbayes: Bayesian regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/package-tutorials/gcorr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gcorr: heritability and correlation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/package-tutorials/gmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gmap: fine-mapping</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/package-tutorials/gscore.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gscore: polygenic scoring</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/package-tutorials/gsea.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gsea: genes and pathways</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/pedigree-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pedigree analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/simulated-genomics-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Connected genomic analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/glma-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/summary-statistic-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Saved LD analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Analysis with an assistant</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/model-development-with-an-assistant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Developing a model with an assistant</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Guides</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/guides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All guides</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/standalone.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Standalone mixed models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/model-yaml-proposal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">YAML model specification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/summary-statistic-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heritability and genetic correlation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/gbayes-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/gmap-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fine-mapping and colocalisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/gsea-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gene sets and pathways</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/mr-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mendelian randomisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/covariance-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SEM and graphical models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/summary-interfaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Scoring and summary interfaces</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/genotype-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genotype preparation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/genotype-filtering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marker filtering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/sparse-ld-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sparse LD preparation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Software validation</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/qualifications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Validation overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/standalone-validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Standalone GenomeDK installation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/genomic-qualification-design.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shared simulation design (gsim)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/glma-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association scans (glma)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/gcorr-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heritability and correlation (gcorr)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/gbayes-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian regression (gbayes)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/gscore-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prediction (gscore)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/gmap-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regional mapping (gmap)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/gsea-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genes and pathways (gsea)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/simulated-genomics-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Earlier connected evidence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/gcorr-method-comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gcorr comparison results</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Current limits</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Reference</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/model-catalog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mixed-model catalog</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/model-recipes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model recipes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/formula-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formulas and covariance components</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/r-interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Persistent R interface</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/prediction-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prediction and uncertainty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model representation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/gsolve-greml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Numerical routes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/gmat-integration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matrix integration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/multitrait-pedigree-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multitrait computations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/longitudinal-pedigree-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Longitudinal computations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/primitive-registry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model primitives</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/model-reductions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model reductions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Benchmarks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmark overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/benchmarks/pedigree_50k_dmu/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pedigree models: gsuite versus DMU</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Presentations</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/presentations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All presentations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/slides/ai-programme-strategy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Programme strategy</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/slides/ai-research-methods-teaching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Technical presentation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentation index</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+
+  <ul>
+  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#inspect-and-run" id="toc-inspect-and-run" class="nav-link" data-scroll-target="#inspect-and-run">Inspect and run</a></li>
+  <li><a href="#scratch-results-and-resource-reports" id="toc-scratch-results-and-resource-reports" class="nav-link" data-scroll-target="#scratch-results-and-resource-reports">Scratch, results and resource reports</a></li>
+  <li><a href="#input-and-model-sections" id="toc-input-and-model-sections" class="nav-link" data-scroll-target="#input-and-model-sections">Input and model sections</a></li>
+  <li><a href="#complete-sssnpblup-example" id="toc-complete-sssnpblup-example" class="nav-link" data-scroll-target="#complete-sssnpblup-example">Complete ssSNPBLUP example</a></li>
+  <li><a href="#solver-and-threads" id="toc-solver-and-threads" class="nav-link" data-scroll-target="#solver-and-threads">Solver and threads</a></li>
+  <li><a href="#covariance-estimation" id="toc-covariance-estimation" class="nav-link" data-scroll-target="#covariance-estimation">Covariance estimation</a></li>
+  <li><a href="#model-capabilities-and-limits" id="toc-model-capabilities-and-limits" class="nav-link" data-scroll-target="#model-capabilities-and-limits">Model capabilities and limits</a></li>
+  <li><a href="#outputs-resources-and-validation" id="toc-outputs-resources-and-validation" class="nav-link" data-scroll-target="#outputs-resources-and-validation">Outputs, resources and validation</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../gsuite/guides.html">Guides</a></li><li class="breadcrumb-item"><a href="../../gsuite/docs/standalone.html">Standalone mixed models</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Standalone mixed models with YAML</h1>
+</div>
+
+<div>
+  <div class="description">
+    Install the Linux command, specify a complete model and inspect predictions, timings and memory.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+
+
+
+  </div>
+
+
+
+</header>
+
+
+<p>One YAML file specifies input files, column bindings, the statistical model, natural covariance matrices, fitting controls, threads and requested outputs. The interface uses <code>schema: gsuite.model/v1-draft</code>. Unknown keys and unsupported combinations are rejected; there are no legacy syntax aliases. Existing R interfaces are unchanged.</p>
+<p>Linux build and run commands handle the private MKL ILP64/SuiteSparse library paths and disable OpenMP affinity binding automatically. Slurm retains the CPU allocation and YAML controls the native thread requests. No manual linker or affinity exports are needed; per-fit <code>run.json</code> records the execution environment.</p>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<p>The standalone command is <code>greml</code>. Its Python frontend prepares inputs and labels results; greml/gsolve and the genotype libraries perform the numerical work. R is not required. The existing R interfaces remain separate.</p>
+<p>The GenomeDK Linux x86-64 binary installer has a <a href="../../gsuite/docs/standalone-validation.html">recorded successful validation</a>. Binary archives remain private validation artifacts; this website does not provide a public binary download. Use an archive and matching checksum supplied by the maintainer. An existing Conda or Mamba installation and network access to its runtime packages are needed.</p>
+<p>On HPC, use an allocated compute-node shell with <code>$TMPDIR</code> available. Start the installer with Python 3.10 or newer; a small bootstrap environment suffices:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> greml-installer <span class="at">-c</span> conda-forge python=3.12 <span class="at">-y</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate greml-installer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Set <code>ARCHIVE</code> to the absolute path of the supplied archive. The checksum file must be beside it. Choose a new prefix at its final installation location:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-euo</span> pipefail</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">ARCHIVE</span><span class="op">=</span>/path/to/greml-genomedk-BUILD.tar.gz</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="va">PREFIX</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/software/greml"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">:</span> <span class="st">"</span><span class="va">${TMPDIR</span><span class="op">:?</span>Run inside a Slurm compute-node allocation<span class="va">}</span><span class="st">"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">"</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">"</span><span class="va">$ARCHIVE</span><span class="st">"</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sha256sum</span> <span class="at">-c</span> <span class="st">"</span><span class="va">$(</span><span class="fu">basename</span> <span class="st">"</span><span class="va">$ARCHIVE</span><span class="st">"</span><span class="va">)</span><span class="st">.sha256"</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="va">WORK</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span> <span class="at">-d</span> <span class="st">"</span><span class="va">$TMPDIR</span><span class="st">/greml-install.XXXXXX"</span><span class="va">)</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xzf</span> <span class="st">"</span><span class="va">$ARCHIVE</span><span class="st">"</span> <span class="at">-C</span> <span class="st">"</span><span class="va">$WORK</span><span class="st">"</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> <span class="st">"</span><span class="va">$WORK</span><span class="st">/</span><span class="va">$(</span><span class="fu">basename</span> <span class="st">"</span><span class="va">$ARCHIVE</span><span class="st">"</span> .tar.gz<span class="va">)</span><span class="st">/install.sh"</span> <span class="dt">\</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">--prefix</span> <span class="st">"</span><span class="va">$PREFIX</span><span class="st">"</span> <span class="at">--scratch-directory</span> <span class="st">"</span><span class="va">$WORK</span><span class="st">"</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The installer creates <code>&lt;prefix&gt;/runtime</code> and <code>&lt;prefix&gt;/app</code>, installs pinned runtime packages, checks library resolution and runs the small numerical campaign. No compiler, R, CMake or development headers are requested. An existing prefix is preserved rather than overwritten. Receipts and copied test results remain under <code>&lt;prefix&gt;/installation.json</code> and <code>&lt;prefix&gt;/validation/</code>. Do not move the installed Conda prefix; install again at a new final location when needed. The temporary extraction directory is not needed for later fits.</p>
+<p>Add the command to PATH in each new shell:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/software/greml/bin:</span><span class="va">$PATH</span><span class="st">"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">greml</span> validate /path/to/model.yml</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">greml</span> describe /path/to/model.yml</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">greml</span> run /path/to/model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The installed launcher selects its private runtime. It does not require activating <code>greml-installer</code> for subsequent fits. For a first test, copy the included small dataset to a writable working directory:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/software/greml/app/example"</span> ./example</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">greml</span> run example/model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The example includes CSV pedigree/phenotypes, SNP-major PLINK BED/BIM/FAM and simulated true genetic values. Truth is not used by the fit. Its eight phenotype rows and two traits are a workflow check, not prediction-accuracy evidence.</p>
+<p>The <code>models/</code> directory contains 42 self-contained YAML examples and their tiny inputs. The external-data 1M production recipe is separately preserved under <code>recipes/model-1m-ancestral-t16.yml</code> in the binary distribution. Copy it to your work directory and edit its input/output paths before use. No large dataset is included or required by installation checks. YAML files and data travel together; relative paths resolve beside the YAML, not beside the executable.</p>
+</section>
+<section id="inspect-and-run" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-and-run">Inspect and run</h2>
+<p>From an extracted source bundle after <code>bash build.sh</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">"</span><span class="va">$PWD</span><span class="st">/install/bin:</span><span class="va">$PATH</span><span class="st">"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">greml</span> validate example/model.yml</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">greml</span> describe example/model.yml</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">greml</span> run example/model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>From a checkout, the same commands use <code>python tools/build/hpc_single_step/greml.py</code> and an explicit <code>--exe /path/to/greml_single_step_evaluate</code>. Omit <code>--output</code> to use <code>output.directory</code>. Input and output paths in YAML resolve beside that YAML. The final result directory must be fresh. Source inputs are never rewritten.</p>
+<p><code>validate</code> checks the model and input tables without calling the native driver; it is not a numerical reference campaign. <code>describe</code> additionally prints expanded dimensions, channel order, parameter coordinates and execution settings without fitting. It reads input tables and genotype metadata. <code>run</code> chooses the equations and task from the YAML, including supplied-covariance solving or REML, without model-specific commands.</p>
+</section>
+<section id="scratch-results-and-resource-reports" class="level2">
+<h2 class="anchored" data-anchor-id="scratch-results-and-resource-reports">Scratch, results and resource reports</h2>
+<p>The runner creates a private working directory under <code>$TMPDIR</code>, or the system temporary directory when <code>$TMPDIR</code> is unset. <code>--scratch-directory /existing/path</code> selects another parent. SQLite snapshots use this scratch by default; an explicit YAML <code>execution.preparation.directory</code> remains honored. No RAM ceiling or run timeout is imposed. Slurm allocation and environment activation remain setup steps.</p>
+<p>The original YAML remains the base for resolving inputs, even when run from another directory. Prepared inputs, native work and labelled output are written in scratch, then collected into <code>output.directory</code> (or <code>--output</code>). The runner reserves the destination exclusively, so another invocation cannot overwrite it. Successful collection removes only this invocation’s scratch. Failed fits also collect diagnostics and exit nonzero. If copying fails, scratch is retained and its recovery path is printed; the final directory may contain a partial copy.</p>
+<p>The result directory contains the existing native/CSV outputs and <code>run.json</code>, plus <code>inputs/</code>, a byte-preserved <code>model.yml</code> snapshot, <code>console.log</code>, <code>worker.json</code> and <code>execution.json</code>. The snapshot keeps the original YAML syntax and relative paths; <code>execution.json.model_path</code> identifies their original resolution base. Copied inputs and native reports preserve recorded execution paths, not a restart contract for prepared fits.</p>
+<p><code>execution.json</code> reports preparation, fitting, native preparation/evaluation, Python output formatting, result collection and total elapsed time. Native phase timings, iteration counts and residual gates remain in <code>run.json</code>. Memory reports distinguish native peak RSS from sampled aggregate RSS of the coordinator, Python worker and native descendants. Aggregate RSS can count shared pages more than once, and brief peaks between samples can be missed; it is not Slurm/cgroup accounting. Unsupported sampling is reported as unavailable rather than zero.</p>
+<p>For example, after copying the 1M production recipe to <code>model-1m.yml</code> and editing its input/output paths:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">greml</span> run model-1m.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Execution and estimation controls belong in YAML. <code>--exe</code> selects the native program; <code>--output</code> changes only the destination.</p>
+</section>
+<section id="input-and-model-sections" class="level2">
+<h2 class="anchored" data-anchor-id="input-and-model-sections">Input and model sections</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Section</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>traits</code></td>
+<td>Ordered response/channel names, also used for environments</td>
+</tr>
+<tr class="even">
+<td><code>inputs</code></td>
+<td>All CSV/TSV, PLINK, covariance, assignment and prediction-grid files</td>
+</tr>
+<tr class="odd">
+<td><code>relationships</code></td>
+<td>Named pedigree, single-step, APY or supplied relationship models</td>
+</tr>
+<tr class="even">
+<td><code>bases</code></td>
+<td>Optional power, Legendre or Chebyshev regression bases</td>
+</tr>
+<tr class="odd">
+<td><code>covariances</code></td>
+<td>Natural variances/covariances or FA loadings and specific variances</td>
+</tr>
+<tr class="even">
+<td><code>model</code></td>
+<td>Observation input, fixed formula, named random effects and residual structure</td>
+</tr>
+<tr class="odd">
+<td><code>analysis</code></td>
+<td><code>task: solve</code> for supplied covariances, or <code>task: reml</code> for estimation</td>
+</tr>
+<tr class="even">
+<td><code>execution</code></td>
+<td>Formulation, solver, factorization, threads and linear-solve tolerances</td>
+</tr>
+<tr class="odd">
+<td><code>output</code></td>
+<td>Destination, selected coefficient tables, predictions and optional uncertainty</td>
+</tr>
+</tbody>
+</table>
+<p>Matrices are covariances, never inverses. Inline matrices use one YAML list item per row, for example <code>- [1.0, 0.2]</code>. Their order follows the generated channels; labelled inline or external matrices must match that order exactly. Matrices must be finite, symmetric and positive definite. Under REML they are starting values; otherwise they are fixed supplied values.</p>
+<p>Column bindings use neutral logical names such as <code>individual</code>, <code>parent1</code>, <code>parent2</code>, <code>mother</code>, <code>time</code> or <code>environment</code>. IDs remain strings, including leading zeros. Wide phenotypes map trait names to response columns. Long phenotypes use <code>layout: long</code> and <code>responses: {trait: trait_column, value: value_column}</code>. One record ID is one residual occasion: ID/trait pairs must be unique and mapped covariates must agree within an ID. Distinct visits need distinct record IDs. Absent trait rows are missing responses, without imputation. Independent prediction grids remain wide.</p>
+</section>
+<section id="complete-sssnpblup-example" class="level2">
+<h2 class="anchored" data-anchor-id="complete-sssnpblup-example">Complete ssSNPBLUP example</h2>
+<p>Save this as <code>model.yml</code> beside the supplied example’s <code>phenotypes.csv</code>, <code>pedigree.csv</code> and <code>genotypes.bed/.bim/.fam</code>. The physical columns in this synthetic example use <code>animal</code>, <code>sire</code> and <code>dam</code>; the logical bindings remain <code>individual</code>, <code>parent1</code> and <code>parent2</code> for plant, human and animal datasets. Edit the physical bindings for another dataset. The matrices below are covariances on their natural scale, in the declared <code>[milk, fat]</code> trait order. The example requests eight threads for marker work and one for other phases; request at least eight Slurm CPUs, or edit the YAML to match your allocation.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tiny synthetic example: covariance matrices follow [milk, fat].</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">schema</span><span class="kw">:</span><span class="at"> gsuite.model/v1-draft</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> single_step_example</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">traits</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">milk</span><span class="kw">,</span><span class="at"> fat</span><span class="kw">]</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">inputs</span><span class="kw">:</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">observations</span><span class="kw">:</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">type</span><span class="kw">:</span><span class="at"> table</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">file</span><span class="kw">:</span><span class="at"> phenotypes.csv</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">id</span><span class="kw">:</span><span class="at"> record_id</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">columns</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">individual</span><span class="kw">:</span><span class="at"> animal</span><span class="kw">,</span><span class="at"> </span><span class="fu">site</span><span class="kw">:</span><span class="at"> herd</span><span class="kw">,</span><span class="at"> </span><span class="fu">age</span><span class="kw">:</span><span class="at"> age</span><span class="kw">}</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">responses</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">milk</span><span class="kw">:</span><span class="at"> milk</span><span class="kw">,</span><span class="at"> </span><span class="fu">fat</span><span class="kw">:</span><span class="at"> fat</span><span class="kw">}</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pedigree</span><span class="kw">:</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">type</span><span class="kw">:</span><span class="at"> pedigree</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">file</span><span class="kw">:</span><span class="at"> pedigree.csv</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">columns</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">individual</span><span class="kw">:</span><span class="at"> animal</span><span class="kw">,</span><span class="at"> </span><span class="fu">parent1</span><span class="kw">:</span><span class="at"> sire</span><span class="kw">,</span><span class="at"> </span><span class="fu">parent2</span><span class="kw">:</span><span class="at"> dam</span><span class="kw">}</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">genotypes</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> plink</span><span class="kw">,</span><span class="at"> </span><span class="fu">prefix</span><span class="kw">:</span><span class="at"> genotypes</span><span class="kw">,</span><span class="at"> </span><span class="fu">id</span><span class="kw">:</span><span class="at"> IID</span><span class="kw">}</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">relationships</span><span class="kw">:</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">A</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> pedigree</span><span class="kw">,</span><span class="at"> </span><span class="fu">input</span><span class="kw">:</span><span class="at"> pedigree</span><span class="kw">}</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">H</span><span class="kw">:</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">type</span><span class="kw">:</span><span class="at"> single_step</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">pedigree</span><span class="kw">:</span><span class="at"> A</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">genotypes</span><span class="kw">:</span><span class="at"> genotypes</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">genomic</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">adjustment</span><span class="kw">:</span><span class="at"> none</span><span class="kw">,</span><span class="at"> </span><span class="fu">polygenic_weight</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.0</span><span class="kw">,</span><span class="at"> </span><span class="fu">independent_ridge</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.05</span><span class="kw">}</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="fu">covariances</span><span class="kw">:</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">genetic</span><span class="kw">:</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="kw">[</span><span class="fl">1.0</span><span class="kw">,</span><span class="at"> </span><span class="fl">0.1</span><span class="kw">]</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="kw">[</span><span class="fl">0.1</span><span class="kw">,</span><span class="at"> </span><span class="fl">0.04</span><span class="kw">]</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">individual_environment</span><span class="kw">:</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="kw">[</span><span class="fl">0.4</span><span class="kw">,</span><span class="at"> </span><span class="fl">0.02</span><span class="kw">]</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="kw">[</span><span class="fl">0.02</span><span class="kw">,</span><span class="at"> </span><span class="fl">0.02</span><span class="kw">]</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">residual</span><span class="kw">:</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="kw">[</span><span class="fl">2.0</span><span class="kw">,</span><span class="at"> </span><span class="fl">0.08</span><span class="kw">]</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="kw">[</span><span class="fl">0.08</span><span class="kw">,</span><span class="at"> </span><span class="fl">0.05</span><span class="kw">]</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="fu">model</span><span class="kw">:</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">data</span><span class="kw">:</span><span class="at"> observations</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">fixed</span><span class="kw">:</span><span class="at"> </span><span class="st">"factor(site) + age"</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">random</span><span class="kw">:</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">genetic</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">group</span><span class="kw">:</span><span class="at"> individual</span><span class="kw">,</span><span class="at"> </span><span class="fu">relationship</span><span class="kw">:</span><span class="at"> H</span><span class="kw">,</span><span class="at"> </span><span class="fu">covariance</span><span class="kw">:</span><span class="at"> genetic</span><span class="kw">}</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">individual_environment</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">group</span><span class="kw">:</span><span class="at"> individual</span><span class="kw">,</span><span class="at"> </span><span class="fu">covariance</span><span class="kw">:</span><span class="at"> individual_environment</span><span class="kw">}</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">residual</span><span class="kw">:</span><span class="at"> residual</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="fu">analysis</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">task</span><span class="kw">:</span><span class="at"> solve</span><span class="kw">}</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="fu">execution</span><span class="kw">:</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">formulation</span><span class="kw">:</span><span class="at"> ss_snp</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">solver</span><span class="kw">:</span><span class="at"> pcg</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">sparse_backend</span><span class="kw">:</span><span class="at"> pardiso</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">preconditioner</span><span class="kw">:</span><span class="at"> qnn_reuse</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pedigree_factorization</span><span class="kw">:</span><span class="at"> ancestral_sweeps</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">convergence</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">relative_tolerance</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0e-10</span><span class="kw">,</span><span class="at"> </span><span class="fu">maximum_iterations</span><span class="kw">:</span><span class="at"> </span><span class="dv">4000</span><span class="kw">}</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">threads</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">default</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span><span class="kw">,</span><span class="at"> </span><span class="fu">marker_products</span><span class="kw">:</span><span class="at"> </span><span class="dv">8</span><span class="kw">,</span><span class="at"> </span><span class="fu">marker_setup</span><span class="kw">:</span><span class="at"> </span><span class="dv">8</span><span class="kw">}</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">directory</span><span class="kw">:</span><span class="at"> ../results/example</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">predictions</span><span class="kw">:</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">genetic_values</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">effects</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">genetic</span><span class="kw">],</span><span class="at"> </span><span class="fu">levels</span><span class="kw">:</span><span class="at"> all</span><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then use the same command as for every other supported model:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">greml</span> run model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This supplied-covariance model selects packed PCG, exact ancestral pedigree sweeps and Qnn reuse. Change model/task declarations in YAML rather than choosing a different executable. The <a href="../../gsuite/docs/model-yaml-proposal.html">model specification</a> gives the full syntax for other effects and covariance families.</p>
+</section>
+<section id="solver-and-threads" class="level2">
+<h2 class="anchored" data-anchor-id="solver-and-threads">Solver and threads</h2>
+<p>For fast packed ssSNPBLUP:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">execution</span><span class="kw">:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">formulation</span><span class="kw">:</span><span class="at"> ss_snp</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">solver</span><span class="kw">:</span><span class="at"> pcg</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">sparse_backend</span><span class="kw">:</span><span class="at"> pardiso</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pedigree_factorization</span><span class="kw">:</span><span class="at"> ancestral_sweeps</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">preconditioner</span><span class="kw">:</span><span class="at"> qnn_reuse</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">threads</span><span class="kw">:</span><span class="at"> </span><span class="dv">16</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A scalar sets every applicable thread request. Override particular operations with <code>threads: {default: 16, decode: 4}</code>. Packed controls are <code>marker_products</code>, <code>marker_setup</code>, <code>decode</code>, <code>pedigree</code>, <code>preconditioner</code> and <code>vectors</code>. Compiled models use <code>factor</code> and <code>relationship</code>; raw-genotype APY also uses <code>decode</code> and <code>genomic_products</code>. A mapping without <code>default</code> uses one for unspecified operations. Request matching Slurm CPUs. Thread settings are phase-specific requests: Python preparation and dependency-ordered pedigree work can be serial.</p>
+<p><code>ancestral_sweeps</code> preserves the full statistical model with a smaller retained pedigree factor and exact peripheral sweeps, including supplied metafounders. <code>full_qnn</code> is available for comparison and is the default. <code>qnn_reuse</code> avoids a second global pedigree factor; <code>shifted_pedigree</code> is the alternative packed preconditioner. Linear PCG tolerances belong in <code>execution.convergence</code>. Ordinary compiled models support direct or PCG solving. Exact/APY ssGBLUP uses compiled PCG and <code>formulation: ss_gblup</code>.</p>
+</section>
+<section id="covariance-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="covariance-estimation">Covariance estimation</h2>
+<p><code>analysis.estimate</code> selects free covariance blocks; omitted blocks stay fixed. Sparse-direct compiled REML supports unstructured and FA covariance and scalar or separable multivariate serial parameters. Natural starts are transformed internally. <code>analysis.constraints</code> can fix named optimizer coordinates; <code>describe</code> lists them. A fixed Cholesky coordinate is not a fixed covariance entry. Direct optimizer controls include <code>maximum_step</code> and <code>maximum_line_search_reductions</code>.</p>
+<p>Packed EM-REML estimates unstructured genetic and independent residual covariance for ordinary pedigrees, with one genetic channel per trait and fixed additional identity-effect covariances. Its update control is <code>optimizer.step_fraction</code> in <code>(0, 1]</code>. Score traces have their own explicit solve and precision budgets under <code>analysis.traces</code>. Exact traces are small references; stochastic traces require explicit probes, seed, total solve cap and maximum score MCSE. Stochastic convergence also requires an independent final score check. See <a href="../../gsuite/docs/packed-single-step-reml.html">packed REML controls and limits</a>.</p>
+<p>Omit <code>analysis.likelihood</code> to skip global determinant work in packed REML. Optional <code>method: exact</code> requires <code>maximum_dimension</code>; <code>method: slq</code> requires <code>maximum_operator_products</code>, with optional probe/depth/precision controls. It reports the likelihood change from the start to the final covariance state, with separate sampling MCSE and Lanczos-depth sensitivity. It does not control EM updates or certify a global optimum. Unqualified optional likelihood does not reject an otherwise qualified point fit. Compiled direct REML retains its absolute likelihood and line-search acceptance.</p>
+</section>
+<section id="model-capabilities-and-limits" class="level2">
+<h2 class="anchored" data-anchor-id="model-capabilities-and-limits">Model capabilities and limits</h2>
+<p>The <a href="../../gsuite/docs/model-yaml-proposal.html#complete-examples">complete examples</a> cover pedigree, packed ssSNPBLUP, exact/APY ssGBLUP, direct/maternal and weighted incidence, regression, external relationships, groups/metafounders, FA, serial residuals and estimation. The <a href="../../gsuite/docs/model-yaml-proposal.html">specification</a> gives exact syntax and route-specific supported combinations.</p>
+<p>Supplied FA uses natural loadings and specific variances with an identified triangular leading loading block; it reduces covariance parameters, not genetic coefficient count. Serial models support scalar or separable trait-by-time AR1 and exponential covariance with actual gaps and missing traits. Compiled models also accept general finite trait-by-visit covariance blocks.</p>
+<p>Fixed/random groups, explicit phantom group-parent absorption, combined bases and supplied/estimated Gamma are distinct statistical declarations. Packed ordinary random groups use implicit sweeps; packed fixed/combined groups prepare ordinary inheritance columns once, requiring O(individuals × groups) storage. Metafounders retain every correlated latent base. Gamma pseudo-EM requires an explicit absolute marker base and is separate from joint REML.</p>
+<p>Sparse external natural covariance uses a retained sparse inverse-action factor; fill and exact precision-diagonal setup can be costly. Raw PLINK APY uses an explicit ordered core and bounded tiles/file-backed cross products. Industrial APY preparation remains unqualified. Packed REML currently excludes FA, serial/grouped residuals, groups/metafounders and joint PEV requests.</p>
+<p>Existing selected exact/stochastic PEV options remain conditional on supplied covariances, with explicit work budgets and separate qualification. Their precision is not improved by this interface cleanup. The model-only validator skips uncertainty cases.</p>
+</section>
+<section id="outputs-resources-and-validation" class="level2">
+<h2 class="anchored" data-anchor-id="outputs-resources-and-validation">Outputs, resources and validation</h2>
+<p>Every fit writes <code>run.json</code>, checksums, logs, native diagnostics and requested prediction CSVs. Standard coefficient tables are <code>fixed_effects.csv</code> and <code>random_effects.csv</code>. REML adds <code>variance_components.csv</code>, <code>parameters.csv</code>, <code>reml_history.csv</code>, <code>convergence.json</code> and <code>likelihood.json</code>. The latter reports <code>scale</code>, <code>method</code>, <code>status</code> and the value/error/work diagnostics available for that route. Read acceptance/convergence flags before using estimates. Failed covariance fits retain diagnostic states/history but publish no qualified prediction tables.</p>
+<p>Timings and peak RSS in native metrics describe the native process; they exclude Python preparation. Tables, long-row grouping and prediction grids are spooled to temporary SQLite storage. Optional <code>execution.preparation.directory</code> selects an existing scratch parent. A fresh child is removed on normal completion or handled failure. Pedigree/effect indexes, genotype metadata, supplied matrices and native factors still require memory. There is no application RAM ceiling, admission guard or timeout.</p>
+<p>After building a source bundle, run <code>python3 test_example.py --output results/example-check</code> for the complete small data/truth workflow, or <code>python3 validate.py --output results/model-validation</code> for the independent small-reference campaign and non-uncertainty examples. Validation receipts record actual case counts and hashes; tiny references do not qualify industrial runtime, memory or stochastic precision. For bundles containing the existing 50K fixture, see <code>validation50k/README.md</code> for separate explicit runs. No large dataset or remote job is run automatically.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button,
+          { trigger: "manual",
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/psoerensen\.github\.io\/gtools\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined;
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              }
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            }
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
+</div>
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

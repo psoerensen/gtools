@@ -13,10 +13,15 @@ gsuite is the ecosystem and documentation umbrella for seven public standalone
 R packages and native computational libraries. gsim and gact retain their own
 public repositories, documentation and release processes. gteach retains its
 own teaching repository and website. The seven source
-packages are distributed under `site/gsuite/repository`. Mixed-model examples
+packages are distributed under `site/gsuite/repository`. R mixed-model examples
 require the development integration; greml/gsolve R packaging is deferred,
 with separate or combined packaging undecided. A root `gsuite` R package
 release is not currently planned.
+
+The [standalone YAML guide](https://psoerensen.github.io/gtools/gsuite/docs/standalone.html)
+covers the `greml` command and Linux binary installation. The documented
+GenomeDK binaries remain private validation artifacts, separate from the public
+R source-package repository.
 
 `site/` contains a reviewed, static website snapshot. Website updates and
 software releases are separate decisions. Source releases retain their own
