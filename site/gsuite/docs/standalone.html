@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Install the Linux command, specify a complete model and inspect predictions, timings and memory.">
+<meta name="description" content="Run a model, find its results, or build and validate an installation.">
 
 <title>Standalone mixed models with YAML – gtools</title>
 <style>
@@ -650,23 +650,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
 
   <ul>
-  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a>
-  <ul class="collapse">
-  <li><a href="#collaborators-use-the-shared-genomedk-installation" id="toc-collaborators-use-the-shared-genomedk-installation" class="nav-link" data-scroll-target="#collaborators-use-the-shared-genomedk-installation">Collaborators: use the shared GenomeDK installation</a></li>
-  <li><a href="#maintainers-build-validate-and-distribute" id="toc-maintainers-build-validate-and-distribute" class="nav-link" data-scroll-target="#maintainers-build-validate-and-distribute">Maintainers: build, validate and distribute</a></li>
-  <li><a href="#install-a-supplied-linux-binary-without-compiling" id="toc-install-a-supplied-linux-binary-without-compiling" class="nav-link" data-scroll-target="#install-a-supplied-linux-binary-without-compiling">Install a supplied Linux binary without compiling</a></li>
-  <li><a href="#run-any-supported-model" id="toc-run-any-supported-model" class="nav-link" data-scroll-target="#run-any-supported-model">Run any supported model</a></li>
-  <li><a href="#run-the-included-dataset" id="toc-run-the-included-dataset" class="nav-link" data-scroll-target="#run-the-included-dataset">Run the included dataset</a></li>
-  </ul></li>
-  <li><a href="#inspect-and-run" id="toc-inspect-and-run" class="nav-link" data-scroll-target="#inspect-and-run">Inspect and run</a></li>
-  <li><a href="#scratch-results-and-resource-reports" id="toc-scratch-results-and-resource-reports" class="nav-link" data-scroll-target="#scratch-results-and-resource-reports">Scratch, results and resource reports</a></li>
-  <li><a href="#input-and-model-sections" id="toc-input-and-model-sections" class="nav-link" data-scroll-target="#input-and-model-sections">Input and model sections</a></li>
-  <li><a href="#complete-sssnpblup-example" id="toc-complete-sssnpblup-example" class="nav-link" data-scroll-target="#complete-sssnpblup-example">Complete ssSNPBLUP example</a></li>
-  <li><a href="#solver-and-threads" id="toc-solver-and-threads" class="nav-link" data-scroll-target="#solver-and-threads">Solver and threads</a></li>
-  <li><a href="#covariance-estimation" id="toc-covariance-estimation" class="nav-link" data-scroll-target="#covariance-estimation">Covariance estimation</a></li>
-  <li><a href="#model-capabilities-and-limits" id="toc-model-capabilities-and-limits" class="nav-link" data-scroll-target="#model-capabilities-and-limits">Model capabilities and limits</a></li>
-  <li><a href="#outputs-resources-and-validation" id="toc-outputs-resources-and-validation" class="nav-link" data-scroll-target="#outputs-resources-and-validation">Outputs, resources and validation</a></li>
-  <li><a href="#compare-predictions-with-supplied-truth" id="toc-compare-predictions-with-supplied-truth" class="nav-link" data-scroll-target="#compare-predictions-with-supplied-truth">Compare predictions with supplied truth</a></li>
+  <li><a href="#run-a-model" id="toc-run-a-model" class="nav-link active" data-scroll-target="#run-a-model">Run a model</a></li>
+  <li><a href="#find-the-results" id="toc-find-the-results" class="nav-link" data-scroll-target="#find-the-results">Find the results</a></li>
+  <li><a href="#build-validate-and-distribute" id="toc-build-validate-and-distribute" class="nav-link" data-scroll-target="#build-validate-and-distribute">Build, validate and distribute</a></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference">Reference</a></li>
   </ul>
 </nav>
     </div>
@@ -680,7 +667,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    Install the Linux command, specify a complete model and inspect predictions, timings and memory.
+    Run a model, find its results, or build and validate an installation.
   </div>
 </div>
 
@@ -697,304 +684,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>One YAML file specifies input files, column bindings, the statistical model, natural covariance matrices, fitting controls, threads and requested outputs. The interface uses <code>schema: gsuite.model/v1-draft</code>. Unknown keys and unsupported combinations are rejected; there are no legacy syntax aliases. Existing R interfaces are unchanged.</p>
-<p>Linux build and run commands handle the private MKL ILP64/SuiteSparse library paths and disable OpenMP affinity binding automatically. Slurm retains the CPU allocation and YAML controls the native thread requests. No manual linker or affinity exports are needed; per-fit <code>run.json</code> records the execution environment.</p>
-<p>The standalone command is <code>gsuite run model.yml</code> for both solving and REML. It calls the native <code>gsuite_model_driver</code> executable. The <code>greml</code> and <code>gsolve</code> library names identify their mixed-model and numerical-solver responsibilities; they are not separate user commands. Existing R interfaces are unchanged.</p>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>The standalone command is <code>gsuite</code>. Its Python frontend prepares inputs and labels results; greml/gsolve and the genotype libraries perform the numerical work. R is not required. The existing R interfaces remain separate.</p>
-<p>The command is the same for every currently supported mixed-model route: <code>analysis.task</code> selects supplied-covariance solving or REML. This interface does not imply standalone support for every other gsuite analysis package. New bundles install only <code>gsuite</code>, with no <code>greml</code> command alias. The native mixed-model driver is <code>gsuite_model_driver</code>; the libraries retain their greml/gsolve component names.</p>
-<section id="collaborators-use-the-shared-genomedk-installation" class="level3">
-<h3 class="anchored" data-anchor-id="collaborators-use-the-shared-genomedk-installation">Collaborators: use the shared GenomeDK installation</h3>
-<p>Use the shared installation provided by your project maintainer. The <a href="../../gsuite/docs/standalone-validation.html">validation record</a> identifies the installations that have completed their checks; a new installation needs its own acceptance.</p>
-<p>Inside a Slurm compute allocation with <code>$TMPDIR</code>, set the installed prefix and run your model:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">GSUITE_PREFIX</span><span class="op">=</span>/path/to/shared/installation</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">"</span><span class="va">$GSUITE_PREFIX</span><span class="st">/bin:</span><span class="va">$PATH</span><span class="st">"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> validate /path/to/model.yml</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run /path/to/model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Collaborators need neither the maintainer’s Conda environment nor compilation. Match the YAML thread settings to the allocated CPUs. The command selects its own installed runtime and collects results at the YAML output destination. Use a fresh output directory. Predictions are written to the requested CSV tables; <code>execution.json</code> and <code>run.json</code> record acceptance, timings, memory and numerical diagnostics. Optional truth scoring writes <code>evaluation/summary.csv</code>.</p>
+<p>Use one YAML file for input data, the model, covariance matrices, threads and outputs. The same command runs supplied-covariance solving and REML estimation.</p>
+<section id="run-a-model" class="level2">
+<h2 class="anchored" data-anchor-id="run-a-model">Run a model</h2>
+<p>On GenomeDK, start inside a Slurm compute allocation with enough CPUs for the threads requested in your YAML. Use your project’s shared installation:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">"/path/to/shared/installation/bin:</span><span class="va">$PATH</span><span class="st">"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>No compilation or access to the maintainer’s Conda environment is needed. Input and output paths resolve beside the YAML. Choose a fresh output directory; scratch processing and copying results back are automatic.</p>
+<p>To check or inspect a model before fitting:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> validate model.yml</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> describe model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>See the <a href="../../gsuite/docs/standalone-models.html#complete-sssnpblup-example">complete ssSNPBLUP example</a> for input files, covariance matrices, thread settings and outputs.</p>
 </section>
-<section id="maintainers-build-validate-and-distribute" class="level3">
-<h3 class="anchored" data-anchor-id="maintainers-build-validate-and-distribute">Maintainers: build, validate and distribute</h3>
-<p>The source bundle includes the build scripts, YAML frontend, model examples and binary installer. Each source or binary release needs its own target-system validation; acceptance of another release does not qualify it.</p>
-<p>Obtain the source archive and matching checksum from the maintainer, verify and extract it once, then enter the extracted bundle directory. Inside a compute allocation with at least eight CPUs and <code>$TMPDIR</code>, activate the build environment:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate gsuite</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Run each task separately, proceeding after success:</p>
+<section id="find-the-results" class="level2">
+<h2 class="anchored" data-anchor-id="find-the-results">Find the results</h2>
+<p>Results are saved to <code>output.directory</code> in the YAML:</p>
+<ul>
+<li>Prediction CSVs and requested effect tables contain the estimates.</li>
+<li><code>run.json</code> records numerical acceptance and diagnostics; <code>execution.json</code> reports workflow timings and memory.</li>
+<li>Optional truth comparison writes accuracy, bias and calibration to <code>evaluation/summary.csv</code>.</li>
+</ul>
+<p>Check acceptance before using estimates. See <a href="../../gsuite/docs/standalone-results.html">results and diagnostics</a> for file definitions, failure handling and resource reporting.</p>
+</section>
+<section id="build-validate-and-distribute" class="level2">
+<h2 class="anchored" data-anchor-id="build-validate-and-distribute">Build, validate and distribute</h2>
+<p>Maintainers: inside an extracted source bundle on a compute node, with the build environment activated, run each task separately after the previous one succeeds:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> build.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Builds and installs this source version, reusing compatible native builds from the project-root <code>.gsuite-native-cache/</code>.</p>
+<p>Builds and installs, reusing compatible native cache entries.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> hpc_tasks/validate.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Runs exact references, truth-evaluation checks and all 20 fixture models, including CHOLMOD/PARDISO comparisons. Scratch handling, timings, memory reports and result collection are automatic. Logs and results go under <code>results/BUNDLE-validation-TAG/</code> in the project root, where <code>BUNDLE</code> is the extracted bundle directory name and <code>TAG</code> identifies the run. Require exit code zero and <code>accepted: true</code> in <code>task.json</code> and the four receipts: <code>exact/validation.json</code>, <code>evaluation-check/validation.json</code>, <code>fixture/validation.json</code> and <code>backends/validation.json</code>.</p>
+<p>Runs exact references, truth-evaluation checks and all 20 fixture models.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> hpc_tasks/build_binary_distribution.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Produces a binary archive under project-root <code>distributions/</code> and saves reports under <code>results/</code>. It uses the existing native installation, qualifies the producer installation, then independently installs and validates the delivered archive using <code>$TMPDIR</code>. It requires <code>patchelf</code> and Conda/Mamba, and performs no native compilation. The corrected frontend and installer are included. Normal validation and both fresh-install checks reject OpenMP warning #182, including in nested native logs. No separate tools kit, repair helper or manual scratch/result-copy steps are needed.</p>
-<p>Producing an archive leaves existing shared installations in place. New shared versions use separate prefixes after their own installation checks.</p>
+<p>Produces a binary archive and validates a fresh installation. Logs and results are collected automatically. See <a href="../../gsuite/docs/standalone-installation.html">installation and maintenance</a> for prerequisites, acceptance checks and binary installation instructions.</p>
 </section>
-<section id="install-a-supplied-linux-binary-without-compiling" class="level3">
-<h3 class="anchored" data-anchor-id="install-a-supplied-linux-binary-without-compiling">Install a supplied Linux binary without compiling</h3>
-<p>These commands install a maintainer-supplied binary archive on a compatible Linux x86-64 host. Replace <code>BUILD</code> and <code>VERSION</code> below with the delivered archive stem and intended versioned installation name. Use the binary archive and its matching checksum, rather than the YAML source bundle.</p>
-<p>Shared and independent installations have <a href="../../gsuite/docs/standalone-validation.html">recorded successful GenomeDK validation</a>. Every new archive must pass its own fresh-runtime installer checks. Binary archives remain private validation artifacts, with no public binary download on this website. Use the archive and matching checksum supplied by the maintainer.</p>
-<p>The recipient needs Conda or Mamba, Python 3.10 or newer, network access to the runtime packages, and the ordinary Linux <code>bash</code>, <code>ldd</code> and <code>readelf</code> tools. No compiler, R, CMake, development headers or <code>patchelf</code> is required. On HPC, use an allocated compute-node shell with <code>$TMPDIR</code> available; allocate at least eight CPUs for the eight-thread model example below.</p>
-<p>An existing Python 3.10+ Conda environment, including a suitable <code>base</code> environment, can start the installer. If one is needed, create this small bootstrap environment once:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> gsuite-installer <span class="at">-c</span> conda-forge python=3.12 <span class="at">-y</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate gsuite-installer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Set <code>ARCHIVE</code> to the absolute path of the delivered archive, with its <code>.tar.gz.sha256</code> file beside it. Choose a new prefix at its permanent location:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-euo</span> pipefail</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="va">ARCHIVE</span><span class="op">=</span>/path/to/gsuite-genomedk-BUILD.tar.gz</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="va">PREFIX</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/software/gsuite-VERSION"</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="bu">:</span> <span class="st">"</span><span class="va">${TMPDIR</span><span class="op">:?</span>Run inside a Slurm compute-node allocation<span class="va">}</span><span class="st">"</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">"</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">"</span><span class="va">$ARCHIVE</span><span class="st">"</span><span class="va">)</span><span class="st">"</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sha256sum</span> <span class="at">-c</span> <span class="st">"</span><span class="va">$(</span><span class="fu">basename</span> <span class="st">"</span><span class="va">$ARCHIVE</span><span class="st">"</span><span class="va">)</span><span class="st">.sha256"</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="va">WORK</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span> <span class="at">-d</span> <span class="st">"</span><span class="va">$TMPDIR</span><span class="st">/gsuite-install.XXXXXX"</span><span class="va">)</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xzf</span> <span class="st">"</span><span class="va">$ARCHIVE</span><span class="st">"</span> <span class="at">-C</span> <span class="st">"</span><span class="va">$WORK</span><span class="st">"</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> <span class="st">"</span><span class="va">$WORK</span><span class="st">/</span><span class="va">$(</span><span class="fu">basename</span> <span class="st">"</span><span class="va">$ARCHIVE</span><span class="st">"</span> .tar.gz<span class="va">)</span><span class="st">/install.sh"</span> <span class="dt">\</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">--prefix</span> <span class="st">"</span><span class="va">$PREFIX</span><span class="st">"</span> <span class="at">--scratch-directory</span> <span class="st">"</span><span class="va">$WORK</span><span class="st">"</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The installer creates <code>&lt;prefix&gt;/runtime</code> and <code>&lt;prefix&gt;/app</code>, installs pinned runtime packages, checks host/library compatibility and runs small exact references, the installed launcher and CHOLMOD/PARDISO agreement checks. Continue after exit code zero and <code>accepted: true</code> in <code>&lt;prefix&gt;/installation.json</code>. Reports and copied numerical results stay under <code>&lt;prefix&gt;/validation/</code>, including <code>exact/validation.json</code> and <code>backends/agreement.json</code>. The input archive and checksum can be retained separately from the installation.</p>
-<p>An existing prefix is preserved rather than overwritten. Do not move an installed Conda prefix; install again at the desired final location. The scratch extraction directory is not needed for later fits. These checks use tiny models and do not establish industrial performance or PEV precision.</p>
-</section>
-<section id="run-any-supported-model" class="level3">
-<h3 class="anchored" data-anchor-id="run-any-supported-model">Run any supported model</h3>
-<p>Add the command to PATH in each new shell, using the prefix chosen above:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/software/gsuite-VERSION/bin:</span><span class="va">$PATH</span><span class="st">"</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> <span class="at">--help</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> validate /path/to/model.yml</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> describe /path/to/model.yml</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run /path/to/model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The launcher selects its installed runtime automatically. It does not require activating <code>gsuite-installer</code> for subsequent fits. The same command dispatches supplied-covariance solving or REML from <code>analysis.task</code> in the YAML.</p>
-<p>All input paths and <code>output.directory</code> resolve beside the YAML, even when the command is launched from another directory. A result directory must be fresh. Override only the destination when repeating a fit:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run /path/to/model.yml <span class="dt">\</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> /path/to/results/a-new-run</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>run</code> prepares and fits under <code>$TMPDIR</code>, then collects results and failure diagnostics at the requested destination. No separate shell copy is needed for ordinary analyses. See <a href="#scratch-results-and-resource-reports">scratch, results and resource reports</a> for timing and memory fields.</p>
-</section>
-<section id="run-the-included-dataset" class="level3">
-<h3 class="anchored" data-anchor-id="run-the-included-dataset">Run the included dataset</h3>
-<p>Copy the installed small dataset into a new writable directory. This preserves the installed examples and keeps relative input paths together:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/software/gsuite-VERSION/bin:</span><span class="va">$PATH</span><span class="st">"</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/gsuite-work"</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/software/gsuite-VERSION/app/example"</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/gsuite-work/example"</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/gsuite-work/example"</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> validate model.yml</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> describe model.yml</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Use a new work directory if <code>gsuite-work/example</code> already exists. The example includes CSV pedigree/phenotypes, SNP-major PLINK BED/BIM/FAM and simulated true genetic values. Truth is not used by the fit. Its eight phenotype rows and two traits are a workflow check, not prediction-accuracy evidence. The <a href="#complete-sssnpblup-example">complete model below</a> describes these same files, covariances, effects, threads and outputs. Results are written to <code>$HOME/gsuite-work/results/example</code> by this model’s relative output path.</p>
-<p>The installed <code>app/models/</code> directory contains 42 self-contained YAML examples and their tiny inputs. The external-data 1M production recipe is separate under <code>app/recipes/model-1m-ancestral-t16.yml</code>. Copy a model together with its required data, then edit paths and settings for your dataset. No large dataset is included or required by installation checks. YAML files and data travel together; paths resolve beside the YAML, not beside the executable.</p>
-</section>
-</section>
-<section id="inspect-and-run" class="level2">
-<h2 class="anchored" data-anchor-id="inspect-and-run">Inspect and run</h2>
-<p>From an extracted source bundle after <code>bash build.sh</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">"</span><span class="va">$PWD</span><span class="st">/install/bin:</span><span class="va">$PATH</span><span class="st">"</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> validate example/model.yml</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> describe example/model.yml</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run example/model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>From a checkout, the same commands use <code>python tools/build/hpc_single_step/gsuite.py</code> and an explicit <code>--exe /path/to/gsuite_model_driver</code>. Omit <code>--output</code> to use <code>output.directory</code>. Input and output paths in YAML resolve beside that YAML. The final result directory must be fresh. Source inputs are never rewritten.</p>
-<p><code>validate</code> checks the model and input tables without calling the native driver; it is not a numerical reference campaign. <code>describe</code> additionally prints expanded dimensions, channel order, parameter coordinates and execution settings without fitting. It reads input tables and genotype metadata. <code>run</code> chooses the equations and task from the YAML, including supplied-covariance solving or REML, without model-specific commands.</p>
-</section>
-<section id="scratch-results-and-resource-reports" class="level2">
-<h2 class="anchored" data-anchor-id="scratch-results-and-resource-reports">Scratch, results and resource reports</h2>
-<p>The runner creates a private working directory under <code>$TMPDIR</code>, or the system temporary directory when <code>$TMPDIR</code> is unset. <code>--scratch-directory /existing/path</code> selects another parent. SQLite snapshots use this scratch by default; an explicit YAML <code>execution.preparation.directory</code> remains honored. No RAM ceiling or run timeout is imposed. Slurm allocation and environment activation remain setup steps.</p>
-<p>The original YAML remains the base for resolving inputs, even when run from another directory. Prepared inputs, native work and labelled output are written in scratch, then collected into <code>output.directory</code> (or <code>--output</code>). The runner reserves the destination exclusively, so another invocation cannot overwrite it. Successful collection removes only this invocation’s scratch. Failed fits also collect diagnostics and exit nonzero. If copying fails, scratch is retained and its recovery path is printed; the final directory may contain a partial copy.</p>
-<p>The result directory contains the existing native/CSV outputs and <code>run.json</code>, plus <code>inputs/</code>, a byte-preserved <code>model.yml</code> snapshot, <code>console.log</code>, <code>worker.json</code> and <code>execution.json</code>. The snapshot keeps the original YAML syntax and relative paths; <code>execution.json.model_path</code> identifies their original resolution base. Copied inputs and native reports preserve recorded execution paths, not a restart contract for prepared fits.</p>
-<p><code>execution.json</code> reports preparation, fitting, native preparation/evaluation, Python output formatting, result collection and total elapsed time. Native phase timings, iteration counts and residual gates remain in <code>run.json</code>. Memory reports distinguish native peak RSS from sampled aggregate RSS of the coordinator, Python worker and native descendants. Aggregate RSS can count shared pages more than once, and brief peaks between samples can be missed; it is not Slurm/cgroup accounting. Unsupported sampling is reported as unavailable rather than zero.</p>
-<p>For example, after copying the 1M production recipe to <code>model-1m.yml</code> and editing its input/output paths:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run model-1m.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Execution and estimation controls belong in YAML. <code>--exe</code> selects the native program; <code>--output</code> changes only the destination.</p>
-</section>
-<section id="input-and-model-sections" class="level2">
-<h2 class="anchored" data-anchor-id="input-and-model-sections">Input and model sections</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Section</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>traits</code></td>
-<td>Ordered response/channel names, also used for environments</td>
-</tr>
-<tr class="even">
-<td><code>inputs</code></td>
-<td>All CSV/TSV, PLINK, covariance, assignment and prediction-grid files</td>
-</tr>
-<tr class="odd">
-<td><code>relationships</code></td>
-<td>Named pedigree, single-step, APY or supplied relationship models</td>
-</tr>
-<tr class="even">
-<td><code>bases</code></td>
-<td>Optional power, Legendre or Chebyshev regression bases</td>
-</tr>
-<tr class="odd">
-<td><code>covariances</code></td>
-<td>Natural variances/covariances or FA loadings and specific variances</td>
-</tr>
-<tr class="even">
-<td><code>model</code></td>
-<td>Observation input, fixed formula, named random effects and residual structure</td>
-</tr>
-<tr class="odd">
-<td><code>analysis</code></td>
-<td><code>task: solve</code> for supplied covariances, or <code>task: reml</code> for estimation</td>
-</tr>
-<tr class="even">
-<td><code>execution</code></td>
-<td>Formulation, solver, factorization, threads and linear-solve tolerances</td>
-</tr>
-<tr class="odd">
-<td><code>output</code></td>
-<td>Destination, selected coefficient tables, predictions and optional uncertainty</td>
-</tr>
-</tbody>
-</table>
-<p>Matrices are covariances, never inverses. Inline matrices use one YAML list item per row, for example <code>- [1.0, 0.2]</code>. Their order follows the generated channels; labelled inline or external matrices must match that order exactly. Matrices must be finite, symmetric and positive definite. Under REML they are starting values; otherwise they are fixed supplied values.</p>
-<p>Column bindings use neutral logical names such as <code>individual</code>, <code>parent1</code>, <code>parent2</code>, <code>mother</code>, <code>time</code> or <code>environment</code>. IDs remain strings, including leading zeros. Wide phenotypes map trait names to response columns. Long phenotypes use <code>layout: long</code> and <code>responses: {trait: trait_column, value: value_column}</code>. One record ID is one residual occasion: ID/trait pairs must be unique and mapped covariates must agree within an ID. Distinct visits need distinct record IDs. Absent trait rows are missing responses, without imputation. Independent prediction grids remain wide.</p>
-</section>
-<section id="complete-sssnpblup-example" class="level2">
-<h2 class="anchored" data-anchor-id="complete-sssnpblup-example">Complete ssSNPBLUP example</h2>
-<p>Save this as <code>model.yml</code> beside the supplied example’s <code>phenotypes.csv</code>, <code>pedigree.csv</code> and <code>genotypes.bed/.bim/.fam</code>. The physical columns in this synthetic example use <code>animal</code>, <code>sire</code> and <code>dam</code>; the logical bindings remain <code>individual</code>, <code>parent1</code> and <code>parent2</code> for plant, human and animal datasets. Edit the physical bindings for another dataset. The matrices below are covariances on their natural scale, in the declared <code>[milk, fat]</code> trait order. The example requests eight threads for marker work and one for other phases; request at least eight Slurm CPUs, or edit the YAML to match your allocation.</p>
-<p>The writable directory copied above contains:</p>
-<pre class="text"><code>example/
-  model.yml
-  pedigree.csv
-  phenotypes.csv
-  genotypes.bed
-  genotypes.bim
-  genotypes.fam
-  true_breeding_values.csv</code></pre>
-<p><code>phenotypes.csv</code> has columns <code>record_id,animal,milk,fat,herd,age</code>; <code>pedigree.csv</code> has <code>animal,sire,dam</code>, with <code>0</code> for unknown parents. PLINK FAM IIDs match the pedigree individual IDs; BED is SNP-major and BIM lists markers. Repeated observations use distinct <code>record_id</code> values. The example uses <code>NA</code> for one missing response. The truth CSV is optional reference material and is deliberately absent from the model’s inputs.</p>
-<p>Save the following complete specification as <code>model.yml</code> beside those inputs. All covariance matrices are supplied values; <code>analysis.task: solve</code> holds them fixed rather than estimating them.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tiny synthetic example: covariance matrices follow [milk, fat].</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">schema</span><span class="kw">:</span><span class="at"> gsuite.model/v1-draft</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> single_step_example</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">traits</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">milk</span><span class="kw">,</span><span class="at"> fat</span><span class="kw">]</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">inputs</span><span class="kw">:</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">observations</span><span class="kw">:</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">type</span><span class="kw">:</span><span class="at"> table</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">file</span><span class="kw">:</span><span class="at"> phenotypes.csv</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">id</span><span class="kw">:</span><span class="at"> record_id</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">columns</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">individual</span><span class="kw">:</span><span class="at"> animal</span><span class="kw">,</span><span class="at"> </span><span class="fu">site</span><span class="kw">:</span><span class="at"> herd</span><span class="kw">,</span><span class="at"> </span><span class="fu">age</span><span class="kw">:</span><span class="at"> age</span><span class="kw">}</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">responses</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">milk</span><span class="kw">:</span><span class="at"> milk</span><span class="kw">,</span><span class="at"> </span><span class="fu">fat</span><span class="kw">:</span><span class="at"> fat</span><span class="kw">}</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pedigree</span><span class="kw">:</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">type</span><span class="kw">:</span><span class="at"> pedigree</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">file</span><span class="kw">:</span><span class="at"> pedigree.csv</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">columns</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">individual</span><span class="kw">:</span><span class="at"> animal</span><span class="kw">,</span><span class="at"> </span><span class="fu">parent1</span><span class="kw">:</span><span class="at"> sire</span><span class="kw">,</span><span class="at"> </span><span class="fu">parent2</span><span class="kw">:</span><span class="at"> dam</span><span class="kw">}</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">genotypes</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> plink</span><span class="kw">,</span><span class="at"> </span><span class="fu">prefix</span><span class="kw">:</span><span class="at"> genotypes</span><span class="kw">,</span><span class="at"> </span><span class="fu">id</span><span class="kw">:</span><span class="at"> IID</span><span class="kw">}</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">relationships</span><span class="kw">:</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">A</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> pedigree</span><span class="kw">,</span><span class="at"> </span><span class="fu">input</span><span class="kw">:</span><span class="at"> pedigree</span><span class="kw">}</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">H</span><span class="kw">:</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">type</span><span class="kw">:</span><span class="at"> single_step</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">pedigree</span><span class="kw">:</span><span class="at"> A</span></span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">genotypes</span><span class="kw">:</span><span class="at"> genotypes</span></span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">genomic</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">adjustment</span><span class="kw">:</span><span class="at"> none</span><span class="kw">,</span><span class="at"> </span><span class="fu">polygenic_weight</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.0</span><span class="kw">,</span><span class="at"> </span><span class="fu">independent_ridge</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.05</span><span class="kw">}</span></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="fu">covariances</span><span class="kw">:</span></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">genetic</span><span class="kw">:</span></span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="kw">[</span><span class="fl">1.0</span><span class="kw">,</span><span class="at"> </span><span class="fl">0.1</span><span class="kw">]</span></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="kw">[</span><span class="fl">0.1</span><span class="kw">,</span><span class="at"> </span><span class="fl">0.04</span><span class="kw">]</span></span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">individual_environment</span><span class="kw">:</span></span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="kw">[</span><span class="fl">0.4</span><span class="kw">,</span><span class="at"> </span><span class="fl">0.02</span><span class="kw">]</span></span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="kw">[</span><span class="fl">0.02</span><span class="kw">,</span><span class="at"> </span><span class="fl">0.02</span><span class="kw">]</span></span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">residual</span><span class="kw">:</span></span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="kw">[</span><span class="fl">2.0</span><span class="kw">,</span><span class="at"> </span><span class="fl">0.08</span><span class="kw">]</span></span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="kw">[</span><span class="fl">0.08</span><span class="kw">,</span><span class="at"> </span><span class="fl">0.05</span><span class="kw">]</span></span>
-<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="fu">model</span><span class="kw">:</span></span>
-<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">data</span><span class="kw">:</span><span class="at"> observations</span></span>
-<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">fixed</span><span class="kw">:</span><span class="at"> </span><span class="st">"factor(site) + age"</span></span>
-<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">random</span><span class="kw">:</span></span>
-<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">genetic</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">group</span><span class="kw">:</span><span class="at"> individual</span><span class="kw">,</span><span class="at"> </span><span class="fu">relationship</span><span class="kw">:</span><span class="at"> H</span><span class="kw">,</span><span class="at"> </span><span class="fu">covariance</span><span class="kw">:</span><span class="at"> genetic</span><span class="kw">}</span></span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">individual_environment</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">group</span><span class="kw">:</span><span class="at"> individual</span><span class="kw">,</span><span class="at"> </span><span class="fu">covariance</span><span class="kw">:</span><span class="at"> individual_environment</span><span class="kw">}</span></span>
-<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">residual</span><span class="kw">:</span><span class="at"> residual</span></span>
-<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="fu">analysis</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">task</span><span class="kw">:</span><span class="at"> solve</span><span class="kw">}</span></span>
-<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="fu">execution</span><span class="kw">:</span></span>
-<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">formulation</span><span class="kw">:</span><span class="at"> ss_snp</span></span>
-<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">solver</span><span class="kw">:</span><span class="at"> pcg</span></span>
-<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">sparse_backend</span><span class="kw">:</span><span class="at"> pardiso</span></span>
-<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">preconditioner</span><span class="kw">:</span><span class="at"> qnn_reuse</span></span>
-<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pedigree_factorization</span><span class="kw">:</span><span class="at"> ancestral_sweeps</span></span>
-<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">convergence</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">relative_tolerance</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0e-10</span><span class="kw">,</span><span class="at"> </span><span class="fu">maximum_iterations</span><span class="kw">:</span><span class="at"> </span><span class="dv">4000</span><span class="kw">}</span></span>
-<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">threads</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">default</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span><span class="kw">,</span><span class="at"> </span><span class="fu">marker_products</span><span class="kw">:</span><span class="at"> </span><span class="dv">8</span><span class="kw">,</span><span class="at"> </span><span class="fu">marker_setup</span><span class="kw">:</span><span class="at"> </span><span class="dv">8</span><span class="kw">}</span></span>
-<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span></span>
-<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">directory</span><span class="kw">:</span><span class="at"> ../results/example</span></span>
-<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">tables</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">fixed_effects</span><span class="kw">,</span><span class="at"> random_effects</span><span class="kw">,</span><span class="at"> diagnostics</span><span class="kw">]</span></span>
-<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">predictions</span><span class="kw">:</span></span>
-<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">genetic_values</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">effects</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">genetic</span><span class="kw">],</span><span class="at"> </span><span class="fu">levels</span><span class="kw">:</span><span class="at"> all</span><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>From that directory, validate, inspect and fit:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> validate model.yml</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> describe model.yml</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The selected outputs are <code>genetic_values.csv</code>, <code>fixed_effects.csv</code>, <code>random_effects.csv</code> and <code>diagnostics.json</code> under <code>../results/example/</code>. <code>run.json</code> records numerical acceptance, residual checks and native timings; <code>execution.json</code> records whole-workflow timings, result collection and sampled process-tree memory. Check their acceptance fields before using predictions. Repeating the fit requires a fresh output directory, for example <code>gsuite run model.yml --output ../results/example-repeat</code>.</p>
-<p>This supplied-covariance model selects packed PCG, exact ancestral pedigree sweeps and Qnn reuse. Change model/task declarations in YAML rather than choosing a different executable. The <a href="../../gsuite/docs/model-yaml-proposal.html">model specification</a> gives the full syntax for other effects and covariance families.</p>
-</section>
-<section id="solver-and-threads" class="level2">
-<h2 class="anchored" data-anchor-id="solver-and-threads">Solver and threads</h2>
-<p>For fast packed ssSNPBLUP:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">execution</span><span class="kw">:</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">formulation</span><span class="kw">:</span><span class="at"> ss_snp</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">solver</span><span class="kw">:</span><span class="at"> pcg</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">sparse_backend</span><span class="kw">:</span><span class="at"> pardiso</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pedigree_factorization</span><span class="kw">:</span><span class="at"> ancestral_sweeps</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">preconditioner</span><span class="kw">:</span><span class="at"> qnn_reuse</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">threads</span><span class="kw">:</span><span class="at"> </span><span class="dv">16</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>A scalar sets every applicable thread request. Override particular operations with <code>threads: {default: 16, decode: 4}</code>. Packed controls are <code>marker_products</code>, <code>marker_setup</code>, <code>decode</code>, <code>pedigree</code>, <code>preconditioner</code> and <code>vectors</code>. Compiled models use <code>factor</code> and <code>relationship</code>; raw-genotype APY also uses <code>decode</code> and <code>genomic_products</code>. A mapping without <code>default</code> uses one for unspecified operations. Request matching Slurm CPUs. Thread settings are phase-specific requests: Python preparation and dependency-ordered pedigree work can be serial.</p>
-<p><code>ancestral_sweeps</code> preserves the full statistical model with a smaller retained pedigree factor and exact peripheral sweeps, including supplied metafounders. <code>full_qnn</code> is available for comparison and is the default. <code>qnn_reuse</code> avoids a second global pedigree factor; <code>shifted_pedigree</code> is the alternative packed preconditioner. Linear PCG tolerances belong in <code>execution.convergence</code>. Ordinary compiled models support direct or PCG solving. Exact/APY ssGBLUP uses compiled PCG and <code>formulation: ss_gblup</code>.</p>
-</section>
-<section id="covariance-estimation" class="level2">
-<h2 class="anchored" data-anchor-id="covariance-estimation">Covariance estimation</h2>
-<p><code>analysis.estimate</code> selects free covariance blocks; omitted blocks stay fixed. Sparse-direct compiled REML supports unstructured and FA covariance and scalar or separable multivariate serial parameters. Natural starts are transformed internally. <code>analysis.constraints</code> can fix named optimizer coordinates; <code>describe</code> lists them. A fixed Cholesky coordinate is not a fixed covariance entry. Direct optimizer controls include <code>maximum_step</code> and <code>maximum_line_search_reductions</code>.</p>
-<p>Packed EM-REML estimates unstructured genetic and independent residual covariance for ordinary pedigrees, with one genetic channel per trait and fixed additional identity-effect covariances. Its update control is <code>optimizer.step_fraction</code> in <code>(0, 1]</code>. Score traces have their own explicit solve and precision budgets under <code>analysis.traces</code>. Exact traces are small references; stochastic traces require explicit probes, seed, total solve cap and maximum score MCSE. Stochastic convergence also requires an independent final score check. See <a href="../../gsuite/docs/packed-single-step-reml.html">packed REML controls and limits</a>.</p>
-<p>Omit <code>analysis.likelihood</code> to skip global determinant work in packed REML. Optional <code>method: exact</code> requires <code>maximum_dimension</code>; <code>method: slq</code> requires <code>maximum_operator_products</code>, with optional probe/depth/precision controls. It reports the likelihood change from the start to the final covariance state, with separate sampling MCSE and Lanczos-depth sensitivity. It does not control EM updates or certify a global optimum. Unqualified optional likelihood does not reject an otherwise qualified point fit. Compiled direct REML retains its absolute likelihood and line-search acceptance.</p>
-</section>
-<section id="model-capabilities-and-limits" class="level2">
-<h2 class="anchored" data-anchor-id="model-capabilities-and-limits">Model capabilities and limits</h2>
-<p>The <a href="../../gsuite/docs/model-yaml-proposal.html#complete-examples">complete examples</a> cover pedigree, packed ssSNPBLUP, exact/APY ssGBLUP, direct/maternal and weighted incidence, regression, external relationships, groups/metafounders, FA, serial residuals and estimation. The <a href="../../gsuite/docs/model-yaml-proposal.html">specification</a> gives exact syntax and route-specific supported combinations.</p>
-<p>Supplied FA uses natural loadings and specific variances with an identified triangular leading loading block; it reduces covariance parameters, not genetic coefficient count. Serial models support scalar or separable trait-by-time AR1 and exponential covariance with actual gaps and missing traits. Compiled models also accept general finite trait-by-visit covariance blocks.</p>
-<p>Fixed/random groups, explicit phantom group-parent absorption, combined bases and supplied/estimated Gamma are distinct statistical declarations. Packed ordinary random groups use implicit sweeps; packed fixed/combined groups prepare ordinary inheritance columns once, requiring O(individuals × groups) storage. Metafounders retain every correlated latent base. Gamma pseudo-EM requires an explicit absolute marker base and is separate from joint REML.</p>
-<p>Sparse external natural covariance uses a retained sparse inverse-action factor; fill and exact precision-diagonal setup can be costly. Raw PLINK APY uses an explicit ordered core and bounded tiles/file-backed cross products. Industrial APY preparation remains unqualified. Packed REML currently excludes FA, serial/grouped residuals, groups/metafounders and joint PEV requests.</p>
-<p>Existing selected exact/stochastic PEV options remain conditional on supplied covariances, with explicit work budgets and separate qualification. Their precision is not improved by this interface cleanup. The model-only validator skips uncertainty cases.</p>
-</section>
-<section id="outputs-resources-and-validation" class="level2">
-<h2 class="anchored" data-anchor-id="outputs-resources-and-validation">Outputs, resources and validation</h2>
-<p>Every fit writes <code>run.json</code>, checksums, logs, native diagnostics and requested prediction CSVs. Standard coefficient tables are <code>fixed_effects.csv</code> and <code>random_effects.csv</code>. REML adds <code>variance_components.csv</code>, <code>parameters.csv</code>, <code>reml_history.csv</code>, <code>convergence.json</code> and <code>likelihood.json</code>. The latter reports <code>scale</code>, <code>method</code>, <code>status</code> and the value/error/work diagnostics available for that route. Read acceptance/convergence flags before using estimates. Failed covariance fits retain diagnostic states/history but publish no qualified prediction tables.</p>
-<p>Timings and peak RSS in native metrics describe the native process; they exclude Python preparation. Tables, long-row grouping and prediction grids are spooled to temporary SQLite storage. Optional <code>execution.preparation.directory</code> selects an existing scratch parent. A fresh child is removed on normal completion or handled failure. Pedigree/effect indexes, genotype metadata, supplied matrices and native factors still require memory. There is no application RAM ceiling, admission guard or timeout.</p>
-<p>After building a source bundle, <code>bash hpc_tasks/validate.sh</code> runs the complete reference, truth-evaluation and fixture campaign described above. No separate test or result-copy steps are needed. Validation receipts record actual case counts and hashes; these checks do not qualify industrial runtime, memory or stochastic precision. No remote job is dispatched automatically.</p>
-</section>
-<section id="compare-predictions-with-supplied-truth" class="level2">
-<h2 class="anchored" data-anchor-id="compare-predictions-with-supplied-truth">Compare predictions with supplied truth</h2>
-<p>An optional top-level <code>evaluation</code> block makes <code>gsuite run model.yml</code> fit and score in one invocation with the current frontend. Native equations, covariance settings and residual gates are unchanged. Truth is used only after an accepted fit.</p>
-<p>For the 20K gsim dataset, add this alongside <code>model</code>, <code>execution</code> and <code>output</code>:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">evaluation</span><span class="kw">:</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">predictions</span><span class="kw">:</span><span class="at"> genetic_values</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">truth</span><span class="kw">:</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">file</span><span class="kw">:</span><span class="at"> true_breeding_values.csv</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">columns</span><span class="kw">:</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">individual</span><span class="kw">:</span><span class="at"> animal</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">trait</span><span class="kw">:</span><span class="at"> trait</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">value</span><span class="kw">:</span><span class="at"> true_breeding_value</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">subset</span><span class="kw">:</span><span class="at"> heldout</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">individual</span><span class="kw">:</span><span class="at"> individual</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">genotypes</span><span class="kw">:</span><span class="at"> genotypes</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">directory</span><span class="kw">:</span><span class="at"> results/prediction20k-evaluated</span></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">predictions</span><span class="kw">:</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">genetic_values</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">effects</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">genetic</span><span class="kw">],</span><span class="at"> </span><span class="fu">levels</span><span class="kw">:</span><span class="at"> all</span><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Replace the existing <code>output</code> block rather than declaring it twice. The <code>predictions</code> key references a named <code>output.predictions</code> request with individual levels. <code>truth.columns</code> maps the long truth CSV’s individual, trait and numeric value columns. Its file resolves beside the YAML. <code>individual</code> references a mapped observation column, not the source CSV header. Optional <code>genotypes</code> references a PLINK input; its existing FID/IID-to-individual mapping is reused. No second genotype path or training table is needed.</p>
-<p>Run in a compute-node allocation with the model’s requested CPUs:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run /path/to/dataset/model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Fitting and evaluation use managed <code>$TMPDIR</code> scratch and are collected together at <code>output.directory</code>. Use a fresh result directory. No shell scoring or copy step is needed. <code>execution.threads: 8</code> still controls the native fit.</p>
-<p><code>subset</code> is <code>heldout</code>, <code>phenotyped</code> or <code>all</code>. An individual is phenotyped if it has <strong>any observed response</strong> in <code>model.data</code>; repeated rows, long-format rows and fully missing records use that same definition. Held-out individuals have no observed training response in any trait. This option does not mask training phenotypes: the input must already encode the intended training/held-out split. Partially observed traits do not make an individual held out. Truth targets must match the requested prediction levels and traits. Duplicate/nonfinite truth, empty subsets and missing predictions fail explicitly.</p>
-<p><code>evaluation/summary.csv</code> reports Pearson accuracy, Spearman rank correlation, RMSE, mean absolute error, mean prediction-minus-truth bias, and the intercept and slope of <strong>truth regressed on prediction</strong>. Ideal mean bias/intercept are zero and slope is one. When <code>genotypes</code> is supplied, results are grouped by all, genotyped and non-genotyped targets. <code>evaluation/matched.csv</code> retains every scored pair; <code>evaluation/assessment.json</code> records definitions, hashes and cohort settings. <code>evaluation-inputs/</code> preserves the frozen evaluation-only targets. No truth centering, rescaling or model tuning is performed.</p>
-<p><code>execution.json</code> includes separate preparation, fitting and evaluation times and workflow memory. Overall acceptance requires a successful requested evaluation as well as fitting. A scoring failure preserves the accepted native fit and its diagnostics; native numerical acceptance and evaluation acceptance remain separate. Acceptance checks a complete labelled comparison, not an accuracy threshold. One simulated dataset does not establish population-level bias or sampling uncertainty. This adds no R dependency or PEV precision work.</p>
+<section id="reference" class="level2">
+<h2 class="anchored" data-anchor-id="reference">Reference</h2>
+<ul>
+<li><a href="../../gsuite/docs/standalone-models.html">Model guide</a>: complete YAML example, threads, REML and truth evaluation.</li>
+<li><a href="../../gsuite/docs/model-yaml-proposal.html">YAML specification</a>: all supported declarations and combinations.</li>
+<li><a href="../../gsuite/docs/standalone-validation.html">GenomeDK validation record</a>: tested installations and qualification limits.</li>
+</ul>
 
 
 </section>
