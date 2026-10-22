@@ -2560,7 +2560,7 @@
     "href": "index.html",
     "title": "gtools",
     "section": "",
-    "text": "gtools brings together gsuite, gsim, gact and gteach. Explore analysis tools and teaching materials through methods, examples and documentation.\nReport a bug / Request a feature\nHelp me use gsuite Report a bug or suggest a feature\ngsuite is the ecosystem and documentation umbrella. Seven standalone genomic R packages are available from its source repository. gsim and gact are public packages with their own websites and repositories. gteach provides R- and Quarto-based teaching materials through its own website. R packaging for the native greml and gsolve libraries is deferred; separate or combined packaging remains undecided. A root gsuite R package release is not currently planned."
+    "text": "gtools brings together gsuite, gsim, gact and gteach. Explore analysis tools and teaching materials through methods, examples and documentation.\ngsuite is the ecosystem and documentation umbrella. Seven standalone genomic R packages are available from its source repository. gsim and gact are public packages with their own websites and repositories. gteach provides R- and Quarto-based teaching materials through its own website. R packaging for the native greml and gsolve libraries is deferred; separate or combined packaging remains undecided. A root gsuite R package release is not currently planned."
   },
   {
     "objectID": "index.html#start-with-gsuite",
