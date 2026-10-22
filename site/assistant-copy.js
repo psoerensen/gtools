@@ -8,7 +8,9 @@ for (const button of document.querySelectorAll('[data-copy-instructions]')) {
       await navigator.clipboard.writeText(code.textContent.trim() + '\n');
       status.textContent = 'Complete assistant instructions copied. Paste them into your own conversation.';
     } catch (error) {
-      status.textContent = 'Clipboard unavailable. Select the visible instructions or open their text link and copy manually.';
+      const details = region.closest?.('details');
+      if (details) details.open = true;
+      status.textContent = 'Clipboard unavailable. Use the expanded full prompt or download the text and copy manually.';
     }
   });
 }
