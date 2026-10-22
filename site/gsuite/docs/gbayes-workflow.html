@@ -729,6 +729,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>The main interface is <code>gbayes::gbayes()</code>:</p>
+<p><strong>Release status (22 October 2026):</strong> the public source repository supplies gbayes 0.1.1. This guide also describes the current development source, version 0.1.6. In particular, <code>gbayes::blr()</code> is a development interface and is absent from the public 0.1.1 archive. Check <code>packageVersion("gbayes")</code> and installed help before using an example. See the <a href="../../gsuite/docs/source-package-repository.html#release-and-development-status">source-package release status</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> gbayes<span class="sc">::</span><span class="fu">gbayes</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">stat =</span> <span class="cn">NULL</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
@@ -960,6 +961,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="direct-cross-product-blr" class="level2">
 <h2 class="anchored" data-anchor-id="direct-cross-product-blr">Direct cross-product BLR</h2>
+<p><strong>Development only — gbayes 0.1.6.</strong> This entry point is not included in the public gbayes 0.1.1 download; it requires a compatible development installation.</p>
 <p>For general feature regression, use the existing native sampler without a Glist:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">scale</span>(<span class="fu">cbind</span>(<span class="at">feature1 =</span> <span class="fu">sin</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>), <span class="at">feature2 =</span> <span class="fu">cos</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)))</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(<span class="fu">scale</span>(<span class="fu">sin</span>((<span class="dv">1</span><span class="sc">:</span><span class="dv">30</span>)<span class="sc">/</span><span class="dv">3</span>)))</span>

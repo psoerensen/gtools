@@ -176,6 +176,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#source-package-repository" id="toc-source-package-repository" class="nav-link active" data-scroll-target="#source-package-repository">Source-package repository</a>
   <ul class="collapse">
+  <li><a href="#release-and-development-status" id="toc-release-and-development-status" class="nav-link" data-scroll-target="#release-and-development-status">Release and development status</a></li>
+  <li><a href="#installing-downstream-workflows" id="toc-installing-downstream-workflows" class="nav-link" data-scroll-target="#installing-downstream-workflows">Installing downstream workflows</a></li>
   <li><a href="#what-the-source-packages-contain" id="toc-what-the-source-packages-contain" class="nav-link" data-scroll-target="#what-the-source-packages-contain">What the source packages contain</a></li>
   <li><a href="#build-and-qualification" id="toc-build-and-qualification" class="nav-link" data-scroll-target="#build-and-qualification">Build and qualification</a></li>
   <li><a href="#release-gate" id="toc-release-gate" class="nav-link" data-scroll-target="#release-gate">Release gate</a></li>
@@ -201,7 +203,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gbase"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"gbayes"</span>, <span class="st">"gcorr"</span>, <span class="st">"glma"</span>, <span class="st">"gmap"</span>, <span class="st">"gscore"</span>, <span class="st">"gsea"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The repository retains the first 0.1.0 archives and publishes the current package versions in <code>PACKAGES</code>: gbase 0.1.3, gcorr 0.1.9, glma 0.1.2 and the remaining four packages 0.1.1. The publisher verifies the archive names, latest index and SHA-256 checksums before including these seven packages in the public snapshot.</p>
+<section id="release-and-development-status" class="level2">
+<h2 class="anchored" data-anchor-id="release-and-development-status">Release and development status</h2>
+<p>As of 22 October 2026, the downloadable gbayes and gsea packages remain 0.1.1. The development sources in this repository are gbayes 0.1.6 and gsea 0.1.2. Publishing documentation does not rebuild or release these source archives.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Capability</th>
+<th>Current public download</th>
+<th>Development source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>gbayes::blr()</code> from supplied cross-products</td>
+<td>Absent in gbayes 0.1.1</td>
+<td>gbayes 0.1.6</td>
+</tr>
+<tr class="even">
+<td><code>gsea::blr()</code> and <code>gsea::set_cross_products()</code></td>
+<td>Absent in gsea 0.1.1</td>
+<td>gsea 0.1.2, requiring gbayes 0.1.6</td>
+</tr>
+<tr class="odd">
+<td>Direct Bayesian set preparation and new timing records</td>
+<td>Not supplied by gsea 0.1.1</td>
+<td>gsea 0.1.2 with matching native libraries</td>
+</tr>
+<tr class="even">
+<td>MAGMA eigenvalue cutoff and revised preparation limits</td>
+<td>Not supplied by gsea 0.1.1</td>
+<td>gsea 0.1.2 with matching native libraries</td>
+</tr>
+</tbody>
+</table>
+<p>The native gsea changes supporting these development features are not a public release. Existing source archives are unchanged. Use <code>packageVersion()</code> and installed help to establish which interface is available; the ordinary public installation command above does not install these development versions.</p>
+</section>
+<section id="installing-downstream-workflows" class="level2">
+<h2 class="anchored" data-anchor-id="installing-downstream-workflows">Installing downstream workflows</h2>
 <p>For a gact installation, configure these repositories before running <code>devtools::install_github("psoerensen/gact")</code>. gact imports gbase and provides the explicit <code>gact::install_gsuite()</code> helper for the full analysis installation. Loading gact never installs packages or downloads its database.</p>
+</section>
 <section id="what-the-source-packages-contain" class="level2">
 <h2 class="anchored" data-anchor-id="what-the-source-packages-contain">What the source packages contain</h2>
 <p><code>gbase</code> builds the task-neutral <code>gbits</code> and <code>gmat</code> implementation together with bounded <code>gsolve-core</code> and <code>greml-core</code> source sets. It installs their public headers and one position-independent static archive for the task packages. The cores exclude sparse direct factorization, selected inversion, CHOLMOD, oneMKL, PARDISO, and the pedigree, longitudinal, and full mixed-model surfaces.</p>
