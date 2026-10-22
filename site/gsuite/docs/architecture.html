@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="How the gsuite R packages, native libraries and shared genomic resources fit together.">
+<meta name="description" content="A short map of gsuite packages, shared data and computational responsibilities.">
 
 <title>Architecture – gtools</title>
 <style>
@@ -665,7 +665,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    How the gsuite R packages, native libraries and shared genomic resources fit together.
+    A short map of gsuite packages, shared data and computational responsibilities.
   </div>
 </div>
 
@@ -682,173 +682,74 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>gsuite is organised by user task. Shared data preparation lives in <code>gbase</code>; analysis methods live in independently installable R packages; numerical and statistical computation remains in the corresponding native libraries. The root <code>gsuite</code> development integration currently provides mixed-model and solver R interfaces. The ecosystem documentation is maintained here independently of that integration. A root R package release is not currently planned; greml/gsolve R packaging is deferred, with separate or combined packaging undecided.</p>
-<p>The standalone command is <code>gsuite run model.yml</code> for both solving and REML. It calls the native <code>gsuite_model_driver</code> executable. The <code>greml</code> and <code>gsolve</code> library names identify their mixed-model and numerical-solver responsibilities; they are not separate user commands. Existing R interfaces are unchanged.</p>
+<p>gsuite brings together R packages, native computational libraries and analysis guides for statistical genetics. You usually work through a task-specific R package or the standalone mixed-model command; the native libraries do the computation underneath.</p>
+<p>For an analysis, start with <a href="../../gsuite/docs/methods.html">Methods</a> or the <a href="../../gsuite/tutorials.html">tutorials</a>. For implementation contracts and detailed limits, use the <a href="../../gsuite/docs/architecture-reference.html">Architecture reference</a>.</p>
 <section id="native-capabilities-and-r-availability" class="level2">
 <h2 class="anchored" data-anchor-id="native-capabilities-and-r-availability">Native capabilities and R availability</h2>
-<p>The request system is separate website infrastructure, owned by gsuite developer tools. Its Python/SQLite service stores email-verified submissions, private follow-up and maintainer decisions. Users may prepare a request in their own AI conversation or submit directly; the service calls no models and launches no agents. The static gtools portal contains a support entry and a copyable prompt; hosting is configured separately. The service has no repository write credentials or implementation authority and adds no R/native dependency.</p>
-<p>Native greml’s conditional marker operator has an opt-in ancestral pedigree factor with exact sweeps for the remaining individuals. Greml owns the inheritance reduction and coefficient maps; installed gsolve owns the smaller sparse factor. Its reuse preconditioner shares the complete solve. The YAML frontend exposes <code>execution.pedigree_factorization: ancestral_sweeps</code> and checks native capability support; existing R interfaces remain unchanged. See the <a href="../../gsuite/docs/status.html#historical-evidence">factor-reduction study</a>.</p>
-<p>The optional standalone HPC prediction frontend accepts CSV pedigree and phenotypes, PLINK genotypes and YAML covariance matrices. Its source-only pedigree-blend adapter composes public greml pedigree providers with the native conditional ssSNPBLUP PCG operator; numerical computation remains in greml, gsolve and genotype owners. The standalone model/task driver lives in greml <code>apps/model_driver/</code>; its input preparation, compiled-model tasks, packed-model tasks and augmented prediction routes are separate translation units. Tasks select supplied-value solving or REML, with optional uncertainty where supported by the model route. The driver consumes installed public interfaces; gsolve retains numerical solver ownership. Optional YAML truth evaluation is owned by the standalone frontend, outside the native model inputs. <code>model_evaluation.py</code> validates labelled targets and freezes cohorts from observed records; <code>prediction_metrics.py</code> is shared by the runner and the developer CSV comparison command. The worker evaluates only after an accepted native fit and collects targets, metrics and failure diagnostics with separate numerical/evaluation acceptance. Truth never enters record assembly, covariance estimation or prediction equations. See the <code>greml/apps/model_driver/</code> organization. This standalone interface does not add R controls. See the <a href="../../gsuite/docs/status.html#historical-evidence">representative workload and qualification</a>.</p>
-<p>The experimental <a href="../../gsuite/docs/model-yaml-proposal.html">compact YAML interface</a> binds generic input columns, named effects, polynomial bases and natural covariance matrices. Its Python layer validates and expands declarations and labels results. Ordinary pedigree and joint random-regression solves use greml’s public compiled-MME facade; ssSNPBLUP uses the existing packed PCG route. Numerical model evaluation remains native. This standalone interface exposes supplied-covariance solving and deterministic sparse-direct REML for unstructured or factor-analytic genetic covariance and scalar/separable serial residual parameters; R interfaces remain unchanged. Whole blocks or named optimizer coordinates can be held fixed, with native free-score convergence and likelihood acceptance. Wide phenotype rows and long ID/trait/value rows lower to the same residual occasions. The frontend groups long rows by explicit record ID, validates shared mapped covariates and orders observed scalars by declared trait order. Native sparse incidence, covariance submatrices and solvers are unchanged; source tables and normalized observation rows are streamed through temporary SQLite storage, while pedigree/effect-level indexes remain in memory. Explicit correlated channels can bind different individual-ID columns while sharing one relationship and joint channel covariance. Python lowers these bindings, including weighted multiple-individual contributions per channel, to existing sparse record references; the packed native adapter uses all-record prediction preparation and retains its bounded record cache. Owner-filtered marker-weight training remains a separate strict contract. Selected-channel outputs distinguish individual genetic coefficients from record contributions evaluated at each channel’s mapped individual. Selected ordinary packed genetic uncertainty lowers explicit individual/trait requests to native target solves. greml reuses the fitted conditional PCG operator/preconditioner and its full or ancestral factor, and composes existing marker/H prior covariance actions. Python validates requests and labels results; it does not invert mixed-model equations. Every target retains transformed and original-equation checks. Stochastic requests compose gsolve’s existing variance-reduced diagonal estimator with that PCG action, using explicit sketch/probe/solve budgets and independent prior/posterior streams. Requests can select either posterior-PEV or information-covariance probing. The latter subtracts the same posterior action from the reported prior, then reconstructs PEV. Genotyped-only targets use G directly with batched trait products, avoiding extra pedigree solves; mixed targets use the existing H action. Diagnostics separate posterior query time from additional information-prior actions. Predictions and uncertainty have separate acceptance fields: finite imprecise candidates remain labelled unqualified, while numerical failures publish no uncertainty estimates. Regression, group and metafounder uncertainty remain outside this YAML adapter. Uncertainty CSV validation and relabelling stream rows directly to output, avoiding additional whole-population Python row/label copies. Stochastic PEV can isolate requested traits in residual probes. Greml maps reporting coordinates to colors and reuses the fitted PCG action; gsolve owns the generic masked estimator. All masked queries count toward the solve cap, while MCSE uses independent complete trait groups. The sketch and statistical model are unchanged. YAML exposes this opt-in choice as <code>probing: trait</code>. The compiled adapter also accepts labelled external relationship covariances, fixed interactions, composite identity-effect groups, Legendre/Chebyshev bases, grouped trait residual covariances and scalar/separable multivariate AR1/exponential residuals. It lowers to installed public greml relationships and residual components; Python does not fit the model or implement a new numerical solver. Dense relationship preparation and long serial blocks have separate scalability limits. Native compact format 7 is checked before result creation. Typed random-effect covariance declarations can supply FA loadings and specific variances. The frontend validates shape/order and materializes the small implied channel covariance for input inspection. Compiled prediction uses greml’s public FA random-group/natural-state APIs. Packed preparation validates the native FA layout and the implied covariance/used genetic precision, then reuses its existing channel matrix and PCG solver. Environment labels can select channels through existing long-format response bindings. No population incidence or new solver is introduced; FA does not reduce the number of genetic coefficients. Native identification and derivative work retain their scaling limits. FA estimation and uncertainty remain outside this YAML prediction integration. Univariate packed serial residuals instead lower group/position metadata and natural variance/correlation or rate to greml’s exact Markov-innovation record adapter. It transforms complete sparse design rows and responses once, with actual observed gaps and O(records) metadata, retaining scalar prepared blocks and the existing all-record prediction/cache path. It does not construct dense series matrices, alter the genetic model or add a PEV precision method. Multivariate separable serial covariance uses greml’s q-state conditional innovations preparation, including intermittent missing traits. Public gsolve eigensystems whiten the small observed-trait covariance; response and complete sparse incidence are transformed together and cached with identity residual precision. Compiled prediction consumes the same native cache. Metadata scales with observations and traits; sparse filter design history can grow with distinct coefficient columns in an incomplete series. This introduces no dense population/time covariance or fixed application RAM ceiling. Serial covariance estimation and industrial throughput qualification remain separate. Supplied-genomic ssGBLUP composes public greml genomic covariance/APY constructors with <code>SingleStepPrecisionOperator</code> and compiled PCG. The adapter passes explicit backend/thread and unlimited diagonal-workspace allowances, and retains the native exact marginal pedigree treatment. APY accepts supplied blocks or <a href="../../gsuite/docs/raw-genotype-apy-yaml.html">raw PLINK genotypes</a> with ordered core IDs. The latter reuses native tiled BED preparation, a retained core factor and paired file-backed covariance/precision actions. Implicit H accepts those operators without constructing genomic precision CSC. Python computes means one marker at a time; genomic preparation RAM is O(core^2) plus bounded tiles and linear metadata, while the cross block occupies O(noncore*core) disk. No application RAM ceiling is imposed. Compiled ssGBLUP prediction omits unused H covariance metadata by default, preserving exact precision diagonals, determinants and PCG preconditioning. Complete metadata is an explicit setup option; native constructors retain complete metadata by default. Industrial APY preparation, precision-diagonal and prediction scaling remain unqualified. Compiled YAML models can supply metafounder Gamma and unknown-parent assignments through public native <code>Pedigree</code>. Explicit random genetic-group means reuse <code>PedigreeGroupProportions</code>; the example adapter materializes F once and expands compiled incidence, then reports individual F-gamma contributions. These are distinct models with independent dense-reference checks. The packed adapter composes <code>GeneticGroupDataOperator</code> with cached original records and an independent repeated channel covariance; inheritance and reporting remain implicit pedigree sweeps. It prepares exact group diagonals once with operator probes, without an n-by-g matrix or expanded record incidence. Supplied metafounders use full Qnn or an exact ancestral factor retaining all latent bases and their supplied correlated precision block. All models use the original precision actions; metafounder factors additionally apply an exact diagonal congruence with consistent solve maps for numerical balance. Group models also support ordinary ancestral sweeps. In metafounder models, only ordinary non-ancestral individuals enter the peripheral sweeps; all latent coefficients remain available. Combined base/group models are rejected. Compiled group incidence setup still has O(n times groups) storage. No new numerical solver, R control or fixed RAM ceiling is introduced. This schema is the sole standalone model interface; simulator output uses the same input/effect/covariance declarations and execution settings. The frontend streams CSV/TSV rows into a disposable SQLite snapshot, including long-input occasion grouping, residual bindings and record prediction grids. Prepared prediction targets are checksum-protected JSONL files read one row at a time during reporting. CLI preparation closes and removes its own temporary snapshot; optional <code>execution.preparation.directory</code> selects existing scratch storage. Pedigree and effect-level indexes, PLINK metadata and supplied dense matrices remain in memory. This reduces retained Python row storage without changing native equations or imposing a fixed application RAM ceiling.</p>
-<p>Generic matrix-free reuse is owned by greml: adaptive trace-prefix extension and opt-in bounded warm/cache controls, with experimental solution recycling and residual trace estimation. gsolve owns the corresponding RHS-relative independent-PCG, supplied-product coarse correction and orthogonal projection primitives. These native options add no R control names; packed routes retain their existing caches.</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
 <thead>
 <tr class="header">
-<th>Native library</th>
-<th>Capability</th>
-<th>Immediate boundary</th>
-<th>Standalone R package</th>
+<th>Role</th>
+<th>Main components</th>
+<th>Where to start</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>gbits</td>
-<td>Packed genotype storage, PLINK BED access, selections, transformations and genotype products</td>
-<td>Does not own genomic resource metadata, general solvers or statistical models</td>
-<td>No; used through <code>gbase</code> and root <code>gsuite</code></td>
+<td>Prepare genotype and summary data</td>
+<td><code>gbase</code>, backed by <code>gbits</code> and <code>gmat</code></td>
+<td><a href="../../gsuite/docs/genotype-preparation.html">Data preparation</a></td>
 </tr>
 <tr class="even">
-<td>gmat</td>
-<td>Ordered genotype panels, matrix and sparse-LD resources, LD algebra and LD scores</td>
-<td>Delegates packed BED decoding to gbits and does not fit downstream statistical models</td>
-<td>No; task-neutral access is through <code>gbase</code></td>
+<td>Fit genomic analyses</td>
+<td><code>glma</code>, <code>gbayes</code>, <code>gcorr</code>, <code>gmap</code>, <code>gscore</code>, <code>gsea</code></td>
+<td><a href="../../gsuite/docs/methods.html#capability-overview">Choose an analysis</a></td>
 </tr>
 <tr class="odd">
-<td>gsolve</td>
-<td>General operators, factorizations, eigensystems and iterative or direct numerical methods</td>
-<td>Contains no genotype, likelihood or mixed-model semantics</td>
-<td>Deferred; current solver R interfaces use the development integration, with regional eigensystems also used by <code>gbase</code></td>
+<td>Fit mixed models and obtain predictions</td>
+<td><code>greml</code>, using <code>gsolve</code></td>
+<td><a href="../../gsuite/docs/standalone.html">Standalone mixed models</a></td>
 </tr>
 <tr class="even">
-<td>greml</td>
-<td>Mixed-model construction, ML/REML inference, prediction and uncertainty</td>
-<td>Uses gsolve numerical primitives and does not own genotype formats</td>
-<td>Deferred; current mixed-model R interfaces use the development integration</td>
+<td>Simulate data and generating truth</td>
+<td><code>gsim</code></td>
+<td><a href="https://psoerensen.github.io/gsim/">gsim documentation</a></td>
 </tr>
 <tr class="odd">
-<td>glma</td>
-<td>Linear, logistic and LOCO association plus LD-aware marker-set evidence</td>
-<td>Association evidence belongs here; enrichment belongs to gsea</td>
-<td>Yes: <code>glma</code></td>
-</tr>
-<tr class="even">
-<td>gbayes</td>
-<td>Bayesian regression, fixed-variance single-effect summary inference, parameter learning and posterior calculations</td>
-<td>Does not own fine-mapping interpretation or score application</td>
-<td>Yes: <code>gbayes</code></td>
-</tr>
-<tr class="odd">
-<td>gscore</td>
-<td>Scoring-specific transformations and efficient score application</td>
-<td>Model fitting remains with association or Bayesian model owners</td>
-<td>Yes: <code>gscore</code></td>
-</tr>
-<tr class="even">
-<td>gmap</td>
-<td>Regional fine-mapping, posterior-set interpretation and colocalisation</td>
-<td>Reuses gbayes for Bayesian fitting</td>
-<td>Yes: <code>gmap</code></td>
-</tr>
-<tr class="odd">
-<td>gcorr</td>
-<td>LD-score and regional correlation methods, covariance models and MR</td>
-<td>The <code>gcorr(Glist, stat, method=...)</code> workflow supplies common setup for ordinary LDSC, GNOVA and an illustrative SumHer baseline; HESS reuses stored eigen-region definitions and reference samples, projects reference-oriented Z/N arrays region by region, defaults to no sample overlap and returns compact moments. The <code>ldsc()</code> workflow accepts direct named Z/N arrays or checked single- or multi-trait statistics and Glist-owned LD, with stratified or grouped set models. LDSC, partitioned LDSC, GNOVA and SumHer retain marker identity in R and use numeric native arrays with integer jackknife blocks and compact results. Set names are resolved once to integer rows; disjoint grouped scores retain one membership and one value per marker through native fitting; compact multi-trait BED projections use physical marker/sample indices without chromosome-wide metadata copies for joint HESS without persistent LD/eigenvectors. The R adapter selects an automatic rank budget, records explicit genomic-control scaling and reports inference blockers. Native gcorr owns joint correction, the original HESS software variance systems and genome correlation jackknife, and the signed moment/strict conditional alternatives; compact R fits default to software uncertainty. Colocalisation belongs to gmap</td>
-<td>Yes: <code>gcorr</code></td>
-</tr>
-<tr class="even">
-<td>gsea</td>
-<td>Gene-set enrichment, genomic-feature regression and chromosome-held-out gene ranking</td>
-<td>Reuses glma marker-set evidence and optional gbayes pathway models</td>
-<td>Yes: <code>gsea</code></td>
+<td>Acquire genomic data and annotations</td>
+<td><code>gact</code></td>
+<td><a href="https://psoerensen.github.io/gact/">gact documentation</a></td>
 </tr>
 </tbody>
 </table>
-<p><code>gbase</code> is the standalone shared R package for task-neutral genotype, summary statistics and LD preparation. Its pure R <code>getChromosomeSets()</code> helper extracts disjoint chromosome marker sets from Glist metadata without opening genotype or LD files. <code>gsim</code> is the standalone R package for simulation. The root <code>gsuite</code> package contains the mixed-model and solver integration and the suite-level version and documentation interfaces.</p>
-<p>The <a href="../../gsuite/docs/methods.html#capability-overview">capability overview</a> lists the analyses available through each package. The <a href="../../gsuite/docs/r-package-boundaries.html">package-boundary guide</a> records the dependency rules.</p>
-<p>Scalar individual-level Bayesian scheduling and realized genetic-variance decomposition remain owned by native gbayes. The standalone R adapter exposes the existing controls, variance traces and scheduler continuation state; gact owns the worked simulation/prediction example. See the <a href="../../gsuite/docs/gbayes-workflow.html#scheduled-scalar-bed-fits-and-variance-decomposition">Bayesian guide</a>. The scalar BED adapter summarizes VG, VLE, VLD and draw-wise heritability in <code>fit$posterior</code> using native posterior-summary routines and original chain draws.</p>
-<p>Summary preparation accepts ordinary data frames, marker-by-trait matrices and gact Z/N lists. <code>checkStat(..., ldcheck=TRUE, impute=TRUE)</code> harmonizes alleles, checks reference QC and LD consistency, masks rejected scores, then imputes supported missing Z-scores. <code>impute()</code> runs prediction alone. Gbase owns the R contract and thin native orchestration: gbits counts packed genotypes, gmat reads complete regional standardized dosage, and gsolve supplies dense products, Cholesky factors and verified eigensystems. The adapter retains bounded local LD and compact score diagnostics; it saves no genotype matrices or LD files. Ancestry references are disjoint integer sample selections on the same Glist. Explicit covariance mixtures cover independent standardized meta-analysis scores with constant coefficients; they do not recover unknown study LD.</p>
-<p>Both standalone LOCO methods use glma’s joint full-panel controller and gbayes’s batched prediction engine. <code>infinitesimal_loco</code> fixes one Gaussian/ridge prior with equal variance on empirically standardized markers; <code>prior_selected_loco</code> compares ridge/elastic priors. Blocked RHE and a shared Monte Carlo grid estimate global variances, which remain fixed for chromosome refits. glma owns the residual-offset scan and structure calibration, gbayes owns prediction fitting and Gram reuse, and gsolve owns matrix products. The standalone bridge no longer calls the slow chromosome-specific variance-ratio searches. See the <a href="../../gsuite/docs/glma-workflow.html#account-for-a-genomic-background-with-loco">variance procedure</a>.</p>
-<p>Named disjoint marker sets define separate genetic components in either standalone LOCO method. glma validates the partition, adds the unassigned background group and composes greml’s existing multi-component RHE estimator with the joint engine. RHE supplies a variance profile; the scalar Monte Carlo grid refines its total. Global component normalizations and parameters remain fixed during chromosome exclusions. No native gbayes or gbase interface change is required, and calls without sets retain their existing behavior.</p>
+<p>Seven standalone genomic R packages are public source releases. The root <code>gsuite</code> R integration is development software; a root R package release is not planned, and greml/gsolve R packaging is deferred. The standalone command is <code>gsuite run model.yml</code>; binary availability is described on <a href="../../gsuite/downloads.html">Downloads</a>. Public and development versions can differ: check the <a href="../../gsuite/docs/source-package-repository.html#release-and-development-status">release-status table</a>.</p>
 </section>
 <section id="shared-genomic-resources" class="level2">
 <h2 class="anchored" data-anchor-id="shared-genomic-resources">Shared genomic resources</h2>
-<p>Glist is the serializable contract connecting data preparation with analysis. <code>gbase::gprep()</code> validates a PLINK panel and can attach sparse LD computed by gmat from gbits-backed genotypes. The same Glist can then be passed to analysis packages without copying the genotype or LD data into R.</p>
-<p><code>gprep(task = "eigen", sets = regionSets)</code> also prepares full regional LD eigenvalues directly from BED. gmat supplies centred unit-norm columns through gbits, gsolve supplies dense products and eigenvalues-only decomposition, and gbase attaches the named spectra and sample identities to <code>Glist$eigen</code>. The smaller sample-space Gram matrix is used when markers outnumber samples. This route is independent of sparse-LD cutoffs and does not fit a gene test. Analysis packages still require an explicit consumer interface for this resource.</p>
-<pre class="mermaid"><code>flowchart LR
-    bed["PLINK BED / BIM / FAM"] --&gt; gprep["gbase::gprep()"]
-    gprep --&gt; glist["Glist"]
-    glist --&gt; glma[glma]
-    glist --&gt; gbayes[gbayes]
-    glist --&gt; gscore[gscore]
-    glist --&gt; gmap[gmap]
-    glist --&gt; gcorr[gcorr]
-    glist --&gt; gsea[gsea]</code></pre>
-<p>The Glist fields <code>ldfiles</code>, <code>idsLD</code> and <code>rsidsLD</code> identify the stored LD resource, its reference samples and its marker order. <code>validate_Glist()</code> checks the lightweight descriptor used by ordinary calls. <code>verify_ld()</code> performs the full sparse-LD integrity scan when a resource crosses a trust boundary.</p>
-<p>Native consumers open one gmat LD reader per high-level call and reuse it across regions, traits, chains or marker sets. Regional matrices, independent blocks and eigensystems remain tied to the same Glist identity. This avoids repeated payload checks and unnecessary dense copies.</p>
+<p><code>Glist</code> carries checked genotype-panel identities and references to prepared resources, including LD where available. Analysis packages reuse that shared preparation rather than inventing their own genotype formats. Marker order, alleles, reference samples and covariance assumptions still need explicit checks. See the <a href="../../gsuite/docs/architecture-reference.html#shared-genomic-resources">resource contracts</a>.</p>
 </section>
 <section id="analysis-flow" class="level2">
 <h2 class="anchored" data-anchor-id="analysis-flow">Analysis flow</h2>
-<p>Each R package validates task-specific inputs, calls its native implementation and returns labelled R results. Shared preparation does not blur statistical ownership:</p>
-<ul>
-<li>glma fits association models and produces marker- or set-level evidence;</li>
-<li>gbayes fits Bayesian regression models and produces posterior quantities;</li>
-<li>gscore applies prepared weights, including Glist-resolved marker-set scores, while model fitting remains with the model owner;</li>
-<li>gmap performs regional fine-mapping, posterior-set and Bayesian-FDR interpretation, and colocalisation;</li>
-<li>gcorr fits summary-statistic correlation, covariance and MR models; and</li>
-<li>gsea performs enrichment or PoPS-style gene ranking after gene or feature evidence has been prepared.</li>
-</ul>
-<p>A connected association-to-enrichment workflow therefore follows:</p>
-<pre class="mermaid"><code>flowchart LR
-    stats["Checked association statistics"] --&gt; vegas["glma::vegas()"]
-    ld["Glist sparse LD or regional BED spectra"] --&gt; vegas
-    vegas --&gt; genes["Gene-level evidence"]
-    genes --&gt; enrichment["gsea::gsea()"]</code></pre>
-<p>The VEGAS step processes the supplied marker sets directly. One sparse-LD reader prepares eigenvalue spectra in bounded parallel batches; the resulting ordinary R object can be reused across traits and sessions without reopening LD or repeating decompositions. Cross-gene covariance, when required by a downstream enrichment model, is a separate explicit input. Alternatively, glma reuses the full within-region spectra stored by <code>gbase::gprep(task="eigen")</code>; constant weights require no new decomposition. Nonuniform weights continue to use the sparse-LD route. gbase owns preparation and identity validation; glma owns the statistic and tail evaluation. VEGAS selects checked summary rows by marker ID and verifies their alleles; aligned database statistics need no reference reconstruction or manual sorting.</p>
-<p>Method-specific controls, outputs and qualification limits belong in the <a href="../../gsuite/docs/methods.html">method catalogue</a> and the linked workflow guides, rather than on this architecture page.</p>
+<ol type="1">
+<li>Genotypes or summary statistics.</li>
+<li>Checked shared preparation.</li>
+<li>Task-specific analysis.</li>
+<li>Labelled results and diagnostics.</li>
+</ol>
+<p>For example, <code>glma::vegas()</code> prepares gene evidence and <code>gsea::gsea()</code> analyses sets of genes. Required cross-gene covariance is a separate input, not something inferred by passing results between packages. See the <a href="../../gsuite/docs/gsea-workflow.html">connected pathway guide</a>.</p>
 </section>
 <section id="mixed-models-and-numerical-methods" class="level2">
 <h2 class="anchored" data-anchor-id="mixed-models-and-numerical-methods">Mixed models and numerical methods</h2>
-<p>The root <code>gsuite</code> package exposes the mixed-model integration. R formulas or explicit covariance components are prepared for greml, which owns model semantics, estimation, prediction and uncertainty. greml delegates general factorization and solving to gsolve. gbits supplies packed genotype operations, and gmat owns reusable genotype-panel and matrix resources.</p>
-<p>Native greml also provides opt-in generic PCG identities and a separate common-scale profiled REML entry point for <code>V = g K + e I</code>. These remain native C++ controls; the existing R dispatch and optimizer defaults are unchanged. The changed native layouts require matching full ABI47 and core/adapter SOVERSION3 consumers. Focused numerical verification does not establish large-panel throughput or population calibration.</p>
-<pre class="mermaid"><code>flowchart LR
-    input["Formula or covariance components"] --&gt; gsuite["gsuite R interface"]
-    gsuite --&gt; greml["greml: model and inference"]
-    greml --&gt; gsolve["gsolve: numerical methods"]
-    gbits["gbits: packed genotypes"] --&gt; gsuite
-    gmat["gmat: genomic resources"] --&gt; gsuite
-    greml --&gt; result["Labelled fit, prediction and diagnostics"]</code></pre>
-<p>The <a href="../../gsuite/docs/gsolve-greml.html">mixed-model guide</a> explains this boundary, and the <a href="../../gsuite/docs/model-catalog.html">model catalogue</a> records the supported model and backend combinations.</p>
+<p><code>greml</code> owns the statistical model, estimation and prediction. <code>gsolve</code> owns general numerical operations such as factorization and iterative solving. Available models, interfaces and uncertainty estimates depend on the chosen route; use the <a href="../../gsuite/docs/model-catalog.html">model catalog</a> and its qualification notes.</p>
 </section>
 <section id="dependency-rules" class="level2">
 <h2 class="anchored" data-anchor-id="dependency-rules">Dependency rules</h2>
-<ul>
-<li>Task packages may depend on <code>gbase</code>; <code>gbase</code> does not depend on a task package.</li>
-<li>Task packages do not import the root <code>gsuite</code> package.</li>
-<li>A task package may use another task package only for an explicit scientific workflow, such as the <code>gsea</code> re-export of <code>glma::vegas()</code>.</li>
-<li>Packed genotype decoding and algebra belong to gbits; panel identity, matrices and LD resources belong to gmat.</li>
-<li>General numerical methods belong to gsolve; mixed-model semantics belong to greml; each other statistical method belongs to its task library.</li>
-<li>New dependencies must follow this direction and must not introduce cycles.</li>
-</ul>
-<p><code>gsim</code> is separate from the analysis dependency graph. It creates ordinary R data that can be passed into examples and analysis packages.</p>
-<p>Regional dense MCMC follows the same ownership boundaries: gbase maps marker sets and exposes full BED LD through installed gmat decoding and R’s BLAS; native gmap validates and binds the region, then reuses native gbayes sampling. Familiar argument adapters remain in the gmap and gbayes R packages. Native gmap owns qgg-compatible marginal-PIP grouping; it does not require qgg at runtime. gact imports gbase for shared marker-set mapping and explicitly installs the standalone analysis packages through <code>install_gsuite()</code>. Familiar QC, LD, MCMC and scoring arguments remain R adapters over their existing native owners. Bayesian PoPS splits chromosome folds and assembles predictions in the gsea R package; native gsea/gbayes owns nuisance projection, cross-products and sampling. Fold results retain posterior diagnostics without repeated training matrices. Standalone gbayes binds verified Glist LD blocks to native factorized BayesC/BayesR for <code>mcmc-eigen</code>, independently of the annotated SBayesRC model. Native gbayes owns retained joint-effect genetic variance and chain diagnostics; the R task packages arrange these into familiar <code>post</code> and <code>conv</code> tables. When the genetic reference is the fitted operator, accumulation reuses the cached residual quadratic. Both task R interfaces pass optional scalar-summary LD-swap controls to the existing native gbayes sampler; no sampler is duplicated in the R layer or native gmap. Native gbayes prepares the LD-neighbour graph once per fit and shares it across chains. Sparse-LD operators scan existing stored correlations; factorized operators derive neighbours from their fitted cross-products. The R packages expose pooled and per-chain proposal counts. Probability defaults to zero, preserving the existing sampler and timing evidence.</p>
-<p>Standalone <code>gbayes::gbayes(data=..., Glist=..., method="bayesc")</code> and BayesR accept automatic phenotype-scaled BED priors with parameter learning and retained diagnostics. Scalar BED responses are centred on their original units; see the <a href="../../gsuite/docs/gbayes-workflow.html">defaults and controls</a> for initialization, explicit-prior compatibility and convergence limits.</p>
-<p>Fixed-covariance compiled prediction selects value-only numerical assembly: base MME values, RHS and residual precision caches are unchanged, while global first/second covariance-derivative matrices and RHS arrays are absent. The full derivative assembly remains the default for estimation. This avoids O(parameter_count^2 * coefficient_pattern_nonzeros) storage that prediction previously allocated without using it; block-Jacobi inputs are unchanged.</p>
-<p>The extended YAML adapters preserve native ownership. Fixed inherited group contrasts and independent group means compose public pedigree proportion operators with compiled incidence; combined metafounder/group models retain a separate ordinary inheritance base and metafounder covariance base. Explicit phantom group-parent codes are absorbed into missing-parent assignments, not biological parent nodes. Packed Gamma pseudo-EM runs through the existing native estimator on an explicitly declared absolute marker base; the verified prepared estimate rebuilds the prediction pedigree. No Gamma uncertainty is implied. PEV precision development has resumed with bounded independent-pilot allocation.</p>
-<p>Sparse external natural covariance is streamed from an ID-labelled lower triangle. Greml retains its gsolve sparse factor as an inverse-action operator, with exact precision diagonal metadata; no dense inverse is formed. Supplied nonseparable trait-by-visit residual covariance lowers to the existing native patterned residual family. Within-unit grids remain dense and intended for moderate sizes. Format-8 transport is checked before fitting. Packed fixed and combined group models prepare ordinary inheritance proportions once, including reference-coded fixed contrasts as record columns. Their O(ordinary individuals × groups) proportion arrays are explicit preparation resources. No repeated pedigree factorization or dense genomic matrix is added. Independent-pilot PEV allocation chooses a fixed final sample count inside the posterior solve cap; pilot values are discarded. Industrial qualification remains separate.</p>
-<p>Packed ssSNPBLUP REML now lowers to a native greml EM session with refreshed record precision/RHS and preconditioners, sharing the exact pedigree factor and packed genotype provider across covariance states. Natural genetic/residual starts, whole-block fixing, exact or bounded stochastic traces, score MCSE and dual equation-residual gates are explicit. Optional start-to-final restricted likelihood uses bounded exact references or paired matrix-free SLQ with separate MCSE/depth-sensitivity status. Default fitting does no global determinant work. The YAML frontend separates strict shared validation, analysis/thread controls, model lowering, native execution and labelled estimation reports into modules; the generic <code>gsuite run model.yml</code> coordinator reuses those same modules for every supported route/task. Preparation and fitting run in a private temporary worker, with native/CSV results and failed-run diagnostics collected to the YAML output directory. Process-tree RSS sampling is separate from native peak RSS; execution and collection timings do not change numerical qualification. <code>validate</code> and <code>describe</code> inspect model inputs without native fitting. Existing R interfaces and the YAML schema remain unchanged. The optional GenomeDK binary producer collects that already built native closure and relocates copied library paths. Its installer uses a fresh minimal Conda runtime and admits the artifact only after exact references and backend agreement; it changes deployment, not model compilation or numerical ownership. Native sources/R/build tools are excluded from the recipient payload. This private binary workflow requires actual Linux qualification and retains the existing redistribution limits. The <a href="../../gsuite/docs/standalone.html">standalone user guide</a> owns installation and execution instructions; the <a href="../../gsuite/docs/standalone-validation.html">GenomeDK validation record</a> reports the accepted binary installation and its evidence limits. There are no legacy syntax aliases. See <a href="../../gsuite/docs/packed-single-step-reml.html">packed REML</a> for the initial model scope and qualification limits.</p>
+<p>Task packages share task-neutral contracts through <code>gbase</code>; they do not depend on the root <code>gsuite</code> R package. Native libraries are reused through installed public interfaces. Statistical ownership stays with the analysis package. Developer details are in <a href="../../gsuite/docs/r-package-boundaries.html">package boundaries</a> and the <a href="../../gsuite/docs/architecture-reference.html#dependency-rules">dependency reference</a>.</p>
 </section>
 <section id="direct-regression-summaries" class="level2">
 <h2 class="anchored" data-anchor-id="direct-regression-summaries">Direct regression summaries</h2>
-<p>This describes development gbayes 0.1.6 and gsea 0.1.2 with matching native libraries. The public gbayes/gsea 0.1.1 archives do not expose these summary entry points or direct preparation routes. See <a href="../../gsuite/docs/source-package-repository.html#release-and-development-status">release and development status</a>.</p>
-<p><code>gsea::set_cross_products(sets, y, universe)</code> prepares independent-observation binary-feature summaries directly from memberships. Native gsea accumulates co-occurring set pairs through inverted membership lists, then centers/scales the dense Gram matrix. Genes outside every set remain in the explicit universe. <code>gsea::blr(XX, Xy, yy, n)</code> re-exports the general gbayes R adapter and reuses the installed native BayesC/BayesR sampler. The R adapter validates inputs and returns the existing posterior summaries and diagnostics; no new sampling engine is introduced. This route does not replace Bayesian pathway preparation with gene covariance or additional covariates.</p>
-<p>The native Bayesian pathway adapter now also accepts PreparedSets directly for independent genes and an intercept only. It retains pathway-specific n-1 normalization and delegates inference to gbayes. General projected designs remain necessary for covariance, additional covariates and joint traits. The R workflow selects this preparation automatically where eligible, records preparation separately from native fitting, and keeps supplied gene statistics outside both clocks. Set-based PoPS can retain memberships through prediction.</p>
-<p>Assistant instruction sources, ChatGPT launch generation and optional plugin packaging are owned by gchat. The website consumes a pinned public export; see <a href="../../gsuite/docs/status.html#development">website maintenance</a>. Request submission, authentication and email approval remain in the existing gsuite request service unchanged.</p>
+<p>The newer BLR and direct set-summary interfaces are development features in gbayes 0.1.6 and gsea 0.1.2, absent from the public 0.1.1 archives. See the <a href="../../gsuite/docs/source-package-repository.html#release-and-development-status">release status</a> and <a href="../../gsuite/docs/architecture-reference.html#direct-regression-summaries">technical description</a>.</p>
+<p>Implementation does not imply broad statistical or performance qualification. Keep the <a href="../../gsuite/docs/status.html#qualification-limits">current qualification limits</a> and method-specific evidence alongside any capability claim.</p>
 
 
 </section>

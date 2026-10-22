@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Detailed architecture contracts, implementation notes and qualification limits.">
+
+<title>Architecture reference – gtools</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-264a0fc3a96c72ca7334393e02078ef0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../gsuite/website/styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">gtools</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+<span class="menu-text">Home</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../gsuite/index.html">
+<span class="menu-text">gsuite</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gsim/">
+<span class="menu-text">gsim</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gact/">
+<span class="menu-text">gact</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gteach/">
+<span class="menu-text">gteach</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../help.html#help-me-use-gsuite">
+<span class="menu-text">Help me use gsuite</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../help.html#report-a-bug-or-suggest-a-feature">
+<span class="menu-text">Report a bug or suggest a feature</span></a>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/psoerensen/gtools">
+<span class="menu-text">GitHub</span></a>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+
+  <ul>
+  <li><a href="#native-capabilities-and-r-availability" id="toc-native-capabilities-and-r-availability" class="nav-link active" data-scroll-target="#native-capabilities-and-r-availability">Native capabilities and R availability</a></li>
+  <li><a href="#shared-genomic-resources" id="toc-shared-genomic-resources" class="nav-link" data-scroll-target="#shared-genomic-resources">Shared genomic resources</a></li>
+  <li><a href="#analysis-flow" id="toc-analysis-flow" class="nav-link" data-scroll-target="#analysis-flow">Analysis flow</a></li>
+  <li><a href="#mixed-models-and-numerical-methods" id="toc-mixed-models-and-numerical-methods" class="nav-link" data-scroll-target="#mixed-models-and-numerical-methods">Mixed models and numerical methods</a></li>
+  <li><a href="#dependency-rules" id="toc-dependency-rules" class="nav-link" data-scroll-target="#dependency-rules">Dependency rules</a></li>
+  <li><a href="#direct-regression-summaries" id="toc-direct-regression-summaries" class="nav-link" data-scroll-target="#direct-regression-summaries">Direct regression summaries</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Architecture reference</h1>
+</div>
+
+<div>
+  <div class="description">
+    Detailed architecture contracts, implementation notes and qualification limits.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+
+
+
+  </div>
+
+
+
+</header>
+
+
+<p>Technical detail and qualification notes supporting the <a href="../../gsuite/docs/architecture.html">architecture overview</a>. Use the overview to choose a starting point; use this page for implementation contracts, route-specific limitations and evidence links.</p>
+<p>gsuite is organised by user task. Shared data preparation lives in <code>gbase</code>; analysis methods live in independently installable R packages; numerical and statistical computation remains in the corresponding native libraries. The root <code>gsuite</code> development integration currently provides mixed-model and solver R interfaces. The ecosystem documentation is maintained here independently of that integration. A root R package release is not currently planned; greml/gsolve R packaging is deferred, with separate or combined packaging undecided.</p>
+<p>The standalone command is <code>gsuite run model.yml</code> for both solving and REML. It calls the native <code>gsuite_model_driver</code> executable. The <code>greml</code> and <code>gsolve</code> library names identify their mixed-model and numerical-solver responsibilities; they are not separate user commands. Existing R interfaces are unchanged.</p>
+<section id="native-capabilities-and-r-availability" class="level2">
+<h2 class="anchored" data-anchor-id="native-capabilities-and-r-availability">Native capabilities and R availability</h2>
+<p>The request system is separate website infrastructure, owned by gsuite developer tools. Its Python/SQLite service stores email-verified submissions, private follow-up and maintainer decisions. Users may prepare a request in their own AI conversation or submit directly; the service calls no models and launches no agents. The static gtools portal contains a support entry and a copyable prompt; hosting is configured separately. The service has no repository write credentials or implementation authority and adds no R/native dependency.</p>
+<p>Native greml’s conditional marker operator has an opt-in ancestral pedigree factor with exact sweeps for the remaining individuals. Greml owns the inheritance reduction and coefficient maps; installed gsolve owns the smaller sparse factor. Its reuse preconditioner shares the complete solve. The YAML frontend exposes <code>execution.pedigree_factorization: ancestral_sweeps</code> and checks native capability support; existing R interfaces remain unchanged. See the <a href="../../gsuite/docs/status.html#historical-evidence">factor-reduction study</a>.</p>
+<p>The optional standalone HPC prediction frontend accepts CSV pedigree and phenotypes, PLINK genotypes and YAML covariance matrices. Its source-only pedigree-blend adapter composes public greml pedigree providers with the native conditional ssSNPBLUP PCG operator; numerical computation remains in greml, gsolve and genotype owners. The standalone model/task driver lives in greml <code>apps/model_driver/</code>; its input preparation, compiled-model tasks, packed-model tasks and augmented prediction routes are separate translation units. Tasks select supplied-value solving or REML, with optional uncertainty where supported by the model route. The driver consumes installed public interfaces; gsolve retains numerical solver ownership. Optional YAML truth evaluation is owned by the standalone frontend, outside the native model inputs. <code>model_evaluation.py</code> validates labelled targets and freezes cohorts from observed records; <code>prediction_metrics.py</code> is shared by the runner and the developer CSV comparison command. The worker evaluates only after an accepted native fit and collects targets, metrics and failure diagnostics with separate numerical/evaluation acceptance. Truth never enters record assembly, covariance estimation or prediction equations. See the <code>greml/apps/model_driver/</code> organization. This standalone interface does not add R controls. See the <a href="../../gsuite/docs/status.html#historical-evidence">representative workload and qualification</a>.</p>
+<p>The experimental <a href="../../gsuite/docs/model-yaml-proposal.html">compact YAML interface</a> binds generic input columns, named effects, polynomial bases and natural covariance matrices. Its Python layer validates and expands declarations and labels results. Ordinary pedigree and joint random-regression solves use greml’s public compiled-MME facade; ssSNPBLUP uses the existing packed PCG route. Numerical model evaluation remains native. This standalone interface exposes supplied-covariance solving and deterministic sparse-direct REML for unstructured or factor-analytic genetic covariance and scalar/separable serial residual parameters; R interfaces remain unchanged. Whole blocks or named optimizer coordinates can be held fixed, with native free-score convergence and likelihood acceptance. Wide phenotype rows and long ID/trait/value rows lower to the same residual occasions. The frontend groups long rows by explicit record ID, validates shared mapped covariates and orders observed scalars by declared trait order. Native sparse incidence, covariance submatrices and solvers are unchanged; source tables and normalized observation rows are streamed through temporary SQLite storage, while pedigree/effect-level indexes remain in memory. Explicit correlated channels can bind different individual-ID columns while sharing one relationship and joint channel covariance. Python lowers these bindings, including weighted multiple-individual contributions per channel, to existing sparse record references; the packed native adapter uses all-record prediction preparation and retains its bounded record cache. Owner-filtered marker-weight training remains a separate strict contract. Selected-channel outputs distinguish individual genetic coefficients from record contributions evaluated at each channel’s mapped individual. Selected ordinary packed genetic uncertainty lowers explicit individual/trait requests to native target solves. greml reuses the fitted conditional PCG operator/preconditioner and its full or ancestral factor, and composes existing marker/H prior covariance actions. Python validates requests and labels results; it does not invert mixed-model equations. Every target retains transformed and original-equation checks. Stochastic requests compose gsolve’s existing variance-reduced diagonal estimator with that PCG action, using explicit sketch/probe/solve budgets and independent prior/posterior streams. Requests can select either posterior-PEV or information-covariance probing. The latter subtracts the same posterior action from the reported prior, then reconstructs PEV. Genotyped-only targets use G directly with batched trait products, avoiding extra pedigree solves; mixed targets use the existing H action. Diagnostics separate posterior query time from additional information-prior actions. Predictions and uncertainty have separate acceptance fields: finite imprecise candidates remain labelled unqualified, while numerical failures publish no uncertainty estimates. Regression, group and metafounder uncertainty remain outside this YAML adapter. Uncertainty CSV validation and relabelling stream rows directly to output, avoiding additional whole-population Python row/label copies. Stochastic PEV can isolate requested traits in residual probes. Greml maps reporting coordinates to colors and reuses the fitted PCG action; gsolve owns the generic masked estimator. All masked queries count toward the solve cap, while MCSE uses independent complete trait groups. The sketch and statistical model are unchanged. YAML exposes this opt-in choice as <code>probing: trait</code>. The compiled adapter also accepts labelled external relationship covariances, fixed interactions, composite identity-effect groups, Legendre/Chebyshev bases, grouped trait residual covariances and scalar/separable multivariate AR1/exponential residuals. It lowers to installed public greml relationships and residual components; Python does not fit the model or implement a new numerical solver. Dense relationship preparation and long serial blocks have separate scalability limits. Native compact format 7 is checked before result creation. Typed random-effect covariance declarations can supply FA loadings and specific variances. The frontend validates shape/order and materializes the small implied channel covariance for input inspection. Compiled prediction uses greml’s public FA random-group/natural-state APIs. Packed preparation validates the native FA layout and the implied covariance/used genetic precision, then reuses its existing channel matrix and PCG solver. Environment labels can select channels through existing long-format response bindings. No population incidence or new solver is introduced; FA does not reduce the number of genetic coefficients. Native identification and derivative work retain their scaling limits. FA estimation and uncertainty remain outside this YAML prediction integration. Univariate packed serial residuals instead lower group/position metadata and natural variance/correlation or rate to greml’s exact Markov-innovation record adapter. It transforms complete sparse design rows and responses once, with actual observed gaps and O(records) metadata, retaining scalar prepared blocks and the existing all-record prediction/cache path. It does not construct dense series matrices, alter the genetic model or add a PEV precision method. Multivariate separable serial covariance uses greml’s q-state conditional innovations preparation, including intermittent missing traits. Public gsolve eigensystems whiten the small observed-trait covariance; response and complete sparse incidence are transformed together and cached with identity residual precision. Compiled prediction consumes the same native cache. Metadata scales with observations and traits; sparse filter design history can grow with distinct coefficient columns in an incomplete series. This introduces no dense population/time covariance or fixed application RAM ceiling. Serial covariance estimation and industrial throughput qualification remain separate. Supplied-genomic ssGBLUP composes public greml genomic covariance/APY constructors with <code>SingleStepPrecisionOperator</code> and compiled PCG. The adapter passes explicit backend/thread and unlimited diagonal-workspace allowances, and retains the native exact marginal pedigree treatment. APY accepts supplied blocks or <a href="../../gsuite/docs/raw-genotype-apy-yaml.html">raw PLINK genotypes</a> with ordered core IDs. The latter reuses native tiled BED preparation, a retained core factor and paired file-backed covariance/precision actions. Implicit H accepts those operators without constructing genomic precision CSC. Python computes means one marker at a time; genomic preparation RAM is O(core^2) plus bounded tiles and linear metadata, while the cross block occupies O(noncore*core) disk. No application RAM ceiling is imposed. Compiled ssGBLUP prediction omits unused H covariance metadata by default, preserving exact precision diagonals, determinants and PCG preconditioning. Complete metadata is an explicit setup option; native constructors retain complete metadata by default. Industrial APY preparation, precision-diagonal and prediction scaling remain unqualified. Compiled YAML models can supply metafounder Gamma and unknown-parent assignments through public native <code>Pedigree</code>. Explicit random genetic-group means reuse <code>PedigreeGroupProportions</code>; the example adapter materializes F once and expands compiled incidence, then reports individual F-gamma contributions. These are distinct models with independent dense-reference checks. The packed adapter composes <code>GeneticGroupDataOperator</code> with cached original records and an independent repeated channel covariance; inheritance and reporting remain implicit pedigree sweeps. It prepares exact group diagonals once with operator probes, without an n-by-g matrix or expanded record incidence. Supplied metafounders use full Qnn or an exact ancestral factor retaining all latent bases and their supplied correlated precision block. All models use the original precision actions; metafounder factors additionally apply an exact diagonal congruence with consistent solve maps for numerical balance. Group models also support ordinary ancestral sweeps. In metafounder models, only ordinary non-ancestral individuals enter the peripheral sweeps; all latent coefficients remain available. Combined base/group models are rejected. Compiled group incidence setup still has O(n times groups) storage. No new numerical solver, R control or fixed RAM ceiling is introduced. This schema is the sole standalone model interface; simulator output uses the same input/effect/covariance declarations and execution settings. The frontend streams CSV/TSV rows into a disposable SQLite snapshot, including long-input occasion grouping, residual bindings and record prediction grids. Prepared prediction targets are checksum-protected JSONL files read one row at a time during reporting. CLI preparation closes and removes its own temporary snapshot; optional <code>execution.preparation.directory</code> selects existing scratch storage. Pedigree and effect-level indexes, PLINK metadata and supplied dense matrices remain in memory. This reduces retained Python row storage without changing native equations or imposing a fixed application RAM ceiling.</p>
+<p>Generic matrix-free reuse is owned by greml: adaptive trace-prefix extension and opt-in bounded warm/cache controls, with experimental solution recycling and residual trace estimation. gsolve owns the corresponding RHS-relative independent-PCG, supplied-product coarse correction and orthogonal projection primitives. These native options add no R control names; packed routes retain their existing caches.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Native library</th>
+<th>Capability</th>
+<th>Immediate boundary</th>
+<th>Standalone R package</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>gbits</td>
+<td>Packed genotype storage, PLINK BED access, selections, transformations and genotype products</td>
+<td>Does not own genomic resource metadata, general solvers or statistical models</td>
+<td>No; used through <code>gbase</code> and root <code>gsuite</code></td>
+</tr>
+<tr class="even">
+<td>gmat</td>
+<td>Ordered genotype panels, matrix and sparse-LD resources, LD algebra and LD scores</td>
+<td>Delegates packed BED decoding to gbits and does not fit downstream statistical models</td>
+<td>No; task-neutral access is through <code>gbase</code></td>
+</tr>
+<tr class="odd">
+<td>gsolve</td>
+<td>General operators, factorizations, eigensystems and iterative or direct numerical methods</td>
+<td>Contains no genotype, likelihood or mixed-model semantics</td>
+<td>Deferred; current solver R interfaces use the development integration, with regional eigensystems also used by <code>gbase</code></td>
+</tr>
+<tr class="even">
+<td>greml</td>
+<td>Mixed-model construction, ML/REML inference, prediction and uncertainty</td>
+<td>Uses gsolve numerical primitives and does not own genotype formats</td>
+<td>Deferred; current mixed-model R interfaces use the development integration</td>
+</tr>
+<tr class="odd">
+<td>glma</td>
+<td>Linear, logistic and LOCO association plus LD-aware marker-set evidence</td>
+<td>Association evidence belongs here; enrichment belongs to gsea</td>
+<td>Yes: <code>glma</code></td>
+</tr>
+<tr class="even">
+<td>gbayes</td>
+<td>Bayesian regression, fixed-variance single-effect summary inference, parameter learning and posterior calculations</td>
+<td>Does not own fine-mapping interpretation or score application</td>
+<td>Yes: <code>gbayes</code></td>
+</tr>
+<tr class="odd">
+<td>gscore</td>
+<td>Scoring-specific transformations and efficient score application</td>
+<td>Model fitting remains with association or Bayesian model owners</td>
+<td>Yes: <code>gscore</code></td>
+</tr>
+<tr class="even">
+<td>gmap</td>
+<td>Regional fine-mapping, posterior-set interpretation and colocalisation</td>
+<td>Reuses gbayes for Bayesian fitting</td>
+<td>Yes: <code>gmap</code></td>
+</tr>
+<tr class="odd">
+<td>gcorr</td>
+<td>LD-score and regional correlation methods, covariance models and MR</td>
+<td>The <code>gcorr(Glist, stat, method=...)</code> workflow supplies common setup for ordinary LDSC, GNOVA and an illustrative SumHer baseline; HESS reuses stored eigen-region definitions and reference samples, projects reference-oriented Z/N arrays region by region, defaults to no sample overlap and returns compact moments. The <code>ldsc()</code> workflow accepts direct named Z/N arrays or checked single- or multi-trait statistics and Glist-owned LD, with stratified or grouped set models. LDSC, partitioned LDSC, GNOVA and SumHer retain marker identity in R and use numeric native arrays with integer jackknife blocks and compact results. Set names are resolved once to integer rows; disjoint grouped scores retain one membership and one value per marker through native fitting; compact multi-trait BED projections use physical marker/sample indices without chromosome-wide metadata copies for joint HESS without persistent LD/eigenvectors. The R adapter selects an automatic rank budget, records explicit genomic-control scaling and reports inference blockers. Native gcorr owns joint correction, the original HESS software variance systems and genome correlation jackknife, and the signed moment/strict conditional alternatives; compact R fits default to software uncertainty. Colocalisation belongs to gmap</td>
+<td>Yes: <code>gcorr</code></td>
+</tr>
+<tr class="even">
+<td>gsea</td>
+<td>Gene-set enrichment, genomic-feature regression and chromosome-held-out gene ranking</td>
+<td>Reuses glma marker-set evidence and optional gbayes pathway models</td>
+<td>Yes: <code>gsea</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>gbase</code> is the standalone shared R package for task-neutral genotype, summary statistics and LD preparation. Its pure R <code>getChromosomeSets()</code> helper extracts disjoint chromosome marker sets from Glist metadata without opening genotype or LD files. <code>gsim</code> is the standalone R package for simulation. The root <code>gsuite</code> package contains the mixed-model and solver integration and the suite-level version and documentation interfaces.</p>
+<p>The <a href="../../gsuite/docs/methods.html#capability-overview">capability overview</a> lists the analyses available through each package. The <a href="../../gsuite/docs/r-package-boundaries.html">package-boundary guide</a> records the dependency rules.</p>
+<p>Scalar individual-level Bayesian scheduling and realized genetic-variance decomposition remain owned by native gbayes. The standalone R adapter exposes the existing controls, variance traces and scheduler continuation state; gact owns the worked simulation/prediction example. See the <a href="../../gsuite/docs/gbayes-workflow.html#scheduled-scalar-bed-fits-and-variance-decomposition">Bayesian guide</a>. The scalar BED adapter summarizes VG, VLE, VLD and draw-wise heritability in <code>fit$posterior</code> using native posterior-summary routines and original chain draws.</p>
+<p>Summary preparation accepts ordinary data frames, marker-by-trait matrices and gact Z/N lists. <code>checkStat(..., ldcheck=TRUE, impute=TRUE)</code> harmonizes alleles, checks reference QC and LD consistency, masks rejected scores, then imputes supported missing Z-scores. <code>impute()</code> runs prediction alone. Gbase owns the R contract and thin native orchestration: gbits counts packed genotypes, gmat reads complete regional standardized dosage, and gsolve supplies dense products, Cholesky factors and verified eigensystems. The adapter retains bounded local LD and compact score diagnostics; it saves no genotype matrices or LD files. Ancestry references are disjoint integer sample selections on the same Glist. Explicit covariance mixtures cover independent standardized meta-analysis scores with constant coefficients; they do not recover unknown study LD.</p>
+<p>Both standalone LOCO methods use glma’s joint full-panel controller and gbayes’s batched prediction engine. <code>infinitesimal_loco</code> fixes one Gaussian/ridge prior with equal variance on empirically standardized markers; <code>prior_selected_loco</code> compares ridge/elastic priors. Blocked RHE and a shared Monte Carlo grid estimate global variances, which remain fixed for chromosome refits. glma owns the residual-offset scan and structure calibration, gbayes owns prediction fitting and Gram reuse, and gsolve owns matrix products. The standalone bridge no longer calls the slow chromosome-specific variance-ratio searches. See the <a href="../../gsuite/docs/glma-workflow.html#account-for-a-genomic-background-with-loco">variance procedure</a>.</p>
+<p>Named disjoint marker sets define separate genetic components in either standalone LOCO method. glma validates the partition, adds the unassigned background group and composes greml’s existing multi-component RHE estimator with the joint engine. RHE supplies a variance profile; the scalar Monte Carlo grid refines its total. Global component normalizations and parameters remain fixed during chromosome exclusions. No native gbayes or gbase interface change is required, and calls without sets retain their existing behavior.</p>
+</section>
+<section id="shared-genomic-resources" class="level2">
+<h2 class="anchored" data-anchor-id="shared-genomic-resources">Shared genomic resources</h2>
+<p>Glist is the serializable contract connecting data preparation with analysis. <code>gbase::gprep()</code> validates a PLINK panel and can attach sparse LD computed by gmat from gbits-backed genotypes. The same Glist can then be passed to analysis packages without copying the genotype or LD data into R.</p>
+<p><code>gprep(task = "eigen", sets = regionSets)</code> also prepares full regional LD eigenvalues directly from BED. gmat supplies centred unit-norm columns through gbits, gsolve supplies dense products and eigenvalues-only decomposition, and gbase attaches the named spectra and sample identities to <code>Glist$eigen</code>. The smaller sample-space Gram matrix is used when markers outnumber samples. This route is independent of sparse-LD cutoffs and does not fit a gene test. Analysis packages still require an explicit consumer interface for this resource.</p>
+<pre class="mermaid"><code>flowchart LR
+    bed["PLINK BED / BIM / FAM"] --&gt; gprep["gbase::gprep()"]
+    gprep --&gt; glist["Glist"]
+    glist --&gt; glma[glma]
+    glist --&gt; gbayes[gbayes]
+    glist --&gt; gscore[gscore]
+    glist --&gt; gmap[gmap]
+    glist --&gt; gcorr[gcorr]
+    glist --&gt; gsea[gsea]</code></pre>
+<p>The Glist fields <code>ldfiles</code>, <code>idsLD</code> and <code>rsidsLD</code> identify the stored LD resource, its reference samples and its marker order. <code>validate_Glist()</code> checks the lightweight descriptor used by ordinary calls. <code>verify_ld()</code> performs the full sparse-LD integrity scan when a resource crosses a trust boundary.</p>
+<p>Native consumers open one gmat LD reader per high-level call and reuse it across regions, traits, chains or marker sets. Regional matrices, independent blocks and eigensystems remain tied to the same Glist identity. This avoids repeated payload checks and unnecessary dense copies.</p>
+</section>
+<section id="analysis-flow" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-flow">Analysis flow</h2>
+<p>Each R package validates task-specific inputs, calls its native implementation and returns labelled R results. Shared preparation does not blur statistical ownership:</p>
+<ul>
+<li>glma fits association models and produces marker- or set-level evidence;</li>
+<li>gbayes fits Bayesian regression models and produces posterior quantities;</li>
+<li>gscore applies prepared weights, including Glist-resolved marker-set scores, while model fitting remains with the model owner;</li>
+<li>gmap performs regional fine-mapping, posterior-set and Bayesian-FDR interpretation, and colocalisation;</li>
+<li>gcorr fits summary-statistic correlation, covariance and MR models; and</li>
+<li>gsea performs enrichment or PoPS-style gene ranking after gene or feature evidence has been prepared.</li>
+</ul>
+<p>A connected association-to-enrichment workflow therefore follows:</p>
+<pre class="mermaid"><code>flowchart LR
+    stats["Checked association statistics"] --&gt; vegas["glma::vegas()"]
+    ld["Glist sparse LD or regional BED spectra"] --&gt; vegas
+    vegas --&gt; genes["Gene-level evidence"]
+    genes --&gt; enrichment["gsea::gsea()"]</code></pre>
+<p>The VEGAS step processes the supplied marker sets directly. One sparse-LD reader prepares eigenvalue spectra in bounded parallel batches; the resulting ordinary R object can be reused across traits and sessions without reopening LD or repeating decompositions. Cross-gene covariance, when required by a downstream enrichment model, is a separate explicit input. Alternatively, glma reuses the full within-region spectra stored by <code>gbase::gprep(task="eigen")</code>; constant weights require no new decomposition. Nonuniform weights continue to use the sparse-LD route. gbase owns preparation and identity validation; glma owns the statistic and tail evaluation. VEGAS selects checked summary rows by marker ID and verifies their alleles; aligned database statistics need no reference reconstruction or manual sorting.</p>
+<p>Method-specific controls, outputs and qualification limits belong in the <a href="../../gsuite/docs/methods.html">method catalogue</a> and the linked workflow guides, rather than on this architecture page.</p>
+</section>
+<section id="mixed-models-and-numerical-methods" class="level2">
+<h2 class="anchored" data-anchor-id="mixed-models-and-numerical-methods">Mixed models and numerical methods</h2>
+<p>The root <code>gsuite</code> package exposes the mixed-model integration. R formulas or explicit covariance components are prepared for greml, which owns model semantics, estimation, prediction and uncertainty. greml delegates general factorization and solving to gsolve. gbits supplies packed genotype operations, and gmat owns reusable genotype-panel and matrix resources.</p>
+<p>Native greml also provides opt-in generic PCG identities and a separate common-scale profiled REML entry point for <code>V = g K + e I</code>. These remain native C++ controls; the existing R dispatch and optimizer defaults are unchanged. The changed native layouts require matching full ABI47 and core/adapter SOVERSION3 consumers. Focused numerical verification does not establish large-panel throughput or population calibration.</p>
+<pre class="mermaid"><code>flowchart LR
+    input["Formula or covariance components"] --&gt; gsuite["gsuite R interface"]
+    gsuite --&gt; greml["greml: model and inference"]
+    greml --&gt; gsolve["gsolve: numerical methods"]
+    gbits["gbits: packed genotypes"] --&gt; gsuite
+    gmat["gmat: genomic resources"] --&gt; gsuite
+    greml --&gt; result["Labelled fit, prediction and diagnostics"]</code></pre>
+<p>The <a href="../../gsuite/docs/gsolve-greml.html">mixed-model guide</a> explains this boundary, and the <a href="../../gsuite/docs/model-catalog.html">model catalogue</a> records the supported model and backend combinations.</p>
+</section>
+<section id="dependency-rules" class="level2">
+<h2 class="anchored" data-anchor-id="dependency-rules">Dependency rules</h2>
+<ul>
+<li>Task packages may depend on <code>gbase</code>; <code>gbase</code> does not depend on a task package.</li>
+<li>Task packages do not import the root <code>gsuite</code> package.</li>
+<li>A task package may use another task package only for an explicit scientific workflow, such as the <code>gsea</code> re-export of <code>glma::vegas()</code>.</li>
+<li>Packed genotype decoding and algebra belong to gbits; panel identity, matrices and LD resources belong to gmat.</li>
+<li>General numerical methods belong to gsolve; mixed-model semantics belong to greml; each other statistical method belongs to its task library.</li>
+<li>New dependencies must follow this direction and must not introduce cycles.</li>
+</ul>
+<p><code>gsim</code> is separate from the analysis dependency graph. It creates ordinary R data that can be passed into examples and analysis packages.</p>
+<p>Regional dense MCMC follows the same ownership boundaries: gbase maps marker sets and exposes full BED LD through installed gmat decoding and R’s BLAS; native gmap validates and binds the region, then reuses native gbayes sampling. Familiar argument adapters remain in the gmap and gbayes R packages. Native gmap owns qgg-compatible marginal-PIP grouping; it does not require qgg at runtime. gact imports gbase for shared marker-set mapping and explicitly installs the standalone analysis packages through <code>install_gsuite()</code>. Familiar QC, LD, MCMC and scoring arguments remain R adapters over their existing native owners. Bayesian PoPS splits chromosome folds and assembles predictions in the gsea R package; native gsea/gbayes owns nuisance projection, cross-products and sampling. Fold results retain posterior diagnostics without repeated training matrices. Standalone gbayes binds verified Glist LD blocks to native factorized BayesC/BayesR for <code>mcmc-eigen</code>, independently of the annotated SBayesRC model. Native gbayes owns retained joint-effect genetic variance and chain diagnostics; the R task packages arrange these into familiar <code>post</code> and <code>conv</code> tables. When the genetic reference is the fitted operator, accumulation reuses the cached residual quadratic. Both task R interfaces pass optional scalar-summary LD-swap controls to the existing native gbayes sampler; no sampler is duplicated in the R layer or native gmap. Native gbayes prepares the LD-neighbour graph once per fit and shares it across chains. Sparse-LD operators scan existing stored correlations; factorized operators derive neighbours from their fitted cross-products. The R packages expose pooled and per-chain proposal counts. Probability defaults to zero, preserving the existing sampler and timing evidence.</p>
+<p>Standalone <code>gbayes::gbayes(data=..., Glist=..., method="bayesc")</code> and BayesR accept automatic phenotype-scaled BED priors with parameter learning and retained diagnostics. Scalar BED responses are centred on their original units; see the <a href="../../gsuite/docs/gbayes-workflow.html">defaults and controls</a> for initialization, explicit-prior compatibility and convergence limits.</p>
+<p>Fixed-covariance compiled prediction selects value-only numerical assembly: base MME values, RHS and residual precision caches are unchanged, while global first/second covariance-derivative matrices and RHS arrays are absent. The full derivative assembly remains the default for estimation. This avoids O(parameter_count^2 * coefficient_pattern_nonzeros) storage that prediction previously allocated without using it; block-Jacobi inputs are unchanged.</p>
+<p>The extended YAML adapters preserve native ownership. Fixed inherited group contrasts and independent group means compose public pedigree proportion operators with compiled incidence; combined metafounder/group models retain a separate ordinary inheritance base and metafounder covariance base. Explicit phantom group-parent codes are absorbed into missing-parent assignments, not biological parent nodes. Packed Gamma pseudo-EM runs through the existing native estimator on an explicitly declared absolute marker base; the verified prepared estimate rebuilds the prediction pedigree. No Gamma uncertainty is implied. PEV precision development has resumed with bounded independent-pilot allocation.</p>
+<p>Sparse external natural covariance is streamed from an ID-labelled lower triangle. Greml retains its gsolve sparse factor as an inverse-action operator, with exact precision diagonal metadata; no dense inverse is formed. Supplied nonseparable trait-by-visit residual covariance lowers to the existing native patterned residual family. Within-unit grids remain dense and intended for moderate sizes. Format-8 transport is checked before fitting. Packed fixed and combined group models prepare ordinary inheritance proportions once, including reference-coded fixed contrasts as record columns. Their O(ordinary individuals × groups) proportion arrays are explicit preparation resources. No repeated pedigree factorization or dense genomic matrix is added. Independent-pilot PEV allocation chooses a fixed final sample count inside the posterior solve cap; pilot values are discarded. Industrial qualification remains separate.</p>
+<p>Packed ssSNPBLUP REML now lowers to a native greml EM session with refreshed record precision/RHS and preconditioners, sharing the exact pedigree factor and packed genotype provider across covariance states. Natural genetic/residual starts, whole-block fixing, exact or bounded stochastic traces, score MCSE and dual equation-residual gates are explicit. Optional start-to-final restricted likelihood uses bounded exact references or paired matrix-free SLQ with separate MCSE/depth-sensitivity status. Default fitting does no global determinant work. The YAML frontend separates strict shared validation, analysis/thread controls, model lowering, native execution and labelled estimation reports into modules; the generic <code>gsuite run model.yml</code> coordinator reuses those same modules for every supported route/task. Preparation and fitting run in a private temporary worker, with native/CSV results and failed-run diagnostics collected to the YAML output directory. Process-tree RSS sampling is separate from native peak RSS; execution and collection timings do not change numerical qualification. <code>validate</code> and <code>describe</code> inspect model inputs without native fitting. Existing R interfaces and the YAML schema remain unchanged. The optional GenomeDK binary producer collects that already built native closure and relocates copied library paths. Its installer uses a fresh minimal Conda runtime and admits the artifact only after exact references and backend agreement; it changes deployment, not model compilation or numerical ownership. Native sources/R/build tools are excluded from the recipient payload. This private binary workflow requires actual Linux qualification and retains the existing redistribution limits. The <a href="../../gsuite/docs/standalone.html">standalone user guide</a> owns installation and execution instructions; the <a href="../../gsuite/docs/standalone-validation.html">GenomeDK validation record</a> reports the accepted binary installation and its evidence limits. There are no legacy syntax aliases. See <a href="../../gsuite/docs/packed-single-step-reml.html">packed REML</a> for the initial model scope and qualification limits.</p>
+</section>
+<section id="direct-regression-summaries" class="level2">
+<h2 class="anchored" data-anchor-id="direct-regression-summaries">Direct regression summaries</h2>
+<p>This describes development gbayes 0.1.6 and gsea 0.1.2 with matching native libraries. The public gbayes/gsea 0.1.1 archives do not expose these summary entry points or direct preparation routes. See <a href="../../gsuite/docs/source-package-repository.html#release-and-development-status">release and development status</a>.</p>
+<p><code>gsea::set_cross_products(sets, y, universe)</code> prepares independent-observation binary-feature summaries directly from memberships. Native gsea accumulates co-occurring set pairs through inverted membership lists, then centers/scales the dense Gram matrix. Genes outside every set remain in the explicit universe. <code>gsea::blr(XX, Xy, yy, n)</code> re-exports the general gbayes R adapter and reuses the installed native BayesC/BayesR sampler. The R adapter validates inputs and returns the existing posterior summaries and diagnostics; no new sampling engine is introduced. This route does not replace Bayesian pathway preparation with gene covariance or additional covariates.</p>
+<p>The native Bayesian pathway adapter now also accepts PreparedSets directly for independent genes and an intercept only. It retains pathway-specific n-1 normalization and delegates inference to gbayes. General projected designs remain necessary for covariance, additional covariates and joint traits. The R workflow selects this preparation automatically where eligible, records preparation separately from native fitting, and keeps supplied gene statistics outside both clocks. Set-based PoPS can retain memberships through prediction.</p>
+<p>Assistant instruction sources, ChatGPT launch generation and optional plugin packaging are owned by gchat. The website consumes a pinned public export; see <a href="../../gsuite/docs/status.html#development">website maintenance</a>. Request submission, authentication and email approval remain in the existing gsuite request service unchanged.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button,
+          { trigger: "manual",
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/psoerensen\.github\.io\/gtools\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined;
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              }
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            }
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
+</div>
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
