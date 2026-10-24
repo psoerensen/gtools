@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Convert a supported ASCII DMU DIR model and its referenced inputs into a reviewable gsuite analysis.">
+<meta name="description" content="Import or export the supported ASCII pedigree linear-model subset, with explicit mappings and validation limits.">
 
-<title>Import a DMU model into YAML – gtools</title>
+<title>Convert between DMU and YAML – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -178,6 +178,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#convert-and-run" id="toc-convert-and-run" class="nav-link active" data-scroll-target="#convert-and-run">Convert and run</a></li>
   <li><a href="#supported-initial-subset" id="toc-supported-initial-subset" class="nav-link" data-scroll-target="#supported-initial-subset">Supported initial subset</a></li>
   <li><a href="#features-requiring-further-translation" id="toc-features-requiring-further-translation" class="nav-link" data-scroll-target="#features-requiring-further-translation">Features requiring further translation</a></li>
+  <li><a href="#export-a-yaml-model-to-dmu" id="toc-export-a-yaml-model-to-dmu" class="nav-link" data-scroll-target="#export-a-yaml-model-to-dmu">Export a YAML model to DMU</a></li>
+  <li><a href="#numerical-qualification" id="toc-numerical-qualification" class="nav-link" data-scroll-target="#numerical-qualification">Numerical qualification</a></li>
   </ul>
 </nav>
     </div>
@@ -186,12 +188,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Import a DMU model into YAML</h1>
+<h1 class="title">Convert between DMU and YAML</h1>
 </div>
 
 <div>
   <div class="description">
-    Convert a supported ASCII DMU DIR model and its referenced inputs into a reviewable gsuite analysis.
+    Import or export the supported ASCII pedigree linear-model subset, with explicit mappings and validation limits.
   </div>
 </div>
 
@@ -209,6 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>The development standalone frontend provides <code>gsuite import-dmu</code>. It translates a supported DMU 5.x linear-model specification into the existing YAML interface. The DMU driver file can reference other files, so keep its data, pedigree and parameter files available during conversion. A DMU executable is not required. Existing HPC installations do not gain the command until their frontend is updated; check <code>gsuite --help</code> for <code>import-dmu</code>.</p>
+<p>The same frontend provides <code>gsuite export-dmu</code> for the reverse conversion. Both commands prepare files; neither invokes DMU.</p>
 <section id="convert-and-run" class="level2">
 <h2 class="anchored" data-anchor-id="convert-and-run">Convert and run</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> import-dmu /project/dmu/model.DIR <span class="at">--output</span> /project/converted</span>
@@ -291,6 +294,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>DMU-specific solvers, scaling, preconditioners, stopping and printing controls are recorded separately. They do not select equivalent gsuite algorithms or convergence tolerances. The YAML requests fixed/random estimates, diagnostics and pedigree-based genetic predictions. DMU residual/solution file formats and uncertainty requests are not reproduced by this importer.</p>
 <p>The focused tests cover conversion, source preservation, missingness, direct and PCG predictions against independent dense equations, and balanced one-way REML against analytic mean-square estimates. They do not establish agreement with every DMU release or an operational NAV model.</p>
 <p>Syntax and input conventions follow the official <a href="https://dmu.ghpc.au.dk/dmu/DMU/Doc/Current/dmuv6_guide.5.6.pdf">DMU 5.6 guide</a>. DMU 6 has revised driver keywords and requires a separate import profile.</p>
+</section>
+<section id="export-a-yaml-model-to-dmu" class="level2">
+<h2 class="anchored" data-anchor-id="export-a-yaml-model-to-dmu">Export a YAML model to DMU</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> export-dmu /project/model.yml <span class="at">--output</span> /project/dmu-run</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The output parent must exist and the destination must be fresh. Run DMU from the resulting directory so its relative filenames resolve correctly. Export creates:</p>
+<ul>
+<li><code>model.DIR</code>, <code>data.txt</code> and <code>parameters.txt</code>: complete ASCII model, data and natural covariance parameters (or REML starting values).</li>
+<li><code>pedigree_NAME.txt</code>: ordinary inbreeding-aware sire/dam pedigrees when used.</li>
+<li><code>levels.csv</code> and <code>records.csv</code>: deterministic integer-to-original-ID mappings and data-line-to-record mappings. Original string IDs can contain spaces.</li>
+<li><code>conversion.json</code>: source/output hashes, trait and channel ordering, random-factor mappings, input precision and translation qualifications.</li>
+</ul>
+<p>The export supports the same statistical intersection as the importer: single/multiple traits, categorical fixed main effects, overall fixed numeric regressions, independent-level and ordinary pedigree random effects, including repeatability and correlated factors with separate incidence columns across traits. Channels are reordered into DMU trait order together with their covariance rows and columns. Pedigree sort ranks put parents before offspring.</p>
+<p>Solve models select DMU task 11/method 9; REML models select task 1/method 1. REML requires every covariance block to be estimated without constraints. Partial estimation, covariance tying, FA/serial structures, weights, interactions, random regressions, genetic groups, metafounders, uncertainty requests and genomic/single-step models require further translation and are rejected. The original YAML model and inputs are unchanged.</p>
+<p>DMU data are exported at documented REAL<em>4 precision; covariance parameters retain double precision. The report gives the maximum rounding change. The exporter chooses two finite negative REAL</em>4 values below all observed responses and required covariates for the missing threshold and missing sentinel. Input values outside that representable range are rejected. Missing responses stay trait-specific. YAML solver/thread/optimizer controls and post-fit truth evaluation are not translated into equivalent DMU controls. DMU solution and residual files are requested, independently of YAML output-table selection.</p>
+</section>
+<section id="numerical-qualification" class="level2">
+<h2 class="anchored" data-anchor-id="numerical-qualification">Numerical qualification</h2>
+<p>Focused export tests compare predictions and fitted values with independently assembled small mixed-model equations and compare variance estimates with an analytic balanced one-way REML reference. They also check ID recoding, covariance permutations, source preservation and export/import equivalence.</p>
+<p>This first version follows the DMU 5.6 guide and existing benchmark conventions. <strong>The new converter has not yet been validated by running the exported files in DMU.</strong> Existing historical DMU benchmarks do not qualify this exporter. A live comparison must check DMU convergence, map <code>SOL</code> using <code>levels.csv</code>, compare fitted values on corresponding records, and compare <code>PAROUT</code> with fitted natural covariances. Fixed coefficients can differ under alternative contrasts. REML likelihood constants and optimizer stopping rules also require separate treatment.</p>
 
 
 </section>
