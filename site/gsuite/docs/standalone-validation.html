@@ -646,7 +646,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
 
   <ul>
-  <li><a href="#accepted-shared-v25-installation" id="toc-accepted-shared-v25-installation" class="nav-link active" data-scroll-target="#accepted-shared-v25-installation">Accepted shared v25 installation</a></li>
+  <li><a href="#accepted-model-and-spatial-reml-validation" id="toc-accepted-model-and-spatial-reml-validation" class="nav-link active" data-scroll-target="#accepted-model-and-spatial-reml-validation">Accepted model and spatial REML validation</a>
+  <ul class="collapse">
+  <li><a href="#spatial-reml-convergence" id="toc-spatial-reml-convergence" class="nav-link" data-scroll-target="#spatial-reml-convergence">Spatial REML convergence</a></li>
+  <li><a href="#backend-and-fixed-effect-checks" id="toc-backend-and-fixed-effect-checks" class="nav-link" data-scroll-target="#backend-and-fixed-effect-checks">Backend and fixed-effect checks</a></li>
+  </ul></li>
+  <li><a href="#accepted-shared-v25-installation" id="toc-accepted-shared-v25-installation" class="nav-link" data-scroll-target="#accepted-shared-v25-installation">Accepted shared v25 installation</a></li>
   <li><a href="#source-bundle-checks-recorded-after-the-shared-installation" id="toc-source-bundle-checks-recorded-after-the-shared-installation" class="nav-link" data-scroll-target="#source-bundle-checks-recorded-after-the-shared-installation">Source-bundle checks recorded after the shared installation</a></li>
   <li><a href="#scalable-fixed-effect-and-coarse-correction-checks" id="toc-scalable-fixed-effect-and-coarse-correction-checks" class="nav-link" data-scroll-target="#scalable-fixed-effect-and-coarse-correction-checks">Scalable fixed-effect and coarse-correction checks</a></li>
   <li><a href="#historical-v18-installation" id="toc-historical-v18-installation" class="nav-link" data-scroll-target="#historical-v18-installation">Historical v18 installation</a>
@@ -684,6 +689,84 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="accepted-model-and-spatial-reml-validation" class="level2">
+<h2 class="anchored" data-anchor-id="accepted-model-and-spatial-reml-validation">Accepted model and spatial REML validation</h2>
+<p>On 25 October 2026, the operator supplied the completed GenomeDK validation receipts and summaries for source bundle <code>gsuite-yaml-genomedk-20261025-v32</code>. All 33 campaign commands exited with code zero. The task receipt and all five delegated validation receipts were accepted.</p>
+<p>The campaign passed 98 small reference tests without failures, errors or skipped reference tests, plus 41 selected model examples and the separate truth-evaluation check. Dedicated references covered observation precision and known measurement-error covariance, spatial residuals, selected prediction contrasts, additional packed REML covariance blocks, dominance and GCA/SCA. It also accepted 14 fixture-model checks, six ordinary sparse-backend comparisons and six many-herd-year coarse-correction models. The fixture family includes two small, 256-record REML checks; these are not 50K REML estimates.</p>
+<section id="spatial-reml-convergence" class="level3">
+<h3 class="anchored" data-anchor-id="spatial-reml-convergence">Spatial REML convergence</h3>
+<p>The original CHOLMOD spatial fit converged in 14 iterations. Restarting from the previously stalled Linux parameters converged in one iteration. An independent reconstruction from the archived inputs and fitted parameters confirmed free transformed score norms of <code>9.47e-7</code> and <code>7.74e-7</code>, respectively, below the unchanged <code>1e-6</code> convergence tolerance. The original-equation residual for the first fit was <code>7.00e-14</code>, below its <code>4.73e-8</code> acceptance threshold.</p>
+<p>PARDISO fits with and without a constant 1,000-unit phenotype shift both converged in 14 iterations and passed the same independent score check. Across these four REML fits, the largest absolute coefficient difference from the dense reference was <code>4.49e-11</code>, and the largest restricted-likelihood difference was <code>1.14e-13</code>. The fit’s likelihood was approximately <code>-281.111804216762</code>. Prediction and original-equation residual gates passed. Each validation case now retains its own diagnostics, so subsequent test setup cannot erase a failed fit.</p>
+</section>
+<section id="backend-and-fixed-effect-checks" class="level3">
+<h3 class="anchored" data-anchor-id="backend-and-fixed-effect-checks">Backend and fixed-effect checks</h3>
+<p>The ordinary backend comparison retained eight marker-product threads:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pedigree route</th>
+<th>Sparse backend / threads</th>
+<th style="text-align: right;">Native evaluation, s</th>
+<th style="text-align: right;">Total fit, s</th>
+<th style="text-align: right;">Native peak RSS, MiB</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ancestral sweeps</td>
+<td>CHOLMOD / 1</td>
+<td style="text-align: right;">21.18</td>
+<td style="text-align: right;">26.90</td>
+<td style="text-align: right;">372.7</td>
+</tr>
+<tr class="even">
+<td>Ancestral sweeps</td>
+<td>PARDISO / 1</td>
+<td style="text-align: right;">22.33</td>
+<td style="text-align: right;">28.13</td>
+<td style="text-align: right;">319.8</td>
+</tr>
+<tr class="odd">
+<td>Ancestral sweeps</td>
+<td>PARDISO / 8</td>
+<td style="text-align: right;">22.89</td>
+<td style="text-align: right;">28.64</td>
+<td style="text-align: right;">323.4</td>
+</tr>
+<tr class="even">
+<td>Full Qnn</td>
+<td>CHOLMOD / 1</td>
+<td style="text-align: right;">33.31</td>
+<td style="text-align: right;">39.11</td>
+<td style="text-align: right;">2016.9</td>
+</tr>
+<tr class="odd">
+<td>Full Qnn</td>
+<td>PARDISO / 1</td>
+<td style="text-align: right;">40.49</td>
+<td style="text-align: right;">46.33</td>
+<td style="text-align: right;">480.1</td>
+</tr>
+<tr class="even">
+<td>Full Qnn</td>
+<td>PARDISO / 8</td>
+<td style="text-align: right;">29.65</td>
+<td style="text-align: right;">35.28</td>
+<td style="text-align: right;">519.0</td>
+</tr>
+</tbody>
+</table>
+<p>All ordinary backend/factorization comparisons passed; their largest reported coefficient or prediction difference was <code>5.08e-10</code>. All six coarse models retained 6,000 fixed coefficients and converged in 171 PCG iterations. Their largest comparison difference was <code>1.10e-9</code>, within the unchanged absolute and relative <code>1e-7</code> gates. The 14-model fixture family’s comparisons also passed, including equivalent wide/long inputs, weighted incidence, pedigree-base models, sparse/dense relationships and the small analytic REML reference.</p>
+<p>These are single observations per configuration. Native peak RSS excludes the Python frontend; native evaluation time excludes frontend preparation, whereas total fit includes it. Small timing differences do not establish a general backend ranking. The evidence qualifies these source/model/backend combinations on the supplied fixtures; it does not establish industrial throughput, variance-component recovery, broader PEV precision or live DMU agreement. It does not requalify the historical shared binary installations below or a new binary installer. The existing build, validation and distribution commands are unchanged.</p>
+</section>
+</section>
 <section id="accepted-shared-v25-installation" class="level2">
 <h2 class="anchored" data-anchor-id="accepted-shared-v25-installation">Accepted shared v25 installation</h2>
 <p>On 18 October 2026, the operator reported successful production of the v25 <code>gsuite</code> binary archive and validation of an independent fresh installation. The shared project installation subsequently completed successfully, including project-group permission checks and a model run with an empty home and no inherited Conda or library environment. That run also accepted the supplied truth comparison for six individuals.</p>
