@@ -715,6 +715,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>These tutorials follow one connected analysis. <code>gbase</code> prepares a PLINK BED/BIM/FAM panel and a reusable LD reference. The other packages perform association testing, Bayesian regression, genetic correlation, fine-mapping, scoring and gene-level analysis. The pages show actual tables and figures from one seeded simulation, along with the R calls that produced them.</p>
+<p>The saved Bayesian stage uses the earlier <code>gbayes()</code> dispatcher and its <code>estimates</code>/<code>weights</code> result contract. It is frozen evidence, not a result from the current six-interface API. The <a href="../../../gsuite/docs/package-tutorials/gbayes.html#current-interfaces-for-a-new-analysis">gbayes tutorial</a> introduces the current fitters separately. The original driver, seeds, tables, figures and downstream use of the saved weights remain unchanged.</p>
 <section id="the-simulated-study" class="level2">
 <h2 class="anchored" data-anchor-id="the-simulated-study">The simulated study</h2>
 <table class="caption-top table">
