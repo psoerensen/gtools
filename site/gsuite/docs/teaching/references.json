@@ -1434,5 +1434,148 @@
     "page": "476–490",
     "DOI": "10.1093/genetics/28.6.476",
     "URL": "https://doi.org/10.1093/genetics/28.6.476"
+  },
+  {
+    "id": "graham2024",
+    "type": "article-journal",
+    "title": "Genetic parameters for calf feeding traits derived from automated milk feeding machines and number of bovine respiratory disease treatments in North American Holstein calves",
+    "author": [
+      {
+        "given": "Jason R.",
+        "family": "Graham"
+      },
+      {
+        "given": "Maria E.",
+        "family": "Montes"
+      },
+      {
+        "given": "Victor B.",
+        "family": "Pedrosa"
+      },
+      {
+        "given": "Jarrod",
+        "family": "Doucette"
+      },
+      {
+        "given": "Masoomeh",
+        "family": "Taghipoor"
+      },
+      {
+        "given": "André C.",
+        "family": "Araujo"
+      },
+      {
+        "given": "Leonardo S.",
+        "family": "Gloria"
+      },
+      {
+        "given": "Jacquelyn P.",
+        "family": "Boerman"
+      },
+      {
+        "given": "Luiz F.",
+        "family": "Brito"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2024
+        ]
+      ]
+    },
+    "DOI": "10.3168/jds.2023-23794",
+    "URL": "https://doi.org/10.3168/jds.2023-23794",
+    "container-title": "Journal of Dairy Science",
+    "volume": "107",
+    "issue": "4",
+    "page": "2175-2193"
+  },
+  {
+    "id": "berat2025",
+    "type": "article-journal",
+    "title": "Investigating the genetic background of novel behavioral indicators of robotic milking efficiency in North American Holstein cattle",
+    "author": [
+      {
+        "given": "Hugo",
+        "family": "Bérat"
+      },
+      {
+        "given": "Nicolas",
+        "family": "Gengler"
+      },
+      {
+        "given": "Jacob M.",
+        "family": "Maskal"
+      },
+      {
+        "given": "Jacquelyn P.",
+        "family": "Boerman"
+      },
+      {
+        "given": "Luiz F.",
+        "family": "Brito"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    },
+    "DOI": "10.3168/jds.2024-25597",
+    "URL": "https://doi.org/10.3168/jds.2024-25597",
+    "container-title": "Journal of Dairy Science",
+    "volume": "108",
+    "issue": "7",
+    "page": "7262-7277"
+  },
+  {
+    "id": "melsen2025",
+    "type": "article-journal",
+    "title": "Improving Genomic Prediction Using High‐Dimensional Secondary Phenotypes: The Genetic Latent Factor Approach",
+    "author": [
+      {
+        "given": "Killian A. C.",
+        "family": "Melsen"
+      },
+      {
+        "given": "Jonathan F.",
+        "family": "Kunst"
+      },
+      {
+        "given": "José",
+        "family": "Crossa"
+      },
+      {
+        "given": "Margaret R.",
+        "family": "Krause"
+      },
+      {
+        "given": "Fred A.",
+        "family": "van Eeuwijk"
+      },
+      {
+        "given": "Willem",
+        "family": "Kruijer"
+      },
+      {
+        "given": "Carel F. W.",
+        "family": "Peeters"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    },
+    "DOI": "10.1002/bimj.70081",
+    "URL": "https://doi.org/10.1002/bimj.70081",
+    "container-title": "Biometrical Journal",
+    "volume": "67",
+    "issue": "5"
   }
 ]

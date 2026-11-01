@@ -483,6 +483,12 @@ window.Quarto = {
  <span class="menu-text">Shared bibliography</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/large-scale-phenomics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Large-scale phenomics</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -813,8 +819,7 @@ window.Quarto = {
   <li><a href="#declaring-the-target-before-choosing-the-model" id="toc-declaring-the-target-before-choosing-the-model" class="nav-link" data-scroll-target="#declaring-the-target-before-choosing-the-model"><span class="header-section-number">3</span> Declaring the target before choosing the model</a></li>
   <li><a href="#genetic-and-non-genetic-components" id="toc-genetic-and-non-genetic-components" class="nav-link" data-scroll-target="#genetic-and-non-genetic-components"><span class="header-section-number">4</span> Genetic and non-genetic components</a></li>
   <li><a href="#assumptions-that-need-an-explicit-statement" id="toc-assumptions-that-need-an-explicit-statement" class="nav-link" data-scroll-target="#assumptions-that-need-an-explicit-statement"><span class="header-section-number">5</span> Assumptions that need an explicit statement</a></li>
-  <li><a href="#one-running-specification" id="toc-one-running-specification" class="nav-link" data-scroll-target="#one-running-specification"><span class="header-section-number">6</span> One running specification</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7</span> References</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6</span> References</a></li>
   </ul>
 </nav>
     </div>
@@ -886,15 +891,10 @@ V=ZKZ^\top+R.
 <h2 data-number="5" class="anchored" data-anchor-id="assumptions-that-need-an-explicit-statement"><span class="header-section-number">5</span> Assumptions that need an explicit statement</h2>
 <p>The conditional mean, covariance structure and reference population jointly define the analysis. Record how covariates enter the mean, whether environmental effects are fixed or random, whether residuals are independent, and whether relationships are assumed known. State the observation/selection assumptions needed to use the likelihood in the observed sample. Distributional assumptions beyond means and covariances matter for likelihood inference and posterior probabilities even when a linear prediction formula remains available.</p>
 <p>Binary, ordinal, count and survival responses generally require observation models beyond the Gaussian LMM developed here. A linear analysis of such a response is a separate approximation, with a response-scale interpretation that must not be confused with a latent-scale genetic model.</p>
-</section>
-<section id="one-running-specification" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="one-running-specification"><span class="header-section-number">6</span> One running specification</h2>
-<p>The four-trait example combines an intercept per trait with additive genetic, herd, family and individual-environment effects. Covariances are supplied in its prediction benchmark, genomic relationships are adjusted to pedigree moments, and the genotyped covariance uses 5% pedigree blending. This is a specific model, not a universal default. Later chapters explain its identifiability, single-step representation and performance assessment.</p>
-<p>The model specification should be evaluated independently of the software representation used to calculate its estimates and predictions.</p>
 <p><a href="../../../gsuite/docs/teaching/prediction-and-uncertainty.html">Next: prediction and uncertainty</a>.</p>
 </section>
-<section id="references" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="references"><span class="header-section-number">7</span> References</h2>
+<section id="references" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="references"><span class="header-section-number">6</span> References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-henderson1975" class="csl-entry" role="listitem">
 Henderson, C. R. (1975). Best Linear Unbiased Estimation and Prediction under a Selection Model. <em>Biometrics</em>, 31(2), 423. https://doi.org/<a href="https://doi.org/10.2307/2529430">10.2307/2529430</a>.

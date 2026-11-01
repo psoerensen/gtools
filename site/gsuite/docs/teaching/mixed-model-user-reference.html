@@ -454,6 +454,12 @@ div.csl-indent {
  <span class="menu-text">Shared bibliography</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/large-scale-phenomics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Large-scale phenomics</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -782,7 +788,6 @@ div.csl-indent {
   <li><a href="#purpose-and-reading-order" id="toc-purpose-and-reading-order" class="nav-link active" data-scroll-target="#purpose-and-reading-order">Purpose and reading order</a></li>
   <li><a href="#chapters" id="toc-chapters" class="nav-link" data-scroll-target="#chapters">Chapters</a></li>
   <li><a href="#history-algorithms-and-evidence" id="toc-history-algorithms-and-evidence" class="nav-link" data-scroll-target="#history-algorithms-and-evidence">History, algorithms and evidence</a></li>
-  <li><a href="#the-continuing-four-trait-example" id="toc-the-continuing-four-trait-example" class="nav-link" data-scroll-target="#the-continuing-four-trait-example">The continuing four-trait example</a></li>
   <li><a href="#scope-of-the-methods" id="toc-scope-of-the-methods" class="nav-link" data-scroll-target="#scope-of-the-methods">Scope of the methods</a></li>
   <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -877,6 +882,10 @@ div.csl-indent {
 <td><a href="../../../gsuite/docs/teaching/genomic-feature-priors.html">11. Genomic-feature information and prior models</a></td>
 <td>GFBLUP; annotation-dependent shrinkage and mixtures; overlap; molecular evidence; multitrait/single-step extensions and qualification</td>
 </tr>
+<tr class="even">
+<td><a href="../../../gsuite/docs/teaching/large-scale-phenomics.html">12. Large-scale phenomics</a></td>
+<td>Measurement models; dense longitudinal records; genetic factors; genomic integration; missingness, computation and validation</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -907,15 +916,10 @@ div.csl-indent {
 </table>
 <p>These resources connect the scientific model to an assessable algorithm and then to evidence. The qualification framework describes the required reasoning; it does not assert that every existing software route has passed every check.</p>
 </section>
-<section id="the-continuing-four-trait-example" class="level2">
-<h2 class="anchored" data-anchor-id="the-continuing-four-trait-example">The continuing four-trait example</h2>
-<p>The running example is a supplied-covariance four-trait single-step model with an intercept per trait and random additive genetic, herd, family and individual-environment effects. Genomic relationships are adjusted to pedigree moments and use 5% pedigree blending, with no independent identity ridge.</p>
-<p>It connects several issues that are easily confused: genotype information versus pedigree information, model equivalence versus numerical approximation, uncertainty in predictions versus covariance estimation, and a specified component decomposition versus one identified by the observations. In the one-visit case, unrestricted individual-environment and residual covariance cannot generally be separately estimated from those records, even though their supplied values define a valid prediction problem.</p>
-</section>
 <section id="scope-of-the-methods" class="level2">
 <h2 class="anchored" data-anchor-id="scope-of-the-methods">Scope of the methods</h2>
 <p>The notes describe established methods and current research in animal breeding, independently of their availability in any particular software package. The coverage includes models and inference strategies that extend beyond current gsuite interfaces. Scientific assumptions, approximation error and evidence of predictive or inferential benefit remain central throughout.</p>
-<p>Chapters 10–11 provide a dated perspective on current developments and models using biological information. Established approaches and emerging research are distinguished by their evidence, rather than by implementation status.</p>
+<p>Chapters 10–12 provide a dated perspective on current developments and models using biological information and large-scale phenomics. Established approaches and emerging research are distinguished by their evidence, rather than by implementation status.</p>
 <p>These drafts contain no executable R examples. Existing numerical examples are retained separately in the repository for future practical material.</p>
 </section>
 <section id="further-reading" class="level2">
