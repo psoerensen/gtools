@@ -681,6 +681,7 @@ window.Quarto = {
   <li><a href="#active-set-reductions" id="toc-active-set-reductions" class="nav-link" data-scroll-target="#active-set-reductions">Active-set reductions</a></li>
   <li><a href="#inference-reductions-and-non-reductions" id="toc-inference-reductions-and-non-reductions" class="nav-link" data-scroll-target="#inference-reductions-and-non-reductions">Inference reductions and non-reductions</a></li>
   <li><a href="#api-consequence" id="toc-api-consequence" class="nav-link" data-scroll-target="#api-consequence">API consequence</a></li>
+  <li><a href="#fixed-score-environmental-moment-reduction" id="toc-fixed-score-environmental-moment-reduction" class="nav-link" data-scroll-target="#fixed-score-environmental-moment-reduction">Fixed-score environmental moment reduction</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -788,6 +789,10 @@ window.Quarto = {
 <section id="api-consequence" class="level2">
 <h2 class="anchored" data-anchor-id="api-consequence">API consequence</h2>
 <p>Specialized pedigree, multitrait, longitudinal, repeatability, and formula interfaces may remain useful adapters for their validated input contracts. Identity/group effects, permanent or common environment, direct/maternal covariance, and ordinary random slopes are composition recipes whenever the component-LMM scalar-record contract is sufficient. Future work should target a precise missing adapter, backend contract, or qualification cell instead of reimplementing these reductions.</p>
+</section>
+<section id="fixed-score-environmental-moment-reduction" class="level2">
+<h2 class="anchored" data-anchor-id="fixed-score-environmental-moment-reduction">Fixed-score environmental moment reduction</h2>
+<p>For supplied e=E alpha the covariance components are K, D_e K D_e, D_e^2 and I. With ordinary fixed projection P, their moment system uses A_c=P K_c P, H_cd=tr(A_c A_d) and b_c=y’ A_c y. The native greml environmental cache is an exact factorization of those probe actions and reuses the existing checked moment solve. It is not a new REML engine. Zero scores, binary noise aliases and K near I can destroy identification; no component removal or ridge is implied. See the contract (unpublished greml contract).</p>
 
 
 </section>

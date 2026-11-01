@@ -682,6 +682,7 @@ window.Quarto = {
   <li><a href="#sparse-execution-and-inference-primitives" id="toc-sparse-execution-and-inference-primitives" class="nav-link" data-scroll-target="#sparse-execution-and-inference-primitives">Sparse execution and inference primitives</a></li>
   <li><a href="#optimization-and-finalization-primitives" id="toc-optimization-and-finalization-primitives" class="nav-link" data-scroll-target="#optimization-and-finalization-primitives">Optimization and finalization primitives</a></li>
   <li><a href="#public-composition-rule" id="toc-public-composition-rule" class="nav-link" data-scroll-target="#public-composition-rule">Public composition rule</a></li>
+  <li><a href="#native-environmental-moment-summaries" id="toc-native-environmental-moment-summaries" class="nav-link" data-scroll-target="#native-environmental-moment-summaries">Native environmental moment summaries</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -1039,6 +1040,41 @@ window.Quarto = {
 <section id="public-composition-rule" class="level2">
 <h2 class="anchored" data-anchor-id="public-composition-rule">Public composition rule</h2>
 <p>Permanent environment, litter, herd, year, herd-year, block, site, direct and maternal effects, random slopes, and reaction norms are recipes built from the relationship, channel, and component primitives above. They are not missing model engines. Cross-component covariance is represented only by correlated channels sharing one relationship component.</p>
+</section>
+<section id="native-environmental-moment-summaries" class="level2">
+<h2 class="anchored" data-anchor-id="native-environmental-moment-summaries">Native environmental moment summaries</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Primitive</th>
+<th>Public owner / implementation</th>
+<th>Current contract</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Factorized fixed-score environmental sketches</td>
+<td>greml <code>GxeMomentCache</code></td>
+<td>Immutable K/E/C/ID/probe snapshot; P D_e sum_l alpha_l K D_El P Omega; O(nBL) environmental payload; separate bound phenotype summaries</td>
+<td>Implemented native research primitive; bounded numerical/computational evidence in owner contract (unpublished greml contract); no population, learned-score or production qualification</td>
+</tr>
+<tr class="even">
+<td>Fixed-score Gaussian sampling covariance</td>
+<td>greml <code>GxeMomentCache::sampling_covariance</code></td>
+<td>Complete quadratic-form covariance and propagation through actual H; explicit nonnegative working components/positive residual; optional known mean; separate covariance-entry trace MCSE and unavailable/rank outcomes</td>
+<td>Bounded native research calculation; uncertainty evidence (unpublished greml research report); arithmetic availability does not qualify applied interval coverage or learned-score fitting</td>
+</tr>
+</tbody>
+</table>
+<p>Existing packed products and checked gsolve moment systems remain the lower-level primitives. Probe MCSE is numerical trace uncertainty, not statistical sampling uncertainty. No independent solver, relationship format or R workflow is added.</p>
+<p>The environmental cache’s conditional Gaussian study (unpublished greml research report) checks biological sampling variability separately from probe MCSE. It does not add a sampling-SE primitive: generating-covariance oracle calculations are research references, and the exploratory plug-in is not calibrated for general use. The primitive’s implementation and resource contracts are unchanged.</p>
 
 
 </section>

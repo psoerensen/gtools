@@ -147,6 +147,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#r-interfaces-by-package" id="toc-r-interfaces-by-package" class="nav-link" data-scroll-target="#r-interfaces-by-package">R interfaces by package</a></li>
   <li><a href="#present-native-dependency-closures" id="toc-present-native-dependency-closures" class="nav-link" data-scroll-target="#present-native-dependency-closures">Present native dependency closures</a></li>
   <li><a href="#summary-statistics-integration" id="toc-summary-statistics-integration" class="nav-link" data-scroll-target="#summary-statistics-integration">Summary-statistics integration</a></li>
+  <li><a href="#individual-level-rhe-distribution" id="toc-individual-level-rhe-distribution" class="nav-link" data-scroll-target="#individual-level-rhe-distribution">Individual-level RHE distribution</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -198,8 +199,8 @@ task packages depend on each other only for an explicit scientific workflow</cod
 </tr>
 <tr class="odd">
 <td><code>gcorr</code></td>
-<td><code>libgcorr</code></td>
-<td>Genetic correlation, covariance models and MR.</td>
+<td><code>libgcorr</code> plus selected greml RHE/GENIE interfaces</td>
+<td>Genetic correlation, individual-level moment estimation, covariance models and MR.</td>
 </tr>
 <tr class="even">
 <td><code>glma</code></td>
@@ -396,6 +397,10 @@ task packages depend on each other only for an explicit scientific workflow</cod
 <section id="summary-statistics-integration" class="level2">
 <h2 class="anchored" data-anchor-id="summary-statistics-integration">Summary-statistics integration</h2>
 <p><code>gbase::checkStat()</code> maps, validates, harmonizes and filters ordinary qgg-style data frames. It also supports trait matrices and gact Z/N lists, with optional LD consistency checking and imputation. These are preparation operations; effects, missing sample sizes and downstream sampling models are not inferred. Analysis packages then validate the exact columns they consume.</p>
+</section>
+<section id="individual-level-rhe-distribution" class="level2">
+<h2 class="anchored" data-anchor-id="individual-level-rhe-distribution">Individual-level RHE distribution</h2>
+<p><code>gcorr::rhe()</code> is the user-facing task interface; there is no separate rhe R package. It does not import root gsuite. Ordinary estimation reuses the existing bounded greml implementation in the gbase archive, without compiling it again in gcorr. The canonical <code>greml/src/genie.cpp</code> and its public header are generated into gcorr source archives; GENIE is not added to gbase. The package-specific closure excludes longitudinal and full mixed-model fitting. BLUP and REML remain explicit downstream operations, outside this estimation entry point.</p>
 
 
 </section>

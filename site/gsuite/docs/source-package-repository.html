@@ -181,6 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#what-the-source-packages-contain" id="toc-what-the-source-packages-contain" class="nav-link" data-scroll-target="#what-the-source-packages-contain">What the source packages contain</a></li>
   <li><a href="#build-and-qualification" id="toc-build-and-qualification" class="nav-link" data-scroll-target="#build-and-qualification">Build and qualification</a></li>
   <li><a href="#release-gate" id="toc-release-gate" class="nav-link" data-scroll-target="#release-gate">Release gate</a></li>
+  <li><a href="#compiled-code-symbol-evidence" id="toc-compiled-code-symbol-evidence" class="nav-link" data-scroll-target="#compiled-code-symbol-evidence">Compiled-code symbol evidence</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -273,6 +274,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="release-gate" class="level2">
 <h2 class="anchored" data-anchor-id="release-gate">Release gate</h2>
 <p>Before each publication, review package versions, source-check results on release platforms, licence notices, archive contents and checksums, absence of private source, and the website wording. Running the documented website publisher copies the approved release into <code>site/gsuite/repository</code> in the public <code>gtools</code> checkout. Pushing that reviewed snapshot activates the gtools GitHub Pages deployment workflow.</p>
+<p>For local development qualification without changing public archives or their index, use <code>--local-only</code>, optionally <code>--library=ABSOLUTE_PATH</code> and <code>--only=gbase</code> or <code>--only=gcorr</code>. The latter must follow installation of its matching gbase dependency. Generated package staging replaces only the selected package. The gcorr development source adds canonical greml GENIE source while retaining the explicitly bounded gbase native closure.</p>
+<p>The individual-level RHE development interface requires gbase 0.1.4 and gcorr 0.1.10. These development versions bind the source-built numerical contracts; they do not change the existing downloadable releases or public index.</p>
+</section>
+<section id="compiled-code-symbol-evidence" class="level2">
+<h2 class="anchored" data-anchor-id="compiled-code-symbol-evidence">Compiled-code symbol evidence</h2>
+<p>The generated custom installer preserves R’s unfiltered object symbol tables as <code>libs/&lt;arch&gt;/symbols.rds</code>. Static archive producers also install their native object tables beside the archive (<code>libgsuite_core.a.symbols.rds</code> in gbase and <code>libgbayes_core.a.symbols.rds</code> in gbayes). Consumers include every table from their linked project archives, with owner-qualified names, so compiled-code checks cover archive code as well as the package’s own objects.</p>
+<p>Ordinary source installations generate the tables through R’s own object-symbol reader when the normal check-generated file is absent and nm is available. Missing or incomplete evidence leaves the conservative DLL-level check in place; a partial table is never installed. No symbols are removed or whitelisted, no termination calls are intercepted, and compiled-code checking remains enabled. <code>tools/validation/check_compiled_symbol_metadata.R</code> checks complete metadata, positive detection of a direct termination reference, and the missing-dependency fallback. This build evidence does not change numerical or statistical code.</p>
 
 
 </section>
