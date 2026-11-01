@@ -508,7 +508,7 @@
     "href": "gsuite/docs/teaching/model-checking-and-validation.html#accuracy-calibration-and-uncertainty",
     "title": "9. Model checking, validation and software comparison",
     "section": "4 Accuracy, calibration and uncertainty",
-    "text": "4 Accuracy, calibration and uncertainty\nIn simulation, compare predictions to known latent breeding values. In field data those values are not observed: correlation with phenotype is not genetic accuracy, and heritability-based adjustments require assumptions. Predictive correlation is insensitive to additive shifts and multiplicative dispersion, so also assess bias, regression calibration and prediction error on a clearly specified target.\nFor held-out phenotypes, mean squared error includes unexplained environmental and residual variation. For breeding values, reliability describes a model-based uncertainty measure rather than an automatically observed out-of-sample accuracy. Interval coverage should be checked against the target actually covered, with repeated simulation or an appropriate external design.\nPartial-versus-whole-data prediction comparisons, including the (Legarra and Reverter, 2018), provide additional validation tools under their assumptions. They do not make true breeding values directly observable or eliminate the effects of an incorrect covariance model.",
+    "text": "4 Accuracy, calibration and uncertainty\nIn simulation, compare predictions to known latent breeding values. In field data those values are not observed: correlation with phenotype is not genetic accuracy, and heritability-based adjustments require assumptions. Predictive correlation is insensitive to additive shifts and multiplicative dispersion, so also assess bias, regression calibration and prediction error on a clearly specified target.\nFor held-out phenotypes, mean squared error includes unexplained environmental and residual variation. For breeding values, reliability describes a model-based uncertainty measure rather than an automatically observed out-of-sample accuracy. Interval coverage should be checked against the target actually covered, with repeated simulation or an appropriate external design.\nPartial-versus-whole-data prediction comparisons, including the LR method (Legarra and Reverter, 2018), provide additional validation tools under their assumptions. They do not make true breeding values directly observable or eliminate the effects of an incorrect covariance model.",
     "crumbs": [
       "gsuite",
       "Theory notes",
@@ -924,6 +924,18 @@
     ]
   },
   {
+    "objectID": "gsuite/docs/teaching/mixed-model-user-reference.html#reading-routes",
+    "href": "gsuite/docs/teaching/mixed-model-user-reference.html#reading-routes",
+    "title": "Mixed models for genetic evaluation",
+    "section": "Reading routes",
+    "text": "Reading routes\nFor a refresher, start with the introductory foundations. The main reference then follows four connected routes:\n\nStatistical foundations: Chapters 1–3 define the model, prediction targets and covariance estimation.\nModel structures: Chapters 4–7 develop relationship information, multiple components, longitudinal traits, missingness and selection.\nComputation and evidence: Chapters 8–9 connect algorithms to numerical acceptance and statistical validation; the algorithmic and qualification companions provide the detailed reference.\nCurrent and future directions: Chapters 10–13 separate methodological developments, genomic-feature priors, phenomics and changes in breeding systems.\n\nThe later chapters build on the earlier framework and can be read by topic. They describe research directions without assuming that every method is already available in gsuite.",
+    "crumbs": [
+      "gsuite",
+      "Theory notes",
+      "Notes overview"
+    ]
+  },
+  {
     "objectID": "gsuite/docs/teaching/mixed-model-user-reference.html#chapters",
     "href": "gsuite/docs/teaching/mixed-model-user-reference.html#chapters",
     "title": "Mixed models for genetic evaluation",
@@ -952,7 +964,7 @@
     "href": "gsuite/docs/teaching/mixed-model-user-reference.html#scope-of-the-methods",
     "title": "Mixed models for genetic evaluation",
     "section": "Scope of the methods",
-    "text": "Scope of the methods\nThe notes describe established methods and current research in animal breeding, independently of their availability in any particular software package. The coverage includes models and inference strategies that extend beyond current gsuite interfaces. Scientific assumptions, approximation error and evidence of predictive or inferential benefit remain central throughout.\nChapters 10–13 provide a dated perspective on current developments and models using biological information, large-scale phenomics and the wider drivers of change in breeding. Established approaches and emerging research are distinguished by their evidence, rather than by implementation status.\nThese drafts contain no executable R examples. Existing numerical examples are retained separately in the repository for future practical material.",
+    "text": "Scope of the methods\nThe notes describe established methods and current research in animal breeding, independently of their availability in any particular software package. The coverage includes models and inference strategies that extend beyond current gsuite interfaces. Scientific assumptions, approximation error and evidence of predictive or inferential benefit remain central throughout.\nChapters 10–13 provide a dated perspective on current developments and models using biological information, large-scale phenomics and the wider drivers of change in breeding. Established approaches and emerging research are distinguished by their evidence, rather than by implementation status.\nThese notes contain no executable R examples. Existing numerical examples are retained separately in the repository for future practical material.",
     "crumbs": [
       "gsuite",
       "Theory notes",
@@ -7879,7 +7891,7 @@
   {
     "objectID": "gsuite/docs/teaching/large-scale-phenomics.html",
     "href": "gsuite/docs/teaching/large-scale-phenomics.html",
-    "title": "Large-scale phenomics: from measurements to genetic evaluation",
+    "title": "12. Large-scale phenomics: from measurements to genetic evaluation",
     "section": "",
     "text": "Advanced notes: contents",
     "crumbs": [
@@ -7891,7 +7903,7 @@
   {
     "objectID": "gsuite/docs/teaching/large-scale-phenomics.html#biological-targets-and-recorded-measurements",
     "href": "gsuite/docs/teaching/large-scale-phenomics.html#biological-targets-and-recorded-measurements",
-    "title": "Large-scale phenomics: from measurements to genetic evaluation",
+    "title": "12. Large-scale phenomics: from measurements to genetic evaluation",
     "section": "1 Biological targets and recorded measurements",
     "text": "1 Biological targets and recorded measurements\nLarge-scale phenomics combines repeated measurements, many correlated features and automated data acquisition. Cameras, activity sensors, milking robots, feeding stations and spectra can supply information about growth, behaviour, health and adaptation. The statistical problem starts with the biological target: a breeding value for feed efficiency, for example, is different from a prediction of the next recorded feeder visit.\nAutomated measurements already support animal-breeding research. Graham et al. (2024) studied feeding traits derived from automated milk feeders together with respiratory-disease treatments in calves. Bérat et al. (2025) estimated genetic parameters for behavioural indicators derived from robotic milking records using repeatability models. These are examples of constructing and analysing traits; they do not establish that every sensor feature is a useful selection target.\nDistinguish the raw signal, the extracted feature, the modelled phenotype and the breeding objective. An image-derived weight, a daily growth slope and an animal’s additive genetic effect require different definitions and validation. Specify units, observation windows, aggregation rules and the population in which the target will be used. A software update that changes feature extraction can change the operational trait even when the column name stays the same.",
     "crumbs": [
@@ -7903,7 +7915,7 @@
   {
     "objectID": "gsuite/docs/teaching/large-scale-phenomics.html#a-measurement-model-before-a-genetic-model",
     "href": "gsuite/docs/teaching/large-scale-phenomics.html#a-measurement-model-before-a-genetic-model",
-    "title": "Large-scale phenomics: from measurements to genetic evaluation",
+    "title": "12. Large-scale phenomics: from measurements to genetic evaluation",
     "section": "2 A measurement model before a genetic model",
     "text": "2 A measurement model before a genetic model\nA useful starting assumption for a continuous feature is\n\\[\nx_{itk}=\\mu_k(t)+a_{ik}(t)+p_{ik}(t)\n       +d_{s(i,t),k}+\\epsilon_{itk},\n\\]\nwhere \\(k\\) indexes features, \\(a\\) is an additive genetic trajectory, \\(p\\) is a non-genetic animal trajectory, and \\(d\\) represents specified device, management or recording-batch effects. This is a modelling template, not a universal description of raw sensor data. Counts, proportions, events and censored times may require other observation distributions and links.\nDevice calibration and common management effects need an identifiable design. If each family is recorded with a different camera, a device effect cannot automatically be distinguished from a genetic effect. Connected reference measurements, overlapping devices and calibration animals can supply information that a more elaborate covariance model cannot create. The principles in components and identifiability apply to measurement systems as well as to conventional environmental effects.\nUnder the restricted classical-error model \\(x=y^*+\\delta\\), with independent zero-mean error, measurement error increases phenotypic variance without adding genetic variance. That conclusion does not hold automatically for errors that depend on body shape, disease, farm or genotype. Analyse agreement with reference measurements across relevant subgroups, rather than assuming that a high overall correlation establishes unbiased measurement. Separate repeatability of the instrument from repeatability of the animal’s biological state.",
     "crumbs": [
@@ -7915,7 +7927,7 @@
   {
     "objectID": "gsuite/docs/teaching/large-scale-phenomics.html#dense-and-irregular-longitudinal-records",
     "href": "gsuite/docs/teaching/large-scale-phenomics.html#dense-and-irregular-longitudinal-records",
-    "title": "Large-scale phenomics: from measurements to genetic evaluation",
+    "title": "12. Large-scale phenomics: from measurements to genetic evaluation",
     "section": "3 Dense and irregular longitudinal records",
     "text": "3 Dense and irregular longitudinal records\nMany measurements of one animal are not many independent animals. A repeatability model gives records a shared genetic effect and a shared permanent environmental effect. Random regression allows their magnitudes and correlations to vary with age, lactation stage or time since a challenge (Meyer, 1998). For example,\n\\[\na_{ik}(t)=\\boldsymbol\\phi(t)^\\top\\boldsymbol\\alpha_{ik},\\qquad\n\\operatorname{Cov}(\\boldsymbol\\alpha_i,\\boldsymbol\\alpha_j)\n=K_{ij}\\Sigma_\\alpha,\n\\]\nwhere the coefficient vector stacks the declared feature and basis-function order. \\(K\\) may be a pedigree, genomic or combined relationship matrix. This defines genetic covariance across times through the basis and \\(\\Sigma_\\alpha\\); residual serial correlation is a separate modelling choice.\nIrregular timestamps, unequal recording intensity and long gaps make the residual model consequential. A correlation defined per unit of elapsed time differs from one defined by consecutive row number. Observation windows should also have biological meaning: resistance to a challenge, recovery rate and long-term resilience need not be the same trait. See multitrait and longitudinal models for covariance construction and variance-component inference for estimation. Dense recording improves some aspects of trajectory precision; it does not remove confounding between genetic and environmental trajectories.",
     "crumbs": [
@@ -7927,7 +7939,7 @@
   {
     "objectID": "gsuite/docs/teaching/large-scale-phenomics.html#many-features-separate-genetic-and-environmental-dimensions",
     "href": "gsuite/docs/teaching/large-scale-phenomics.html#many-features-separate-genetic-and-environmental-dimensions",
-    "title": "Large-scale phenomics: from measurements to genetic evaluation",
+    "title": "12. Large-scale phenomics: from measurements to genetic evaluation",
     "section": "4 Many features: separate genetic and environmental dimensions",
     "text": "4 Many features: separate genetic and environmental dimensions\nWith \\(q\\) features, an unrestricted covariance matrix has \\(q(q+1)/2\\) parameters. Estimating several such matrices quickly becomes an information problem as well as a computational problem. Factor structures can constrain genetic and environmental covariances separately, for example\n\\[\n\\Sigma_g=\\Lambda_g\\Lambda_g^\\top+\\Psi_g,\\qquad\n\\Sigma_e=\\Lambda_e\\Lambda_e^\\top+\\Psi_e,\n\\]\nwith diagonal, nonnegative specific variances and suitable loading constraints. The number of factors, their identifiability and the stability of the resulting prediction targets require assessment (Thompson et al., 2003). Environmental structure must not be forced into genetic factors merely to reduce parameter count.\nPhenotypic principal components describe total variation. Their leading directions need not capture the genetic variation most useful for the breeding objective. Melsen et al. (2025) develop a genetic latent-factor approach to high-dimensional secondary phenotypes, distinguishing genetic and residual covariance. Their application is in plant breeding: it provides relevant methodological evidence, not evidence of deployment in animal evaluation. It also does not imply that dimension reduction always improves prediction. Compare against simpler models using the same deployment scenario and training information.",
     "crumbs": [
@@ -7939,7 +7951,7 @@
   {
     "objectID": "gsuite/docs/teaching/large-scale-phenomics.html#how-phenomics-enters-genomic-prediction",
     "href": "gsuite/docs/teaching/large-scale-phenomics.html#how-phenomics-enters-genomic-prediction",
-    "title": "Large-scale phenomics: from measurements to genetic evaluation",
+    "title": "12. Large-scale phenomics: from measurements to genetic evaluation",
     "section": "5 How phenomics enters genomic prediction",
     "text": "5 How phenomics enters genomic prediction\nThe statistical role of additional measurements determines the model:\n\n\n\n\n\n\n\nRole\nTarget and main question\n\n\n\n\nAdditional response traits\nCan genetic correlations improve prediction of the breeding objective?\n\n\nRepeated observations of a trajectory\nWhich genetic features of level, slope or recovery are to be predicted?\n\n\nMeasured predictors available at selection\nIs the target conditional performance or an additive genetic value?\n\n\nFeatures used to construct a similarity kernel\nWhat covariance does that kernel represent, including shared environment?\n\n\nBiological information used to specify marker priors\nHow is evidence mapped to variants, and is the prior independently assessed?\n\n\n\nIndividual-level phenomic measurements and variant-level functional annotations are different information sources. A sensor-derived similarity matrix is not automatically a genomic relationship matrix. Likewise, conditioning on a heritable downstream phenotype can change the meaning of the genetic effect being estimated. Define the joint model and target before comparing accuracy; see genomic models and genomic-feature priors.\nA secondary trait available on selection candidates may legitimately improve prediction. The same analysis would overstate performance for a deployment where that measurement is unavailable. Validation must reproduce the intended availability pattern (Runcie and Cheng, 2019).",
     "crumbs": [
@@ -7951,7 +7963,7 @@
   {
     "objectID": "gsuite/docs/teaching/large-scale-phenomics.html#missingness-and-two-stage-analysis",
     "href": "gsuite/docs/teaching/large-scale-phenomics.html#missingness-and-two-stage-analysis",
-    "title": "Large-scale phenomics: from measurements to genetic evaluation",
+    "title": "12. Large-scale phenomics: from measurements to genetic evaluation",
     "section": "6 Missingness and two-stage analysis",
     "text": "6 Missingness and two-stage analysis\nSensor failure, missed visits, selective recording, treatment and removal can produce different missing-data mechanisms. An absent feeder record may indicate inactivity, equipment downtime or an animal no longer under observation. Converting every absence to zero changes the data model. Record exposure and reason codes where available, and assess whether dropout depends on latent health or performance. The assumptions in missing data and selection remain essential.\nTwo-stage analysis is often practical: first extract features or fit individual trajectories, then analyse estimated summaries genetically. Estimated summaries have uncertainty, potentially with unequal variances and correlations. Treating them as equally precise observations can distort weighting and uncertainty. Carry forward their sampling covariance where justified, or assess the consequences with a joint-model reference or simulation. Shrunken first-stage predictions also require care to avoid applying shrinkage twice.\nFeature learning, scaling, imputation, selection of recording windows and tuning of factor dimension belong inside the training procedure when evaluating generalisation. A frozen externally trained measurement algorithm can be assessed as a distinct case, with its provenance and target-population validity recorded.",
     "crumbs": [
@@ -7963,7 +7975,7 @@
   {
     "objectID": "gsuite/docs/teaching/large-scale-phenomics.html#computation-and-reproducibility-at-scale",
     "href": "gsuite/docs/teaching/large-scale-phenomics.html#computation-and-reproducibility-at-scale",
-    "title": "Large-scale phenomics: from measurements to genetic evaluation",
+    "title": "12. Large-scale phenomics: from measurements to genetic evaluation",
     "section": "7 Computation and reproducibility at scale",
     "text": "7 Computation and reproducibility at scale\nReport animals, independent families or management groups, records, features, time points and missingness patterns separately. Adding records expands data operations; adding genetic coefficients can expand the solve; adding covariance parameters expands estimation. These costs need different remedies. Sparse incidence operators, structured covariance, streamed feature access and factor reuse are discussed in large-scale computation and the algorithmic reference.\nRetain a reproducible path from raw measurement to fitted phenotype: animal and device identifiers, timestamps and time zones, units, calibration records, software versions, quality flags and inclusion rules. Benchmark feature extraction, data preparation, covariance estimation, prediction and output separately, as well as end-to-end elapsed time and peak memory. Faster processing of a changed phenotype is not an equivalent-model speedup.",
     "crumbs": [
@@ -7975,7 +7987,7 @@
   {
     "objectID": "gsuite/docs/teaching/large-scale-phenomics.html#qualification-for-the-intended-use",
     "href": "gsuite/docs/teaching/large-scale-phenomics.html#qualification-for-the-intended-use",
-    "title": "Large-scale phenomics: from measurements to genetic evaluation",
+    "title": "12. Large-scale phenomics: from measurements to genetic evaluation",
     "section": "8 Qualification for the intended use",
     "text": "8 Qualification for the intended use\nValidation should test both measurement and genetic inference. Compare reference measurements across devices and biological subgroups; examine genetic and residual covariance stability; and assess prediction accuracy, bias and uncertainty in independent groups (Daetwyler et al., 2013). Split by animal when repeated records are present, and use farm, time, device or family holdouts when those represent deployment. Randomly splitting individual sensor records can place the same animal and recording conditions in training and validation.\nFor a new phenomics model, establish a small independent numerical reference, then assess parameter recovery and uncertainty under realistic recording and missingness patterns. Finally test transfer to the intended population and recording system. A small solver residual checks the fitted equations; it does not establish a valid measurement model or useful selection response. The model-checking chapter and qualification framework distinguish these claims.\nFor the combined implications of technologies, data access and industry structure, see drivers shaping the future of breeding.",
     "crumbs": [
@@ -7987,7 +7999,7 @@
   {
     "objectID": "gsuite/docs/teaching/large-scale-phenomics.html#references",
     "href": "gsuite/docs/teaching/large-scale-phenomics.html#references",
-    "title": "Large-scale phenomics: from measurements to genetic evaluation",
+    "title": "12. Large-scale phenomics: from measurements to genetic evaluation",
     "section": "9 References",
     "text": "9 References\n\n\nBérat, H., Gengler, N., Maskal, J. M., Boerman, J. P., and Brito, L. F. (2025). Investigating the genetic background of novel behavioral indicators of robotic milking efficiency in North American Holstein cattle. Journal of Dairy Science, 108(7), 7262–7277. https://doi.org/10.3168/jds.2024-25597.\n\n\nDaetwyler, H. D., Calus, M. P. L., Pong-Wong, R., Campos, G. de los, and Hickey, J. M. (2013). Genomic Prediction in Animals and Plants: Simulation of Data, Validation, Reporting, and Benchmarking. Genetics, 193(2), 347–365. https://doi.org/10.1534/genetics.112.147983.\n\n\nGraham, J. R., Montes, M. E., Pedrosa, V. B., Doucette, J., Taghipoor, M., Araujo, A. C., Gloria, L. S., Boerman, J. P., and Brito, L. F. (2024). Genetic parameters for calf feeding traits derived from automated milk feeding machines and number of bovine respiratory disease treatments in North American Holstein calves. Journal of Dairy Science, 107(4), 2175–2193. https://doi.org/10.3168/jds.2023-23794.\n\n\nMelsen, K. A. C., Kunst, J. F., Crossa, J., Krause, M. R., Eeuwijk, F. A. van, Kruijer, W., and Peeters, C. F. W. (2025). Improving Genomic Prediction Using High‐Dimensional Secondary Phenotypes: The Genetic Latent Factor Approach. Biometrical Journal, 67(5). https://doi.org/10.1002/bimj.70081.\n\n\nMeyer, K. (1998). Estimating covariance functions for longitudinal data using a random regression model. Genetics Selection Evolution, 30(3). https://doi.org/10.1186/1297-9686-30-3-221.\n\n\nRuncie, D., and Cheng, H. (2019). Pitfalls and Remedies for Cross Validation with Multi-trait Genomic Prediction Methods. G3 Genes|Genomes|Genetics, 9(11), 3727–3741. https://doi.org/10.1534/g3.119.400598.\n\n\nThompson, R., Cullis, B., Smith, A., and Gilmour, A. (2003). A Sparse Implementation of the Average Information Algorithm for Factor Analytic and Reduced Rank Variance Models. Australian & New Zealand Journal of Statistics, 45(4), 445–459. https://doi.org/10.1111/1467-842X.00297.",
     "crumbs": [

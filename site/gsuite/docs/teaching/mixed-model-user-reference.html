@@ -6,7 +6,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-11-01">
 
 <title>Mixed models for genetic evaluation – gtools</title>
 <style>
@@ -792,6 +791,7 @@ div.csl-indent {
 
   <ul>
   <li><a href="#purpose-and-reading-order" id="toc-purpose-and-reading-order" class="nav-link active" data-scroll-target="#purpose-and-reading-order">Purpose and reading order</a></li>
+  <li><a href="#reading-routes" id="toc-reading-routes" class="nav-link" data-scroll-target="#reading-routes">Reading routes</a></li>
   <li><a href="#chapters" id="toc-chapters" class="nav-link" data-scroll-target="#chapters">Chapters</a></li>
   <li><a href="#history-algorithms-and-evidence" id="toc-history-algorithms-and-evidence" class="nav-link" data-scroll-target="#history-algorithms-and-evidence">History, algorithms and evidence</a></li>
   <li><a href="#scope-of-the-methods" id="toc-scope-of-the-methods" class="nav-link" data-scroll-target="#scope-of-the-methods">Scope of the methods</a></li>
@@ -806,7 +806,6 @@ div.csl-indent {
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Theory notes</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Notes overview</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Mixed models for genetic evaluation</h1>
-<p class="subtitle lead">Advanced user notes — first draft</p>
 </div>
 
 
@@ -814,12 +813,6 @@ div.csl-indent {
 <div class="quarto-title-meta">
 
 
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">November 1, 2026</p>
-    </div>
-  </div>
 
 
   </div>
@@ -833,6 +826,17 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="purpose-and-reading-order">Purpose and reading order</h2>
 <p>These notes are for users who need to specify, fit and assess genetic-evaluation models, rather than only run a particular command. They assume familiarity with linear models, matrix algebra and multivariate normal distributions. The <a href="../../../gsuite/docs/teaching/mixed-model-foundations.html">introductory notes</a> provide a slower refresher.</p>
 <p>The same framework is used throughout: <strong>scientific question → assumptions → equations → identifiable parameters → prediction targets → inference → computation → limitations</strong>. Prediction at supplied covariances is separated from covariance estimation. Relationship information, trait structure and computational representation are separate choices rather than competing names for a single method.</p>
+</section>
+<section id="reading-routes" class="level2">
+<h2 class="anchored" data-anchor-id="reading-routes">Reading routes</h2>
+<p>For a refresher, start with the <a href="../../../gsuite/docs/teaching/mixed-model-foundations.html">introductory foundations</a>. The main reference then follows four connected routes:</p>
+<ul>
+<li><strong>Statistical foundations:</strong> Chapters 1–3 define the model, prediction targets and covariance estimation.</li>
+<li><strong>Model structures:</strong> Chapters 4–7 develop relationship information, multiple components, longitudinal traits, missingness and selection.</li>
+<li><strong>Computation and evidence:</strong> Chapters 8–9 connect algorithms to numerical acceptance and statistical validation; the algorithmic and qualification companions provide the detailed reference.</li>
+<li><strong>Current and future directions:</strong> Chapters 10–13 separate methodological developments, genomic-feature priors, phenomics and changes in breeding systems.</li>
+</ul>
+<p>The later chapters build on the earlier framework and can be read by topic. They describe research directions without assuming that every method is already available in gsuite.</p>
 </section>
 <section id="chapters" class="level2">
 <h2 class="anchored" data-anchor-id="chapters">Chapters</h2>
@@ -930,7 +934,7 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="scope-of-the-methods">Scope of the methods</h2>
 <p>The notes describe established methods and current research in animal breeding, independently of their availability in any particular software package. The coverage includes models and inference strategies that extend beyond current gsuite interfaces. Scientific assumptions, approximation error and evidence of predictive or inferential benefit remain central throughout.</p>
 <p>Chapters 10–13 provide a dated perspective on current developments and models using biological information, large-scale phenomics and the wider drivers of change in breeding. Established approaches and emerging research are distinguished by their evidence, rather than by implementation status.</p>
-<p>These drafts contain no executable R examples. Existing numerical examples are retained separately in the repository for future practical material.</p>
+<p>These notes contain no executable R examples. Existing numerical examples are retained separately in the repository for future practical material.</p>
 </section>
 <section id="further-reading" class="level2">
 <h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>

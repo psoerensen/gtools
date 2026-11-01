@@ -6,7 +6,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-11-01">
 
 <title>9. Model checking, validation and software comparison – gtools</title>
 <style>
@@ -836,7 +835,6 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Theory notes</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/model-checking-and-validation.html">9. Checking and validation</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">9. Model checking, validation and software comparison</h1>
-<p class="subtitle lead">Advanced mixed-model notes — first draft</p>
 </div>
 
 
@@ -844,12 +842,6 @@ window.Quarto = {
 <div class="quarto-title-meta">
 
 
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">November 1, 2026</p>
-    </div>
-  </div>
 
 
   </div>
@@ -890,7 +882,7 @@ x-\hat x=C^{-1}r
 <h2 data-number="4" class="anchored" data-anchor-id="accuracy-calibration-and-uncertainty"><span class="header-section-number">4</span> Accuracy, calibration and uncertainty</h2>
 <p>In simulation, compare predictions to known latent breeding values. In field data those values are not observed: correlation with phenotype is not genetic accuracy, and heritability-based adjustments require assumptions. Predictive correlation is insensitive to additive shifts and multiplicative dispersion, so also assess bias, regression calibration and prediction error on a clearly specified target.</p>
 <p>For held-out phenotypes, mean squared error includes unexplained environmental and residual variation. For breeding values, reliability describes a model-based uncertainty measure rather than an automatically observed out-of-sample accuracy. Interval coverage should be checked against the target actually covered, with repeated simulation or an appropriate external design.</p>
-<p>Partial-versus-whole-data prediction comparisons, including the <span class="citation" data-cites="legarra2018">(<a href="#ref-legarra2018" role="doc-biblioref">Legarra and Reverter, 2018</a>)</span>, provide additional validation tools under their assumptions. They do not make true breeding values directly observable or eliminate the effects of an incorrect covariance model.</p>
+<p>Partial-versus-whole-data prediction comparisons, including the LR method <span class="citation" data-cites="legarra2018">(<a href="#ref-legarra2018" role="doc-biblioref">Legarra and Reverter, 2018</a>)</span>, provide additional validation tools under their assumptions. They do not make true breeding values directly observable or eliminate the effects of an incorrect covariance model.</p>
 </section>
 <section id="comparing-software-and-models" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="comparing-software-and-models"><span class="header-section-number">5</span> Comparing software and models</h2>
