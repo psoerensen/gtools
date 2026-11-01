@@ -1,0 +1,1438 @@
+[
+  {
+    "id": "henderson1975",
+    "type": "article-journal",
+    "title": "Best Linear Unbiased Estimation and Prediction under a Selection Model",
+    "author": [
+      {
+        "given": "C. R.",
+        "family": "Henderson"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1975
+        ]
+      ]
+    },
+    "DOI": "10.2307/2529430",
+    "URL": "https://doi.org/10.2307/2529430",
+    "container-title": "Biometrics",
+    "volume": "31",
+    "issue": "2",
+    "page": "423",
+    "publisher": "JSTOR"
+  },
+  {
+    "id": "henderson1976",
+    "type": "article-journal",
+    "title": "A Simple Method for Computing the Inverse of a Numerator Relationship Matrix Used in Prediction of Breeding Values",
+    "author": [
+      {
+        "given": "C. R.",
+        "family": "Henderson"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1976
+        ]
+      ]
+    },
+    "DOI": "10.2307/2529339",
+    "URL": "https://doi.org/10.2307/2529339",
+    "container-title": "Biometrics",
+    "volume": "32",
+    "issue": "1",
+    "page": "69",
+    "publisher": "JSTOR"
+  },
+  {
+    "id": "robinson1991",
+    "type": "article-journal",
+    "title": "That BLUP is a Good Thing: The Estimation of Random Effects",
+    "author": [
+      {
+        "given": "G. K.",
+        "family": "Robinson"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1991
+        ]
+      ]
+    },
+    "DOI": "10.1214/ss/1177011926",
+    "URL": "https://doi.org/10.1214/ss/1177011926",
+    "container-title": "Statistical Science",
+    "volume": "6",
+    "issue": "1",
+    "page": "15-32",
+    "publisher": "Institute of Mathematical Statistics"
+  },
+  {
+    "id": "patterson1971",
+    "type": "article-journal",
+    "title": "Recovery of inter-block information when block sizes are unequal",
+    "author": [
+      {
+        "given": "H. D.",
+        "family": "PATTERSON"
+      },
+      {
+        "given": "R.",
+        "family": "THOMPSON"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1971
+        ]
+      ]
+    },
+    "DOI": "10.1093/biomet/58.3.545",
+    "URL": "https://doi.org/10.1093/biomet/58.3.545",
+    "container-title": "Biometrika",
+    "volume": "58",
+    "issue": "3",
+    "page": "545-554",
+    "publisher": "Oxford University Press (OUP)"
+  },
+  {
+    "id": "gilmour1995",
+    "type": "article-journal",
+    "title": "Average Information REML: An Efficient Algorithm for Variance Parameter Estimation in Linear Mixed Models",
+    "author": [
+      {
+        "given": "Arthur R.",
+        "family": "Gilmour"
+      },
+      {
+        "given": "Robin",
+        "family": "Thompson"
+      },
+      {
+        "given": "Brian R.",
+        "family": "Cullis"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1995
+        ]
+      ]
+    },
+    "DOI": "10.2307/2533274",
+    "URL": "https://doi.org/10.2307/2533274",
+    "container-title": "Biometrics",
+    "volume": "51",
+    "issue": "4",
+    "page": "1440–1450",
+    "publisher": "JSTOR"
+  },
+  {
+    "id": "johnson1995",
+    "type": "article-journal",
+    "title": "Restricted Maximum Likelihood Estimation of Variance Components for Univariate Animal Models Using Sparse Matrix Techniques and Average Information",
+    "author": [
+      {
+        "given": "D.L.",
+        "family": "Johnson"
+      },
+      {
+        "given": "R.",
+        "family": "Thompson"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1995
+        ]
+      ]
+    },
+    "DOI": "10.3168/jds.S0022-0302(95)76654-1",
+    "URL": "https://doi.org/10.3168/jds.S0022-0302(95)76654-1",
+    "container-title": "Journal of Dairy Science",
+    "volume": "78",
+    "issue": "2",
+    "page": "449-456",
+    "publisher": "American Dairy Science Association"
+  },
+  {
+    "id": "kackar1984",
+    "type": "article-journal",
+    "title": "Approximations for Standard Errors of Estimators of Fixed and Random Effects in Mixed Linear Models",
+    "author": [
+      {
+        "given": "Raghu N.",
+        "family": "Kackar"
+      },
+      {
+        "given": "David A.",
+        "family": "Harville"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1984
+        ]
+      ]
+    },
+    "DOI": "10.1080/01621459.1984.10477102",
+    "URL": "https://doi.org/10.1080/01621459.1984.10477102",
+    "container-title": "Journal of the American Statistical Association",
+    "volume": "79",
+    "issue": "388",
+    "page": "853-862",
+    "publisher": "Informa UK Limited"
+  },
+  {
+    "id": "rothenberg1971",
+    "type": "article-journal",
+    "title": "Identification in Parametric Models",
+    "author": [
+      {
+        "given": "Thomas J.",
+        "family": "Rothenberg"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1971
+        ]
+      ]
+    },
+    "DOI": "10.2307/1913267",
+    "URL": "https://doi.org/10.2307/1913267",
+    "container-title": "Econometrica",
+    "volume": "39",
+    "issue": "3",
+    "page": "577",
+    "publisher": "JSTOR"
+  },
+  {
+    "id": "self1987",
+    "type": "article-journal",
+    "title": "Asymptotic Properties of Maximum Likelihood Estimators and Likelihood Ratio Tests under Nonstandard Conditions",
+    "author": [
+      {
+        "given": "Steven G.",
+        "family": "Self"
+      },
+      {
+        "given": "Kung-Yee",
+        "family": "Liang"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1987
+        ]
+      ]
+    },
+    "DOI": "10.1080/01621459.1987.10478472",
+    "URL": "https://doi.org/10.1080/01621459.1987.10478472",
+    "container-title": "Journal of the American Statistical Association",
+    "volume": "82",
+    "issue": "398",
+    "page": "605-610",
+    "publisher": "Informa UK Limited"
+  },
+  {
+    "id": "willham1972",
+    "type": "article-journal",
+    "title": "The Role of Maternal Effects in Animal Breeding: III. Biometrical Aspects of Maternal Effects in Animals",
+    "author": [
+      {
+        "given": "R. L.",
+        "family": "Willham"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1972
+        ]
+      ]
+    },
+    "DOI": "10.2527/jas1972.3561288x",
+    "URL": "https://doi.org/10.2527/jas1972.3561288x",
+    "container-title": "Journal of Animal Science",
+    "volume": "35",
+    "issue": "6",
+    "page": "1288-1293",
+    "publisher": "Oxford University Press (OUP)"
+  },
+  {
+    "id": "meyer1998",
+    "type": "article-journal",
+    "title": "Estimating covariance functions for longitudinal data using a random regression model",
+    "author": [
+      {
+        "given": "Karin",
+        "family": "Meyer"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1998
+        ]
+      ]
+    },
+    "DOI": "10.1186/1297-9686-30-3-221",
+    "URL": "https://doi.org/10.1186/1297-9686-30-3-221",
+    "container-title": "Genetics Selection Evolution",
+    "volume": "30",
+    "issue": "3",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "meyer2001",
+    "type": "article-journal",
+    "title": "Estimating genetic covariance functions assuming a parametric correlation structure for environmental effects",
+    "author": [
+      {
+        "given": "Karin",
+        "family": "Meyer"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2001
+        ]
+      ]
+    },
+    "DOI": "10.1186/1297-9686-33-6-557",
+    "URL": "https://doi.org/10.1186/1297-9686-33-6-557",
+    "container-title": "Genetics Selection Evolution",
+    "volume": "33",
+    "issue": "6",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "thompson2003",
+    "type": "article-journal",
+    "title": "A Sparse Implementation of the Average Information Algorithm for Factor Analytic and Reduced Rank Variance Models",
+    "author": [
+      {
+        "given": "Robin",
+        "family": "Thompson"
+      },
+      {
+        "given": "Brian",
+        "family": "Cullis"
+      },
+      {
+        "given": "Alison",
+        "family": "Smith"
+      },
+      {
+        "given": "Arthur",
+        "family": "Gilmour"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2003
+        ]
+      ]
+    },
+    "DOI": "10.1111/1467-842X.00297",
+    "URL": "https://doi.org/10.1111/1467-842X.00297",
+    "container-title": "Australian & New Zealand Journal of Statistics",
+    "volume": "45",
+    "issue": "4",
+    "page": "445-459",
+    "publisher": "Wiley"
+  },
+  {
+    "id": "su2006",
+    "type": "article-journal",
+    "title": "Bayesian analysis of the linear reaction norm model with unknown covariates",
+    "author": [
+      {
+        "given": "G.",
+        "family": "Su"
+      },
+      {
+        "given": "P.",
+        "family": "Madsen"
+      },
+      {
+        "given": "M. S.",
+        "family": "Lund"
+      },
+      {
+        "given": "D.",
+        "family": "Sorensen"
+      },
+      {
+        "given": "I. R.",
+        "family": "Korsgaard"
+      },
+      {
+        "given": "J.",
+        "family": "Jensen"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2006
+        ]
+      ]
+    },
+    "DOI": "10.2527/jas.2005-517",
+    "URL": "https://doi.org/10.2527/jas.2005-517",
+    "container-title": "Journal of Animal Science",
+    "volume": "84",
+    "issue": "7",
+    "page": "1651-1657",
+    "publisher": "Oxford University Press (OUP)"
+  },
+  {
+    "id": "rubin1976",
+    "type": "article-journal",
+    "title": "Inference and missing data",
+    "author": [
+      {
+        "given": "DONALD B.",
+        "family": "RUBIN"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1976
+        ]
+      ]
+    },
+    "DOI": "10.1093/biomet/63.3.581",
+    "URL": "https://doi.org/10.1093/biomet/63.3.581",
+    "container-title": "Biometrika",
+    "volume": "63",
+    "issue": "3",
+    "page": "581-592",
+    "publisher": "Oxford University Press (OUP)"
+  },
+  {
+    "id": "vanraden2008",
+    "type": "article-journal",
+    "title": "Efficient Methods to Compute Genomic Predictions",
+    "author": [
+      {
+        "given": "P.M.",
+        "family": "VanRaden"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2008
+        ]
+      ]
+    },
+    "DOI": "10.3168/jds.2007-0980",
+    "URL": "https://doi.org/10.3168/jds.2007-0980",
+    "container-title": "Journal of Dairy Science",
+    "volume": "91",
+    "issue": "11",
+    "page": "4414-4423",
+    "publisher": "American Dairy Science Association"
+  },
+  {
+    "id": "meuwissen2001",
+    "type": "article-journal",
+    "title": "Prediction of Total Genetic Value Using Genome-Wide Dense Marker Maps",
+    "author": [
+      {
+        "given": "T H E",
+        "family": "Meuwissen"
+      },
+      {
+        "given": "B J",
+        "family": "Hayes"
+      },
+      {
+        "given": "M E",
+        "family": "Goddard"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2001
+        ]
+      ]
+    },
+    "DOI": "10.1093/genetics/157.4.1819",
+    "URL": "https://doi.org/10.1093/genetics/157.4.1819",
+    "container-title": "Genetics",
+    "volume": "157",
+    "issue": "4",
+    "page": "1819-1829",
+    "publisher": "Oxford University Press (OUP)"
+  },
+  {
+    "id": "christensen2010",
+    "type": "article-journal",
+    "title": "Genomic prediction when some animals are not genotyped",
+    "author": [
+      {
+        "given": "Ole F",
+        "family": "Christensen"
+      },
+      {
+        "given": "Mogens S",
+        "family": "Lund"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2010
+        ]
+      ]
+    },
+    "DOI": "10.1186/1297-9686-42-2",
+    "URL": "https://doi.org/10.1186/1297-9686-42-2",
+    "container-title": "Genetics Selection Evolution",
+    "volume": "42",
+    "issue": "1",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "aguilar2010",
+    "type": "article-journal",
+    "title": "Hot topic: A unified approach to utilize phenotypic, full pedigree, and genomic information for genetic evaluation of Holstein final score",
+    "author": [
+      {
+        "given": "I.",
+        "family": "Aguilar"
+      },
+      {
+        "given": "I.",
+        "family": "Misztal"
+      },
+      {
+        "given": "D.L.",
+        "family": "Johnson"
+      },
+      {
+        "given": "A.",
+        "family": "Legarra"
+      },
+      {
+        "given": "S.",
+        "family": "Tsuruta"
+      },
+      {
+        "given": "T.J.",
+        "family": "Lawlor"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2010
+        ]
+      ]
+    },
+    "DOI": "10.3168/jds.2009-2730",
+    "URL": "https://doi.org/10.3168/jds.2009-2730",
+    "container-title": "Journal of Dairy Science",
+    "volume": "93",
+    "issue": "2",
+    "page": "743-752",
+    "publisher": "American Dairy Science Association"
+  },
+  {
+    "id": "legarra2014",
+    "type": "article-journal",
+    "title": "Single Step, a general approach for genomic selection",
+    "author": [
+      {
+        "given": "Andres",
+        "family": "Legarra"
+      },
+      {
+        "given": "Ole F.",
+        "family": "Christensen"
+      },
+      {
+        "given": "Ignacio",
+        "family": "Aguilar"
+      },
+      {
+        "given": "Ignacy",
+        "family": "Misztal"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2014
+        ]
+      ]
+    },
+    "DOI": "10.1016/j.livsci.2014.04.029",
+    "URL": "https://doi.org/10.1016/j.livsci.2014.04.029",
+    "container-title": "Livestock Science",
+    "volume": "166",
+    "page": "54-65",
+    "publisher": "Elsevier BV"
+  },
+  {
+    "id": "erbe2012",
+    "type": "article-journal",
+    "title": "Improving accuracy of genomic predictions within and between dairy cattle breeds with imputed high-density single nucleotide polymorphism panels",
+    "author": [
+      {
+        "given": "M.",
+        "family": "Erbe"
+      },
+      {
+        "given": "B.J.",
+        "family": "Hayes"
+      },
+      {
+        "given": "L.K.",
+        "family": "Matukumalli"
+      },
+      {
+        "given": "S.",
+        "family": "Goswami"
+      },
+      {
+        "given": "P.J.",
+        "family": "Bowman"
+      },
+      {
+        "given": "C.M.",
+        "family": "Reich"
+      },
+      {
+        "given": "B.A.",
+        "family": "Mason"
+      },
+      {
+        "given": "M.E.",
+        "family": "Goddard"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2012
+        ]
+      ]
+    },
+    "DOI": "10.3168/jds.2011-5019",
+    "URL": "https://doi.org/10.3168/jds.2011-5019",
+    "container-title": "Journal of Dairy Science",
+    "volume": "95",
+    "issue": "7",
+    "page": "4114-4129",
+    "publisher": "American Dairy Science Association"
+  },
+  {
+    "id": "moser2015",
+    "type": "article-journal",
+    "title": "Simultaneous Discovery, Estimation and Prediction Analysis of Complex Traits Using a Bayesian Mixture Model",
+    "author": [
+      {
+        "given": "Gerhard",
+        "family": "Moser"
+      },
+      {
+        "given": "Sang Hong",
+        "family": "Lee"
+      },
+      {
+        "given": "Ben J.",
+        "family": "Hayes"
+      },
+      {
+        "given": "Michael E.",
+        "family": "Goddard"
+      },
+      {
+        "given": "Naomi R.",
+        "family": "Wray"
+      },
+      {
+        "given": "Peter M.",
+        "family": "Visscher"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2015
+        ]
+      ]
+    },
+    "DOI": "10.1371/journal.pgen.1004969",
+    "URL": "https://doi.org/10.1371/journal.pgen.1004969",
+    "container-title": "PLOS Genetics",
+    "volume": "11",
+    "issue": "4",
+    "page": "e1004969",
+    "publisher": "Public Library of Science (PLoS)"
+  },
+  {
+    "id": "macleod2016",
+    "type": "article-journal",
+    "title": "Exploiting biological priors and sequence variants enhances QTL discovery and genomic prediction of complex traits",
+    "author": [
+      {
+        "given": "I. M.",
+        "family": "MacLeod"
+      },
+      {
+        "given": "P. J.",
+        "family": "Bowman"
+      },
+      {
+        "given": "C. J.",
+        "family": "Vander Jagt"
+      },
+      {
+        "given": "M.",
+        "family": "Haile-Mariam"
+      },
+      {
+        "given": "K. E.",
+        "family": "Kemper"
+      },
+      {
+        "given": "A. J.",
+        "family": "Chamberlain"
+      },
+      {
+        "given": "C.",
+        "family": "Schrooten"
+      },
+      {
+        "given": "B. J.",
+        "family": "Hayes"
+      },
+      {
+        "given": "M. E.",
+        "family": "Goddard"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2016
+        ]
+      ]
+    },
+    "DOI": "10.1186/s12864-016-2443-6",
+    "URL": "https://doi.org/10.1186/s12864-016-2443-6",
+    "container-title": "BMC Genomics",
+    "volume": "17",
+    "issue": "1",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "liu2022",
+    "type": "article-journal",
+    "title": "A multi-tissue atlas of regulatory variants in cattle",
+    "author": [
+      {
+        "given": "Shuli",
+        "family": "Liu"
+      },
+      {
+        "given": "Yahui",
+        "family": "Gao"
+      },
+      {
+        "given": "Oriol",
+        "family": "Canela-Xandri"
+      },
+      {
+        "given": "Sheng",
+        "family": "Wang"
+      },
+      {
+        "given": "Ying",
+        "family": "Yu"
+      },
+      {
+        "given": "Wentao",
+        "family": "Cai"
+      },
+      {
+        "given": "Bingjie",
+        "family": "Li"
+      },
+      {
+        "given": "Ruidong",
+        "family": "Xiang"
+      },
+      {
+        "given": "Amanda J.",
+        "family": "Chamberlain"
+      },
+      {
+        "given": "Erola",
+        "family": "Pairo-Castineira"
+      },
+      {
+        "given": "Kenton",
+        "family": "D’Mellow"
+      },
+      {
+        "given": "Konrad",
+        "family": "Rawlik"
+      },
+      {
+        "given": "Charley",
+        "family": "Xia"
+      },
+      {
+        "given": "Yuelin",
+        "family": "Yao"
+      },
+      {
+        "given": "Pau",
+        "family": "Navarro"
+      },
+      {
+        "given": "Dominique",
+        "family": "Rocha"
+      },
+      {
+        "given": "Xiujin",
+        "family": "Li"
+      },
+      {
+        "given": "Ze",
+        "family": "Yan"
+      },
+      {
+        "given": "Congjun",
+        "family": "Li"
+      },
+      {
+        "given": "Benjamin D.",
+        "family": "Rosen"
+      },
+      {
+        "given": "Curtis P.",
+        "family": "Van Tassell"
+      },
+      {
+        "given": "Paul M.",
+        "family": "Vanraden"
+      },
+      {
+        "given": "Shengli",
+        "family": "Zhang"
+      },
+      {
+        "given": "Li",
+        "family": "Ma"
+      },
+      {
+        "given": "John B.",
+        "family": "Cole"
+      },
+      {
+        "given": "George E.",
+        "family": "Liu"
+      },
+      {
+        "given": "Albert",
+        "family": "Tenesa"
+      },
+      {
+        "given": "Lingzhao",
+        "family": "Fang"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2022
+        ]
+      ]
+    },
+    "DOI": "10.1038/s41588-022-01153-5",
+    "URL": "https://doi.org/10.1038/s41588-022-01153-5",
+    "container-title": "Nature Genetics",
+    "volume": "54",
+    "issue": "9",
+    "page": "1438-1447",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "bermann2025",
+    "type": "article-journal",
+    "title": "Estimation of (co)variance components for very large datasets and complex single-step genomic models",
+    "author": [
+      {
+        "given": "Matias",
+        "family": "Bermann"
+      },
+      {
+        "given": "Andres",
+        "family": "Legarra"
+      },
+      {
+        "given": "Ignacio",
+        "family": "Aguilar"
+      },
+      {
+        "given": "Alejandra",
+        "family": "Alvarez-Munera"
+      },
+      {
+        "given": "Ignacy",
+        "family": "Misztal"
+      },
+      {
+        "given": "Daniela",
+        "family": "Lourenco"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    },
+    "DOI": "10.1186/s12711-025-01006-9",
+    "URL": "https://doi.org/10.1186/s12711-025-01006-9",
+    "container-title": "Genetics Selection Evolution",
+    "volume": "57",
+    "issue": "1",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "gowane2026",
+    "type": "article-journal",
+    "title": "Genetic parameters via predictivity in large populations under strong genomic selection",
+    "author": [
+      {
+        "given": "Gopal",
+        "family": "Gowane"
+      },
+      {
+        "given": "Jorge",
+        "family": "Hidalgo"
+      },
+      {
+        "given": "Mary Kate",
+        "family": "Hollifield"
+      },
+      {
+        "given": "Ignacy",
+        "family": "Misztal"
+      },
+      {
+        "given": "Daniela",
+        "family": "Lourenco"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    },
+    "DOI": "10.1186/s12711-026-01054-9",
+    "URL": "https://doi.org/10.1186/s12711-026-01054-9",
+    "container-title": "Genetics Selection Evolution",
+    "volume": "58",
+    "issue": "1",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "yang2025",
+    "type": "article-journal",
+    "title": "Incorporating information of causal variants in genomic prediction using GBLUP or machine learning models in a simulated livestock population",
+    "author": [
+      {
+        "given": "Jifan",
+        "family": "Yang"
+      },
+      {
+        "given": "Mario P. L.",
+        "family": "Calus"
+      },
+      {
+        "given": "Yvonne C. J.",
+        "family": "Wientjes"
+      },
+      {
+        "given": "Theo H. E.",
+        "family": "Meuwissen"
+      },
+      {
+        "given": "Pascal",
+        "family": "Duenk"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    },
+    "DOI": "10.1186/s40104-025-01250-5",
+    "URL": "https://doi.org/10.1186/s40104-025-01250-5",
+    "container-title": "Journal of Animal Science and Biotechnology",
+    "volume": "16",
+    "issue": "1",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "legarra2018",
+    "type": "article-journal",
+    "title": "Semi-parametric estimates of population accuracy and bias of predictions of breeding values and future phenotypes using the LR method",
+    "author": [
+      {
+        "given": "Andres",
+        "family": "Legarra"
+      },
+      {
+        "given": "Antonio",
+        "family": "Reverter"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2018
+        ]
+      ]
+    },
+    "DOI": "10.1186/s12711-018-0426-6",
+    "URL": "https://doi.org/10.1186/s12711-018-0426-6",
+    "container-title": "Genetics Selection Evolution",
+    "volume": "50",
+    "issue": "1",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "runcie2019",
+    "type": "article-journal",
+    "title": "Pitfalls and Remedies for Cross Validation with Multi-trait Genomic Prediction Methods",
+    "author": [
+      {
+        "given": "Daniel",
+        "family": "Runcie"
+      },
+      {
+        "given": "Hao",
+        "family": "Cheng"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "DOI": "10.1534/g3.119.400598",
+    "URL": "https://doi.org/10.1534/g3.119.400598",
+    "container-title": "G3 Genes|Genomes|Genetics",
+    "volume": "9",
+    "issue": "11",
+    "page": "3727-3741",
+    "publisher": "Oxford University Press (OUP)"
+  },
+  {
+    "id": "daetwyler2013",
+    "type": "article-journal",
+    "title": "Genomic Prediction in Animals and Plants: Simulation of Data, Validation, Reporting, and Benchmarking",
+    "author": [
+      {
+        "given": "Hans D",
+        "family": "Daetwyler"
+      },
+      {
+        "given": "Mario P L",
+        "family": "Calus"
+      },
+      {
+        "given": "Ricardo",
+        "family": "Pong-Wong"
+      },
+      {
+        "given": "Gustavo",
+        "family": "de los Campos"
+      },
+      {
+        "given": "John M",
+        "family": "Hickey"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2013
+        ]
+      ]
+    },
+    "DOI": "10.1534/genetics.112.147983",
+    "URL": "https://doi.org/10.1534/genetics.112.147983",
+    "container-title": "Genetics",
+    "volume": "193",
+    "issue": "2",
+    "page": "347-365",
+    "publisher": "Oxford University Press (OUP)"
+  },
+  {
+    "id": "habier2013",
+    "type": "article-journal",
+    "title": "Genomic BLUP Decoded: A Look into the Black Box of Genomic Prediction",
+    "author": [
+      {
+        "given": "David",
+        "family": "Habier"
+      },
+      {
+        "given": "Rohan L",
+        "family": "Fernando"
+      },
+      {
+        "given": "Dorian J",
+        "family": "Garrick"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2013
+        ]
+      ]
+    },
+    "DOI": "10.1534/genetics.113.152207",
+    "URL": "https://doi.org/10.1534/genetics.113.152207",
+    "container-title": "Genetics",
+    "volume": "194",
+    "issue": "3",
+    "page": "597-607",
+    "publisher": "Oxford University Press (OUP)"
+  },
+  {
+    "id": "saad2003",
+    "type": "book",
+    "title": "Iterative Methods for Sparse Linear Systems",
+    "author": [
+      {
+        "given": "Yousef",
+        "family": "Saad"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2003
+        ]
+      ]
+    },
+    "DOI": "10.1137/1.9780898718003",
+    "URL": "https://doi.org/10.1137/1.9780898718003",
+    "publisher": "Society for Industrial and Applied Mathematics",
+    "edition": "2"
+  },
+  {
+    "id": "higham2002",
+    "type": "book",
+    "title": "Accuracy and Stability of Numerical Algorithms",
+    "author": [
+      {
+        "given": "Nicholas J.",
+        "family": "Higham"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2002
+        ]
+      ]
+    },
+    "DOI": "10.1137/1.9780898718027",
+    "URL": "https://doi.org/10.1137/1.9780898718027",
+    "publisher": "Society for Industrial and Applied Mathematics",
+    "edition": "2"
+  },
+  {
+    "id": "hutchinson1989",
+    "type": "article-journal",
+    "title": "A Stochastic Estimator of the Trace of the Influence Matrix for Laplacian Smoothing Splines",
+    "author": [
+      {
+        "given": "M.F.",
+        "family": "Hutchinson"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1989
+        ]
+      ]
+    },
+    "DOI": "10.1080/03610918908812806",
+    "URL": "https://doi.org/10.1080/03610918908812806",
+    "container-title": "Communications in Statistics - Simulation and Computation",
+    "volume": "18",
+    "issue": "3",
+    "page": "1059-1076",
+    "publisher": "Informa UK Limited"
+  },
+  {
+    "id": "avron2011",
+    "type": "article-journal",
+    "title": "Randomized algorithms for estimating the trace of an implicit symmetric positive semi-definite matrix",
+    "author": [
+      {
+        "given": "Haim",
+        "family": "Avron"
+      },
+      {
+        "given": "Sivan",
+        "family": "Toledo"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2011
+        ]
+      ]
+    },
+    "DOI": "10.1145/1944345.1944349",
+    "URL": "https://doi.org/10.1145/1944345.1944349",
+    "container-title": "Journal of the ACM",
+    "volume": "58",
+    "issue": "2",
+    "page": "8:1–8:34",
+    "publisher": "Association for Computing Machinery (ACM)"
+  },
+  {
+    "id": "sorensen2002",
+    "type": "book",
+    "title": "Likelihood, Bayesian, and MCMC Methods in Quantitative Genetics",
+    "author": [
+      {
+        "given": "Daniel",
+        "family": "Sorensen"
+      },
+      {
+        "given": "Daniel",
+        "family": "Gianola"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2002
+        ]
+      ]
+    },
+    "DOI": "10.1007/b98952",
+    "URL": "https://doi.org/10.1007/b98952",
+    "container-title": "Statistics for Biology and Health",
+    "publisher": "Springer New York"
+  },
+  {
+    "id": "vitezica2013",
+    "type": "article-journal",
+    "title": "On the Additive and Dominant Variance and Covariance of Individuals Within the Genomic Selection Scope",
+    "author": [
+      {
+        "given": "Zulma G",
+        "family": "Vitezica"
+      },
+      {
+        "given": "Luis",
+        "family": "Varona"
+      },
+      {
+        "given": "Andres",
+        "family": "Legarra"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2013
+        ]
+      ]
+    },
+    "DOI": "10.1534/genetics.113.155176",
+    "URL": "https://doi.org/10.1534/genetics.113.155176",
+    "container-title": "Genetics",
+    "volume": "195",
+    "issue": "4",
+    "page": "1223-1230",
+    "publisher": "Oxford University Press (OUP)"
+  },
+  {
+    "id": "chen2008",
+    "type": "article-journal",
+    "title": "Algorithm 887: CHOLMOD, Supernodal Sparse Cholesky Factorization and Update/Downdate",
+    "author": [
+      {
+        "given": "Yanqing",
+        "family": "Chen"
+      },
+      {
+        "given": "Timothy A.",
+        "family": "Davis"
+      },
+      {
+        "given": "William W.",
+        "family": "Hager"
+      },
+      {
+        "given": "Sivasankaran",
+        "family": "Rajamanickam"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2008
+        ]
+      ]
+    },
+    "DOI": "10.1145/1391989.1391995",
+    "URL": "https://doi.org/10.1145/1391989.1391995",
+    "container-title": "ACM Transactions on Mathematical Software",
+    "volume": "35",
+    "issue": "3",
+    "page": "22:1–22:14",
+    "publisher": "Association for Computing Machinery (ACM)"
+  },
+  {
+    "id": "garcia2020",
+    "type": "article-journal",
+    "title": "Indirect predictions with a large number of genotyped animals using the algorithm for proven and young",
+    "author": [
+      {
+        "given": "Andre L S",
+        "family": "Garcia"
+      },
+      {
+        "given": "Yutaka",
+        "family": "Masuda"
+      },
+      {
+        "given": "Shogo",
+        "family": "Tsuruta"
+      },
+      {
+        "given": "Stephen",
+        "family": "Miller"
+      },
+      {
+        "given": "Ignacy",
+        "family": "Misztal"
+      },
+      {
+        "given": "Daniela",
+        "family": "Lourenco"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    },
+    "DOI": "10.1093/jas/skaa154",
+    "URL": "https://doi.org/10.1093/jas/skaa154",
+    "container-title": "Journal of Animal Science",
+    "volume": "98",
+    "issue": "6",
+    "publisher": "Oxford University Press (OUP)"
+  },
+  {
+    "id": "habier2011",
+    "type": "article-journal",
+    "title": "Extension of the bayesian alphabet for genomic selection",
+    "author": [
+      {
+        "given": "David",
+        "family": "Habier"
+      },
+      {
+        "given": "Rohan L",
+        "family": "Fernando"
+      },
+      {
+        "given": "Kadir",
+        "family": "Kizilkaya"
+      },
+      {
+        "given": "Dorian J",
+        "family": "Garrick"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2011
+        ]
+      ]
+    },
+    "DOI": "10.1186/1471-2105-12-186",
+    "URL": "https://doi.org/10.1186/1471-2105-12-186",
+    "container-title": "BMC Bioinformatics",
+    "volume": "12",
+    "issue": "1",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "hazel1943",
+    "type": "article-journal",
+    "title": "The Genetic Basis for Constructing Selection Indexes",
+    "author": [
+      {
+        "family": "Hazel",
+        "given": "L. N."
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1943
+        ]
+      ]
+    },
+    "container-title": "Genetics",
+    "volume": "28",
+    "issue": "6",
+    "page": "476–490",
+    "DOI": "10.1093/genetics/28.6.476",
+    "URL": "https://doi.org/10.1093/genetics/28.6.476"
+  }
+]

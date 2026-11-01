@@ -175,7 +175,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
 
   <ul>
-  <li><a href="#convert-and-run" id="toc-convert-and-run" class="nav-link active" data-scroll-target="#convert-and-run">Convert and run</a></li>
+  <li><a href="#separate-directives-and-data" id="toc-separate-directives-and-data" class="nav-link active" data-scroll-target="#separate-directives-and-data">Separate directives and data</a></li>
+  <li><a href="#convert-and-run" id="toc-convert-and-run" class="nav-link" data-scroll-target="#convert-and-run">Convert and run</a></li>
   <li><a href="#supported-initial-subset" id="toc-supported-initial-subset" class="nav-link" data-scroll-target="#supported-initial-subset">Supported initial subset</a></li>
   <li><a href="#features-requiring-further-translation" id="toc-features-requiring-further-translation" class="nav-link" data-scroll-target="#features-requiring-further-translation">Features requiring further translation</a></li>
   <li><a href="#export-a-yaml-model-to-dmu" id="toc-export-a-yaml-model-to-dmu" class="nav-link" data-scroll-target="#export-a-yaml-model-to-dmu">Export a YAML model to DMU</a></li>
@@ -212,10 +213,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>The development standalone frontend provides <code>gsuite import-dmu</code>. It translates a supported DMU 5.x linear-model specification into the existing YAML interface. The DMU driver file can reference other files, so keep its data, pedigree and parameter files available during conversion. A DMU executable is not required. Existing HPC installations do not gain the command until their frontend is updated; check <code>gsuite --help</code> for <code>import-dmu</code>.</p>
 <p>The same frontend provides <code>gsuite export-dmu</code> for the reverse conversion. Both commands prepare files; neither invokes DMU.</p>
+<section id="separate-directives-and-data" class="level2">
+<h2 class="anchored" data-anchor-id="separate-directives-and-data">Separate directives and data</h2>
+<p>The staged commands reuse the same DMU parser and data writer as the combined commands. Convert data once, then translate directives against its manifest:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> convert-data model.yml <span class="at">--to</span> dmu <span class="at">--output</span> dmu-data</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> translate model.yml <span class="at">--to</span> dmu <span class="at">--data-manifest</span> dmu-data/manifest.json <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> dmu-directives</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> convert-data dmu-directives/model.DIR <span class="at">--from</span> dmu <span class="at">--to</span> gsuite <span class="dt">\</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> imported-data</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> translate dmu-directives/model.DIR <span class="at">--from</span> dmu <span class="at">--to</span> gsuite <span class="dt">\</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-manifest</span> imported-data/manifest.json <span class="at">--output</span> imported.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>DMU directive export writes <code>model.DIR</code>, <code>parameters.txt</code> and a translation receipt in a fresh directory. Data conversion writes tables, coding metadata and <code>manifest.json</code>, without directives. Directive translation reads control files and manifest metadata; it does not rescan the converted tables. Preserve those tables unchanged and validate the resulting model before running it.</p>
+<p>The manifest binds input paths, trait/design/relationship definitions and the analysis task. Compatible covariance-value, solver and output edits can reuse the data. Changes to those bindings require another data conversion. Import uses the existing REAL4-compatible <code>float32</code> interpretation by default; <code>--real-precision float64</code> is explicit and must match between import stages.</p>
+<p>DMU-to-YAML translation without a manifest produces a draft with placeholder data paths and <code>data_ready: false</code>. YAML-to-DMU translation requires the data manifest because factor coding and the missing threshold depend on the data. The existing <code>import-dmu</code> and <code>export-dmu</code> combined commands remain available.</p>
+<p>Small deterministic tests compare staged round-trip predictions with independent mixed-model equations, including the original residual. This qualifies the supported conversion path against that reference, not a live DMU executable.</p>
+</section>
 <section id="convert-and-run" class="level2">
 <h2 class="anchored" data-anchor-id="convert-and-run">Convert and run</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> import-dmu /project/dmu/model.DIR <span class="at">--output</span> /project/converted</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run /project/converted/model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> import-dmu /project/dmu/model.DIR <span class="at">--output</span> /project/converted</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run /project/converted/model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The output directory must be fresh and its parent must exist. Conversion writes:</p>
 <ul>
 <li><code>model.yml</code>: the model, natural covariance matrices, execution and outputs.</li>
@@ -224,8 +241,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Edit execution settings in the YAML as usual. The default is one thread with PARDISO; <code>--threads 8 --sparse-backend pardiso</code> sets the generated requests. The normal <code>gsuite validate</code>, <code>describe</code> and <code>run</code> commands apply afterwards. Conversion checks the generated YAML and inputs; numerical convergence is established only by the subsequent fit. A successful import is not a DMU cross-software qualification.</p>
 <p>DMU resolves relative filenames from its working directory. The importer uses the DIR file’s parent by default. If those locations differ, supply:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> import-dmu /project/config/model.DIR <span class="dt">\</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--base-directory</span> /project/dmu-run <span class="at">--output</span> /project/converted</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> import-dmu /project/config/model.DIR <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--base-directory</span> /project/dmu-run <span class="at">--output</span> /project/converted</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="supported-initial-subset" class="level2">
 <h2 class="anchored" data-anchor-id="supported-initial-subset">Supported initial subset</h2>
@@ -297,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="export-a-yaml-model-to-dmu" class="level2">
 <h2 class="anchored" data-anchor-id="export-a-yaml-model-to-dmu">Export a YAML model to DMU</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> export-dmu /project/model.yml <span class="at">--output</span> /project/dmu-run</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> export-dmu /project/model.yml <span class="at">--output</span> /project/dmu-run</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The output parent must exist and the destination must be fresh. Run DMU from the resulting directory so its relative filenames resolve correctly. Export creates:</p>
 <ul>
 <li><code>model.DIR</code>, <code>data.txt</code> and <code>parameters.txt</code>: complete ASCII model, data and natural covariance parameters (or REML starting values).</li>

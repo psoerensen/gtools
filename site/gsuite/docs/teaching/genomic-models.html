@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-11-01">
+
+<title>4. Pedigree, genomic and combined relationship models – gtools</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-264a0fc3a96c72ca7334393e02078ef0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../gsuite/website/styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">gtools</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html">
+<span class="menu-text">Home</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../gsuite/index.html" aria-current="page">
+<span class="menu-text">gsuite</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gsim/">
+<span class="menu-text">gsim</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gact/">
+<span class="menu-text">gact</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gteach/">
+<span class="menu-text">gteach</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../help.html#help-me-use-gsuite">
+<span class="menu-text">Help me use gsuite</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../help.html#report-a-bug-or-suggest-a-feature">
+<span class="menu-text">Report a bug or suggest a feature</span></a>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/psoerensen/gtools">
+<span class="menu-text">GitHub</span></a>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Theory notes</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/genomic-models.html">4. Pedigree and genomic models</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container">
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Help and requests</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../help.html#help-me-use-gsuite" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Help me use gsuite</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../help.html#report-a-bug-or-suggest-a-feature" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Report a bug or suggest a feature</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">About gsuite</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Architecture and libraries</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capabilities and methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/downloads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software availability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Current status</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Tutorials</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All tutorials</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Standalone packages</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Study design and reproducibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/gbase.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gbase: data and LD</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/glma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">glma: association and VEGAS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/gbayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gbayes: Bayesian regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/gcorr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gcorr: heritability and correlation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/gmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gmap: fine-mapping</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/gscore.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gscore: polygenic scoring</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/gsea.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gsea: genes and pathways</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/pedigree-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pedigree analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/simulated-genomics-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Connected genomic analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/glma-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/summary-statistic-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Saved LD analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Analysis with an assistant</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/model-development-with-an-assistant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Developing a model with an assistant</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theory notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notes overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/mixed-model-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mixed-model refresher</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/mixed-model-framework.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1. Framework and assumptions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/prediction-and-uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Prediction and uncertainty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/variance-component-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Variance estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/genomic-models.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">4. Pedigree and genomic models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/components-and-identifiability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5. Components and identifiability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/multitrait-and-longitudinal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Multitrait and longitudinal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/missing-data-and-selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Missing data and selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/large-scale-computation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Large-scale computation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/model-checking-and-validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Checking and validation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/current-developments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. Current developments</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/genomic-feature-priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">11. Genomic-feature priors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/development-of-genetic-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Historical development</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/algorithmic-reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Algorithmic reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/qualification-framework.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Qualification framework</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shared bibliography</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Guides</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/guides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All guides</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/standalone.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Standalone mixed models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/model-yaml-proposal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">YAML model specification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/summary-statistic-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heritability and genetic correlation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gbayes-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gmap-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fine-mapping and colocalisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gsea-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gene sets and pathways</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/mr-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mendelian randomisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/covariance-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SEM and graphical models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/summary-interfaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Scoring and summary interfaces</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/genotype-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genotype preparation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/genotype-filtering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marker filtering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/sparse-ld-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sparse LD preparation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Software validation</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/qualifications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Validation overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/standalone-validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Standalone GenomeDK installation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/genomic-qualification-design.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shared simulation design (gsim)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/glma-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association scans (glma)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gcorr-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heritability and correlation (gcorr)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gbayes-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian regression (gbayes)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gscore-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prediction (gscore)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gmap-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regional mapping (gmap)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gsea-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genes and pathways (gsea)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/simulated-genomics-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Earlier connected evidence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gcorr-method-comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gcorr comparison results</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Current limits</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Reference</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/model-catalog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mixed-model catalog</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/model-recipes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model recipes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/formula-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formulas and covariance components</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/r-interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Persistent R interface</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/prediction-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prediction and uncertainty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model representation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gsolve-greml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Numerical routes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gmat-integration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matrix integration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/multitrait-pedigree-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multitrait computations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/longitudinal-pedigree-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Longitudinal computations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/primitive-registry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model primitives</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/model-reductions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model reductions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">Benchmarks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmark overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/benchmarks/pedigree_50k_dmu/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pedigree models: gsuite versus DMU</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Presentations</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/presentations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All presentations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/slides/ai-programme-strategy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Programme strategy</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/slides/ai-research-methods-teaching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Technical presentation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentation index</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+
+  <ul>
+  <li><a href="#what-distinguishes-one-genomic-model-from-another" id="toc-what-distinguishes-one-genomic-model-from-another" class="nav-link active" data-scroll-target="#what-distinguishes-one-genomic-model-from-another"><span class="header-section-number">1</span> What distinguishes one genomic model from another?</a></li>
+  <li><a href="#pedigree-blup-as-the-relationship-baseline" id="toc-pedigree-blup-as-the-relationship-baseline" class="nav-link" data-scroll-target="#pedigree-blup-as-the-relationship-baseline"><span class="header-section-number">2</span> Pedigree BLUP as the relationship baseline</a></li>
+  <li><a href="#marker-coding-and-the-genetic-reference-population" id="toc-marker-coding-and-the-genetic-reference-population" class="nav-link" data-scroll-target="#marker-coding-and-the-genetic-reference-population"><span class="header-section-number">3</span> Marker coding and the genetic reference population</a></li>
+  <li><a href="#snp-blup-and-gblup-an-exact-covariance-equivalence" id="toc-snp-blup-and-gblup-an-exact-covariance-equivalence" class="nav-link" data-scroll-target="#snp-blup-and-gblup-an-exact-covariance-equivalence"><span class="header-section-number">4</span> SNP-BLUP and GBLUP: an exact covariance equivalence</a>
+  <ul class="collapse">
+  <li><a href="#why-use-one-representation-rather-than-another" id="toc-why-use-one-representation-rather-than-another" class="nav-link" data-scroll-target="#why-use-one-representation-rather-than-another"><span class="header-section-number">4.1</span> Why use one representation rather than another?</a></li>
+  </ul></li>
+  <li><a href="#weighted-markers-and-several-genomic-components" id="toc-weighted-markers-and-several-genomic-components" class="nav-link" data-scroll-target="#weighted-markers-and-several-genomic-components"><span class="header-section-number">5</span> Weighted markers and several genomic components</a></li>
+  <li><a href="#single-step-models-retaining-non-genotyped-animals" id="toc-single-step-models-retaining-non-genotyped-animals" class="nav-link" data-scroll-target="#single-step-models-retaining-non-genotyped-animals"><span class="header-section-number">6</span> Single-step models: retaining non-genotyped animals</a>
+  <ul class="collapse">
+  <li><a href="#marginal-and-conditional-pedigree-precision-are-different" id="toc-marginal-and-conditional-pedigree-precision-are-different" class="nav-link" data-scroll-target="#marginal-and-conditional-pedigree-precision-are-different"><span class="header-section-number">6.1</span> Marginal and conditional pedigree precision are different</a></li>
+  <li><a href="#adjustment-pedigree-blending-and-identity-ridge" id="toc-adjustment-pedigree-blending-and-identity-ridge" class="nav-link" data-scroll-target="#adjustment-pedigree-blending-and-identity-ridge"><span class="header-section-number">6.2</span> Adjustment, pedigree blending and identity ridge</a></li>
+  <li><a href="#apy-and-other-approximations" id="toc-apy-and-other-approximations" class="nav-link" data-scroll-target="#apy-and-other-approximations"><span class="header-section-number">6.3</span> APY and other approximations</a></li>
+  </ul></li>
+  <li><a href="#bayesian-marker-effect-distributions" id="toc-bayesian-marker-effect-distributions" class="nav-link" data-scroll-target="#bayesian-marker-effect-distributions"><span class="header-section-number">7</span> Bayesian marker-effect distributions</a></li>
+  <li><a href="#beyond-additive-single-trait-prediction" id="toc-beyond-additive-single-trait-prediction" class="nav-link" data-scroll-target="#beyond-additive-single-trait-prediction"><span class="header-section-number">8</span> Beyond additive, single-trait prediction</a>
+  <ul class="collapse">
+  <li><a href="#dominance-and-epistasis" id="toc-dominance-and-epistasis" class="nav-link" data-scroll-target="#dominance-and-epistasis"><span class="header-section-number">8.1</span> Dominance and epistasis</a></li>
+  <li><a href="#multitrait-reaction-norms-and-factor-structure" id="toc-multitrait-reaction-norms-and-factor-structure" class="nav-link" data-scroll-target="#multitrait-reaction-norms-and-factor-structure"><span class="header-section-number">8.2</span> Multitrait, reaction norms and factor structure</a></li>
+  </ul></li>
+  <li><a href="#choosing-and-assessing-a-genomic-model" id="toc-choosing-and-assessing-a-genomic-model" class="nav-link" data-scroll-target="#choosing-and-assessing-a-genomic-model"><span class="header-section-number">9</span> Choosing and assessing a genomic model</a></li>
+  <li><a href="#reading-alongside-this-chapter" id="toc-reading-alongside-this-chapter" class="nav-link" data-scroll-target="#reading-alongside-this-chapter"><span class="header-section-number">10</span> Reading alongside this chapter</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">11</span> References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Theory notes</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/genomic-models.html">4. Pedigree and genomic models</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">4. Pedigree, genomic and combined relationship models</h1>
+<p class="subtitle lead">Advanced user notes — first draft</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 1, 2026</p>
+    </div>
+  </div>
+
+
+  </div>
+
+
+
+</header>
+
+
+<section id="what-distinguishes-one-genomic-model-from-another" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="what-distinguishes-one-genomic-model-from-another"><span class="header-section-number">1</span> What distinguishes one genomic model from another?</h2>
+<p>Genomic prediction models differ in their assumptions about genetic effects, their reference populations and the information they use. The choice of marker-effect or animal-effect equations is sometimes only a change of representation. Changing the prior distribution, relationship kernel or genomic blending generally changes the statistical model.</p>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<p>This chapter builds on the <a href="../../../gsuite/docs/teaching/mixed-model-framework.html">general framework</a>. Write <span class="math inline">\(y=X\beta+Za+e\)</span>, with additive genetic values <span class="math inline">\(a\)</span>, residual covariance <span class="math inline">\(R\)</span>, and genetic covariance <span class="math inline">\(K_a\)</span>. The prediction target is the additive genetic value relative to a declared base. Total genotypic value, marker association and individual future phenotype are different targets.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Family</th>
+<th>Main assumption or information source</th>
+<th>Distinction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pedigree BLUP</td>
+<td><span class="math inline">\(K_a=\sigma_a^2 A\)</span></td>
+<td>Pedigree expectation of additive relationships</td>
+</tr>
+<tr class="even">
+<td>SNP-BLUP / ridge regression</td>
+<td>Gaussian marker effects</td>
+<td>Marker-effect representation of an additive kernel</td>
+</tr>
+<tr class="odd">
+<td>GBLUP</td>
+<td><span class="math inline">\(K_a=\sigma_a^2 G\)</span></td>
+<td>Animal-effect representation of that kernel</td>
+</tr>
+<tr class="even">
+<td>Weighted or multi-kernel GBLUP</td>
+<td>Marker weights or several genetic components</td>
+<td>Changes shrinkage across genomic directions</td>
+</tr>
+<tr class="odd">
+<td>ssGBLUP / ssSNPBLUP</td>
+<td>Joint pedigree and genomic information</td>
+<td>Includes non-genotyped animals in one model</td>
+</tr>
+<tr class="even">
+<td>Bayesian variable-selection or mixture models</td>
+<td>Non-Gaussian marker priors</td>
+<td>Allows heterogeneous, possibly sparse marker effects</td>
+</tr>
+<tr class="odd">
+<td>Dominance and interaction models</td>
+<td>Additional non-additive kernels</td>
+<td>Changes the genetic target and decomposition</td>
+</tr>
+<tr class="even">
+<td>Multitrait and G×E models</td>
+<td>Covariance across traits or environments</td>
+<td>Extends how genetic information is shared</td>
+</tr>
+</tbody>
+</table>
+<p>These families differ in statistical assumptions, prediction targets and inference. Some are exact reparameterizations; others change the model.</p>
+</section>
+<section id="pedigree-blup-as-the-relationship-baseline" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="pedigree-blup-as-the-relationship-baseline"><span class="header-section-number">2</span> Pedigree BLUP as the relationship baseline</h2>
+<p>The sparse pedigree-inverse construction is due to <span class="citation" data-cites="henderson1976">Henderson (<a href="#ref-henderson1976" role="doc-biblioref">1976</a>)</span>.</p>
+<p>For an additive animal model, <span class="math inline">\(K_a=\sigma_a^2A\)</span>. If animal <span class="math inline">\(i\)</span> has known sire <span class="math inline">\(s\)</span> and dam <span class="math inline">\(d\)</span>, pedigree recursion gives <span class="math inline">\(A_{ij}=(A_{sj}+A_{dj})/2\)</span> for earlier animals and <span class="math inline">\(A_{ii}=1+A_{sd}/2\)</span>. Unknown parent contributions follow the specified founder assumptions. Animals must be topologically ordered for this recursion, while external identities must remain stable across all outputs.</p>
+<p>A structural representation writes <span class="math inline">\(a=Pa+\varepsilon\)</span>, where <span class="math inline">\(P\)</span> contains known parental half-contributions and <span class="math inline">\(\varepsilon\)</span> contains independent Mendelian innovations under the pedigree model. With their correctly computed variance diagonal <span class="math inline">\(D\)</span>,</p>
+<p><span class="math display">\[
+A^{-1}=(I-P)^\top D^{-1}(I-P).
+\]</span></p>
+<p>Parental inbreeding changes innovation variances. The simple diagonal values for unrelated, non-inbred founders must not be applied indiscriminately to inbred pedigrees. This representation explains why pedigree precision can be sparse even though the relationship matrix itself is dense.</p>
+<p>Pedigree BLUP uses expected relationships under this inheritance model. Genomic models can capture variation in realized marker sharing around those pedigree expectations; their base, scale and target must still be specified.</p>
+</section>
+<section id="marker-coding-and-the-genetic-reference-population" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="marker-coding-and-the-genetic-reference-population"><span class="header-section-number">3</span> Marker coding and the genetic reference population</h2>
+<p>Let <span class="math inline">\(M_{ij}\in\{0,1,2\}\)</span> count a consistently chosen allele at marker <span class="math inline">\(j\)</span>. For reference allele frequencies <span class="math inline">\(p_j\)</span>, define</p>
+<p><span class="math display">\[
+W_{ij}=M_{ij}-2p_j,\qquad
+d=\sum_j2p_j(1-p_j),\qquad G=WW^\top/d.
+\]</span></p>
+<p>This common construction uses one overall normalization. It differs from standardizing every marker to unit variance before taking a cross-product. Both are legitimate covariance specifications, but they imply different marker weighting. Rare variants can receive much greater relative weight under per-marker standardization.</p>
+<p>Frequencies calculated in the training sample, the full genotyped population or an external base need not give the same <span class="math inline">\(W\)</span>. Under mean imputation at these same frequencies, a missing centered dosage is zero. That is an imputation assumption, not evidence that the genotype is observed. Marker filtering, imputation and frequency estimation should be recorded separately.</p>
+<p>Reversing an allele consistently changes one column of <span class="math inline">\(W\)</span> to its negative. Its contribution to <span class="math inline">\(WW^\top\)</span> is unchanged, while the corresponding estimated marker effect changes sign. Inconsistent allele alignment between training and prediction data changes predictions.</p>
+</section>
+<section id="snp-blup-and-gblup-an-exact-covariance-equivalence" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="snp-blup-and-gblup-an-exact-covariance-equivalence"><span class="header-section-number">4</span> SNP-BLUP and GBLUP: an exact covariance equivalence</h2>
+<p>In SNP-BLUP,</p>
+<p><span class="math display">\[
+y=X\beta+ZWm+e,\qquad m\sim N(0,\sigma_m^2I).
+\]</span></p>
+<p>The induced genetic covariance is</p>
+<p><span class="math display">\[
+K_a=\sigma_m^2WW^\top=\sigma_a^2G,
+\qquad \sigma_m^2=\sigma_a^2/d.
+\]</span></p>
+<p>Consequently SNP-BLUP and GBLUP give identical fitted genetic values when their covariance scales, fixed-effect spaces, observations and residual models match. This is the equivalence examined by <span class="citation" data-cites="vanraden2008">(<a href="#ref-vanraden2008" role="doc-biblioref">VanRaden, 2008</a>)</span>.</p>
+<p>With one record per genotyped animal and <span class="math inline">\(R=\sigma_e^2I\)</span>, marker equations contain the penalty <span class="math inline">\(\lambda I\)</span>, where</p>
+<p><span class="math display">\[
+\lambda=\frac{\sigma_e^2}{\sigma_m^2}
+=\frac{d\sigma_e^2}{\sigma_a^2}.
+\]</span></p>
+<p>The factor <span class="math inline">\(d\)</span> must not disappear when transferring variances between parameterizations. An intercept is normally unpenalized.</p>
+<p>For a new individual with centered genotype row <span class="math inline">\(w_*^\top\)</span>,</p>
+<p><span class="math display">\[
+\hat a_*=w_*^\top\hat m
+=\operatorname{Cov}(a_*,y)V^{-1}(y-X\hat\beta).
+\]</span></p>
+<p>This expression also clarifies kernel prediction: predictions for a new individual require training-to-new cross-covariances, not just the training kernel. Compatible uncertainty additionally needs the target’s prior variance.</p>
+<p><span class="math inline">\(G\)</span> is often singular because of centering, limited marker rank or duplicate genotypes. A Gaussian model with a positive-semidefinite genetic covariance can still be valid when <span class="math inline">\(R\)</span> makes <span class="math inline">\(V\)</span> positive definite. The marginal formula or marker model then remains usable without an ordinary inverse of <span class="math inline">\(G\)</span>. Adding a ridge solely to permit inversion is not an exact reparameterization of the original singular model.</p>
+<section id="why-use-one-representation-rather-than-another" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="why-use-one-representation-rather-than-another"><span class="header-section-number">4.1</span> Why use one representation rather than another?</h3>
+<p>An explicit genomic matrix costs <span class="math inline">\(O(n_g^2)\)</span> storage. A marker formulation can apply <span class="math inline">\(W\)</span> and <span class="math inline">\(W^\top\)</span> without constructing it, including from packed dosage data. Conversely, a retained relationship factor may make repeated solves attractive when its dimension and fill are manageable. Trait count, missingness, factor reuse and uncertainty requests also matter. Comparing only equation counts does not determine which representation is faster.</p>
+</section>
+</section>
+<section id="weighted-markers-and-several-genomic-components" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="weighted-markers-and-several-genomic-components"><span class="header-section-number">5</span> Weighted markers and several genomic components</h2>
+<p>With <span class="math inline">\(m\sim N(0,\tau^2D)\)</span> for a nonnegative diagonal <span class="math inline">\(D\)</span>,</p>
+<p><span class="math display">\[
+K_a=\tau^2WDW^\top.
+\]</span></p>
+<p>Fixed externally supplied weights still define a Gaussian mixed model. Weights estimated adaptively from the same phenotypes create a larger estimation procedure; treating them as known afterwards omits their estimation uncertainty.</p>
+<p>For biological feature definitions, annotation overlap and feature-dependent marker priors, see <a href="../../../gsuite/docs/teaching/genomic-feature-priors.html">Chapter 11</a>.</p>
+<p>A multi-kernel model instead writes</p>
+<p><span class="math display">\[
+a=\sum_k a_k,\qquad
+a_k\sim N(0,\sigma_k^2G_k),\qquad
+K_a=\sum_k\sigma_k^2G_k.
+\]</span></p>
+<p>Possible partitions include chromosomes, functional annotations or variant classes. Each kernel needs its own scale convention. Highly similar kernels can leave component variances weakly identified even when total genetic prediction is stable. Overlapping annotations do not automatically yield independent biological variance contributions: the model defines how that overlap is allocated.</p>
+</section>
+<section id="single-step-models-retaining-non-genotyped-animals" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="single-step-models-retaining-non-genotyped-animals"><span class="header-section-number">6</span> Single-step models: retaining non-genotyped animals</h2>
+<p>Partition the pedigree matrix into non-genotyped (<span class="math inline">\(n\)</span>) and genotyped (<span class="math inline">\(g\)</span>) animals. The pedigree conditional model can be written</p>
+<p><span class="math display">\[
+a_n=T a_g+\varepsilon_n,\qquad
+T=A_{ng}A_{gg}^{-1},\qquad
+\operatorname{Var}(\varepsilon_n)=\sigma_a^2C_n,
+\]</span></p>
+<p>where <span class="math inline">\(C_n=A_{nn}-A_{ng}A_{gg}^{-1}A_{gn}\)</span>. Retain this conditional distribution but replace the marginal genotyped covariance by <span class="math inline">\(\operatorname{Var}(a_g)=\sigma_a^2G_b\)</span>. The resulting joint relationship is</p>
+<p><span class="math display">\[
+H=\begin{bmatrix}
+C_n+TG_bT^\top&amp;TG_b\\G_bT^\top&amp;G_b
+\end{bmatrix}.
+\]</span></p>
+<p>For nonsingular matrices this gives</p>
+<p><span class="math display">\[
+H^{-1}=A^{-1}+E_g^\top(G_b^{-1}-A_{gg}^{-1})E_g.
+\]</span></p>
+<p>This provides a common basis for ssGBLUP and corresponding ssSNPBLUP representations. Phenotypes on non-genotyped relatives remain in the model; they are not simply discarded or treated as additional genotypes. See <span class="citation" data-cites="christensen2010">(<a href="#ref-christensen2010" role="doc-biblioref">Christensen and Lund, 2010</a>)</span>.</p>
+<p>An ssSNPBLUP formulation expresses the genomic part through marker effects and retains the additional pedigree-related terms needed to reproduce <span class="math inline">\(H\)</span>. It is not ordinary SNP-BLUP with missing genotype rows filled by zero. Equivalence requires matching the complete latent covariance, including blending, adjustment and any additional genetic component.</p>
+<section id="marginal-and-conditional-pedigree-precision-are-different" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="marginal-and-conditional-pedigree-precision-are-different"><span class="header-section-number">6.1</span> Marginal and conditional pedigree precision are different</h3>
+<p>Partition animals into non-genotyped (<span class="math inline">\(n\)</span>) and genotyped (<span class="math inline">\(g\)</span>), and write <span class="math inline">\(Q=A^{-1}\)</span>. The marginal precision for the genotyped breeding values is</p>
+<p><span class="math display">\[
+A_{gg}^{-1}=Q_{gg}-Q_{gn}Q_{nn}^{-1}Q_{ng}.
+\]</span></p>
+<p>It is <strong>not</strong> generally the principal block <span class="math inline">\(Q_{gg}\)</span>. The latter is the conditional precision of <span class="math inline">\(a_g\)</span> given <span class="math inline">\(a_n\)</span>. Applying the Schur complement can involve a solve with <span class="math inline">\(Q_{nn}\)</span> without constructing the dense marginal inverse. This distinction is essential when interpreting timings labelled “pedigree solve” or comparing apparently similar single-step implementations.</p>
+</section>
+<section id="adjustment-pedigree-blending-and-identity-ridge" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="adjustment-pedigree-blending-and-identity-ridge"><span class="header-section-number">6.2</span> Adjustment, pedigree blending and identity ridge</h3>
+<p>One moment adjustment is <span class="math inline">\(G_*=\alpha\mathbf1\mathbf1^\top+\gamma G\)</span>, chosen to align specified pedigree and genomic moments. Blending then might be</p>
+<p><span class="math display">\[
+G_b=(1-w)G_*+wA_{gg}.
+\]</span></p>
+<p>The model used for our four-trait comparison has <span class="math inline">\(w=0.05\)</span>, adjustment of <span class="math inline">\(G\)</span> to <span class="math inline">\(A\)</span>, and no independent identity ridge. In contrast, <span class="math inline">\((1-w)G_*+wI\)</span> assigns the additional variation to independent genotyped-animal directions. It is not the same as 5% pedigree blending.</p>
+<p>Without the adjustment intercept, a pedigree blend admits the representation <span class="math inline">\(a_g=Wm+r_g\)</span> with independent <span class="math inline">\(r_g\)</span> having covariance <span class="math inline">\(w\sigma_a^2A_{gg}\)</span> and an appropriately scaled marker covariance. An adjustment intercept contributes an additional rank-one covariance term. It must be represented consistently; a negative adjustment intercept cannot be interpreted on its own as the variance of an independent scalar effect.</p>
+<p>The pedigree block <span class="math inline">\(A_{gg}^{-1}\)</span> is generally dense even when <span class="math inline">\(A^{-1}\)</span> is sparse. Schur-complement solves or equivalent latent systems avoid explicitly forming that dense inverse. Their cost is real model algebra, distinct from the cost of decoding markers.</p>
+</section>
+<section id="apy-and-other-approximations" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="apy-and-other-approximations"><span class="header-section-number">6.3</span> APY and other approximations</h3>
+<p>APY partitions genotyped animals into a core and a remaining group. It retains a core-dependent conditional prediction and approximates the conditional covariance among remaining animals, typically by a diagonal. Thus an APY relationship approximation can change the target model; its predictions depend on core choice and approximation quality. It should not be described as merely a different PCG preconditioner for an unchanged exact system. An approximate operator used only inside a preconditioner is a separate case. For an applied treatment of the core/non-core construction, see <span class="citation" data-cites="garcia2020">(<a href="#ref-garcia2020" role="doc-biblioref">Garcia et al., 2020</a>)</span>.</p>
+</section>
+</section>
+<section id="bayesian-marker-effect-distributions" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="bayesian-marker-effect-distributions"><span class="header-section-number">7</span> Bayesian marker-effect distributions</h2>
+<p>Gaussian SNP-BLUP assigns one common marker variance on the chosen coding scale. The original BayesA/B models allow heterogeneous marker effects <span class="citation" data-cites="meuwissen2001">(<a href="#ref-meuwissen2001" role="doc-biblioref">Meuwissen et al., 2001</a>)</span>. Important families include:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Family</th>
+<th>Representative prior</th>
+<th>Implication</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>BayesA</td>
+<td>Gaussian effects with marker-specific inverse-chi-squared variance mixing</td>
+<td>Heavy-tailed marginal effects; no point mass at zero</td>
+</tr>
+<tr class="even">
+<td>BayesB</td>
+<td>A point mass at zero plus a heavy-tailed active component</td>
+<td>Selection and marker-specific active shrinkage</td>
+</tr>
+<tr class="odd">
+<td>BayesC-type models</td>
+<td>A point mass at zero plus a common Gaussian active component</td>
+<td>Selection with a shared active-effect variance</td>
+</tr>
+<tr class="even">
+<td>BayesR-type models</td>
+<td>A finite mixture of zero and several Gaussian variance classes</td>
+<td>Several degrees of shrinkage</td>
+</tr>
+</tbody>
+</table>
+<p>The precise prior includes mixture probabilities, variance scales and their hyperpriors. Names alone are insufficient to reproduce an analysis; some implementations fix a quantity that others estimate. BayesC-type extensions are described by <span class="citation" data-cites="habier2011">Habier et al. (<a href="#ref-habier2011" role="doc-biblioref">2011</a>)</span>. For BayesR, see <span class="citation" data-cites="erbe2012">Erbe et al. (<a href="#ref-erbe2012" role="doc-biblioref">2012</a>)</span> and <span class="citation" data-cites="moser2015">Moser et al. (<a href="#ref-moser2015" role="doc-biblioref">2015</a>)</span>.</p>
+<p>Conditional on mixture assignments and variance parameters, parts of these models are Gaussian. Integrating over those unknowns gives a non-Gaussian posterior and generally nonlinear prediction in <span class="math inline">\(y\)</span>. Matching the prior’s second moment to a GBLUP covariance therefore does not make the posterior predictions equivalent. Posterior mean, posterior mode, variable-selection probability and MCMC draw are also different outputs.</p>
+<p>Posterior inclusion probabilities describe marker inclusion under a declared prior and LD structure. They are not automatically probabilities that a marker is causal. Prediction performance does not establish fine-mapping resolution.</p>
+</section>
+<section id="beyond-additive-single-trait-prediction" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="beyond-additive-single-trait-prediction"><span class="header-section-number">8</span> Beyond additive, single-trait prediction</h2>
+<p>An additive/dominance genomic covariance construction and its interpretation are developed by <span class="citation" data-cites="vitezica2013">Vitezica et al. (<a href="#ref-vitezica2013" role="doc-biblioref">2013</a>)</span>.</p>
+<section id="dominance-and-epistasis" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="dominance-and-epistasis"><span class="header-section-number">8.1</span> Dominance and epistasis</h3>
+<p>An additive-plus-dominance model uses independent effects with <span class="math inline">\(K=\sigma_a^2G_a+\sigma_d^2G_d\)</span>. Dominance coding must be defined relative to allele frequencies and the intended statistical decomposition. Simply adding squared dosage columns does not specify an orthogonal dominance model.</p>
+<p>A Hadamard-product kernel such as <span class="math inline">\(G_a\circ G_a\)</span> can represent an interaction covariance, but its interpretation depends on coding, centering and whether self-interactions and lower-order effects are included. Kernel labels are not sufficient evidence that estimated components correspond to unique biological mechanisms.</p>
+<p>An additive breeding value concerns transmission to offspring under the specified model. Adding dominance or interaction predictions produces a different target, often a component of an individual’s total genotypic value.</p>
+</section>
+<section id="multitrait-reaction-norms-and-factor-structure" class="level3" data-number="8.2">
+<h3 data-number="8.2" class="anchored" data-anchor-id="multitrait-reaction-norms-and-factor-structure"><span class="header-section-number">8.2</span> Multitrait, reaction norms and factor structure</h3>
+<p>For a common additive kernel and trait-major stacking, <span class="math inline">\(K_a=\Sigma_a\otimes G\)</span> (or <span class="math inline">\(\Sigma_a\otimes H\)</span> in single-step). Genetic correlations share information across traits but do not guarantee that adding any trait improves prediction in every population.</p>
+<p>Reaction norms model genetic coefficients over an environmental basis. If <span class="math inline">\(a_i(z)=b(z)^\top u_i\)</span> and <span class="math inline">\(\operatorname{Cov}(u_i,u_j)=G_{ij}\Sigma_u\)</span>, then</p>
+<p><span class="math display">\[
+\operatorname{Cov}\{a_i(z),a_j(z')\}
+=G_{ij}b(z)^\top\Sigma_u b(z').
+\]</span></p>
+<p>A factor-analytic trait/environment covariance, <span class="math inline">\(\Sigma_a=\Lambda\Lambda^\top+\Psi\)</span>, reduces the covariance parameterization and imposes structure. It is not automatically the same as a full unstructured multitrait model. Cross-environment prediction depends on the environmental information available at prediction time as well as the genetic kernel.</p>
+</section>
+</section>
+<section id="choosing-and-assessing-a-genomic-model" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="choosing-and-assessing-a-genomic-model"><span class="header-section-number">9</span> Choosing and assessing a genomic model</h2>
+<p>For an evaluation, record the scientific target, training and prediction populations, marker coding and frequencies, kernel normalization, covariance parameters, adjustment/blending rule and treatment of non-genotyped animals. Specify whether covariance parameters are supplied, estimated by REML or integrated in Bayesian inference. Computational choices should preserve the intended model or make the approximation and its consequences explicit.</p>
+<p>Qualification should connect three levels: an independent small covariance reference, a representative model fit with original-equation residual checks, and prediction validation designed for the intended deployment. Randomly splitting close relatives can answer a different question from prediction across generations or populations. Hyperparameters, marker selection and phenotype-derived weights must be learned inside the training procedure.</p>
+</section>
+<section id="reading-alongside-this-chapter" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="reading-alongside-this-chapter"><span class="header-section-number">10</span> Reading alongside this chapter</h2>
+<ul>
+<li><span class="citation" data-cites="vanraden2008">(<a href="#ref-vanraden2008" role="doc-biblioref">VanRaden, 2008</a>)</span>: marker/relationship equivalence and genomic relationship construction.</li>
+<li><span class="citation" data-cites="meuwissen2001">(<a href="#ref-meuwissen2001" role="doc-biblioref">Meuwissen et al., 2001</a>)</span>: the original dense-marker prediction study and heterogeneous effect priors.</li>
+<li><span class="citation" data-cites="christensen2010">(<a href="#ref-christensen2010" role="doc-biblioref">Christensen and Lund, 2010</a>)</span> and <span class="citation" data-cites="aguilar2010">(<a href="#ref-aguilar2010" role="doc-biblioref">Aguilar et al., 2010</a>)</span>: joint pedigree/genomic evaluation including non-genotyped animals.</li>
+<li><a href="https://psoerensen.github.io/bayesian-linear-regression/notes/notes.html">Existing Bayesian regression notes</a>: Gaussian shrinkage, mixture indicators and posterior inference.</li>
+</ul>
+<p><a href="../../../gsuite/docs/teaching/components-and-identifiability.html">Next: multiple components and identifiability</a>.</p>
+</section>
+<section id="references" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="references"><span class="header-section-number">11</span> References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-aguilar2010" class="csl-entry" role="listitem">
+Aguilar, I., Misztal, I., Johnson, D. L., Legarra, A., Tsuruta, S., and Lawlor, T. J. (2010). Hot topic: A unified approach to utilize phenotypic, full pedigree, and genomic information for genetic evaluation of Holstein final score. <em>Journal of Dairy Science</em>, 93(2), 743–752. https://doi.org/<a href="https://doi.org/10.3168/jds.2009-2730">10.3168/jds.2009-2730</a>.
+</div>
+<div id="ref-christensen2010" class="csl-entry" role="listitem">
+Christensen, O. F., and Lund, M. S. (2010). Genomic prediction when some animals are not genotyped. <em>Genetics Selection Evolution</em>, 42(1). https://doi.org/<a href="https://doi.org/10.1186/1297-9686-42-2">10.1186/1297-9686-42-2</a>.
+</div>
+<div id="ref-erbe2012" class="csl-entry" role="listitem">
+Erbe, M., Hayes, B. J., Matukumalli, L. K., Goswami, S., Bowman, P. J., Reich, C. M., Mason, B. A., and Goddard, M. E. (2012). Improving accuracy of genomic predictions within and between dairy cattle breeds with imputed high-density single nucleotide polymorphism panels. <em>Journal of Dairy Science</em>, 95(7), 4114–4129. https://doi.org/<a href="https://doi.org/10.3168/jds.2011-5019">10.3168/jds.2011-5019</a>.
+</div>
+<div id="ref-garcia2020" class="csl-entry" role="listitem">
+Garcia, A. L. S., Masuda, Y., Tsuruta, S., Miller, S., Misztal, I., and Lourenco, D. (2020). Indirect predictions with a large number of genotyped animals using the algorithm for proven and young. <em>Journal of Animal Science</em>, 98(6). https://doi.org/<a href="https://doi.org/10.1093/jas/skaa154">10.1093/jas/skaa154</a>.
+</div>
+<div id="ref-habier2011" class="csl-entry" role="listitem">
+Habier, D., Fernando, R. L., Kizilkaya, K., and Garrick, D. J. (2011). Extension of the bayesian alphabet for genomic selection. <em>BMC Bioinformatics</em>, 12(1). https://doi.org/<a href="https://doi.org/10.1186/1471-2105-12-186">10.1186/1471-2105-12-186</a>.
+</div>
+<div id="ref-henderson1976" class="csl-entry" role="listitem">
+Henderson, C. R. (1976). A Simple Method for Computing the Inverse of a Numerator Relationship Matrix Used in Prediction of Breeding Values. <em>Biometrics</em>, 32(1), 69. https://doi.org/<a href="https://doi.org/10.2307/2529339">10.2307/2529339</a>.
+</div>
+<div id="ref-meuwissen2001" class="csl-entry" role="listitem">
+Meuwissen, T. H. E., Hayes, B. J., and Goddard, M. E. (2001). Prediction of Total Genetic Value Using Genome-Wide Dense Marker Maps. <em>Genetics</em>, 157(4), 1819–1829. https://doi.org/<a href="https://doi.org/10.1093/genetics/157.4.1819">10.1093/genetics/157.4.1819</a>.
+</div>
+<div id="ref-moser2015" class="csl-entry" role="listitem">
+Moser, G., Lee, S. H., Hayes, B. J., Goddard, M. E., Wray, N. R., and Visscher, P. M. (2015). Simultaneous Discovery, Estimation and Prediction Analysis of Complex Traits Using a Bayesian Mixture Model. <em>PLOS Genetics</em>, 11(4), e1004969. https://doi.org/<a href="https://doi.org/10.1371/journal.pgen.1004969">10.1371/journal.pgen.1004969</a>.
+</div>
+<div id="ref-vanraden2008" class="csl-entry" role="listitem">
+VanRaden, P. M. (2008). Efficient Methods to Compute Genomic Predictions. <em>Journal of Dairy Science</em>, 91(11), 4414–4423. https://doi.org/<a href="https://doi.org/10.3168/jds.2007-0980">10.3168/jds.2007-0980</a>.
+</div>
+<div id="ref-vitezica2013" class="csl-entry" role="listitem">
+Vitezica, Z. G., Varona, L., and Legarra, A. (2013). On the Additive and Dominant Variance and Covariance of Individuals Within the Genomic Selection Scope. <em>Genetics</em>, 195(4), 1223–1230. https://doi.org/<a href="https://doi.org/10.1534/genetics.113.155176">10.1534/genetics.113.155176</a>.
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button,
+          { trigger: "manual",
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/psoerensen\.github\.io\/gtools\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined;
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              }
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            }
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
+</div>
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

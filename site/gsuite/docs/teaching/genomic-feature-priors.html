@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-11-01">
+
+<title>11. Genomic-feature information and prior models – gtools</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-264a0fc3a96c72ca7334393e02078ef0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../gsuite/website/styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">gtools</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html">
+<span class="menu-text">Home</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../gsuite/index.html" aria-current="page">
+<span class="menu-text">gsuite</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gsim/">
+<span class="menu-text">gsim</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gact/">
+<span class="menu-text">gact</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gteach/">
+<span class="menu-text">gteach</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../help.html#help-me-use-gsuite">
+<span class="menu-text">Help me use gsuite</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../../help.html#report-a-bug-or-suggest-a-feature">
+<span class="menu-text">Report a bug or suggest a feature</span></a>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/psoerensen/gtools">
+<span class="menu-text">GitHub</span></a>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Theory notes</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/genomic-feature-priors.html">11. Genomic-feature priors</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container">
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Help and requests</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../help.html#help-me-use-gsuite" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Help me use gsuite</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../help.html#report-a-bug-or-suggest-a-feature" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Report a bug or suggest a feature</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">About gsuite</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Architecture and libraries</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Capabilities and methods</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/downloads.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software availability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Current status</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Tutorials</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/tutorials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All tutorials</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Standalone packages</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth2 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Study design and reproducibility</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/gbase.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gbase: data and LD</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/glma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">glma: association and VEGAS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/gbayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gbayes: Bayesian regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/gcorr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gcorr: heritability and correlation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/gmap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gmap: fine-mapping</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/gscore.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gscore: polygenic scoring</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/package-tutorials/gsea.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gsea: genes and pathways</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/pedigree-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pedigree analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/simulated-genomics-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Connected genomic analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/glma-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/summary-statistic-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Saved LD analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/analysis-with-an-assistant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Analysis with an assistant</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/model-development-with-an-assistant.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Developing a model with an assistant</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theory notes</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notes overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/mixed-model-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mixed-model refresher</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/mixed-model-framework.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1. Framework and assumptions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/prediction-and-uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2. Prediction and uncertainty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/variance-component-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3. Variance estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/genomic-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4. Pedigree and genomic models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/components-and-identifiability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5. Components and identifiability</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/multitrait-and-longitudinal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6. Multitrait and longitudinal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/missing-data-and-selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">7. Missing data and selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/large-scale-computation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">8. Large-scale computation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/model-checking-and-validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">9. Checking and validation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/current-developments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">10. Current developments</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/genomic-feature-priors.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">11. Genomic-feature priors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/development-of-genetic-evaluation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Historical development</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/algorithmic-reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Algorithmic reference</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/qualification-framework.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Qualification framework</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shared bibliography</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Guides</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/guides.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All guides</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/standalone.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Standalone mixed models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/model-yaml-proposal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">YAML model specification</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/summary-statistic-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heritability and genetic correlation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gbayes-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gmap-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fine-mapping and colocalisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gsea-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gene sets and pathways</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/mr-workflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mendelian randomisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/covariance-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SEM and graphical models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/summary-interfaces.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Scoring and summary interfaces</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/genotype-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genotype preparation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/genotype-filtering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marker filtering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/sparse-ld-preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sparse LD preparation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Software validation</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/qualifications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Validation overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/standalone-validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Standalone GenomeDK installation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/genomic-qualification-design.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Shared simulation design (gsim)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/glma-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Association scans (glma)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gcorr-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heritability and correlation (gcorr)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gbayes-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bayesian regression (gbayes)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gscore-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prediction (gscore)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gmap-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regional mapping (gmap)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gsea-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genes and pathways (gsea)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/simulated-genomics-qualification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Earlier connected evidence</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gcorr-method-comparison.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gcorr comparison results</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/status.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Current limits</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Reference</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/model-catalog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mixed-model catalog</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/model-recipes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model recipes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/formula-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Formulas and covariance components</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/r-interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Persistent R interface</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/prediction-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prediction and uncertainty</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/model-architecture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model representation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gsolve-greml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Numerical routes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/gmat-integration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matrix integration</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/multitrait-pedigree-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multitrait computations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/longitudinal-pedigree-reml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Longitudinal computations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/primitive-registry.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model primitives</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/model-reductions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model reductions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+ <span class="menu-text">Benchmarks</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Benchmark overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/benchmarks/pedigree_50k_dmu/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pedigree models: gsuite versus DMU</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false">
+ <span class="menu-text">Presentations</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 ">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/presentations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">All presentations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/slides/ai-programme-strategy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Programme strategy</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/slides/ai-research-methods-teaching.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Technical presentation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/README.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Documentation index</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+
+  <ul>
+  <li><a href="#biological-information-as-part-of-the-statistical-model" id="toc-biological-information-as-part-of-the-statistical-model" class="nav-link active" data-scroll-target="#biological-information-as-part-of-the-statistical-model"><span class="header-section-number">1</span> Biological information as part of the statistical model</a></li>
+  <li><a href="#feature-specific-variance-components-gfblup" id="toc-feature-specific-variance-components-gfblup" class="nav-link" data-scroll-target="#feature-specific-variance-components-gfblup"><span class="header-section-number">2</span> Feature-specific variance components: GFBLUP</a>
+  <ul class="collapse">
+  <li><a href="#what-does-feature-enrichment-mean" id="toc-what-does-feature-enrichment-mean" class="nav-link" data-scroll-target="#what-does-feature-enrichment-mean"><span class="header-section-number">2.1</span> What does feature enrichment mean?</a></li>
+  </ul></li>
+  <li><a href="#weighted-kernels-and-continuous-annotation-dependent-variances" id="toc-weighted-kernels-and-continuous-annotation-dependent-variances" class="nav-link" data-scroll-target="#weighted-kernels-and-continuous-annotation-dependent-variances"><span class="header-section-number">3</span> Weighted kernels and continuous annotation-dependent variances</a></li>
+  <li><a href="#annotation-dependent-mixture-distributions" id="toc-annotation-dependent-mixture-distributions" class="nav-link" data-scroll-target="#annotation-dependent-mixture-distributions"><span class="header-section-number">4</span> Annotation-dependent mixture distributions</a></li>
+  <li><a href="#overlapping-features-two-different-constructions" id="toc-overlapping-features-two-different-constructions" class="nav-link" data-scroll-target="#overlapping-features-two-different-constructions"><span class="header-section-number">5</span> Overlapping features: two different constructions</a></li>
+  <li><a href="#molecular-evidence-and-its-uncertainty" id="toc-molecular-evidence-and-its-uncertainty" class="nav-link" data-scroll-target="#molecular-evidence-and-its-uncertainty"><span class="header-section-number">6</span> Molecular evidence and its uncertainty</a></li>
+  <li><a href="#multitrait-and-single-step-extensions" id="toc-multitrait-and-single-step-extensions" class="nav-link" data-scroll-target="#multitrait-and-single-step-extensions"><span class="header-section-number">7</span> Multitrait and single-step extensions</a></li>
+  <li><a href="#qualification-prediction-estimation-and-biology" id="toc-qualification-prediction-estimation-and-biology" class="nav-link" data-scroll-target="#qualification-prediction-estimation-and-biology"><span class="header-section-number">8</span> Qualification: prediction, estimation and biology</a></li>
+  <li><a href="#guided-reading" id="toc-guided-reading" class="nav-link" data-scroll-target="#guided-reading"><span class="header-section-number">9</span> Guided reading</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">10</span> References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Theory notes</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/genomic-feature-priors.html">11. Genomic-feature priors</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">11. Genomic-feature information and prior models</h1>
+<p class="subtitle lead">Advanced mixed-model notes — first draft</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 1, 2026</p>
+    </div>
+  </div>
+
+
+  </div>
+
+
+
+</header>
+
+
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<section id="biological-information-as-part-of-the-statistical-model" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="biological-information-as-part-of-the-statistical-model"><span class="header-section-number">1</span> Biological information as part of the statistical model</h2>
+<p>A genomic feature can be a variant class, gene, pathway, regulatory region, tissue-specific molecular annotation or a quantitative score. Its statistical role must be specified: it may define a covariance component, an expected marker variance, a mixture probability or a predictor measured on each animal. These choices are not interchangeable.</p>
+<p>Retain the marker model from <a href="../../../gsuite/docs/teaching/genomic-models.html">Chapter 4</a>:</p>
+<p><span class="math display">\[
+y=X\beta+ZWm+e.
+\]</span></p>
+<p><span class="math inline">\(W\)</span> contains consistently centered marker dosages. In ordinary SNP-BLUP, <span class="math inline">\(m\sim N(0,\tau^2I)\)</span>. Feature information allows the marker distribution to depend on an annotation design <span class="math inline">\(B\)</span>, with row <span class="math inline">\(b_j^\top\)</span> describing marker <span class="math inline">\(j\)</span>. The same annotation can be external biological information even when its influence on the trait is estimated from the training phenotypes.</p>
+<p>The word “prior” has two uses here. A feature set may be defined before an analysis, without assigning a Bayesian prior to its variance component. A full Bayesian model additionally assigns probability distributions to unknown effects and hyperparameters. Declaring a feature in advance does not mean that its enrichment is known.</p>
+</section>
+<section id="feature-specific-variance-components-gfblup" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="feature-specific-variance-components-gfblup"><span class="header-section-number">2</span> Feature-specific variance components: GFBLUP</h2>
+<p>Partition markers into a feature set <span class="math inline">\(F\)</span> and its complement <span class="math inline">\(B\)</span>. Write</p>
+<p><span class="math display">\[
+a=W_Fm_F+W_Bm_B=f+r,
+\]</span></p>
+<p>with independent effects</p>
+<p><span class="math display">\[
+m_F\sim N(0,\tau_F^2I),\qquad m_B\sim N(0,\tau_B^2I).
+\]</span></p>
+<p>For positive normalizers <span class="math inline">\(d_F,d_B\)</span>, define <span class="math inline">\(G_F=W_FW_F^\top/d_F\)</span> and <span class="math inline">\(G_B=W_BW_B^\top/d_B\)</span>. Then</p>
+<p><span class="math display">\[
+K_a=\sigma_F^2G_F+\sigma_B^2G_B,
+\qquad \sigma_F^2=d_F\tau_F^2,\quad
+\sigma_B^2=d_B\tau_B^2.
+\]</span></p>
+<p>The feature and background variances can be supplied, estimated by REML or assigned hyperpriors. Their interpretation follows the kernel scaling. Equal marker variances correspond to <span class="math inline">\(\sigma_F^2/d_F=\sigma_B^2/d_B\)</span>, not generally to equal component variances. If <span class="math inline">\(d=d_F+d_B\)</span> under the same normalization convention, ordinary GBLUP is recovered by these matching per-marker variances.</p>
+<p>This makes the feature model a direct extension of <a href="../../../gsuite/docs/teaching/components-and-identifiability.html">multiple-component inference</a>. The feature provides a grouping hypothesis; the data determine whether its markers warrant different shrinkage. A small or noisy feature can produce an unstable component estimate, and a boundary estimate need not imply that the underlying biology is absent.</p>
+<section id="what-does-feature-enrichment-mean" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="what-does-feature-enrichment-mean"><span class="header-section-number">2.1</span> What does feature enrichment mean?</h3>
+<p>An effect-size enrichment is <span class="math inline">\(E_\tau=\tau_F^2/\tau_B^2\)</span>. A ratio of total component variances instead includes feature size and normalization. Neither should be reported merely as “the enrichment” without a denominator.</p>
+<p>For a declared evaluation population with centered dosage matrices, the average model-implied feature variance is</p>
+<p><span class="math display">\[
+v_F=\frac{\sigma_F^2}{n}\operatorname{tr}(G_F),
+\]</span></p>
+<p>and similarly for background. The ratio <span class="math inline">\(v_F/(v_F+v_B)\)</span> is a prior population-average component share under the independent-effect model. This is distinct from a variance share calculated from fitted predictions. For posterior draws, feature and background effects can become correlated through the data and LD; posterior realized variance decompositions need their cross term.</p>
+</section>
+</section>
+<section id="weighted-kernels-and-continuous-annotation-dependent-variances" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="weighted-kernels-and-continuous-annotation-dependent-variances"><span class="header-section-number">3</span> Weighted kernels and continuous annotation-dependent variances</h2>
+<p>A more general Gaussian model is</p>
+<p><span class="math display">\[
+m_j\mid\alpha\sim N(0,\tau_j^2),\qquad
+\log\tau_j^2=\alpha_0+b_j^\top\alpha,
+\]</span></p>
+<p>which induces <span class="math inline">\(K_a=W D(\alpha)W^\top\)</span>, where <span class="math inline">\(D\)</span> is diagonal. This general variance-regression formulation accommodates continuous scores and overlapping annotations. Positive variance is automatic, while regularization of <span class="math inline">\(\alpha\)</span> controls extreme weights and weakly identified annotation effects.</p>
+<p>Fixed external weights define one covariance. Learning weights by likelihood or empirical Bayes defines a covariance-estimation problem. Assigning priors to <span class="math inline">\(\alpha\)</span> and integrating over its uncertainty defines a hierarchical Bayesian problem. Plugging learned weights into a final BLUP does not automatically propagate their uncertainty.</p>
+<p>Correlated annotation columns make individual coefficients difficult to interpret. Genomic coordinates, annotation version, feature mapping, MAF/LD dependencies and score scaling are part of the model specification.</p>
+</section>
+<section id="annotation-dependent-mixture-distributions" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="annotation-dependent-mixture-distributions"><span class="header-section-number">4</span> Annotation-dependent mixture distributions</h2>
+<p>For marker allocation <span class="math inline">\(c_j\)</span> and mixture variances <span class="math inline">\(v_k\)</span>,</p>
+<p><span class="math display">\[
+\Pr(c_j=k\mid b_j)=\pi_{jk},\qquad
+m_j\mid c_j=k\sim N(0,v_k),
+\]</span></p>
+<p>where a component with <span class="math inline">\(v_0=0\)</span> is a point mass at zero. Annotation information can change the probability of inclusion, the distribution of nonzero sizes, or both. These mechanisms need not produce the same prediction or genetic architecture estimate as a Gaussian model with a matching second moment.</p>
+<p>In the original BayesRC construction, predefined variant classes have class-specific mixture proportions learned from the data. MacLeod and colleagues used this to incorporate biological information into a BayesR-type model. Their real-data findings also show why useful priors do not guarantee large prediction gains: informative enrichment and the variance represented by the feature both matter. <span class="citation" data-cites="macleod2016">(<a href="#ref-macleod2016" role="doc-biblioref">MacLeod et al., 2016</a>)</span>.</p>
+<p>An overlapping-annotation extension can instead make mixture probabilities a function of <span class="math inline">\(b_j\)</span>, for example through multinomial or sequential probit/logit links. Such links, their coefficient priors and update rules are part of the model. They are not identical to independent Dirichlet updates of disjoint feature-class probabilities.</p>
+<p>The prior probability <span class="math inline">\(\pi_{jk}\)</span>, posterior allocation probability and posterior inclusion probability are different quantities. Inclusion depends on the prior and LD; it is not automatically a causal probability. A posterior enrichment estimate is also conditional on the selected feature definitions and competing annotations.</p>
+</section>
+<section id="overlapping-features-two-different-constructions" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="overlapping-features-two-different-constructions"><span class="header-section-number">5</span> Overlapping features: two different constructions</h2>
+<p>The independent-component covariance sum is a general mixed-model identity <span class="citation" data-cites="sorensen2002">(<a href="#ref-sorensen2002" role="doc-biblioref">Sorensen and Gianola, 2002</a>)</span>. Its identifiability depends on the resulting covariance directions, not simply the number of annotation labels <span class="citation" data-cites="rothenberg1971">(<a href="#ref-rothenberg1971" role="doc-biblioref">Rothenberg, 1971</a>)</span>.</p>
+<p>In an annotation regression, one marker effect has several predictors of its variance or mixture probabilities. In an additive multi-kernel model, a marker can contribute through several independent latent components. These are different decompositions.</p>
+<p>For nonnegative membership weights <span class="math inline">\(q_{jk}\)</span>, consider</p>
+<p><span class="math display">\[
+G_k=\frac{W\operatorname{diag}(q_{\cdot k})W^\top}{d_k},\qquad
+K_a=\sum_k\sigma_k^2G_k.
+\]</span></p>
+<p>The equivalent marginal marker variance is <span class="math inline">\(\tau_j^2=\sum_k\sigma_k^2q_{jk}/d_k\)</span>. A marker in two features receives both contributions. This is mathematically valid, but the resulting component variances are not automatically unique biological attributions. Identical or nearly identical kernels can be unidentifiable or weakly identifiable.</p>
+<p>Nonnegative weighted kernels preserve positive semidefiniteness. Signed annotation scores cannot simply be inserted as diagonal kernel weights without checking that property. Centering a score is appropriate as a regression covariate but need not be appropriate as a covariance weight.</p>
+</section>
+<section id="molecular-evidence-and-its-uncertainty" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="molecular-evidence-and-its-uncertainty"><span class="header-section-number">6</span> Molecular evidence and its uncertainty</h2>
+<p>Feature definitions can use coding consequence, regulatory activity, eQTL, sQTL, expression, pathways or fine-mapping results. CattleGTEx provides a multi-tissue regulatory resource that can inform such definitions. <span class="citation" data-cites="liu2022">(<a href="#ref-liu2022" role="doc-biblioref">Liu et al., 2022</a>)</span>.</p>
+<p>A tissue-specific eQTL annotation is variant-level information. An expression measurement on an individual animal is a different predictor, potentially affected by environment, disease and the phenotype itself. A model using the latter must state when expression is measured and whether it is available at selection time. It does not automatically predict the same additive breeding value as a genotype-only model.</p>
+<p>GWAS association, colocalization and experimental functional validation also provide different evidence. LD can make several variants or genes appear informative for one locus. Combining an annotation with a GWAS statistic from the same animals does not create independent prior evidence.</p>
+<p>Treat uncertain or tissue-mismatched annotations as hypotheses rather than known causal labels. Sensitivity to alternative mappings, irrelevant tissues and matched random features helps determine whether a result reflects useful biology or generic genome structure.</p>
+</section>
+<section id="multitrait-and-single-step-extensions" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="multitrait-and-single-step-extensions"><span class="header-section-number">7</span> Multitrait and single-step extensions</h2>
+<p>For feature <span class="math inline">\(k\)</span>, a multitrait Gaussian extension has <span class="math inline">\(\operatorname{Var}(a_k)=\Sigma_k\otimes G_k\)</span> in trait-major order. Feature-specific trait correlations allow a region to affect several traits differently from the background. They also increase parameter count and require enough independent information to distinguish the kernels and trait covariance structures.</p>
+<p>A Bayesian extension can use shared versus trait-specific inclusion, or mixtures of multivariate effect covariances. Shared inclusion does not force identical effect sizes or signs. Sharing annotations does not by itself establish that the same causal variant acts on every trait.</p>
+<p>In single-step, define the complete genotyped covariance induced by the feature model and the conditional relationship to non-genotyped animals. Compatibility, reference adjustment and residual pedigree variation still matter. Replacing ordinary SNP shrinkage by a feature prior without revisiting the remaining latent terms is not proof of equivalence to a desired animal-effect model. Their joint covariance, identifiability and inferential properties must be derived and assessed for the combined model.</p>
+</section>
+<section id="qualification-prediction-estimation-and-biology" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="qualification-prediction-estimation-and-biology"><span class="header-section-number">8</span> Qualification: prediction, estimation and biology</h2>
+<p>Genomic benchmarking should match the intended information and deployment population <span class="citation" data-cites="daetwyler2013">(<a href="#ref-daetwyler2013" role="doc-biblioref">Daetwyler et al., 2013</a>)</span>. Leakage from correlated-trait information is a particular concern in multivariate validation <span class="citation" data-cites="runcie2019">(<a href="#ref-runcie2019" role="doc-biblioref">Runcie and Cheng, 2019</a>)</span>.</p>
+<p>Start with an unannotated model using the same markers and information. Then compare fixed feature weights, estimated feature variances and a suitable mixture model where the scientific question warrants it. Include a background component so that an imperfect feature need not explain all genetic variation.</p>
+<p>Assess informative, irrelevant and deliberately misspecified annotations. Controls should consider feature size, MAF, LD, gene density and annotation overlap: an arbitrary random SNP set need not be an adequate null for a gene-based feature. When many features are searched, selection and tuning belong inside training; an untouched outer validation is needed for the selected procedure’s performance claim.</p>
+<p>Report prediction accuracy and calibration separately from component variance, enrichment and feature selection stability. Feature variance is not evidence that an entire pathway is causal. Within-family validation can conceal or exaggerate portability, so include the populations and generations relevant to the intended application. Estimation uncertainty and numerical acceptance remain necessary even when prediction differences are small.</p>
+</section>
+<section id="guided-reading" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="guided-reading"><span class="header-section-number">9</span> Guided reading</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Reading</th>
+<th>Main role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="citation" data-cites="macleod2016">(<a href="#ref-macleod2016" role="doc-biblioref">MacLeod et al., 2016</a>)</span></td>
+<td>Original BayesRC biological-class mixture model</td>
+</tr>
+<tr class="even">
+<td><span class="citation" data-cites="liu2022">(<a href="#ref-liu2022" role="doc-biblioref">Liu et al., 2022</a>)</span></td>
+<td>Tissue-specific regulatory annotations in cattle</td>
+</tr>
+</tbody>
+</table>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Return to the advanced notes</a>.</p>
+</section>
+<section id="references" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="references"><span class="header-section-number">10</span> References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-daetwyler2013" class="csl-entry" role="listitem">
+Daetwyler, H. D., Calus, M. P. L., Pong-Wong, R., Campos, G. de los, and Hickey, J. M. (2013). Genomic Prediction in Animals and Plants: Simulation of Data, Validation, Reporting, and Benchmarking. <em>Genetics</em>, 193(2), 347–365. https://doi.org/<a href="https://doi.org/10.1534/genetics.112.147983">10.1534/genetics.112.147983</a>.
+</div>
+<div id="ref-liu2022" class="csl-entry" role="listitem">
+Liu, S., Gao, Y., Canela-Xandri, O., Wang, S., Yu, Y., Cai, W., Li, B., Xiang, R., Chamberlain, A. J., Pairo-Castineira, E., D’Mellow, K., Rawlik, K., Xia, C., Yao, Y., Navarro, P., Rocha, D., Li, X., Yan, Z., Li, C., Rosen, B. D., Van Tassell, C. P., Vanraden, P. M., Zhang, S., Ma, L., Cole, J. B., Liu, G. E., Tenesa, A., and Fang, L. (2022). A multi-tissue atlas of regulatory variants in cattle. <em>Nature Genetics</em>, 54(9), 1438–1447. https://doi.org/<a href="https://doi.org/10.1038/s41588-022-01153-5">10.1038/s41588-022-01153-5</a>.
+</div>
+<div id="ref-macleod2016" class="csl-entry" role="listitem">
+MacLeod, I. M., Bowman, P. J., Vander Jagt, C. J., Haile-Mariam, M., Kemper, K. E., Chamberlain, A. J., Schrooten, C., Hayes, B. J., and Goddard, M. E. (2016). Exploiting biological priors and sequence variants enhances QTL discovery and genomic prediction of complex traits. <em>BMC Genomics</em>, 17(1). https://doi.org/<a href="https://doi.org/10.1186/s12864-016-2443-6">10.1186/s12864-016-2443-6</a>.
+</div>
+<div id="ref-rothenberg1971" class="csl-entry" role="listitem">
+Rothenberg, T. J. (1971). Identification in Parametric Models. <em>Econometrica</em>, 39(3), 577. https://doi.org/<a href="https://doi.org/10.2307/1913267">10.2307/1913267</a>.
+</div>
+<div id="ref-runcie2019" class="csl-entry" role="listitem">
+Runcie, D., and Cheng, H. (2019). Pitfalls and Remedies for Cross Validation with Multi-trait Genomic Prediction Methods. <em>G3 Genes|Genomes|Genetics</em>, 9(11), 3727–3741. https://doi.org/<a href="https://doi.org/10.1534/g3.119.400598">10.1534/g3.119.400598</a>.
+</div>
+<div id="ref-sorensen2002" class="csl-entry" role="listitem">
+Sorensen, D., and Gianola, D. (2002). <em>Likelihood, Bayesian, and MCMC Methods in Quantitative Genetics</em>. Springer New York. https://doi.org/<a href="https://doi.org/10.1007/b98952">10.1007/b98952</a>.
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button,
+          { trigger: "manual",
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/psoerensen\.github\.io\/gtools\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined;
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              }
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            }
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
+</div>
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

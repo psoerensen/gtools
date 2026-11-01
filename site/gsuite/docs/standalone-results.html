@@ -178,7 +178,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#commands-and-paths" id="toc-commands-and-paths" class="nav-link active" data-scroll-target="#commands-and-paths">Commands and paths</a></li>
   <li><a href="#scratch-and-result-collection" id="toc-scratch-and-result-collection" class="nav-link" data-scroll-target="#scratch-and-result-collection">Scratch and result collection</a></li>
   <li><a href="#output-files-and-acceptance" id="toc-output-files-and-acceptance" class="nav-link" data-scroll-target="#output-files-and-acceptance">Output files and acceptance</a></li>
-  <li><a href="#timings-and-memory" id="toc-timings-and-memory" class="nav-link" data-scroll-target="#timings-and-memory">Timings and memory</a></li>
+  <li><a href="#timings-and-memory" id="toc-timings-and-memory" class="nav-link" data-scroll-target="#timings-and-memory">Timings and memory</a>
+  <ul class="collapse">
+  <li><a href="#cpu-and-numa-placement" id="toc-cpu-and-numa-placement" class="nav-link" data-scroll-target="#cpu-and-numa-placement">CPU and NUMA placement</a></li>
+  </ul></li>
   <li><a href="#installation-validation" id="toc-installation-validation" class="nav-link" data-scroll-target="#installation-validation">Installation validation</a></li>
   </ul>
 </nav>
@@ -269,8 +272,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="timings-and-memory" class="level2">
 <h2 class="anchored" data-anchor-id="timings-and-memory">Timings and memory</h2>
+<section id="cpu-and-numa-placement" class="level3">
+<h3 class="anchored" data-anchor-id="cpu-and-numa-placement">CPU and NUMA placement</h3>
+<p>Updated development runners detect the Linux process’s permitted CPUs and their physical cores, sockets and NUMA nodes. Native OpenMP threads are bound to an explicit list within that CPU mask, ordering one hardware thread per core before sibling threads and distributing the order across sockets. YAML thread counts remain unchanged. Preparation stays unbound within the same mask so its OpenMP initialization cannot narrow the CPU allocation inherited by the native driver. Missing topology information falls back to disabled OpenMP binding. Windows placement is unchanged. Frozen source and binary bundles retain their old policy.</p>
+<p>The default memory policy preserves the inherited NUMA policy, including a policy set by a scheduler or an external <code>numactl</code> command. Hardware detection alone does not establish whether interleaving will improve a particular sparse solve. For an explicit comparison, <code>GSUITE_NUMA=interleave gsuite run model.yml</code> uses <code>numactl</code> to interleave the worker and native descendants over NUMA nodes containing permitted CPUs. This requires <code>numactl</code>; an unsupported or denied policy fails rather than silently advertising interleaving. No extra package is needed for the default policy.</p>
+<p><code>GSUITE_AFFINITY=off</code> restores disabled binding for comparisons. <code>GSUITE_AFFINITY=inherit</code> preserves caller affinity settings instead of replacing them; the caller is responsible for avoiding conflicting OpenMP controls. The default is <code>GSUITE_AFFINITY=auto</code>; <code>GSUITE_NUMA=preserve</code> is the default memory control. These controls do not alter model equations, requested team sizes, convergence tolerances or residual gates.</p>
+<p>Both <code>execution.json</code> and <code>run.json</code> record a <code>placement</code> object containing the detected allocation and requested policy. The native execution environment is also retained in <code>run.json</code>. These records describe intent and detected CPU permissions, not measured per-thread residency or memory distribution. Placement tests do not establish a performance benefit; target-system numerical validation and matched timing comparisons are still required.</p>
 <p><code>execution.json</code> reports preparation, fitting, native preparation/evaluation, Python output formatting, result collection and total elapsed time. Native phase timings, iteration counts and residual gates remain in <code>run.json</code>. Native peak RSS excludes Python preparation.</p>
 <p>Workflow memory is sampled aggregate RSS of the coordinator, Python worker and native descendants. It can count shared pages more than once and miss brief peaks between samples; it is not Slurm/cgroup accounting. Unsupported sampling is reported as unavailable rather than zero. YAML thread counts are requests for particular phases; some preparation and dependency-ordered work is serial.</p>
+</section>
 </section>
 <section id="installation-validation" class="level2">
 <h2 class="anchored" data-anchor-id="installation-validation">Installation validation</h2>

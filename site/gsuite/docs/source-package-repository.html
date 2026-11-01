@@ -178,7 +178,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#release-and-development-status" id="toc-release-and-development-status" class="nav-link" data-scroll-target="#release-and-development-status">Release and development status</a></li>
   <li><a href="#installing-downstream-workflows" id="toc-installing-downstream-workflows" class="nav-link" data-scroll-target="#installing-downstream-workflows">Installing downstream workflows</a></li>
-  <li><a href="#what-the-source-packages-contain" id="toc-what-the-source-packages-contain" class="nav-link" data-scroll-target="#what-the-source-packages-contain">What the source packages contain</a></li>
+  <li><a href="#what-the-source-packages-contain" id="toc-what-the-source-packages-contain" class="nav-link" data-scroll-target="#what-the-source-packages-contain">What the source packages contain</a>
+  <ul class="collapse">
+  <li><a href="#pending-linux-build-repairs" id="toc-pending-linux-build-repairs" class="nav-link" data-scroll-target="#pending-linux-build-repairs">Pending Linux build repairs</a></li>
+  </ul></li>
   <li><a href="#build-and-qualification" id="toc-build-and-qualification" class="nav-link" data-scroll-target="#build-and-qualification">Build and qualification</a></li>
   <li><a href="#release-gate" id="toc-release-gate" class="nav-link" data-scroll-target="#release-gate">Release gate</a></li>
   <li><a href="#compiled-code-symbol-evidence" id="toc-compiled-code-symbol-evidence" class="nav-link" data-scroll-target="#compiled-code-symbol-evidence">Compiled-code symbol evidence</a></li>
@@ -259,14 +262,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Linux or HPC: R’s configured C++17 compiler;</li>
 <li>Windows: the Rtools version matching R;</li>
 <li>macOS: Xcode Command Line Tools or another compiler configured for R;</li>
-<li>R packages <code>Rcpp</code> and <code>RcppEigen</code>.</li>
+<li>R packages <code>Rcpp</code> and <code>RcppEigen</code>; <code>gcorr</code>, <code>glma</code> and <code>gsea</code> also declare <code>BH</code> for their Boost.Math headers.</li>
 </ul>
 <p>OpenMP is used when the R toolchain supplies it and otherwise the same source build remains available without OpenMP.</p>
+<section id="pending-linux-build-repairs" class="level3">
+<h3 class="anchored" data-anchor-id="pending-linux-build-repairs">Pending Linux build repairs</h3>
+<p>Development sources read OpenMP flags directly from R’s <code>Makeconf</code>, including the empty setting for a serial build. Both the source-package generator and Linux binary-bundle builder avoid querying the internal flag through <code>R CMD config</code>. The generator preserves package-owned <code>LinkingTo</code> dependencies, including <code>BH</code>. Native gbayes uses an explicit <code>std::uint64_t</code> multiplier in its Gram-cache byte calculation, avoiding the Linux integer-type mismatch. The glma bridge constructs its 34 LOCO diagnostics in smaller steps so that Rcpp 1.0.12 can compile it without changing the returned fields.</p>
+<p>These are development repairs, not replacement releases. Existing public archives and frozen qualification records remain unchanged. Run the focused generator regression checks from the gsuite root with:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/validation/test_source_package_build.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To include compilation of the complete glma bridge against an archived Rcpp header tree, set <code>SOURCE_BUILD_TEST_RCPP_INCLUDE</code> to its <code>inst/include</code> folder, <code>SOURCE_BUILD_TEST_CXX</code> to the C++ compiler, and <code>SOURCE_BUILD_TEST_NATIVE_INCLUDE</code> to the installed native public-header folder. The focused check used the official Rcpp 1.0.12 archive with SHA-256 <code>0c7359cc43beee02761aa3df2baccede1182d29d28c9cd49964b609305062bd0</code>; the test does not install or upgrade Rcpp.</p>
+<p>The existing native <code>test_variational_prediction</code> target checks the Gram-cache caps, and the glma LOCO test checks diagnostic names and order. Compilation against pinned Rcpp headers is separate from a complete Linux/conda package installation check; that platform acceptance is required before release.</p>
+</section>
 </section>
 <section id="build-and-qualification" class="level2">
 <h2 class="anchored" data-anchor-id="build-and-qualification">Build and qualification</h2>
 <p>From the gsuite checkout, with the canonical native repositories beside it:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/build/build_source_repository.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/build/build_source_repository.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The command stages generated package sources, extracts source lists from the owners’ CMake declarations, builds and checks packages in dependency order, installs them into an isolated library, and writes the seven archives plus <code>PACKAGES</code>, <code>PACKAGES.gz</code>, <code>PACKAGES.rds</code>, and <code>SHA256SUMS</code> under <code>repository/src/contrib</code>. Release assembly requires the R package <code>openssl</code> to calculate SHA-256 checksums; end users do not need it unless another dependency requires it.</p>
 <p>Use <code>--stage-only</code> to inspect generated source, <code>--build-only</code> to assemble the archives without compiling them, and <code>--skip-check</code> for an installation smoke build. <code>--from=&lt;package&gt;</code> resumes an interrupted ordered run. Those modes are partial validation. <code>--only=&lt;package&gt;</code> builds and checks one package using already installed compatible prerequisites in the isolated library; it leaves other release archives unchanged.</p>
 <p>Approved contents under <code>repository/</code> are tracked as release artifacts. All staging, check, object, and installation outputs remain generated and ignored. The build command itself never deploys, pushes, or changes GitHub Pages.</p>
