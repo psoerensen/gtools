@@ -2443,5 +2443,227 @@
       ]
     },
     "URL": "https://www.genusplc.com/media/glah32tg/genus-annual-report-2025.pdf"
+  },
+  {
+    "id": "dempster1950",
+    "type": "article-journal",
+    "title": "HERITABILITY OF THRESHOLD CHARACTERS",
+    "author": [
+      {
+        "given": "Everett R",
+        "family": "Dempster"
+      },
+      {
+        "given": "I Michael",
+        "family": "Lerner"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1950
+        ]
+      ]
+    },
+    "DOI": "10.1093/genetics/35.2.212",
+    "URL": "https://doi.org/10.1093/genetics/35.2.212",
+    "container-title": "Genetics",
+    "volume": "35",
+    "issue": "2",
+    "page": "212-236",
+    "publisher": "Oxford University Press (OUP)"
+  },
+  {
+    "id": "breslow1993",
+    "type": "article-journal",
+    "title": "Approximate Inference in Generalized Linear Mixed Models",
+    "author": [
+      {
+        "given": "N. E.",
+        "family": "Breslow"
+      },
+      {
+        "given": "D. G.",
+        "family": "Clayton"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1993
+        ]
+      ]
+    },
+    "DOI": "10.1080/01621459.1993.10594284",
+    "URL": "https://doi.org/10.1080/01621459.1993.10594284",
+    "container-title": "Journal of the American Statistical Association",
+    "volume": "88",
+    "issue": "421",
+    "page": "9-25",
+    "publisher": "Informa UK Limited"
+  },
+  {
+    "id": "ducrocq1996",
+    "type": "article-journal",
+    "title": "A Bayesian analysis of mixed survival models",
+    "author": [
+      {
+        "given": "V",
+        "family": "Ducrocq"
+      },
+      {
+        "given": "G",
+        "family": "Casella"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1996
+        ]
+      ]
+    },
+    "DOI": "10.1186/1297-9686-28-6-505",
+    "URL": "https://doi.org/10.1186/1297-9686-28-6-505",
+    "container-title": "Genetics Selection Evolution",
+    "volume": "28",
+    "issue": "6",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "westell1988",
+    "type": "article-journal",
+    "title": "Genetic Groups in an Animal Model",
+    "author": [
+      {
+        "given": "R.A.",
+        "family": "Westell"
+      },
+      {
+        "given": "R.L.",
+        "family": "Quaas"
+      },
+      {
+        "given": "L.D.",
+        "family": "Van Vleck"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1988
+        ]
+      ]
+    },
+    "DOI": "10.3168/jds.s0022-0302(88)79688-5",
+    "URL": "https://doi.org/10.3168/jds.s0022-0302(88)79688-5",
+    "container-title": "Journal of Dairy Science",
+    "volume": "71",
+    "issue": "5",
+    "page": "1310-1318",
+    "publisher": "American Dairy Science Association"
+  },
+  {
+    "id": "legarra2015",
+    "type": "article-journal",
+    "title": "Ancestral Relationships Using Metafounders: Finite Ancestral Populations and Across Population Relationships",
+    "author": [
+      {
+        "given": "Andres",
+        "family": "Legarra"
+      },
+      {
+        "given": "Ole F",
+        "family": "Christensen"
+      },
+      {
+        "given": "Zulma G",
+        "family": "Vitezica"
+      },
+      {
+        "given": "Ignacio",
+        "family": "Aguilar"
+      },
+      {
+        "given": "Ignacy",
+        "family": "Misztal"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2015
+        ]
+      ]
+    },
+    "DOI": "10.1534/genetics.115.177014",
+    "URL": "https://doi.org/10.1534/genetics.115.177014",
+    "container-title": "Genetics",
+    "volume": "200",
+    "issue": "2",
+    "page": "455-468",
+    "publisher": "Oxford University Press (OUP)"
+  },
+  {
+    "id": "christensen2014",
+    "type": "article-journal",
+    "title": "Genomic evaluation of both purebred and crossbred performances",
+    "author": [
+      {
+        "given": "Ole F",
+        "family": "Christensen"
+      },
+      {
+        "given": "Per",
+        "family": "Madsen"
+      },
+      {
+        "given": "Bjarne",
+        "family": "Nielsen"
+      },
+      {
+        "given": "Guosheng",
+        "family": "Su"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2014
+        ]
+      ]
+    },
+    "DOI": "10.1186/1297-9686-46-23",
+    "URL": "https://doi.org/10.1186/1297-9686-46-23",
+    "container-title": "Genetics Selection Evolution",
+    "volume": "46",
+    "issue": "1",
+    "page": "23",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "meuwissen1997",
+    "type": "article-journal",
+    "title": "Maximizing the response of selection with a predefined rate of inbreeding.",
+    "author": [
+      {
+        "given": "T H",
+        "family": "Meuwissen"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1997
+        ]
+      ]
+    },
+    "DOI": "10.2527/1997.754934x",
+    "URL": "https://doi.org/10.2527/1997.754934x",
+    "container-title": "Journal of Animal Science",
+    "volume": "75",
+    "issue": "4",
+    "page": "934",
+    "publisher": "Oxford University Press (OUP)"
   }
 ]

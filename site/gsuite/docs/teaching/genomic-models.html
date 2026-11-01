@@ -436,6 +436,24 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/non-gaussian-traits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Non-Gaussian traits</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/genetic-bases-and-crossbreeding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genetic bases and crossbreeding</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/selection-and-mating.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Selection and mating</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/large-scale-computation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8. Large-scale computation</span></a>
   </div>
@@ -939,6 +957,7 @@ window.Quarto = {
 A^{-1}=(I-P)^\top D^{-1}(I-P).
 \]</span></p>
 <p>Parental inbreeding changes innovation variances. The simple diagonal values for unrelated, non-inbred founders must not be applied indiscriminately to inbred pedigrees. This representation explains why pedigree precision can be sparse even though the relationship matrix itself is dense.</p>
+<p>For founder mean and covariance assumptions, genomic compatibility and crossbred prediction targets, see <a href="../../../gsuite/docs/teaching/genetic-bases-and-crossbreeding.html">genetic bases and crossbreeding</a>.</p>
 <p>Pedigree BLUP uses expected relationships under this inheritance model. Genomic models can capture variation in realized marker sharing around those pedigree expectations; their base, scale and target must still be specified.</p>
 </section>
 <section id="marker-coding-and-the-genetic-reference-population" class="level2" data-number="3">
@@ -989,7 +1008,7 @@ K_a=\sigma_m^2WW^\top=\sigma_a^2G,
 K_a=\tau^2WDW^\top.
 \]</span></p>
 <p>Fixed externally supplied weights still define a Gaussian mixed model. Weights estimated adaptively from the same phenotypes create a larger estimation procedure; treating them as known afterwards omits their estimation uncertainty.</p>
-<p>For biological feature definitions, annotation overlap and feature-dependent marker priors, see <a href="../../../gsuite/docs/teaching/genomic-feature-priors.html">Chapter 11</a>.</p>
+<p>For biological feature definitions, annotation overlap and feature-dependent marker priors, see <a href="../../../gsuite/docs/teaching/genomic-feature-priors.html">Chapter 14</a>.</p>
 <p>A multi-kernel model instead writes</p>
 <p><span class="math display">\[
 a=\sum_k a_k,\qquad

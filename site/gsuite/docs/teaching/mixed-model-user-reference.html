@@ -407,6 +407,24 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/non-gaussian-traits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Non-Gaussian traits</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/genetic-bases-and-crossbreeding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genetic bases and crossbreeding</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/selection-and-mating.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Selection and mating</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/large-scale-computation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8. Large-scale computation</span></a>
   </div>
@@ -825,16 +843,17 @@ div.csl-indent {
 <section id="purpose-and-reading-order" class="level2">
 <h2 class="anchored" data-anchor-id="purpose-and-reading-order">Purpose and reading order</h2>
 <p>These notes are for users who need to specify, fit and assess genetic-evaluation models, rather than only run a particular command. They assume familiarity with linear models, matrix algebra and multivariate normal distributions. The <a href="../../../gsuite/docs/teaching/mixed-model-foundations.html">introductory notes</a> provide a slower refresher.</p>
-<p>The same framework is used throughout: <strong>scientific question → assumptions → equations → identifiable parameters → prediction targets → inference → computation → limitations</strong>. Prediction at supplied covariances is separated from covariance estimation. Relationship information, trait structure and computational representation are separate choices rather than competing names for a single method.</p>
+<p>The same framework is used throughout: <strong>scientific question → assumptions → equations → identifiable parameters → prediction targets → inference → computation → validation → decisions → limitations</strong>. Prediction at supplied covariances is separated from covariance estimation. Relationship information, trait structure and computational representation are separate choices rather than competing names for a single method.</p>
 </section>
 <section id="reading-routes" class="level2">
 <h2 class="anchored" data-anchor-id="reading-routes">Reading routes</h2>
-<p>For a refresher, start with the <a href="../../../gsuite/docs/teaching/mixed-model-foundations.html">introductory foundations</a>. The main reference then follows four connected routes:</p>
+<p>For a refresher, start with the <a href="../../../gsuite/docs/teaching/mixed-model-foundations.html">introductory foundations</a>. The main reference then follows five connected routes:</p>
 <ul>
 <li><strong>Statistical foundations:</strong> Chapters 1–3 define the model, prediction targets and covariance estimation.</li>
-<li><strong>Model structures:</strong> Chapters 4–7 develop relationship information, multiple components, longitudinal traits, missingness and selection.</li>
-<li><strong>Computation and evidence:</strong> Chapters 8–9 connect algorithms to numerical acceptance and statistical validation; the algorithmic and qualification companions provide the detailed reference.</li>
-<li><strong>Current and future directions:</strong> Chapters 10–13 separate methodological developments, genomic-feature priors, phenomics and changes in breeding systems.</li>
+<li><strong>Model structures:</strong> Chapters 4–9 develop relationships, multiple components, longitudinal traits, missingness, non-Gaussian responses and genetic bases.</li>
+<li><strong>Breeding decisions:</strong> Chapter 10 connects evaluation to objectives, expected response, genetic contributions and mating.</li>
+<li><strong>Computation and evidence:</strong> Chapters 11–12 connect algorithms to numerical acceptance and statistical validation; the algorithmic and qualification companions provide the detailed reference.</li>
+<li><strong>Current and future directions:</strong> Chapters 13–16 separate methodological developments, genomic-feature priors, phenomics and changes in breeding systems.</li>
 </ul>
 <p>The later chapters build on the earlier framework and can be read by topic. They describe research directions without assuming that every method is already available in gsuite.</p>
 </section>
@@ -877,27 +896,39 @@ div.csl-indent {
 <td>Observed-data likelihood; ignorability; selection and selective genotyping; pedigree/genomic reference populations</td>
 </tr>
 <tr class="even">
-<td><a href="../../../gsuite/docs/teaching/large-scale-computation.html">8. Large-scale computation and approximation</a></td>
+<td><a href="../../../gsuite/docs/teaching/non-gaussian-traits.html">8. Binary, ordinal, count and survival traits</a></td>
+<td>Links and liabilities; exposure and censoring; response-scale targets; likelihood and posterior inference</td>
+</tr>
+<tr class="odd">
+<td><a href="../../../gsuite/docs/teaching/genetic-bases-and-crossbreeding.html">9. Genetic bases, groups, metafounders and crossbreeding</a></td>
+<td>Founder means and covariance; base compatibility; purebred versus crossbred targets; heterosis and validation</td>
+</tr>
+<tr class="even">
+<td><a href="../../../gsuite/docs/teaching/selection-and-mating.html">10. Breeding objectives, selection response and mating decisions</a></td>
+<td>Selection indices; correlated response; objective uncertainty; contributions, coancestry and mating</td>
+</tr>
+<tr class="odd">
+<td><a href="../../../gsuite/docs/teaching/large-scale-computation.html">11. Large-scale computation and approximation</a></td>
 <td>Sparse and matrix-free systems; factor reuse; PCG; stochastic methods; hardware and resource accounting</td>
 </tr>
-<tr class="odd">
-<td><a href="../../../gsuite/docs/teaching/model-checking-and-validation.html">9. Model checking, validation and software comparison</a></td>
+<tr class="even">
+<td><a href="../../../gsuite/docs/teaching/model-checking-and-validation.html">12. Model checking, validation and software comparison</a></td>
 <td>Numerical acceptance; statistical diagnostics; deployment-aligned validation; accuracy, calibration and reproducibility</td>
 </tr>
-<tr class="even">
-<td><a href="../../../gsuite/docs/teaching/current-developments.html">10. Current developments in animal-breeding prediction and estimation</a></td>
+<tr class="odd">
+<td><a href="../../../gsuite/docs/teaching/current-developments.html">13. Current developments in animal-breeding prediction and estimation</a></td>
 <td>Population-scale evaluation; sequence and transfer; new phenotypes; large-scale and predictivity-based estimation; evidence and limitations</td>
 </tr>
-<tr class="odd">
-<td><a href="../../../gsuite/docs/teaching/genomic-feature-priors.html">11. Genomic-feature information and prior models</a></td>
+<tr class="even">
+<td><a href="../../../gsuite/docs/teaching/genomic-feature-priors.html">14. Genomic-feature information and prior models</a></td>
 <td>GFBLUP; annotation-dependent shrinkage and mixtures; overlap; molecular evidence; multitrait/single-step extensions and qualification</td>
 </tr>
-<tr class="even">
-<td><a href="../../../gsuite/docs/teaching/large-scale-phenomics.html">12. Large-scale phenomics</a></td>
+<tr class="odd">
+<td><a href="../../../gsuite/docs/teaching/large-scale-phenomics.html">15. Large-scale phenomics</a></td>
 <td>Measurement models; dense longitudinal records; genetic factors; genomic integration; missingness, computation and validation</td>
 </tr>
-<tr class="odd">
-<td><a href="../../../gsuite/docs/teaching/future-of-breeding.html">13. Drivers shaping the future of breeding</a></td>
+<tr class="even">
+<td><a href="../../../gsuite/docs/teaching/future-of-breeding.html">16. Drivers shaping the future of breeding</a></td>
 <td>Functional atlases; phenomics; AI; genomic technologies; industry structure; breeding objectives and software</td>
 </tr>
 </tbody>
@@ -933,7 +964,7 @@ div.csl-indent {
 <section id="scope-of-the-methods" class="level2">
 <h2 class="anchored" data-anchor-id="scope-of-the-methods">Scope of the methods</h2>
 <p>The notes describe established methods and current research in animal breeding, independently of their availability in any particular software package. The coverage includes models and inference strategies that extend beyond current gsuite interfaces. Scientific assumptions, approximation error and evidence of predictive or inferential benefit remain central throughout.</p>
-<p>Chapters 10–13 provide a dated perspective on current developments and models using biological information, large-scale phenomics and the wider drivers of change in breeding. Established approaches and emerging research are distinguished by their evidence, rather than by implementation status.</p>
+<p>Chapters 13–16 provide a dated perspective on current developments and models using biological information, large-scale phenomics and the wider drivers of change in breeding. Established approaches and emerging research are distinguished by their evidence, rather than by implementation status.</p>
 <p>These notes contain no executable R examples. Existing numerical examples are retained separately in the repository for future practical material.</p>
 </section>
 <section id="further-reading" class="level2">

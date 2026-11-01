@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10. Current developments in animal-breeding prediction and estimation – gtools</title>
+<title>13. Current developments in animal-breeding prediction and estimation – gtools</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -436,6 +436,24 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/non-gaussian-traits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Non-Gaussian traits</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/genetic-bases-and-crossbreeding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genetic bases and crossbreeding</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/selection-and-mating.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Selection and mating</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/large-scale-computation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8. Large-scale computation</span></a>
   </div>
@@ -839,7 +857,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Theory notes</a></li><li class="breadcrumb-item"><a href="../../../gsuite/docs/teaching/current-developments.html">10. Current developments</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">10. Current developments in animal-breeding prediction and estimation</h1>
+<h1 class="title">13. Current developments in animal-breeding prediction and estimation</h1>
 </div>
 
 
@@ -919,7 +937,7 @@ window.Quarto = {
 <p>The joint pedigree/genomic framework and its computational connections are reviewed by <span class="citation" data-cites="legarra2014">Legarra et al. (<a href="#ref-legarra2014" role="doc-biblioref">2014</a>)</span>; a large-genotype APY application is given by <span class="citation" data-cites="garcia2020">Garcia et al. (<a href="#ref-garcia2020" role="doc-biblioref">2020</a>)</span>.</p>
 <p>Single-step evaluation places genotyped and non-genotyped animals in a joint relationship model. Modern computational work asks how to retain that target while avoiding dense storage or excessive repeated solves. The alternatives include marker-effect representations, sparse conditional pedigree operations, retained factorizations, matrix-free products and approximate relationship constructions. The relevant distinctions were derived in <a href="../../../gsuite/docs/teaching/genomic-models.html">Chapter 4</a>.</p>
 <p>An improved representation can preserve the exact covariance model. An APY approximation to the target relationship need not. A cheaper preconditioner may leave the target unchanged while altering the cost of convergence. These must be assessed separately, using original-system acceptance and the final scientific prediction target.</p>
-<p>The practical objective is not minimum time per PCG iteration. A useful evaluation accounts for preparation, factorization, preconditioner setup, operator applications, reconstruction, uncertainty and output. It also checks whether changes in computational policy remain reliable for other pedigree structures, trait counts and blending rules. See <a href="../../../gsuite/docs/teaching/large-scale-computation.html">Chapter 8</a>.</p>
+<p>The practical objective is not minimum time per PCG iteration. A useful evaluation accounts for preparation, factorization, preconditioner setup, operator applications, reconstruction, uncertainty and output. It also checks whether changes in computational policy remain reliable for other pedigree structures, trait counts and blending rules. See <a href="../../../gsuite/docs/teaching/large-scale-computation.html">Chapter 11</a>.</p>
 </section>
 <section id="prediction-across-generations-breeds-and-populations" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="prediction-across-generations-breeds-and-populations"><span class="header-section-number">3</span> Prediction across generations, breeds and populations</h2>
@@ -936,7 +954,7 @@ m^{(b)}=m^{(0)}+\delta^{(b)},
 <h2 data-number="4" class="anchored" data-anchor-id="sequence-information-and-biological-prioritization"><span class="header-section-number">4</span> Sequence information and biological prioritization</h2>
 <p>Sequence data increase the opportunity to include causal variation, but also increase the number of correlated, rare and imperfectly imputed predictors. Adding all variants under unchanged shrinkage need not yield the best use of the information. Possible responses include feature-specific kernels, annotation-dependent effect distributions and explicit treatment of known large-effect loci.</p>
 <p>In a 2025 simulated livestock study, Yang and colleagues compared GBLUP, two-component GBLUP, support-vector regression and random forests with varying amounts of known QTL information. The two-component models performed best in that design; additional QTL information did not make the machine-learning methods universally superior. This is evidence about that controlled setting, not a ranking for all livestock traits. <span class="citation" data-cites="yang2025">(<a href="#ref-yang2025" role="doc-biblioref">Yang et al., 2025</a>)</span>.</p>
-<p>The scientific question is therefore how information enters the model: a separate variance component, a changed inclusion probability, a changed slab variance, or an individual-level molecular predictor. These are developed in <a href="../../../gsuite/docs/teaching/genomic-feature-priors.html">Chapter 11</a>.</p>
+<p>The scientific question is therefore how information enters the model: a separate variance component, a changed inclusion probability, a changed slab variance, or an individual-level molecular predictor. These are developed in <a href="../../../gsuite/docs/teaching/genomic-feature-priors.html">Chapter 14</a>.</p>
 </section>
 <section id="multitrait-longitudinal-and-environmental-information" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="multitrait-longitudinal-and-environmental-information"><span class="header-section-number">5</span> Multitrait, longitudinal and environmental information</h2>
