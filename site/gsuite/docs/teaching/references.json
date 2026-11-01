@@ -1577,5 +1577,871 @@
     "container-title": "Biometrical Journal",
     "volume": "67",
     "issue": "5"
+  },
+  {
+    "id": "fang2025",
+    "type": "article-journal",
+    "title": "The Farm Animal Genotype–Tissue Expression (FarmGTEx) Project",
+    "author": [
+      {
+        "given": "Lingzhao",
+        "family": "Fang"
+      },
+      {
+        "given": "Jinyan",
+        "family": "Teng"
+      },
+      {
+        "given": "Qing",
+        "family": "Lin"
+      },
+      {
+        "given": "Zhonghao",
+        "family": "Bai"
+      },
+      {
+        "given": "Shuli",
+        "family": "Liu"
+      },
+      {
+        "given": "Dailu",
+        "family": "Guan"
+      },
+      {
+        "given": "Bingjie",
+        "family": "Li"
+      },
+      {
+        "given": "Yahui",
+        "family": "Gao"
+      },
+      {
+        "given": "Yali",
+        "family": "Hou"
+      },
+      {
+        "given": "Mian",
+        "family": "Gong"
+      },
+      {
+        "given": "Zhangyuan",
+        "family": "Pan"
+      },
+      {
+        "given": "Ying",
+        "family": "Yu"
+      },
+      {
+        "given": "Emily L.",
+        "family": "Clark"
+      },
+      {
+        "given": "Jacqueline",
+        "family": "Smith"
+      },
+      {
+        "given": "Konrad",
+        "family": "Rawlik"
+      },
+      {
+        "given": "Ruidong",
+        "family": "Xiang"
+      },
+      {
+        "given": "Amanda J.",
+        "family": "Chamberlain"
+      },
+      {
+        "given": "Michael E.",
+        "family": "Goddard"
+      },
+      {
+        "given": "Mathew",
+        "family": "Littlejohn"
+      },
+      {
+        "given": "Greger",
+        "family": "Larson"
+      },
+      {
+        "given": "David E.",
+        "family": "MacHugh"
+      },
+      {
+        "given": "John F.",
+        "family": "O’Grady"
+      },
+      {
+        "given": "Peter",
+        "family": "Sørensen"
+      },
+      {
+        "given": "Goutam",
+        "family": "Sahana"
+      },
+      {
+        "given": "Mogens Sandø",
+        "family": "Lund"
+      },
+      {
+        "given": "Zhihua",
+        "family": "Jiang"
+      },
+      {
+        "given": "Xiangchun",
+        "family": "Pan"
+      },
+      {
+        "given": "Wentao",
+        "family": "Gong"
+      },
+      {
+        "given": "Haihan",
+        "family": "Zhang"
+      },
+      {
+        "given": "Xi",
+        "family": "He"
+      },
+      {
+        "given": "Yuebo",
+        "family": "Zhang"
+      },
+      {
+        "given": "Ning",
+        "family": "Gao"
+      },
+      {
+        "given": "Jun",
+        "family": "He"
+      },
+      {
+        "given": "Guoqiang",
+        "family": "Yi"
+      },
+      {
+        "given": "Yuwen",
+        "family": "Liu"
+      },
+      {
+        "given": "Zhonglin",
+        "family": "Tang"
+      },
+      {
+        "given": "Pengju",
+        "family": "Zhao"
+      },
+      {
+        "given": "Yang",
+        "family": "Zhou"
+      },
+      {
+        "given": "Liangliang",
+        "family": "Fu"
+      },
+      {
+        "given": "Xiao",
+        "family": "Wang"
+      },
+      {
+        "given": "Dan",
+        "family": "Hao"
+      },
+      {
+        "given": "Lei",
+        "family": "Liu"
+      },
+      {
+        "given": "Siqian",
+        "family": "Chen"
+      },
+      {
+        "given": "Robert S.",
+        "family": "Young"
+      },
+      {
+        "given": "Xia",
+        "family": "Shen"
+      },
+      {
+        "given": "Charley",
+        "family": "Xia"
+      },
+      {
+        "given": "Hao",
+        "family": "Cheng"
+      },
+      {
+        "given": "Li",
+        "family": "Ma"
+      },
+      {
+        "given": "John B.",
+        "family": "Cole"
+      },
+      {
+        "suffix": "VI",
+        "given": "Ransom L.",
+        "family": "Baldwin"
+      },
+      {
+        "given": "Cong-jun",
+        "family": "Li"
+      },
+      {
+        "given": "Curtis P.",
+        "family": "Van Tassell"
+      },
+      {
+        "given": "Benjamin D.",
+        "family": "Rosen"
+      },
+      {
+        "given": "Nayan",
+        "family": "Bhowmik"
+      },
+      {
+        "given": "Joan",
+        "family": "Lunney"
+      },
+      {
+        "given": "Wansheng",
+        "family": "Liu"
+      },
+      {
+        "given": "Leluo",
+        "family": "Guan"
+      },
+      {
+        "given": "Xin",
+        "family": "Zhao"
+      },
+      {
+        "given": "Eveline M.",
+        "family": "Ibeagha-Awemu"
+      },
+      {
+        "given": "Yonglun",
+        "family": "Luo"
+      },
+      {
+        "given": "Lin",
+        "family": "Lin"
+      },
+      {
+        "given": "Oriol",
+        "family": "Canela-Xandri"
+      },
+      {
+        "given": "Martijn F. L.",
+        "family": "Derks"
+      },
+      {
+        "given": "Richard P. M. A.",
+        "family": "Crooijmans"
+      },
+      {
+        "given": "Marta",
+        "family": "Gòdia"
+      },
+      {
+        "given": "Ole",
+        "family": "Madsen"
+      },
+      {
+        "given": "Martien A. M.",
+        "family": "Groenen"
+      },
+      {
+        "given": "James E.",
+        "family": "Koltes"
+      },
+      {
+        "given": "Christopher K.",
+        "family": "Tuggle"
+      },
+      {
+        "given": "Fiona M.",
+        "family": "McCarthy"
+      },
+      {
+        "given": "Dominique",
+        "family": "Rocha"
+      },
+      {
+        "given": "Elisabetta",
+        "family": "Giuffra"
+      },
+      {
+        "given": "Marcel",
+        "family": "Amills"
+      },
+      {
+        "given": "Alex",
+        "family": "Clop"
+      },
+      {
+        "given": "Maria",
+        "family": "Ballester"
+      },
+      {
+        "given": "Gwenola",
+        "family": "Tosser-Klopp"
+      },
+      {
+        "given": "Jing",
+        "family": "Li"
+      },
+      {
+        "given": "Chao",
+        "family": "Fang"
+      },
+      {
+        "given": "Ming",
+        "family": "Fang"
+      },
+      {
+        "given": "Qishan",
+        "family": "Wang"
+      },
+      {
+        "given": "Zhuocheng",
+        "family": "Hou"
+      },
+      {
+        "given": "Qin",
+        "family": "Wang"
+      },
+      {
+        "given": "Fuping",
+        "family": "Zhao"
+      },
+      {
+        "given": "Lin",
+        "family": "Jiang"
+      },
+      {
+        "given": "Guiping",
+        "family": "Zhao"
+      },
+      {
+        "given": "Zhengkui",
+        "family": "Zhou"
+      },
+      {
+        "given": "Rong",
+        "family": "Zhou"
+      },
+      {
+        "given": "Hehe",
+        "family": "Liu"
+      },
+      {
+        "given": "Juan",
+        "family": "Deng"
+      },
+      {
+        "given": "Long",
+        "family": "Jin"
+      },
+      {
+        "given": "Mingzhou",
+        "family": "Li"
+      },
+      {
+        "given": "Delin",
+        "family": "Mo"
+      },
+      {
+        "given": "Xiaohong",
+        "family": "Liu"
+      },
+      {
+        "given": "Yaosheng",
+        "family": "Chen"
+      },
+      {
+        "given": "Xiaolong",
+        "family": "Yuan"
+      },
+      {
+        "given": "Jiaqi",
+        "family": "Li"
+      },
+      {
+        "given": "Shuhong",
+        "family": "Zhao"
+      },
+      {
+        "given": "Yi",
+        "family": "Zhang"
+      },
+      {
+        "given": "Xiangdong",
+        "family": "Ding"
+      },
+      {
+        "given": "Dongxiao",
+        "family": "Sun"
+      },
+      {
+        "given": "Hui-Zeng",
+        "family": "Sun"
+      },
+      {
+        "given": "Cong",
+        "family": "Li"
+      },
+      {
+        "given": "Yu",
+        "family": "Wang"
+      },
+      {
+        "given": "Yu",
+        "family": "Jiang"
+      },
+      {
+        "given": "Dongdong",
+        "family": "Wu"
+      },
+      {
+        "given": "Wenwen",
+        "family": "Wang"
+      },
+      {
+        "given": "Xinzhong",
+        "family": "Fan"
+      },
+      {
+        "given": "Qin",
+        "family": "Zhang"
+      },
+      {
+        "given": "Kui",
+        "family": "Li"
+      },
+      {
+        "given": "Hao",
+        "family": "Zhang"
+      },
+      {
+        "given": "Ning",
+        "family": "Yang"
+      },
+      {
+        "given": "Xiaoxiang",
+        "family": "Hu"
+      },
+      {
+        "given": "Wen",
+        "family": "Huang"
+      },
+      {
+        "given": "Jiuzhou",
+        "family": "Song"
+      },
+      {
+        "given": "Yang",
+        "family": "Wu"
+      },
+      {
+        "given": "Jian",
+        "family": "Yang"
+      },
+      {
+        "given": "Weiwei",
+        "family": "Wu"
+      },
+      {
+        "given": "Claudia",
+        "family": "Kasper"
+      },
+      {
+        "given": "Xinfeng",
+        "family": "Liu"
+      },
+      {
+        "given": "Xiaofei",
+        "family": "Yu"
+      },
+      {
+        "given": "Leilei",
+        "family": "Cui"
+      },
+      {
+        "given": "Xiang",
+        "family": "Zhou"
+      },
+      {
+        "given": "Seyoung",
+        "family": "Kim"
+      },
+      {
+        "given": "Wei",
+        "family": "Li"
+      },
+      {
+        "given": "Hae Kyung",
+        "family": "Im"
+      },
+      {
+        "given": "Edward S.",
+        "family": "Buckler"
+      },
+      {
+        "given": "Bing",
+        "family": "Ren"
+      },
+      {
+        "given": "Michael C.",
+        "family": "Schatz"
+      },
+      {
+        "given": "Jingyi Jessica",
+        "family": "Li"
+      },
+      {
+        "given": "Abraham A.",
+        "family": "Palmer"
+      },
+      {
+        "given": "Laurent",
+        "family": "Frantz"
+      },
+      {
+        "given": "Huaijun",
+        "family": "Zhou"
+      },
+      {
+        "given": "Zhe",
+        "family": "Zhang"
+      },
+      {
+        "given": "George E.",
+        "family": "Liu"
+      },
+      {
+        "literal": "The FarmGTEx Consortium"
+      },
+      {
+        "given": "Curtis P.",
+        "family": "Van Tassell"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    },
+    "DOI": "10.1038/s41588-025-02121-5",
+    "URL": "https://doi.org/10.1038/s41588-025-02121-5",
+    "container-title": "Nature Genetics",
+    "volume": "57",
+    "issue": "4",
+    "page": "786-796",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "lei2025",
+    "type": "article-journal",
+    "title": "Comprehensive analysis of 1,771 transcriptomes from 7 tissues enhance genetic and biological interpretations of maize complex traits",
+    "author": [
+      {
+        "given": "Mengyu",
+        "family": "Lei"
+      },
+      {
+        "given": "Huan",
+        "family": "Si"
+      },
+      {
+        "given": "Mingjia",
+        "family": "Zhu"
+      },
+      {
+        "given": "Yu",
+        "family": "Han"
+      },
+      {
+        "given": "Wei",
+        "family": "Liu"
+      },
+      {
+        "given": "Yifei",
+        "family": "Dai"
+      },
+      {
+        "given": "Yan",
+        "family": "Ji"
+      },
+      {
+        "given": "Zhengwen",
+        "family": "Liu"
+      },
+      {
+        "given": "Fan",
+        "family": "Hao"
+      },
+      {
+        "given": "Ran",
+        "family": "Hao"
+      },
+      {
+        "given": "Jiarui",
+        "family": "Zhao"
+      },
+      {
+        "given": "Guoyou",
+        "family": "Ye"
+      },
+      {
+        "given": "Yanjun",
+        "family": "Zan"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    },
+    "DOI": "10.1093/g3journal/jkaf140",
+    "URL": "https://doi.org/10.1093/g3journal/jkaf140",
+    "container-title": "G3: Genes, Genomes, Genetics",
+    "volume": "15",
+    "issue": "9",
+    "publisher": "Oxford University Press (OUP)",
+    "page": "jkaf140"
+  },
+  {
+    "id": "avsec2026",
+    "type": "article-journal",
+    "title": "Advancing regulatory variant effect prediction with AlphaGenome",
+    "author": [
+      {
+        "given": "Žiga",
+        "family": "Avsec"
+      },
+      {
+        "given": "Natasha",
+        "family": "Latysheva"
+      },
+      {
+        "given": "Jun",
+        "family": "Cheng"
+      },
+      {
+        "given": "Guido",
+        "family": "Novati"
+      },
+      {
+        "given": "Kyle R.",
+        "family": "Taylor"
+      },
+      {
+        "given": "Tom",
+        "family": "Ward"
+      },
+      {
+        "given": "Clare",
+        "family": "Bycroft"
+      },
+      {
+        "given": "Lauren",
+        "family": "Nicolaisen"
+      },
+      {
+        "given": "Eirini",
+        "family": "Arvaniti"
+      },
+      {
+        "given": "Joshua",
+        "family": "Pan"
+      },
+      {
+        "given": "Raina",
+        "family": "Thomas"
+      },
+      {
+        "given": "Vincent",
+        "family": "Dutordoir"
+      },
+      {
+        "given": "Matteo",
+        "family": "Perino"
+      },
+      {
+        "given": "Soham",
+        "family": "De"
+      },
+      {
+        "given": "Alexander",
+        "family": "Karollus"
+      },
+      {
+        "given": "Adam",
+        "family": "Gayoso"
+      },
+      {
+        "given": "Toby",
+        "family": "Sargeant"
+      },
+      {
+        "given": "Anne",
+        "family": "Mottram"
+      },
+      {
+        "given": "Lai Hong",
+        "family": "Wong"
+      },
+      {
+        "given": "Pavol",
+        "family": "Drotár"
+      },
+      {
+        "given": "Adam",
+        "family": "Kosiorek"
+      },
+      {
+        "given": "Andrew",
+        "family": "Senior"
+      },
+      {
+        "given": "Richard",
+        "family": "Tanburn"
+      },
+      {
+        "given": "Taylor",
+        "family": "Applebaum"
+      },
+      {
+        "given": "Souradeep",
+        "family": "Basu"
+      },
+      {
+        "given": "Demis",
+        "family": "Hassabis"
+      },
+      {
+        "given": "Pushmeet",
+        "family": "Kohli"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    },
+    "DOI": "10.1038/s41586-025-10014-0",
+    "URL": "https://doi.org/10.1038/s41586-025-10014-0",
+    "container-title": "Nature",
+    "volume": "649",
+    "issue": "8099",
+    "page": "1206-1218",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "lamb2021",
+    "type": "article-journal",
+    "title": "Genomic prediction using low-coverage portable Nanopore sequencing",
+    "author": [
+      {
+        "given": "Harrison J.",
+        "family": "Lamb"
+      },
+      {
+        "given": "Ben J.",
+        "family": "Hayes"
+      },
+      {
+        "given": "Imtiaz A. S.",
+        "family": "Randhawa"
+      },
+      {
+        "given": "Loan T.",
+        "family": "Nguyen"
+      },
+      {
+        "given": "Elizabeth M.",
+        "family": "Ross"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2021
+        ]
+      ]
+    },
+    "DOI": "10.1371/journal.pone.0261274",
+    "URL": "https://doi.org/10.1371/journal.pone.0261274",
+    "container-title": "PLOS ONE",
+    "volume": "16",
+    "issue": "12",
+    "page": "e0261274",
+    "publisher": "Public Library of Science (PLoS)"
+  },
+  {
+    "id": "oecd2018",
+    "type": "book",
+    "title": "Concentration in Seed Markets: Potential Effects and Policy Responses",
+    "author": [
+      {
+        "literal": "OECD"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2018
+        ]
+      ]
+    },
+    "DOI": "10.1787/9789264308367-en",
+    "URL": "https://doi.org/10.1787/9789264308367-en",
+    "publisher": "OECD Publishing"
+  },
+  {
+    "id": "nhgri2022",
+    "type": "webpage",
+    "title": "DNA Sequencing Costs: Data",
+    "author": [
+      {
+        "literal": "National Human Genome Research Institute"
+      }
+    ],
+    "URL": "https://www.genome.gov/about-genomics/fact-sheets/DNA-Sequencing-Costs-Data",
+    "accessed": {
+      "date-parts": [
+        [
+          2026,
+          11,
+          1
+        ]
+      ]
+    }
+  },
+  {
+    "id": "genus2025",
+    "type": "report",
+    "title": "Annual Report 2025",
+    "author": [
+      {
+        "literal": "Genus plc"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2025
+        ]
+      ]
+    },
+    "URL": "https://www.genusplc.com/media/glah32tg/genus-annual-report-2025.pdf"
   }
 ]
