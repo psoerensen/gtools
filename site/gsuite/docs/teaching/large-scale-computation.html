@@ -508,6 +508,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/abbreviations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abbreviations and method names</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shared bibliography</span></a>
   </div>
@@ -869,7 +875,7 @@ window.Quarto = {
 </header>
 
 
-<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <section id="the-large-object-need-not-be-stored" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="the-large-object-need-not-be-stored"><span class="header-section-number">1</span> The large object need not be stored</h2>
 <p>For sparse direct computation see <span class="citation" data-cites="chen2008">Chen et al. (<a href="#ref-chen2008" role="doc-biblioref">2008</a>)</span>; for iterative and matrix-free linear algebra see <span class="citation" data-cites="saad2003">Saad (<a href="#ref-saad2003" role="doc-biblioref">2003</a>)</span>.</p>
@@ -880,7 +886,7 @@ window.Quarto = {
 <h2 data-number="2" class="anchored" data-anchor-id="factorization-repeated-solves-and-pcg"><span class="header-section-number">2</span> Factorization, repeated solves and PCG</h2>
 <p>Preconditioning and Krylov iteration are treated systematically by <span class="citation" data-cites="saad2003">Saad (<a href="#ref-saad2003" role="doc-biblioref">2003</a>)</span>. Their use does not remove the need for a scientifically correct target system.</p>
 <p>A retained sparse factor amortizes analysis and numerical factorization over many right-hand sides. Changing covariance parameters may preserve sparsity analysis while requiring a new numerical factor. Selected uncertainty and trace calculations can require many solves beyond the prediction solve.</p>
-<p>For an SPD target system, PCG uses a compatible SPD preconditioner to change convergence, not the target equations. The preconditioner may be approximate; its setup cost, application cost and effect on iteration count all belong in the total budget. Changing preconditioners changes finite stopping behavior, so verify the reconstructed original-system residual rather than assuming that a preconditioned norm proves the required acceptance.</p>
+<p>For a symmetric positive definite (SPD) target system, preconditioned conjugate gradient (PCG) uses a compatible SPD preconditioner to change convergence, not the target equations. The preconditioner may be approximate; its setup cost, application cost and effect on iteration count all belong in the total budget. Changing preconditioners changes finite stopping behavior, so verify the reconstructed original-system residual rather than assuming that a preconditioned norm proves the required acceptance.</p>
 <p>Independent trait/channel right-hand sides can sometimes be batched to reuse memory traffic and factors. Batching does not imply that all traits are independent: the operator must still apply their genetic and residual covariance.</p>
 </section>
 <section id="distinguish-statistical-and-numerical-approximations" class="level2" data-number="3">
@@ -931,7 +937,7 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<p>A stochastic diagonal used only to construct a preconditioner is not a stochastic estimate of the final predictions or their PEV. It can preserve the same target equations and acceptance gates. This does not prove that every probe count or model combination is qualified.</p>
+<p>A stochastic diagonal used only to construct a preconditioner is not a stochastic estimate of the final predictions or their prediction-error variance (PEV). It can preserve the same target equations and acceptance gates. This does not prove that every probe count or model combination is qualified.</p>
 </section>
 <section id="trace-estimation-has-two-sources-of-error" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="trace-estimation-has-two-sources-of-error"><span class="header-section-number">4</span> Trace estimation has two sources of error</h2>
@@ -946,14 +952,14 @@ window.Quarto = {
 </section>
 <section id="hardware-and-reproducible-performance" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="hardware-and-reproducible-performance"><span class="header-section-number">5</span> Hardware and reproducible performance</h2>
-<p>Sparse triangular solves, marker decoding and dense products have different memory-access patterns. Physical cores, simultaneous multithreading, memory bandwidth, NUMA placement and BLAS/OpenMP runtime choices can change timings without changing the model. Thread counts alone do not establish comparable hardware use.</p>
-<p>Record the node CPU model, allowed CPU mask, physical-core allocation, runtime versions and placement settings. Avoid universal affinity or memory-placement prescriptions: a measured interleaving benefit on one system need not transfer to another. Separate setup from repeated operations and include end-to-end time.</p>
+<p>Sparse triangular solves, marker decoding and dense products have different memory-access patterns. Physical cores, simultaneous multithreading, memory bandwidth, non-uniform memory access (NUMA) placement and Basic Linear Algebra Subprograms (BLAS)/OpenMP runtime choices can change timings without changing the model. Thread counts alone do not establish comparable hardware use.</p>
+<p>Record the node central processing unit (CPU) model, allowed CPU mask, physical-core allocation, runtime versions and placement settings. Avoid universal affinity or memory-placement prescriptions: a measured interleaving benefit on one system need not transfer to another. Separate setup from repeated operations and include end-to-end time.</p>
 </section>
 <section id="resource-accounting" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="resource-accounting"><span class="header-section-number">6</span> Resource accounting</h2>
-<p>Sparse animal-model REML illustrates why factorization and repeated RHS work need separate accounting <span class="citation" data-cites="johnson1995">(<a href="#ref-johnson1995" role="doc-biblioref">Johnson and Thompson, 1995</a>)</span>. For large single-step covariance estimation with Monte Carlo operations, see <span class="citation" data-cites="bermann2025">Bermann et al. (<a href="#ref-bermann2025" role="doc-biblioref">2025</a>)</span>.</p>
+<p>Sparse animal-model restricted maximum likelihood (REML) illustrates why factorization and repeated right-hand-side (RHS) solves need separate accounting <span class="citation" data-cites="johnson1995">(<a href="#ref-johnson1995" role="doc-biblioref">Johnson and Thompson, 1995</a>)</span>. For large single-step covariance estimation with Monte Carlo operations, see <span class="citation" data-cites="bermann2025">Bermann et al. (<a href="#ref-bermann2025" role="doc-biblioref">2025</a>)</span>.</p>
 <p>Report factor dimensions and fill, resident marker cache, right-hand-side batch width, iteration count, operator applications and backend solve RHS. Refinement counts describe backend correction work and cannot be recovered from PCG iteration counts alone. Distinguish measured counters from inferred averages.</p>
-<p>Memory metrics also differ: a sampled sum of process RSS is not the same as GNU Time maximum RSS or a Slurm/cgroup high-water mark. Preserve the metric, sampling interval and possibility of shared-page double counting.</p>
+<p>Memory metrics also differ: a sampled sum of process resident set size (RSS) is not the same as GNU Time maximum RSS or a Slurm/cgroup high-water mark. Preserve the metric, sampling interval and possibility of shared-page double counting.</p>
 <p>For route-specific controls and limits see the <a href="../../../gsuite/docs/gsolve-greml.html">solver guide</a>, <a href="../../../gsuite/docs/packed-single-step-reml.html">packed single-step REML</a> and <a href="../../../gsuite/docs/prediction-error.html">prediction-error guide</a>.</p>
 <p><a href="../../../gsuite/docs/teaching/model-checking-and-validation.html">Next: checking and validation</a>.</p>
 <p>For the derivations behind the operator, elimination, REML and uncertainty calculations, see the <a href="../../../gsuite/docs/teaching/algorithmic-reference.html">algorithmic reference</a>.</p>

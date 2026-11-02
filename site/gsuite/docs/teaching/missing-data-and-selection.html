@@ -508,6 +508,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/abbreviations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abbreviations and method names</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shared bibliography</span></a>
   </div>
@@ -868,7 +874,7 @@ window.Quarto = {
 </header>
 
 
-<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <section id="the-observed-data-model" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="the-observed-data-model"><span class="header-section-number">1</span> The observed-data model</h2>
 <p>Let <span class="math inline">\(S\)</span> select the observed entries from a conceptual complete response vector. Then <span class="math inline">\(y_o=Sy\)</span>, <span class="math inline">\(X_o=SX\)</span>, <span class="math inline">\(Z_o=SZ\)</span> and <span class="math inline">\(V_o=SVS^\top\)</span>. In a Gaussian likelihood, unobserved responses are integrated out: their absence is not represented by a zero response. A missing trait can coexist with observed traits for the same animal and residual unit.</p>
@@ -888,7 +894,7 @@ p(D\mid y_o,y_m,\psi)\,dy_m.
 </section>
 <section id="selection-and-selective-genotyping" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="selection-and-selective-genotyping"><span class="header-section-number">3</span> Selection and selective genotyping</h2>
-<p>Selection based on recorded information can sometimes be handled by including the relevant information and modelling it correctly. Selection on omitted historical records, latent performance or unmodelled criteria can make the observed sample likelihood inappropriate for the claimed population inference. There is no universal statement that BLUP or single-step automatically removes all selection bias.</p>
+<p>Selection based on recorded information can sometimes be handled by including the relevant information and modelling it correctly. Selection on omitted historical records, latent performance or unmodelled criteria can make the observed sample likelihood inappropriate for the claimed population inference. There is no universal statement that best linear unbiased prediction (BLUP) or single-step automatically removes all selection bias.</p>
 <p>Selective genotyping changes which animals contribute genomic information. Single-step models connect genotyped and non-genotyped animals through pedigree, but require a defensible pedigree/genomic base and adequate modelling of the information driving selection. Check parentage, cohort representation and whether the recorded pedigree omits important selected ancestors.</p>
 <p>The foundational selection argument is developed by <span class="citation" data-cites="henderson1975">Henderson (<a href="#ref-henderson1975" role="doc-biblioref">1975</a>)</span>. It relies on assumptions; applying its equations is not a substitute for checking the recording and selection history.</p>
 </section>
@@ -899,7 +905,7 @@ p(D\mid y_o,y_m,\psi)\,dy_m.
 </section>
 <section id="population-structure-and-transport" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="population-structure-and-transport"><span class="header-section-number">5</span> Population structure and transport</h2>
-<p>Allele frequencies, LD, management systems and genetic effects can differ between training and target populations. Adjusting <span class="math inline">\(G\)</span> to pedigree moments aligns selected covariance summaries; it does not establish portability of marker effects or eliminate every population difference.</p>
+<p>Allele frequencies, linkage disequilibrium (LD), management systems and genetic effects can differ between training and target populations. Adjusting <span class="math inline">\(G\)</span> to pedigree moments aligns selected covariance summaries; it does not establish portability of marker effects or eliminate every population difference.</p>
 <p>Specify whether the intended task is prediction within families, across families, across generations, across breeds or in new environments. That task should determine both the reference assumptions and validation split.</p>
 <p><a href="../../../gsuite/docs/teaching/non-gaussian-traits.html">Next: non-Gaussian traits</a>.</p>
 <p>For applications to automated measurements and high-dimensional traits, see <a href="../../../gsuite/docs/teaching/large-scale-phenomics.html">large-scale phenomics</a>.</p>

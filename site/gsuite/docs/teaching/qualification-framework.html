@@ -508,6 +508,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/abbreviations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abbreviations and method names</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shared bibliography</span></a>
   </div>
@@ -873,7 +879,7 @@ window.Quarto = {
 </header>
 
 
-<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <section id="three-different-claims-need-three-kinds-of-evidence" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="three-different-claims-need-three-kinds-of-evidence"><span class="header-section-number">1</span> Three different claims need three kinds of evidence</h2>
 <p>A method can be algebraically correct, statistically inappropriate for a data collection process, and computationally impractical at the intended scale. Conversely, a fast implementation can agree with another program while both share an error. Qualification must separate these possibilities.</p>
@@ -882,8 +888,8 @@ window.Quarto = {
 </section>
 <section id="define-the-object-being-qualified" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="define-the-object-being-qualified"><span class="header-section-number">2</span> Define the object being qualified</h2>
-<p>Specify the model family, observation pattern, covariance parameterization, relationship construction, prediction target and inferential operation. Coefficient solving, variance estimation and PEV calculation are different operations; success in one does not establish the others.</p>
-<p>Also identify the representation, numerical backend, approximation policy, input contract and reported result. A test of dense complete-data GBLUP does not automatically qualify packed single-step estimation with missing traits. An animal-model oracle can support an exact marker-model reduction only when the reduction and reconstructed target are checked.</p>
+<p>Specify the model family, observation pattern, covariance parameterization, relationship construction, prediction target and inferential operation. Coefficient solving, variance estimation and prediction-error variance (PEV) calculation are different operations; success in one does not establish the others.</p>
+<p>Also identify the representation, numerical backend, approximation policy, input contract and reported result. A test of dense complete-data genomic best linear unbiased prediction (GBLUP) does not automatically qualify packed single-step estimation with missing traits. An animal-model oracle can support an exact marker-model reduction only when the reduction and reconstructed target are checked.</p>
 <p>Freeze the expected invariants and acceptance rules before examining results. Use an existing declared residual or uncertainty gate when evaluating a replacement algorithm; do not relax it retrospectively to obtain a pass.</p>
 </section>
 <section id="layer-1-independent-algebraic-references" class="level2" data-number="3">
@@ -948,14 +954,14 @@ window.Quarto = {
 <section id="layer-3-repeated-simulation-for-inference" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="layer-3-repeated-simulation-for-inference"><span class="header-section-number">5</span> Layer 3: repeated simulation for inference</h2>
 <p>Parameter recovery and uncertainty coverage require repeated datasets. One simulation that estimates a variance near its generating value does not establish unbiasedness, calibration or nominal coverage.</p>
-<p>For an estimator <span class="math inline">\(\hat\theta_b\)</span> over <span class="math inline">\(B\)</span> replicates, report bias and RMSE against a declared target. For interval coverage, if <span class="math inline">\(\hat c\)</span> is the fraction of intervals containing that target, a binomial Monte Carlo standard error is approximately <span class="math inline">\(\sqrt{\hat c(1-\hat c)/B}\)</span> for independent replicates. The number of replicates must support the precision of the claimed conclusion.</p>
+<p>For an estimator <span class="math inline">\(\hat\theta_b\)</span> over <span class="math inline">\(B\)</span> replicates, report bias and root mean squared error (RMSE) against a declared target. For interval coverage, if <span class="math inline">\(\hat c\)</span> is the fraction of intervals containing that target, a binomial Monte Carlo standard error is approximately <span class="math inline">\(\sqrt{\hat c(1-\hat c)/B}\)</span> for independent replicates. The number of replicates must support the precision of the claimed conclusion.</p>
 <p>For prediction, distinguish repeated draws of effects and records at fixed pedigree/genotypes from simulations that regenerate the population. They assess different conditional and population-level questions. Include PEV or interval calibration, prediction error, bias and dispersion, not only correlation with truth. When covariances are estimated, evaluate both plug-in and any broader uncertainty target explicitly <span class="citation" data-cites="kackar1984">(<a href="#ref-kackar1984" role="doc-biblioref">Kackar and Harville, 1984</a>)</span>.</p>
 <p>Include difficult but relevant settings: weakly identified components, boundary variances, high trait correlations, uneven recording and selection. The generating target must be explicit under selection or time-varying parameters. A founder parameter and a selected-cohort variance are not necessarily the same estimand.</p>
 </section>
 <section id="bayesian-posterior-computation" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="bayesian-posterior-computation"><span class="header-section-number">6</span> Bayesian posterior computation</h2>
 <p>On a small Gaussian model, check posterior means and covariance against an analytic distribution. For finite mixture examples, enumeration or another independent calculation can test allocation probabilities and normalization. With estimated hyperparameters, compare the intended joint posterior rather than only conditional coefficient solutions <span class="citation" data-cites="sorensen2002 habier2011">(<a href="#ref-habier2011" role="doc-biblioref">Habier et al., 2011</a>; <a href="#ref-sorensen2002" role="doc-biblioref">Sorensen and Gianola, 2002</a>)</span>.</p>
-<p>For MCMC, assess multiple independently initialized chains, mixing, effective sample size and Monte Carlo error for the reported scientific quantities. Posterior standard deviation measures uncertainty in the quantity; Monte Carlo standard error measures uncertainty from finite sampling. Successful numerical updates and visually stable traces alone do not prove adequate exploration. Simulation-based recovery and interval calibration address further inferential questions under the specified prior and data-generating design.</p>
+<p>For Markov chain Monte Carlo (MCMC), assess multiple independently initialized chains, mixing, effective sample size and Monte Carlo error for the reported scientific quantities. Posterior standard deviation measures uncertainty in the quantity; Monte Carlo standard error measures uncertainty from finite sampling. Successful numerical updates and visually stable traces alone do not prove adequate exploration. Simulation-based recovery and interval calibration address further inferential questions under the specified prior and data-generating design.</p>
 <p>For variational methods, optimization convergence does not establish agreement with the exact posterior or calibrated uncertainty. Check relevant means, variances and predictions against tractable references and clearly identify which approximation is being qualified.</p>
 </section>
 <section id="layer-4-approximations-and-stochastic-precision" class="level2" data-number="7">
@@ -968,12 +974,12 @@ window.Quarto = {
 <h2 data-number="8" class="anchored" data-anchor-id="layer-5-deployment-aligned-prediction-validation"><span class="header-section-number">8</span> Layer 5: deployment-aligned prediction validation</h2>
 <p>Choose the split from the application: future generations, new families, populations or environments. Define which phenotypes, genotypes and covariates are available at the actual decision time. All phenotype-dependent feature discovery, weighting, tuning and covariance fitting belong inside the training procedure for the claimed validation design <span class="citation" data-cites="daetwyler2013 runcie2019">(<a href="#ref-daetwyler2013" role="doc-biblioref">Daetwyler et al., 2013</a>; <a href="#ref-runcie2019" role="doc-biblioref">Runcie and Cheng, 2019</a>)</span>.</p>
 <p>Use appropriate baselines with the same information. For feature priors, compare the unannotated model, informative features and defensible null or misspecified features. A feature chosen after viewing the test results has not been independently validated. Trait availability and residual correlation can particularly distort multitrait validation <span class="citation" data-cites="runcie2019">(<a href="#ref-runcie2019" role="doc-biblioref">Runcie and Cheng, 2019</a>)</span>.</p>
-<p>In field data, true breeding values are not directly observed. State the assumptions behind phenotype-based accuracy measures and partial/whole-data comparisons such as the LR method <span class="citation" data-cites="legarra2018">(<a href="#ref-legarra2018" role="doc-biblioref">Legarra and Reverter, 2018</a>)</span>. Report calibration and prediction error alongside correlation. Predictive success does not by itself establish a causal biological interpretation of a genomic component.</p>
+<p>In field data, true breeding values are not directly observed. State the assumptions behind phenotype-based accuracy measures and partial/whole-data comparisons such as the linear-regression (LR) method <span class="citation" data-cites="legarra2018">(<a href="#ref-legarra2018" role="doc-biblioref">Legarra and Reverter, 2018</a>)</span>. Report calibration and prediction error alongside correlation. Predictive success does not by itself establish a causal biological interpretation of a genomic component.</p>
 </section>
 <section id="layer-6-performance-and-reproducibility" class="level2" data-number="9">
 <h2 data-number="9" class="anchored" data-anchor-id="layer-6-performance-and-reproducibility"><span class="header-section-number">9</span> Layer 6: performance and reproducibility</h2>
-<p>Compare accepted work at matching targets and numerical requirements. Record complete elapsed time and phase breakdowns, physical CPU allocation, runtime libraries, data placement, memory metric and variability between runs. Setup must be included unless the claim explicitly concerns amortized repeated use.</p>
-<p>Count operator applications, factorization work, solve RHS and refinements, including derivative and uncertainty calculations. An outer iteration count alone cannot explain total work. State which resources are measured versus estimated; sampled process-tree RSS, GNU Time RSS and scheduler high-water marks are different quantities.</p>
+<p>Compare accepted work at matching targets and numerical requirements. Record complete elapsed time and phase breakdowns, physical central processing unit (CPU) allocation, runtime libraries, data placement, memory metric and variability between runs. Setup must be included unless the claim explicitly concerns amortized repeated use.</p>
+<p>Count operator applications, factorization work, right-hand sides (RHS) used in solves and refinements, including derivative and uncertainty calculations. An outer iteration count alone cannot explain total work. State which resources are measured versus estimated; sampled process-tree resident set size (RSS), GNU Time RSS and scheduler high-water marks are different quantities.</p>
 <p>Preserve small deterministic qualification cases separately from opt-in representative-scale studies. Resource-intensive campaigns need an explicit design and budget; they should not be launched merely because a model can be expressed. A benchmark result applies to its frozen workload and environment, not automatically to the full model family.</p>
 </section>
 <section id="how-an-evidence-record-should-be-written" class="level2" data-number="10">

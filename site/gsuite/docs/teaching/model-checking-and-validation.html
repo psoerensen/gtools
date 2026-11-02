@@ -508,6 +508,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/abbreviations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abbreviations and method names</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shared bibliography</span></a>
   </div>
@@ -869,7 +875,7 @@ window.Quarto = {
 </header>
 
 
-<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <section id="numerical-acceptance-and-scientific-agreement" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="numerical-acceptance-and-scientific-agreement"><span class="header-section-number">1</span> Numerical acceptance and scientific agreement</h2>
 <p>Backward error, conditioning and iterative refinement are treated by <span class="citation" data-cites="higham2002">Higham (<a href="#ref-higham2002" role="doc-biblioref">2002</a>)</span>. A residual criterion is a numerical diagnostic, not a biological model-checking procedure.</p>
@@ -882,8 +888,8 @@ window.Quarto = {
 x-\hat x=C^{-1}r
 \]</span></p>
 <p>shows why scaling and conditioning matter. A solve in transformed variables must be checked after reconstructing the original target, under the declared original-system acceptance criterion.</p>
-<p>An SPD preconditioner used solely to accelerate PCG preserves the target equations; finite stopping error still depends on convergence. Refinement changes how accurately a backend solve is performed. Neither should be confused with adding a ridge to <span class="math inline">\(K\)</span>, which changes the statistical model. Residual acceptance, variance-component optimizer convergence and scientific predictive validity are three separate assessments.</p>
-<p>Software comparisons should align response records, effects, pedigree base, genotype coding, covariance scales and prediction targets. Compare all target values by external ID and trait, report maximum error and RMSE, and retain the prespecified tolerance result. Practical equivalence is a scientific judgment about the size of differences; it does not retrospectively turn a failed numerical gate into a pass. Report end-to-end and phase timings separately, alongside hardware, allocated physical cores, memory measurement method and numerical acceptance.</p>
+<p>An symmetric positive definite (SPD) preconditioner used solely to accelerate preconditioned conjugate gradient (PCG) preserves the target equations; finite stopping error still depends on convergence. Refinement changes how accurately a backend solve is performed. Neither should be confused with adding a ridge to <span class="math inline">\(K\)</span>, which changes the statistical model. Residual acceptance, variance-component optimizer convergence and scientific predictive validity are three separate assessments.</p>
+<p>Software comparisons should align response records, effects, pedigree base, genotype coding, covariance scales and prediction targets. Compare all target values by external ID and trait, report maximum error and root mean squared error (RMSE), and retain the prespecified tolerance result. Practical equivalence is a scientific judgment about the size of differences; it does not retrospectively turn a failed numerical gate into a pass. Report end-to-end and phase timings separately, alongside hardware, allocated physical cores, memory measurement method and numerical acceptance.</p>
 </section>
 <section id="statistical-diagnostics-after-an-accepted-solve" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="statistical-diagnostics-after-an-accepted-solve"><span class="header-section-number">2</span> Statistical diagnostics after an accepted solve</h2>
@@ -900,11 +906,11 @@ x-\hat x=C^{-1}r
 <h2 data-number="4" class="anchored" data-anchor-id="accuracy-calibration-and-uncertainty"><span class="header-section-number">4</span> Accuracy, calibration and uncertainty</h2>
 <p>In simulation, compare predictions to known latent breeding values. In field data those values are not observed: correlation with phenotype is not genetic accuracy, and heritability-based adjustments require assumptions. Predictive correlation is insensitive to additive shifts and multiplicative dispersion, so also assess bias, regression calibration and prediction error on a clearly specified target.</p>
 <p>For held-out phenotypes, mean squared error includes unexplained environmental and residual variation. For breeding values, reliability describes a model-based uncertainty measure rather than an automatically observed out-of-sample accuracy. Interval coverage should be checked against the target actually covered, with repeated simulation or an appropriate external design.</p>
-<p>Partial-versus-whole-data prediction comparisons, including the LR method <span class="citation" data-cites="legarra2018">(<a href="#ref-legarra2018" role="doc-biblioref">Legarra and Reverter, 2018</a>)</span>, provide additional validation tools under their assumptions. They do not make true breeding values directly observable or eliminate the effects of an incorrect covariance model.</p>
+<p>Partial-versus-whole-data prediction comparisons, including the linear-regression (LR) method <span class="citation" data-cites="legarra2018">(<a href="#ref-legarra2018" role="doc-biblioref">Legarra and Reverter, 2018</a>)</span>, provide additional validation tools under their assumptions. They do not make true breeding values directly observable or eliminate the effects of an incorrect covariance model.</p>
 </section>
 <section id="comparing-software-and-models" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="comparing-software-and-models"><span class="header-section-number">5</span> Comparing software and models</h2>
-<p>First establish the same data, allele coding, relationship base, covariance scales and prediction target. Align external animal IDs and trait order; exclude marker coefficients when comparing animal genetic values. Check complete coverage, duplicates and nonfinite outputs before error summaries. Report maximum absolute error, per-target RMSE and a prespecified absolute/ relative gate. Agreement on predictions alone does not prove equal likelihoods, PEVs or variance estimates.</p>
+<p>First establish the same data, allele coding, relationship base, covariance scales and prediction target. Align external animal IDs and trait order; exclude marker coefficients when comparing animal genetic values. Check complete coverage, duplicates and nonfinite outputs before error summaries. Report maximum absolute error, per-target RMSE and a prespecified absolute/ relative gate. Agreement on predictions alone does not prove equal likelihoods, prediction-error variances (PEVs) or variance estimates.</p>
 <p>Then compare setup, factorization, iteration, reconstruction and output time, plus end-to-end time, on documented hardware. Use repeated runs where practical to assess variability. Different stopping criteria and different nodes limit causal claims about algorithmic speed. A smaller time per iteration can coexist with a larger complete runtime.</p>
 <p>Finally distinguish two conclusions: equivalent-model software qualification and predictive model comparison. The former asks whether implementations solve the same problem; the latter asks whether a model improves inference or prediction for a scientifically relevant population.</p>
 </section>

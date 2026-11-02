@@ -508,6 +508,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/abbreviations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abbreviations and method names</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shared bibliography</span></a>
   </div>
@@ -869,7 +875,7 @@ window.Quarto = {
 </header>
 
 
-<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <section id="the-observation-distribution-is-part-of-the-model" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="the-observation-distribution-is-part-of-the-model"><span class="header-section-number">1</span> The observation distribution is part of the model</h2>
 <p>Disease status, calving scores, numbers of treatments and time to removal are not continuous Gaussian measurements merely because they can be entered in a numeric column. Their support, exposure and observation process help determine an appropriate likelihood. The genetic relationship model can remain familiar while the conditional observation model changes.</p>
@@ -878,7 +884,7 @@ window.Quarto = {
 \eta=X\beta+Zu,\qquad u\sim N(0,K(\theta)),\qquad
 g(\mu_i)=\eta_i,
 \]</span></p>
-<p>with conditionally independent responses from a declared distribution and <span class="math inline">\(\mu_i=E(y_i\mid u)\)</span>. Conditional independence is an assumption: repeated events, shared exposure and serial recording may require additional structure. The statistical construction and approximate inference for GLMMs are developed by <span class="citation" data-cites="breslow1993">Breslow and Clayton (<a href="#ref-breslow1993" role="doc-biblioref">1993</a>)</span>; Bayesian quantitative-genetic treatments are given by <span class="citation" data-cites="sorensen2002">Sorensen and Gianola (<a href="#ref-sorensen2002" role="doc-biblioref">2002</a>)</span>.</p>
+<p>with conditionally independent responses from a declared distribution and <span class="math inline">\(\mu_i=E(y_i\mid u)\)</span>. Conditional independence is an assumption: repeated events, shared exposure and serial recording may require additional structure. The statistical construction and approximate inference for generalized linear mixed models (GLMMs) are developed by <span class="citation" data-cites="breslow1993">Breslow and Clayton (<a href="#ref-breslow1993" role="doc-biblioref">1993</a>)</span>; Bayesian quantitative-genetic treatments are given by <span class="citation" data-cites="sorensen2002">Sorensen and Gianola (<a href="#ref-sorensen2002" role="doc-biblioref">2002</a>)</span>.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -971,14 +977,14 @@ p(y\mid\beta,\theta)=
 \int \left\{\prod_i p(y_i\mid\eta_i,\phi)\right\}
 \varphi(u;0,K(\theta))\,du,
 \]</span></p>
-<p>where <span class="math inline">\(\phi\)</span> denotes any additional observation parameters. The integral is generally not the Gaussian REML objective from <a href="../../../gsuite/docs/teaching/variance-component-inference.html">variance-component inference</a>. Laplace approximations, quadrature, working-response methods and posterior sampling make different approximations or target different inferential objects. Their performance must be assessed for rare events, small groups and the covariance structures of interest; an early approximation is not a universal reference for every modern implementation <span class="citation" data-cites="breslow1993 sorensen2002">(<a href="#ref-breslow1993" role="doc-biblioref">Breslow and Clayton, 1993</a>; <a href="#ref-sorensen2002" role="doc-biblioref">Sorensen and Gianola, 2002</a>)</span>.</p>
+<p>where <span class="math inline">\(\phi\)</span> denotes any additional observation parameters. The integral is generally not the Gaussian restricted maximum likelihood (REML) objective from <a href="../../../gsuite/docs/teaching/variance-component-inference.html">variance-component inference</a>. Laplace approximations, quadrature, working-response methods and posterior sampling make different approximations or target different inferential objects. Their performance must be assessed for rare events, small groups and the covariance structures of interest; an early approximation is not a universal reference for every modern implementation <span class="citation" data-cites="breslow1993 sorensen2002">(<a href="#ref-breslow1993" role="doc-biblioref">Breslow and Clayton, 1993</a>; <a href="#ref-sorensen2002" role="doc-biblioref">Sorensen and Gianola, 2002</a>)</span>.</p>
 <p>The conditional mode of <span class="math inline">\(u\)</span>, its posterior mean and a predicted response probability are different outputs. In particular,</p>
 <p><span class="math display">\[
 E\{g^{-1}(\eta_i)\mid y\}
 \ne g^{-1}\{E(\eta_i\mid y)\}
 \]</span></p>
 <p>in general. Response-scale prediction requires integration over the uncertainty appropriate to the target, including future environmental effects when relevant. A genetic contrast on the link scale can remain meaningful, but its translation to risk or rate depends on the covariate and exposure context.</p>
-<p>Likewise, an inverse Hessian at a mode is a local curvature approximation. It is not automatically the exact Gaussian PEV formula from <a href="../../../gsuite/docs/teaching/prediction-and-uncertainty.html">prediction and uncertainty</a>, nor a calibrated interval after variance estimation and selection.</p>
+<p>Likewise, an inverse Hessian at a mode is a local curvature approximation. It is not automatically the exact Gaussian prediction-error variance (PEV) formula from <a href="../../../gsuite/docs/teaching/prediction-and-uncertainty.html">prediction and uncertainty</a>, nor a calibrated interval after variance estimation and selection.</p>
 </section>
 <section id="qualification-and-practical-interpretation" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="qualification-and-practical-interpretation"><span class="header-section-number">6</span> Qualification and practical interpretation</h2>

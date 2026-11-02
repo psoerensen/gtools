@@ -543,6 +543,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/abbreviations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abbreviations and method names</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shared bibliography</span></a>
   </div>
@@ -919,10 +925,11 @@ window.Quarto = {
 </header>
 
 
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <section id="why-start-here" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="why-start-here"><span class="header-section-number">1</span> Why start here?</h2>
 <p>An animal’s phenotype reflects its genetic value, its environment and unexplained variation. We want to distinguish these contributions, predict genetic values and describe how uncertain those predictions are. Relatives carry information about one another, and animals with few records should not be treated as if their performance were known precisely.</p>
-<p>Linear mixed models express these ideas through means and covariances. This chapter connects the Gaussian regression model to BLUP and the animal model. It assumes familiarity with means, variances, normal distributions and basic matrix multiplication. We begin with <strong>known covariance parameters</strong>. Estimating them is a separate problem, introduced near the end.</p>
+<p>Linear mixed models express these ideas through means and covariances. This chapter connects the Gaussian regression model to best linear unbiased prediction (BLUP) and the animal model. It assumes familiarity with means, variances, normal distributions and basic matrix multiplication. We begin with <strong>known covariance parameters</strong>. Estimating them is a separate problem, introduced near the end.</p>
 <p>By the end, you should be able to explain shrinkage, construct the mixed-model equations, distinguish a breeding value from a phenotype, and understand how a pedigree supplies information for an animal without its own record.</p>
 <p>These notes complement the existing <a href="https://psoerensen.github.io/bayesian-linear-regression/notes/notes.html">Bayesian linear regression notes</a>. The central connection is that a Gaussian distribution for random effects produces the same quadratic penalty that appears in Gaussian-prior regression.</p>
 </section>
@@ -1166,7 +1173,7 @@ P=V^{-1}-V^{-1}XB X^\top V^{-1}.
 <p><span class="math display">\[
 \mathrm{Rel}_i=1-\frac{\mathrm{PEV}_i}{K_{ii}}.
 \]</span></p>
-<p>In the example the parent PEVs are <span class="math inline">\(0.75\)</span> and their reliabilities are <span class="math inline">\(0.25\)</span>. The offspring PEV is <span class="math inline">\(1\)</span> and reliability is zero: its prediction is available, but this balanced example supplies no information about its genetic value beyond the prior variance after allowing for the unknown mean.</p>
+<p>In the example the parent prediction-error variances (PEVs) are <span class="math inline">\(0.75\)</span> and their reliabilities are <span class="math inline">\(0.25\)</span>. The offspring PEV is <span class="math inline">\(1\)</span> and reliability is zero: its prediction is available, but this balanced example supplies no information about its genetic value beyond the prior variance after allowing for the unknown mean.</p>
 <p>Reliability concerns uncertainty in a genetic value. Predicting a new phenotype also involves residual variation and possibly new environmental effects. With estimated covariance parameters, a plug-in PEV generally does not include all variance-component uncertainty.</p>
 </section>
 <section id="known-covariances-reml-and-bayesian-inference" class="level2" data-number="8">
@@ -1174,7 +1181,7 @@ P=V^{-1}-V^{-1}XB X^\top V^{-1}.
 <p>For restricted likelihood see <span class="citation" data-cites="patterson1971">PATTERSON and THOMPSON (<a href="#ref-patterson1971" role="doc-biblioref">1971</a>)</span>; for the broader likelihood and Bayesian quantitative-genetics framework see <span class="citation" data-cites="sorensen2002">Sorensen and Gianola (<a href="#ref-sorensen2002" role="doc-biblioref">2002</a>)</span>.</p>
 <p>The derivations so far condition on covariance parameters, denoted collectively by <span class="math inline">\(\theta\)</span>. These may include genetic and residual variances and, for several traits, covariance matrices.</p>
 <p><strong>Supplied-covariance solving</strong> computes <span class="math inline">\(\hat\beta\)</span> and <span class="math inline">\(\hat u\)</span> at specified <span class="math inline">\(\theta\)</span>. It answers the prediction problem without estimating <span class="math inline">\(\theta\)</span>.</p>
-<p><strong>REML followed by prediction</strong> estimates <span class="math inline">\(\theta\)</span> from residual contrasts and then substitutes <span class="math inline">\(\hat\theta\)</span> into the prediction equations. Up to constants independent of <span class="math inline">\(\theta\)</span>, the restricted log likelihood is</p>
+<p><strong>restricted maximum likelihood (REML) followed by prediction</strong> estimates <span class="math inline">\(\theta\)</span> from residual contrasts and then substitutes <span class="math inline">\(\hat\theta\)</span> into the prediction equations. Up to constants independent of <span class="math inline">\(\theta\)</span>, the restricted log likelihood is</p>
 <p><span class="math display">\[
 \ell_R(\theta)=-\tfrac12\left\{
 \log|V|+\log|X^\top V^{-1}X|+y^\top Py+(n-p)\log(2\pi)
@@ -1186,7 +1193,7 @@ P=V^{-1}-V^{-1}XB X^\top V^{-1}.
 </section>
 <section id="connecting-the-equations-to-gsuite" class="level2" data-number="9">
 <h2 data-number="9" class="anchored" data-anchor-id="connecting-the-equations-to-gsuite"><span class="header-section-number">9</span> Connecting the equations to gsuite</h2>
-<p>In a supplied-covariance standalone YAML model, <span class="math inline">\(X\)</span> is specified by <code>fixed</code>, the grouping/incidence information by the random-effect <code>group</code>, and <span class="math inline">\(K\)</span> by the relationship and covariance declarations. For the three-animal example, the central model declarations would be:</p>
+<p>In a supplied-covariance standalone YAML (a human-readable model-configuration format) model, <span class="math inline">\(X\)</span> is specified by <code>fixed</code>, the grouping/incidence information by the random-effect <code>group</code>, and <span class="math inline">\(K\)</span> by the relationship and covariance declarations. For the three-animal example, the central model declarations would be:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">relationships</span><span class="kw">:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">A</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> pedigree</span><span class="kw">,</span><span class="at"> </span><span class="fu">input</span><span class="kw">:</span><span class="at"> pedigree</span><span class="kw">}</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">covariances</span><span class="kw">:</span></span>

@@ -508,6 +508,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/abbreviations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abbreviations and method names</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shared bibliography</span></a>
   </div>
@@ -868,7 +874,7 @@ window.Quarto = {
 </header>
 
 
-<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <section id="scope-and-inferential-targets" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="scope-and-inferential-targets"><span class="header-section-number">1</span> Scope and inferential targets</h2>
 <p>The statistical framework follows the mixed-model prediction literature <span class="citation" data-cites="henderson1975 robinson1991">(<a href="#ref-henderson1975" role="doc-biblioref">Henderson, 1975</a>; <a href="#ref-robinson1991" role="doc-biblioref">Robinson, 1991</a>)</span>, with likelihood and Bayesian treatments developed in <span class="citation" data-cites="sorensen2002">Sorensen and Gianola (<a href="#ref-sorensen2002" role="doc-biblioref">2002</a>)</span>.</p>
@@ -884,7 +890,7 @@ y=X\beta+\sum_{j=1}^s Z_j u_j+e,
 <p><span class="math display">\[
 V=ZKZ^\top+R.
 \]</span></p>
-<p>The covariance parameters <span class="math inline">\(\theta\)</span> may be supplied or estimated. Unless stated otherwise, <span class="math inline">\(R\)</span> and <span class="math inline">\(K\)</span> are positive definite, <span class="math inline">\(X\)</span> is full column rank, and the covariances are treated as known. The distinction matters: plug-in prediction after REML is not a linear function of the original data in general, and its usual plug-in uncertainty omits covariance-parameter estimation uncertainty.</p>
+<p>The covariance parameters <span class="math inline">\(\theta\)</span> may be supplied or estimated. Unless stated otherwise, <span class="math inline">\(R\)</span> and <span class="math inline">\(K\)</span> are positive definite, <span class="math inline">\(X\)</span> is full column rank, and the covariances are treated as known. The distinction matters: plug-in prediction after restricted maximum likelihood (REML) is not a linear function of the original data in general, and its usual plug-in uncertainty omits covariance-parameter estimation uncertainty.</p>
 </section>
 <section id="information-estimability-and-connectedness" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="information-estimability-and-connectedness"><span class="header-section-number">2</span> Information, estimability and connectedness</h2>
@@ -906,7 +912,7 @@ V=ZKZ^\top+R.
 <section id="assumptions-that-need-an-explicit-statement" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="assumptions-that-need-an-explicit-statement"><span class="header-section-number">5</span> Assumptions that need an explicit statement</h2>
 <p>The conditional mean, covariance structure and reference population jointly define the analysis. Record how covariates enter the mean, whether environmental effects are fixed or random, whether residuals are independent, and whether relationships are assumed known. State the observation/selection assumptions needed to use the likelihood in the observed sample. Distributional assumptions beyond means and covariances matter for likelihood inference and posterior probabilities even when a linear prediction formula remains available.</p>
-<p>Binary, ordinal, count and survival responses generally require observation models beyond the Gaussian LMM developed here. A linear analysis of such a response is a separate approximation, with a response-scale interpretation that must not be confused with a latent-scale genetic model. The observation models and their inferential consequences are developed in <a href="../../../gsuite/docs/teaching/non-gaussian-traits.html">non-Gaussian traits</a>.</p>
+<p>Binary, ordinal, count and survival responses generally require observation models beyond the Gaussian linear mixed model (LMM) developed here. A linear analysis of such a response is a separate approximation, with a response-scale interpretation that must not be confused with a latent-scale genetic model. The observation models and their inferential consequences are developed in <a href="../../../gsuite/docs/teaching/non-gaussian-traits.html">non-Gaussian traits</a>.</p>
 <p><a href="../../../gsuite/docs/teaching/prediction-and-uncertainty.html">Next: prediction and uncertainty</a>.</p>
 </section>
 <section id="references" class="level2" data-number="6">

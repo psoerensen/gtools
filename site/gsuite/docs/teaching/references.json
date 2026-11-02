@@ -2665,5 +2665,269 @@
     "issue": "4",
     "page": "934",
     "publisher": "Oxford University Press (OUP)"
+  },
+  {
+    "id": "misztal2014",
+    "type": "article-journal",
+    "title": "Using recursion to compute the inverse of the genomic relationship matrix",
+    "author": [
+      {
+        "given": "I.",
+        "family": "Misztal"
+      },
+      {
+        "given": "A.",
+        "family": "Legarra"
+      },
+      {
+        "given": "I.",
+        "family": "Aguilar"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2014
+        ]
+      ]
+    },
+    "DOI": "10.3168/jds.2013-7752",
+    "URL": "https://doi.org/10.3168/jds.2013-7752",
+    "container-title": "Journal of Dairy Science",
+    "volume": "97",
+    "issue": "6",
+    "page": "3943-3952",
+    "publisher": "American Dairy Science Association"
+  },
+  {
+    "id": "loh2015",
+    "type": "article-journal",
+    "title": "Contrasting genetic architectures of schizophrenia and other complex diseases using fast variance-components analysis",
+    "author": [
+      {
+        "given": "Po-Ru",
+        "family": "Loh"
+      },
+      {
+        "given": "Gaurav",
+        "family": "Bhatia"
+      },
+      {
+        "given": "Alexander",
+        "family": "Gusev"
+      },
+      {
+        "given": "Hilary K",
+        "family": "Finucane"
+      },
+      {
+        "given": "Brendan K",
+        "family": "Bulik-Sullivan"
+      },
+      {
+        "given": "Samuela J",
+        "family": "Pollack"
+      },
+      {
+        "literal": "Schizophrenia Working Group of the Psychiatric Genomics Consortium"
+      },
+      {
+        "given": "Teresa R",
+        "family": "de Candia"
+      },
+      {
+        "given": "Sang Hong",
+        "family": "Lee"
+      },
+      {
+        "given": "Naomi R",
+        "family": "Wray"
+      },
+      {
+        "given": "Kenneth S",
+        "family": "Kendler"
+      },
+      {
+        "given": "Michael C",
+        "family": "O'Donovan"
+      },
+      {
+        "given": "Benjamin M",
+        "family": "Neale"
+      },
+      {
+        "given": "Nick",
+        "family": "Patterson"
+      },
+      {
+        "given": "Alkes L",
+        "family": "Price"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2015
+        ]
+      ]
+    },
+    "DOI": "10.1038/ng.3431",
+    "URL": "https://doi.org/10.1038/ng.3431",
+    "container-title": "Nature Genetics",
+    "volume": "47",
+    "issue": "12",
+    "page": "1385-1392",
+    "publisher": "Springer Science and Business Media LLC"
+  },
+  {
+    "id": "pazokitoroudi2020",
+    "type": "article-journal",
+    "title": "Efficient variance components analysis across millions of genomes",
+    "author": [
+      {
+        "given": "Ali",
+        "family": "Pazokitoroudi"
+      },
+      {
+        "given": "Yue",
+        "family": "Wu"
+      },
+      {
+        "given": "Kathryn S.",
+        "family": "Burch"
+      },
+      {
+        "given": "Kangcheng",
+        "family": "Hou"
+      },
+      {
+        "given": "Aaron",
+        "family": "Zhou"
+      },
+      {
+        "given": "Bogdan",
+        "family": "Pasaniuc"
+      },
+      {
+        "given": "Sriram",
+        "family": "Sankararaman"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    },
+    "DOI": "10.1038/s41467-020-17576-9",
+    "URL": "https://doi.org/10.1038/s41467-020-17576-9",
+    "container-title": "Nature Communications",
+    "volume": "11",
+    "issue": "1",
+    "publisher": "Springer Science and Business Media LLC",
+    "page": "4020"
+  },
+  {
+    "id": "lanczos2019",
+    "type": "article-journal",
+    "title": "Stochastic Lanczos estimation of genomic variance components for linear mixed-effects models",
+    "author": [
+      {
+        "given": "Richard",
+        "family": "Border"
+      },
+      {
+        "given": "Stephen",
+        "family": "Becker"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "DOI": "10.1186/s12859-019-2978-z",
+    "URL": "https://doi.org/10.1186/s12859-019-2978-z",
+    "container-title": "BMC Bioinformatics",
+    "volume": "20",
+    "issue": "1",
+    "publisher": "Springer Science and Business Media LLC",
+    "page": "411"
+  },
+  {
+    "id": "gowane2026correction",
+    "type": "article-journal",
+    "title": "Correction: Genetic parameters via predictivity in large populations under strong genomic selection",
+    "author": [
+      {
+        "given": "Gopal",
+        "family": "Gowane"
+      },
+      {
+        "given": "Jorge",
+        "family": "Hidalgo"
+      },
+      {
+        "given": "Mary Kate",
+        "family": "Hollifield"
+      },
+      {
+        "given": "Ignacy",
+        "family": "Misztal"
+      },
+      {
+        "given": "Daniela",
+        "family": "Lourenco"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2026
+        ]
+      ]
+    },
+    "DOI": "10.1186/s12711-026-01089-y",
+    "URL": "https://doi.org/10.1186/s12711-026-01089-y",
+    "container-title": "Genetics Selection Evolution",
+    "volume": "58",
+    "issue": "1",
+    "publisher": "Springer Science and Business Media LLC",
+    "page": "71"
+  },
+  {
+    "id": "hollifield2024",
+    "type": "article-journal",
+    "title": "Estimation of heritability with genomic information by method R",
+    "author": [
+      {
+        "given": "Mary Kate",
+        "family": "Hollifield"
+      },
+      {
+        "given": "Daniela",
+        "family": "Lourenco"
+      },
+      {
+        "given": "Ignacy",
+        "family": "Misztal"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          2024
+        ]
+      ]
+    },
+    "DOI": "10.1111/jbg.12863",
+    "URL": "https://doi.org/10.1111/jbg.12863",
+    "container-title": "Journal of Animal Breeding and Genetics",
+    "volume": "141",
+    "issue": "5",
+    "page": "550-558"
   }
 ]

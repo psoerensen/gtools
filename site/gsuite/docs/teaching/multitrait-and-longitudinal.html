@@ -508,6 +508,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/abbreviations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abbreviations and method names</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shared bibliography</span></a>
   </div>
@@ -872,7 +878,7 @@ window.Quarto = {
 </header>
 
 
-<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <section id="multitrait-models-and-the-one-visit-benchmark" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="multitrait-models-and-the-one-visit-benchmark"><span class="header-section-number">1</span> Multitrait models and the one-visit benchmark</h2>
 <p>The following specification uses the general multivariate mixed-model framework <span class="citation" data-cites="sorensen2002">(<a href="#ref-sorensen2002" role="doc-biblioref">Sorensen and Gianola, 2002</a>)</span>; its one-visit identifiability example is an algebraic consequence of the stated covariance structure.</p>
@@ -911,13 +917,13 @@ K_c=\Sigma_c\otimes I_{\rm animal}.
 <p><span class="math display">\[
 \operatorname{Cov}\{a_i(t),a_j(s)\}=A_{ij}b(t)^\top\Sigma_u b(s).
 \]</span></p>
-<p>The prediction target may be a value at a particular age, a change between ages, a slope or an integrated trajectory. Each corresponds to a linear combination of coefficients and needs the full coefficient PEV block. Extrapolation outside the observed time range can be highly sensitive to basis choice even when the numerical system is well solved.</p>
+<p>The prediction target may be a value at a particular age, a change between ages, a slope or an integrated trajectory. Each corresponds to a linear combination of coefficients and needs the full coefficient prediction-error variance (PEV) block. Extrapolation outside the observed time range can be highly sensitive to basis choice even when the numerical system is well solved.</p>
 <p>Centering/scaling time improves conditioning. Changing from one full-rank basis to another preserves the model only if the coefficient covariance is transformed accordingly. Truncating the basis changes the model.</p>
 </section>
 <section id="residual-correlation-and-irregular-visits" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="residual-correlation-and-irregular-visits"><span class="header-section-number">4</span> Residual correlation and irregular visits</h2>
 <p>The combination of random regression and parametric within-animal environmental correlation is treated by <span class="citation" data-cites="meyer2001">Meyer (<a href="#ref-meyer2001" role="doc-biblioref">2001</a>)</span>.</p>
-<p>For discrete equally spaced visits an AR(1) model can use <span class="math inline">\(R_{rs}=\sigma_e^2\rho^{|k_r-k_s|}\)</span>. The distance uses the true visit index, not row adjacency after deleting missing visits. For irregular times, an exponential model uses <span class="math inline">\(R_{rs}=\sigma_e^2\exp(-\phi|t_r-t_s|)\)</span> with <span class="math inline">\(\phi&gt;0\)</span>. A heterogeneous form multiplies the correlation by occasion-specific standard deviations. Duplicate times, residual units and independent blocks must be declared explicitly.</p>
+<p>For discrete equally spaced visits a first-order autoregressive [AR(1)] model can use <span class="math inline">\(R_{rs}=\sigma_e^2\rho^{|k_r-k_s|}\)</span>. The distance uses the true visit index, not row adjacency after deleting missing visits. For irregular times, an exponential model uses <span class="math inline">\(R_{rs}=\sigma_e^2\exp(-\phi|t_r-t_s|)\)</span> with <span class="math inline">\(\phi&gt;0\)</span>. A heterogeneous form multiplies the correlation by occasion-specific standard deviations. Duplicate times, residual units and independent blocks must be declared explicitly.</p>
 <p>Genetic random regression, permanent environmental random regression and serial residuals explain different covariance structures. With sparse follow-up, those structures can be difficult to distinguish. Increasing basis dimension without additional independent information does not resolve this.</p>
 </section>
 <section id="factor-analytic-trait-or-environment-covariance" class="level2" data-number="5">

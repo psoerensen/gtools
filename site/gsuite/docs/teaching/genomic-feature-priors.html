@@ -508,6 +508,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/abbreviations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abbreviations and method names</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shared bibliography</span></a>
   </div>
@@ -875,7 +881,7 @@ window.Quarto = {
 </header>
 
 
-<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <section id="biological-information-as-part-of-the-statistical-model" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="biological-information-as-part-of-the-statistical-model"><span class="header-section-number">1</span> Biological information as part of the statistical model</h2>
 <p>A genomic feature can be a variant class, gene, pathway, regulatory region, tissue-specific molecular annotation or a quantitative score. Its statistical role must be specified: it may define a covariance component, an expected marker variance, a mixture probability or a predictor measured on each animal. These choices are not interchangeable.</p>
@@ -883,7 +889,7 @@ window.Quarto = {
 <p><span class="math display">\[
 y=X\beta+ZWm+e.
 \]</span></p>
-<p><span class="math inline">\(W\)</span> contains consistently centered marker dosages. In ordinary SNP-BLUP, <span class="math inline">\(m\sim N(0,\tau^2I)\)</span>. Feature information allows the marker distribution to depend on an annotation design <span class="math inline">\(B\)</span>, with row <span class="math inline">\(b_j^\top\)</span> describing marker <span class="math inline">\(j\)</span>. The same annotation can be external biological information even when its influence on the trait is estimated from the training phenotypes.</p>
+<p><span class="math inline">\(W\)</span> contains consistently centered marker dosages. In ordinary single-nucleotide polymorphism best linear unbiased prediction (SNP-BLUP), <span class="math inline">\(m\sim N(0,\tau^2I)\)</span>. Feature information allows the marker distribution to depend on an annotation design <span class="math inline">\(B\)</span>, with row <span class="math inline">\(b_j^\top\)</span> describing marker <span class="math inline">\(j\)</span>. The same annotation can be external biological information even when its influence on the trait is estimated from the training phenotypes.</p>
 <p>The word “prior” has two uses here. A feature set may be defined before an analysis, without assigning a Bayesian prior to its variance component. A full Bayesian model additionally assigns probability distributions to unknown effects and hyperparameters. Declaring a feature in advance does not mean that its enrichment is known.</p>
 </section>
 <section id="feature-specific-variance-components-gfblup" class="level2" data-number="2">
@@ -902,7 +908,7 @@ K_a=\sigma_F^2G_F+\sigma_B^2G_B,
 \qquad \sigma_F^2=d_F\tau_F^2,\quad
 \sigma_B^2=d_B\tau_B^2.
 \]</span></p>
-<p>The feature and background variances can be supplied, estimated by REML or assigned hyperpriors. Their interpretation follows the kernel scaling. Equal marker variances correspond to <span class="math inline">\(\sigma_F^2/d_F=\sigma_B^2/d_B\)</span>, not generally to equal component variances. If <span class="math inline">\(d=d_F+d_B\)</span> under the same normalization convention, ordinary GBLUP is recovered by these matching per-marker variances.</p>
+<p>The feature and background variances can be supplied, estimated by restricted maximum likelihood (REML) or assigned hyperpriors. Their interpretation follows the kernel scaling. Equal marker variances correspond to <span class="math inline">\(\sigma_F^2/d_F=\sigma_B^2/d_B\)</span>, not generally to equal component variances. If <span class="math inline">\(d=d_F+d_B\)</span> under the same normalization convention, ordinary genomic best linear unbiased prediction (GBLUP) is recovered by these matching per-marker variances.</p>
 <p>This makes the feature model a direct extension of <a href="../../../gsuite/docs/teaching/components-and-identifiability.html">multiple-component inference</a>. The feature provides a grouping hypothesis; the data determine whether its markers warrant different shrinkage. A small or noisy feature can produce an unstable component estimate, and a boundary estimate need not imply that the underlying biology is absent.</p>
 <section id="what-does-feature-enrichment-mean" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="what-does-feature-enrichment-mean"><span class="header-section-number">2.1</span> What does feature enrichment mean?</h3>
@@ -911,7 +917,7 @@ K_a=\sigma_F^2G_F+\sigma_B^2G_B,
 <p><span class="math display">\[
 v_F=\frac{\sigma_F^2}{n}\operatorname{tr}(G_F),
 \]</span></p>
-<p>and similarly for background. The ratio <span class="math inline">\(v_F/(v_F+v_B)\)</span> is a prior population-average component share under the independent-effect model. This is distinct from a variance share calculated from fitted predictions. For posterior draws, feature and background effects can become correlated through the data and LD; posterior realized variance decompositions need their cross term.</p>
+<p>and similarly for background. The ratio <span class="math inline">\(v_F/(v_F+v_B)\)</span> is a prior population-average component share under the independent-effect model. This is distinct from a variance share calculated from fitted predictions. For posterior draws, feature and background effects can become correlated through the data and linkage disequilibrium (LD); posterior realized variance decompositions need their cross term.</p>
 </section>
 </section>
 <section id="weighted-kernels-and-continuous-annotation-dependent-variances" class="level2" data-number="3">
@@ -922,8 +928,8 @@ m_j\mid\alpha\sim N(0,\tau_j^2),\qquad
 \log\tau_j^2=\alpha_0+b_j^\top\alpha,
 \]</span></p>
 <p>which induces <span class="math inline">\(K_a=W D(\alpha)W^\top\)</span>, where <span class="math inline">\(D\)</span> is diagonal. This general variance-regression formulation accommodates continuous scores and overlapping annotations. Positive variance is automatic, while regularization of <span class="math inline">\(\alpha\)</span> controls extreme weights and weakly identified annotation effects.</p>
-<p>Fixed external weights define one covariance. Learning weights by likelihood or empirical Bayes defines a covariance-estimation problem. Assigning priors to <span class="math inline">\(\alpha\)</span> and integrating over its uncertainty defines a hierarchical Bayesian problem. Plugging learned weights into a final BLUP does not automatically propagate their uncertainty.</p>
-<p>Correlated annotation columns make individual coefficients difficult to interpret. Genomic coordinates, annotation version, feature mapping, MAF/LD dependencies and score scaling are part of the model specification.</p>
+<p>Fixed external weights define one covariance. Learning weights by likelihood or empirical Bayes defines a covariance-estimation problem. Assigning priors to <span class="math inline">\(\alpha\)</span> and integrating over its uncertainty defines a hierarchical Bayesian problem. Plugging learned weights into a final best linear unbiased prediction (BLUP) does not automatically propagate their uncertainty.</p>
+<p>Correlated annotation columns make individual coefficients difficult to interpret. Genomic coordinates, annotation version, feature mapping, minor allele frequency (MAF)/LD dependencies and score scaling are part of the model specification.</p>
 </section>
 <section id="annotation-dependent-mixture-distributions" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="annotation-dependent-mixture-distributions"><span class="header-section-number">4</span> Annotation-dependent mixture distributions</h2>
@@ -951,16 +957,16 @@ K_a=\sum_k\sigma_k^2G_k.
 </section>
 <section id="molecular-evidence-and-its-uncertainty" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="molecular-evidence-and-its-uncertainty"><span class="header-section-number">6</span> Molecular evidence and its uncertainty</h2>
-<p>Feature definitions can use coding consequence, regulatory activity, eQTL, sQTL, expression, pathways or fine-mapping results. CattleGTEx provides a multi-tissue regulatory resource that can inform such definitions. <span class="citation" data-cites="liu2022">(<a href="#ref-liu2022" role="doc-biblioref">Liu et al., 2022</a>)</span>.</p>
+<p>Feature definitions can use coding consequence, regulatory activity, expression quantitative trait locus (eQTL), splicing quantitative trait locus (sQTL), expression, pathways or fine-mapping results. CattleGTEx provides a multi-tissue regulatory resource that can inform such definitions. <span class="citation" data-cites="liu2022">(<a href="#ref-liu2022" role="doc-biblioref">Liu et al., 2022</a>)</span>.</p>
 <p>A tissue-specific eQTL annotation is variant-level information. An expression measurement on an individual animal is a different predictor, potentially affected by environment, disease and the phenotype itself. A model using the latter must state when expression is measured and whether it is available at selection time. It does not automatically predict the same additive breeding value as a genotype-only model.</p>
-<p>GWAS association, colocalization and experimental functional validation also provide different evidence. LD can make several variants or genes appear informative for one locus. Combining an annotation with a GWAS statistic from the same animals does not create independent prior evidence.</p>
+<p>genome-wide association study (GWAS) association, colocalization and experimental functional validation also provide different evidence. LD can make several variants or genes appear informative for one locus. Combining an annotation with a GWAS statistic from the same animals does not create independent prior evidence.</p>
 <p>Treat uncertain or tissue-mismatched annotations as hypotheses rather than known causal labels. Sensitivity to alternative mappings, irrelevant tissues and matched random features helps determine whether a result reflects useful biology or generic genome structure.</p>
 </section>
 <section id="multitrait-and-single-step-extensions" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="multitrait-and-single-step-extensions"><span class="header-section-number">7</span> Multitrait and single-step extensions</h2>
 <p>For feature <span class="math inline">\(k\)</span>, a multitrait Gaussian extension has <span class="math inline">\(\operatorname{Var}(a_k)=\Sigma_k\otimes G_k\)</span> in trait-major order. Feature-specific trait correlations allow a region to affect several traits differently from the background. They also increase parameter count and require enough independent information to distinguish the kernels and trait covariance structures.</p>
 <p>A Bayesian extension can use shared versus trait-specific inclusion, or mixtures of multivariate effect covariances. Shared inclusion does not force identical effect sizes or signs. Sharing annotations does not by itself establish that the same causal variant acts on every trait.</p>
-<p>In single-step, define the complete genotyped covariance induced by the feature model and the conditional relationship to non-genotyped animals. Compatibility, reference adjustment and residual pedigree variation still matter. Replacing ordinary SNP shrinkage by a feature prior without revisiting the remaining latent terms is not proof of equivalence to a desired animal-effect model. Their joint covariance, identifiability and inferential properties must be derived and assessed for the combined model.</p>
+<p>In single-step, define the complete genotyped covariance induced by the feature model and the conditional relationship to non-genotyped animals. Compatibility, reference adjustment and residual pedigree variation still matter. Replacing ordinary single-nucleotide polymorphism (SNP) shrinkage by a feature prior without revisiting the remaining latent terms is not proof of equivalence to a desired animal-effect model. Their joint covariance, identifiability and inferential properties must be derived and assessed for the combined model.</p>
 </section>
 <section id="qualification-prediction-estimation-and-biology" class="level2" data-number="8">
 <h2 data-number="8" class="anchored" data-anchor-id="qualification-prediction-estimation-and-biology"><span class="header-section-number">8</span> Qualification: prediction, estimation and biology</h2>

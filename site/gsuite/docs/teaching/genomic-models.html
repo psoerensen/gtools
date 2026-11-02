@@ -508,6 +508,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/abbreviations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abbreviations and method names</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shared bibliography</span></a>
   </div>
@@ -888,7 +894,7 @@ window.Quarto = {
 <section id="what-distinguishes-one-genomic-model-from-another" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="what-distinguishes-one-genomic-model-from-another"><span class="header-section-number">1</span> What distinguishes one genomic model from another?</h2>
 <p>Genomic prediction models differ in their assumptions about genetic effects, their reference populations and the information they use. The choice of marker-effect or animal-effect equations is sometimes only a change of representation. Changing the prior distribution, relationship kernel or genomic blending generally changes the statistical model.</p>
-<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <p>This chapter builds on the <a href="../../../gsuite/docs/teaching/mixed-model-framework.html">general framework</a>. Write <span class="math inline">\(y=X\beta+Za+e\)</span>, with additive genetic values <span class="math inline">\(a\)</span>, residual covariance <span class="math inline">\(R\)</span>, and genetic covariance <span class="math inline">\(K_a\)</span>. The prediction target is the additive genetic value relative to a declared base. Total genotypic value, marker association and individual future phenotype are different targets.</p>
 <table class="caption-top table">
 <colgroup>
@@ -958,7 +964,7 @@ A^{-1}=(I-P)^\top D^{-1}(I-P).
 \]</span></p>
 <p>Parental inbreeding changes innovation variances. The simple diagonal values for unrelated, non-inbred founders must not be applied indiscriminately to inbred pedigrees. This representation explains why pedigree precision can be sparse even though the relationship matrix itself is dense.</p>
 <p>For founder mean and covariance assumptions, genomic compatibility and crossbred prediction targets, see <a href="../../../gsuite/docs/teaching/genetic-bases-and-crossbreeding.html">genetic bases and crossbreeding</a>.</p>
-<p>Pedigree BLUP uses expected relationships under this inheritance model. Genomic models can capture variation in realized marker sharing around those pedigree expectations; their base, scale and target must still be specified.</p>
+<p>Pedigree best linear unbiased prediction (BLUP) uses expected relationships under this inheritance model. Genomic models can capture variation in realized marker sharing around those pedigree expectations; their base, scale and target must still be specified.</p>
 </section>
 <section id="marker-coding-and-the-genetic-reference-population" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="marker-coding-and-the-genetic-reference-population"><span class="header-section-number">3</span> Marker coding and the genetic reference population</h2>
@@ -973,7 +979,7 @@ d=\sum_j2p_j(1-p_j),\qquad G=WW^\top/d.
 </section>
 <section id="snp-blup-and-gblup-an-exact-covariance-equivalence" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="snp-blup-and-gblup-an-exact-covariance-equivalence"><span class="header-section-number">4</span> SNP-BLUP and GBLUP: an exact covariance equivalence</h2>
-<p>In SNP-BLUP,</p>
+<p>In single-nucleotide polymorphism best linear unbiased prediction (SNP-BLUP),</p>
 <p><span class="math display">\[
 y=X\beta+ZWm+e,\qquad m\sim N(0,\sigma_m^2I).
 \]</span></p>
@@ -982,7 +988,7 @@ y=X\beta+ZWm+e,\qquad m\sim N(0,\sigma_m^2I).
 K_a=\sigma_m^2WW^\top=\sigma_a^2G,
 \qquad \sigma_m^2=\sigma_a^2/d.
 \]</span></p>
-<p>Consequently SNP-BLUP and GBLUP give identical fitted genetic values when their covariance scales, fixed-effect spaces, observations and residual models match. This is the equivalence examined by <span class="citation" data-cites="vanraden2008">(<a href="#ref-vanraden2008" role="doc-biblioref">VanRaden, 2008</a>)</span>.</p>
+<p>Consequently SNP-BLUP and genomic best linear unbiased prediction (GBLUP) give identical fitted genetic values when their covariance scales, fixed-effect spaces, observations and residual models match. This is the equivalence examined by <span class="citation" data-cites="vanraden2008">(<a href="#ref-vanraden2008" role="doc-biblioref">VanRaden, 2008</a>)</span>.</p>
 <p>With one record per genotyped animal and <span class="math inline">\(R=\sigma_e^2I\)</span>, marker equations contain the penalty <span class="math inline">\(\lambda I\)</span>, where</p>
 <p><span class="math display">\[
 \lambda=\frac{\sigma_e^2}{\sigma_m^2}
@@ -1035,7 +1041,7 @@ C_n+TG_bT^\top&amp;TG_b\\G_bT^\top&amp;G_b
 <p><span class="math display">\[
 H^{-1}=A^{-1}+E_g^\top(G_b^{-1}-A_{gg}^{-1})E_g.
 \]</span></p>
-<p>This provides a common basis for ssGBLUP and corresponding ssSNPBLUP representations. Phenotypes on non-genotyped relatives remain in the model; they are not simply discarded or treated as additional genotypes. See <span class="citation" data-cites="christensen2010">(<a href="#ref-christensen2010" role="doc-biblioref">Christensen and Lund, 2010</a>)</span>.</p>
+<p>This provides a common basis for single-step genomic best linear unbiased prediction (ssGBLUP) and corresponding single-step single-nucleotide polymorphism best linear unbiased prediction (ssSNPBLUP) representations. Phenotypes on non-genotyped relatives remain in the model; they are not simply discarded or treated as additional genotypes. See <span class="citation" data-cites="christensen2010">(<a href="#ref-christensen2010" role="doc-biblioref">Christensen and Lund, 2010</a>)</span>.</p>
 <p>An ssSNPBLUP formulation expresses the genomic part through marker effects and retains the additional pedigree-related terms needed to reproduce <span class="math inline">\(H\)</span>. It is not ordinary SNP-BLUP with missing genotype rows filled by zero. Equivalence requires matching the complete latent covariance, including blending, adjustment and any additional genetic component.</p>
 <section id="marginal-and-conditional-pedigree-precision-are-different" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="marginal-and-conditional-pedigree-precision-are-different"><span class="header-section-number">6.1</span> Marginal and conditional pedigree precision are different</h3>
@@ -1057,7 +1063,7 @@ G_b=(1-w)G_*+wA_{gg}.
 </section>
 <section id="apy-and-other-approximations" class="level3" data-number="6.3">
 <h3 data-number="6.3" class="anchored" data-anchor-id="apy-and-other-approximations"><span class="header-section-number">6.3</span> APY and other approximations</h3>
-<p>APY partitions genotyped animals into a core and a remaining group. It retains a core-dependent conditional prediction and approximates the conditional covariance among remaining animals, typically by a diagonal. Thus an APY relationship approximation can change the target model; its predictions depend on core choice and approximation quality. It should not be described as merely a different PCG preconditioner for an unchanged exact system. An approximate operator used only inside a preconditioner is a separate case. For an applied treatment of the core/non-core construction, see <span class="citation" data-cites="garcia2020">(<a href="#ref-garcia2020" role="doc-biblioref">Garcia et al., 2020</a>)</span>.</p>
+<p>The <strong>algorithm for proven and young (APY)</strong> partitions genotyped animals into a core and a remaining (noncore) group. The name is historical: the core need not consist exclusively of older or proven animals. It retains a core-dependent conditional prediction and approximates the conditional covariance among remaining animals, typically by a diagonal. Thus an APY relationship approximation can change the target model; its predictions depend on core choice and approximation quality. It should not be described as merely a different preconditioned conjugate gradient (PCG) preconditioner for an unchanged exact system. An approximate operator used only inside a preconditioner is a separate case. For the original recursive construction see <span class="citation" data-cites="misztal2014">Misztal et al. (<a href="#ref-misztal2014" role="doc-biblioref">2014</a>)</span>; for an applied treatment of the core/noncore construction see <span class="citation" data-cites="garcia2020">Garcia et al. (<a href="#ref-garcia2020" role="doc-biblioref">2020</a>)</span>.</p>
 </section>
 </section>
 <section id="bayesian-marker-effect-distributions" class="level2" data-number="7">
@@ -1100,8 +1106,8 @@ G_b=(1-w)G_*+wA_{gg}.
 </tbody>
 </table>
 <p>The precise prior includes mixture probabilities, variance scales and their hyperpriors. Names alone are insufficient to reproduce an analysis; some implementations fix a quantity that others estimate. BayesC-type extensions are described by <span class="citation" data-cites="habier2011">Habier et al. (<a href="#ref-habier2011" role="doc-biblioref">2011</a>)</span>. For BayesR, see <span class="citation" data-cites="erbe2012">Erbe et al. (<a href="#ref-erbe2012" role="doc-biblioref">2012</a>)</span> and <span class="citation" data-cites="moser2015">Moser et al. (<a href="#ref-moser2015" role="doc-biblioref">2015</a>)</span>.</p>
-<p>Conditional on mixture assignments and variance parameters, parts of these models are Gaussian. Integrating over those unknowns gives a non-Gaussian posterior and generally nonlinear prediction in <span class="math inline">\(y\)</span>. Matching the prior’s second moment to a GBLUP covariance therefore does not make the posterior predictions equivalent. Posterior mean, posterior mode, variable-selection probability and MCMC draw are also different outputs.</p>
-<p>Posterior inclusion probabilities describe marker inclusion under a declared prior and LD structure. They are not automatically probabilities that a marker is causal. Prediction performance does not establish fine-mapping resolution.</p>
+<p>Conditional on mixture assignments and variance parameters, parts of these models are Gaussian. Integrating over those unknowns gives a non-Gaussian posterior and generally nonlinear prediction in <span class="math inline">\(y\)</span>. Matching the prior’s second moment to a GBLUP covariance therefore does not make the posterior predictions equivalent. Posterior mean, posterior mode, variable-selection probability and Markov chain Monte Carlo (MCMC) draw are also different outputs.</p>
+<p>Posterior inclusion probabilities describe marker inclusion under a declared prior and linkage disequilibrium (LD) structure. They are not automatically probabilities that a marker is causal. Prediction performance does not establish fine-mapping resolution.</p>
 </section>
 <section id="beyond-additive-single-trait-prediction" class="level2" data-number="8">
 <h2 data-number="8" class="anchored" data-anchor-id="beyond-additive-single-trait-prediction"><span class="header-section-number">8</span> Beyond additive, single-trait prediction</h2>
@@ -1125,7 +1131,7 @@ G_b=(1-w)G_*+wA_{gg}.
 </section>
 <section id="choosing-and-assessing-a-genomic-model" class="level2" data-number="9">
 <h2 data-number="9" class="anchored" data-anchor-id="choosing-and-assessing-a-genomic-model"><span class="header-section-number">9</span> Choosing and assessing a genomic model</h2>
-<p>For an evaluation, record the scientific target, training and prediction populations, marker coding and frequencies, kernel normalization, covariance parameters, adjustment/blending rule and treatment of non-genotyped animals. Specify whether covariance parameters are supplied, estimated by REML or integrated in Bayesian inference. Computational choices should preserve the intended model or make the approximation and its consequences explicit.</p>
+<p>For an evaluation, record the scientific target, training and prediction populations, marker coding and frequencies, kernel normalization, covariance parameters, adjustment/blending rule and treatment of non-genotyped animals. Specify whether covariance parameters are supplied, estimated by restricted maximum likelihood (REML) or integrated in Bayesian inference. Computational choices should preserve the intended model or make the approximation and its consequences explicit.</p>
 <p>Qualification should connect three levels: an independent small covariance reference, a representative model fit with original-equation residual checks, and prediction validation designed for the intended deployment. Randomly splitting close relatives can answer a different question from prediction across generations or populations. Hyperparameters, marker selection and phenotype-derived weights must be learned inside the training procedure.</p>
 </section>
 <section id="reading-alongside-this-chapter" class="level2" data-number="10">
@@ -1161,6 +1167,9 @@ Henderson, C. R. (1976). A Simple Method for Computing the Inverse of a Numerato
 </div>
 <div id="ref-meuwissen2001" class="csl-entry" role="listitem">
 Meuwissen, T. H. E., Hayes, B. J., and Goddard, M. E. (2001). Prediction of Total Genetic Value Using Genome-Wide Dense Marker Maps. <em>Genetics</em>, 157(4), 1819–1829. https://doi.org/<a href="https://doi.org/10.1093/genetics/157.4.1819">10.1093/genetics/157.4.1819</a>.
+</div>
+<div id="ref-misztal2014" class="csl-entry" role="listitem">
+Misztal, I., Legarra, A., and Aguilar, I. (2014). Using recursion to compute the inverse of the genomic relationship matrix. <em>Journal of Dairy Science</em>, 97(6), 3943–3952. https://doi.org/<a href="https://doi.org/10.3168/jds.2013-7752">10.3168/jds.2013-7752</a>.
 </div>
 <div id="ref-moser2015" class="csl-entry" role="listitem">
 Moser, G., Lee, S. H., Hayes, B. J., Goddard, M. E., Wray, N. R., and Visscher, P. M. (2015). Simultaneous Discovery, Estimation and Prediction Analysis of Complex Traits Using a Bayesian Mixture Model. <em>PLOS Genetics</em>, 11(4), e1004969. https://doi.org/<a href="https://doi.org/10.1371/journal.pgen.1004969">10.1371/journal.pgen.1004969</a>.

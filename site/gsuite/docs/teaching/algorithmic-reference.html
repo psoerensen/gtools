@@ -508,6 +508,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/abbreviations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abbreviations and method names</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shared bibliography</span></a>
   </div>
@@ -877,11 +883,11 @@ window.Quarto = {
 </header>
 
 
-<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <section id="mathematical-scope" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="mathematical-scope"><span class="header-section-number">1</span> Mathematical scope</h2>
 <p>Consider <span class="math inline">\(y=X\beta+Zu+e\)</span>, with <span class="math inline">\(u\sim N(0,K)\)</span> and <span class="math inline">\(e\sim N(0,R)\)</span> independent. This reference derives computational identities for a Gaussian model with positive-definite <span class="math inline">\(K,R\)</span> and full-column-rank <span class="math inline">\(X\)</span>, unless a different case is explicitly stated. Covariance parameters are fixed within a coefficient solve. The statistical interpretation is developed in <a href="../../../gsuite/docs/teaching/mixed-model-framework.html">Chapters 1–3</a> <span class="citation" data-cites="henderson1975 robinson1991">(<a href="#ref-henderson1975" role="doc-biblioref">Henderson, 1975</a>; <a href="#ref-robinson1991" role="doc-biblioref">Robinson, 1991</a>)</span>.</p>
-<p>A complete algorithm must preserve observation identities, effect domains, trait order, covariance scale and prediction targets. A computational ordering is a permutation of the scientific problem, not a redefinition of animal IDs. The equations below are independent of a particular file format or API.</p>
+<p>A complete algorithm must preserve observation identities, effect domains, trait order, covariance scale and prediction targets. A computational ordering is a permutation of the scientific problem, not a redefinition of animal IDs. The equations below are independent of a particular file format or application programming interface (API).</p>
 </section>
 <section id="what-must-an-implementation-be-able-to-apply" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="what-must-an-implementation-be-able-to-apply"><span class="header-section-number">2</span> What must an implementation be able to apply?</h2>
@@ -940,8 +946,8 @@ A_{gg}^{-1}=Q_{gg}-Q_{gn}Q_{nn}^{-1}Q_{ng}.
 </section>
 <section id="direct-and-iterative-coefficient-solves" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="direct-and-iterative-coefficient-solves"><span class="header-section-number">5</span> Direct and iterative coefficient solves</h2>
-<p>Sparse direct methods separate ordering/symbolic analysis, numerical factorization and triangular solves. A retained factor can serve multiple prediction, derivative or uncertainty RHS. Covariance changes can preserve the symbolic pattern while invalidating the numerical factor <span class="citation" data-cites="chen2008">(<a href="#ref-chen2008" role="doc-biblioref">Chen et al., 2008</a>)</span>.</p>
-<p>For an SPD system and a fixed SPD preconditioner <span class="math inline">\(M\)</span>, PCG starts with <span class="math inline">\(r_0=b-Cx_0\)</span>, <span class="math inline">\(z_0=M^{-1}r_0\)</span>, <span class="math inline">\(p_0=z_0\)</span>. Its recurrence includes</p>
+<p>Sparse direct methods separate ordering/symbolic analysis, numerical factorization and triangular solves. A retained factor can serve multiple prediction, derivative or uncertainty right-hand sides (RHS). Covariance changes can preserve the symbolic pattern while invalidating the numerical factor <span class="citation" data-cites="chen2008">(<a href="#ref-chen2008" role="doc-biblioref">Chen et al., 2008</a>)</span>.</p>
+<p>For a symmetric positive definite (SPD) system and a fixed SPD preconditioner <span class="math inline">\(M\)</span>, preconditioned conjugate gradient (PCG) starts with <span class="math inline">\(r_0=b-Cx_0\)</span>, <span class="math inline">\(z_0=M^{-1}r_0\)</span>, <span class="math inline">\(p_0=z_0\)</span>. Its recurrence includes</p>
 <p><span class="math display">\[
 \alpha_k=\frac{r_k^\top z_k}{p_k^\top Cp_k},\quad
 x_{k+1}=x_k+\alpha_kp_k,\quad
@@ -977,7 +983,7 @@ y^\top Py=r_y^\top R^{-1}r_y+\hat u^\top K^{-1}\hat u.
 \log|V|+\log|X^\top V^{-1}X|
 =\log|R|+\log|K|+\log|C|.
 \]</span></p>
-<p>This provides an independent likelihood identity and shows why covariance normalization and determinant accounting are essential. A coefficient solution alone is insufficient to evaluate REML <span class="citation" data-cites="patterson1971 johnson1995">(<a href="#ref-johnson1995" role="doc-biblioref">Johnson and Thompson, 1995</a>; <a href="#ref-patterson1971" role="doc-biblioref">PATTERSON and THOMPSON, 1971</a>)</span>.</p>
+<p>This provides an independent likelihood identity and shows why covariance normalization and determinant accounting are essential. A coefficient solution alone is insufficient to evaluate restricted maximum likelihood (REML) <span class="citation" data-cites="patterson1971 johnson1995">(<a href="#ref-johnson1995" role="doc-biblioref">Johnson and Thompson, 1995</a>; <a href="#ref-patterson1971" role="doc-biblioref">PATTERSON and THOMPSON, 1971</a>)</span>.</p>
 <p>For <span class="math inline">\(V_i=\partial V/\partial\theta_i\)</span> and fixed <span class="math inline">\(X\)</span>, differentiation gives <span class="math inline">\(\partial P/\partial\theta_i=-PV_iP\)</span>. Consequently,</p>
 <p><span class="math display">\[
 s_i=\tfrac12\{y^\top PV_iPy-\operatorname{tr}(PV_i)\},\quad
@@ -988,7 +994,7 @@ s_i=\tfrac12\{y^\top PV_iPy-\operatorname{tr}(PV_i)\},\quad
 </section>
 <section id="trace-approximation-and-solve-error" class="level2" data-number="8">
 <h2 data-number="8" class="anchored" data-anchor-id="trace-approximation-and-solve-error"><span class="header-section-number">8</span> Trace approximation and solve error</h2>
-<p>For probes with <span class="math inline">\(E(zz^\top)=I\)</span>, <span class="math inline">\(E(z^\top Bz)=\operatorname{tr}(B)\)</span>. The sample average is a trace estimator <span class="citation" data-cites="hutchinson1989">(<a href="#ref-hutchinson1989" role="doc-biblioref">Hutchinson, 1989</a>)</span>. If <span class="math inline">\(B\)</span> is implicit, each probe can require one or more coefficient solves. Count these RHS, not only the number of probes. Probability bounds established for symmetric PSD matrices have specific assumptions <span class="citation" data-cites="avron2011">(<a href="#ref-avron2011" role="doc-biblioref">Avron and Toledo, 2011</a>)</span>.</p>
+<p>For probes with <span class="math inline">\(E(zz^\top)=I\)</span>, <span class="math inline">\(E(z^\top Bz)=\operatorname{tr}(B)\)</span>. The sample average is a trace estimator <span class="citation" data-cites="hutchinson1989">(<a href="#ref-hutchinson1989" role="doc-biblioref">Hutchinson, 1989</a>)</span>. If <span class="math inline">\(B\)</span> is implicit, each probe can require one or more coefficient solves. Count these RHS, not only the number of probes. Probability bounds established for symmetric positive semidefinite (PSD) matrices have specific assumptions <span class="citation" data-cites="avron2011">(<a href="#ref-avron2011" role="doc-biblioref">Avron and Toledo, 2011</a>)</span>.</p>
 <p>Finite probe error and solve error are different. Reusing probe banks can reduce noise in differences between nearby parameter evaluations, while creating correlated estimation errors. Precision assessment must respect that dependence. Fixed random seeds provide reproducibility, not proof of accuracy or unbiasedness with inexact solves.</p>
 <p>Compare approximate scores with deterministic references on tractable problems; then assess optimization and reported uncertainty at representative scale. The Monte Carlo single-step REML literature illustrates the distinction between retaining a statistical target and approximating inverse-related work <span class="citation" data-cites="bermann2025">(<a href="#ref-bermann2025" role="doc-biblioref">Bermann et al., 2025</a>)</span>.</p>
 </section>
@@ -1005,7 +1011,7 @@ CU=L,\qquad \operatorname{MSE}(L^\top\hat x-L^\top x)=L^\top U.
 <h2 data-number="10" class="anchored" data-anchor-id="bayesian-computation-is-a-different-outer-problem"><span class="header-section-number">10</span> Bayesian computation is a different outer problem</h2>
 <p>With known covariances and a flat prior on identifiable fixed effects, the Gaussian posterior precision is <span class="math inline">\(C\)</span>. If <span class="math inline">\(C=LL^\top\)</span>, a posterior draw can be written <span class="math inline">\(x^{(s)}=\hat x+L^{-\top}z^{(s)}\)</span> with <span class="math inline">\(z^{(s)}\sim N(0,I)\)</span>. This gives covariance <span class="math inline">\(C^{-1}\)</span>. Solving only for <span class="math inline">\(\hat x\)</span> returns a posterior mean in this special case, not a draw or a general Bayesian analysis.</p>
 <p>With unknown covariance parameters or mixture allocations, conditional coefficient updates form only part of a joint sampler. Hyperparameter, allocation and residual updates must target the same posterior. Integrating over those states can produce nonlinear prediction and additional uncertainty <span class="citation" data-cites="sorensen2002 habier2011">(<a href="#ref-habier2011" role="doc-biblioref">Habier et al., 2011</a>; <a href="#ref-sorensen2002" role="doc-biblioref">Sorensen and Gianola, 2002</a>)</span>.</p>
-<p>Approximate Gaussian sampling, MCMC and variational optimization have different error mechanisms. A linear residual gate does not certify sampler mixing or the fidelity of a variational family. Their computational assessment must include the relevant posterior targets, Monte Carlo or optimization diagnostics, and comparison with tractable independent distributions.</p>
+<p>Approximate Gaussian sampling, Markov chain Monte Carlo (MCMC) and variational optimization have different error mechanisms. A linear residual gate does not certify sampler mixing or the fidelity of a variational family. Their computational assessment must include the relevant posterior targets, Monte Carlo or optimization diagnostics, and comparison with tractable independent distributions.</p>
 </section>
 <section id="algorithm-description-and-acceptance-record" class="level2" data-number="11">
 <h2 data-number="11" class="anchored" data-anchor-id="algorithm-description-and-acceptance-record"><span class="header-section-number">11</span> Algorithm description and acceptance record</h2>

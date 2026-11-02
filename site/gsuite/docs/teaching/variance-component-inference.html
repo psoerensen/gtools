@@ -508,6 +508,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/abbreviations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abbreviations and method names</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shared bibliography</span></a>
   </div>
@@ -841,8 +847,13 @@ window.Quarto = {
   <li><a href="#ml-reml-and-bayesian-analysis-answer-related-questions" id="toc-ml-reml-and-bayesian-analysis-answer-related-questions" class="nav-link" data-scroll-target="#ml-reml-and-bayesian-analysis-answer-related-questions"><span class="header-section-number">2</span> ML, REML and Bayesian analysis answer related questions</a></li>
   <li><a href="#iteration-derivatives-and-constraints" id="toc-iteration-derivatives-and-constraints" class="nav-link" data-scroll-target="#iteration-derivatives-and-constraints"><span class="header-section-number">3</span> Iteration, derivatives and constraints</a></li>
   <li><a href="#what-constitutes-a-credible-fitted-covariance-model" id="toc-what-constitutes-a-credible-fitted-covariance-model" class="nav-link" data-scroll-target="#what-constitutes-a-credible-fitted-covariance-model"><span class="header-section-number">4</span> What constitutes a credible fitted covariance model?</a></li>
-  <li><a href="#heritability-depends-on-the-target-population-and-scale" id="toc-heritability-depends-on-the-target-population-and-scale" class="nav-link" data-scroll-target="#heritability-depends-on-the-target-population-and-scale"><span class="header-section-number">5</span> Heritability depends on the target population and scale</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6</span> References</a></li>
+  <li><a href="#contemporary-estimation-routes-at-large-scale" id="toc-contemporary-estimation-routes-at-large-scale" class="nav-link" data-scroll-target="#contemporary-estimation-routes-at-large-scale"><span class="header-section-number">5</span> Contemporary estimation routes at large scale</a>
+  <ul class="collapse">
+  <li><a href="#which-advances-preserve-the-inferential-target" id="toc-which-advances-preserve-the-inferential-target" class="nav-link" data-scroll-target="#which-advances-preserve-the-inferential-target"><span class="header-section-number">5.1</span> Which advances preserve the inferential target?</a></li>
+  <li><a href="#what-evidence-is-needed-for-an-estimation-claim" id="toc-what-evidence-is-needed-for-an-estimation-claim" class="nav-link" data-scroll-target="#what-evidence-is-needed-for-an-estimation-claim"><span class="header-section-number">5.2</span> What evidence is needed for an estimation claim?</a></li>
+  </ul></li>
+  <li><a href="#heritability-depends-on-the-target-population-and-scale" id="toc-heritability-depends-on-the-target-population-and-scale" class="nav-link" data-scroll-target="#heritability-depends-on-the-target-population-and-scale"><span class="header-section-number">6</span> Heritability depends on the target population and scale</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7</span> References</a></li>
   </ul>
 </nav>
     </div>
@@ -868,11 +879,11 @@ window.Quarto = {
 </header>
 
 
-<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <section id="variance-component-estimation-and-likelihood-geometry" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="variance-component-estimation-and-likelihood-geometry"><span class="header-section-number">1</span> Variance-component estimation and likelihood geometry</h2>
 <p>Restricted likelihood originates with <span class="citation" data-cites="patterson1971">PATTERSON and THOMPSON (<a href="#ref-patterson1971" role="doc-biblioref">1971</a>)</span>. The derivative-based computations below connect to average-information estimation <span class="citation" data-cites="gilmour1995 johnson1995">(<a href="#ref-gilmour1995" role="doc-biblioref">Gilmour et al., 1995</a>; <a href="#ref-johnson1995" role="doc-biblioref">Johnson and Thompson, 1995</a>)</span>.</p>
-<p>For <span class="math inline">\(V(\theta)\)</span> positive definite and a fixed full-rank <span class="math inline">\(X\)</span>, the REML objective is, up to a constant independent of <span class="math inline">\(\theta\)</span>,</p>
+<p>For <span class="math inline">\(V(\theta)\)</span> positive definite and a fixed full-rank <span class="math inline">\(X\)</span>, the restricted maximum likelihood (REML) objective is, up to a constant independent of <span class="math inline">\(\theta\)</span>,</p>
 <p><span class="math display">\[
 \ell_R=-\tfrac12\{\log|V|+\log|X^\top V^{-1}X|+y^\top Py\}.
 \]</span></p>
@@ -891,13 +902,13 @@ s_i=\tfrac12\{y^\top PV_iPy-\operatorname{tr}(PV_i)\},
 <section id="ml-reml-and-bayesian-analysis-answer-related-questions" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="ml-reml-and-bayesian-analysis-answer-related-questions"><span class="header-section-number">2</span> ML, REML and Bayesian analysis answer related questions</h2>
 <p>For a unified quantitative-genetics treatment of these inferential approaches, see <span class="citation" data-cites="sorensen2002">Sorensen and Gianola (<a href="#ref-sorensen2002" role="doc-biblioref">2002</a>)</span>.</p>
-<p>ML maximizes the marginal likelihood with respect to both mean and covariance parameters. REML bases covariance estimation on information remaining after accounting for the fixed-effect space. For the same observed responses, ML can compare nested fixed-effect specifications under suitable regularity conditions. REML objectives from different fixed-effect spaces are not ordinary likelihoods for comparing those spaces.</p>
+<p>Maximum likelihood (ML) maximizes the marginal likelihood with respect to both mean and covariance parameters. REML bases covariance estimation on information remaining after accounting for the fixed-effect space. For the same observed responses, ML can compare nested fixed-effect specifications under suitable regularity conditions. REML objectives from different fixed-effect spaces are not ordinary likelihoods for comparing those spaces.</p>
 <p>Neither approach guarantees unbiased component estimates in every finite sample, especially with selection, weak identification or boundary solutions. The appropriate objective depends on the inferential question and sampling assumptions, rather than on which optimizer happens to be available.</p>
 <p>Bayesian analysis specifies priors on covariance parameters and combines these with the likelihood. Posterior means, modes and credible intervals generally differ from REML estimates and their standard errors. Priors can regularize weakly identified decompositions, but prior-driven identification must be reported as such.</p>
 </section>
 <section id="iteration-derivatives-and-constraints" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="iteration-derivatives-and-constraints"><span class="header-section-number">3</span> Iteration, derivatives and constraints</h2>
-<p>A covariance-estimation iteration commonly requires evaluating predictions, quadratic forms, log determinants and trace contractions. Computing a BLUP once is therefore substantially less work than fitting covariance parameters. Repeated trial steps can reuse some structural information while changing numerical factors or covariance operators.</p>
+<p>A covariance-estimation iteration commonly requires evaluating predictions, quadratic forms, log determinants and trace contractions. Computing a best linear unbiased prediction (BLUP) once is therefore substantially less work than fitting covariance parameters. Repeated trial steps can reuse some structural information while changing numerical factors or covariance operators.</p>
 <p>For covariance models linear in the current parameters, the average-information matrix has the familiar form</p>
 <p><span class="math display">\[
 \mathcal A_{ij}=\tfrac12y^\top PV_iPV_jPy.
@@ -908,27 +919,120 @@ s_i=\tfrac12\{y^\top PV_iPy-\operatorname{tr}(PV_i)\},
 <section id="what-constitutes-a-credible-fitted-covariance-model" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="what-constitutes-a-credible-fitted-covariance-model"><span class="header-section-number">4</span> What constitutes a credible fitted covariance model?</h2>
 <p>Boundary likelihood theory can differ from ordinary interior asymptotics; <span class="citation" data-cites="self1987">Self and Liang (<a href="#ref-self1987" role="doc-biblioref">1987</a>)</span> gives the general nonstandard framework. Its mixture distributions must not be applied without checking the conditions of the particular model.</p>
-<p>Inspect the objective, parameter-scale score, active constraints and sensitivity to defensible starting values. Small changes in the objective with large changes in component allocation suggest weak identification. A small optimizer step alone is not a convergence certificate; a boundary solution may require one-sided/KKT rather than interior zero-score conditions.</p>
+<p>Inspect the objective, parameter-scale score, active constraints and sensitivity to defensible starting values. Small changes in the objective with large changes in component allocation suggest weak identification. A small optimizer step alone is not a convergence certificate; a boundary solution may require one-sided optimality conditions, such as the Karush–Kuhn–Tucker (KKT) conditions, rather than interior zero-score conditions.</p>
 <p>For component variances and correlations, report the parameterization, boundary estimates and method used for uncertainty. Wald intervals near zero variances or correlations near their limits can be misleading. Profile likelihood, bootstrap and posterior summaries are alternatives with distinct assumptions; none is automatically supplied by having an accepted coefficient solve.</p>
 </section>
-<section id="heritability-depends-on-the-target-population-and-scale" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="heritability-depends-on-the-target-population-and-scale"><span class="header-section-number">5</span> Heritability depends on the target population and scale</h2>
+<section id="contemporary-estimation-routes-at-large-scale" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="contemporary-estimation-routes-at-large-scale"><span class="header-section-number">5</span> Contemporary estimation routes at large scale</h2>
+<p>Modern variance-component estimation includes both established likelihood algorithms implemented at larger scale and alternatives with different estimating criteria. The following is a selected overview of published work relevant to genetic evaluation, checked against the literature in November 2026. Publication year alone does not determine which method is appropriate.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Route</th>
+<th>What is estimated or approximated?</th>
+<th>Evidence and qualification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sparse direct average-information REML (AI-REML)</td>
+<td>Restricted likelihood using structured factors, selected inverse entries or selected solves</td>
+<td>Established foundation for complex animal models; fill and repeated solves can dominate cost <span class="citation" data-cites="gilmour1995 johnson1995">(<a href="#ref-gilmour1995" role="doc-biblioref">Gilmour et al., 1995</a>; <a href="#ref-johnson1995" role="doc-biblioref">Johnson and Thompson, 1995</a>)</span></td>
+</tr>
+<tr class="even">
+<td>Expectation-maximization REML (EM-REML) and hybrid optimization</td>
+<td>The same likelihood through different update rules</td>
+<td>Useful for initialization or difficult steps; feasibility and convergence depend on the model and parameterization</td>
+</tr>
+<tr class="odd">
+<td>Stochastic genomic REML, including BOLT-REML</td>
+<td>Likelihood derivatives or related calculations using random probes and iterative solves</td>
+<td>An established large-data direction; biobank evidence does not establish performance for every pedigree or multitrait model <span class="citation" data-cites="loh2015">(<a href="#ref-loh2015" role="doc-biblioref">Loh et al., 2015</a>)</span></td>
+</tr>
+<tr class="even">
+<td>Stochastic Lanczos REML</td>
+<td>Iterative approximation and reuse of spectral information for genomic likelihood calculations</td>
+<td>Particularly useful when covariance structure permits shifted-system reuse; not every multicomponent model has that structure <span class="citation" data-cites="lanczos2019">(<a href="#ref-lanczos2019" role="doc-biblioref">Border and Becker, 2019</a>)</span></td>
+</tr>
+<tr class="odd">
+<td>Monte Carlo single-step genomic REML (MC-ss-GREML)</td>
+<td>Trace-related quantities from simulated effects and repeated joint pedigree/genomic solves</td>
+<td>A 2025 extension tested on complex cattle models and a large pedigree/genomic application <span class="citation" data-cites="bermann2025">(<a href="#ref-bermann2025" role="doc-biblioref">Bermann et al., 2025</a>)</span></td>
+</tr>
+<tr class="even">
+<td>Multi-component randomized Haseman–Elston regression (RHE-mc)</td>
+<td>Moment equations for multiple covariance components</td>
+<td>A scalable alternative criterion, not an algorithm for maximizing REML <span class="citation" data-cites="pazokitoroudi2020">(<a href="#ref-pazokitoroudi2020" role="doc-biblioref">Pazokitoroudi et al., 2020</a>)</span></td>
+</tr>
+<tr class="odd">
+<td>Genomic method R and genetic parameters via predictivity (GPP)</td>
+<td>Parameters inferred from partial/whole-data prediction relationships or predictivity formulas</td>
+<td>Recent genomic applications in 2024 and 2026; sampling, selection history, uncertainty and target time slice require assessment <span class="citation" data-cites="hollifield2024 gowane2026">(<a href="#ref-gowane2026" role="doc-biblioref">Gowane et al., 2026b</a>; <a href="#ref-hollifield2024" role="doc-biblioref">Hollifield et al., 2024</a>)</span></td>
+</tr>
+<tr class="even">
+<td>Bayesian covariance inference</td>
+<td>A posterior distribution under specified priors</td>
+<td>Sampling and deterministic posterior approximations require their own convergence and calibration checks <span class="citation" data-cites="sorensen2002">(<a href="#ref-sorensen2002" role="doc-biblioref">Sorensen and Gianola, 2002</a>)</span></td>
+</tr>
+</tbody>
+</table>
+<section id="which-advances-preserve-the-inferential-target" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="which-advances-preserve-the-inferential-target"><span class="header-section-number">5.1</span> Which advances preserve the inferential target?</h3>
+<p>Replacing an exact trace by an unbiased stochastic estimate can preserve the underlying restricted-likelihood target while introducing finite-run error. Probe count, solve tolerance and optimization accuracy then determine how closely that target is approached. Replacing a genomic relationship by a low-rank or algorithm for proven and young (APY) approximation instead changes the covariance supplied to that likelihood unless equivalence is established. These are different sources of approximation; see <a href="../../../gsuite/docs/teaching/large-scale-computation.html">large-scale computation</a>.</p>
+<p>BOLT-REML and stochastic Lanczos methods illustrate developments from large human-genetic datasets. The 2025 MC-ss-GREML work is directly concerned with joint pedigree and genomic animal models. Its simulation-and-solve construction makes the trace computation feasible without claiming that prediction alone completes covariance estimation <span class="citation" data-cites="bermann2025">(<a href="#ref-bermann2025" role="doc-biblioref">Bermann et al., 2025</a>)</span>.</p>
+<p>Moment-based methods can be especially attractive when fitting many genomic components, but changing the estimating criterion can change finite-sample behaviour, efficiency and uncertainty calculations. A negative unconstrained moment estimate is not a valid variance to insert silently into a prediction model; constrained fitting or a declared inferential treatment is required. Likewise, genotype-based population partitions do not automatically identify all components in a selected, heterogeneous animal population.</p>
+<p>Method R uses prediction relationships between partial and complete data to assess a variance setting; GPP uses predictivity and accuracy relationships. Neither should be described simply as faster optimization of the same REML objective. Distinguish a historical-base variance from a realised parameter in a selected cohort. The 2026 GPP paper has a published correction to two figure axis labels; use the corrected article <span class="citation" data-cites="gowane2026correction">(<a href="#ref-gowane2026correction" role="doc-biblioref">Gowane et al., 2026a</a>)</span>.</p>
+</section>
+<section id="what-evidence-is-needed-for-an-estimation-claim" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="what-evidence-is-needed-for-an-estimation-claim"><span class="header-section-number">5.2</span> What evidence is needed for an estimation claim?</h3>
+<p>Separate uncertainty from finite biological sampling, random numerical probes, inexact inner solves and incomplete outer optimization. A coefficient residual checks a solve at the current covariance parameters; it does not establish that the covariance score is sufficiently small or that a posterior approximation is calibrated. Reusing random probes across trial parameters can stabilize comparisons but does not remove their sampling variability.</p>
+<p>Report the fitted criterion, admissibility constraints, optimizer stopping rule, probe and solve accounting, and the uncertainty method. Validate parameter recovery and interval behaviour under relevant selection and missingness patterns, then assess representative large models. Reducing the dataset or removing genomic information can change the statistical problem even when the remaining optimization is exact. The <a href="../../../gsuite/docs/teaching/qualification-framework.html">qualification framework</a> sets out the corresponding evidence layers.</p>
+</section>
+</section>
+<section id="heritability-depends-on-the-target-population-and-scale" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="heritability-depends-on-the-target-population-and-scale"><span class="header-section-number">6</span> Heritability depends on the target population and scale</h2>
 <p>For a single-trait additive model with unit-diagonal relationship in the reference population and independent residual variance, <span class="math inline">\(h^2=\sigma_a^2/(\sigma_a^2+\sigma_e^2)\)</span>. If other environmental components belong to the phenotype, they also enter the relevant denominator. Inbreeding, heterogeneous residuals and reaction norms can make the appropriate prior or phenotypic variance depend on the individual or environment.</p>
 <p>Thus a variance ratio computed from a single coefficient is not a universal heritability. State which variance is averaged, which population is referenced, and whether the reported quantity is on an observed or latent scale.</p>
 <p><a href="../../../gsuite/docs/teaching/genomic-models.html">Next: relationship and genomic models</a>.</p>
 <p>For recent large-scale and predictivity-based estimation developments, see <a href="../../../gsuite/docs/teaching/current-developments.html">Chapter 13</a>.</p>
 </section>
-<section id="references" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="references"><span class="header-section-number">6</span> References</h2>
+<section id="references" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="references"><span class="header-section-number">7</span> References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-bermann2025" class="csl-entry" role="listitem">
+Bermann, M., Legarra, A., Aguilar, I., Alvarez-Munera, A., Misztal, I., and Lourenco, D. (2025). Estimation of (co)variance components for very large datasets and complex single-step genomic models. <em>Genetics Selection Evolution</em>, 57(1). https://doi.org/<a href="https://doi.org/10.1186/s12711-025-01006-9">10.1186/s12711-025-01006-9</a>.
+</div>
+<div id="ref-lanczos2019" class="csl-entry" role="listitem">
+Border, R., and Becker, S. (2019). Stochastic Lanczos estimation of genomic variance components for linear mixed-effects models. <em>BMC Bioinformatics</em>, 20(1), 411. https://doi.org/<a href="https://doi.org/10.1186/s12859-019-2978-z">10.1186/s12859-019-2978-z</a>.
+</div>
 <div id="ref-gilmour1995" class="csl-entry" role="listitem">
 Gilmour, A. R., Thompson, R., and Cullis, B. R. (1995). Average Information REML: An Efficient Algorithm for Variance Parameter Estimation in Linear Mixed Models. <em>Biometrics</em>, 51(4), 1440–1450. https://doi.org/<a href="https://doi.org/10.2307/2533274">10.2307/2533274</a>.
+</div>
+<div id="ref-gowane2026correction" class="csl-entry" role="listitem">
+Gowane, G., Hidalgo, J., Hollifield, M. K., Misztal, I., and Lourenco, D. (2026a). Correction: Genetic parameters via predictivity in large populations under strong genomic selection. <em>Genetics Selection Evolution</em>, 58(1), 71. https://doi.org/<a href="https://doi.org/10.1186/s12711-026-01089-y">10.1186/s12711-026-01089-y</a>.
+</div>
+<div id="ref-gowane2026" class="csl-entry" role="listitem">
+Gowane, G., Hidalgo, J., Hollifield, M. K., Misztal, I., and Lourenco, D. (2026b). Genetic parameters via predictivity in large populations under strong genomic selection. <em>Genetics Selection Evolution</em>, 58(1). https://doi.org/<a href="https://doi.org/10.1186/s12711-026-01054-9">10.1186/s12711-026-01054-9</a>.
+</div>
+<div id="ref-hollifield2024" class="csl-entry" role="listitem">
+Hollifield, M. K., Lourenco, D., and Misztal, I. (2024). Estimation of heritability with genomic information by method R. <em>Journal of Animal Breeding and Genetics</em>, 141(5), 550–558. https://doi.org/<a href="https://doi.org/10.1111/jbg.12863">10.1111/jbg.12863</a>.
 </div>
 <div id="ref-johnson1995" class="csl-entry" role="listitem">
 Johnson, D. L., and Thompson, R. (1995). Restricted Maximum Likelihood Estimation of Variance Components for Univariate Animal Models Using Sparse Matrix Techniques and Average Information. <em>Journal of Dairy Science</em>, 78(2), 449–456. https://doi.org/<a href="https://doi.org/10.3168/jds.S0022-0302(95)76654-1">10.3168/jds.S0022-0302(95)76654-1</a>.
 </div>
+<div id="ref-loh2015" class="csl-entry" role="listitem">
+Loh, P.-R., Bhatia, G., Gusev, A., Finucane, H. K., Bulik-Sullivan, B. K., Pollack, S. J., Schizophrenia Working Group of the Psychiatric Genomics Consortium, Candia, T. R. de, Lee, S. H., Wray, N. R., Kendler, K. S., O’Donovan, M. C., Neale, B. M., Patterson, N., and Price, A. L. (2015). Contrasting genetic architectures of schizophrenia and other complex diseases using fast variance-components analysis. <em>Nature Genetics</em>, 47(12), 1385–1392. https://doi.org/<a href="https://doi.org/10.1038/ng.3431">10.1038/ng.3431</a>.
+</div>
 <div id="ref-patterson1971" class="csl-entry" role="listitem">
 PATTERSON, H. D., and THOMPSON, R. (1971). Recovery of inter-block information when block sizes are unequal. <em>Biometrika</em>, 58(3), 545–554. https://doi.org/<a href="https://doi.org/10.1093/biomet/58.3.545">10.1093/biomet/58.3.545</a>.
+</div>
+<div id="ref-pazokitoroudi2020" class="csl-entry" role="listitem">
+Pazokitoroudi, A., Wu, Y., Burch, K. S., Hou, K., Zhou, A., Pasaniuc, B., and Sankararaman, S. (2020). Efficient variance components analysis across millions of genomes. <em>Nature Communications</em>, 11(1), 4020. https://doi.org/<a href="https://doi.org/10.1038/s41467-020-17576-9">10.1038/s41467-020-17576-9</a>.
 </div>
 <div id="ref-self1987" class="csl-entry" role="listitem">
 Self, S. G., and Liang, K.-Y. (1987). Asymptotic Properties of Maximum Likelihood Estimators and Likelihood Ratio Tests under Nonstandard Conditions. <em>Journal of the American Statistical Association</em>, 82(398), 605–610. https://doi.org/<a href="https://doi.org/10.1080/01621459.1987.10478472">10.1080/01621459.1987.10478472</a>.

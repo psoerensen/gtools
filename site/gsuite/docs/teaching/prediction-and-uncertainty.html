@@ -508,6 +508,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/teaching/abbreviations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Abbreviations and method names</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
   <a href="../../../gsuite/docs/teaching/references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Shared bibliography</span></a>
   </div>
@@ -868,7 +874,7 @@ window.Quarto = {
 </header>
 
 
-<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
+<p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <section id="equivalent-prediction-systems" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="equivalent-prediction-systems"><span class="header-section-number">1</span> Equivalent prediction systems</h2>
 <p>The covariance and mixed-equation representations describe the same known-covariance prediction problem <span class="citation" data-cites="henderson1975 robinson1991">(<a href="#ref-henderson1975" role="doc-biblioref">Henderson, 1975</a>; <a href="#ref-robinson1991" role="doc-biblioref">Robinson, 1991</a>)</span>.</p>
@@ -877,7 +883,7 @@ window.Quarto = {
 B=(X^\top V^{-1}X)^{-1},\qquad
 P=V^{-1}-V^{-1}XB X^\top V^{-1}.
 \]</span></p>
-<p>The known-covariance BLUE and BLUP are</p>
+<p>The known-covariance best linear unbiased estimator (BLUE) for fixed effects and best linear unbiased predictor (BLUP) for random effects are</p>
 <p><span class="math display">\[
 \hat\beta=BX^\top V^{-1}y,\qquad \hat u=KZ^\top Py.
 \]</span></p>
@@ -908,7 +914,7 @@ V^{-1}=R^{-1}-R^{-1}Z
 <p><span class="math display">\[
 E[(\hat t-t)^2]=l^\top C^{-1}l.
 \]</span></p>
-<p>The mixed fixed/random blocks matter. Adding a fixed-effect variance to an animal PEV without their cross-covariance is generally incorrect. A new phenotypic observation may add residual variance and new random effects; if its residual is correlated with training records, the full joint covariance must be used rather than simply adding a scalar residual variance.</p>
+<p>The mixed fixed/random blocks matter. Adding a fixed-effect variance to an animal prediction-error variance (PEV) without their cross-covariance is generally incorrect. A new phenotypic observation may add residual variance and new random effects; if its residual is correlated with training records, the full joint covariance must be used rather than simply adding a scalar residual variance.</p>
 <p>For a random contrast with nonzero prior variance <span class="math inline">\(l_u^\top K l_u\)</span>, its known-covariance reliability can be written <span class="math inline">\(1-\mathrm{PEV}(t)/(l_u^\top K l_u)\)</span>. Inbreeding changes animal-specific prior variances. Reliability of a contrast is not the average reliability of its constituent animals.</p>
 <p>Exact selected solves, selected inverse calculations and stochastic uncertainty estimators are computational choices for a specified uncertainty target. They have different work and approximation properties. A stochastic <strong>preconditioner diagonal</strong> is not a stochastic PEV estimate; uncertainty controls must retain their own qualification limits. See <a href="../../../gsuite/docs/prediction-error.html">prediction-error documentation</a>.</p>
 </section>
