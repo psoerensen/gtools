@@ -895,7 +895,7 @@ window.Quarto = {
   <li><a href="#known-covariances-reml-and-bayesian-inference" id="toc-known-covariances-reml-and-bayesian-inference" class="nav-link" data-scroll-target="#known-covariances-reml-and-bayesian-inference"><span class="header-section-number">8</span> Known covariances, REML and Bayesian inference</a></li>
   <li><a href="#connecting-the-equations-to-gsuite" id="toc-connecting-the-equations-to-gsuite" class="nav-link" data-scroll-target="#connecting-the-equations-to-gsuite"><span class="header-section-number">9</span> Connecting the equations to gsuite</a>
   <ul class="collapse">
-  <li><a href="#the-four-trait-model-we-are-building-towards" id="toc-the-four-trait-model-we-are-building-towards" class="nav-link" data-scroll-target="#the-four-trait-model-we-are-building-towards"><span class="header-section-number">9.1</span> The four-trait model we are building towards</a></li>
+  <li><a href="#an-illustrative-multitrait-model" id="toc-an-illustrative-multitrait-model" class="nav-link" data-scroll-target="#an-illustrative-multitrait-model"><span class="header-section-number">9.1</span> An illustrative multitrait model</a></li>
   </ul></li>
   <li><a href="#model-formulation-and-computation" id="toc-model-formulation-and-computation" class="nav-link" data-scroll-target="#model-formulation-and-computation"><span class="header-section-number">10</span> Model, formulation and computation</a></li>
   <li><a href="#guided-reading" id="toc-guided-reading" class="nav-link" data-scroll-target="#guided-reading"><span class="header-section-number">11</span> Guided reading</a></li>
@@ -1210,9 +1210,9 @@ P=V^{-1}-V^{-1}XB X^\top V^{-1}.
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">residual</span><span class="kw">:</span><span class="at"> residual</span></span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">analysis</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">task</span><span class="kw">:</span><span class="at"> solve</span><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This is a model fragment, not a complete runnable file: input tables, trait mapping, execution and output declarations are also required. For complete existing examples see the <a href="../../../gsuite/docs/model-yaml-proposal.html#complete-examples">YAML example catalog</a> and the <a href="../../../gsuite/docs/pedigree-analysis.html">pedigree analysis tutorial</a>. Interface support and qualification are described in the <a href="../../../gsuite/docs/model-catalog.html">model catalog</a>; the equations alone do not establish support for an arbitrary model.</p>
-<section id="the-four-trait-model-we-are-building-towards" class="level3" data-number="9.1">
-<h3 data-number="9.1" class="anchored" data-anchor-id="the-four-trait-model-we-are-building-towards"><span class="header-section-number">9.1</span> The four-trait model we are building towards</h3>
-<p>For animal <span class="math inline">\(i\)</span> and trait <span class="math inline">\(t\)</span>, our continuing example has</p>
+<section id="an-illustrative-multitrait-model" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="an-illustrative-multitrait-model"><span class="header-section-number">9.1</span> An illustrative multitrait model</h3>
+<p>The framework accommodates many combinations of traits, relationships and random effects. As one illustration, a four-trait model for animal <span class="math inline">\(i\)</span> and trait <span class="math inline">\(t\)</span> can be written</p>
 <p><span class="math display">\[
 y_{it}=\mu_t+a_{it}+h_{\operatorname{herd}(i),t}
 +f_{\operatorname{family}(i),t}+c_{it}+e_{it}.
@@ -1226,7 +1226,7 @@ y_{it}=\mu_t+a_{it}+h_{\operatorname{herd}(i),t}
 \]</span></p>
 <p>For one complete four-trait record per observed animal and the same ordering, <span class="math inline">\(R=\Sigma_e\otimes I_{\rm observed}\)</span>. Missing trait records require selecting the corresponding rows and covariance entries. Different stacking conventions change Kronecker order, not the statistical model.</p>
 <p><span class="math inline">\(H\)</span> combines pedigree and genomic information; its construction, genomic adjustment and pedigree blending belong to the single-step chapter. SNP-effect and animal-effect representations will be connected explicitly there.</p>
-<p>With exactly one visit per animal, an independent individual-environment component and an unrestricted within-record residual component cannot generally be estimated separately: only their sum is identified from those records. They can nevertheless be specified separately when their covariance matrices are supplied, as in our benchmark. Biological naming does not establish statistical identifiability.</p>
+<p>With exactly one visit per animal, an independent individual-environment component and an unrestricted within-record residual component cannot generally be estimated separately: only their sum is identified from those records. They can nevertheless be specified separately when their covariance matrices are supplied, as in the four-trait benchmark. This is one example of the broader model framework, rather than a development endpoint. Biological naming does not establish statistical identifiability.</p>
 </section>
 </section>
 <section id="model-formulation-and-computation" class="level2" data-number="10">
