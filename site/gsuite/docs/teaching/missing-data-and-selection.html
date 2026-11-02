@@ -886,9 +886,9 @@ window.Quarto = {
 </section>
 <section id="which-missingness-process-can-be-ignored" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="which-missingness-process-can-be-ignored"><span class="header-section-number">2</span> Which missingness process can be ignored?</h2>
-<p>Let <span class="math inline">\(D\)</span> describe response observation indicators. The observed likelihood is proportional to</p>
+<p>Let <span class="math inline">\(D\)</span> describe response observation indicators, with mean coefficients <span class="math inline">\(\beta\)</span> and covariance parameters <span class="math inline">\(\theta\)</span> as in Chapter 1. The observed likelihood is proportional to</p>
 <p><span class="math display">\[
-\int p(y_o,y_m\mid\theta)\,
+\int p(y_o,y_m\mid\beta,\theta)\,
 p(D\mid y_o,y_m,\psi)\,dy_m.
 \]</span></p>
 <p>Under missing at random, the observation mechanism depends on observed rather than unobserved responses, conditional on the variables included in the analysis. With distinct model and missingness parameters, the likelihood for <span class="math inline">\(\theta\)</span> can ignore that mechanism in the usual ignorable setting. Bayesian ignorability also needs the appropriate prior factorization. See <span class="citation" data-cites="rubin1976">(<a href="#ref-rubin1976" role="doc-biblioref">RUBIN, 1976</a>)</span>.</p>
@@ -922,7 +922,7 @@ p(D\mid y_o,y_m,\psi)\,dy_m.
 <h2 data-number="6" class="anchored" data-anchor-id="references"><span class="header-section-number">6</span> References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-henderson1975" class="csl-entry" role="listitem">
-Henderson, C. R. (1975). Best Linear Unbiased Estimation and Prediction under a Selection Model. <em>Biometrics</em>, 31(2), 423. https://doi.org/<a href="https://doi.org/10.2307/2529430">10.2307/2529430</a>.
+Henderson, C. R. (1975). Best Linear Unbiased Estimation and Prediction under a Selection Model. <em>Biometrics</em>, 31(2), 423–447. https://doi.org/<a href="https://doi.org/10.2307/2529430">10.2307/2529430</a>.
 </div>
 <div id="ref-rubin1976" class="csl-entry" role="listitem">
 RUBIN, D. B. (1976). Inference and missing data. <em>Biometrika</em>, 63(3), 581–592. https://doi.org/<a href="https://doi.org/10.1093/biomet/63.3.581">10.1093/biomet/63.3.581</a>.

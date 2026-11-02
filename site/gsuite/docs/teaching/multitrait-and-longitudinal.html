@@ -889,14 +889,14 @@ window.Quarto = {
 <p><span class="math display">\[
 y=X\beta+Z_a a+Z_h h+Z_f f+Z_c c+e,
 \]</span></p>
-<p>with mutually independent components and</p>
+<p>where <span class="math inline">\(h\)</span> denotes herd effects, <span class="math inline">\(f\)</span> family effects and <span class="math inline">\(c\)</span> permanent individual-environment effects, with mutually independent components and</p>
 <p><span class="math display">\[
 K_a=\Sigma_a\otimes H,\quad
 K_h=\Sigma_h\otimes I_h,\quad
 K_f=\Sigma_f\otimes I_f,\quad
 K_c=\Sigma_c\otimes I_{\rm animal}.
 \]</span></p>
-<p>For complete observations at one visit, <span class="math inline">\(R=\Sigma_e\otimes I_o\)</span>. An observed-record selector <span class="math inline">\(S\)</span> gives the observed covariance as <span class="math inline">\(S V_{\rm complete}S^\top\)</span> when some traits are missing. Removing missing responses without consistently selecting incidence rows and residual blocks does not preserve the model.</p>
+<p>Here <span class="math inline">\(I_h\)</span>, <span class="math inline">\(I_f\)</span> and <span class="math inline">\(I_{\rm animal}\)</span> are identity matrices on their respective effect domains. For complete observations at one visit, <span class="math inline">\(R=\Sigma_e\otimes I_o\)</span>, where <span class="math inline">\(I_o\)</span> is the identity on observation units. An observed-record selector <span class="math inline">\(S\)</span> gives the observed covariance as <span class="math inline">\(S V_{\rm complete}S^\top\)</span> when some traits are missing. Removing missing responses without consistently selecting incidence rows and residual blocks does not preserve the model.</p>
 <p>Trait order and stacking order are mathematical inputs. For animal-major ordering, a permutation changes <span class="math inline">\(\Sigma\otimes H\)</span> into <span class="math inline">\(H\otimes\Sigma\)</span>; the biological covariance is unchanged only when every associated vector and operator is permuted consistently.</p>
 <section id="separating-individual-environment-from-residual-variation" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="separating-individual-environment-from-residual-variation"><span class="header-section-number">1.1</span> Separating individual environment from residual variation</h3>

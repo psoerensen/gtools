@@ -21,7 +21,7 @@
     "container-title": "Biometrics",
     "volume": "31",
     "issue": "2",
-    "page": "423",
+    "page": "423-447",
     "publisher": "JSTOR"
   },
   {
@@ -81,11 +81,11 @@
     "author": [
       {
         "given": "H. D.",
-        "family": "PATTERSON"
+        "family": "Patterson"
       },
       {
         "given": "R.",
-        "family": "THOMPSON"
+        "family": "Thompson"
       }
     ],
     "issued": {
@@ -2447,7 +2447,7 @@
   {
     "id": "dempster1950",
     "type": "article-journal",
-    "title": "HERITABILITY OF THRESHOLD CHARACTERS",
+    "title": "Heritability of threshold characters",
     "author": [
       {
         "given": "Everett R",

@@ -917,7 +917,7 @@ V^{-1}=R^{-1}-R^{-1}Z
 <p><span class="math display">\[
 E[(\hat t-t)^2]=l^\top C^{-1}l.
 \]</span></p>
-<p>The mixed fixed/random blocks matter. Adding a fixed-effect variance to an animal prediction-error variance (PEV) without their cross-covariance is generally incorrect. A new phenotypic observation may add residual variance and new random effects; if its residual is correlated with training records, the full joint covariance must be used rather than simply adding a scalar residual variance.</p>
+<p>The mixed fixed/random blocks matter. Adding a fixed-effect variance to an animal PEV without their cross-covariance is generally incorrect. A new phenotypic observation may add residual variance and new random effects; if its residual is correlated with training records, the full joint covariance must be used rather than simply adding a scalar residual variance.</p>
 <p>For a random contrast with nonzero prior variance <span class="math inline">\(l_u^\top K l_u\)</span>, its known-covariance reliability can be written <span class="math inline">\(1-\mathrm{PEV}(t)/(l_u^\top K l_u)\)</span>. Inbreeding changes animal-specific prior variances. Reliability of a contrast is not the average reliability of its constituent animals.</p>
 <p>Exact selected solves, selected inverse calculations and stochastic uncertainty estimators are computational choices for a specified uncertainty target. They have different work and approximation properties. A stochastic <strong>preconditioner diagonal</strong> is not a stochastic PEV estimate; uncertainty controls must retain their own qualification limits. See <a href="../../../gsuite/docs/prediction-error.html">prediction-error documentation</a>.</p>
 </section>
@@ -960,7 +960,7 @@ E[(\hat t-t)^2]=l^\top C^{-1}l.
 <h2 data-number="6" class="anchored" data-anchor-id="references"><span class="header-section-number">6</span> References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-henderson1975" class="csl-entry" role="listitem">
-Henderson, C. R. (1975). Best Linear Unbiased Estimation and Prediction under a Selection Model. <em>Biometrics</em>, 31(2), 423. https://doi.org/<a href="https://doi.org/10.2307/2529430">10.2307/2529430</a>.
+Henderson, C. R. (1975). Best Linear Unbiased Estimation and Prediction under a Selection Model. <em>Biometrics</em>, 31(2), 423–447. https://doi.org/<a href="https://doi.org/10.2307/2529430">10.2307/2529430</a>.
 </div>
 <div id="ref-kackar1984" class="csl-entry" role="listitem">
 Kackar, R. N., and Harville, D. A. (1984). Approximations for Standard Errors of Estimators of Fixed and Random Effects in Mixed Linear Models. <em>Journal of the American Statistical Association</em>, 79(388), 853–862. https://doi.org/<a href="https://doi.org/10.1080/01621459.1984.10477102">10.1080/01621459.1984.10477102</a>.

@@ -916,7 +916,7 @@ window.Quarto = {
 <tr class="odd">
 <td>Across-population prediction</td>
 <td>Extend evaluation beyond close relatives</td>
-<td>LD, frequency, effect and environment differences</td>
+<td>Linkage disequilibrium (LD), frequency, effect and environment differences</td>
 </tr>
 <tr class="even">
 <td>Multitrait and longitudinal phenotyping</td>
@@ -924,7 +924,7 @@ window.Quarto = {
 <td>Measurement quality, identification and target availability</td>
 </tr>
 <tr class="odd">
-<td>G×E and robustness</td>
+<td>Genotype-by-environment interaction (G×E) and robustness</td>
 <td>Predict responses to changing environments</td>
 <td>Environmental support and extrapolation</td>
 </tr>
@@ -962,7 +962,7 @@ m^{(b)}=m^{(0)}+\delta^{(b)},
 <section id="sequence-information-and-biological-prioritization" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="sequence-information-and-biological-prioritization"><span class="header-section-number">4</span> Sequence information and biological prioritization</h2>
 <p>Sequence data increase the opportunity to include causal variation, but also increase the number of correlated, rare and imperfectly imputed predictors. Adding all variants under unchanged shrinkage need not yield the best use of the information. Possible responses include feature-specific kernels, annotation-dependent effect distributions and explicit treatment of known large-effect loci.</p>
-<p>In a 2025 simulated livestock study, Yang and colleagues compared genomic best linear unbiased prediction (GBLUP), two-component GBLUP, support-vector regression and random forests with varying amounts of known quantitative trait locus (QTL) information. The two-component models performed best in that design; additional QTL information did not make the machine-learning methods universally superior. This is evidence about that controlled setting, not a ranking for all livestock traits. <span class="citation" data-cites="yang2025">(<a href="#ref-yang2025" role="doc-biblioref">Yang et al., 2025</a>)</span>.</p>
+<p>In a 2025 simulated livestock study, Yang and colleagues compared genomic best linear unbiased prediction (GBLUP), two-component GBLUP, support-vector regression and random forests with varying amounts of known quantitative trait locus (QTL) information. The two-component models performed best in that design; additional QTL information did not make the machine-learning methods universally superior. This is evidence about that controlled setting, not a ranking for all livestock traits <span class="citation" data-cites="yang2025">(<a href="#ref-yang2025" role="doc-biblioref">Yang et al., 2025</a>)</span>.</p>
 <p>The scientific question is therefore how information enters the model: a separate variance component, a changed inclusion probability, a changed slab variance, or an individual-level molecular predictor. These are developed in <a href="../../../gsuite/docs/teaching/genomic-feature-priors.html">Chapter 14</a>.</p>
 </section>
 <section id="multitrait-longitudinal-and-environmental-information" class="level2" data-number="5">
@@ -976,7 +976,7 @@ m^{(b)}=m^{(0)}+\delta^{(b)},
 <h2 data-number="6" class="anchored" data-anchor-id="estimation-fitting-the-covariance-model-at-evaluation-scale"><span class="header-section-number">6</span> Estimation: fitting the covariance model at evaluation scale</h2>
 <p><a href="../../../gsuite/docs/teaching/variance-component-inference.html#contemporary-estimation-routes-at-large-scale">Chapter 3</a> compares likelihood, stochastic, moment-based and prediction-based routes, including genomic method R, Monte Carlo single-step estimation and genetic parameters via predictivity (GPP).</p>
 <p>Covariance estimation requires more than solving the prediction equations. Restricted maximum likelihood (REML) derivatives contain trace terms and quadratic forms; an optimizer may evaluate these repeatedly at trial covariances. Exact selected-inverse and selected-solve methods, randomized traces, Monte Carlo REML and matrix-free operations address different parts of this cost.</p>
-<p>Bermann and colleagues extended Monte Carlo REML to large single-step models in 2025. Their reported studies include comparison with exact traces in a smaller multivariate model and an application with millions of pedigree animals. The important development is the ability to estimate covariances with joint genomic information while reducing inverse-related work, rather than assuming that a prediction solver alone completes REML. <span class="citation" data-cites="bermann2025">(<a href="#ref-bermann2025" role="doc-biblioref">Bermann et al., 2025</a>)</span>.</p>
+<p>Bermann and colleagues extended Monte Carlo REML to large single-step models in 2025. Their reported studies include comparison with exact traces in a smaller multivariate model and an application with millions of pedigree animals. The important development is the ability to estimate covariances with joint genomic information while reducing inverse-related work, rather than assuming that a prediction solver alone completes REML <span class="citation" data-cites="bermann2025">(<a href="#ref-bermann2025" role="doc-biblioref">Bermann et al., 2025</a>)</span>.</p>
 <p>The balance between deterministic and stochastic work needs explicit accounting. Probe variability, inaccurate inner solves and optimizer error are separate. A method can preserve the likelihood target while estimating its derivatives approximately. Its finite-run parameter uncertainty should not be confused with an exact optimization result.</p>
 </section>
 <section id="estimation-under-selection-and-changing-genetic-parameters" class="level2" data-number="7">

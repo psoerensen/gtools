@@ -823,7 +823,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
 
   <ul>
-  <li><a href="#statistical-models-and-inference" id="toc-statistical-models-and-inference" class="nav-link active" data-scroll-target="#statistical-models-and-inference">Statistical models and inference</a></li>
+  <li><a href="#notation-conventions" id="toc-notation-conventions" class="nav-link active" data-scroll-target="#notation-conventions">Notation conventions</a></li>
+  <li><a href="#statistical-models-and-inference" id="toc-statistical-models-and-inference" class="nav-link" data-scroll-target="#statistical-models-and-inference">Statistical models and inference</a></li>
   <li><a href="#genomic-models-and-biological-information" id="toc-genomic-models-and-biological-information" class="nav-link" data-scroll-target="#genomic-models-and-biological-information">Genomic models and biological information</a></li>
   <li><a href="#computing-data-and-organisations" id="toc-computing-data-and-organisations" class="nav-link" data-scroll-target="#computing-data-and-organisations">Computing, data and organisations</a></li>
   </ul>
@@ -853,6 +854,68 @@ window.Quarto = {
 
 <p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a></p>
 <p>The chapters expand abbreviations in their prose. This glossary also supports readers entering through a table, heading or cross-link. Method and software names are identified separately where their names are not literal descriptions of an estimator. Symbols such as <span class="math inline">\(A\)</span>, <span class="math inline">\(G\)</span>, <span class="math inline">\(H\)</span>, <span class="math inline">\(K\)</span> and <span class="math inline">\(R\)</span> are defined in the mathematical context of each chapter.</p>
+<section id="notation-conventions" class="level2">
+<h2 class="anchored" data-anchor-id="notation-conventions">Notation conventions</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Convention</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(y\)</span>, <span class="math inline">\(X\)</span>, <span class="math inline">\(Z\)</span></td>
+<td>Observed responses, fixed-effect design and random-effect incidence; observation selectors are applied consistently to all three.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta\)</span>, <span class="math inline">\(u\)</span>, <span class="math inline">\(a\)</span></td>
+<td>Fixed coefficients, general random effects and additive genetic values.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(K\)</span>, <span class="math inline">\(K_j\)</span>, <span class="math inline">\(K_a\)</span></td>
+<td>Full random-effect or component covariances, including variance scales, in the general mixed model. Where <span class="math inline">\(K\)</span> denotes a dimensionless relationship kernel in an extension, that local meaning is stated explicitly.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(A\)</span>, <span class="math inline">\(G\)</span>, <span class="math inline">\(H\)</span></td>
+<td>Pedigree, genomic and combined relationship matrices; their normalization and reference population must be declared.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\Sigma\)</span></td>
+<td>Trait, factor or basis-coefficient covariance, identified by its subscript. Trait-major stacking uses <span class="math inline">\(\Sigma\otimes A\)</span> (or the stated alternative relationship).</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(R\)</span>, <span class="math inline">\(V\)</span></td>
+<td>Residual and marginal observed-response covariances; <span class="math inline">\(V=ZKZ^\top+R\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(P\)</span></td>
+<td>Residual-forming precision <span class="math inline">\(V^{-1}-V^{-1}X(X^\top V^{-1}X)^{-1}X^\top V^{-1}\)</span>; it is not generally an ordinary Euclidean projection matrix. Parental contributions use <span class="math inline">\(P_{\rm ped}\)</span>.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(C\)</span>, <span class="math inline">\(b\)</span></td>
+<td>Mixed-model coefficient matrix and right-hand side when writing <span class="math inline">\(C\hat x=b\)</span>; decorated covariance symbols are defined locally.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(W\)</span>, <span class="math inline">\(m\)</span></td>
+<td>Centered marker dosages and marker effects; <span class="math inline">\(B_{\rm ann}\)</span> is an annotation design. Kernel normalizers and marker-variance scales are stated separately.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\theta\)</span>, <span class="math inline">\(\mathcal D\)</span></td>
+<td>Covariance parameters and analysis data. Additional representation or observation parameters are defined where introduced.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(H\)</span> in Chapter 10</td>
+<td>Aggregate breeding merit, a scalar selection objective; distinct from the single-step relationship matrix.</td>
+</tr>
+</tbody>
+</table>
+<p>Subscripts specify the effect, trait or domain. Local symbols such as a feature background set or a Cholesky factor are defined at use. Hats denote fitted or predicted quantities; a supplied covariance and its fitted estimate are not interchangeable. Unless stated otherwise, uncertainty formulas condition on the declared covariances.</p>
+</section>
 <section id="statistical-models-and-inference" class="level2">
 <h2 class="anchored" data-anchor-id="statistical-models-and-inference">Statistical models and inference</h2>
 <table class="caption-top table">

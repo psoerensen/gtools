@@ -883,7 +883,7 @@ window.Quarto = {
 <p><a href="../../../gsuite/docs/teaching/mixed-model-user-reference.html">Advanced notes: contents</a> · <a href="../../../gsuite/docs/teaching/abbreviations.html">Abbreviations</a></p>
 <section id="variance-component-estimation-and-likelihood-geometry" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="variance-component-estimation-and-likelihood-geometry"><span class="header-section-number">1</span> Variance-component estimation and likelihood geometry</h2>
-<p>Restricted likelihood originates with <span class="citation" data-cites="patterson1971">PATTERSON and THOMPSON (<a href="#ref-patterson1971" role="doc-biblioref">1971</a>)</span>. The derivative-based computations below connect to average-information estimation <span class="citation" data-cites="gilmour1995 johnson1995">(<a href="#ref-gilmour1995" role="doc-biblioref">Gilmour et al., 1995</a>; <a href="#ref-johnson1995" role="doc-biblioref">Johnson and Thompson, 1995</a>)</span>.</p>
+<p>Restricted likelihood originates with <span class="citation" data-cites="patterson1971">Patterson and Thompson (<a href="#ref-patterson1971" role="doc-biblioref">1971</a>)</span>. The derivative-based computations below connect to average-information estimation <span class="citation" data-cites="gilmour1995 johnson1995">(<a href="#ref-gilmour1995" role="doc-biblioref">Gilmour et al., 1995</a>; <a href="#ref-johnson1995" role="doc-biblioref">Johnson and Thompson, 1995</a>)</span>.</p>
 <p>For <span class="math inline">\(V(\theta)\)</span> positive definite and a fixed full-rank <span class="math inline">\(X\)</span>, the restricted maximum likelihood (REML) objective is, up to a constant independent of <span class="math inline">\(\theta\)</span>,</p>
 <p><span class="math display">\[
 \ell_R=-\tfrac12\{\log|V|+\log|X^\top V^{-1}X|+y^\top Py\}.
@@ -898,7 +898,7 @@ s_i=\tfrac12\{y^\top PV_iPy-\operatorname{tr}(PV_i)\},
 \]</span></p>
 <p>These expressions connect identification to computation: indistinguishable projected derivative directions produce singular information. A converged optimizer at one point on a flat ridge does not identify a unique covariance decomposition.</p>
 <p>Positive-definite trait covariances can be parameterized as <span class="math inline">\(\Sigma=LL^\top\)</span> with positive diagonal elements of <span class="math inline">\(L\)</span>, often represented on a log scale. Scores and information must be transformed to the chosen parameter scale. Boundary estimates, such as a zero component variance, require separate interpretation: ordinary interior normal approximations and simple chi-square likelihood-ratio references need not apply.</p>
-<p>Likelihood comparisons also require matching observed responses, fixed-effect space and normalization. REML values from different fixed-effect spaces do not provide an ordinary likelihood comparison for those fixed effects.</p>
+<p>Likelihood comparisons also require matching observed responses and normalization. The next section explains the restriction on comparing fixed-effect specifications using REML.</p>
 </section>
 <section id="ml-reml-and-bayesian-analysis-answer-related-questions" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="ml-reml-and-bayesian-analysis-answer-related-questions"><span class="header-section-number">2</span> ML, REML and Bayesian analysis answer related questions</h2>
@@ -1039,7 +1039,7 @@ Loh, P.-R., Bhatia, G., Gusev, A., Finucane, H. K., Bulik-Sullivan, B. K., Polla
 Meyer, K. (1998). Estimating covariance functions for longitudinal data using a random regression model. <em>Genetics Selection Evolution</em>, 30(3). https://doi.org/<a href="https://doi.org/10.1186/1297-9686-30-3-221">10.1186/1297-9686-30-3-221</a>.
 </div>
 <div id="ref-patterson1971" class="csl-entry" role="listitem">
-PATTERSON, H. D., and THOMPSON, R. (1971). Recovery of inter-block information when block sizes are unequal. <em>Biometrika</em>, 58(3), 545–554. https://doi.org/<a href="https://doi.org/10.1093/biomet/58.3.545">10.1093/biomet/58.3.545</a>.
+Patterson, H. D., and Thompson, R. (1971). Recovery of inter-block information when block sizes are unequal. <em>Biometrika</em>, 58(3), 545–554. https://doi.org/<a href="https://doi.org/10.1093/biomet/58.3.545">10.1093/biomet/58.3.545</a>.
 </div>
 <div id="ref-pazokitoroudi2020" class="csl-entry" role="listitem">
 Pazokitoroudi, A., Wu, Y., Burch, K. S., Hou, K., Zhou, A., Pasaniuc, B., and Sankararaman, S. (2020). Efficient variance components analysis across millions of genomes. <em>Nature Communications</em>, 11(1), 4020. https://doi.org/<a href="https://doi.org/10.1038/s41467-020-17576-9">10.1038/s41467-020-17576-9</a>.

@@ -18,7 +18,10 @@
     </names>
   </macro>
   <macro name="year">
-    <date variable="issued"><date-part name="year"/></date>
+    <choose>
+      <if variable="issued"><date variable="issued"><date-part name="year"/></date></if>
+      <else><text value="n.d."/></else>
+    </choose>
     <text variable="year-suffix"/>
   </macro>
   <macro name="publication">

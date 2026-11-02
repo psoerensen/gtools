@@ -947,7 +947,7 @@ window.Quarto = {
 <td>Changes the genetic target and decomposition</td>
 </tr>
 <tr class="even">
-<td>Multitrait and G×E models</td>
+<td>Multitrait and genotype-by-environment interaction (G×E) models</td>
 <td>Covariance across traits or environments</td>
 <td>Extends how genetic information is shared</td>
 </tr>
@@ -959,9 +959,9 @@ window.Quarto = {
 <h2 data-number="2" class="anchored" data-anchor-id="pedigree-blup-as-the-relationship-baseline"><span class="header-section-number">2</span> Pedigree BLUP as the relationship baseline</h2>
 <p>The sparse pedigree-inverse construction is due to <span class="citation" data-cites="henderson1976">Henderson (<a href="#ref-henderson1976" role="doc-biblioref">1976</a>)</span>.</p>
 <p>For an additive animal model, <span class="math inline">\(K_a=\sigma_a^2A\)</span>. If animal <span class="math inline">\(i\)</span> has known sire <span class="math inline">\(s\)</span> and dam <span class="math inline">\(d\)</span>, pedigree recursion gives <span class="math inline">\(A_{ij}=(A_{sj}+A_{dj})/2\)</span> for earlier animals and <span class="math inline">\(A_{ii}=1+A_{sd}/2\)</span>. Unknown parent contributions follow the specified founder assumptions. Animals must be topologically ordered for this recursion, while external identities must remain stable across all outputs.</p>
-<p>A structural representation writes <span class="math inline">\(a=Pa+\varepsilon\)</span>, where <span class="math inline">\(P\)</span> contains known parental half-contributions and <span class="math inline">\(\varepsilon\)</span> contains independent Mendelian innovations under the pedigree model. With their correctly computed variance diagonal <span class="math inline">\(D\)</span>,</p>
+<p>A structural representation writes <span class="math inline">\(a=P_{\rm ped}a+\varepsilon\)</span>, where <span class="math inline">\(P_{\rm ped}\)</span> contains known parental half-contributions and <span class="math inline">\(\varepsilon\)</span> contains independent Mendelian innovations under the pedigree model, taking <span class="math inline">\(\sigma_a^2=1\)</span> for this relationship construction. With their correctly computed variance diagonal <span class="math inline">\(D_{\rm ped}\)</span> on the relationship scale,</p>
 <p><span class="math display">\[
-A^{-1}=(I-P)^\top D^{-1}(I-P).
+A^{-1}=(I-P_{\rm ped})^\top D_{\rm ped}^{-1}(I-P_{\rm ped}).
 \]</span></p>
 <p>Parental inbreeding changes innovation variances. The simple diagonal values for unrelated, non-inbred founders must not be applied indiscriminately to inbred pedigrees. This representation explains why pedigree precision can be sparse even though the relationship matrix itself is dense.</p>
 <p>For founder mean and covariance assumptions, genomic compatibility and crossbred prediction targets, see <a href="../../../gsuite/docs/teaching/genetic-bases-and-crossbreeding.html">genetic bases and crossbreeding</a>.</p>
@@ -1005,7 +1005,7 @@ K_a=\sigma_m^2WW^\top=\sigma_a^2G,
 <p><span class="math inline">\(G\)</span> is often singular because of centering, limited marker rank or duplicate genotypes. A Gaussian model with a positive-semidefinite genetic covariance can still be valid when <span class="math inline">\(R\)</span> makes <span class="math inline">\(V\)</span> positive definite. The marginal formula or marker model then remains usable without an ordinary inverse of <span class="math inline">\(G\)</span>. Adding a ridge solely to permit inversion is not an exact reparameterization of the original singular model.</p>
 <section id="why-use-one-representation-rather-than-another" class="level3" data-number="4.1">
 <h3 data-number="4.1" class="anchored" data-anchor-id="why-use-one-representation-rather-than-another"><span class="header-section-number">4.1</span> Why use one representation rather than another?</h3>
-<p>An explicit genomic matrix costs <span class="math inline">\(O(n_g^2)\)</span> storage. A marker formulation can apply <span class="math inline">\(W\)</span> and <span class="math inline">\(W^\top\)</span> without constructing it, including from packed dosage data. Conversely, a retained relationship factor may make repeated solves attractive when its dimension and fill are manageable. Trait count, missingness, factor reuse and uncertainty requests also matter. Comparing only equation counts does not determine which representation is faster.</p>
+<p>An explicit genomic matrix for <span class="math inline">\(n_g\)</span> genotyped animals costs <span class="math inline">\(O(n_g^2)\)</span> storage. A marker formulation can apply <span class="math inline">\(W\)</span> and <span class="math inline">\(W^\top\)</span> without constructing it, including from packed dosage data. Conversely, a retained relationship factor may make repeated solves attractive when its dimension and fill are manageable. Trait count, missingness, factor reuse and uncertainty requests also matter. Comparing only equation counts does not determine which representation is faster.</p>
 </section>
 </section>
 <section id="weighted-markers-and-several-genomic-components" class="level2" data-number="5">
@@ -1042,7 +1042,7 @@ C_n+TG_bT^\top&amp;TG_b\\G_bT^\top&amp;G_b
 <p><span class="math display">\[
 H^{-1}=A^{-1}+E_g^\top(G_b^{-1}-A_{gg}^{-1})E_g.
 \]</span></p>
-<p>This provides a common basis for single-step genomic best linear unbiased prediction (ssGBLUP) and corresponding single-step single-nucleotide polymorphism best linear unbiased prediction (ssSNPBLUP) representations. Phenotypes on non-genotyped relatives remain in the model; they are not simply discarded or treated as additional genotypes. See <span class="citation" data-cites="christensen2010">(<a href="#ref-christensen2010" role="doc-biblioref">Christensen and Lund, 2010</a>)</span>.</p>
+<p>Here <span class="math inline">\(E_g\)</span> selects genotyped animals from the complete animal vector. This provides a common basis for single-step genomic BLUP (ssGBLUP) and its marker-effect representation, single-step SNP-BLUP (ssSNPBLUP). Phenotypes on non-genotyped relatives remain in the model; they are not simply discarded or treated as additional genotypes. See <span class="citation" data-cites="christensen2010">(<a href="#ref-christensen2010" role="doc-biblioref">Christensen and Lund, 2010</a>)</span>.</p>
 <p>An ssSNPBLUP formulation expresses the genomic part through marker effects and retains the additional pedigree-related terms needed to reproduce <span class="math inline">\(H\)</span>. It is not ordinary SNP-BLUP with missing genotype rows filled by zero. Equivalence requires matching the complete latent covariance, including blending, adjustment and any additional genetic component.</p>
 <section id="marginal-and-conditional-pedigree-precision-are-different" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="marginal-and-conditional-pedigree-precision-are-different"><span class="header-section-number">6.1</span> Marginal and conditional pedigree precision are different</h3>
