@@ -958,6 +958,19 @@ h=1-\sum_k q_{s,k}q_{d,k}.
 <p>Record founder definitions, group assignments, ancestry fractions, relationship normalization, genetic-variance scale, constraints and the intended offspring population. Retain stable animal identities when adding ancestral entities. Changing those entities must not silently change the interpretation of output rows or uncertainty targets.</p>
 <p>Small references should check group-incidence propagation, covariance symmetry and admissibility, inheritance recursions and prediction transformations. Reference calculations for metafounders must implement the same innovation variance convention, not only match ancestral matrix dimensions.</p>
 <p>Deployment validation should include relevant breeds, crossbred generations, management systems and cohorts. Random splits dominated by one connected line cannot establish across-line comparability. Assess bias and dispersion as well as correlation, and uncertainty of between-population contrasts where such comparisons are scientifically identifiable. See <a href="../../../gsuite/docs/teaching/missing-data-and-selection.html">missing data and selection</a> and <a href="../../../gsuite/docs/teaching/model-checking-and-validation.html">model checking and validation</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Implementation in gsuite">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Implementation in gsuite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Groups, fixed/combined base contributions and supplied metafounder covariance are implemented through the <a href="../../../gsuite/docs/standalone-models.html#model-capabilities-and-limits">standalone model declarations</a>, with <a href="../../../gsuite/docs/model-yaml-proposal.html#complete-examples">worked YAML examples</a>. Gamma estimation has a specific pseudo-EM contract and is distinct from joint REML; packed REML does not currently admit groups or metafounders. <a href="../../../gsuite/docs/breeding-models.html#dominance-and-hybrid-combining-ability">Dominance and hybrid combining ability</a> provide additional implemented constructions. They do not by themselves constitute the general breed-of-origin or purebred/crossbred joint model described in this chapter.</p>
+</div>
+</div>
 <p><a href="../../../gsuite/docs/teaching/selection-and-mating.html">Next: breeding objectives, selection and mating</a>.</p>
 </section>
 <section id="references" class="level2" data-number="8">

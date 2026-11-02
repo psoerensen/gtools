@@ -926,6 +926,19 @@ x-\hat x=C^{-1}r
 <section id="a-report-that-can-be-interpreted-later" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="a-report-that-can-be-interpreted-later"><span class="header-section-number">6</span> A report that can be interpreted later</h2>
 <p>Preserve the scientific specification, input identities, code/runtime versions, parameter estimates or supplied covariances, numerical status and uncertainty method. State the validation design and what was learned inside each training set. Keep unsuccessful numerical gates and unsupported uncertainty requests visible; practical agreement is not a replacement for recording those results.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Implementation in gsuite">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Implementation in gsuite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The standalone runner records separate numerical, estimation and execution status in <a href="../../../gsuite/docs/standalone-results.html">results and diagnostics</a>. <a href="../../../gsuite/docs/standalone-models.html#compare-predictions-with-supplied-truth">Supplied-truth evaluation</a> checks labelled predictions and reports accuracy, error and calibration summaries. The <a href="../../../gsuite/qualifications.html">software validation pages</a> describe existing focused evidence. <a href="../../../gsuite/docs/lmt-translation.html">LMT conversion</a> and <a href="../../../gsuite/docs/classical-model-translation.html">other directive/data converters</a> cover restricted model subsets; conversion acceptance is separate from numerical agreement. Deployment validation and inferential calibration remain study-design tasks, not consequences of a successful run.</p>
+</div>
+</div>
 <p><a href="../../../gsuite/docs/teaching/current-developments.html">Next: current developments</a>.</p>
 <p>The <a href="../../../gsuite/docs/teaching/qualification-framework.html">qualification framework</a> sets out how independent numerical, simulation, validation and performance evidence support different kinds of claims.</p>
 <p>For applications to automated measurements and high-dimensional traits, see <a href="../../../gsuite/docs/teaching/large-scale-phenomics.html">large-scale phenomics</a>.</p>

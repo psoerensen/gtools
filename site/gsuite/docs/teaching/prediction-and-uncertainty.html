@@ -953,6 +953,19 @@ E[(\hat t-t)^2]=l^\top C^{-1}l.
 \]</span></p>
 <p>A plug-in calculation conditions on one learned representation and generally omits the second term. This posterior identity is not an automatic frequentist PEV correction; calibration under an empirical fitting procedure needs its own assessment <span class="citation" data-cites="sorensen2002 kackar1984">(<a href="#ref-kackar1984" role="doc-biblioref">Kackar and Harville, 1984</a>; <a href="#ref-sorensen2002" role="doc-biblioref">Sorensen and Gianola, 2002</a>)</span>.</p>
 <p>For annotation-informed prediction, uncertainty concerns learned marker shrinkage as well as covariance parameters. For phenomics it may also concern calibration, trajectories and latent scores. Specify whether the target is a transmissible genetic value or a future phenotype conditional on candidate measurements. The model progressions in <a href="../../../gsuite/docs/teaching/genomic-feature-priors.html#from-an-annotation-to-a-fitted-covariance-model">functional information</a> and <a href="../../../gsuite/docs/teaching/large-scale-phenomics.html#a-progression-from-records-to-joint-genetic-trajectories">phenomics</a> make those choices explicit.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Implementation in gsuite">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Implementation in gsuite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Fixed-covariance prediction is available through the standalone <code>solve</code> task and development R model interfaces. Selected pedigree PEV and reliability use <a href="../../../gsuite/docs/prediction-error.html">retained direct factors</a>; standalone <a href="../../../gsuite/docs/breeding-models.html#selected-prediction-uncertainty">selected contrasts</a> and packed genetic uncertainty have their own exact/stochastic controls. Availability is target- and route-specific. These outputs condition on supplied or fitted covariances; they do not implement the full learned-representation uncertainty decomposition developed above.</p>
+</div>
+</div>
 <p><a href="../../../gsuite/docs/teaching/variance-component-inference.html">Next: variance-component estimation</a>.</p>
 </section>
 </section>

@@ -921,6 +921,19 @@ y=X\beta+Z_d d+Z_m m+e,\qquad
 <section id="specification-record" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="specification-record"><span class="header-section-number">6</span> Specification record</h2>
 <p>For each component state its domain, incidence, covariance or precision, scale, correlation with other components, parameters supplied versus estimated, and prediction target. Identify which features of the design distinguish it from the remaining components. This is especially important for overlapping genomic annotations and genetic/non-genetic family effects.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Implementation in gsuite">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Implementation in gsuite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Multiple independent pedigree/identity components and correlated channels sharing a relationship are implemented in the development <a href="../../../gsuite/docs/model-catalog.html#public-api-and-implementation-mapping">component R interface</a>. The <a href="../../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a> includes repeatability and direct/maternal examples; <a href="../../../gsuite/docs/standalone-models.html">standalone models</a> expose further incidence and covariance constructions. General cross-component covariance is not supported by the component R contract. None of these constructors resolves the identification problems described in this chapter.</p>
+</div>
+</div>
 <p><a href="../../../gsuite/docs/teaching/multitrait-and-longitudinal.html">Next: multitrait and longitudinal models</a>.</p>
 </section>
 <section id="references" class="level2" data-number="7">

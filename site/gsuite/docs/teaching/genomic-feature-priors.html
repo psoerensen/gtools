@@ -1069,6 +1069,19 @@ K_a=\sum_k\sigma_k^2G_k.
 </tr>
 </tbody>
 </table>
+<div class="callout callout-style-default callout-note callout-titled" title="Implementation in gsuite">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Implementation in gsuite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Gaussian feature/background models can be expressed using separately supplied, aligned kernels in the <a href="../../../gsuite/docs/model-catalog.html#public-api-and-implementation-mapping">component model interfaces</a>; constructing and scaling those kernels remains part of input preparation. Annotation-informed mixture regression is implemented in <a href="../../../gsuite/docs/gbayes-workflow.html#annotation-informed-block-eigen-regression">gbayes</a>, including development scalar <code>bayesRC</code> routes under the <a href="../../../gsuite/docs/gbayes-design.html">documented prior and interface contracts</a>. These implementations do not establish the arbitrary learned Gaussian variance-function, molecular mediation or fully integrated single-step mixture models developed above.</p>
+</div>
+</div>
 <p><a href="../../../gsuite/docs/teaching/large-scale-phenomics.html">Next: large-scale phenomics</a>.</p>
 <p>For the combined implications of technologies, data access and industry structure, see <a href="../../../gsuite/docs/teaching/future-of-breeding.html">drivers shaping the future of breeding</a>.</p>
 </section>

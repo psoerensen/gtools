@@ -1005,6 +1005,19 @@ s_i=\tfrac12\{y^\top PV_iPy-\operatorname{tr}(PV_i)\},
 <h2 data-number="6" class="anchored" data-anchor-id="heritability-depends-on-the-target-population-and-scale"><span class="header-section-number">6</span> Heritability depends on the target population and scale</h2>
 <p>For a single-trait additive model with unit-diagonal relationship in the reference population and independent residual variance, <span class="math inline">\(h^2=\sigma_a^2/(\sigma_a^2+\sigma_e^2)\)</span>. If other environmental components belong to the phenotype, they also enter the relevant denominator. Inbreeding, heterogeneous residuals and reaction norms can make the appropriate prior or phenotypic variance depend on the individual or environment.</p>
 <p>Thus a variance ratio computed from a single coefficient is not a universal heritability. State which variance is averaged, which population is referenced, and whether the reported quantity is on an observed or latent scale.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Implementation in gsuite">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Implementation in gsuite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Implemented estimation includes sparse-direct REML and specified matrix-free stochastic routes in the <a href="../../../gsuite/docs/model-catalog.html#model-by-numerical-execution">model catalog</a>, plus <a href="../../../gsuite/docs/packed-single-step-reml.html">packed single-step EM-REML</a>. The <a href="../../../gsuite/docs/gsolve-greml.html">solver guide</a> explains the distinction between solving at supplied covariances and estimating them. Packed REML currently uses whole unstructured blocks and excludes several combinations available for prediction, including factor-analytic covariances, serial residuals and genetic bases. The other published estimation methods reviewed here are not all separate gsuite interfaces.</p>
+</div>
+</div>
 <p><a href="../../../gsuite/docs/teaching/genomic-models.html">Next: relationship and genomic models</a>.</p>
 <p>For recent large-scale and predictivity-based estimation developments, see <a href="../../../gsuite/docs/teaching/current-developments.html">Chapter 13</a>.</p>
 </section>

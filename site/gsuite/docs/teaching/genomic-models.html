@@ -1157,6 +1157,19 @@ G_b=(1-w)G_*+wA_{gg}.
 <li><span class="citation" data-cites="christensen2010">(<a href="#ref-christensen2010" role="doc-biblioref">Christensen and Lund, 2010</a>)</span> and <span class="citation" data-cites="aguilar2010">(<a href="#ref-aguilar2010" role="doc-biblioref">Aguilar et al., 2010</a>)</span>: joint pedigree/genomic evaluation including non-genotyped animals.</li>
 <li><a href="https://psoerensen.github.io/bayesian-linear-regression/notes/notes.html">Existing Bayesian regression notes</a>: Gaussian shrinkage, mixture indicators and posterior inference.</li>
 </ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Implementation in gsuite">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Implementation in gsuite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The standalone command implements packed ssSNPBLUP, supplied-genomic ssGBLUP, APY, pedigree and additional relationship constructions; see the <a href="../../../gsuite/docs/model-yaml-proposal.html#complete-examples">complete YAML examples</a> and <a href="../../../gsuite/docs/raw-genotype-apy-yaml.html">raw-genotype APY guide</a>. APY industrial preparation remains unqualified. The development component/pedigree R adapters have a <a href="../../../gsuite/docs/model-catalog.html#r-interface-coverage-inventory">narrower relationship contract</a> and do not themselves construct a single-step relationship. Bayesian marker models are accessed through <a href="../../../gsuite/docs/gbayes-workflow.html">gbayes</a>, with their own input and prior contracts.</p>
+</div>
+</div>
 <p><a href="../../../gsuite/docs/teaching/components-and-identifiability.html">Next: multiple components and identifiability</a>.</p>
 </section>
 <section id="references" class="level2" data-number="11">

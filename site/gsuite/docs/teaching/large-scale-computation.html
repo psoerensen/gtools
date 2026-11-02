@@ -969,6 +969,19 @@ window.Quarto = {
 <p>Report factor dimensions and fill, resident marker cache, right-hand-side batch width, iteration count, operator applications and backend solve RHS. Refinement counts describe backend correction work and cannot be recovered from PCG iteration counts alone. Distinguish measured counters from inferred averages.</p>
 <p>Memory metrics also differ: a sampled sum of process resident set size (RSS) is not the same as GNU Time maximum RSS or a Slurm/cgroup high-water mark. Preserve the metric, sampling interval and possibility of shared-page double counting.</p>
 <p>For route-specific controls and limits see the <a href="../../../gsuite/docs/gsolve-greml.html">solver guide</a>, <a href="../../../gsuite/docs/packed-single-step-reml.html">packed single-step REML</a> and <a href="../../../gsuite/docs/prediction-error.html">prediction-error guide</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Implementation in gsuite">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Implementation in gsuite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sparse-direct and matrix-free execution, packed marker products, retained factors and specified stochastic estimation are implemented through the <a href="../../../gsuite/docs/gsolve-greml.html">solver routes</a> and <a href="../../../gsuite/docs/packed-single-step-reml.html">packed REML</a>. The <a href="../../../gsuite/docs/standalone-results.html#timings-and-memory">execution reports</a> record phase timings, memory and placement information. Exact/stochastic uncertainty and approximate preconditioning have separate controls and qualification; <a href="../../../gsuite/docs/model-catalog.html#model-by-numerical-execution">backend coverage</a> identifies which combinations are available. Hardware-policy benefits remain dependent on the workload.</p>
+</div>
+</div>
 <p><a href="../../../gsuite/docs/teaching/model-checking-and-validation.html">Next: checking and validation</a>.</p>
 <p>For the derivations behind the operator, elimination, REML and uncertainty calculations, see the <a href="../../../gsuite/docs/teaching/algorithmic-reference.html">algorithmic reference</a>.</p>
 <p>For applications to automated measurements and high-dimensional traits, see <a href="../../../gsuite/docs/teaching/large-scale-phenomics.html">large-scale phenomics</a>.</p>

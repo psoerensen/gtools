@@ -915,6 +915,19 @@ p(D\mid y_o,y_m,\psi)\,dy_m.
 <h2 data-number="5" class="anchored" data-anchor-id="population-structure-and-transport"><span class="header-section-number">5</span> Population structure and transport</h2>
 <p>Allele frequencies, linkage disequilibrium (LD), management systems and genetic effects can differ between training and target populations. Adjusting <span class="math inline">\(G\)</span> to pedigree moments aligns selected covariance summaries; it does not establish portability of marker effects or eliminate every population difference.</p>
 <p>Specify whether the intended task is prediction within families, across families, across generations, across breeds or in new environments. That task should determine both the reference assumptions and validation split.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Implementation in gsuite">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Implementation in gsuite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Observed trait subsets are implemented in the <a href="../../../gsuite/docs/multitrait-pedigree-reml.html">multitrait pedigree interface</a> and the <a href="../../../gsuite/docs/standalone-models.html#input-and-model-sections">standalone long/wide input contract</a>. <a href="../../../gsuite/docs/packed-single-step-reml.html">Packed REML</a> integrates missing traits within its declared residual model. Missing responses remain distinct from zero observations. These implementations do not supply a general informative-dropout or selection-mechanism likelihood; the assumptions above remain part of the analysis design.</p>
+</div>
+</div>
 <p><a href="../../../gsuite/docs/teaching/non-gaussian-traits.html">Next: non-Gaussian traits</a>.</p>
 <p>For applications to automated measurements and high-dimensional traits, see <a href="../../../gsuite/docs/teaching/large-scale-phenomics.html">large-scale phenomics</a>.</p>
 </section>

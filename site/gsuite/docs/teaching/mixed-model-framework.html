@@ -913,6 +913,19 @@ V=ZKZ^\top+R.
 <h2 data-number="5" class="anchored" data-anchor-id="assumptions-that-need-an-explicit-statement"><span class="header-section-number">5</span> Assumptions that need an explicit statement</h2>
 <p>The conditional mean, covariance structure and reference population jointly define the analysis. Record how covariates enter the mean, whether environmental effects are fixed or random, whether residuals are independent, and whether relationships are assumed known. State the observation/selection assumptions needed to use the likelihood in the observed sample. Distributional assumptions beyond means and covariances matter for likelihood inference and posterior probabilities even when a linear prediction formula remains available.</p>
 <p>Binary, ordinal, count and survival responses generally require observation models beyond the Gaussian linear mixed model (LMM) developed here. A linear analysis of such a response is a separate approximation, with a response-scale interpretation that must not be confused with a latent-scale genetic model. The observation models and their inferential consequences are developed in <a href="../../../gsuite/docs/teaching/non-gaussian-traits.html">non-Gaussian traits</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Implementation in gsuite">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Implementation in gsuite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The general Gaussian framework is implemented through the standalone model specification and several development R adapters. Start with the <a href="../../../gsuite/docs/standalone.html">standalone guide</a> or the <a href="../../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a>. The <a href="../../../gsuite/docs/model-catalog.html#r-interface-coverage-inventory">R coverage inventory</a> identifies which combinations each adapter exposes; an arbitrary joint <span class="math inline">\(K\)</span> in the theory is not automatically a supported input to every adapter.</p>
+</div>
+</div>
 <p><a href="../../../gsuite/docs/teaching/prediction-and-uncertainty.html">Next: prediction and uncertainty</a>.</p>
 </section>
 <section id="references" class="level2" data-number="6">

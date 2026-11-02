@@ -815,6 +815,7 @@ div.csl-indent {
 
   <ul>
   <li><a href="#purpose-and-reading-order" id="toc-purpose-and-reading-order" class="nav-link active" data-scroll-target="#purpose-and-reading-order">Purpose and reading order</a></li>
+  <li><a href="#implementation-and-access-in-gsuite" id="toc-implementation-and-access-in-gsuite" class="nav-link" data-scroll-target="#implementation-and-access-in-gsuite">Implementation and access in gsuite</a></li>
   <li><a href="#reading-routes" id="toc-reading-routes" class="nav-link" data-scroll-target="#reading-routes">Reading routes</a></li>
   <li><a href="#chapters" id="toc-chapters" class="nav-link" data-scroll-target="#chapters">Chapters</a></li>
   <li><a href="#history-algorithms-and-evidence" id="toc-history-algorithms-and-evidence" class="nav-link" data-scroll-target="#history-algorithms-and-evidence">History, algorithms and evidence</a></li>
@@ -851,6 +852,54 @@ div.csl-indent {
 <p>These notes are for users who need to specify, fit and assess genetic-evaluation models, rather than only run a particular command. They assume familiarity with linear models, matrix algebra and multivariate normal distributions. The <a href="../../../gsuite/docs/teaching/mixed-model-foundations.html">introductory notes</a> provide a slower refresher.</p>
 <p>The same framework is used throughout: <strong>scientific question → assumptions → equations → identifiable parameters → prediction targets → inference → computation → validation → decisions → limitations</strong>. Prediction at supplied covariances is separated from covariance estimation. Relationship information, trait structure and computational representation are separate choices rather than competing names for a single method.</p>
 <p>Abbreviations and method names are explained in the <a href="../../../gsuite/docs/teaching/abbreviations.html">shared glossary</a> and expanded in the chapter text.</p>
+</section>
+<section id="implementation-and-access-in-gsuite" class="level2">
+<h2 class="anchored" data-anchor-id="implementation-and-access-in-gsuite">Implementation and access in gsuite</h2>
+<p>Many of the core models and computational methods developed in these notes are already implemented in gsuite and its component packages. This includes pedigree, genomic and single-step prediction, multiple random components, multitrait and longitudinal models, covariance estimation, structured residuals, and selected prediction uncertainty. The notes also develop research extensions and decision problems beyond those existing interfaces.</p>
+<p>There are three access paths: the <strong>standalone gsuite command with YAML model files</strong>, the <strong>development mixed-model R interfaces</strong>, and <strong>task packages</strong> such as <code>gbayes</code>. A native algorithm can be implemented before every R adapter exposes it. Availability of prediction, covariance estimation and uncertainty must be checked separately for the selected model and execution route.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Area in the notes</th>
+<th>Existing implementation and where to start</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>General Gaussian prediction and pedigree models (1–2, 4–5)</td>
+<td>Fixed-covariance solving, pedigree models, independent components and correlated channels: <a href="../../../gsuite/docs/standalone-models.html">standalone models</a>, <a href="../../../gsuite/docs/pedigree-analysis.html">pedigree tutorial</a>, and <a href="../../../gsuite/docs/model-catalog.html#r-interface-coverage-inventory">R coverage</a>.</td>
+</tr>
+<tr class="even">
+<td>Covariance estimation (3)</td>
+<td>Sparse-direct REML, matrix-free stochastic estimation and packed single-step EM-REML have distinct controls and limits: <a href="../../../gsuite/docs/gsolve-greml.html">solver guide</a> and <a href="../../../gsuite/docs/packed-single-step-reml.html">packed REML</a>.</td>
+</tr>
+<tr class="odd">
+<td>Genomic and single-step models (4)</td>
+<td>Packed ssSNPBLUP, supplied-genomic ssGBLUP and APY routes: <a href="../../../gsuite/docs/model-yaml-proposal.html#complete-examples">YAML model examples</a> and <a href="../../../gsuite/docs/raw-genotype-apy-yaml.html">raw-genotype APY</a>. Bayesian marker models use the <a href="../../../gsuite/docs/gbayes-workflow.html">gbayes workflow</a>.</td>
+</tr>
+<tr class="even">
+<td>Multitrait, longitudinal and structured covariance (5–7, 15)</td>
+<td>Missing trait patterns, random regression, serial residuals and factor-analytic models are implemented through specified routes: <a href="../../../gsuite/docs/multitrait-pedigree-reml.html">multitrait</a>, <a href="../../../gsuite/docs/longitudinal-pedigree-reml.html">longitudinal</a>, and <a href="../../../gsuite/docs/standalone-models.html#model-capabilities-and-limits">standalone coverage</a>.</td>
+</tr>
+<tr class="odd">
+<td>Genetic bases and additional genetic effects (9)</td>
+<td>Groups, metafounders, dominance and hybrid combining-ability constructions: <a href="../../../gsuite/docs/standalone-models.html#model-capabilities-and-limits">standalone coverage</a> and <a href="../../../gsuite/docs/breeding-models.html#dominance-and-hybrid-combining-ability">non-additive models</a>. These do not constitute every crossbreeding model.</td>
+</tr>
+<tr class="even">
+<td>Prediction uncertainty and numerical computation (2, 11–12)</td>
+<td>Selected direct and stochastic calculations, sparse factors, packed products and resource diagnostics: <a href="../../../gsuite/docs/prediction-error.html">prediction error</a>, <a href="../../../gsuite/docs/breeding-models.html#selected-prediction-uncertainty">selected contrasts</a>, and <a href="../../../gsuite/docs/standalone-results.html">execution reports</a>.</td>
+</tr>
+<tr class="odd">
+<td>Functional priors and high-dimensional genetic models (14–15)</td>
+<td>Supplied-kernel component models and annotation-informed Bayesian regression; development Bayesian covariance-mixture and factor models: <a href="../../../gsuite/docs/model-catalog.html">component coverage</a> and <a href="../../../gsuite/docs/gbayes-workflow.html">gbayes methods</a>. The general learned variance-function and joint sensor/molecular models in these notes extend beyond that coverage.</td>
+</tr>
+<tr class="even">
+<td>Broader theory and future directions (8, 10, 13, 16)</td>
+<td>General non-Gaussian animal models, complete selection/mating optimisation and proposed integrated biological pipelines are not established as general user workflows by this implementation map. Chapter notes identify the existing building blocks and the distinction from research extensions.</td>
+</tr>
+</tbody>
+</table>
+<p>Each chapter ends with an implementation note linking its theory to the relevant interfaces. The <a href="../../../gsuite/docs/methods.html#capability-overview">capability overview</a>, <a href="../../../gsuite/docs/model-catalog.html">model catalog</a>, <a href="../../../gsuite/docs/model-yaml-proposal.html">standalone specification</a> and <a href="../../../gsuite/docs/gbayes-design.html">gbayes contract</a> own the detailed current limits. This map was checked against the interface source and existing example/test coverage; it is not a new numerical qualification of every combination or a claim that development R interfaces are all released in an installable package.</p>
 </section>
 <section id="reading-routes" class="level2">
 <h2 class="anchored" data-anchor-id="reading-routes">Reading routes</h2>
