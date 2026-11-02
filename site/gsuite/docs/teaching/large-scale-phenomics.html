@@ -845,8 +845,14 @@ window.Quarto = {
   <ul>
   <li><a href="#biological-targets-and-recorded-measurements" id="toc-biological-targets-and-recorded-measurements" class="nav-link active" data-scroll-target="#biological-targets-and-recorded-measurements"><span class="header-section-number">1</span> Biological targets and recorded measurements</a></li>
   <li><a href="#a-measurement-model-before-a-genetic-model" id="toc-a-measurement-model-before-a-genetic-model" class="nav-link" data-scroll-target="#a-measurement-model-before-a-genetic-model"><span class="header-section-number">2</span> A measurement model before a genetic model</a></li>
-  <li><a href="#dense-and-irregular-longitudinal-records" id="toc-dense-and-irregular-longitudinal-records" class="nav-link" data-scroll-target="#dense-and-irregular-longitudinal-records"><span class="header-section-number">3</span> Dense and irregular longitudinal records</a></li>
-  <li><a href="#many-features-separate-genetic-and-environmental-dimensions" id="toc-many-features-separate-genetic-and-environmental-dimensions" class="nav-link" data-scroll-target="#many-features-separate-genetic-and-environmental-dimensions"><span class="header-section-number">4</span> Many features: separate genetic and environmental dimensions</a></li>
+  <li><a href="#dense-and-irregular-longitudinal-records" id="toc-dense-and-irregular-longitudinal-records" class="nav-link" data-scroll-target="#dense-and-irregular-longitudinal-records"><span class="header-section-number">3</span> Dense and irregular longitudinal records</a>
+  <ul class="collapse">
+  <li><a href="#a-progression-from-records-to-joint-genetic-trajectories" id="toc-a-progression-from-records-to-joint-genetic-trajectories" class="nav-link" data-scroll-target="#a-progression-from-records-to-joint-genetic-trajectories"><span class="header-section-number">3.1</span> A progression from records to joint genetic trajectories</a></li>
+  </ul></li>
+  <li><a href="#many-features-separate-genetic-and-environmental-dimensions" id="toc-many-features-separate-genetic-and-environmental-dimensions" class="nav-link" data-scroll-target="#many-features-separate-genetic-and-environmental-dimensions"><span class="header-section-number">4</span> Many features: separate genetic and environmental dimensions</a>
+  <ul class="collapse">
+  <li><a href="#estimating-a-high-dimensional-covariance-rather-than-compressing-a-matrix" id="toc-estimating-a-high-dimensional-covariance-rather-than-compressing-a-matrix" class="nav-link" data-scroll-target="#estimating-a-high-dimensional-covariance-rather-than-compressing-a-matrix"><span class="header-section-number">4.1</span> Estimating a high-dimensional covariance rather than compressing a matrix</a></li>
+  </ul></li>
   <li><a href="#how-phenomics-enters-genomic-prediction" id="toc-how-phenomics-enters-genomic-prediction" class="nav-link" data-scroll-target="#how-phenomics-enters-genomic-prediction"><span class="header-section-number">5</span> How phenomics enters genomic prediction</a></li>
   <li><a href="#missingness-and-two-stage-analysis" id="toc-missingness-and-two-stage-analysis" class="nav-link" data-scroll-target="#missingness-and-two-stage-analysis"><span class="header-section-number">6</span> Missingness and two-stage analysis</a></li>
   <li><a href="#computation-and-reproducibility-at-scale" id="toc-computation-and-reproducibility-at-scale" class="nav-link" data-scroll-target="#computation-and-reproducibility-at-scale"><span class="header-section-number">7</span> Computation and reproducibility at scale</a></li>
@@ -905,6 +911,34 @@ a_{ik}(t)=\boldsymbol\phi(t)^\top\boldsymbol\alpha_{ik},\qquad
 \]</span></p>
 <p>where the coefficient vector stacks the declared feature and basis-function order. <span class="math inline">\(K\)</span> may be a pedigree, genomic or combined relationship matrix. This defines genetic covariance across times through the basis and <span class="math inline">\(\Sigma_\alpha\)</span>; residual serial correlation is a separate modelling choice.</p>
 <p>Irregular timestamps, unequal recording intensity and long gaps make the residual model consequential. A correlation defined per unit of elapsed time differs from one defined by consecutive row number. Observation windows should also have biological meaning: resistance to a challenge, recovery rate and long-term resilience need not be the same trait. See <a href="../../../gsuite/docs/teaching/multitrait-and-longitudinal.html">multitrait and longitudinal models</a> for covariance construction and <a href="../../../gsuite/docs/teaching/variance-component-inference.html">variance-component inference</a> for estimation. Dense recording improves some aspects of trajectory precision; it does not remove confounding between genetic and environmental trajectories.</p>
+<section id="a-progression-from-records-to-joint-genetic-trajectories" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="a-progression-from-records-to-joint-genetic-trajectories"><span class="header-section-number">3.1</span> A progression from records to joint genetic trajectories</h3>
+<p>Start with one calibrated feature and repeated records on each animal. A repeatability model estimates a persistent genetic effect, a persistent non-genetic effect and record-level variation. Replacing those constants by random regressions changes the target from a single level to a trajectory, and changes the unknown covariance parameters from scalar variances to covariances among basis coefficients <span class="citation" data-cites="meyer1998 meyer2001">(<a href="#ref-meyer1998" role="doc-biblioref">Meyer, 1998</a>; <a href="#ref-meyer2001" role="doc-biblioref">Meyer, 2001</a>)</span>.</p>
+<p>For several derived features, a possible joint measurement model is</p>
+<p><span class="math display">\[
+x_i(t)=\mu(t)+\Lambda_g f_i^g(t)+\Lambda_p f_i^p(t)
+       +d_{s(i,t)}+\epsilon_i(t),
+\]</span></p>
+<p>where <span class="math inline">\(f_i^g\)</span> and <span class="math inline">\(f_i^p\)</span> are lower-dimensional genetic and non-genetic trajectories, respectively. For example, specify</p>
+<p><span class="math display">\[
+\operatorname{Cov}\{f_i^g(t),f_j^g(s)\}=K_{ij}C_g(t,s),\qquad
+\operatorname{Cov}\{f_i^p(t),f_j^p(s)\}=\delta_{ij}C_p(t,s).
+\]</span></p>
+<p>Here <span class="math inline">\(\delta_{ij}\)</span> is one for the same animal and zero otherwise. <span class="math inline">\(C_g\)</span> and <span class="math inline">\(C_p\)</span> must be valid matrix-valued covariance functions across the declared times, not merely admissible matrices evaluated at isolated occasions. Conditional on the device effects and with independent genetic, persistent environmental and residual components, the feature covariance becomes</p>
+<p><span class="math display">\[
+\operatorname{Cov}\{x_i(t),x_j(s)\}
+=K_{ij}\Lambda_g C_g(t,s)\Lambda_g^\top
++\delta_{ij}\Lambda_p C_p(t,s)\Lambda_p^\top
++\operatorname{Cov}\{\epsilon_i(t),\epsilon_j(s)\}.
+\]</span></p>
+<p>This separates genetic similarity across relatives, persistent within-animal variation and the remaining recording process. It is a proposed model template, not a claim that every raw image or event stream has a Gaussian likelihood. Loadings, trajectory covariances and measurement variances need constraints, information and estimation. Factor scales and rotations must be fixed by an explicit convention; unrestricted rescaling of both loadings and factor covariances would otherwise preserve the same observed model. Repeated records alone cannot separate the genetic and non-genetic terms if their observed covariance directions coincide.</p>
+<p>The progression therefore changes inference as well as prediction. One may estimate a trajectory value, slope or weighted integral rather than just an animal intercept. For <span class="math inline">\(a_i(t)=\phi(t)^\top\alpha_i\)</span>, an integral target is</p>
+<p><span class="math display">\[
+T_i=\int w(t)a_i(t)\,dt=c^\top\alpha_i,\qquad
+c=\int w(t)\phi(t)\,dt.
+\]</span></p>
+<p>Its known-covariance prediction-error variance (PEV) is <span class="math inline">\(c^\top C_{\alpha_i}c\)</span>, using the complete prediction-error covariance block <span class="math inline">\(C_{\alpha_i}\)</span>. Time to a threshold, maxima and other nonlinear targets require additional uncertainty calculations; their uncertainty is not generally one diagonal coefficient PEV.</p>
+</section>
 </section>
 <section id="many-features-separate-genetic-and-environmental-dimensions" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="many-features-separate-genetic-and-environmental-dimensions"><span class="header-section-number">4</span> Many features: separate genetic and environmental dimensions</h2>
@@ -915,6 +949,49 @@ a_{ik}(t)=\boldsymbol\phi(t)^\top\boldsymbol\alpha_{ik},\qquad
 \]</span></p>
 <p>with diagonal, nonnegative specific variances and suitable loading constraints. The number of factors, their identifiability and the stability of the resulting prediction targets require assessment <span class="citation" data-cites="thompson2003">(<a href="#ref-thompson2003" role="doc-biblioref">Thompson et al., 2003</a>)</span>. Environmental structure must not be forced into genetic factors merely to reduce parameter count.</p>
 <p>Phenotypic principal components describe total variation. Their leading directions need not capture the genetic variation most useful for the breeding objective. <span class="citation" data-cites="melsen2025">Melsen et al. (<a href="#ref-melsen2025" role="doc-biblioref">2025</a>)</span> develop a genetic latent-factor approach to high-dimensional secondary phenotypes, distinguishing genetic and residual covariance. Their application is in plant breeding: it provides relevant methodological evidence, not evidence of deployment in animal evaluation. It also does not imply that dimension reduction always improves prediction. Compare against simpler models using the same deployment scenario and training information.</p>
+<section id="estimating-a-high-dimensional-covariance-rather-than-compressing-a-matrix" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="estimating-a-high-dimensional-covariance-rather-than-compressing-a-matrix"><span class="header-section-number">4.1</span> Estimating a high-dimensional covariance rather than compressing a matrix</h3>
+<p>For <span class="math inline">\(q\)</span> traits an unrestricted covariance has <span class="math inline">\(q(q+1)/2\)</span> parameters. A generic rank-<span class="math inline">\(r\)</span> factor structure with diagonal specific variances has <span class="math inline">\(qr+q-r(r-1)/2\)</span> free covariance parameters after accounting for rotations, under interior identification conditions. For <span class="math inline">\(q=100\)</span> and <span class="math inline">\(r=5\)</span>, these counts are 5050 and 590. Rank restrictions save parameters by changing the model; they are not an exact replacement for every unrestricted covariance.</p>
+<p>Joint likelihood or Bayesian estimation can learn loadings and covariance parameters with genetic relationships and the recording design included. Rank selection, constraints and regularization then belong to the fitted procedure. Conditioning predictions on estimated factor scores and treating those scores as exact observations omits uncertainty from that first stage. The factor-analytic likelihood framework is discussed by <span class="citation" data-cites="thompson2003">Thompson et al. (<a href="#ref-thompson2003" role="doc-biblioref">2003</a>)</span>.</p>
+<p>The 2025 genetic latent-factor approach of <span class="citation" data-cites="melsen2025">Melsen et al. (<a href="#ref-melsen2025" role="doc-biblioref">2025</a>)</span> is useful methodological evidence, but its covariance-learning pipeline exploits replicated plant data and design adjustment. Those assumptions should be distinguished from joint estimation in a related-animal population. Carrying a learned representation across species or recording designs requires checking the information that separates genetic from environmental covariance, not merely reusing the same factor algorithm.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Extension</th>
+<th>New estimation problem</th>
+<th>Main source of information</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>More records of the same feature</td>
+<td>Persistent effects, serial correlation and heterogeneous recording error</td>
+<td>Within-animal repetition, elapsed time and connections among animals</td>
+</tr>
+<tr class="even">
+<td>More correlated features</td>
+<td>Genetic and environmental covariance or factor loadings</td>
+<td>Cross-feature observations and genetic relationships</td>
+</tr>
+<tr class="odd">
+<td>Responses to environmental challenge</td>
+<td>Genetic trajectory or reaction-norm covariance</td>
+<td>Observed exposure, repeated responses and relatives across conditions</td>
+</tr>
+<tr class="even">
+<td>Learned or calibrated features</td>
+<td>Measurement parameters and uncertainty in derived observations</td>
+<td>Reference measurements, connected devices and independent calibration data</td>
+</tr>
+</tbody>
+</table>
+<p>A staged analysis can remain appropriate when its sampling covariance and information overlap are handled explicitly. A joint analysis is attractive when stages share substantial uncertainty or informative recording, but it also requires a defensible joint likelihood. More elaborate estimation cannot recover distinctions absent from the design.</p>
+</section>
 </section>
 <section id="how-phenomics-enters-genomic-prediction" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="how-phenomics-enters-genomic-prediction"><span class="header-section-number">5</span> How phenomics enters genomic prediction</h2>
@@ -971,7 +1048,6 @@ a_{ik}(t)=\boldsymbol\phi(t)^\top\boldsymbol\alpha_{ik},\qquad
 <h2 data-number="8" class="anchored" data-anchor-id="qualification-for-the-intended-use"><span class="header-section-number">8</span> Qualification for the intended use</h2>
 <p>Validation should test both measurement and genetic inference. Compare reference measurements across devices and biological subgroups; examine genetic and residual covariance stability; and assess prediction accuracy, bias and uncertainty in independent groups <span class="citation" data-cites="daetwyler2013">(<a href="#ref-daetwyler2013" role="doc-biblioref">Daetwyler et al., 2013</a>)</span>. Split by animal when repeated records are present, and use farm, time, device or family holdouts when those represent deployment. Randomly splitting individual sensor records can place the same animal and recording conditions in training and validation.</p>
 <p>For a new phenomics model, establish a small independent numerical reference, then assess parameter recovery and uncertainty under realistic recording and missingness patterns. Finally test transfer to the intended population and recording system. A small solver residual checks the fitted equations; it does not establish a valid measurement model or useful selection response. The <a href="../../../gsuite/docs/teaching/model-checking-and-validation.html">model-checking chapter</a> and <a href="../../../gsuite/docs/teaching/qualification-framework.html">qualification framework</a> distinguish these claims.</p>
-<p>For the combined implications of technologies, data access and industry structure, see <a href="../../../gsuite/docs/teaching/future-of-breeding.html">drivers shaping the future of breeding</a>.</p>
 <p><a href="../../../gsuite/docs/teaching/future-of-breeding.html">Next: drivers shaping the future of breeding</a>.</p>
 </section>
 <section id="references" class="level2" data-number="9">
@@ -991,6 +1067,9 @@ Melsen, K. A. C., Kunst, J. F., Crossa, J., Krause, M. R., Eeuwijk, F. A. van, K
 </div>
 <div id="ref-meyer1998" class="csl-entry" role="listitem">
 Meyer, K. (1998). Estimating covariance functions for longitudinal data using a random regression model. <em>Genetics Selection Evolution</em>, 30(3). https://doi.org/<a href="https://doi.org/10.1186/1297-9686-30-3-221">10.1186/1297-9686-30-3-221</a>.
+</div>
+<div id="ref-meyer2001" class="csl-entry" role="listitem">
+Meyer, K. (2001). Estimating genetic covariance functions assuming a parametric correlation structure for environmental effects. <em>Genetics Selection Evolution</em>, 33(6). https://doi.org/<a href="https://doi.org/10.1186/1297-9686-33-6-557">10.1186/1297-9686-33-6-557</a>.
 </div>
 <div id="ref-runcie2019" class="csl-entry" role="listitem">
 Runcie, D., and Cheng, H. (2019). Pitfalls and Remedies for Cross Validation with Multi-trait Genomic Prediction Methods. <em>G3 Genes|Genomes|Genetics</em>, 9(11), 3727–3741. https://doi.org/<a href="https://doi.org/10.1534/g3.119.400598">10.1534/g3.119.400598</a>.

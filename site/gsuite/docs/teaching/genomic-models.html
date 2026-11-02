@@ -862,6 +862,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#dominance-and-epistasis" id="toc-dominance-and-epistasis" class="nav-link" data-scroll-target="#dominance-and-epistasis"><span class="header-section-number">8.1</span> Dominance and epistasis</a></li>
   <li><a href="#multitrait-reaction-norms-and-factor-structure" id="toc-multitrait-reaction-norms-and-factor-structure" class="nav-link" data-scroll-target="#multitrait-reaction-norms-and-factor-structure"><span class="header-section-number">8.2</span> Multitrait, reaction norms and factor structure</a></li>
+  <li><a href="#genomic-technologies-and-uncertain-input-genotypes" id="toc-genomic-technologies-and-uncertain-input-genotypes" class="nav-link" data-scroll-target="#genomic-technologies-and-uncertain-input-genotypes"><span class="header-section-number">8.3</span> Genomic technologies and uncertain input genotypes</a></li>
   </ul></li>
   <li><a href="#choosing-and-assessing-a-genomic-model" id="toc-choosing-and-assessing-a-genomic-model" class="nav-link" data-scroll-target="#choosing-and-assessing-a-genomic-model"><span class="header-section-number">9</span> Choosing and assessing a genomic model</a></li>
   <li><a href="#reading-alongside-this-chapter" id="toc-reading-alongside-this-chapter" class="nav-link" data-scroll-target="#reading-alongside-this-chapter"><span class="header-section-number">10</span> Reading alongside this chapter</a></li>
@@ -1128,6 +1129,20 @@ G_b=(1-w)G_*+wA_{gg}.
 \]</span></p>
 <p>A factor-analytic trait/environment covariance, <span class="math inline">\(\Sigma_a=\Lambda\Lambda^\top+\Psi\)</span>, reduces the covariance parameterization and imposes structure. It is not automatically the same as a full unstructured multitrait model. Cross-environment prediction depends on the environmental information available at prediction time as well as the genetic kernel.</p>
 </section>
+<section id="genomic-technologies-and-uncertain-input-genotypes" class="level3" data-number="8.3">
+<h3 data-number="8.3" class="anchored" data-anchor-id="genomic-technologies-and-uncertain-input-genotypes"><span class="header-section-number">8.3</span> Genomic technologies and uncertain input genotypes</h3>
+<p>Low-coverage sequencing and imputation expand the ways genomic information can be obtained; <span class="citation" data-cites="lamb2021">Lamb et al. (<a href="#ref-lamb2021" role="doc-biblioref">2021</a>)</span> provide a cattle prediction proof of concept. Their availability does not make uncertain dosages exact measurements. Under a simple zero-mean prior with independent marker effects of fixed variance <span class="math inline">\(\tau^2\)</span>, also independent of the genotype data <span class="math inline">\(\mathcal D_g\)</span>, the induced covariance is</p>
+<p><span class="math display">\[
+\operatorname{Cov}(a\mid\mathcal D_g)
+=\tau^2 E(WW^\top\mid\mathcal D_g),
+\]</span></p>
+<p>where centering frequencies and scaling are held fixed. Substituting <span class="math inline">\(\bar W=E(W\mid\mathcal D_g)\)</span> instead uses <span class="math inline">\(\tau^2\bar W\bar W^\top\)</span> and omits</p>
+<p><span class="math display">\[
+\tau^2\sum_j\operatorname{Cov}(W_{\cdot j}\mid\mathcal D_g).
+\]</span></p>
+<p>This is an illustrative covariance identity, not a complete likelihood for sequence data or a claim that every prediction requires full genotype integration. It shows what must be assessed when dosage uncertainty is consequential. Shared imputation uncertainty can also connect animals.</p>
+<p>Structural variants, changing variant sets and breed-specific frequencies likewise require explicit representation and base conventions. Richer functional information then changes the prior on these variants, rather than repairing inconsistent allele alignment or scaling. See <a href="../../../gsuite/docs/teaching/genomic-feature-priors.html">functional information</a> and <a href="../../../gsuite/docs/teaching/genetic-bases-and-crossbreeding.html">genetic bases</a>.</p>
+</section>
 </section>
 <section id="choosing-and-assessing-a-genomic-model" class="level2" data-number="9">
 <h2 data-number="9" class="anchored" data-anchor-id="choosing-and-assessing-a-genomic-model"><span class="header-section-number">9</span> Choosing and assessing a genomic model</h2>
@@ -1164,6 +1179,9 @@ Habier, D., Fernando, R. L., Kizilkaya, K., and Garrick, D. J. (2011). Extension
 </div>
 <div id="ref-henderson1976" class="csl-entry" role="listitem">
 Henderson, C. R. (1976). A Simple Method for Computing the Inverse of a Numerator Relationship Matrix Used in Prediction of Breeding Values. <em>Biometrics</em>, 32(1), 69. https://doi.org/<a href="https://doi.org/10.2307/2529339">10.2307/2529339</a>.
+</div>
+<div id="ref-lamb2021" class="csl-entry" role="listitem">
+Lamb, H. J., Hayes, B. J., Randhawa, I. A. S., Nguyen, L. T., and Ross, E. M. (2021). Genomic prediction using low-coverage portable Nanopore sequencing. <em>PLOS ONE</em>, 16(12), e0261274. https://doi.org/<a href="https://doi.org/10.1371/journal.pone.0261274">10.1371/journal.pone.0261274</a>.
 </div>
 <div id="ref-meuwissen2001" class="csl-entry" role="listitem">
 Meuwissen, T. H. E., Hayes, B. J., and Goddard, M. E. (2001). Prediction of Total Genetic Value Using Genome-Wide Dense Marker Maps. <em>Genetics</em>, 157(4), 1819–1829. https://doi.org/<a href="https://doi.org/10.1093/genetics/157.4.1819">10.1093/genetics/157.4.1819</a>.

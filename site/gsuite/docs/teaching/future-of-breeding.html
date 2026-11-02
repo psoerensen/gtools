@@ -850,7 +850,10 @@ window.Quarto = {
   <li><a href="#lower-cost-genomics-coverage-design-and-uncertainty" id="toc-lower-cost-genomics-coverage-design-and-uncertainty" class="nav-link" data-scroll-target="#lower-cost-genomics-coverage-design-and-uncertainty"><span class="header-section-number">5</span> Lower-cost genomics: coverage, design and uncertainty</a></li>
   <li><a href="#structural-change-who-records-learns-and-benefits" id="toc-structural-change-who-records-learns-and-benefits" class="nav-link" data-scroll-target="#structural-change-who-records-learns-and-benefits"><span class="header-section-number">6</span> Structural change: who records, learns and benefits?</a></li>
   <li><a href="#from-improved-prediction-to-sustained-genetic-progress" id="toc-from-improved-prediction-to-sustained-genetic-progress" class="nav-link" data-scroll-target="#from-improved-prediction-to-sustained-genetic-progress"><span class="header-section-number">7</span> From improved prediction to sustained genetic progress</a></li>
-  <li><a href="#implications-for-methods-and-software" id="toc-implications-for-methods-and-software" class="nav-link" data-scroll-target="#implications-for-methods-and-software"><span class="header-section-number">8</span> Implications for methods and software</a></li>
+  <li><a href="#implications-for-methods-and-software" id="toc-implications-for-methods-and-software" class="nav-link" data-scroll-target="#implications-for-methods-and-software"><span class="header-section-number">8</span> Implications for methods and software</a>
+  <ul class="collapse">
+  <li><a href="#a-connected-methodological-response" id="toc-a-connected-methodological-response" class="nav-link" data-scroll-target="#a-connected-methodological-response"><span class="header-section-number">8.1</span> A connected methodological response</a></li>
+  </ul></li>
   <li><a href="#plausible-outcomes-and-evidence-to-seek" id="toc-plausible-outcomes-and-evidence-to-seek" class="nav-link" data-scroll-target="#plausible-outcomes-and-evidence-to-seek"><span class="header-section-number">9</span> Plausible outcomes and evidence to seek</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">10</span> References</a></li>
   </ul>
@@ -942,7 +945,7 @@ window.Quarto = {
 </section>
 <section id="ml-and-ai-several-distinct-contributions" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="ml-and-ai-several-distinct-contributions"><span class="header-section-number">4</span> ML and AI: several distinct contributions</h2>
-<p>artificial intelligence (AI) has at least four roles that should be evaluated separately:</p>
+<p>Artificial intelligence (AI) has at least four roles that should be evaluated separately:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -1015,6 +1018,47 @@ window.Quarto = {
 <p>The resulting research agenda is broader than replacing best linear unbiased prediction (BLUP) with a single new algorithm. It includes biologically informed hierarchical models, structured multitrait and longitudinal covariance, uncertainty for learned or imputed inputs, transfer across populations and environments, and breeding-programme design. Prediction and variance-component estimation need separate qualification; estimating more biological components requires information to identify them.</p>
 <p>Software should make these developments assessable through stable model and data contracts, explicit prediction targets, modular observation and covariance models, versioned feature pipelines and reproducible execution. Large-scale inference needs matrix-free or sparse representations, controlled approximation, hardware-aware execution and transparent resource accounting. New computing hardware is useful where measured end-to-end workloads benefit, rather than because a method has an AI label. The <a href="../../../gsuite/docs/teaching/large-scale-computation.html">large-scale computation chapter</a> develops these requirements.</p>
 <p>For gsuite, these are directions for continued development and qualification, not a claim that every model described here is already implemented. The useful long-term contract is that a user can identify the fitted model, trace its data, understand its assumptions, assess uncertainty and compare its results with an independent reference.</p>
+<section id="a-connected-methodological-response" class="level3" data-number="8.1">
+<h3 data-number="8.1" class="anchored" data-anchor-id="a-connected-methodological-response"><span class="header-section-number">8.1</span> A connected methodological response</h3>
+<p>The statistical response to these drivers is developed in the model chapters, rather than implied by a technology label:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>New information or condition</th>
+<th>Change in the modelling problem</th>
+<th>Where the inference is developed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Functional annotations and molecular atlases</td>
+<td>Learned effect distributions, component sharing and molecular versus variant-level information</td>
+<td><a href="../../../gsuite/docs/teaching/genomic-feature-priors.html">Functional priors</a> and <a href="../../../gsuite/docs/teaching/variance-component-inference.html">estimation</a></td>
+</tr>
+<tr class="even">
+<td>Sensor and robot measurements</td>
+<td>Joint genetic trajectories, measurement uncertainty and high-dimensional covariance</td>
+<td><a href="../../../gsuite/docs/teaching/large-scale-phenomics.html">Phenomics</a> and <a href="../../../gsuite/docs/teaching/multitrait-and-longitudinal.html">multitrait models</a></td>
+</tr>
+<tr class="odd">
+<td>Learned representations</td>
+<td>Uncertainty in features and prediction-time information restrictions</td>
+<td><a href="../../../gsuite/docs/teaching/prediction-and-uncertainty.html">Prediction uncertainty</a> and <a href="../../../gsuite/docs/teaching/model-checking-and-validation.html">validation</a></td>
+</tr>
+<tr class="even">
+<td>Broader genomic coverage</td>
+<td>Uncertain input genotypes, base conventions and cross-population transfer</td>
+<td><a href="../../../gsuite/docs/teaching/genomic-models.html">Genomic models</a> and <a href="../../../gsuite/docs/teaching/genetic-bases-and-crossbreeding.html">genetic bases</a></td>
+</tr>
+<tr class="odd">
+<td>Changing farms, environments and breeding populations</td>
+<td>Recording, selection and target-population assumptions</td>
+<td><a href="../../../gsuite/docs/teaching/missing-data-and-selection.html">Missing data and selection</a> and <a href="../../../gsuite/docs/teaching/selection-and-mating.html">breeding decisions</a></td>
+</tr>
+</tbody>
+</table>
+<p>These developments can be combined, but each additional layer needs information to identify its parameters. Progress comes from a defensible joint model and evidence for the intended decision, not merely from joining more data streams.</p>
+</section>
 </section>
 <section id="plausible-outcomes-and-evidence-to-seek" class="level2" data-number="9">
 <h2 data-number="9" class="anchored" data-anchor-id="plausible-outcomes-and-evidence-to-seek"><span class="header-section-number">9</span> Plausible outcomes and evidence to seek</h2>

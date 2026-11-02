@@ -848,10 +848,16 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#what-does-feature-enrichment-mean" id="toc-what-does-feature-enrichment-mean" class="nav-link" data-scroll-target="#what-does-feature-enrichment-mean"><span class="header-section-number">2.1</span> What does feature enrichment mean?</a></li>
   </ul></li>
-  <li><a href="#weighted-kernels-and-continuous-annotation-dependent-variances" id="toc-weighted-kernels-and-continuous-annotation-dependent-variances" class="nav-link" data-scroll-target="#weighted-kernels-and-continuous-annotation-dependent-variances"><span class="header-section-number">3</span> Weighted kernels and continuous annotation-dependent variances</a></li>
+  <li><a href="#weighted-kernels-and-continuous-annotation-dependent-variances" id="toc-weighted-kernels-and-continuous-annotation-dependent-variances" class="nav-link" data-scroll-target="#weighted-kernels-and-continuous-annotation-dependent-variances"><span class="header-section-number">3</span> Weighted kernels and continuous annotation-dependent variances</a>
+  <ul class="collapse">
+  <li><a href="#from-an-annotation-to-a-fitted-covariance-model" id="toc-from-an-annotation-to-a-fitted-covariance-model" class="nav-link" data-scroll-target="#from-an-annotation-to-a-fitted-covariance-model"><span class="header-section-number">3.1</span> From an annotation to a fitted covariance model</a></li>
+  </ul></li>
   <li><a href="#annotation-dependent-mixture-distributions" id="toc-annotation-dependent-mixture-distributions" class="nav-link" data-scroll-target="#annotation-dependent-mixture-distributions"><span class="header-section-number">4</span> Annotation-dependent mixture distributions</a></li>
   <li><a href="#overlapping-features-two-different-constructions" id="toc-overlapping-features-two-different-constructions" class="nav-link" data-scroll-target="#overlapping-features-two-different-constructions"><span class="header-section-number">5</span> Overlapping features: two different constructions</a></li>
-  <li><a href="#molecular-evidence-and-its-uncertainty" id="toc-molecular-evidence-and-its-uncertainty" class="nav-link" data-scroll-target="#molecular-evidence-and-its-uncertainty"><span class="header-section-number">6</span> Molecular evidence and its uncertainty</a></li>
+  <li><a href="#molecular-evidence-and-its-uncertainty" id="toc-molecular-evidence-and-its-uncertainty" class="nav-link" data-scroll-target="#molecular-evidence-and-its-uncertainty"><span class="header-section-number">6</span> Molecular evidence and its uncertainty</a>
+  <ul class="collapse">
+  <li><a href="#molecular-measurements-change-the-joint-observation-model" id="toc-molecular-measurements-change-the-joint-observation-model" class="nav-link" data-scroll-target="#molecular-measurements-change-the-joint-observation-model"><span class="header-section-number">6.1</span> Molecular measurements change the joint observation model</a></li>
+  </ul></li>
   <li><a href="#multitrait-and-single-step-extensions" id="toc-multitrait-and-single-step-extensions" class="nav-link" data-scroll-target="#multitrait-and-single-step-extensions"><span class="header-section-number">7</span> Multitrait and single-step extensions</a></li>
   <li><a href="#qualification-prediction-estimation-and-biology" id="toc-qualification-prediction-estimation-and-biology" class="nav-link" data-scroll-target="#qualification-prediction-estimation-and-biology"><span class="header-section-number">8</span> Qualification: prediction, estimation and biology</a></li>
   <li><a href="#guided-reading" id="toc-guided-reading" class="nav-link" data-scroll-target="#guided-reading"><span class="header-section-number">9</span> Guided reading</a></li>
@@ -930,6 +936,62 @@ m_j\mid\alpha\sim N(0,\tau_j^2),\qquad
 <p>which induces <span class="math inline">\(K_a=W D(\alpha)W^\top\)</span>, where <span class="math inline">\(D\)</span> is diagonal. This general variance-regression formulation accommodates continuous scores and overlapping annotations. Positive variance is automatic, while regularization of <span class="math inline">\(\alpha\)</span> controls extreme weights and weakly identified annotation effects.</p>
 <p>Fixed external weights define one covariance. Learning weights by likelihood or empirical Bayes defines a covariance-estimation problem. Assigning priors to <span class="math inline">\(\alpha\)</span> and integrating over its uncertainty defines a hierarchical Bayesian problem. Plugging learned weights into a final best linear unbiased prediction (BLUP) does not automatically propagate their uncertainty.</p>
 <p>Correlated annotation columns make individual coefficients difficult to interpret. Genomic coordinates, annotation version, feature mapping, minor allele frequency (MAF)/LD dependencies and score scaling are part of the model specification.</p>
+<section id="from-an-annotation-to-a-fitted-covariance-model" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="from-an-annotation-to-a-fitted-covariance-model"><span class="header-section-number">3.1</span> From an annotation to a fitted covariance model</h3>
+<p>Functional resources such as the Farm Animal Genotype–Tissue Expression (FarmGTEx) project expand the information from which marker annotations can be constructed <span class="citation" data-cites="fang2025 liu2022">(<a href="#ref-fang2025" role="doc-biblioref">Fang et al., 2025</a>; <a href="#ref-liu2022" role="doc-biblioref">Liu et al., 2022</a>)</span>. Their statistical contribution depends on the rule connecting an annotation to the trait model. An atlas supplies evidence; it does not supply a universally correct variance weight for every trait, tissue and population.</p>
+<p>Consider three centered marker columns <span class="math inline">\(w_1,w_2,w_3\)</span> and an annotation indicating that markers 1 and 3 belong to a candidate functional class. Keeping marker coding and normalization fixed, a simple model is</p>
+<p><span class="math display">\[
+D(\alpha)=\tau^2\operatorname{diag}(e^\alpha,1,e^\alpha),\qquad
+K_a(\alpha)=\tau^2\{e^\alpha(w_1w_1^\top+w_3w_3^\top)+w_2w_2^\top\}.
+\]</span></p>
+<p>At <span class="math inline">\(\alpha=0\)</span> this reduces to equal marker variances. At <span class="math inline">\(\alpha=\log 2\)</span> the annotated markers have twice the prior variance of the background marker. This is a statement about effect variances, not necessarily a doubling of population genetic variance or of the variance of fitted breeding values. The genotype cross-products and population scale still matter.</p>
+<p>If <span class="math inline">\(\alpha\)</span> is fixed externally, prediction remains a Gaussian mixed-model problem at the declared covariance. If it is learned from the phenotypes, <span class="math inline">\(\alpha\)</span> becomes a covariance parameter: the same data now inform both shrinkage and breeding values. The model must distinguish that direction from the overall variance scale and competing components. Assigning a prior to <span class="math inline">\(\alpha\)</span> and integrating over its posterior adds another level of uncertainty. These three analyses can use the same annotation but need not give identical predictions or uncertainty intervals.</p>
+<p>For the general variance function above, with fixed <span class="math inline">\(W\)</span> and no <span class="math inline">\(\alpha\)</span>-dependent normalization,</p>
+<p><span class="math display">\[
+\frac{\partial K_a}{\partial\alpha_l}
+=W\operatorname{diag}(\tau_j^2 b_{jl})W^\top,\qquad
+\frac{\partial V}{\partial\alpha_l}
+=Z\frac{\partial K_a}{\partial\alpha_l}Z^\top.
+\]</span></p>
+<p>These are the derivative operators entering the restricted-likelihood score in <a href="../../../gsuite/docs/teaching/variance-component-inference.html">variance-component estimation</a>. Normalizing each learned kernel again would add derivatives of that normalizer. Learning many annotation coefficients requires regularization or hierarchical pooling when the data do not identify their effects independently. A valid covariance parameterization ensures admissibility; it does not guarantee identifiability.</p>
+<p>The corresponding mixture-model development learns annotation-dependent allocation probabilities or effect-size classes instead of only a Gaussian variance function. BayesRC provides an established biological-class example <span class="citation" data-cites="macleod2016">(<a href="#ref-macleod2016" role="doc-biblioref">MacLeod et al., 2016</a>)</span>. A Gaussian covariance obtained by matching a mixture’s second moment is a separate approximation, not an equivalent posterior analysis.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Use of information</th>
+<th>Prediction operation</th>
+<th>What must be learned or assessed?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fixed external annotation weights</td>
+<td>Conditional Gaussian prediction</td>
+<td>Biological transfer, scaling and sensitivity to the supplied weights</td>
+</tr>
+<tr class="even">
+<td>Estimated feature variances or variance-function coefficients</td>
+<td>Prediction coupled to covariance estimation</td>
+<td>Component information, regularization and uncertainty in learned shrinkage</td>
+</tr>
+<tr class="odd">
+<td>Annotation-dependent mixture priors</td>
+<td>Posterior averaging over effect classes</td>
+<td>Allocation probabilities, effect scales, hyperparameters and posterior computation</td>
+</tr>
+<tr class="even">
+<td>Molecular measurements on animals</td>
+<td>Joint trait prediction or an explicitly conditional target</td>
+<td>Genetic and environmental cross-covariance, measurement error and availability at selection</td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 <section id="annotation-dependent-mixture-distributions" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="annotation-dependent-mixture-distributions"><span class="header-section-number">4</span> Annotation-dependent mixture distributions</h2>
@@ -959,8 +1021,19 @@ K_a=\sum_k\sigma_k^2G_k.
 <h2 data-number="6" class="anchored" data-anchor-id="molecular-evidence-and-its-uncertainty"><span class="header-section-number">6</span> Molecular evidence and its uncertainty</h2>
 <p>Feature definitions can use coding consequence, regulatory activity, expression quantitative trait locus (eQTL), splicing quantitative trait locus (sQTL), expression, pathways or fine-mapping results. CattleGTEx provides a multi-tissue regulatory resource that can inform such definitions. <span class="citation" data-cites="liu2022">(<a href="#ref-liu2022" role="doc-biblioref">Liu et al., 2022</a>)</span>.</p>
 <p>A tissue-specific eQTL annotation is variant-level information. An expression measurement on an individual animal is a different predictor, potentially affected by environment, disease and the phenotype itself. A model using the latter must state when expression is measured and whether it is available at selection time. It does not automatically predict the same additive breeding value as a genotype-only model.</p>
-<p>genome-wide association study (GWAS) association, colocalization and experimental functional validation also provide different evidence. LD can make several variants or genes appear informative for one locus. Combining an annotation with a GWAS statistic from the same animals does not create independent prior evidence.</p>
+<p>Association evidence from a genome-wide association study (GWAS), colocalization and experimental functional validation also provide different evidence. LD can make several variants or genes appear informative for one locus. Combining an annotation with a GWAS statistic from the same animals does not create independent prior evidence.</p>
 <p>Treat uncertain or tissue-mismatched annotations as hypotheses rather than known causal labels. Sensitivity to alternative mappings, irrelevant tissues and matched random features helps determine whether a result reflects useful biology or generic genome structure.</p>
+<section id="molecular-measurements-change-the-joint-observation-model" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="molecular-measurements-change-the-joint-observation-model"><span class="header-section-number">6.1</span> Molecular measurements change the joint observation model</h3>
+<p>Suppose <span class="math inline">\(y\)</span> is a performance trait and <span class="math inline">\(z\)</span> an expression-derived phenotype. A simple joint model gives their additive effects covariance</p>
+<p><span class="math display">\[
+\operatorname{Var}\begin{pmatrix}a_y\\a_z\end{pmatrix}
+=\begin{bmatrix}\sigma_y^2&amp;\sigma_{yz}\\
+\sigma_{yz}&amp;\sigma_z^2\end{bmatrix}\otimes K,
+\]</span></p>
+<p>where <span class="math inline">\(K\)</span> is the declared pedigree or genomic relationship kernel, with a separately specified environmental and residual covariance. The data must identify the genetic cross-covariance rather than merely the observed association between <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span>. Treating <span class="math inline">\(z\)</span> as a fixed covariate instead changes the conditioning statement and can change the genetic target. Neither construction establishes molecular mediation without additional assumptions and evidence.</p>
+<p>This is a different extension from assigning a marker to an expression-linked annotation. It requires information about when the molecular phenotype is measured, which animals have it, its measurement process and whether candidates will have it at prediction time. The multitrait validation issues in <span class="citation" data-cites="runcie2019">Runcie and Cheng (<a href="#ref-runcie2019" role="doc-biblioref">2019</a>)</span> apply. Tissue-specific annotations can inform prior sharing, but measured expression may also reflect treatment, disease and shared environment.</p>
+</section>
 </section>
 <section id="multitrait-and-single-step-extensions" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="multitrait-and-single-step-extensions"><span class="header-section-number">7</span> Multitrait and single-step extensions</h2>
@@ -996,7 +1069,6 @@ K_a=\sum_k\sigma_k^2G_k.
 </tbody>
 </table>
 <p><a href="../../../gsuite/docs/teaching/large-scale-phenomics.html">Next: large-scale phenomics</a>.</p>
-<p>For applications to automated measurements and high-dimensional traits, see <a href="../../../gsuite/docs/teaching/large-scale-phenomics.html">large-scale phenomics</a>.</p>
 <p>For the combined implications of technologies, data access and industry structure, see <a href="../../../gsuite/docs/teaching/future-of-breeding.html">drivers shaping the future of breeding</a>.</p>
 </section>
 <section id="references" class="level2" data-number="10">
@@ -1004,6 +1076,9 @@ K_a=\sum_k\sigma_k^2G_k.
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-daetwyler2013" class="csl-entry" role="listitem">
 Daetwyler, H. D., Calus, M. P. L., Pong-Wong, R., Campos, G. de los, and Hickey, J. M. (2013). Genomic Prediction in Animals and Plants: Simulation of Data, Validation, Reporting, and Benchmarking. <em>Genetics</em>, 193(2), 347–365. https://doi.org/<a href="https://doi.org/10.1534/genetics.112.147983">10.1534/genetics.112.147983</a>.
+</div>
+<div id="ref-fang2025" class="csl-entry" role="listitem">
+Fang, L., Teng, J., Lin, Q., Bai, Z., Liu, S., Guan, D., Li, B., Gao, Y., Hou, Y., Gong, M., Pan, Z., Yu, Y., Clark, E. L., Smith, J., Rawlik, K., Xiang, R., Chamberlain, A. J., Goddard, M. E., Littlejohn, M., Larson, G., MacHugh, D. E., O’Grady, J. F., Sørensen, P., Sahana, G., Lund, M. S., Jiang, Z., Pan, X., Gong, W., Zhang, H., He, X., Zhang, Y., Gao, N., He, J., Yi, G., Liu, Y., Tang, Z., Zhao, P., Zhou, Y., Fu, L., Wang, X., Hao, D., Liu, L., Chen, S., Young, R. S., Shen, X., Xia, C., Cheng, H., Ma, L., Cole, J. B., Baldwin, R. L., VI, Li, C., Van Tassell, C. P., Rosen, B. D., Bhowmik, N., Lunney, J., Liu, W., Guan, L., Zhao, X., Ibeagha-Awemu, E. M., Luo, Y., Lin, L., Canela-Xandri, O., Derks, M. F. L., Crooijmans, R. P. M. A., Gòdia, M., Madsen, O., Groenen, M. A. M., Koltes, J. E., Tuggle, C. K., McCarthy, F. M., Rocha, D., Giuffra, E., Amills, M., Clop, A., Ballester, M., Tosser-Klopp, G., Li, J., Fang, C., Fang, M., Wang, Q., Hou, Z., Wang, Q., Zhao, F., Jiang, L., Zhao, G., Zhou, Z., Zhou, R., Liu, H., Deng, J., Jin, L., Li, M., Mo, D., Liu, X., Chen, Y., Yuan, X., Li, J., Zhao, S., Zhang, Y., Ding, X., Sun, D., Sun, H.-Z., Li, C., Wang, Y., Jiang, Y., Wu, D., Wang, W., Fan, X., Zhang, Q., Li, K., Zhang, H., Yang, N., Hu, X., Huang, W., Song, J., Wu, Y., Yang, J., Wu, W., Kasper, C., Liu, X., Yu, X., Cui, L., Zhou, X., Kim, S., Li, W., Im, H. K., Buckler, E. S., Ren, B., Schatz, M. C., Li, J. J., Palmer, A. A., Frantz, L., Zhou, H., Zhang, Z., Liu, G. E., The FarmGTEx Consortium, and Van Tassell, C. P. (2025). The Farm Animal Genotype–Tissue Expression (FarmGTEx) Project. <em>Nature Genetics</em>, 57(4), 786–796. https://doi.org/<a href="https://doi.org/10.1038/s41588-025-02121-5">10.1038/s41588-025-02121-5</a>.
 </div>
 <div id="ref-liu2022" class="csl-entry" role="listitem">
 Liu, S., Gao, Y., Canela-Xandri, O., Wang, S., Yu, Y., Cai, W., Li, B., Xiang, R., Chamberlain, A. J., Pairo-Castineira, E., D’Mellow, K., Rawlik, K., Xia, C., Yao, Y., Navarro, P., Rocha, D., Li, X., Yan, Z., Li, C., Rosen, B. D., Van Tassell, C. P., Vanraden, P. M., Zhang, S., Ma, L., Cole, J. B., Liu, G. E., Tenesa, A., and Fang, L. (2022). A multi-tissue atlas of regulatory variants in cattle. <em>Nature Genetics</em>, 54(9), 1438–1447. https://doi.org/<a href="https://doi.org/10.1038/s41588-022-01153-5">10.1038/s41588-022-01153-5</a>.

@@ -847,7 +847,10 @@ window.Quarto = {
   <li><a href="#prediction-targets-pev-and-uncertainty-accounting" id="toc-prediction-targets-pev-and-uncertainty-accounting" class="nav-link" data-scroll-target="#prediction-targets-pev-and-uncertainty-accounting"><span class="header-section-number">2</span> Prediction targets, PEV and uncertainty accounting</a></li>
   <li><a href="#unknown-and-unobserved-targets" id="toc-unknown-and-unobserved-targets" class="nav-link" data-scroll-target="#unknown-and-unobserved-targets"><span class="header-section-number">3</span> Unknown and unobserved targets</a></li>
   <li><a href="#contrasts-and-connectedness" id="toc-contrasts-and-connectedness" class="nav-link" data-scroll-target="#contrasts-and-connectedness"><span class="header-section-number">4</span> Contrasts and connectedness</a></li>
-  <li><a href="#prediction-after-covariance-estimation" id="toc-prediction-after-covariance-estimation" class="nav-link" data-scroll-target="#prediction-after-covariance-estimation"><span class="header-section-number">5</span> Prediction after covariance estimation</a></li>
+  <li><a href="#prediction-after-covariance-estimation" id="toc-prediction-after-covariance-estimation" class="nav-link" data-scroll-target="#prediction-after-covariance-estimation"><span class="header-section-number">5</span> Prediction after covariance estimation</a>
+  <ul class="collapse">
+  <li><a href="#prediction-when-the-representation-is-learned" id="toc-prediction-when-the-representation-is-learned" class="nav-link" data-scroll-target="#prediction-when-the-representation-is-learned"><span class="header-section-number">5.1</span> Prediction when the representation is learned</a></li>
+  </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6</span> References</a></li>
   </ul>
 </nav>
@@ -938,7 +941,20 @@ E[(\hat t-t)^2]=l^\top C^{-1}l.
 <p>The two-stage uncertainty problem is studied by <span class="citation" data-cites="kackar1984">Kackar and Harville (<a href="#ref-kackar1984" role="doc-biblioref">1984</a>)</span>; fully Bayesian integration is a different inferential construction <span class="citation" data-cites="sorensen2002">(<a href="#ref-sorensen2002" role="doc-biblioref">Sorensen and Gianola, 2002</a>)</span>.</p>
 <p>Substituting <span class="math inline">\(\hat\theta\)</span> into the BLUP and PEV formulas produces empirical predictions and conditional plug-in uncertainty. It does not propagate all uncertainty in <span class="math inline">\(\hat\theta\)</span>. Parametric bootstrap and full Bayesian analysis can address broader uncertainty under their respective assumptions, but they have different targets, computational costs and calibration requirements.</p>
 <p>A Gaussian conditional interval for a breeding value is not automatically a frequentist confidence interval with exact coverage after model selection, variance estimation or selection of the animals being reported.</p>
+<section id="prediction-when-the-representation-is-learned" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="prediction-when-the-representation-is-learned"><span class="header-section-number">5.1</span> Prediction when the representation is learned</h3>
+<p>Let <span class="math inline">\(\psi\)</span> collect measurement, feature or loading parameters and let <span class="math inline">\(\theta\)</span> collect covariance parameters, with <span class="math inline">\(\mathcal D\)</span> denoting all analysis data. In a fully specified Bayesian joint model, the law of total variance gives</p>
+<p><span class="math display">\[
+\operatorname{Var}(t\mid\mathcal D)
+=E_{\theta,\psi\mid\mathcal D}
+[\operatorname{Var}(t\mid\mathcal D,\theta,\psi)]
++\operatorname{Var}_{\theta,\psi\mid\mathcal D}
+[E(t\mid\mathcal D,\theta,\psi)].
+\]</span></p>
+<p>A plug-in calculation conditions on one learned representation and generally omits the second term. This posterior identity is not an automatic frequentist PEV correction; calibration under an empirical fitting procedure needs its own assessment <span class="citation" data-cites="sorensen2002 kackar1984">(<a href="#ref-kackar1984" role="doc-biblioref">Kackar and Harville, 1984</a>; <a href="#ref-sorensen2002" role="doc-biblioref">Sorensen and Gianola, 2002</a>)</span>.</p>
+<p>For annotation-informed prediction, uncertainty concerns learned marker shrinkage as well as covariance parameters. For phenomics it may also concern calibration, trajectories and latent scores. Specify whether the target is a transmissible genetic value or a future phenotype conditional on candidate measurements. The model progressions in <a href="../../../gsuite/docs/teaching/genomic-feature-priors.html#from-an-annotation-to-a-fitted-covariance-model">functional information</a> and <a href="../../../gsuite/docs/teaching/large-scale-phenomics.html#a-progression-from-records-to-joint-genetic-trajectories">phenomics</a> make those choices explicit.</p>
 <p><a href="../../../gsuite/docs/teaching/variance-component-inference.html">Next: variance-component estimation</a>.</p>
+</section>
 </section>
 <section id="references" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="references"><span class="header-section-number">6</span> References</h2>

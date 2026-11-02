@@ -850,7 +850,10 @@ window.Quarto = {
   <li><a href="#multitrait-covariance-is-not-repeated-measurement-covariance" id="toc-multitrait-covariance-is-not-repeated-measurement-covariance" class="nav-link" data-scroll-target="#multitrait-covariance-is-not-repeated-measurement-covariance"><span class="header-section-number">2</span> Multitrait covariance is not repeated-measurement covariance</a></li>
   <li><a href="#longitudinal-random-regression" id="toc-longitudinal-random-regression" class="nav-link" data-scroll-target="#longitudinal-random-regression"><span class="header-section-number">3</span> Longitudinal random regression</a></li>
   <li><a href="#residual-correlation-and-irregular-visits" id="toc-residual-correlation-and-irregular-visits" class="nav-link" data-scroll-target="#residual-correlation-and-irregular-visits"><span class="header-section-number">4</span> Residual correlation and irregular visits</a></li>
-  <li><a href="#factor-analytic-trait-or-environment-covariance" id="toc-factor-analytic-trait-or-environment-covariance" class="nav-link" data-scroll-target="#factor-analytic-trait-or-environment-covariance"><span class="header-section-number">5</span> Factor-analytic trait or environment covariance</a></li>
+  <li><a href="#factor-analytic-trait-or-environment-covariance" id="toc-factor-analytic-trait-or-environment-covariance" class="nav-link" data-scroll-target="#factor-analytic-trait-or-environment-covariance"><span class="header-section-number">5</span> Factor-analytic trait or environment covariance</a>
+  <ul class="collapse">
+  <li><a href="#learning-genetic-dimensions-from-rich-phenotypes" id="toc-learning-genetic-dimensions-from-rich-phenotypes" class="nav-link" data-scroll-target="#learning-genetic-dimensions-from-rich-phenotypes"><span class="header-section-number">5.1</span> Learning genetic dimensions from rich phenotypes</a></li>
+  </ul></li>
   <li><a href="#genotype-by-environment-interaction" id="toc-genotype-by-environment-interaction" class="nav-link" data-scroll-target="#genotype-by-environment-interaction"><span class="header-section-number">6</span> Genotype-by-environment interaction</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7</span> References</a></li>
   </ul>
@@ -931,6 +934,11 @@ K_c=\Sigma_c\otimes I_{\rm animal}.
 <p>Sparse average-information fitting for factor-analytic and reduced-rank covariance models is described by <span class="citation" data-cites="thompson2003">Thompson et al. (<a href="#ref-thompson2003" role="doc-biblioref">2003</a>)</span>. Its multi-environment setting provides methodological background, not evidence for every livestock application.</p>
 <p>A factor-analytic covariance has <span class="math inline">\(\Sigma=\Lambda\Lambda^\top+\Psi\)</span>, with a diagonal nonnegative specific covariance <span class="math inline">\(\Psi\)</span>. It can reduce dimensionality and share information across environments. Loading rotations require constraints for interpretation; the implied covariance can be identified even when individual loadings are not uniquely oriented.</p>
 <p>Factors do not automatically have biological labels. Their rank and specific variance assumptions should be assessed against prediction and covariance fit. A factor-analytic model is a structured alternative to a full unstructured covariance, not necessarily an exact computational shortcut.</p>
+<section id="learning-genetic-dimensions-from-rich-phenotypes" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="learning-genetic-dimensions-from-rich-phenotypes"><span class="header-section-number">5.1</span> Learning genetic dimensions from rich phenotypes</h3>
+<p>The genetic and environmental factor structures need not have the same rank or loadings. Choosing factors from total phenotypic variance alone can emphasize recording conditions rather than genetic covariance relevant to the objective. The genetic latent-factor work in <span class="citation" data-cites="melsen2025">Melsen et al. (<a href="#ref-melsen2025" role="doc-biblioref">2025</a>)</span> illustrates a plant-breeding route; its covariance estimation and replication assumptions must be checked before transferring the procedure to animal records.</p>
+<p>With repeated high-dimensional features, a factor model may be combined with random regression. Estimation then concerns the loadings, coefficient covariance and residual process jointly or through an explicitly qualified staged procedure. Rank, time basis and smoothing choices are model choices to assess inside training, not numerical settings that automatically preserve a full unstructured model. The <a href="../../../gsuite/docs/teaching/large-scale-phenomics.html#a-progression-from-records-to-joint-genetic-trajectories">phenomics progression</a> connects this covariance to trajectory and integral prediction targets.</p>
+</section>
 </section>
 <section id="genotype-by-environment-interaction" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="genotype-by-environment-interaction"><span class="header-section-number">6</span> Genotype-by-environment interaction</h2>
@@ -943,6 +951,9 @@ K_c=\Sigma_c\otimes I_{\rm animal}.
 <section id="references" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="references"><span class="header-section-number">7</span> References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-melsen2025" class="csl-entry" role="listitem">
+Melsen, K. A. C., Kunst, J. F., Crossa, J., Krause, M. R., Eeuwijk, F. A. van, Kruijer, W., and Peeters, C. F. W. (2025). Improving Genomic Prediction Using High‐Dimensional Secondary Phenotypes: The Genetic Latent Factor Approach. <em>Biometrical Journal</em>, 67(5). https://doi.org/<a href="https://doi.org/10.1002/bimj.70081">10.1002/bimj.70081</a>.
+</div>
 <div id="ref-meyer1998" class="csl-entry" role="listitem">
 Meyer, K. (1998). Estimating covariance functions for longitudinal data using a random regression model. <em>Genetics Selection Evolution</em>, 30(3). https://doi.org/<a href="https://doi.org/10.1186/1297-9686-30-3-221">10.1186/1297-9686-30-3-221</a>.
 </div>

@@ -847,7 +847,10 @@ window.Quarto = {
   <li><a href="#binary-traits-and-latent-liability" id="toc-binary-traits-and-latent-liability" class="nav-link" data-scroll-target="#binary-traits-and-latent-liability"><span class="header-section-number">2</span> Binary traits and latent liability</a></li>
   <li><a href="#ordered-categories-and-count-models" id="toc-ordered-categories-and-count-models" class="nav-link" data-scroll-target="#ordered-categories-and-count-models"><span class="header-section-number">3</span> Ordered categories and count models</a></li>
   <li><a href="#survival-censoring-and-frailty" id="toc-survival-censoring-and-frailty" class="nav-link" data-scroll-target="#survival-censoring-and-frailty"><span class="header-section-number">4</span> Survival, censoring and frailty</a></li>
-  <li><a href="#prediction-and-estimation-after-the-likelihood-changes" id="toc-prediction-and-estimation-after-the-likelihood-changes" class="nav-link" data-scroll-target="#prediction-and-estimation-after-the-likelihood-changes"><span class="header-section-number">5</span> Prediction and estimation after the likelihood changes</a></li>
+  <li><a href="#prediction-and-estimation-after-the-likelihood-changes" id="toc-prediction-and-estimation-after-the-likelihood-changes" class="nav-link" data-scroll-target="#prediction-and-estimation-after-the-likelihood-changes"><span class="header-section-number">5</span> Prediction and estimation after the likelihood changes</a>
+  <ul class="collapse">
+  <li><a href="#learned-measurements-and-recorded-events-are-different-observations" id="toc-learned-measurements-and-recorded-events-are-different-observations" class="nav-link" data-scroll-target="#learned-measurements-and-recorded-events-are-different-observations"><span class="header-section-number">5.1</span> Learned measurements and recorded events are different observations</a></li>
+  </ul></li>
   <li><a href="#qualification-and-practical-interpretation" id="toc-qualification-and-practical-interpretation" class="nav-link" data-scroll-target="#qualification-and-practical-interpretation"><span class="header-section-number">6</span> Qualification and practical interpretation</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7</span> References</a></li>
   </ul>
@@ -985,6 +988,11 @@ E\{g^{-1}(\eta_i)\mid y\}
 \]</span></p>
 <p>in general. Response-scale prediction requires integration over the uncertainty appropriate to the target, including future environmental effects when relevant. A genetic contrast on the link scale can remain meaningful, but its translation to risk or rate depends on the covariate and exposure context.</p>
 <p>Likewise, an inverse Hessian at a mode is a local curvature approximation. It is not automatically the exact Gaussian prediction-error variance (PEV) formula from <a href="../../../gsuite/docs/teaching/prediction-and-uncertainty.html">prediction and uncertainty</a>, nor a calibrated interval after variance estimation and selection.</p>
+<section id="learned-measurements-and-recorded-events-are-different-observations" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="learned-measurements-and-recorded-events-are-different-observations"><span class="header-section-number">5.1</span> Learned measurements and recorded events are different observations</h3>
+<p>A disease label, its observation window and a classifier’s estimated disease probability describe different quantities. Treating a learned probability as an observed binary diagnosis discards its measurement interpretation. A staged analysis needs an appropriate uncertainty model; a joint analysis might link a latent health state to both diagnostic observations and sensor features. Its identifiability depends on calibration and reference information, not only on the flexibility of the classifier.</p>
+<p>Likewise, automated event counts need exposure and event-detection definitions. Missed detections can differ from biological absence. Observation models must separate these processes where the data support that distinction, with likelihood and uncertainty checks appropriate to the chosen construction. See <a href="../../../gsuite/docs/teaching/large-scale-phenomics.html">phenomics</a> for measurement and recording design.</p>
+</section>
 </section>
 <section id="qualification-and-practical-interpretation" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="qualification-and-practical-interpretation"><span class="header-section-number">6</span> Qualification and practical interpretation</h2>

@@ -845,7 +845,10 @@ window.Quarto = {
   <ul>
   <li><a href="#the-observed-data-model" id="toc-the-observed-data-model" class="nav-link active" data-scroll-target="#the-observed-data-model"><span class="header-section-number">1</span> The observed-data model</a></li>
   <li><a href="#which-missingness-process-can-be-ignored" id="toc-which-missingness-process-can-be-ignored" class="nav-link" data-scroll-target="#which-missingness-process-can-be-ignored"><span class="header-section-number">2</span> Which missingness process can be ignored?</a></li>
-  <li><a href="#selection-and-selective-genotyping" id="toc-selection-and-selective-genotyping" class="nav-link" data-scroll-target="#selection-and-selective-genotyping"><span class="header-section-number">3</span> Selection and selective genotyping</a></li>
+  <li><a href="#selection-and-selective-genotyping" id="toc-selection-and-selective-genotyping" class="nav-link" data-scroll-target="#selection-and-selective-genotyping"><span class="header-section-number">3</span> Selection and selective genotyping</a>
+  <ul class="collapse">
+  <li><a href="#recording-policies-change-with-the-technology" id="toc-recording-policies-change-with-the-technology" class="nav-link" data-scroll-target="#recording-policies-change-with-the-technology"><span class="header-section-number">3.1</span> Recording policies change with the technology</a></li>
+  </ul></li>
   <li><a href="#animals-without-phenotypes-genotypes-or-known-parents" id="toc-animals-without-phenotypes-genotypes-or-known-parents" class="nav-link" data-scroll-target="#animals-without-phenotypes-genotypes-or-known-parents"><span class="header-section-number">4</span> Animals without phenotypes, genotypes or known parents</a></li>
   <li><a href="#population-structure-and-transport" id="toc-population-structure-and-transport" class="nav-link" data-scroll-target="#population-structure-and-transport"><span class="header-section-number">5</span> Population structure and transport</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6</span> References</a></li>
@@ -897,6 +900,11 @@ p(D\mid y_o,y_m,\psi)\,dy_m.
 <p>Selection based on recorded information can sometimes be handled by including the relevant information and modelling it correctly. Selection on omitted historical records, latent performance or unmodelled criteria can make the observed sample likelihood inappropriate for the claimed population inference. There is no universal statement that best linear unbiased prediction (BLUP) or single-step automatically removes all selection bias.</p>
 <p>Selective genotyping changes which animals contribute genomic information. Single-step models connect genotyped and non-genotyped animals through pedigree, but require a defensible pedigree/genomic base and adequate modelling of the information driving selection. Check parentage, cohort representation and whether the recorded pedigree omits important selected ancestors.</p>
 <p>The foundational selection argument is developed by <span class="citation" data-cites="henderson1975">Henderson (<a href="#ref-henderson1975" role="doc-biblioref">1975</a>)</span>. It relies on assumptions; applying its equations is not a substitute for checking the recording and selection history.</p>
+<section id="recording-policies-change-with-the-technology" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="recording-policies-change-with-the-technology"><span class="header-section-number">3.1</span> Recording policies change with the technology</h3>
+<p>Automated systems can observe more records while still selecting which farms, animals, occasions and biological states are represented. Availability of a camera or robot, treatment-triggered recording and removal from production can all be associated with the response process. Greater data volume does not by itself justify an ignorable-recording assumption <span class="citation" data-cites="rubin1976">(<a href="#ref-rubin1976" role="doc-biblioref">RUBIN, 1976</a>)</span>.</p>
+<p>The deployment information pattern also changes when candidates have sensor or molecular measurements that earlier generations lacked. State which secondary phenotypes are available at selection, which are used to estimate feature representations, and which remain genuinely held out. These distinctions connect <a href="../../../gsuite/docs/teaching/large-scale-phenomics.html">phenomics</a> to multitrait validation <span class="citation" data-cites="runcie2019">(<a href="#ref-runcie2019" role="doc-biblioref">Runcie and Cheng, 2019</a>)</span>.</p>
+</section>
 </section>
 <section id="animals-without-phenotypes-genotypes-or-known-parents" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="animals-without-phenotypes-genotypes-or-known-parents"><span class="header-section-number">4</span> Animals without phenotypes, genotypes or known parents</h2>
@@ -918,6 +926,9 @@ Henderson, C. R. (1975). Best Linear Unbiased Estimation and Prediction under a 
 </div>
 <div id="ref-rubin1976" class="csl-entry" role="listitem">
 RUBIN, D. B. (1976). Inference and missing data. <em>Biometrika</em>, 63(3), 581–592. https://doi.org/<a href="https://doi.org/10.1093/biomet/63.3.581">10.1093/biomet/63.3.581</a>.
+</div>
+<div id="ref-runcie2019" class="csl-entry" role="listitem">
+Runcie, D., and Cheng, H. (2019). Pitfalls and Remedies for Cross Validation with Multi-trait Genomic Prediction Methods. <em>G3 Genes|Genomes|Genetics</em>, 9(11), 3727–3741. https://doi.org/<a href="https://doi.org/10.1534/g3.119.400598">10.1534/g3.119.400598</a>.
 </div>
 </div>
 

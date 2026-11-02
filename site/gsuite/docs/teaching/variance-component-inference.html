@@ -851,6 +851,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#which-advances-preserve-the-inferential-target" id="toc-which-advances-preserve-the-inferential-target" class="nav-link" data-scroll-target="#which-advances-preserve-the-inferential-target"><span class="header-section-number">5.1</span> Which advances preserve the inferential target?</a></li>
   <li><a href="#what-evidence-is-needed-for-an-estimation-claim" id="toc-what-evidence-is-needed-for-an-estimation-claim" class="nav-link" data-scroll-target="#what-evidence-is-needed-for-an-estimation-claim"><span class="header-section-number">5.2</span> What evidence is needed for an estimation claim?</a></li>
+  <li><a href="#new-information-changes-the-parameters-to-be-estimated" id="toc-new-information-changes-the-parameters-to-be-estimated" class="nav-link" data-scroll-target="#new-information-changes-the-parameters-to-be-estimated"><span class="header-section-number">5.3</span> New information changes the parameters to be estimated</a></li>
   </ul></li>
   <li><a href="#heritability-depends-on-the-target-population-and-scale" id="toc-heritability-depends-on-the-target-population-and-scale" class="nav-link" data-scroll-target="#heritability-depends-on-the-target-population-and-scale"><span class="header-section-number">6</span> Heritability depends on the target population and scale</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7</span> References</a></li>
@@ -993,6 +994,12 @@ s_i=\tfrac12\{y^\top PV_iPy-\operatorname{tr}(PV_i)\},
 <p>Separate uncertainty from finite biological sampling, random numerical probes, inexact inner solves and incomplete outer optimization. A coefficient residual checks a solve at the current covariance parameters; it does not establish that the covariance score is sufficiently small or that a posterior approximation is calibrated. Reusing random probes across trial parameters can stabilize comparisons but does not remove their sampling variability.</p>
 <p>Report the fitted criterion, admissibility constraints, optimizer stopping rule, probe and solve accounting, and the uncertainty method. Validate parameter recovery and interval behaviour under relevant selection and missingness patterns, then assess representative large models. Reducing the dataset or removing genomic information can change the statistical problem even when the remaining optimization is exact. The <a href="../../../gsuite/docs/teaching/qualification-framework.html">qualification framework</a> sets out the corresponding evidence layers.</p>
 </section>
+<section id="new-information-changes-the-parameters-to-be-estimated" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="new-information-changes-the-parameters-to-be-estimated"><span class="header-section-number">5.3</span> New information changes the parameters to be estimated</h3>
+<p>Functional annotations can replace one common marker variance by several feature variances or a variance function. Phenomics can replace a small trait covariance by genetic and environmental factor structures or covariance functions over time. The restricted-likelihood score remains applicable to a specified Gaussian model, but its derivative operators and parameter space change. Faster traces alone do not identify additional components.</p>
+<p>For <span class="math inline">\(K_a=W D(\alpha)W^\top\)</span>, the annotation derivatives are weighted marker cross-products; <a href="../../../gsuite/docs/teaching/genomic-feature-priors.html#from-an-annotation-to-a-fitted-covariance-model">Chapter 14</a> derives them. For latent-factor or trajectory models, scale and rotation constraints and derivatives of loadings or basis-coefficient covariances enter the estimation problem <span class="citation" data-cites="thompson2003 meyer1998">(<a href="#ref-meyer1998" role="doc-biblioref">Meyer, 1998</a>; <a href="#ref-thompson2003" role="doc-biblioref">Thompson et al., 2003</a>)</span>. Full Bayesian inference can pool weakly informed parameters and integrate their uncertainty, while a penalized or empirical fit needs its corresponding inferential interpretation.</p>
+<p>Distinguish fixed external features from features learned using the same phenotypes, and external covariance information from prior assumptions. A preprocessing step that already shrinks predictions cannot simply be treated as equally precise raw observations in another estimation stage. See <a href="../../../gsuite/docs/teaching/large-scale-phenomics.html#estimating-a-high-dimensional-covariance-rather-than-compressing-a-matrix">phenomics</a> for joint and staged alternatives and the information each requires.</p>
+</section>
 </section>
 <section id="heritability-depends-on-the-target-population-and-scale" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="heritability-depends-on-the-target-population-and-scale"><span class="header-section-number">6</span> Heritability depends on the target population and scale</h2>
@@ -1028,6 +1035,9 @@ Johnson, D. L., and Thompson, R. (1995). Restricted Maximum Likelihood Estimatio
 <div id="ref-loh2015" class="csl-entry" role="listitem">
 Loh, P.-R., Bhatia, G., Gusev, A., Finucane, H. K., Bulik-Sullivan, B. K., Pollack, S. J., Schizophrenia Working Group of the Psychiatric Genomics Consortium, Candia, T. R. de, Lee, S. H., Wray, N. R., Kendler, K. S., O’Donovan, M. C., Neale, B. M., Patterson, N., and Price, A. L. (2015). Contrasting genetic architectures of schizophrenia and other complex diseases using fast variance-components analysis. <em>Nature Genetics</em>, 47(12), 1385–1392. https://doi.org/<a href="https://doi.org/10.1038/ng.3431">10.1038/ng.3431</a>.
 </div>
+<div id="ref-meyer1998" class="csl-entry" role="listitem">
+Meyer, K. (1998). Estimating covariance functions for longitudinal data using a random regression model. <em>Genetics Selection Evolution</em>, 30(3). https://doi.org/<a href="https://doi.org/10.1186/1297-9686-30-3-221">10.1186/1297-9686-30-3-221</a>.
+</div>
 <div id="ref-patterson1971" class="csl-entry" role="listitem">
 PATTERSON, H. D., and THOMPSON, R. (1971). Recovery of inter-block information when block sizes are unequal. <em>Biometrika</em>, 58(3), 545–554. https://doi.org/<a href="https://doi.org/10.1093/biomet/58.3.545">10.1093/biomet/58.3.545</a>.
 </div>
@@ -1039,6 +1049,9 @@ Self, S. G., and Liang, K.-Y. (1987). Asymptotic Properties of Maximum Likelihoo
 </div>
 <div id="ref-sorensen2002" class="csl-entry" role="listitem">
 Sorensen, D., and Gianola, D. (2002). <em>Likelihood, Bayesian, and MCMC Methods in Quantitative Genetics</em>. Springer New York. https://doi.org/<a href="https://doi.org/10.1007/b98952">10.1007/b98952</a>.
+</div>
+<div id="ref-thompson2003" class="csl-entry" role="listitem">
+Thompson, R., Cullis, B., Smith, A., and Gilmour, A. (2003). A Sparse Implementation of the Average Information Algorithm for Factor Analytic and Reduced Rank Variance Models. <em>Australian &amp; New Zealand Journal of Statistics</em>, 45(4), 445–459. https://doi.org/<a href="https://doi.org/10.1111/1467-842X.00297">10.1111/1467-842X.00297</a>.
 </div>
 </div>
 
