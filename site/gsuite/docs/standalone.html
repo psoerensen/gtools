@@ -244,6 +244,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Current status</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/distribution-policy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software access and licensing</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -864,6 +870,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p>The <strong>standalone gsuite application is offered only to licensed users</strong>. This guide, the model specification and small examples remain public. Software access is described in the <a href="../../gsuite/docs/distribution-policy.html">distribution policy</a>; standalone bundles are supplied separately from public R package downloads.</p>
 <p>Use one YAML file for input data, the model, covariance matrices, threads and outputs. The same command runs supplied-covariance solving and REML estimation.</p>
 <section id="run-a-model" class="level2">
 <h2 class="anchored" data-anchor-id="run-a-model">Run a model</h2>
@@ -888,6 +895,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="build-validate-and-distribute" class="level2">
 <h2 class="anchored" data-anchor-id="build-validate-and-distribute">Build, validate and distribute</h2>
+<p>These steps apply to an authorised supplied bundle. Development or validation builds do not automatically become production licensed releases.</p>
 <p>Maintainers: inside an extracted source bundle on a compute node, with the build environment activated, run each task separately after the previous one succeeds:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> build.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Builds and installs, reusing compatible native cache entries.</p>
@@ -1312,7 +1320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
+<p>gsuite: seven public R packages. Standalone application: licence required. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
 </div>
     <div class="nav-footer-center">
       &nbsp;

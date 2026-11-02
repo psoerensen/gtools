@@ -228,6 +228,12 @@ div.csl-indent {
  <span class="menu-text">Current status</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../../gsuite/docs/distribution-policy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software access and licensing</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -855,6 +861,7 @@ div.csl-indent {
 </section>
 <section id="implementation-and-access-in-gsuite" class="level2">
 <h2 class="anchored" data-anchor-id="implementation-and-access-in-gsuite">Implementation and access in gsuite</h2>
+<p><strong>Software access:</strong> these notes, their references and small examples are public. The <strong>standalone gsuite application requires a valid licence</strong>. The seven public R packages retain their existing terms; development mixed-model R interfaces are not a public standalone release. See the <a href="../../../gsuite/docs/distribution-policy.html">distribution policy</a>. The implementation map below describes numerical coverage separately from access and release status.</p>
 <p>Many of the core models and computational methods developed in these notes are already implemented in gsuite and its component packages. This includes pedigree, genomic and single-step prediction, multiple random components, multitrait and longitudinal models, covariance estimation, structured residuals, and selected prediction uncertainty. The notes also develop research extensions and decision problems beyond those existing interfaces.</p>
 <p>There are three access paths: the <strong>standalone gsuite command with YAML model files</strong>, the <strong>development mixed-model R interfaces</strong>, and <strong>task packages</strong> such as <code>gbayes</code>. A native algorithm can be implemented before every R adapter exposes it. Availability of prediction, covariance estimation and uncertainty must be checked separately for the selected model and execution route.</p>
 <table class="caption-top table">
@@ -1467,7 +1474,7 @@ Sorensen, D., and Gianola, D. (2002). <em>Likelihood, Bayesian, and MCMC Methods
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
+<p>gsuite: seven public R packages. Standalone application: licence required. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
 </div>
     <div class="nav-footer-center">
       &nbsp;

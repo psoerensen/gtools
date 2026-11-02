@@ -244,6 +244,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Current status</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../gsuite/docs/distribution-policy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software access and licensing</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -938,9 +944,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Direct archive installation does not resolve dependencies automatically. Install <code>gbase</code> first and use the repository method when possible.</p>
 </section>
 </section>
-<section id="mixed-model-and-solver-examples" class="level2">
-<h2 class="anchored" data-anchor-id="mixed-model-and-solver-examples">Mixed-model and solver examples</h2>
-<p>The standalone <code>gsuite</code> command runs mixed models from one YAML file. Start with the <a href="../gsuite/docs/standalone.html">quick start</a>, <a href="../gsuite/docs/standalone-installation.html#install-a-supplied-linux-binary">binary installation instructions</a> or <a href="../gsuite/docs/standalone-models.html#complete-sssnpblup-example">complete ssSNPBLUP example</a>. The installer creates a minimal Conda runtime without compiling. Binary archives are supplied by the maintainer; they are not public downloads here. See the <a href="../gsuite/docs/standalone-validation.html">GenomeDK validation record</a> for tested installations.</p>
+<section id="licensed-standalone-mixed-models" class="level2">
+<h2 class="anchored" data-anchor-id="licensed-standalone-mixed-models">Licensed standalone mixed models</h2>
+<p>The standalone <code>gsuite</code> application is <strong>offered only to licensed users</strong>. Its documentation, YAML specification and small examples remain public; standalone archives are delivered separately from the public package repository. See the <a href="../gsuite/docs/distribution-policy.html">distribution policy</a>.</p>
+<p>The command runs mixed models from one YAML file. Start with the <a href="../gsuite/docs/standalone.html">quick start</a>, <a href="../gsuite/docs/standalone-installation.html#install-a-supplied-linux-binary">binary installation instructions</a> or <a href="../gsuite/docs/standalone-models.html#complete-sssnpblup-example">complete ssSNPBLUP example</a>. The installer creates a minimal Conda runtime without compiling. Binary archives are supplied by the maintainer; they are not public downloads here. See the <a href="../gsuite/docs/standalone-validation.html">GenomeDK validation record</a> for tested installations.</p>
 <p>The native greml and gsolve libraries own mixed-model inference and numerical solving. Their R packaging is deferred; separate or combined packages remain undecided. A root <code>gsuite</code> R package release is not currently planned.</p>
 <p>The pedigree tutorials and other root-integration examples require an existing development installation. The seven source packages above do not provide that interface. Those examples describe the current development integration, not a promised future R package API.</p>
 
@@ -1351,7 +1358,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
+<p>gsuite: seven public R packages. Standalone application: licence required. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
 </div>
     <div class="nav-footer-center">
       &nbsp;

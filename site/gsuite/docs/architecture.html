@@ -209,6 +209,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Current status</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../../gsuite/docs/distribution-policy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Software access and licensing</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -856,6 +862,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>gsuite brings together R packages, native computational libraries and analysis guides for statistical genetics. You usually work through a task-specific R package or the standalone mixed-model command; the native libraries do the computation underneath.</p>
+<p>Public documentation and the seven public R packages are distinct from the licensed standalone product. Development mixed-model R adapters do not imply a public mixed-model package release. The <a href="../../gsuite/docs/distribution-policy.html">distribution policy</a> defines these access boundaries separately from numerical capability.</p>
 <p>The <a href="../../gsuite/docs/gbayes-design.html">authoritative gbayes R design</a> specifies the target six fitters and shared resource, result and execution contracts, with no backward-compatibility requirement. The initial bayes/mbayes packed BayesC/BayesR adapters reuse the existing native samplers and share a labelled bayesfit result, resolved execution plan and scientific access. The R/native bridge supplies prepared response cross-products and likelihood dimension to joint residual learning. The sbayes/msbayes summary adapters share that result contract and reuse the existing checked scalar/joint summary samplers. Sbayes supports sparse or block-eigen LD; msbayes supports sparse shared or independent study-specific references with an explicit sampling declaration. Summary prediction is unavailable without identified training coding. Blr/mblr consume exact labelled common-design cross-products through the same samplers/result contract; their R/native bridge constructs shared immutable cross-products and private chain state. PSD/rank/scatter validation and explicit saved prediction transforms preserve supplied feature units. Mbayes bayesFA/bayesFR now use the common contract and existing factor samplers. FA constructs one additive relationship internally through public gmat/gbits interfaces, preserving selections/frequencies, excluding/reporting monomorphic markers and normalizing mean diagonal to one. There is no supplied K or Glist$K. FR retains per-draw total-effect reconstruction, distinct activity summaries and saved sample-SD coding. Chains are serial and diagnostics are scoped to retained invariants; paused mixing limits remain.</p>
 <p>All six public fitters finish through one R result boundary. It validates the versioned structural fields, ordered effect axes, final states and logical-chain identities after route-specific formatting. Missing availability entries receive truthful stored-value status and explicit unsupported reasons; factor prediction status preserves its training-only FA and saved-coding FR limits. Provenance records R/package versions alongside native metadata. This boundary changes no sampler, prior, numeric result or qualified prediction/continuation capability.</p>
 <p>Individual C/R continuation restores existing native full checkpoints through the common bayes/mbayes fit contract. R validates same-build/data/resource identity and preserves global thinning with at most one checkpoint advance; no sampler transition is duplicated. Resumed summaries cover the added segment. Full resource hashing and mandatory checkpoint/segment allocations are checked. The summary C/R adapters also restore existing native checkpoints, binding harmonized scores/N, trait/provider maps, sampling policies and full prepared LD bytes; eigen fits additionally bind verified blocks and eigen settings. Their global thinning and segment-summary semantics match individual C/R. Cross-product C/R adapters restore the same full native states through existing Rcpp control slots. R binds exact checked XX/Xy/yy, n, feature/trait labels, prediction coding and likelihood dimension, preserving supplied units, global thinning and added-segment summaries. The declared gbase dependency is initialized before runtime fingerprinting. No native numerical or bridge changes are added. Specialized-summary, annotation and factor continuation remain outside these contracts.</p>
@@ -1458,7 +1465,7 @@ ul.task-list li input[type="checkbox"] {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>gsuite: seven public R packages. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
+<p>gsuite: seven public R packages. Standalone application: licence required. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
 </div>
     <div class="nav-footer-center">
       &nbsp;
