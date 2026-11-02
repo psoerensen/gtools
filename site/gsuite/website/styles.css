@@ -88,6 +88,18 @@
   color: var(--suite-navy);
 }
 
+/* Preserve equation layout without widening the page on narrow screens. */
+main p:has(.math) {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.15rem;
+}
+
+/* DOI and other reference URLs can be longer than a mobile text column. */
+main .csl-entry {
+  overflow-wrap: anywhere;
+}
+
 pre {
   border: 1px solid var(--suite-border);
   border-radius: 0.25rem;
