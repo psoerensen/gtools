@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>gbayes-method-algorithms – gtools</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-264a0fc3a96c72ca7334393e02078ef0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../gsuite/website/styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">gtools</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+<span class="menu-text">Home</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../gsuite/index.html">
+<span class="menu-text">gsuite</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gsim/">
+<span class="menu-text">gsim</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gact/">
+<span class="menu-text">gact</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gteach/">
+<span class="menu-text">gteach</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../help.html#help-me-use-gsuite">
+<span class="menu-text">Help me use gsuite</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../help.html#report-a-bug-or-suggest-a-feature">
+<span class="menu-text">Report a bug or suggest a feature</span></a>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/psoerensen/gtools">
+<span class="menu-text">GitHub</span></a>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+
+  <ul>
+  <li><a href="#gbayes-methods-and-algorithms" id="toc-gbayes-methods-and-algorithms" class="nav-link active" data-scroll-target="#gbayes-methods-and-algorithms">gbayes methods and algorithms</a>
+  <ul class="collapse">
+  <li><a href="#available-through-the-four-common-interfaces" id="toc-available-through-the-four-common-interfaces" class="nav-link" data-scroll-target="#available-through-the-four-common-interfaces">Available through the four common interfaces</a>
+  <ul class="collapse">
+  <li><a href="#configurations-that-must-not-be-collapsed-into-one-claim" id="toc-configurations-that-must-not-be-collapsed-into-one-claim" class="nav-link" data-scroll-target="#configurations-that-must-not-be-collapsed-into-one-claim">Configurations that must not be collapsed into one claim</a></li>
+  </ul></li>
+  <li><a href="#source-ready-additions-awaiting-batch-validation" id="toc-source-ready-additions-awaiting-batch-validation" class="nav-link" data-scroll-target="#source-ready-additions-awaiting-batch-validation">Annotation, population, penalty and prepared-design routes</a></li>
+  <li><a href="#existing-engines-with-common-adapters-still-missing-or-partial" id="toc-existing-engines-with-common-adapters-still-missing-or-partial" class="nav-link" data-scroll-target="#existing-engines-with-common-adapters-still-missing-or-partial">Existing engines with common adapters still missing or partial</a></li>
+  <li><a href="#different-likelihoods-or-structured-effects-separate-admission-decisions" id="toc-different-likelihoods-or-structured-effects-separate-admission-decisions" class="nav-link" data-scroll-target="#different-likelihoods-or-structured-effects-separate-admission-decisions">Different likelihoods or structured effects: separate admission decisions</a></li>
+  <li><a href="#available-elsewhere-retain-ownership" id="toc-available-elsewhere-retain-ownership" class="nav-link" data-scroll-target="#available-elsewhere-retain-ownership">Available elsewhere: retain ownership</a></li>
+  <li><a href="#source-and-evidence" id="toc-source-and-evidence" class="nav-link" data-scroll-target="#source-and-evidence">Source and evidence</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+<section id="gbayes-methods-and-algorithms" class="level1">
+<h1>gbayes methods and algorithms</h1>
+<p>Current focused developer checkpoint: 8 November 2026. gbayes 0.1.16 and gscore 0.1.2 build and pass the focused references for the annotation, residual-learning, population, scalar IBSS, weighted elastic-net, prepared-design, streamed/batched mixture and Gaussian co-data extensions below. The gmap 0.2.11 consumer also builds and passes its saved-fit checks. This is isolated developer validation, not a published release, complete R CMD check or broad statistical calibration. Full-model co-data CV remains planned; gscore selects the ordinary ridge initializer only.</p>
+<p>This page records the four common genomic interfaces, their existing native engines, and the remaining adapter boundaries. It is a capability matrix, not a count of benchmark configurations or a new statistical qualification. The working checkout includes the recent adapters; this does not imply that every route is in a published package release.</p>
+<p><code>method</code> identifies the fitted family. <code>algorithm</code> identifies computation. Annotations, MAF bins, supplied prior means, penalty grids and fold selection are configurations or workflow choices. They do not each create a new method. The common interfaces also accept the checked multi_effect and normal_mixture routes below. Several spellings share a statistical family; native coverage is wider than the exposed R adapters.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Interface</th>
+<th>Fitted input and effect axes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>bayes</code></td>
+<td>One quantitative phenotype and selected individual genotypes</td>
+</tr>
+<tr class="even">
+<td><code>sbayes</code></td>
+<td>One trait’s marginal summaries and prepared LD</td>
+</tr>
+<tr class="odd">
+<td><code>mbayes</code></td>
+<td>Joint quantitative phenotypes on one selected genotype panel</td>
+</tr>
+<tr class="even">
+<td><code>msbayes</code></td>
+<td>Joint trait/study/population summaries with explicit sampling dependence and LD/reference mapping</td>
+</tr>
+</tbody>
+</table>
+<section id="available-through-the-four-common-interfaces" class="level2">
+<h2 class="anchored" data-anchor-id="available-through-the-four-common-interfaces">Available through the four common interfaces</h2>
+<p>Every non-dash cell below is an accepted, case-sensitive <code>algorithm</code> value for that exact row’s <code>method</code>. A dash means no common adapter for that pair. It does not imply that the native library lacks related computation. Unsupported method/algorithm combinations fail; there is no unrestricted Cartesian product.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Family / public <code>method</code></th>
+<th><code>bayes</code></th>
+<th><code>sbayes</code></th>
+<th><code>mbayes</code></th>
+<th><code>msbayes</code></th>
+<th>Current contract or qualification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Spike-and-normal, <code>bayesC</code></td>
+<td><code>mcmc</code>, <code>vbayes</code></td>
+<td><code>mcmc</code>, <code>vbayes</code></td>
+<td><code>mcmc</code></td>
+<td><code>mcmc</code></td>
+<td>Scalar VB uses fixed scalar or marker probability/variance priors and ve. Named marker priors/means are scalar only; joint C uses activity patterns and covariance.</td>
+</tr>
+<tr class="even">
+<td>Gaussian variance mixture, <code>bayesR</code></td>
+<td><code>mcmc</code></td>
+<td><code>mcmc</code></td>
+<td><code>mcmc</code></td>
+<td><code>mcmc</code></td>
+<td>Scalar zero/positive variance classes; joint positive magnitudes plus activity patterns. Learning is route-specific.</td>
+</tr>
+<tr class="odd">
+<td>Annotation mixture, <code>bayesRC</code></td>
+<td><code>mcmc</code></td>
+<td><code>mcmc</code></td>
+<td><code>mcmc</code></td>
+<td><code>mcmc</code></td>
+<td>Scalar sbayes requires block_eigen. Joint routes fix residual/sampling covariance and use role-labelled pattern/component/variance annotations.</td>
+</tr>
+<tr class="even">
+<td>Covariance-dictionary mixture / mr.mash, <code>bayesCM</code></td>
+<td><code>vbayes</code></td>
+<td>—</td>
+<td><code>vbayes</code></td>
+<td>—</td>
+<td>Individual covariance-dictionary EB; joint missing outcomes supported. Exact/RSS companions are available separately.</td>
+</tr>
+<tr class="odd">
+<td>Marker-factor regression / MegaBayesC, <code>bayesFR</code></td>
+<td>—</td>
+<td>—</td>
+<td><code>mcmc</code></td>
+<td>—</td>
+<td>Direct plus factor-mediated marker effects; missing outcomes supported. Bounded adapter and unresolved full-model mixing limits.</td>
+</tr>
+<tr class="even">
+<td>Relationship factor model / MegaLMM, <code>bayesFA</code></td>
+<td>—</td>
+<td>—</td>
+<td><code>mcmc</code></td>
+<td>—</td>
+<td>Genetic fitted values/covariance; no identified marker coefficients. Bounded adapter, not a general marker-effect estimator.</td>
+</tr>
+<tr class="odd">
+<td>Elastic net, <code>elastic_net</code></td>
+<td><code>coordinate_descent</code></td>
+<td>—</td>
+<td><code>coordinate_descent</code></td>
+<td>—</td>
+<td>One fixed candidate: scalar ordinary or covariance-scaled penalty; joint trait covariance is required. Five-fold selection/averaging is a separate existing benchmark workflow.</td>
+</tr>
+<tr class="even">
+<td>Laplace–Gaussian mixture, <code>laplace_gaussian</code></td>
+<td><code>vbayes</code></td>
+<td>—</td>
+<td><code>vbayes</code></td>
+<td>—</td>
+<td>Fixed prior scales and diagonal residual covariance; joint effects have a shared marker label and Gaussian covariance.</td>
+</tr>
+<tr class="odd">
+<td>Marker-specific Gaussian, <code>marker_gaussian</code></td>
+<td><code>pcg</code></td>
+<td><code>pcg</code></td>
+<td>—</td>
+<td>—</td>
+<td>Fixed named markerVariance and optional markerMean; zero variance fixes a coefficient at its supplied mean. Deterministic mean only.</td>
+</tr>
+<tr class="even">
+<td>Fixed/auto point-normal summary model, <code>point_normal</code></td>
+<td>—</td>
+<td><code>mcmc</code></td>
+<td>—</td>
+<td>—</td>
+<td>Fixed or coupled polygenicity/heritability updates; sparse output is incompatible with auto updates. Common N, sparse LD.</td>
+</tr>
+<tr class="odd">
+<td>Continuous shrinkage, <code>continuous_shrinkage</code></td>
+<td>—</td>
+<td><code>mcmc</code></td>
+<td>—</td>
+<td>—</td>
+<td>Existing scalar block model with fixed/learned global shrinkage and no spike PIP. Population msbayes adapters have the focused checks below; their scientific limits remain.</td>
+</tr>
+<tr class="even">
+<td>Fixed point-normal mean field, <code>variational</code></td>
+<td>—</td>
+<td><code>vbayes</code></td>
+<td>—</td>
+<td>—</td>
+<td>Existing spelling: pi/h2 parameterization, unit residual variance, common N, optional ordered windows.</td>
+</tr>
+<tr class="odd">
+<td>Fixed Gaussian-mixture mean field, <code>mixture_variational</code></td>
+<td>—</td>
+<td><code>vbayes</code></td>
+<td>—</td>
+<td>—</td>
+<td>Absolute component variances vb and weights pi, optional fixed marker slab multipliers and ve; common N.</td>
+</tr>
+<tr class="even">
+<td>Shared-LD multivariate SuSiE, <code>mvsusie</code></td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td><code>ibss</code></td>
+<td>One shared LD/design, full common markers/N, fixed sampling covariance and PSD effect templates.</td>
+</tr>
+<tr class="odd">
+<td>Independent-study/population MultiSuSiE, <code>multisusie</code></td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td><code>ibss</code></td>
+<td>Independent studies, separate LD/N and local marker maps, checked OLS coordinates; optional variance learning has strict normalization gates.</td>
+</tr>
+</tbody>
+</table>
+<p>All four functions default to <code>method="bayesR"</code>. <code>algorithm=NULL</code> selects the method default: MCMC for C/R/RC, factors, point_normal and continuous_shrinkage; VB for CM, Laplace–Gaussian and the two named summary variational engines; PCG for marker_gaussian; IBSS for the SuSiE engines. In pending source, prior$coData selects the direct Gaussian default for the bounded scalar X route. BayesC keeps MCMC as its default even though explicit scalar <code>algorithm="vbayes"</code> is now available.</p>
+<p>The current factor adapters require 3–256 selected individuals, 2–128 traits and at most 16 factors, plus their memory admission. Current IBSS adapters use a bounded one-chromosome domain (default maximum 2,048 markers); they are not unbounded genome-wide fits. These limits are separate from a method existing.</p>
+<section id="configurations-that-must-not-be-collapsed-into-one-claim" class="level3">
+<h3 class="anchored" data-anchor-id="configurations-that-must-not-be-collapsed-into-one-claim">Configurations that must not be collapsed into one claim</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Existing configuration</th>
+<th>Exact selector / distinguishing arguments</th>
+<th>Boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ordinary BayesC</td>
+<td><code>method="bayesC", algorithm="mcmc"</code>; scalar pi/vb/ve or joint patterns/covariance; existing update flags</td>
+<td>Scalar and joint learning depend on the admitted likelihood.</td>
+</tr>
+<tr class="even">
+<td>Fixed marker-specific BayesC</td>
+<td><code>method="bayesC"</code>, <code>algorithm="mcmc"</code> or <code>"vbayes"</code>; optional named slabMean; scalar pi or prior<span class="math inline">\(markerInclusionProbability, scalar vb or prior\)</span>markerSlabVariance, explicit ve</td>
+<td>bayes/sbayes only; complete named vectors, active probabilities inside (0,1), positive absolute slab variances; no scalar/vector conflicts or learning. Spike stays zero; means default to zero. No capture/continuation/gmap.</td>
+</tr>
+<tr class="odd">
+<td>Intercept-only scalar summary BayesRC</td>
+<td><code>method="bayesRC", algorithm="mcmc", representation="block_eigen"</code>; marker-labelled zero-column <code>annotation$component$design</code></td>
+<td>sbayes only for this common zero-feature contract.</td>
+</tr>
+<tr class="even">
+<td>Annotated and MAF/group BayesRC</td>
+<td>Same method/algorithm; nonempty labelled component design, optional summary <code>annotation$variance</code>; summary fixed <code>prior$markerSlabScale</code></td>
+<td>Annotation probabilities/relative scales are not independent group-by-slab variance parameters. Individual zero-feature RC is not exposed.</td>
+</tr>
+<tr class="odd">
+<td>Joint BayesRC</td>
+<td>Same method/algorithm through mbayes/msbayes; pattern/component roles and optional variance design; fixed residual covariance</td>
+<td>Pattern includes null; positive magnitude components condition on a nonnull pattern. Prior probabilities differ from posterior assignments.</td>
+</tr>
+<tr class="even">
+<td>Gaussian means</td>
+<td><code>method="marker_gaussian", algorithm="pcg", prior=list(markerVariance=v, markerMean=m)</code></td>
+<td>bayes/sbayes; fixed ve, no posterior variance or PIP claim.</td>
+</tr>
+<tr class="odd">
+<td>Ordinary/covariance-scaled elastic net</td>
+<td><code>method="elastic_net", algorithm="coordinate_descent"</code>, control lambda/alpha; optional scalar or required joint <code>control$covariance</code></td>
+<td>Individual inputs. Candidate fitting stays in gbayes.</td>
+</tr>
+<tr class="even">
+<td>Scalar five-fold elastic-net selection/averaging</td>
+<td>Existing benchmark helper fit_elastic_net_cmsa calls scalar bayes elastic_net/coordinate_descent candidates and assembles the saved fit</td>
+<td>Training-only workflow; there is no common <code>control$selection</code> selector for this.</td>
+</tr>
+<tr class="odd">
+<td>BayesR Grid workflow</td>
+<td>gscore selection/refit around sbayes <code>bayesR</code>/<code>mcmc</code> or <code>mixture_variational</code>/<code>vbayes</code>; supplied marker priors distinguish grids</td>
+<td>There is no accepted <code>method="megaprs"</code>, <code>method="ensemble"</code>, or <code>bayesR</code>/<code>vbayes</code> pair.</td>
+</tr>
+</tbody>
+</table>
+<p>Individual effect units follow saved training coding and outcome scale. Ordinary summary C/R/RC/Gaussian/VB effects use standardized phenotype/genotype units; MultiSuSiE preserves its checked OLS study coordinates. Supplied means already match fitted counted alleles/units. Algorithm names alone do not define units, sampling assumptions, exactness, PIP meaning, continuation or mapping eligibility. Use the saved <code>bayesfit</code>, <code>fit_contract()</code> and route-specific availability fields. Mean-field PIPs are approximate activity probabilities; continuous priors have no spike PIPs; single-effect assignments are different from joint activity.</p>
+</section>
+</section>
+<section id="source-ready-additions-awaiting-batch-validation" class="level2">
+<h2 class="anchored" data-anchor-id="source-ready-additions-awaiting-batch-validation">Annotation, population, penalty and prepared-design routes</h2>
+<p>These extensions passed focused developer references in isolated gbayes 0.1.16 and, for initializer selection, gscore 0.1.2. Passing these small references does not establish general posterior calibration or lift the restrictions below.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method and algorithm</th>
+<th>Target</th>
+<th>Source implementation</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>bayesC / mcmc</td>
+<td>bayes, sbayes</td>
+<td>Logistic inclusion annotations, relative log-variance annotations, explicit BayesS-style MAF exponent</td>
+<td>Focused references passed in 0.1.16</td>
+</tr>
+<tr class="even">
+<td>bayesR / mcmc</td>
+<td>bayes, sbayes</td>
+<td>Continuation-probit component annotations, relative log-variance annotations, explicit MAF exponent; intercept-only probit design permitted</td>
+<td>Focused references passed in 0.1.16</td>
+</tr>
+<tr class="odd">
+<td>Informed bayesC / mcmc</td>
+<td>bayes, sbayes</td>
+<td>updateE=TRUE with fixed marker priors, proper scaled-inverse-chi-square residual prior and exact in-sample normalization</td>
+<td>Native engine reused; focused references passed in 0.1.16</td>
+</tr>
+<tr class="even">
+<td>bayesC, bayesR / mcmc</td>
+<td>msbayes</td>
+<td>updateE=TRUE with independent providers, provider-named scatter/dimensions/priors, full in-sample LD and separate residual scales</td>
+<td>Native engine reused; focused references passed in 0.1.16</td>
+</tr>
+<tr class="odd">
+<td>continuous_shrinkage / mcmc</td>
+<td>msbayes</td>
+<td>prior<span class="math inline">\(hierarchy="prs_csx"; independent population axes, one phenotype, prepared ordered marker intersection, population LD/N/blocks | Native engine reused; focused references passed in 0.1.16 |
+| continuous_shrinkage / mcmc | msbayes | prior\)</span>hierarchy=“jointprs_reference” plus named correlationCaps</td>
+<td>Focused native-transition checks passed in 0.1.16; experimental native reference transition/mixing limitations retained</td>
+</tr>
+<tr class="even">
+<td>continuous_shrinkage / mcmc</td>
+<td>msbayes</td>
+<td>prior<span class="math inline">\(hierarchy="panther_reference" plus sharingGroups, pantherRoute and outputPopulation | Focused native-transition checks passed in 0.1.16; supplied categories are not sharing probabilities |
+| multi_effect / ibss | sbayes | OLS score/information, or beta/SE/N plus control\)</span>phenotypeVariance via public gmap_stat; full-rank complete bounded LD; optional component/residual learning</td>
+<td>Focused references passed in 0.1.16; no saved scalar gmap adapter</td>
+</tr>
+<tr class="odd">
+<td>elastic_net / coordinate_descent</td>
+<td>bayes, mbayes</td>
+<td>control<span class="math inline">\(l1Weights and/or l2Weights: named nonnegative direct multipliers on empirical-SD effects; scalar or required SPD joint covariance composes with them; marker vectors shared across traits, L2 weights full precision blocks | Native packed/operator/L1-quadratic engine reused; focused references passed in 0.1.16; new joint native symbol built and checked |
+| elastic_net / coordinate_descent | sbayes | Same named marker weights; common GWAS N, sparse reference LD, standardized summary effects and scalar penalty covariance; defaults give unit weights | Existing native disk LD/common-N Gaussian/L1-quadratic APIs reused with no new native changes; focused references passed in 0.1.16; supplied PSD LD assumed, not certified/repaired |
+| elastic_net / coordinate_descent | msbayes | Same shared marker vectors, required SPD penalty K and distinct explicit sampling; one full ordered provider per trait, 2--32 traits; independent per-provider LD/common N or shared LD/equal N | Native covariance operator/optimizer reused through additive summary binding; focused references passed in 0.1.16; losses normalized per provider; no PSD certification/repair |
+| marker_gaussian / pcg | bayes X; exact blr companion | Bounded labelled centered dense X or exact XX/Xy; fixed named markerVariance/markerMean and ve; supplied feature units | Existing Gaussian PCG fitter reused; focused references passed in 0.1.16; no new native owner API |
+| elastic_net / coordinate_descent | bayes X; exact blr companion | Same prepared inputs, fixed named markerMean penalty center and L1/L2 weights, normalized loss/(2*n) and scalar penalty K | Existing L1/quadratic fitter reused; focused references passed in 0.1.16; scalar dense only; no tuning |
+| marker_gaussian / gaussian | bayes X | prior\)</span>coData: one covered overlapping group set, matrix/dgCMatrix, frozen coding, fixed noise/hyperLambda; fixed or bounded known-noise ML global variance</td>
+<td>Existing native fit_gaussian_co_data and sparse predictor reused; focused references passed in 0.1.16; no implicit intercept, posterior variance or PIPs</td>
+</tr>
+<tr class="even">
+<td>marker_gaussian / gaussian</td>
+<td>bayes X</td>
+<td>prior<span class="math inline">\(coData\)</span>sets: multiple covered named group sets; scalar or set-named hyperLambda, separate normalize/normalizeSets, native weightRule and optional setWeights solver controls</td>
+<td>Native fit_gaussian_co_data_multi reused; focused references passed in 0.1.16; shared global ML once, no joint traits/PIPs, retained zero-profile/rank limits</td>
+</tr>
+<tr class="odd">
+<td>marker_gaussian / gaussian</td>
+<td>bayes X</td>
+<td>prior<span class="math inline">\(coData\)</span>hyperLambda=0 with saved named feature-group splits; single groups or selected multiple sets; mixed fixed/tuned penalties, control<span class="math inline">\(tuning and maxSplits | Native path/bounds/raw-gamma criterion reused; focused references passed in 0.1.16; feature-group equation selection, not patient CV; failed searches yield no accepted fit |
+| marker_gaussian / gaussian | bayes X | coData\)</span>globalMode=“joint_noise_ml”, explicit varianceRatioBounds=s/t interval, omitted ve/globalVariance/varianceBounds; single/multiple sets and fixed/split-tuned penalties</td>
+<td>Existing native bounded joint profile reused once before group learning; focused references passed in 0.1.16; per-set variances frozen, no REML/intercept/uncertainty or patient CV</td>
+</tr>
+<tr class="even">
+<td>normal_mixture / vbayes</td>
+<td>bayes X</td>
+<td>Labelled matrix or immutable column-reader source; absolute vb component variances/pi weights, fixed ve, explicit fixed covariates, optional named independent candidates</td>
+<td>Native fit_variational_prediction reused; focused references passed in 0.1.16; mean-field moments, no PIPs or selection; not BayesR/vbayes</td>
+</tr>
+<tr class="odd">
+<td>laplace_gaussian / vbayes</td>
+<td>bayes X</td>
+<td>Same streamed/batched source and fixed design; per-feature vb and Laplace probability/normal variance fraction</td>
+<td>Existing native elastic prior reused; focused references passed in 0.1.16; supplied feature units; existing packed Glist route unchanged</td>
+</tr>
+</tbody>
+</table>
+<p>BayesC baseline pi learning stays separate from inclusion-slope learning. BayesR component annotations replace global weight learning; updatePi controls annotation learning there. Designs/allele frequencies have exact fitted-marker order. The MAF exponent acts on the fitted effect-variance scale with centered log(2p(1-p)), not an automatically translated raw-dosage model. Joint C/R, variational/fixed-informed annotations, capture, continuation and saved gmap conversion remain gated. The existing BayesRC contract is unchanged.</p>
+</section>
+<section id="existing-engines-with-common-adapters-still-missing-or-partial" class="level2">
+<h2 class="anchored" data-anchor-id="existing-engines-with-common-adapters-still-missing-or-partial">Existing engines with common adapters still missing or partial</h2>
+<p>The native algorithm column describes actual C++ computation. It is <strong>not</strong> a newly accepted R algorithm value. Target interfaces/families are adapter plans, not callable selectors. A partial row means some native configurations already appear above; it does not mean the entire engine is unavailable.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Existing engine/configuration</th>
+<th>Native computation</th>
+<th>Common target / current gap</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Generic Gaussian ridge and supplied means, <code>fit_gaussian_ridge</code></td>
+<td>PCG</td>
+<td>Bounded scalar prepared bayes X and exact blr Gaussian means have focused checks in 0.1.16 via marker_gaussian/pcg. Generic sparse/streamed/joint designs remain separate. Exact C belongs in blr, not GWAS stat.</td>
+<td>Partial; bounded scalar dense references passed</td>
+</tr>
+<tr class="even">
+<td>Weighted L1/L2 and generic elastic net, <code>fit_l1_quadratic</code>, <code>fit_elastic_net</code></td>
+<td>Coordinate descent; pure ridge delegates PCG</td>
+<td>Weighted four-interface routes plus bounded scalar bayes X/exact blr with fixed means have focused checks in 0.1.16. Sparse/streamed/joint generic designs and broader summary maps remain separate. Alpha=0 stays gated; Gaussian priors use PCG.</td>
+<td>Partial; weighted and bounded scalar dense references passed</td>
+</tr>
+<tr class="odd">
+<td>Coupled penalized Gaussian effects, <code>fit_coupled_penalized</code></td>
+<td>Coordinate descent</td>
+<td>A genuinely coupled multi-provider objective; future mbayes/msbayes input/axis contract, not repeated scalar fits. Public name undecided.</td>
+<td>Adapter needed</td>
+</tr>
+<tr class="even">
+<td>Streamed/batched normal mixtures, <code>fit_variational_prediction</code>, normal_mixture family</td>
+<td>Variational coordinate updates</td>
+<td>Scalar bayes normal_mixture/vbayes with labelled matrix/column-reader X, fixed design and independent candidate batching has focused checks. No BayesR/vbayes alias; packed/multivariate, active subsets and experimental schedules remain separate.</td>
+<td>Adapter references passed; scientific limits retained</td>
+</tr>
+<tr class="odd">
+<td>Streamed/batched elastic continuous prior, same fitter, elastic family</td>
+<td>Variational coordinate updates</td>
+<td>Scalar bayes laplace_gaussian/vbayes has checked streamed X, fixed design and independent candidates. Existing packed/joint contracts remain; their batching and other native controls are separate.</td>
+<td>Partial; bounded scalar stream references passed</td>
+</tr>
+<tr class="even">
+<td>Full informed BayesC envelope, <code>fit_informed_bayesc</code>, <code>fit_informed_bayesc_variational</code></td>
+<td>MCMC / mean-field coordinates</td>
+<td>Scalar means, marker probabilities and absolute slab variances now exposed with fixed priors. Exact normalized MCMC residual learning has focused checks in 0.1.16; VB residual remains fixed.</td>
+<td>Adapter references passed; scientific limits retained</td>
+</tr>
+<tr class="odd">
+<td>C/R inclusion/component/log-variance and BayesS-style MAF exponent controls</td>
+<td>MCMC</td>
+<td>Legacy routes work. Scalar common C/R role/MAF adapters have focused checks in 0.1.16. They retain different baseline/prior semantics from BayesRC.</td>
+<td>Adapter references passed; scientific limits retained</td>
+</tr>
+<tr class="even">
+<td>Richer joint annotation/covariance-template controls, <code>fit_multivariate_mixture</code></td>
+<td>MCMC</td>
+<td>Fixed-residual common joint RC is done. Additional native/legacy controls and cross-product RC remain separate.</td>
+<td>Partial</td>
+</tr>
+<tr class="odd">
+<td>Provider-specific residual learning, <code>fit_multivariate_residual</code></td>
+<td>MCMC + exact residual variance updates</td>
+<td>msbayes C/R adapter has focused checks in 0.1.16 with exact independent-provider scatter/dimensions and proper priors. Shared-LD covariance learning stays separate.</td>
+<td>Adapter references passed; scientific limits retained</td>
+</tr>
+<tr class="even">
+<td>PRS-CSx hierarchy, <code>fit_population_shrinkage</code></td>
+<td>MCMC</td>
+<td>msbayes continuous_shrinkage/mcmc with prior<span class="math inline">\(hierarchy="prs_csx", independent population LD/N and an explicit ordered marker intersection. | Adapter references passed; scientific limits retained |
+| JointPRS reference hierarchy, same fitter | MCMC | Same source family with prior\)</span>hierarchy=“jointprs_reference”, explicit correlationCaps and acceptance/selected-trace diagnostics. Existing experimental limits remain.</td>
+<td>Adapter references passed; scientific limits retained</td>
+</tr>
+<tr class="odd">
+<td>Panther reference, <code>fit_panther_reference</code></td>
+<td>MCMC</td>
+<td>Same source family with prior<span class="math inline">\(hierarchy="panther_reference", explicit sharingGroups/pantherRoute/outputPopulation; all native estimated population effects retained. | Adapter references passed; scientific limits retained |
+| Early-stopped transfer, `fit_gradient_early_stopping` | Cyclic coordinate gradients | Source initialization, receiving-training validation and stopping adapter; no public method/algorithm spelling agreed. | Adapter needed |
+| Gaussian co-data, `fit_gaussian_co_data`, `fit_gaussian_co_data_multi` and variance/hyper-ridge primitives | Gaussian solves, group moments, bounded ML/tuning | Bounded scalar one- and multiple-set fixed-noise/fixed-hyperLambda bayes marker_gaussian/gaussian adapters have focused checks above, including native set weights. Native saved feature-group split/path tuning has focused checks too, along with bounded initial joint residual/global ML. Supplied-fold initializer CV has focused checks via gscore 0.1.2; full-model CV remains separate. | Partial; bounded scalar adapter references passed |
+| Supplied-fold Gaussian ridge path, `fit_gaussian_ridge_cv` | Fold selection + Gaussian refit | Bounded co-data initializer statistics and gscore selection are checked. A standalone generic ridge CV fit/refit adapter remains separate; CV is not a new prior or MCMC algorithm. | Partial; co-data initializer checked; generic adapter planned |
+| Fixed summary mismatch C/R, `fit_summary_mismatch_bayesc`, `fit_summary_mismatch_bayesr` | MCMC | sbayes C/R with a separately prepared full-LD mismatch likelihood; no accepted common selector yet. | Adapter needed |
+| Learned summary mismatch C/R, `fit_learned_mismatch_bayesc`, `fit_learned_mismatch_bayesr` | Effect MCMC + mismatch-variance MH | As above with proper mismatch prior; experimental mixing/calibration limits remain. | Adapter needed |
+| Scalar sum of single effects, `fit_multi_effect` | IBSS | sbayes multi_effect/ibss adapter reuses this native engine and gmap-compatible OLS/full-rank preparation. The existing gmap route is unchanged. | Adapter references passed; scientific limits retained |
+| Multi-LD single effect, `fit_multi_ld_single_effect` | Gaussian single-effect calculation | Already reused inside native/common MultiSuSiE; no standalone common one-component facade. | Reused; standalone adapter optional |
+| Learned scalar single-effect variance, `fit_single_effect_learned` | Single-effect calculation + EM/null-boundary optimization | Fixed helper is unchanged. Scalar sbayes multi_effect/ibss with control\)</span>effects=1 and updateB=TRUE exposes the checked component variance-learning engine.</td>
+<td>Bounded scalar IBSS references passed; standalone helper unchanged</td>
+</tr>
+<tr class="even">
+<td>Robust sparse components, <code>fit_rsparsepro</code></td>
+<td>Deterministic robust-component updates</td>
+<td>Already in gmap rsparsepro; no sbayes adapter. Its Z-statistic effects require a separate scale contract.</td>
+<td>Other R interface available</td>
+</tr>
+<tr class="odd">
+<td>RSS covariance-dictionary regression, <code>fit_mr_mash_rss</code></td>
+<td>Variational EB</td>
+<td>Available via blr/mblr and specialist mr_mash_rss; no sbayes/msbayes marginal-table adapter.</td>
+<td>Other R interfaces available</td>
+</tr>
+</tbody>
+</table>
+<p>No new sampler is needed merely to expose those existing engines. Their missing work is not uniformly trivial: prepared-design contracts, effect scales, sampling dependence, result adapters and focused references must agree first. Missing native statistical capabilities, if requested, require a separate scope.</p>
+</section>
+<section id="different-likelihoods-or-structured-effects-separate-admission-decisions" class="level2">
+<h2 class="anchored" data-anchor-id="different-likelihoods-or-structured-effects-separate-admission-decisions">Different likelihoods or structured effects: separate admission decisions</h2>
+<p>These native engines also exist, but cannot be silently admitted as priors for the four current quantitative-trait contracts. None has an agreed common method/algorithm selector. Presence in this table does not authorize an adapter.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Native family</th>
+<th>Existing computation</th>
+<th>Required contract before common exposure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ancestry-specific Gaussian: dense, packed marker/block, global mean/sampling, learned covariance, LD-boundary variants</td>
+<td>Gaussian factorization; Gibbs; PCG; perturb-and-solve; inverse-Wishart learning</td>
+<td>Phased ancestry-panel axes and centering, allele/reference identity, channel covariance, boundary approximations and existing solve acceptance gates. Ancestry channels are not interchangeable ordinary traits.</td>
+</tr>
+<tr class="even">
+<td>Gaussian-prior logistic: dense, sparse, structured sparse</td>
+<td>Elliptical-slice MCMC</td>
+<td>Explicit binary likelihood/link, intercept propriety, prepared designs and log-odds units.</td>
+</tr>
+<tr class="odd">
+<td>Binary Gaussian mixtures and Bridge, <code>fit_sparse_binary_mixture</code></td>
+<td>Polya–Gamma Gibbs and admitted slice/normal-stable/interwoven Bridge transitions</td>
+<td>Binary design and prior/scale-learning contract. These are not the quantitative BayesC/R likelihood.</td>
+</tr>
+<tr class="even">
+<td>Informed binary Bridge, <code>fit_informed_bridge_logistic</code></td>
+<td>Augmented MCMC</td>
+<td>Binary likelihood plus source Gaussian moments and explicit borrowing hierarchy.</td>
+</tr>
+<tr class="odd">
+<td>Temporal Gaussian blocks, <code>fit_temporal_gaussian</code></td>
+<td>Whole-curve spike/slab block Gibbs</td>
+<td>Frozen temporal/basis blocks, nuisance design, curve-selection probabilities and reconstruction; not independent SNP effects.</td>
+</tr>
+<tr class="even">
+<td>Competing/grouped/structured/scaled-correlated survival, including BayesC/R and learned mixture/slab-scale variants</td>
+<td>Joint-hazard MCMC with family-specific indicator/scale/weight updates</td>
+<td>Time/risk-set/event/censoring design, joint cause likelihood, log-hazard coefficient units and risk prediction.</td>
+</tr>
+<tr class="odd">
+<td>Latent signature hazard and signature kernels</td>
+<td>Checked local MAP / hyperparameter optimization</td>
+<td>Latent signature/GP and hazard data contracts; no ordinary marker PIP interpretation or global-optimum claim.</td>
+</tr>
+<tr class="even">
+<td>Coupled probit SSVS; joint/cut-feedback probit MC3</td>
+<td>Latent-probit/indicator or model-space MCMC</td>
+<td>Treatment/outcome roles, feedback choice, source/rank assumptions and risk contrasts.</td>
+</tr>
+<tr class="odd">
+<td>Bootstrap logistic MSM and surrogate synthesis</td>
+<td>Unit-mass bootstrap weighted logistic fits; WLS / errors-in-variables block Gibbs</td>
+<td>Declared resampling units, causal/transport estimand and trial/observational designs. These are not new marker-prior methods.</td>
+</tr>
+</tbody>
+</table>
+<p>The native header review covers these fitting families rather than treating every operator, conditional, score, prediction helper or numerical overload as a separate method. Native headers alone establish source presence, not fresh numerical qualification of these broader likelihoods.</p>
+</section>
+<section id="available-elsewhere-retain-ownership" class="level2">
+<h2 class="anchored" data-anchor-id="available-elsewhere-retain-ownership">Available elsewhere: retain ownership</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Existing route</th>
+<th>Where it works now</th>
+<th>Relationship to these four interfaces</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Exact C/R and mr.mash/RSS</td>
+<td>gbayes blr/mblr; specialist gbayes_multitrait</td>
+<td>Already exposed, different prepared-input contract.</td>
+</tr>
+<tr class="even">
+<td>Fixed scalar single effect</td>
+<td>gbayes_single_effect</td>
+<td>Existing helper, not a common dispatcher method.</td>
+</tr>
+<tr class="odd">
+<td>Regional IBSS, robust sparse components, regional scalar/joint C/R and saved-fit interpretation</td>
+<td>gmap</td>
+<td>Regional likelihoods and posterior interpretation; common adapters are described above.</td>
+</tr>
+<tr class="even">
+<td>Local/transferred BayesC and continuous transfer mixtures</td>
+<td>gshare / gshare_bmm</td>
+<td>Source-message and transfer hierarchy ownership stays with gshare; supplying a fixed slabMean is not automatic transfer-model fitting.</td>
+</tr>
+<tr class="odd">
+<td>SNP-BLUP, weighted genomic prediction and single-step marker effects</td>
+<td>greml with existing gsolve/genotype operators</td>
+<td>Mixed-model fitting stays in greml. A labelled marker-effect handoff does not make it a new gbayes prior.</td>
+</tr>
+<tr class="even">
+<td>Grid selection, fold selection, weight/scoring application and score stacking/meta-combination</td>
+<td>gscore; native score learner primitives</td>
+<td>Prediction orchestration or score-level optimization, not additional marker-effect priors.</td>
+</tr>
+<tr class="odd">
+<td>Marginal, conditional, binary and LOCO association coefficients</td>
+<td>glma</td>
+<td>Association workflows have their own estimands; not interchangeable with whole-panel adjusted posterior marker effects.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="source-and-evidence" class="level2">
+<h2 class="anchored" data-anchor-id="source-and-evidence">Source and evidence</h2>
+<p>Admission was checked against the current package dispatchers individual.R and summary.R and the CM, factor, RC, informed BayesC, Gaussian, elastic-net, Laplace–Gaussian, specialized-summary and IBSS adapters. Native presence was checked against the owning gbayes public headers and current source/docs. No sibling source is copied or made a runtime dependency by this page.</p>
+<p>The slab-mean baseline has 101 focused assertions and related interface/continuation/Gaussian/VB/gmap regression evidence. Marker probability/variance adapters extend its independent mixture and coordinate reference tests. Other existing routes retain their recorded qualification. This documentation update does not rerun every fitter or establish genome-scale calibration/performance. The old prediction benchmark is a legacy regression panel, never the capability boundary.</p>
+<p>See the <a href="../../gsuite/docs/gbayes-design.html">interface contract</a>, <a href="../../gsuite/docs/gbayes-workflow.html">workflow</a> and <a href="../../gsuite/docs/status.html#qualification-limits">qualification limits</a> for detailed inputs and unresolved limits. Saved-fit gmap conversion is method-specific; implementing a fitter does not automatically qualify posterior-set conversion.</p>
+<p>The bounded scalar co-data contract is described in the <a href="../../gsuite/docs/gbayes-design.html#scalar-gaussian-co-data-with-frozen-design-coding">design</a>. Its gaussian algorithm does not turn other marker_gaussian routes into direct solvers.</p>
+<p>Multiple annotation sets use the same method/algorithm and the same scalar effect/prediction contract; see the <a href="../../gsuite/docs/gbayes-design.html#multiple-annotation-group-sets">design contract</a>. Set weights are prior-variance multipliers, not posterior model probabilities.</p>
+<p>Saved feature-group tuning uses zero hyperLambda and explicit saved partitions with the same family/algorithm, units and prediction contract. See the <a href="../../gsuite/docs/gbayes-design.html#saved-feature-group-split-tuning">design contract</a>. These splits do not replace patient train/test separation.</p>
+<p>Scalar co-data residual learning uses the same family/algorithm and one-time native joint_noise_ml, not a new joint-trait method or iterative noise sampler. See the <a href="../../gsuite/docs/gbayes-design.html#residual-variance-learning-in-scalar-co-data">design contract</a>.</p>
+<p>Supplied-fold co-data initializer CV is a gscore workflow, not a new bayes method or algorithm: gscore::co_data_cv selects/verifies public gbayes fold statistics then calls bayes marker_gaussian/gaussian at the frozen pair. Both group/set routes and fixed/feature-split-tuned penalties compose with it. Focused references pass in development gscore 0.1.2 / gbayes 0.1.16. See the <a href="../../gsuite/docs/gbayes-design.html#supplied-fold-co-data-initialization-with-gscore-selection">design contract</a>. These tuning losses are not final annotated-model/outer performance estimates.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button,
+          { trigger: "manual",
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/psoerensen\.github\.io\/gtools\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined;
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              }
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            }
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>gsuite: seven public R packages. Standalone application: licence required. Mixed-model R packaging is deferred. gsim and gact are public. Teaching materials: gteach.</p>
+</div>
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

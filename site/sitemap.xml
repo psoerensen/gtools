@@ -118,7 +118,7 @@
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/gbayes-design.html</loc>
-    <lastmod>2026-11-02T08:33:03.625Z</lastmod>
+    <lastmod>2026-11-09T08:43:05.370Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/gcorr-method-comparison.html</loc>
@@ -302,7 +302,7 @@
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/gbayes-workflow.html</loc>
-    <lastmod>2026-11-02T08:33:03.603Z</lastmod>
+    <lastmod>2026-11-09T08:43:05.354Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/gmap-workflow.html</loc>
@@ -419,5 +419,9 @@
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/large-scale-phenomics.html</loc>
     <lastmod>2026-11-02T08:33:03.934Z</lastmod>
+  </url>
+<url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/gbayes-method-algorithms.html</loc>
+    <lastmod>2026-11-09T08:43:05.385Z</lastmod>
   </url>
 </urlset>
