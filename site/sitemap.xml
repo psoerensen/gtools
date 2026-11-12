@@ -2,426 +2,430 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/future-of-breeding.html</loc>
-    <lastmod>2026-11-02T21:35:32.232Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.295Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/references.html</loc>
-    <lastmod>2026-11-02T21:35:32.201Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.291Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/qualification-framework.html</loc>
-    <lastmod>2026-11-02T21:35:32.198Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.290Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/development-of-genetic-evaluation.html</loc>
-    <lastmod>2026-11-02T21:35:32.182Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.287Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/current-developments.html</loc>
-    <lastmod>2026-11-02T21:35:32.166Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.284Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/large-scale-computation.html</loc>
-    <lastmod>2026-11-02T21:35:32.151Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.282Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/genetic-bases-and-crossbreeding.html</loc>
-    <lastmod>2026-11-02T21:35:32.136Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.279Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/missing-data-and-selection.html</loc>
-    <lastmod>2026-11-02T21:35:32.117Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.275Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/components-and-identifiability.html</loc>
-    <lastmod>2026-11-02T21:35:32.112Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.272Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/variance-component-inference.html</loc>
-    <lastmod>2026-11-02T21:35:32.100Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.268Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/mixed-model-framework.html</loc>
-    <lastmod>2026-11-02T21:35:32.067Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.264Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/mixed-model-user-reference.html</loc>
-    <lastmod>2026-11-02T21:35:32.051Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.260Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/raw-genotype-apy-yaml.html</loc>
-    <lastmod>2026-11-02T21:35:32.034Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.256Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/model-yaml-proposal.html</loc>
-    <lastmod>2026-11-02T21:35:32.018Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.253Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/lmt-translation.html</loc>
-    <lastmod>2026-11-02T21:35:31.994Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.241Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/dmu-import.html</loc>
-    <lastmod>2026-11-02T21:35:31.968Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.239Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/standalone-models.html</loc>
-    <lastmod>2026-11-02T21:35:31.958Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.237Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/standalone.html</loc>
-    <lastmod>2026-11-02T21:35:31.945Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.235Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/gmap-qualification.html</loc>
-    <lastmod>2026-11-02T21:35:31.927Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.234Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/gbayes-qualification.html</loc>
-    <lastmod>2026-11-02T21:35:31.912Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.233Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/glma-qualification.html</loc>
-    <lastmod>2026-11-02T21:35:31.900Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.232Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/simulated-genomics-qualification.html</loc>
-    <lastmod>2026-11-02T21:35:31.880Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.231Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/package-tutorials/gscore.html</loc>
-    <lastmod>2026-11-02T21:35:31.851Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.229Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/package-tutorials/gcorr.html</loc>
-    <lastmod>2026-11-02T21:35:31.844Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.227Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/package-tutorials/glma.html</loc>
-    <lastmod>2026-11-02T21:35:31.821Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.224Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/package-tutorials/overview.html</loc>
-    <lastmod>2026-11-02T21:35:31.806Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.222Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/simulated-genomics-workflow.html</loc>
-    <lastmod>2026-11-02T21:35:31.784Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.220Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/gsea-workflow.html</loc>
-    <lastmod>2026-11-02T21:35:31.779Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.218Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/mr-workflow.html</loc>
-    <lastmod>2026-11-02T21:35:31.757Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.215Z</lastmod>
   </url>
   <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/gbayes-design.html</loc>
-    <lastmod>2026-11-09T08:43:05.370Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/gcorr-method-comparison.html</loc>
-    <lastmod>2026-11-02T21:35:31.714Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/sumher-style-workflow.html</loc>
-    <lastmod>2026-11-02T21:35:31.704Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/slides/ai-programme-strategy.html</loc>
-    <lastmod>2026-11-02T21:35:31.684Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/README.html</loc>
-    <lastmod>2026-11-02T21:35:31.675Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/slides/ai-research-methods-teaching.html</loc>
-    <lastmod>2026-11-02T21:35:31.651Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/sparse-ld-preparation.html</loc>
-    <lastmod>2026-11-02T21:35:31.642Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/primitive-registry.html</loc>
-    <lastmod>2026-11-02T21:35:31.627Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/multitrait-pedigree-reml.html</loc>
-    <lastmod>2026-11-02T21:35:31.614Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/model-recipes.html</loc>
-    <lastmod>2026-11-02T21:35:31.603Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/model-catalog.html</loc>
-    <lastmod>2026-11-02T21:35:31.584Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/methods-reference.html</loc>
-    <lastmod>2026-11-02T21:35:31.568Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/longitudinal-pedigree-reml.html</loc>
-    <lastmod>2026-11-02T21:35:31.529Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/gmat-integration.html</loc>
-    <lastmod>2026-11-02T21:35:31.518Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/genotype-filtering.html</loc>
-    <lastmod>2026-11-02T21:35:31.509Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/packages/gbase/README.html</loc>
-    <lastmod>2026-11-02T21:35:31.488Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/distribution-policy.html</loc>
-    <lastmod>2026-11-02T21:35:31.478Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/architecture-reference.html</loc>
-    <lastmod>2026-11-02T21:35:31.452Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/analysis-with-an-assistant.html</loc>
-    <lastmod>2026-11-02T21:35:31.435Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/downloads.html</loc>
-    <lastmod>2026-11-02T21:35:31.416Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/qualifications.html</loc>
-    <lastmod>2026-11-02T21:35:31.390Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/tutorials.html</loc>
-    <lastmod>2026-11-02T21:35:31.374Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/index.html</loc>
-    <lastmod>2026-11-02T21:35:31.351Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/help.html</loc>
-    <lastmod>2026-11-02T21:35:31.336Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/support.html</loc>
-    <lastmod>2026-11-02T21:35:31.349Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/index.html</loc>
-    <lastmod>2026-11-02T21:35:31.351Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/guides.html</loc>
-    <lastmod>2026-11-02T21:35:31.385Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/presentations.html</loc>
-    <lastmod>2026-11-02T21:35:31.403Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/benchmarks.html</loc>
-    <lastmod>2026-11-02T21:35:31.418Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/architecture.html</loc>
-    <lastmod>2026-11-02T21:35:31.450Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/r-package-boundaries.html</loc>
-    <lastmod>2026-11-02T21:35:31.472Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/source-package-repository.html</loc>
-    <lastmod>2026-11-02T21:35:31.485Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/formula-reml.html</loc>
-    <lastmod>2026-11-02T21:35:31.504Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/genotype-preparation.html</loc>
-    <lastmod>2026-11-02T21:35:31.515Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/gsolve-greml.html</loc>
-    <lastmod>2026-11-02T21:35:31.518Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/methods.html</loc>
-    <lastmod>2026-11-02T21:35:31.546Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/model-architecture.html</loc>
-    <lastmod>2026-11-02T21:35:31.580Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/model-development-with-an-assistant.html</loc>
-    <lastmod>2026-11-02T21:35:31.584Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/model-reductions.html</loc>
-    <lastmod>2026-11-02T21:35:31.608Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/prediction-error.html</loc>
-    <lastmod>2026-11-02T21:35:31.621Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/r-interface.html</loc>
-    <lastmod>2026-11-02T21:35:31.637Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/pedigree-analysis.html</loc>
-    <lastmod>2026-11-02T21:35:31.651Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/benchmarks/pedigree_50k_dmu/README.html</loc>
-    <lastmod>2026-11-02T21:35:31.669Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/status.html</loc>
-    <lastmod>2026-11-02T21:35:33.135Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/summary-statistic-analysis.html</loc>
-    <lastmod>2026-11-02T21:35:31.694Z</lastmod>
-  </url>
-  <url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/summary-statistic-workflow.html</loc>
-    <lastmod>2026-11-02T21:35:31.709Z</lastmod>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/gbayes-method-algorithms.html</loc>
+    <lastmod>2026-11-12T22:41:35.210Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/gbayes-workflow.html</loc>
-    <lastmod>2026-11-09T08:43:05.354Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.198Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/summary-statistic-workflow.html</loc>
+    <lastmod>2026-11-12T22:41:35.189Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/summary-statistic-analysis.html</loc>
+    <lastmod>2026-11-12T22:41:35.188Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/status.html</loc>
+    <lastmod>2026-11-12T22:41:35.327Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/benchmarks/pedigree_50k_dmu/README.html</loc>
+    <lastmod>2026-11-12T22:41:35.182Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/pedigree-analysis.html</loc>
+    <lastmod>2026-11-12T22:41:35.178Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/r-interface.html</loc>
+    <lastmod>2026-11-12T22:41:35.174Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/prediction-error.html</loc>
+    <lastmod>2026-11-12T22:41:35.170Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/model-reductions.html</loc>
+    <lastmod>2026-11-12T22:41:35.169Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/model-development-with-an-assistant.html</loc>
+    <lastmod>2026-11-12T22:41:35.168Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/model-architecture.html</loc>
+    <lastmod>2026-11-12T22:41:35.161Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/ancestry-single-step-yaml.html</loc>
+    <lastmod>2026-11-12T22:41:35.152Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/longitudinal-pedigree-reml.html</loc>
+    <lastmod>2026-11-12T22:41:35.142Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/gmat-integration.html</loc>
+    <lastmod>2026-11-12T22:41:35.140Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/genotype-filtering.html</loc>
+    <lastmod>2026-11-12T22:41:35.139Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/packages/gbase/README.html</loc>
+    <lastmod>2026-11-12T22:41:35.137Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/distribution-policy.html</loc>
+    <lastmod>2026-11-12T22:41:35.136Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/architecture-reference.html</loc>
+    <lastmod>2026-11-12T22:41:35.134Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/analysis-with-an-assistant.html</loc>
+    <lastmod>2026-11-12T22:41:35.124Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/downloads.html</loc>
+    <lastmod>2026-11-12T22:41:35.123Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/qualifications.html</loc>
+    <lastmod>2026-11-12T22:41:35.121Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/tutorials.html</loc>
+    <lastmod>2026-11-12T22:41:35.120Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/index.html</loc>
+    <lastmod>2026-11-12T22:41:35.119Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/help.html</loc>
+    <lastmod>2026-11-12T22:41:35.117Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/support.html</loc>
+    <lastmod>2026-11-12T22:41:35.118Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/index.html</loc>
+    <lastmod>2026-11-12T22:41:35.120Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/guides.html</loc>
+    <lastmod>2026-11-12T22:41:35.121Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/presentations.html</loc>
+    <lastmod>2026-11-12T22:41:35.122Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/benchmarks.html</loc>
+    <lastmod>2026-11-12T22:41:35.123Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/architecture.html</loc>
+    <lastmod>2026-11-12T22:41:35.131Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/r-package-boundaries.html</loc>
+    <lastmod>2026-11-12T22:41:35.135Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/source-package-repository.html</loc>
+    <lastmod>2026-11-12T22:41:35.137Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/formula-reml.html</loc>
+    <lastmod>2026-11-12T22:41:35.138Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/genotype-preparation.html</loc>
+    <lastmod>2026-11-12T22:41:35.140Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/gsolve-greml.html</loc>
+    <lastmod>2026-11-12T22:41:35.141Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/methods.html</loc>
+    <lastmod>2026-11-12T22:41:35.151Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/methods-reference.html</loc>
+    <lastmod>2026-11-12T22:41:35.160Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/model-catalog.html</loc>
+    <lastmod>2026-11-12T22:41:35.167Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/model-recipes.html</loc>
+    <lastmod>2026-11-12T22:41:35.168Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/multitrait-pedigree-reml.html</loc>
+    <lastmod>2026-11-12T22:41:35.170Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/primitive-registry.html</loc>
+    <lastmod>2026-11-12T22:41:35.172Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/sparse-ld-preparation.html</loc>
+    <lastmod>2026-11-12T22:41:35.175Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/slides/ai-research-methods-teaching.html</loc>
+    <lastmod>2026-11-12T22:41:35.182Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/README.html</loc>
+    <lastmod>2026-11-12T22:41:35.183Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/slides/ai-programme-strategy.html</loc>
+    <lastmod>2026-11-12T22:41:35.186Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/sumher-style-workflow.html</loc>
+    <lastmod>2026-11-12T22:41:35.189Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/gcorr-method-comparison.html</loc>
+    <lastmod>2026-11-12T22:41:35.190Z</lastmod>
+  </url>
+  <url>
+    <loc>https://psoerensen.github.io/gtools/gsuite/docs/gbayes-design.html</loc>
+    <lastmod>2026-11-12T22:41:35.208Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/gmap-workflow.html</loc>
-    <lastmod>2026-11-07T11:49:29.191Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.214Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/covariance-models.html</loc>
-    <lastmod>2026-11-02T21:35:31.771Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.215Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/summary-interfaces.html</loc>
-    <lastmod>2026-11-02T21:35:31.784Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.218Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/glma-workflow.html</loc>
-    <lastmod>2026-11-02T21:35:31.801Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.222Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/package-tutorials/gbase.html</loc>
-    <lastmod>2026-11-02T21:35:31.814Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.223Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/package-tutorials/gbayes.html</loc>
-    <lastmod>2026-11-02T21:35:31.838Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.226Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/package-tutorials/gmap.html</loc>
-    <lastmod>2026-11-07T11:49:29.293Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.228Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/package-tutorials/gsea.html</loc>
-    <lastmod>2026-11-02T21:35:31.869Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.230Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/genomic-qualification-design.html</loc>
-    <lastmod>2026-11-02T21:35:31.885Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.232Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/gcorr-qualification.html</loc>
-    <lastmod>2026-11-02T21:35:31.905Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.233Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/gscore-qualification.html</loc>
-    <lastmod>2026-11-02T21:35:31.922Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.233Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/gsea-qualification.html</loc>
-    <lastmod>2026-11-02T21:35:31.939Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.234Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/standalone-installation.html</loc>
-    <lastmod>2026-11-02T21:35:31.952Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.236Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/standalone-results.html</loc>
-    <lastmod>2026-11-02T21:35:31.968Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.238Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/classical-model-translation.html</loc>
-    <lastmod>2026-11-02T21:35:31.984Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.240Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/standalone-validation.html</loc>
-    <lastmod>2026-11-02T21:35:32.003Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.242Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/packed-single-step-reml.html</loc>
-    <lastmod>2026-11-02T21:35:32.034Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.255Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/breeding-models.html</loc>
-    <lastmod>2026-11-02T21:35:32.051Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.258Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/mixed-model-foundations.html</loc>
-    <lastmod>2026-11-02T21:35:32.067Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.263Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/prediction-and-uncertainty.html</loc>
-    <lastmod>2026-11-02T21:35:32.088Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.266Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/genomic-models.html</loc>
-    <lastmod>2026-11-02T21:35:32.108Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.271Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/multitrait-and-longitudinal.html</loc>
-    <lastmod>2026-11-02T21:35:32.117Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.274Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/non-gaussian-traits.html</loc>
-    <lastmod>2026-11-02T21:35:32.117Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.277Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/selection-and-mating.html</loc>
-    <lastmod>2026-11-02T21:35:32.142Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.281Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/model-checking-and-validation.html</loc>
-    <lastmod>2026-11-02T21:35:32.151Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.283Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/genomic-feature-priors.html</loc>
-    <lastmod>2026-11-02T21:35:32.175Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.286Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/algorithmic-reference.html</loc>
-    <lastmod>2026-11-02T21:35:32.190Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.288Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/abbreviations.html</loc>
-    <lastmod>2026-11-02T21:35:32.201Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.291Z</lastmod>
   </url>
   <url>
     <loc>https://psoerensen.github.io/gtools/gsuite/docs/teaching/large-scale-phenomics.html</loc>
-    <lastmod>2026-11-02T21:35:32.223Z</lastmod>
-  </url>
-<url>
-    <loc>https://psoerensen.github.io/gtools/gsuite/docs/gbayes-method-algorithms.html</loc>
-    <lastmod>2026-11-09T08:43:05.385Z</lastmod>
+    <lastmod>2026-11-12T22:41:35.293Z</lastmod>
   </url>
 </urlset>

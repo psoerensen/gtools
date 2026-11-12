@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-264a0fc3a96c72ca7334393e02078ef0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -168,7 +168,7 @@ ul.task-list li input[type="checkbox"] {
 
 task packages do not import gsuite
 task packages depend on each other only for an explicit scientific workflow</code></pre>
-<p><code>gbase</code> must not depend on a task package. Its public source distribution builds task-neutral gbits/gmat and bounded gsolve-core/greml-core source into a reusable static archive. A task package must not depend on the root gsuite package. This prevents dependency cycles and lets users install one task without installing the complete suite.</p>
+<p><code>gbase</code> must not depend on a task package. Its public source distribution builds task-neutral gbits/gmat/gimp and bounded gsolve-core/greml-core source into a reusable static archive. A task package must not depend on the root gsuite package. This prevents dependency cycles and lets users install one task without installing the complete suite.</p>
 </section>
 <section id="package-map" class="level2">
 <h2 class="anchored" data-anchor-id="package-map">Package map</h2>
@@ -194,7 +194,7 @@ task packages depend on each other only for an explicit scientific workflow</cod
 </tr>
 <tr class="even">
 <td><code>gbase</code></td>
-<td>Task-neutral gbits/gmat plus bounded gsolve-core and greml-core source</td>
+<td>Task-neutral gbits/gmat/gimp plus bounded gsolve-core and greml-core source</td>
 <td>Shared Glist, summary-statistics, LD-resource and public source-build contracts. This is the deliberate exception to the one-task/one-native-owner pattern.</td>
 </tr>
 <tr class="odd">
@@ -401,6 +401,7 @@ task packages depend on each other only for an explicit scientific workflow</cod
 <section id="individual-level-rhe-distribution" class="level2">
 <h2 class="anchored" data-anchor-id="individual-level-rhe-distribution">Individual-level RHE distribution</h2>
 <p><code>gcorr::rhe()</code> is the user-facing task interface; there is no separate rhe R package. It does not import root gsuite. Ordinary estimation reuses the existing bounded greml implementation in the gbase archive, without compiling it again in gcorr. The canonical <code>greml/src/genie.cpp</code> and its public header are generated into gcorr source archives; GENIE is not added to gbase. The package-specific closure excludes longitudinal and full mixed-model fitting. BLUP and REML remain explicit downstream operations, outside this estimation entry point.</p>
+<p>The pending co-data initializer-CV workflow is an explicit optional R dependency from gscore 0.1.2 to public gbayes &gt;= 0.1.16 interfaces. gscore owns selection and refit orchestration; gbayes owns numerical fold/profile/annotation fitting. gbase remains task-neutral and neither package imports root gsuite. No sibling source or private native headers are vendored. Builds/runtime acceptance remain pending; see the <a href="../../gsuite/docs/gbayes-design.html#supplied-fold-co-data-initialization-with-gscore-selection">co-data contract</a>.</p>
 
 
 </section>

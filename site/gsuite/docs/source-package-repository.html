@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-264a0fc3a96c72ca7334393e02078ef0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -254,7 +254,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="what-the-source-packages-contain" class="level2">
 <h2 class="anchored" data-anchor-id="what-the-source-packages-contain">What the source packages contain</h2>
-<p><code>gbase</code> builds the task-neutral <code>gbits</code> and <code>gmat</code> implementation together with bounded <code>gsolve-core</code> and <code>greml-core</code> source sets. It installs their public headers and one position-independent static archive for the task packages. The cores exclude sparse direct factorization, selected inversion, CHOLMOD, oneMKL, PARDISO, and the pedigree, longitudinal, and full mixed-model surfaces.</p>
+<p><code>gbase</code> builds the task-neutral <code>gbits</code> and <code>gmat</code> implementation together with bounded <code>gsolve-core</code> and <code>greml-core</code> source sets. The recipe stages <code>gimp</code> for native summary-statistic imputation. The gbase R interface uses ridge. The package installs the native public headers and one position-independent static archive for the task packages. The generated source manifest records the <code>gimp</code> revision alongside the other native sources. The cores exclude sparse direct factorization, selected inversion, CHOLMOD, oneMKL, PARDISO, and the pedigree, longitudinal, and full mixed-model surfaces.</p>
 <p><code>gbayes</code> contains its R/Rcpp layer and Bayesian native implementation. In addition to its package DLL, it installs the public headers and a second static archive needed by <code>glma</code>, <code>gmap</code>, <code>gscore</code>, and <code>gsea</code>. Those packages therefore compile only their own native implementation instead of recompiling the large Bayesian source set. <code>gcorr</code> needs only the <code>gbase</code> archive.</p>
 <p>Every task package links the installed archives declared by its R package dependencies, so no preinstalled gsuite SDK is needed. Native files in release packages are generated from the canonical sibling repositories. They are not maintained as copied source inside this repository.</p>
 <p>The ordinary source-build requirements are:</p>
