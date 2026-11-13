@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>Bayesian genomic regression with gbayes – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,10 +78,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -915,7 +921,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <p>BayesC/BayesR use <code>algorithm="mcmc"</code> across all six. Covariance mixtures use <code>method="bayesCM", algorithm="vbayes"</code>; factor models, scalar annotation mixtures and specialized summary methods have their own qualified input and algorithm combinations. The <a href="../../../gsuite/docs/gbayes-design.html">authoritative contract</a> and <a href="../../../gsuite/docs/gbayes-workflow.html">workflow guide</a> give the complete method matrix. These fitters require the development package; the public 0.1.1 archive does not provide this API. Check the <a href="../../../gsuite/docs/source-package-repository.html#release-and-development-status">release status</a> and installed help before running an example.</p>
 <p>For a new single-trait summary analysis, use direct familiar arguments:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbayes)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbayes)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>current_fit <span class="ot">&lt;-</span> <span class="fu">sbayes</span>(statistics<span class="sc">$</span>A, reference_Glist,</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait =</span> <span class="st">"A"</span>, <span class="at">method =</span> <span class="st">"bayesC"</span>, <span class="at">algorithm =</span> <span class="st">"mcmc"</span>,</span>
@@ -928,7 +934,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(current_fit)                         <span class="co"># marker by trait, including T=1</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">extract</span>(current_fit, <span class="st">"pips"</span>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">extract</span>(current_fit, <span class="st">"parameters"</span>, <span class="at">state =</span> <span class="st">"retained"</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnostics</span>(current_fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnostics</span>(current_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This is a current-API example, not a rerun of the frozen fit below. Its chain seeds, retention schedule and result structure differ; none of the displayed study numbers are attributed to <code>current_fit</code>. The common result records resolved arguments, logical chains, software provenance and availability reasons. Exact continuation and optional posterior quantities apply to qualified C/R routes; other methods retain their explicit gates.</p>
 <p>Summary fits do not identify training genotype coding or phenotype intercepts, so ordinary prediction from these fits remains unavailable. Do not interpret a new <code>bayesfit</code> as the earlier <code>fit$weights</code> object used in the recorded scoring workflow. Individual-data prediction and posterior score capture have separate saved-coding and resource contracts in the workflow guide.</p>
 </section>
@@ -936,7 +942,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="frozen-study-reproduce-the-recorded-summary-fit">Frozen study: reproduce the recorded summary fit</h2>
 <p>The remaining calls, included tables, figures and downloadable summaries retain the original dispatcher workflow. They document the saved study rather than the six-interface result schema. The original driver and its evidence are unchanged.</p>
 <p>Trait A contributes 6,000 GWAS individuals. Its aligned table has effect estimates <code>b</code>, standard errors <code>seb</code> and sample size <code>n</code> for every marker. The fixed BayesC prior used in the saved run expects roughly 2% of markers to be active.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbayes)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbayes)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>prior <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual_variance =</span> <span class="dv">1</span>,</span>
@@ -953,7 +959,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(statistics<span class="sc">$</span>A, reference_Glist,</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesc"</span>, <span class="at">trait =</span> <span class="st">"A"</span>,</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> prior, <span class="at">control =</span> control)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior =</span> prior, <span class="at">control =</span> control)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The fit returns one row per marker in <code>fit$estimates</code>, a portable allele-labelled <code>fit$weights</code> table, posterior parameter summaries and chain diagnostics. These are the saved parameter summaries:</p>
 <table class="caption-top table">
 <thead>
@@ -1016,9 +1022,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>Residual variance, effect variance and the mixture weights were fixed here, so their posterior standard deviations are zero and R-hat/ESS are blank. <code>active_markers</code> was sampled; its R-hat and bulk ESS are meaningful chain checks. Inspect the complete diagnostics and chain traces before treating a fit as stable:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>posterior</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>posterior</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>diagnostics</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>chains</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>chains</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="interpret-marker-support" class="level2">
 <h2 class="anchored" data-anchor-id="interpret-marker-support">Interpret marker support</h2>
@@ -1112,9 +1118,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Highest BayesC marker PIPs.</figcaption>
 </figure>
 </div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>top <span class="ot">&lt;-</span> fit<span class="sc">$</span>estimates[<span class="fu">order</span>(fit<span class="sc">$</span>estimates<span class="sc">$</span>pip, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>top <span class="ot">&lt;-</span> fit<span class="sc">$</span>estimates[<span class="fu">order</span>(fit<span class="sc">$</span>estimates<span class="sc">$</span>pip, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(top[<span class="fu">c</span>(<span class="st">"marker"</span>, <span class="st">"position"</span>, <span class="st">"mean"</span>, <span class="st">"variance"</span>, <span class="st">"pip"</span>)], <span class="dv">10</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fit<span class="sc">$</span>weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fit<span class="sc">$</span>weights)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <code>weights</code> table includes marker IDs, coordinates, alleles, allele frequencies and standardized-effect columns. <a href="../../../gsuite/docs/package-tutorials/gscore.html">gscore</a> checks these labels against a target Glist and applies the weights to held-out people.</p>
 </section>
 <section id="historical-alternative-calls-in-the-recorded-workflow" class="level2">
@@ -1162,21 +1168,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>For individual-level fitting, supply a data frame with unique character <code>id</code> and a finite pre-adjusted phenotype column:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>phenotype_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">rownames</span>(Y), <span class="at">A =</span> Y[, <span class="st">"A"</span>])</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>phenotype_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="fu">rownames</span>(Y), <span class="at">A =</span> Y[, <span class="st">"A"</span>])</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>bed_fit <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(<span class="at">data =</span> phenotype_table, <span class="at">Glist =</span> panel,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesc"</span>, <span class="at">trait =</span> <span class="st">"A"</span>, <span class="at">prior =</span> prior)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesc"</span>, <span class="at">trait =</span> <span class="st">"A"</span>, <span class="at">prior =</span> prior)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>sbayesrc</code> requires the verified block partition from <code>gbase::define_ld_blocks()</code> and a marker-aligned component annotation. Block eigensystems are prepared once per fit and reused by its chains. The <a href="../../../gsuite/docs/gbayes-workflow.html">Bayesian workflow guide</a> gives the full annotation structure and describes BayesR, BayesS scaling, multivariate traits, study-specific references and method-specific approximation controls.</p>
 </section>
 <section id="historical-continuation-and-posterior-quantity-example" class="level2">
 <h2 class="anchored" data-anchor-id="historical-continuation-and-posterior-quantity-example">Historical continuation and posterior-quantity example</h2>
 <p>This example uses the earlier dispatcher’s request keys and output fields. The current six-interface API uses the documented camelCase <code>posterior</code> keys, <code>extract()</code> and the same-build continuation contracts in the workflow guide.</p>
 <p>Long chains can resume from an exact saved continuation state when the model definition and marker order are unchanged. <code>posterior</code> can request genetic covariance/correlation from a declared LD reference, heritability with an explicit phenotype variance, marker partitions or predictions for selected individuals with posterior uncertainty.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fit_with_quantities <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(statistics<span class="sc">$</span>A, reference_Glist,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fit_with_quantities <span class="ot">&lt;-</span> <span class="fu">gbayes</span>(statistics<span class="sc">$</span>A, reference_Glist,</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"bayesc"</span>, <span class="at">trait =</span> <span class="st">"A"</span>, <span class="at">prior =</span> prior, <span class="at">control =</span> control,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">posterior =</span> <span class="fu">list</span>(<span class="at">reference =</span> reference_Glist,</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">phenotype_variance =</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">1</span>)))</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>fit_with_quantities<span class="sc">$</span>quantities</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>fit_with_quantities<span class="sc">$</span>quantities</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Those quantities are separate from the fixed BayesC run displayed above; use the phenotype variance of your actual trait rather than the illustrative value in the snippet.</p>
 <p><a href="../../website/assets/package-tutorials/gbayes-posterior.csv">Download posterior summaries</a> · <a href="../../website/assets/package-tutorials/gbayes-top-markers.csv">download the top marker estimates</a></p>
 
@@ -1235,13 +1241,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

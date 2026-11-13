@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>readme – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -71,10 +77,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -189,12 +195,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>gprep(task = "ldscores")</code> computes U/D and bin-specific LD scores directly from a prepared Glist, using native gmat and R’s configured BLAS. See the <a href="../../../gsuite/docs/sumher-style-workflow.html">workflow and limits</a>.</p>
 <p><code>gbase</code> contains small, task-neutral R data contracts shared by the gsuite ecosystem. It performs no statistical fitting. Its genotype preparation contract uses the installed public <code>gmat</code>, <code>gbits</code>, and <code>gsolve</code> interfaces, with a qualified native prefix checked during compilation and native versions and ABIs checked again when the package loads. <code>gsolve</code> supplies dense products and regional eigensystems or eigenvalues; the portable binary disables CHOLMOD, MKL and PARDISO while retaining OpenMP support.</p>
 <p>Summary statistics use the established qgg workflow: <code>checkStat()</code> maps and aligns an ordinary data frame to Glist, applies explicit QC, and returns an ordinary data frame with familiar short column names:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> <span class="fu">checkStat</span>(<span class="at">Glist =</span> Glist, <span class="at">stat =</span> raw_stat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>stat <span class="ot">&lt;-</span> <span class="fu">checkStat</span>(<span class="at">Glist =</span> Glist, <span class="at">stat =</span> raw_stat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The result has no special summary-statistics class, constructor or accessor. Each task function validates the columns it uses, and statistical work belongs to the task package.</p>
 <p>PLINK genotype resources are prepared once and remain serializable:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">c</span>(<span class="st">"chr1.bed"</span>, <span class="st">"chr2.bed"</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">c</span>(<span class="st">"chr1.bed"</span>, <span class="st">"chr2.bed"</span>))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
@@ -202,27 +208,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_distance_bp =</span> <span class="dv">1000000</span>,</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_distance_variants =</span> <span class="dv">1000</span>,</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">r2 =</span> <span class="fl">0.01</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The second call returns the same <code>Glist</code> contract augmented with its sparse-LD descriptor; it does not introduce a separate genotype or LD owner.</p>
 <p><code>validate_Glist()</code> checks BED/BIM/FAM identity one file component at a time, retaining only marker IDs for the global uniqueness check. It does not keep every chromosome’s full BIM metadata in memory together.</p>
 <p>The same Glist is the input to task-neutral marker and LD utilities:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>markers <span class="ot">&lt;-</span> <span class="fu">gfilter</span>(Glist)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>markers <span class="ot">&lt;-</span> <span class="fu">gfilter</span>(Glist)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">ld_scores</span>(Glist)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>region <span class="ot">&lt;-</span> <span class="fu">ld_region</span>(Glist, <span class="at">markers =</span> markers[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>spectrum <span class="ot">&lt;-</span> <span class="fu">ld_eigen</span>(Glist, <span class="at">markers =</span> markers[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>blocks <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">block_id =</span> <span class="st">"chr1"</span>, <span class="at">first_marker =</span> markers[<span class="dv">1</span>],</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">last_marker =</span> markers[<span class="fu">length</span>(markers)])</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">define_ld_blocks</span>(Glist, blocks)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">define_ld_blocks</span>(Glist, blocks)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Sparse-LD construction and metadata stay on the Glist returned by <code>gprep(task = "sparseld")</code>.</p>
 <p>Chromosomes can be extracted as marker sets from the existing metadata:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sets <span class="ot">&lt;-</span> <span class="fu">getChromosomeSets</span>(Glist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sets <span class="ot">&lt;-</span> <span class="fu">getChromosomeSets</span>(Glist)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This gives one named, disjoint set per chromosome, preserving reference marker order. Grouping uses chromosome labels, including when one BED file contains several chromosomes. The helper reads no genotype or LD files.</p>
 <p>Full regional LD eigenvalues can also be prepared directly from BED without first making sparse LD:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>regionSets <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">region1 =</span> Glist<span class="sc">$</span>rsids[[<span class="dv">1</span>]][<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>regionSets <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">region1 =</span> Glist<span class="sc">$</span>rsids[[<span class="dv">1</span>]][<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>])</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(Glist, <span class="at">task =</span> <span class="st">"eigen"</span>, <span class="at">sets =</span> regionSets, <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> Glist<span class="sc">$</span>eigen<span class="sc">$</span>values<span class="sc">$</span>region1</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(Glist, <span class="st">"Glist-with-regional-eigenvalues.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(Glist, <span class="st">"Glist-with-regional-eigenvalues.rds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each region is a named marker set from one chromosome. Membership is retained in reference order, and the prepared sample IDs are stored with the spectra. Missing genotypes are mean-imputed; constant markers are rejected by ID. Only eigenvalues are computed, with no clipping or truncation. When markers outnumber samples, the smaller sample-space Gram matrix is used and the full marker spectrum is recovered by padding its null eigenvalues with zeros. Regions are processed sequentially; <code>nthreads</code> controls local BED decoding. The existing gsolve Eigen backend performs dense products and decomposition without a mandatory OpenBLAS dependency. Sparse-LD cutoffs and windows do not apply. <code>glma::prepare_vegas(Glist)</code> reuses these stored spectra for VEGAS without repeating LD computation or decomposition. It returns a serializable prepared object with the required marker and allele order for subsequent traits. Constant positive weights within each gene are supported; nonuniform weights continue to use the sparse-LD route. Statistical evaluation remains owned by glma.</p>
 <p><code>mapSets(sets, Glist)</code> resolves named marker memberships to prepared marker IDs or indices. Unknown members are dropped; empty sets remain visible. <code>getLD(Glist, rsids=region)</code> computes full regional BED correlation in requested marker order using the selected people, installed gmat decoding and R’s configured BLAS. Missing genotypes are mean-imputed and constant markers are rejected. It writes no files and applies no sparse-LD windows or cutoffs. The returned matrix records sample count and decoding/product timings. Statistical priors, sampler controls and posterior sets remain with task packages.</p>
 
@@ -281,13 +287,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

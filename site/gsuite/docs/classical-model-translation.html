@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>classical-model-translation – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -71,10 +77,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -195,19 +201,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>These are restricted profiles, not general readers of either language. They do not yet cover pedigree, single-step/genomic relationships, multiple traits, REML, uncertainty, structured residuals, interactions or random regressions. ASReml-R is a different interface and is not accepted. Unsupported models and unknown model-changing directives are rejected rather than approximated.</p>
 <section id="separate-export-stages" class="level2">
 <h2 class="anchored" data-anchor-id="separate-export-stages">Separate export stages</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> convert-data model.yml <span class="at">--to</span> mix99 <span class="at">--output</span> mix99-data</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> convert-data model.yml <span class="at">--to</span> mix99 <span class="at">--output</span> mix99-data</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> translate model.yml <span class="at">--to</span> mix99 <span class="dt">\</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-manifest</span> mix99-data/manifest.json <span class="at">--output</span> mix99-directives</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> convert-data model.yml <span class="at">--to</span> asreml <span class="at">--output</span> asreml-data</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> translate model.yml <span class="at">--to</span> asreml <span class="dt">\</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-manifest</span> asreml-data/manifest.json <span class="at">--output</span> asreml-directives</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-manifest</span> asreml-data/manifest.json <span class="at">--output</span> asreml-directives</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>All output destinations must be fresh, with an existing parent directory. MiX99 directive output contains <code>model.clm</code>, <code>parameters.var</code> and a translation receipt. ASReml output contains <code>model.as</code> and a translation receipt. Data conversion writes the numeric table, record/level maps and a versioned manifest, without program directives. Classification coding reuses the existing DMU data writer, using binary64 input values and scientific numeric encoding; DMU’s existing REAL4 defaults remain unchanged. The mapping file retains its existing <code>dmu_code</code> column name for this shared numeric coding.</p>
 <p>Directive export requires the corresponding data manifest. It checks model/input compatibility without scanning the data. Covariance values and execution/output settings can change while compatible data are reused; changes to trait, design, relationship, input paths or analysis invalidate the binding. The source files and converted data must remain unchanged. Run normal model validation before a fit.</p>
 </section>
 <section id="separate-import-stages" class="level2">
 <h2 class="anchored" data-anchor-id="separate-import-stages">Separate import stages</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> convert-data mix99-directives/model.clm <span class="at">--from</span> mix99 <span class="at">--to</span> gsuite <span class="dt">\</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> convert-data mix99-directives/model.clm <span class="at">--from</span> mix99 <span class="at">--to</span> gsuite <span class="dt">\</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> mix99-import-data</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> translate mix99-directives/model.clm <span class="at">--from</span> mix99 <span class="at">--to</span> gsuite <span class="dt">\</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-manifest</span> mix99-import-data/manifest.json <span class="at">--output</span> mix99-import.yml</span>
@@ -215,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> convert-data asreml-directives/model.as <span class="at">--from</span> asreml <span class="at">--to</span> gsuite <span class="dt">\</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> asreml-import-data</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> translate asreml-directives/model.as <span class="at">--from</span> asreml <span class="at">--to</span> gsuite <span class="dt">\</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-manifest</span> asreml-import-data/manifest.json <span class="at">--output</span> asreml-import.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-manifest</span> asreml-import-data/manifest.json <span class="at">--output</span> asreml-import.yml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The import grammar recognizes the explicit subset emitted by the exporter: <code>cN</code> classification fields, a constant <code>mean</code> column, response <code>y</code> and <code>xN</code> covariates. ASReml requires the generated profile title. It does not evaluate includes, macros, transformations, R scripts or arbitrary native options. Original source names remain in export maps; reverse conversion retains numeric classification codes and the response label <code>y</code>, rather than inferring labels.</p>
 <p>Directive import alone is allowed without a manifest. It emits a draft with placeholder input paths and <code>data_ready: false</code>. With a compatible manifest, it binds the converted CSV without rereading observation data. Data conversion checks width, finite values, constant intercept, positive INTEGER4 classifications, missingness and canonical model validity. Invalid inputs leave no published data directory. MiX99 uses an explicit missing sentinel; ASReml uses <code>NA</code>. Missing covariates and missing classification values are outside these profiles.</p>
 </section>
@@ -282,13 +288,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

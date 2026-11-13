@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>Methods reference – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,10 +78,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -105,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -118,7 +124,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -682,22 +688,22 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <section id="independent-ld-references" class="level2">
 <h2 class="anchored" data-anchor-id="independent-ld-references">Independent LD references</h2>
 <p>Glist is the single public genotype and LD descriptor. Augment it directly with gmat’s signed, disk-backed sparse LD:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gprep</span>(<span class="at">Glist =</span> Glist, <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gprep</span>(<span class="at">Glist =</span> Glist, <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">out_prefix =</span> <span class="st">"reference_ld"</span>, <span class="at">r2 =</span> <span class="fl">0.01</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">max_distance_bp =</span> <span class="dv">1000000</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(Glist, <span class="st">"Glist-EUR.rds"</span>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"Glist-EUR.rds"</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>gbase<span class="sc">::</span><span class="fu">verify_ld</span>(Glist) <span class="co"># once after transfer or download</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">ld_scores</span>(Glist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">ld_scores</span>(Glist)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>Glist$sparseLD</code> retains authoritative marker order, alleles, chromosome, position, reference sample count, file paths, checksums and construction settings. <code>ldfiles</code>, <code>idsLD</code>, and <code>rsidsLD</code> identify the same persisted resource, reference samples, and matrix-ordered markers. RDS saves the descriptor, not the external LD files. <code>validate_Glist()</code> checks this identity and alignment without rescanning the CSR; <code>verify_ld()</code> performs the full native structure, checksum, and recorded-score verification after a transfer or when corruption is suspected. Neither check establishes population suitability. Scores are computed from that same resource:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">ld_scores</span>(Glist, <span class="at">annotations =</span> annotation,</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">corrected =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">ld_scores</span>(Glist, <span class="at">annotations =</span> annotation,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">corrected =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Annotation rows are aligned by exact marker identity. Corrected scores use the selected reference sample count and retain negative corrected contributions. All scores reflect retained sparse pairs; omitted correlations are not reconstructed. Summary harmonization remains separate.</p>
 <section id="regional-matrices-and-reusable-eigensystems" class="level3">
 <h3 class="anchored" data-anchor-id="regional-matrices-and-reusable-eigensystems">Regional matrices and reusable eigensystems</h3>
 <p>Select a region using unique marker IDs already in reference order:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>R_region <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">ld_region</span>(Glist, <span class="at">markers =</span> region_markers)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>eig <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">ld_eigen</span>(Glist, <span class="at">markers =</span> region_markers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>R_region <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">ld_region</span>(Glist, <span class="at">markers =</span> region_markers)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>eig <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">ld_eigen</span>(Glist, <span class="at">markers =</span> region_markers)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>gmat opens the checked resource once per high-level call and reuses one indexed reader across regions; no full CSR is loaded and only the active dense matrix is materialized. gsolve computes the complete symmetric eigensystem using its existing Eigen backend and verifies reconstruction, residual and orthogonality. The result contains descending <code>values</code>, column <code>vectors</code> with marker row names, and numerical <code>diagnostics</code>. Singular or indefinite matrices are not silently repaired: zero and negative eigenvalues remain available to method-specific checks. Thresholded or windowed sparse LD is not necessarily positive semidefinite.</p>
 <p>The eigensystem is computed from the checked regional matrix on demand and can be reused across traits or fits for that region. The full decomposition takes quadratic storage and cubic computation; increasing the dimension limit is an explicit choice. Omitted sparse correlations remain zero, the diagonal is one, and no harmonization, clipping or PSD repair occurs.</p>
 <p>For a BED Glist with independent regions saved by <code>gbase::gprep(task="eigen")</code>, <code>gcorr(Glist, stat, method="hess", nthreads=4)</code> reuses its region definitions and reference sample selection and returns estimates plus compact moments in <code>fit$projection</code>. Named Z/N arrays must already be oriented to Glist’s a1 alleles. Stored eigenvalues alone cannot project statistics, so the required vectors are recomputed per region and discarded. Both compact-fit overlap inputs default to zero and can be overridden.</p>
@@ -747,22 +753,22 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <h2 class="anchored" data-anchor-id="regional-bayesian-r-workflow">Regional Bayesian R workflow</h2>
 <p>For an individual-level BayesC/BayesR fit, <code>gmap::gmap_bed(fit, Glist, regions)</code> reuses the saved global posterior. The Glist must carry in-sample sparse LD prepared from exactly the fitted people and markers. Sample order, physical BED offsets, alleles and frequencies are checked. Within-region LD must be complete by default. Native gmap groups the fitted marginal PIPs; the result is neither a regional refit nor a component credible set. This route also accepts a joint-trait BED fit and retains trait labels. See the <a href="../../gsuite/docs/gmap-workflow.html#from-an-individual-level-bed-fit-to-regional-marker-support">BED-to-gmap workflow</a>.</p>
 <p><code>gmap::gmap()</code> accepts an aligned Glist and exact sufficient-statistic columns <code>marker</code>, <code>allele1</code>, <code>allele2</code>, <code>score</code> (<span class="math inline">\(X^T y\)</span>) and <code>marker_ss</code> (<span class="math inline">\(\operatorname{diag}(X^T X)\)</span>). It fits each named region/trait separately using BayesC, BayesR or multi-effect inference. It does not convert GWAS z scores or beta/SE automatically. The supplied LD and marker scales define the working cross-products; a reference approximation does not become exact cohort LD.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> gmap<span class="sc">::</span><span class="fu">gmap</span>(<span class="fu">list</span>(<span class="at">height =</span> stat_height, <span class="at">weight =</span> stat_weight), Glist,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> gmap<span class="sc">::</span><span class="fu">gmap</span>(<span class="fu">list</span>(<span class="at">height =</span> stat_height, <span class="at">weight =</span> stat_weight), Glist,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">regions =</span> <span class="fu">list</span>(<span class="at">locus1 =</span> markers_locus1, <span class="at">locus2 =</span> markers_locus2),</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">method =</span> <span class="st">"multi_effect"</span>,</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">prior =</span> <span class="fu">list</span>(<span class="at">residual_variance =</span> <span class="dv">1</span>, <span class="at">effect_variance =</span> .<span class="dv">02</span>),</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">control =</span> <span class="fu">list</span>(<span class="at">effects =</span> <span class="dv">4</span>, <span class="at">estimate_effect_variance =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">eigen =</span> <span class="fu">list</span>(<span class="at">retained_positive_mass =</span> <span class="dv">1</span>)))</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">region =</span> <span class="st">"locus1"</span>, <span class="at">trait =</span> <span class="st">"height"</span>, <span class="at">quantity =</span> <span class="st">"pip"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">region =</span> <span class="st">"locus1"</span>, <span class="at">trait =</span> <span class="st">"height"</span>, <span class="at">quantity =</span> <span class="st">"pip"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Prior values above are illustrative and must match the supplied data scale. Controls and seeds are shared across fits; use separate calls for different priors or independent random streams. Each verified region is decomposed once across traits. The default retained-mass schedule is <code>c(.995, .99, .95)</code>. <code>diagnostic_summary</code> records the selected requested/achieved mass, rank and projection change, while <code>eigen_attempts</code> records each attempted threshold. Set <code>control$eigen$retained_positive_mass=1</code> for the exact full-rank route. Residual-variance learning is restricted to that full-rank route. Component colocalisation also requires a converged full-rank multi-effect fit; use the same explicit setting when the fit will be passed to <code>gmap_coloc_components()</code>. <code>control$sets</code> exposes method-specific native set controls. BayesC/BayesR retain pooled and per-chain PIPs, with native between-chain spread summaries; these are not convergence certificates or Monte Carlo standard errors. Scalar summary BayesC/BayesR in <code>gmap()</code> and <code>gbayes()</code> also expose optional <code>control$ld_swap</code> relocation moves on their dense/sparse and eigen likelihoods. The native gbayes sampler owns neighbour selection and Metropolis-Hastings acceptance. Probability defaults to zero; <code>fit$ld_swap</code> reports proposal counts, not convergence. The existing timing studies used swaps disabled.</p>
 <p>For traits analysed in independent samples, the saved fits can be compared:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>shared <span class="ot">&lt;-</span> gmap<span class="sc">::</span><span class="fu">gmap_coloc_components</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>shared <span class="ot">&lt;-</span> gmap<span class="sc">::</span><span class="fu">gmap_coloc_components</span>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  fit, fit, Glist, <span class="at">trait1 =</span> <span class="st">"height"</span>, <span class="at">trait2 =</span> <span class="st">"weight"</span>, <span class="at">regions =</span> <span class="st">"locus1"</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">complete_region_coverage =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">non_overlapping_samples =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(shared)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shared)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shared)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The two assertions require complete regional coverage and independent trait samples; they must describe the actual analysis. This route requires converged full-likelihood multi-effect fits, uniform marker priors and the same complete LD reference. It consumes stored component evidence without fitting or eigen computation. LD files must remain available for checked purity calculations. H0–H4 probabilities belong to individual component pairs, not the entire region. Inactive, low-purity, incomplete and duplicate components remain labelled; no eligible pairs is not evidence for H0. Summaries and plots of completed results work from saved R objects without accessing LD files.</p>
 <p>OLS beta/SE/n preparation is available through <code>gmap_stat()</code>; see below and the <a href="../../gsuite/docs/gmap-workflow.html">worked simulation tutorial</a>. No cross-reference or overlapping-sample colocalisation is exposed.</p>
 </section>
@@ -858,13 +864,14 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

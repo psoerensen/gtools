@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>Prepare genotypes and LD with gbase – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,10 +78,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -875,7 +881,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="prepare-the-panel" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-the-panel">Prepare the panel</h2>
 <p>Start with a SNP-major PLINK BED file and matching BIM/FAM files. <code>gprep()</code> infers the companion paths from the BED name. Sample IDs and marker IDs are selected by name and retain their documented Glist order.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>prefix <span class="ot">&lt;-</span> <span class="st">"path/to/genotypes"</span>  <span class="co"># replace with your PLINK prefix</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>individuals <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"id%05d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">20000</span>)</span>
@@ -889,25 +895,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> reference_ids, <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">sum</span>(<span class="fu">lengths</span>(panel<span class="sc">$</span>rsids)) <span class="sc">==</span> <span class="dv">50000</span>)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">length</span>(reference_Glist<span class="sc">$</span>study_ids) <span class="sc">==</span> <span class="dv">18000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">length</span>(reference_Glist<span class="sc">$</span>study_ids) <span class="sc">==</span> <span class="dv">18000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The selected-reference summaries, including allele frequencies and genotype counts, come from those 18,000 people. <code>panel</code> retains all 20,000 people for later association scans and held-out scoring.</p>
 </section>
 <section id="review-marker-quality-before-ld-construction" class="level2">
 <h2 class="anchored" data-anchor-id="review-marker-quality-before-ld-construction">Review marker quality before LD construction</h2>
 <p><code>gfilter()</code> returns marker names in file order. It can screen MAF, missingness, exact Hardy–Weinberg p-values, imputation INFO when supplied, allele ambiguity, indels and the assembly-specific MHC interval. The returned names can be fed back into <code>gprep()</code>; filtering the Glist after building LD would leave an inconsistent reference.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>retained <span class="ot">&lt;-</span> <span class="fu">gfilter</span>(reference_Glist,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>retained <span class="ot">&lt;-</span> <span class="fu">gfilter</span>(reference_Glist,</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">maf =</span> <span class="fl">0.01</span>, <span class="at">missing =</span> <span class="fl">0.05</span>, <span class="at">hwe =</span> <span class="fl">1e-12</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ambiguous =</span> <span class="cn">TRUE</span>, <span class="at">indels =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># For a study that applies this filter:</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>filtered_reference <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> reference_ids, <span class="at">rsids =</span> retained, <span class="at">nthreads =</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> reference_ids, <span class="at">rsids =</span> retained, <span class="at">nthreads =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The saved 20K/50K run used all 50,000 simulated markers in its LD resource; <code>filtered_reference</code> above illustrates the optional QC route and is not the source of the tables below.</p>
 </section>
 <section id="compute-and-reuse-sparse-ld" class="level2">
 <h2 class="anchored" data-anchor-id="compute-and-reuse-sparse-ld">Compute and reuse sparse LD</h2>
 <p>The simulation has 500 independent 100-marker regions. Its full within-region LD is retained with <code>r2 = 0</code>; the 100-variant window bounds the calculation. For real data, choose windows and thresholds appropriate to the intended method and report them with the reference.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"analysis"</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"analysis"</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>reference_Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">Glist =</span> reference_Glist, <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">out_prefix =</span> <span class="st">"analysis/reference-LD"</span>,</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_distance_bp =</span> <span class="dv">0</span>, <span class="at">max_distance_variants =</span> <span class="dv">100</span>,</span>
@@ -922,7 +928,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>reference_Glist <span class="ot">&lt;-</span> <span class="fu">define_ld_blocks</span>(reference_Glist, block_table)</span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">verify_ld</span>(reference_Glist)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(reference_Glist, <span class="st">"analysis/reference-Glist.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(reference_Glist, <span class="st">"analysis/reference-Glist.rds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>define_ld_blocks()</code> verifies that the named, ordered partition is exhaustive and that retained LD does not cross blocks. <code>verify_ld()</code> explicitly scans the complete resource after construction or transfer. Routine readers use the lightweight Glist identity check when opening the same immutable LD files. Keep the Glist RDS together with its referenced LD files.</p>
 <table class="caption-top table">
 <thead>
@@ -972,7 +978,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="inspect-ld-and-compute-annotation-scores" class="level2">
 <h2 class="anchored" data-anchor-id="inspect-ld-and-compute-annotation-scores">Inspect LD and compute annotation scores</h2>
 <p>Ordinary LD scores are already stored in the Glist. <code>ld_region()</code> returns a named dense matrix for a small ordered marker set; <code>ld_eigen()</code> returns its complete verified eigensystem. Use these for inspection or methods that need a regional matrix rather than repeatedly reading the whole reference.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>reference_Glist <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"analysis/reference-Glist.rds"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>reference_Glist <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"analysis/reference-Glist.rds"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_Glist</span>(reference_Glist)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">ld_scores</span>(reference_Glist)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>R_region1 <span class="ot">&lt;-</span> <span class="fu">ld_region</span>(reference_Glist, regions<span class="sc">$</span>region001)</span>
@@ -981,18 +987,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ld_markers <span class="ot">&lt;-</span> <span class="fu">unlist</span>(reference_Glist<span class="sc">$</span>rsidsLD, <span class="at">use.names =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>annotation <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">as.numeric</span>(ld_markers <span class="sc">%in%</span> regions<span class="sc">$</span>region001), <span class="at">ncol =</span> <span class="dv">1</span>,</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(ld_markers, <span class="st">"region001"</span>))</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>annotation_scores <span class="ot">&lt;-</span> <span class="fu">ld_scores</span>(reference_Glist, <span class="at">annotation =</span> annotation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>annotation_scores <span class="ot">&lt;-</span> <span class="fu">ld_scores</span>(reference_Glist, <span class="at">annotation =</span> annotation)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>An annotation score at marker <em>j</em> accumulates squared LD from <em>j</em> to the annotated markers, including LD crossing the annotation boundary. This is the input needed for standard stratified LDSC in <a href="../../../gsuite/docs/package-tutorials/gcorr.html">gcorr</a>.</p>
 </section>
 <section id="align-gwas-statistics" class="level2">
 <h2 class="anchored" data-anchor-id="align-gwas-statistics">Align GWAS statistics</h2>
 <p><code>checkStat()</code> maps a reported GWAS table to the reference’s marker IDs, coordinates and effect-allele direction. It returns an ordinary data frame in reference order. In the simulated run, the following explicit options retain all 50,000 markers so the methods share the same marker universe:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>aligned <span class="ot">&lt;-</span> <span class="fu">checkStat</span>(reference_Glist, raw_stat,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>aligned <span class="ot">&lt;-</span> <span class="fu">checkStat</span>(reference_Glist, raw_stat,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">excludeMAF =</span> <span class="cn">NULL</span>, <span class="at">excludeMAFDIFF =</span> <span class="cn">NULL</span>, <span class="at">excludeINFO =</span> <span class="cn">NULL</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">excludeCGAT =</span> <span class="cn">FALSE</span>, <span class="at">excludeINDEL =</span> <span class="cn">FALSE</span>, <span class="at">excludeDUPS =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">excludeMHC =</span> <span class="cn">FALSE</span>, <span class="at">excludeMISS =</span> <span class="cn">NULL</span>, <span class="at">excludeHWE =</span> <span class="cn">NULL</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aligned[<span class="fu">c</span>(<span class="st">"rsids"</span>, <span class="st">"chr"</span>, <span class="st">"pos"</span>, <span class="st">"ea"</span>, <span class="st">"nea"</span>, <span class="st">"b"</span>, <span class="st">"seb"</span>, <span class="st">"p"</span>, <span class="st">"n"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aligned[<span class="fu">c</span>(<span class="st">"rsids"</span>, <span class="st">"chr"</span>, <span class="st">"pos"</span>, <span class="st">"ea"</span>, <span class="st">"nea"</span>, <span class="st">"b"</span>, <span class="st">"seb"</span>, <span class="st">"p"</span>, <span class="st">"n"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>raw_stat</code> is assembled from the <a href="../../../gsuite/docs/package-tutorials/glma.html">glma association result</a>. For a real GWAS, choose QC thresholds deliberately; do not infer alleles or sample sizes from the LD reference. The aligned table is used by <a href="../../../gsuite/docs/package-tutorials/gbayes.html">gbayes</a>, <a href="../../../gsuite/docs/package-tutorials/gcorr.html">gcorr</a>, <a href="../../../gsuite/docs/package-tutorials/gmap.html">gmap</a> and VEGAS.</p>
 <p><a href="../../website/assets/package-tutorials/gbase-summary.csv">Download the reference summary</a></p>
 
@@ -1051,13 +1057,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

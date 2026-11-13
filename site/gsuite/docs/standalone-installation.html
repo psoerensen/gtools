@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>Standalone installation and maintenance – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,10 +78,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -218,14 +224,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Enforcement-enabled executables require a signed execution licence for new computations, including direct native invocation. Admitted jobs finish after expiry; inspection and existing results stay accessible. Select a supplied entitlement with <code>HPC_LICENCE_GSUITE_FILE</code> or <code>gsuite run --license-file FILE</code>. Use <code>gsuite license status --license-file FILE --json</code> to inspect it, or <code>gsuite license install FILE --destination FILE</code> to install it explicitly. The agreement specifies the authorised institutional/site scope and duration.</p>
 <p>The source bundle includes the build scripts, YAML frontend, model examples and binary installer. Each source or binary release needs its own target-system validation; acceptance of another release does not qualify it.</p>
 <p>Obtain the source archive and matching checksum from the maintainer, verify and extract it once, then enter the extracted bundle directory. Inside a compute allocation with at least eight CPUs and <code>$TMPDIR</code>, activate the build environment:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate gsuite</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate gsuite</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Run each task separately, proceeding after success:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> build.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> build.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Builds and installs this source version, reusing compatible native builds from the project-root <code>.gsuite-native-cache/</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> hpc_tasks/validate.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> hpc_tasks/validate.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Runs exact references, truth-evaluation checks and all bundled fixture models, including CHOLMOD/PARDISO and many-herd-year coarse-correction comparisons. Scratch handling, timings, memory reports and result collection are automatic. Logs and results go under <code>results/BUNDLE-validation-TAG/</code> in the project root, where <code>BUNDLE</code> is the extracted bundle directory name and <code>TAG</code> identifies the run. Require exit code zero and <code>accepted: true</code> in <code>task.json</code> and the five receipts: <code>exact/validation.json</code>, <code>evaluation-check/validation.json</code>, <code>fixture/validation.json</code>, <code>backends/validation.json</code> and <code>coarse/validation.json</code>.</p>
 <p>To focus on scalable fixed-effect preparation and coarse correction, use <code>bash hpc_tasks/validate.sh --campaign coarse</code>. This retains the small exact references and truth check, then compares six backend/factor configurations on the existing 50K fixture with 1,500 illustrative herd-year levels and 6,000 fixed coefficients. Results include <code>coarse/summary.csv</code> and its acceptance receipt. These derived labels stress computation; they are not observed years or a reproduction of an operational evaluation model.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> hpc_tasks/build_binary_distribution.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> hpc_tasks/build_binary_distribution.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Produces a binary archive under project-root <code>distributions/</code> and saves reports under <code>results/</code>. It uses the existing native installation, qualifies the producer installation, then independently installs and validates the delivered archive using <code>$TMPDIR</code>. It requires <code>patchelf</code> and Conda/Mamba, and performs no native compilation. Scratch handling and result collection are automatic.</p>
 <p>Producing an archive leaves existing shared installations in place. New shared versions use separate prefixes after their own installation checks.</p>
 </section>
@@ -235,10 +241,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Shared and independent installations have <a href="../../gsuite/docs/standalone-validation.html">recorded successful GenomeDK validation</a>. Every new archive must pass its own fresh-runtime installer checks. Binary archives remain private validation artifacts, with no public binary download on this website. Use the archive and matching checksum supplied by the maintainer.</p>
 <p>The recipient needs Conda or Mamba, Python 3.10 or newer, network access to the runtime packages, and the ordinary Linux <code>bash</code>, <code>ldd</code> and <code>readelf</code> tools. No compiler, R, CMake, development headers or <code>patchelf</code> is required. On HPC, use an allocated compute-node shell with <code>$TMPDIR</code> available; allocate at least eight CPUs for the <a href="../../gsuite/docs/standalone-models.html#complete-sssnpblup-example">eight-thread model example</a>.</p>
 <p>An existing Python 3.10+ Conda environment, including a suitable <code>base</code> environment, can start the installer. If one is needed, create this small bootstrap environment once:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> gsuite-installer <span class="at">-c</span> conda-forge python=3.12 <span class="at">-y</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate gsuite-installer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> gsuite-installer <span class="at">-c</span> conda-forge python=3.12 <span class="at">-y</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate gsuite-installer</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Set <code>ARCHIVE</code> to the absolute path of the delivered archive, with its <code>.tar.gz.sha256</code> file beside it. Choose a new prefix at its permanent location:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-euo</span> pipefail</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">ARCHIVE</span><span class="op">=</span>/path/to/gsuite-genomedk-BUILD.tar.gz</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">PREFIX</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/software/gsuite-VERSION"</span></span>
@@ -251,14 +257,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> <span class="st">"</span><span class="va">$WORK</span><span class="st">/</span><span class="va">$(</span><span class="fu">basename</span> <span class="st">"</span><span class="va">$ARCHIVE</span><span class="st">"</span> .tar.gz<span class="va">)</span><span class="st">/install.sh"</span> <span class="dt">\</span></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">--prefix</span> <span class="st">"</span><span class="va">$PREFIX</span><span class="st">"</span> <span class="at">--scratch-directory</span> <span class="st">"</span><span class="va">$WORK</span><span class="st">"</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The installer creates <code>&lt;prefix&gt;/runtime</code> and <code>&lt;prefix&gt;/app</code>, installs pinned runtime packages, checks host/library compatibility and runs small exact references, the installed launcher and CHOLMOD/PARDISO agreement checks. Continue after exit code zero and <code>accepted: true</code> in <code>&lt;prefix&gt;/installation.json</code>. Reports and copied numerical results stay under <code>&lt;prefix&gt;/validation/</code>, including <code>exact/validation.json</code> and <code>backends/agreement.json</code>. The input archive and checksum can be retained separately from the installation.</p>
 <p>An existing prefix is preserved rather than overwritten. Do not move an installed Conda prefix; install again at the desired final location. The scratch extraction directory is not needed for later fits. These checks use tiny models and do not establish industrial performance or PEV precision.</p>
 </section>
 <section id="run-the-included-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="run-the-included-dataset">Run the included dataset</h2>
 <p>Copy the installed small dataset into a new writable directory. This preserves the installed examples and keeps relative input paths together:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/software/gsuite-VERSION/bin:</span><span class="va">$PATH</span><span class="st">"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/software/gsuite-VERSION/bin:</span><span class="va">$PATH</span><span class="st">"</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/gsuite-work"</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/software/gsuite-VERSION/app/example"</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">/gsuite-work/example"</span></span>
@@ -266,7 +272,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> validate model.yml</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> describe model.yml</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run model.yml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Use a new work directory if <code>gsuite-work/example</code> already exists. The example includes CSV pedigree/phenotypes, SNP-major PLINK BED/BIM/FAM and simulated true genetic values. Truth is not used by the fit. Its eight phenotype rows and two traits are a workflow check, not prediction-accuracy evidence. The <a href="../../gsuite/docs/standalone-models.html#complete-sssnpblup-example">complete model</a> describes these same files, covariances, effects, threads and outputs. Results are written to <code>$HOME/gsuite-work/results/example</code> by this model’s relative output path.</p>
 <p>The installed <code>app/models/</code> directory contains 42 self-contained YAML examples and their tiny inputs. The external-data 1M production recipe is separate under <code>app/recipes/model-1m-ancestral-t16.yml</code>. Copy a model together with its required data, then edit paths and settings for your dataset. No large dataset is included or required by installation checks. YAML files and data travel together; paths resolve beside the YAML, not beside the executable.</p>
 
@@ -325,13 +331,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>lmt-translation – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -71,10 +77,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -194,9 +200,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="separate-lmt-directives-and-data" class="level1">
 <h1>Separate LMT directives and data</h1>
 <p>The development standalone frontend provides two independent commands for a four-trait, wide-table ssSNPBLUP comparison with supplied covariance matrices. These commands prepare files; they do not execute LMT.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> convert-data model16-ancestral.yml <span class="at">--to</span> lmt <span class="at">--output</span> lmt-data</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> convert-data model16-ancestral.yml <span class="at">--to</span> lmt <span class="at">--output</span> lmt-data</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> translate model16-ancestral.yml <span class="at">--to</span> lmt <span class="at">--output</span> para.xml <span class="dt">\</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-manifest</span> lmt-data/manifest.json <span class="at">--lmt-conv</span> <span class="at">-25</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-manifest</span> lmt-data/manifest.json <span class="at">--lmt-conv</span> <span class="at">-25</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The convergence value above is an explicit LMT setting for illustration. It is not a translation of gsuite’s relative or absolute residual tolerance. Select and verify LMT convergence using its documented criterion and compare final residuals before comparing performance.</p>
 <section id="qualification-and-the-current-simulation-model" class="level2">
 <h2 class="anchored" data-anchor-id="qualification-and-the-current-simulation-model">Qualification and the current simulation model</h2>
@@ -207,17 +213,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="five-percent-pedigree-blend-and-adjustment" class="level2">
 <h2 class="anchored" data-anchor-id="five-percent-pedigree-blend-and-adjustment">Five-percent pedigree blend and adjustment</h2>
 <p>For the four-trait comparison inspired by the WCGALP example, use a separate model copy with this genomic block:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">genomic</span><span class="kw">:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">genomic</span><span class="kw">:</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">adjustment</span><span class="kw">:</span><span class="at"> pedigree_moments</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">scale</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">polygenic_weight</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.05</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">independent_ridge</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">independent_ridge</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The translator emits <code>aweight: 0.05</code> and <code>switch: adjustg2a</code>. For a sample-mean centered genomic matrix, the grand mean is zero. Matching mean diagonal and grand mean therefore gives intercept <code>mean(A_gg)</code> and slope <code>(mean(diag(A_gg)) - mean(A_gg)) / mean(diag(G))</code>. Using the off-diagonal mean instead gives the same affine transformation. Both approaches are checked on a tiny example with unequal pedigree relationships and unsorted genotype IDs. The native gsuite check agrees with the independent reference at relative tolerance <code>1e-11</code>. A user-run GHPC comparison on 31 October 2026 confirmed LMT coefficients of slope 0.25 and intercept 0.75 and agreement of all 24 animal genetic predictions. The largest reported absolute difference was <code>9.218406594e-11</code>. This is a small-fixture result, not a large-data guarantee.</p>
 <p>On a GHPC allocation with the updated source bundle, run the independent comparison against the installed LMT executable:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> validation/compare_lmt_adjustment.py <span class="dt">\</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> validation/compare_lmt_adjustment.py <span class="dt">\</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> <span class="st">"</span><span class="va">$PWD</span><span class="st">/lmt-adjustment-check"</span> <span class="dt">\</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--gsuite</span> <span class="st">"</span><span class="va">$PWD</span><span class="st">/install/bin/gsuite"</span> <span class="dt">\</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--lmt</span> /path/to/lmt <span class="at">--lmt-key</span> /opt/lmt.key</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--lmt</span> /path/to/lmt <span class="at">--lmt-key</span> /opt/lmt.key</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This creates fresh six-animal, three-genotyped, four-marker, four-trait inputs, runs gsuite and LMT, and compares LMT’s logged <code>beta</code> and <code>alpha</code> with an independent dense calculation. <code>comparison.json</code> distinguishes native gsuite verification from live LMT verification. The updated test checks the adjustment, resulting blended genomic covariance and all 24 animal genetic predictions. <code>prediction-comparison.json</code> records the prediction tolerances and differences. It does not establish matching convergence criteria. LMT is not bundled. Run in a fresh output directory to prevent reuse of LMT’s <code>adjustg2a.bin</code> cache. If LMT fails or does not expose the coefficients, the test fails and retains the inputs and logs.</p>
 <p>The Windows development host has no usable Linux LMT runtime; live LMT evidence above was supplied by the user from GHPC. Existing frozen bundles do not acquire these translator changes automatically. The current exporter writes <code>&lt;models&gt;</code> and <code>datafile:</code>, as required by the tested executable.</p>
 <p>LMT’s adjusted ssSNPBLUP solution CSV includes animal predictions, marker coefficients and one augmented coefficient under the same variance/factor label. For the tiny fixture, the prediction checker validates six animal rows, four marker rows and one augmented row per trait, then compares only the animal predictions. This fixture-specific checker must not be applied directly to the million-animal solution file.</p>
@@ -226,7 +232,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="data-conversion">Data conversion</h2>
 <p>Real-valued data, frequencies and XML numbers use scientific notation with 17 fractional mantissa digits. This preserves binary64 round trips in the exported text while bounding the decimal mantissa length for reader compatibility. IDs and genotype encodings remain unchanged. Conversion manifests record <code>numeric_encoding: scientific_17_fraction_digits</code>; translation rejects older manifests without this encoding. Reconvert old snapshots into a fresh directory before binding their manifest; an earlier successful conversion does not certify its numeric text for this reader compatibility requirement. Original snapshots are never modified automatically.</p>
 <p>For the existing GHPC million-animal dataset, after installing the new bundle inside a 16-CPU allocation, prepare a separate model without editing the identity-ridge model:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">GSUITE</span><span class="op">=</span><span class="st">"</span><span class="va">$PWD</span><span class="st">/install/bin/gsuite"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">GSUITE</span><span class="op">=</span><span class="st">"</span><span class="va">$PWD</span><span class="st">/install/bin/gsuite"</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">DATA</span><span class="op">=</span><span class="st">"</span><span class="va">$HOME</span><span class="st">/gsuite/datasets/n1000000-ng150000-m40000-q4-s4401-new"</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-</span> <span class="st">"</span><span class="va">$DATA</span><span class="st">"</span> <span class="op">&lt;&lt;'PY'</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">import pathlib, sys, yaml</span></span>
@@ -243,10 +249,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="st">"</span><span class="va">$GSUITE</span><span class="st">"</span> validate <span class="st">"</span><span class="va">$DATA</span><span class="st">/model16-blend05-adjusted.yml"</span></span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">LMT_DATA</span><span class="op">=</span><span class="st">"</span><span class="va">$DATA</span><span class="st">/lmt-data-v36"</span></span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="st">"</span><span class="va">$GSUITE</span><span class="st">"</span> convert-data <span class="st">"</span><span class="va">$DATA</span><span class="st">/model16-blend05-adjusted.yml"</span> <span class="dt">\</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">--to</span> lmt <span class="at">--output</span> <span class="st">"</span><span class="va">$LMT_DATA</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">--to</span> lmt <span class="at">--output</span> <span class="st">"</span><span class="va">$LMT_DATA</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If this dataset has already been converted successfully with the scientific numeric encoding above, set <code>LMT_DATA</code> to that existing directory and skip <code>convert-data</code>. Covariance, genomic blend, adjustment and solver settings do not change the data contract. This reuses a snapshot: verify that the original inputs have not changed since conversion.</p>
 <p>Run sequentially on the same allocation and record separate output trees:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">COMPARE</span><span class="op">=</span><span class="st">"</span><span class="va">$DATA</span><span class="st">/comparison-blend05-</span><span class="va">$(</span><span class="fu">date</span> +%Y%m%d-%H%M%S<span class="va">)</span><span class="st">"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">COMPARE</span><span class="op">=</span><span class="st">"</span><span class="va">$DATA</span><span class="st">/comparison-blend05-</span><span class="va">$(</span><span class="fu">date</span> +%Y%m%d-%H%M%S<span class="va">)</span><span class="st">"</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="st">"</span><span class="va">$COMPARE</span><span class="st">"</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">"</span><span class="va">$GSUITE</span><span class="st">"</span> run <span class="st">"</span><span class="va">$DATA</span><span class="st">/model16-blend05-adjusted.yml"</span> <span class="dt">\</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output</span> <span class="st">"</span><span class="va">$COMPARE</span><span class="st">/gsuite"</span></span>
@@ -266,7 +272,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="bu">export</span> <span class="va">KMP_AFFINITY</span><span class="op">=</span>granularity=core,scatter</span>
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"</span><span class="va">$CONDA_PREFIX</span><span class="st">/bin/time"</span> <span class="at">-v</span> <span class="at">-o</span> time.txt <span class="dt">\</span></span>
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    /path/to/lmt <span class="at">-f</span> para.xml <span class="op">&gt;</span> console.log <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Keep each LMT run directory fresh to avoid priming from <code>results.bin</code> or reusing <code>adjustg2a.bin</code>. GNU <code>time</code> is the existing Conda <code>time</code> package. Data conversion is outside both fit timings. gsuite’s end-to-end timing is in <code>execution.json</code>; LMT’s end-to-end timing is in <code>time.txt</code>. Inspect both native logs for successful convergence. LMT’s explicit <code>cr=-25</code> setting is the small test’s setting; it is not asserted equivalent to gsuite’s relative <code>1e-11</code> and absolute <code>1e-13</code> stopping controls. Report the criteria alongside timings, and compare final predictions before drawing performance conclusions.</p>
 <p><code>convert-data</code> reads and validates the YAML inputs, then writes a fresh output directory containing:</p>
 <ul>
@@ -286,11 +292,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="restricted-reverse-conversion" class="level2">
 <h2 class="anchored" data-anchor-id="restricted-reverse-conversion">Restricted reverse conversion</h2>
 <p>The reverse adapter admits the explicit four-trait <code>snpblup1</code> profile generated by this frontend: four intercept equations, genetic, site, family and individual environment effects, supplied positive definite covariance matrices, positive pedigree blending and optional <code>adjustg2a</code>. Unsupported equations, switches and data options are rejected. This is not a general LMT parameter-file importer.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> convert-data para.xml <span class="at">--from</span> lmt <span class="at">--to</span> gsuite <span class="at">--output</span> imported-data <span class="dt">\</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> convert-data para.xml <span class="at">--from</span> lmt <span class="at">--to</span> gsuite <span class="at">--output</span> imported-data <span class="dt">\</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--source-data-manifest</span> lmt-data/manifest.json</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> translate para.xml <span class="at">--from</span> lmt <span class="at">--to</span> gsuite <span class="dt">\</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--data-manifest</span> imported-data/manifest.json <span class="at">--output</span> imported.yml</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> validate imported.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> validate imported.yml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For files not produced by gsuite, provide <code>--marker-map marker-map.csv</code> instead of <code>--source-data-manifest</code>. The map must contain <code>lmt_column</code>, <code>source_marker</code>, <code>chromosome</code>, <code>position</code>, <code>dosage_allele</code> and <code>other_allele</code>, in marker order. Text dosages cannot identify marker names or alleles by themselves. Conversion reconstructs SNP-major BED, BIM and FAM, checks supplied frequencies against sample mean dosages, and rejects missing/non-012 genotypes and fixed markers. Custom centering frequencies are outside this profile.</p>
 <p>The imported model retains LMT numeric animal IDs and trait labels <code>y1</code> through <code>y4</code>; it does not infer original source names. Directive translation reads control files and manifest metadata, without rewriting or scanning data. Without a manifest it emits a draft with <code>data_ready: false</code>. Source convergence controls are recorded, but their stopping criterion is not declared equivalent to gsuite’s.</p>
 <p>Small deterministic reverse-conversion tests compare all animal genetic values with independent marginal BLUP equations at two pedigree blend weights, with partially missing responses. Genotype round trips and unsupported-input rejection are tested separately. These tests do not invoke LMT or certify arbitrary LMT models. Full cross-software prediction and residual qualification remains a separate, executable-specific step.</p>
@@ -351,13 +357,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>source-package-repository – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -71,10 +77,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -180,7 +186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#installing-downstream-workflows" id="toc-installing-downstream-workflows" class="nav-link" data-scroll-target="#installing-downstream-workflows">Installing downstream workflows</a></li>
   <li><a href="#what-the-source-packages-contain" id="toc-what-the-source-packages-contain" class="nav-link" data-scroll-target="#what-the-source-packages-contain">What the source packages contain</a>
   <ul class="collapse">
-  <li><a href="#pending-linux-build-repairs" id="toc-pending-linux-build-repairs" class="nav-link" data-scroll-target="#pending-linux-build-repairs">Pending Linux build repairs</a></li>
+  <li><a href="#installation-maintenance-releases" id="toc-installation-maintenance-releases" class="nav-link" data-scroll-target="#installation-maintenance-releases">Installation maintenance releases</a></li>
   </ul></li>
   <li><a href="#build-and-qualification" id="toc-build-and-qualification" class="nav-link" data-scroll-target="#build-and-qualification">Build and qualification</a></li>
   <li><a href="#release-gate" id="toc-release-gate" class="nav-link" data-scroll-target="#release-gate">Release gate</a></li>
@@ -197,19 +203,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="source-package-repository" class="level1">
 <h1>Source-package repository</h1>
-<p>The public distribution unit consists of exactly seven R source packages: <code>gbase</code>, <code>gbayes</code>, <code>gcorr</code>, <code>glma</code>, <code>gmap</code>, <code>gscore</code>, and <code>gsea</code>. The root <code>gsuite</code> package, <code>gshare</code>, and the complete <code>gsolve</code> and <code>greml</code> libraries are not part of this repository. The standalone mixed-model application is offered only to licensed users through separate delivery. Public package licences and release archives remain unchanged; see the <a href="../../gsuite/docs/distribution-policy.html">distribution policy</a>.</p>
+<p>The public distribution unit consists of exactly seven R source packages: <code>gbase</code>, <code>gbayes</code>, <code>gcorr</code>, <code>glma</code>, <code>gmap</code>, <code>gscore</code>, and <code>gsea</code>. The root <code>gsuite</code> package, <code>gshare</code>, and the complete <code>gsolve</code> and <code>greml</code> libraries are not part of this repository. The standalone mixed-model application is offered only to licensed users through separate delivery. Public package licences remain unchanged; see the <a href="../../gsuite/docs/distribution-policy.html">distribution policy</a>.</p>
 <p>Users install from the conventional R repository:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">gsuite =</span> <span class="st">"https://psoerensen.github.io/gtools/gsuite/repository"</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>))</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gbase"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"gbayes"</span>, <span class="st">"gcorr"</span>, <span class="st">"glma"</span>, <span class="st">"gmap"</span>, <span class="st">"gscore"</span>, <span class="st">"gsea"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The repository retains the first 0.1.0 archives and publishes the current package versions in <code>PACKAGES</code>: gbase 0.1.3, gcorr 0.1.9, glma 0.1.2 and the remaining four packages 0.1.1. The publisher verifies the archive names, latest index and SHA-256 checksums before including these seven packages in the public snapshot.</p>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"gbayes"</span>, <span class="st">"gcorr"</span>, <span class="st">"glma"</span>, <span class="st">"gmap"</span>, <span class="st">"gscore"</span>, <span class="st">"gsea"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The repository retains the first 0.1.0 archives and publishes the current package versions in <code>PACKAGES</code>: gbase 0.1.3.1, gcorr 0.1.9.1, glma 0.1.2.1 and the remaining four packages 0.1.1.1. The publisher verifies the archive names, latest index and SHA-256 checksums before including these seven packages in the public snapshot.</p>
 <section id="release-and-development-status" class="level2">
 <h2 class="anchored" data-anchor-id="release-and-development-status">Release and development status</h2>
-<p>As of 22 October 2026, the downloadable gbayes and gsea packages remain 0.1.1. The development sources in this repository are gbayes 0.1.6 and gsea 0.1.2. Publishing documentation does not rebuild or release these source archives.</p>
+<p>The installation maintenance releases of gbayes and gsea are 0.1.1.1. They preserve the numerical interfaces of the previous 0.1.1 releases. The development sources in this repository are gbayes 0.1.6 and gsea 0.1.2. Publishing documentation does not rebuild or release these source archives.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -226,22 +232,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td><code>gbayes::blr()</code> from supplied cross-products</td>
-<td>Absent in gbayes 0.1.1</td>
+<td>Absent in gbayes 0.1.1.1</td>
 <td>gbayes 0.1.6</td>
 </tr>
 <tr class="even">
 <td><code>gsea::blr()</code> and <code>gsea::set_cross_products()</code></td>
-<td>Absent in gsea 0.1.1</td>
+<td>Absent in gsea 0.1.1.1</td>
 <td>gsea 0.1.2, requiring gbayes 0.1.6</td>
 </tr>
 <tr class="odd">
 <td>Direct Bayesian set preparation and new timing records</td>
-<td>Not supplied by gsea 0.1.1</td>
+<td>Not supplied by gsea 0.1.1.1</td>
 <td>gsea 0.1.2 with matching native libraries</td>
 </tr>
 <tr class="even">
 <td>MAGMA eigenvalue cutoff and revised preparation limits</td>
-<td>Not supplied by gsea 0.1.1</td>
+<td>Not supplied by gsea 0.1.1.1</td>
 <td>gsea 0.1.2 with matching native libraries</td>
 </tr>
 </tbody>
@@ -262,22 +268,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Linux or HPC: R’s configured C++17 compiler;</li>
 <li>Windows: the Rtools version matching R;</li>
 <li>macOS: Xcode Command Line Tools or another compiler configured for R;</li>
-<li>R packages <code>Rcpp</code> and <code>RcppEigen</code>; <code>gcorr</code>, <code>glma</code> and <code>gsea</code> also declare <code>BH</code> for their Boost.Math headers.</li>
+<li>R packages <code>Rcpp</code> and <code>RcppEigen</code>; <code>gbase</code>, <code>gcorr</code>, <code>glma</code> and <code>gsea</code> also declare <code>BH</code> for their Boost.Math headers.</li>
 </ul>
 <p>OpenMP is used when the R toolchain supplies it and otherwise the same source build remains available without OpenMP.</p>
-<section id="pending-linux-build-repairs" class="level3">
-<h3 class="anchored" data-anchor-id="pending-linux-build-repairs">Pending Linux build repairs</h3>
-<p>Development sources read OpenMP flags directly from R’s <code>Makeconf</code>, including the empty setting for a serial build. Both the source-package generator and Linux binary-bundle builder avoid querying the internal flag through <code>R CMD config</code>. The generator preserves package-owned <code>LinkingTo</code> dependencies, including <code>BH</code>. Native gbayes uses an explicit <code>std::uint64_t</code> multiplier in its Gram-cache byte calculation, avoiding the Linux integer-type mismatch. The glma bridge constructs its 34 LOCO diagnostics in smaller steps so that Rcpp 1.0.12 can compile it without changing the returned fields.</p>
-<p>These are development repairs, not replacement releases. Existing public archives and frozen qualification records remain unchanged. Run the focused generator regression checks from the gsuite root with:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/validation/test_source_package_build.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="installation-maintenance-releases" class="level3">
+<h3 class="anchored" data-anchor-id="installation-maintenance-releases">Installation maintenance releases</h3>
+<p>The maintenance archives and development sources read OpenMP flags directly from R’s <code>Makeconf</code>, including the empty setting for a serial build. Both the source-package generator and Linux binary-bundle builder avoid querying the internal flag through <code>R CMD config</code>. The generator preserves package-owned <code>LinkingTo</code> dependencies, including <code>BH</code>. Native gbayes uses an explicit <code>std::uint64_t</code> multiplier in its Gram-cache byte calculation, avoiding the Linux integer-type mismatch. The glma bridge constructs its 34 LOCO diagnostics in smaller steps so that Rcpp 1.0.12 can compile it without changing the returned fields.</p>
+<p>The maintenance archives apply these bounded build fixes to the previous public source releases, without adding development methods. Earlier archives and frozen qualification records are retained. The reproducible maintenance recipe is <code>tools/build/repair_public_source_repository.py</code>; it records the bounded glma compatibility patch alongside the recipe. Run the focused generator regression checks from the gsuite root with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/validation/test_source_package_build.R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>To include compilation of the complete glma bridge against an archived Rcpp header tree, set <code>SOURCE_BUILD_TEST_RCPP_INCLUDE</code> to its <code>inst/include</code> folder, <code>SOURCE_BUILD_TEST_CXX</code> to the C++ compiler, and <code>SOURCE_BUILD_TEST_NATIVE_INCLUDE</code> to the installed native public-header folder. The focused check used the official Rcpp 1.0.12 archive with SHA-256 <code>0c7359cc43beee02761aa3df2baccede1182d29d28c9cd49964b609305062bd0</code>; the test does not install or upgrade Rcpp.</p>
-<p>The existing native <code>test_variational_prediction</code> target checks the Gram-cache caps, and the glma LOCO test checks diagnostic names and order. Compilation against pinned Rcpp headers is separate from a complete Linux/conda package installation check; that platform acceptance is required before release.</p>
+<p>The existing native <code>test_variational_prediction</code> target checks the Gram-cache caps, and the glma LOCO test checks diagnostic names and order. Compilation against pinned Rcpp headers is separate from a complete Linux/conda package installation check. Local Windows installation evidence does not establish Linux/conda or macOS qualification.</p>
 </section>
 </section>
 <section id="build-and-qualification" class="level2">
 <h2 class="anchored" data-anchor-id="build-and-qualification">Build and qualification</h2>
 <p>From the gsuite checkout, with the canonical native repositories beside it:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/build/build_source_repository.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/build/build_source_repository.R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The command stages generated package sources, extracts source lists from the owners’ CMake declarations, builds and checks packages in dependency order, installs them into an isolated library, and writes the seven archives plus <code>PACKAGES</code>, <code>PACKAGES.gz</code>, <code>PACKAGES.rds</code>, and <code>SHA256SUMS</code> under <code>repository/src/contrib</code>. Release assembly requires the R package <code>openssl</code> to calculate SHA-256 checksums; end users do not need it unless another dependency requires it.</p>
 <p>Use <code>--stage-only</code> to inspect generated source, <code>--build-only</code> to assemble the archives without compiling them, and <code>--skip-check</code> for an installation smoke build. <code>--from=&lt;package&gt;</code> resumes an interrupted ordered run. Those modes are partial validation. <code>--only=&lt;package&gt;</code> builds and checks one package using already installed compatible prerequisites in the isolated library; it leaves other release archives unchanged.</p>
 <p>Approved contents under <code>repository/</code> are tracked as release artifacts. All staging, check, object, and installation outputs remain generated and ignored. The build command itself never deploys, pushes, or changes GitHub Pages.</p>
@@ -349,13 +355,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

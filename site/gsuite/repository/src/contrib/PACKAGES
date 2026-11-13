@@ -1,76 +1,69 @@
 Package: gbase
-Version: 0.1.3
+Version: 0.1.3.1
 Depends: R (>= 4.1.0)
 Imports: Rcpp
-LinkingTo: Rcpp, RcppEigen
+LinkingTo: BH, Rcpp, RcppEigen
 Suggests: testthat (>= 3.0.0)
 License: GPL-3
-MD5sum: 82b5e9c06c495700d4e8d562ecb48cc7
+MD5sum: 8eb1f5ac11df05647f20002273b67c03
 NeedsCompilation: yes
-File: gbase_0.1.3.tar.gz
 
 Package: gbayes
-Version: 0.1.1
+Version: 0.1.1.1
 Depends: R (>= 4.1.0)
 Imports: gbase (>= 0.1.2), Rcpp
 LinkingTo: Rcpp, RcppEigen, gbase (>= 0.1.0)
 Suggests: testthat (>= 3.0.0)
 License: GPL-3
-MD5sum: baacda03359d5d83c357f89a815d37db
+MD5sum: bc24f070144243063eabd39e321a5f78
 NeedsCompilation: yes
-File: gbayes_0.1.1.tar.gz
 
 Package: gcorr
-Version: 0.1.9
+Version: 0.1.9.1
 Depends: R (>= 4.1.0)
 Imports: gbase (>= 0.1.2), Rcpp, stats, utils
-LinkingTo: Rcpp, RcppEigen, gbase (>= 0.1.0)
+LinkingTo: BH, Rcpp, RcppEigen, gbase (>= 0.1.0)
 Suggests: testthat (>= 3.0.0)
 License: GPL-3
-MD5sum: 1996bdf2cdcdb65427be602ef308fba4
+MD5sum: 83731f70d3c8bb75c4f5879644ccdfa4
 NeedsCompilation: yes
-File: gcorr_0.1.9.tar.gz
 
 Package: glma
-Version: 0.1.2
+Version: 0.1.2.1
 Depends: R (>= 4.1.0)
 Imports: gbase (>= 0.1.2), Rcpp, utils
-LinkingTo: Rcpp, RcppEigen, gbase (>= 0.1.0), gbayes (>= 0.1.0)
+LinkingTo: BH, Rcpp, RcppEigen, gbase (>= 0.1.0), gbayes (>= 0.1.0)
 Suggests: testthat (>= 3.0.0)
 License: GPL-3
-MD5sum: 5ce14cb5cea4486194289d89d472a054
+MD5sum: f52fe01d2b2870ecd8b743d7a39d8063
 NeedsCompilation: yes
-File: glma_0.1.2.tar.gz
 
 Package: gmap
-Version: 0.1.1
+Version: 0.1.1.1
 Depends: R (>= 4.1.0)
 Imports: gbase (>= 0.1.2), Rcpp, stats
 LinkingTo: Rcpp, RcppEigen, gbase (>= 0.1.0), gbayes (>= 0.1.0)
 Suggests: testthat (>= 3.0.0)
 License: GPL-3
-MD5sum: ad44ff4bce73e51e13acc23e4fece35f
+MD5sum: bc1da010e33fcbd22c489bf53ff0c138
 NeedsCompilation: yes
-File: gmap_0.1.1.tar.gz
 
 Package: gscore
-Version: 0.1.1
+Version: 0.1.1.1
 Depends: R (>= 4.1.0)
 Imports: gbase (>= 0.1.2), Rcpp
 LinkingTo: Rcpp, RcppEigen, gbase (>= 0.1.0), gbayes (>= 0.1.0)
 Suggests: testthat (>= 3.0.0)
 License: GPL-3
-MD5sum: d855bdea37b32c14ede5bf6f3931b28b
+MD5sum: ff31317ec6e9cf90ee491b21e78f1c52
 NeedsCompilation: yes
-File: gscore_0.1.1.tar.gz
 
 Package: gsea
-Version: 0.1.1
+Version: 0.1.1.1
 Depends: R (>= 4.1.0)
 Imports: gbase (>= 0.1.2), glma (>= 0.1.1), Rcpp, stats
-LinkingTo: Rcpp, RcppEigen, gbase (>= 0.1.0), gbayes (>= 0.1.0)
+LinkingTo: BH, Rcpp, RcppEigen, gbase (>= 0.1.0), gbayes (>= 0.1.0)
 Suggests: testthat (>= 3.0.0)
 License: GPL-3
-MD5sum: 9049f70877e7445eb393ac3edb29b205
+MD5sum: 090705bd668886f5b72633efb0a89d25
 NeedsCompilation: yes
-File: gsea_0.1.1.tar.gz

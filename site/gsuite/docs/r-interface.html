@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>r-interface – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -71,10 +77,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -104,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -117,7 +123,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -895,7 +901,7 @@ window.Quarto = {
 <p><code>gsuite</code> provides an explicit, experimental R interface to the <code>gsolve</code>, <code>greml</code>, and <code>gbits</code> native libraries. It is deliberately below a formula or data-frame layer: callers supply fixed-effect matrices, covariance components, response order, BED dimensions, and numerical controls directly.</p>
 <section id="workflow" class="level2">
 <h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>bed <span class="ot">&lt;-</span> <span class="fu">gs_bed</span>(<span class="st">"cohort.bed"</span>, <span class="at">n_samples =</span> <span class="dv">100</span>, <span class="at">n_markers =</span> <span class="dv">1000</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>bed <span class="ot">&lt;-</span> <span class="fu">gs_bed</span>(<span class="st">"cohort.bed"</span>, <span class="at">n_samples =</span> <span class="dv">100</span>, <span class="at">n_markers =</span> <span class="dv">1000</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">gs_model</span>(</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixed =</span> <span class="fu">cbind</span>(<span class="at">intercept =</span> <span class="dv">1</span>, <span class="at">age =</span> age),</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">covariance =</span> <span class="fu">list</span>(<span class="fu">gs_genomic</span>(bed), <span class="fu">gs_residual</span>()),</span>
@@ -908,7 +914,7 @@ window.Quarto = {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">start =</span> <span class="fu">c</span>(<span class="at">genetic =</span> <span class="fl">0.5</span>, <span class="at">residual =</span> <span class="fl">0.5</span>),</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">gs_control</span>(<span class="at">threads =</span> <span class="dv">4</span>, <span class="at">multiple_rhs =</span> <span class="st">"block"</span>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>gs_bed()</code> uses explicit physical dimensions and does not parse BIM or FAM files. Optional sample and marker selections are one-based, unique, ordered R indices. They are checked once and converted to the zero-based native contract. The selected order is preserved. Genotype dosage orientation and missing-call decoding are inherited from <code>gbits</code>.</p>
 <p>The BED object owns immutable prepared packed storage, its selection, and its transformation. It supports raw, centered, scaled, and centered-scaled transforms and the public <code>gbits</code> missing policies. Centered-scaled mean imputation is the default. Marker weights are nonnegative, and genomic normalization is explicitly positive; by default it is the sum of weights. The matrix-free route uses <code>gbits::gsolve_adapter</code> and never forms a dense GRM.</p>
 </section>
@@ -1004,7 +1010,7 @@ window.Quarto = {
 <h1>Balanced structured longitudinal pipeline</h1>
 <p><code>gs_longitudinal_component(..., constraint = "positive")</code> explicitly constrains the coefficient covariance <code>Q</code>, not the relationship operator <code>K</code>. The base’s scalar constraint belongs to <code>gs_model()</code> and is not a constraint on <code>Q</code> here. The default remains SPD/log-Cholesky. Balanced random blocks may explicitly use <code>constraint = "may_be_zero"</code>, accepting PSD Q including zero and partial rank. Use <code>gs_longitudinal_control(acceptance = "likelihood_monotone", ...)</code> with an explicit complete REML probe matrix, <code>complete_probe_basis = TRUE</code>, and <code>lanczos_depth &gt;= length(Y)</code>. These probes must actually satisfy <span class="math inline">\(ZZ^{\mathsf T}/p=I\)</span>; the flag declares that contract. Ordinary stochastic PSD optimization is outside this first version. RHE raw estimates are preserved; their PSD start mapping uses no positive eigenvalue floor. Residuals remain <code>"positive"</code>, and <code>"fixed"</code> blocks and observed-record PSD optimization are rejected. Returned PSD REML parameters are lower-column-packed Q entries, with off-diagonals scaled by sqrt(2); SPD parameters retain their existing log-Cholesky meaning.</p>
 <p>The balanced interface uses one model object for initialization, refinement, and prediction:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>time <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>time <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">intercept =</span> <span class="dv">1</span>, <span class="at">exposure =</span> exposure)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>F <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">intercept =</span> <span class="dv">1</span>, <span class="at">time =</span> time)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">intercept =</span> <span class="dv">1</span>, <span class="at">time =</span> time)</span>
@@ -1029,7 +1035,7 @@ window.Quarto = {
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  model, control, <span class="at">predict =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">B_new =</span> <span class="fu">list</span>(<span class="fu">cbind</span>(<span class="dv">1</span>, <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">1.5</span>, <span class="fl">2.5</span>))),</span>
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">F_new =</span> <span class="fu">cbind</span>(<span class="dv">1</span>, <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">1.5</span>, <span class="fl">2.5</span>))</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>Y</code> must be a complete finite <code>n</code> by <code>T</code> matrix. <code>X</code>, <code>F</code>, and every supplied <code>B_c</code> must have full column rank; bases are never generated internally. The model is <span class="math inline">\(\operatorname{E}(Y) = X C F^{\mathsf T}\)</span> with covariance action</p>
 <p><span class="math display">\[
 V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
@@ -1041,7 +1047,7 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <section id="missing-and-irregular-longitudinal-records" class="level1">
 <h1>Missing and irregular longitudinal records</h1>
 <p>Each row is one observed scalar response. Missing occasions are omitted rather than represented by <code>NA</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>subject <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"c"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>subject <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"c"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>time <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.4</span>, <span class="fl">0.2</span>, <span class="fl">0.9</span>, <span class="fl">2.1</span>, <span class="dv">0</span>, <span class="fl">1.8</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.2</span>, <span class="fl">1.7</span>, <span class="fl">0.8</span>, <span class="fl">1.1</span>, <span class="fl">1.6</span>, <span class="fl">1.0</span>, <span class="fl">1.5</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>fixed <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">intercept =</span> <span class="dv">1</span>, <span class="at">time =</span> time,</span>
@@ -1075,7 +1081,7 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">fixed =</span> <span class="fu">cbind</span>(<span class="dv">1</span>, <span class="fu">c</span>(<span class="fl">2.2</span>, <span class="fl">2.6</span>), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)),</span>
 <span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">basis =</span> <span class="fu">list</span>(<span class="fu">cbind</span>(<span class="dv">1</span>, <span class="fu">c</span>(<span class="fl">2.2</span>, <span class="fl">2.6</span>)))</span>
 <span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Subject and record order are preserved. Component bases can have different column counts. Residual groups are diagonal and each estimated group must have at least one record. The result separates raw, adjusted and REML-initial RHE values; BLUP returns <code>n</code> by <code>r_c</code> latent coefficients, observed-record component/total/fixed/fitted values and residuals, and requested prediction records. Pedigree/sparse MME, multiple responses per record, correlated AR(1)/continuous-time residuals, exact singular boundaries, PEV/reliability, marker effects, and single-step models remain unsupported.</p>
 
 
@@ -1133,13 +1139,14 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

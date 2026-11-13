@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>Association analysis with glma – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,10 +78,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -874,7 +880,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="scan-the-quantitative-traits" class="level2">
 <h2 class="anchored" data-anchor-id="scan-the-quantitative-traits">Scan the quantitative traits</h2>
 <p>The phenotype is named by individual ID, so <code>glma()</code> can match its rows to the selected Glist sample order. A named matrix can scan several traits in the <em>same</em> cohort; this simulation instead uses disjoint cohorts and fits one trait at a time.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glma)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>gwas_ids <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
@@ -893,7 +899,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fits<span class="sc">$</span>A<span class="sc">$</span>associations[<span class="fu">c</span>(<span class="st">"marker"</span>, <span class="st">"a1"</span>, <span class="st">"a2"</span>, <span class="st">"beta"</span>, <span class="st">"se"</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"statistic"</span>, <span class="st">"p"</span>, <span class="st">"status"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"statistic"</span>, <span class="st">"p"</span>, <span class="st">"status"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>beta</code> is the effect per allele-1 dosage; <code>se</code> and <code>p</code> describe its single-marker test. <code>status</code> distinguishes tested markers from unavailable fits. In this simulated run, large signals were planted at markers including <code>m00050</code>, <code>m00125</code> and <code>m00175</code>; nearby LD can produce secondary peaks.</p>
 <table class="caption-top table">
 <thead>
@@ -984,7 +990,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="prepare-the-shared-summary-tables" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-the-shared-summary-tables">Prepare the shared summary tables</h2>
 <p>Use <a href="../../../gsuite/docs/package-tutorials/gbase.html">gbase::checkStat()</a> to orient the scan results to the LD reference. The driver also supplies <code>chr</code>, <code>pos</code> and allele labels from the same reference metadata before alignment:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>metadata <span class="ot">&lt;-</span> reference_Glist<span class="sc">$</span>sparseLD<span class="sc">$</span>marker_metadata</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>metadata <span class="ot">&lt;-</span> reference_Glist<span class="sc">$</span>sparseLD<span class="sc">$</span>marker_metadata</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>statistics <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">names</span>(fits), <span class="cf">function</span>(trait) {</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> fits[[trait]]<span class="sc">$</span>associations</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  raw <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -999,13 +1005,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">excludeCGAT =</span> <span class="cn">FALSE</span>, <span class="at">excludeINDEL =</span> <span class="cn">FALSE</span>, <span class="at">excludeDUPS =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">excludeMHC =</span> <span class="cn">FALSE</span>, <span class="at">excludeMISS =</span> <span class="cn">NULL</span>, <span class="at">excludeHWE =</span> <span class="cn">NULL</span>)</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(statistics) <span class="ot">&lt;-</span> <span class="fu">names</span>(fits)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(statistics) <span class="ot">&lt;-</span> <span class="fu">names</span>(fits)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The resulting named list is the common input for <a href="../../../gsuite/docs/package-tutorials/gcorr.html">gcorr</a>, <a href="../../../gsuite/docs/package-tutorials/gbayes.html">gbayes</a>, <a href="../../../gsuite/docs/package-tutorials/gmap.html">gmap</a> and gene aggregation below.</p>
 </section>
 <section id="test-genes-with-vegas" class="level2">
 <h2 class="anchored" data-anchor-id="test-genes-with-vegas">Test genes with VEGAS</h2>
 <p>Each gene is a vector of marker names. <code>vegas()</code> finds them in the Glist and processes all traits while each gene’s LD is available. The saved run used 1,000 artificial genes and a saddlepoint tail calculation.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>gene_metadata <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">lapply</span>(<span class="fu">names</span>(statistics), <span class="cf">function</span>(trait) {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>gene_metadata <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">lapply</span>(<span class="fu">names</span>(statistics), <span class="cf">function</span>(trait) {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">set =</span> <span class="fu">names</span>(gene_sets),</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sample_size =</span> <span class="fu">length</span>(gwas_ids[[trait]]),</span>
@@ -1021,7 +1027,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">tail_method =</span> <span class="st">"saddlepoint"</span>), <span class="at">threads =</span> <span class="dv">4</span>)</span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gene_results<span class="sc">$</span>stat<span class="sc">$</span>A[<span class="fu">c</span>(<span class="st">"set"</span>, <span class="st">"marker_count"</span>, <span class="st">"score"</span>,</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"p_value"</span>, <span class="st">"p_available"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"p_value"</span>, <span class="st">"p_available"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The result contains one gene-level table per trait. <code>p_available</code> must be checked before <a href="../../../gsuite/docs/package-tutorials/gsea.html">gsea::gsea_input()</a> converts VEGAS output to a gene-statistics table. The leading trait A genes in the saved run were:</p>
 <table class="caption-top table">
 <thead>
@@ -1084,10 +1090,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>For repeated sets of traits against the same reference and gene definitions, prepare the LD spectra once and pass the prepared object to subsequent calls:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>prepared_genes <span class="ot">&lt;-</span> <span class="fu">prepare_vegas</span>(reference_Glist, gene_sets, <span class="at">threads =</span> <span class="dv">4</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>prepared_genes <span class="ot">&lt;-</span> <span class="fu">prepare_vegas</span>(reference_Glist, gene_sets, <span class="at">threads =</span> <span class="dv">4</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gene_results <span class="ot">&lt;-</span> <span class="fu">vegas</span>(statistics, <span class="at">prepared =</span> prepared_genes,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">metadata =</span> gene_metadata,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">tail_method =</span> <span class="st">"saddlepoint"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">tail_method =</span> <span class="st">"saddlepoint"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The saved run used the direct <code>vegas()</code> call above; this preparation pattern is useful when analysing additional summary-statistics batches.</p>
 </section>
 <section id="other-association-routes" class="level2">
@@ -1129,13 +1135,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>For example, a conditional scan in the same cohort is:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>study_A <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>),</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>study_A <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>),</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> gwas_ids<span class="sc">$</span>A, <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>phenotype_A <span class="ot">&lt;-</span> <span class="fu">setNames</span>(Y[, <span class="st">"A"</span>], <span class="fu">rownames</span>(Y))</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>lead_index <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="st">"m00050"</span>, <span class="fu">unlist</span>(study_A<span class="sc">$</span>rsids, <span class="at">use.names =</span> <span class="cn">FALSE</span>))</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>conditional <span class="ot">&lt;-</span> <span class="fu">glma</span>(phenotype_A, study_A, <span class="at">method =</span> <span class="st">"linear"</span>,</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition_on =</span> lead_index, <span class="at">threads =</span> <span class="dv">4</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(conditional<span class="sc">$</span>associations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(conditional<span class="sc">$</span>associations)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The simulation assigns a separate artificial chromosome label to each 100-marker region. Those labels do not represent real chromosome-scale backgrounds, so this dataset is not a meaningful LOCO example. The <a href="../../../gsuite/docs/glma-workflow.html">full glma guide</a> works through binary, conditional and LOCO examples with a suitable small panel.</p>
 <p><a href="../../website/assets/package-tutorials/glma-top-associations.csv">Download the top marker associations</a> · <a href="../../website/assets/package-tutorials/glma-top-vegas.csv">download the leading VEGAS genes</a></p>
 
@@ -1194,13 +1200,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>Heritability and genetic correlation with gcorr – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,10 +78,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -873,7 +879,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="estimate-genome-wide-quantities" class="level2">
 <h2 class="anchored" data-anchor-id="estimate-genome-wide-quantities">Estimate genome-wide quantities</h2>
 <p><code>statistics</code> is a named list of aligned A, B and C tables from <a href="../../../gsuite/docs/package-tutorials/glma.html">glma</a>. The traits use the same reference markers in the same order. The disjoint GWAS cohorts justify a zero cross-trait overlap intercept in this simulated example; that assumption must be reconsidered for overlapping cohorts.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gcorr)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gcorr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ordinary <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(statistics, reference_Glist,</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">what =</span> <span class="st">"rg"</span>, <span class="at">block_count =</span> <span class="dv">200</span>L,</span>
@@ -882,7 +888,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>ordinary<span class="sc">$</span>estimates</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ordinary<span class="sc">$</span>h2</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ordinary<span class="sc">$</span>rg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ordinary<span class="sc">$</span>rg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <code>h2</code> rows estimate SNP heritability; <code>rg</code> rows estimate the correlation between genetic effects for trait pairs. The reported standard errors use contiguous delete-block jackknife calculations.</p>
 <table class="caption-top table">
 <thead>
@@ -957,7 +963,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="attribute-heritability-to-a-marker-group" class="level2">
 <h2 class="anchored" data-anchor-id="attribute-heritability-to-a-marker-group">Attribute heritability to a marker group</h2>
 <p>The first 80 artificial regions form an <code>enriched</code> annotation. Standard stratified LDSC computes an annotation LD-score column; at any marker it includes LD to annotated markers, including LD that crosses the annotation boundary. The residual column covers the remaining marker membership.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>enriched_markers <span class="ot">&lt;-</span> <span class="fu">unlist</span>(regions[<span class="dv">1</span><span class="sc">:</span><span class="dv">80</span>], <span class="at">use.names =</span> <span class="cn">FALSE</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>enriched_markers <span class="ot">&lt;-</span> <span class="fu">unlist</span>(regions[<span class="dv">1</span><span class="sc">:</span><span class="dv">80</span>], <span class="at">use.names =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>partitioned <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(statistics, reference_Glist,</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> <span class="fu">list</span>(<span class="at">enriched =</span> enriched_markers),</span>
@@ -968,7 +974,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(partitioned<span class="sc">$</span>estimates,</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  trait1 <span class="sc">==</span> <span class="st">"A"</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(trait2) <span class="sc">&amp;</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    quantity <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"h2"</span>, <span class="st">"enrichment"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    quantity <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"h2"</span>, <span class="st">"enrichment"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The trait A rows from this fit show a total <code>h2</code> of about 0.36, with about 0.267 attributed to the enriched category. <code>enrichment</code> compares a category’s heritability share with its marker share. It is a model-based estimate, not a count of causal variants.</p>
 <table class="caption-top table">
 <thead>
@@ -1019,22 +1025,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p><code>set_model = "grouped"</code> is also available. It masks the existing ordinary LD-score vector by group membership and can avoid recomputing annotation scores. It answers a different grouped question because LD crossing group boundaries is not allocated to the same annotation columns:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>grouped <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(statistics, reference_Glist,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>grouped <span class="ot">&lt;-</span> <span class="fu">ldsc</span>(statistics, reference_Glist,</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> <span class="fu">list</span>(<span class="at">enriched =</span> enriched_markers), <span class="at">residual =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_model =</span> <span class="st">"grouped"</span>, <span class="at">what =</span> <span class="st">"rg"</span>,</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">block_count =</span> <span class="dv">200</span>L, <span class="at">overlap_intercept =</span> <span class="dv">0</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">marginal_intercept =</span> <span class="st">"fixed_one"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">marginal_intercept =</span> <span class="st">"fixed_one"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The displayed partitioned table belongs to the stratified fit, not the grouped example.</p>
 </section>
 <section id="work-at-regional-or-covariance-level" class="level2">
 <h2 class="anchored" data-anchor-id="work-at-regional-or-covariance-level">Work at regional or covariance level</h2>
 <p>One prepared regional LD object can be reused across methods and trait pairs. The preparation loads the requested regions and verifies their complete eigensystems once in the current R session:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>prepared_regions <span class="ot">&lt;-</span> <span class="fu">gcorr_prepare_regions</span>(reference_Glist,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>prepared_regions <span class="ot">&lt;-</span> <span class="fu">gcorr_prepare_regions</span>(reference_Glist,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">regions =</span> regions[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>regional_h2 <span class="ot">&lt;-</span> <span class="fu">gcorr_hess</span>(statistics<span class="sc">$</span>A, prepared_regions,</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum_components =</span> <span class="dv">0</span>, <span class="at">minimum_eigenvalue =</span> <span class="dv">0</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>regional_h2<span class="sc">$</span>estimates</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>regional_h2<span class="sc">$</span>estimates</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This call illustrates HESS; regional results were not part of the displayed LDSC table. Regional methods require method-specific sample overlap, eigenvalue and inference choices.</p>
 <table class="caption-top table">
 <colgroup>
@@ -1130,13 +1136,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

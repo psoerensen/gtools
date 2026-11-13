@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>Association analysis with glma – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,10 +78,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -878,7 +884,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This tutorial uses the artificial PLINK panel distributed with gsuite: 96 individuals, 48 markers and six chromosome-local regions. <code>gsim</code> creates two continuous traits from declared marker effects. The small example is intended to explain the interface and results; it is not a power, calibration or performance study.</p>
 <section id="prepare-the-genotype-panel" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-the-genotype-panel">Prepare the genotype panel</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glma)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsim)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -887,13 +893,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> bed)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(Glist<span class="sc">$</span>ids)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">lengths</span>(Glist<span class="sc">$</span>rsids))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">lengths</span>(Glist<span class="sc">$</span>rsids))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Glist fixes the selected people, markers, alleles and source-file order used by every individual-level analysis below.</p>
 </section>
 <section id="simulate-two-quantitative-traits" class="level2">
 <h2 class="anchored" data-anchor-id="simulate-two-quantitative-traits">Simulate two quantitative traits</h2>
 <p>Declare a few nonzero effects, then let <code>gsim</code> generate phenotypes from the existing genotype panel.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>markers <span class="ot">&lt;-</span> <span class="fu">unlist</span>(Glist<span class="sc">$</span>rsids, <span class="at">use.names =</span> <span class="cn">FALSE</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>markers <span class="ot">&lt;-</span> <span class="fu">unlist</span>(Glist<span class="sc">$</span>rsids, <span class="at">use.names =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"trait_A"</span>, <span class="st">"trait_B"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>effects <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="fu">length</span>(markers), <span class="fu">length</span>(traits),</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(markers, traits))</span>
@@ -920,34 +926,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(Glist<span class="sc">$</span>ids, <span class="st">"batch"</span>))</span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>phenotypes <span class="ot">&lt;-</span> simulation<span class="sc">$</span>Y <span class="sc">+</span> .<span class="dv">25</span> <span class="sc">*</span> covariates[, <span class="dv">1</span>]</span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(phenotypes) <span class="ot">&lt;-</span> Glist<span class="sc">$</span>ids</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(phenotypes) <span class="ot">&lt;-</span> traits</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(phenotypes) <span class="ot">&lt;-</span> traits</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Named phenotype rows and covariate rows are aligned to the selected Glist individuals. An intercept is added by <code>glma</code>; do not include one in <code>covariates</code>.</p>
 </section>
 <section id="scan-one-or-several-quantitative-traits" class="level2">
 <h2 class="anchored" data-anchor-id="scan-one-or-several-quantitative-traits">Scan one or several quantitative traits</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>linear <span class="ot">&lt;-</span> <span class="fu">glma_linear</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>linear <span class="ot">&lt;-</span> <span class="fu">glma_linear</span>(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">phenotype =</span> phenotypes,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">covariates =</span> covariates,</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">block_size =</span> <span class="dv">16</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>linear</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>linear</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The phenotype matrix produces one <code>glma_fit</code> per named trait while BED reading and genotype decoding are shared:</p>
 <pre class="text"><code>&lt;glma_multi_fit&gt; 2 quantitative traits: trait_A, trait_B</code></pre>
 <p>The principal result is an ordinary data frame:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>association_A <span class="ot">&lt;-</span> linear<span class="sc">$</span>trait_A<span class="sc">$</span>associations</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>association_A <span class="ot">&lt;-</span> linear<span class="sc">$</span>trait_A<span class="sc">$</span>associations</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(association_A[<span class="fu">c</span>(<span class="st">"marker"</span>, <span class="st">"chromosome"</span>, <span class="st">"a1"</span>, <span class="st">"a2"</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"beta"</span>, <span class="st">"se"</span>, <span class="st">"statistic"</span>, <span class="st">"p"</span>, <span class="st">"status"</span>)])</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>successful_A <span class="ot">&lt;-</span> <span class="fu">subset</span>(association_A, status <span class="sc">==</span> <span class="st">"ok"</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>successful_A[<span class="fu">order</span>(successful_A<span class="sc">$</span>p), ][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>successful_A[<span class="fu">order</span>(successful_A<span class="sc">$</span>p), ][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For a linear scan, <code>beta</code> is the allele-1 dosage effect, <code>se</code> its standard error, and <code>statistic</code> the t statistic. Every selected marker remains in the table. A marker that cannot be tested has a non-<code>ok</code> status and unavailable estimates rather than being silently removed.</p>
 </section>
 <section id="condition-on-selected-markers" class="level2">
 <h2 class="anchored" data-anchor-id="condition-on-selected-markers">Condition on selected markers</h2>
 <p><code>condition_on</code> uses 1-based positions in selected Glist marker order. The specified genotypes enter the fixed-effect design together.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>conditional <span class="ot">&lt;-</span> <span class="fu">glma_linear</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>conditional <span class="ot">&lt;-</span> <span class="fu">glma_linear</span>(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">phenotype =</span> phenotypes[, <span class="st">"trait_A"</span>],</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">covariates =</span> covariates,</span>
@@ -957,13 +963,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>conditional<span class="sc">$</span>method</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>conditional<span class="sc">$</span>diagnostics</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(conditional<span class="sc">$</span>associations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(conditional<span class="sc">$</span>associations)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This answers whether each tested marker contributes after adjustment for the conditioning marker. It is not a multi-marker omnibus test.</p>
 </section>
 <section id="analyse-a-binary-trait" class="level2">
 <h2 class="anchored" data-anchor-id="analyse-a-binary-trait">Analyse a binary trait</h2>
 <p>Create a reproducible binary outcome from the first simulated genetic value and the same covariate.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>probability <span class="ot">&lt;-</span> <span class="fu">plogis</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>probability <span class="ot">&lt;-</span> <span class="fu">plogis</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span>.<span class="dv">4</span> <span class="sc">+</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(simulation<span class="sc">$</span>G[, <span class="dv">1</span>])) <span class="sc">+</span> .<span class="dv">25</span> <span class="sc">*</span> covariates[, <span class="dv">1</span>]</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>binary <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(<span class="fu">length</span>(probability), <span class="dv">1</span>, probability)</span>
@@ -973,13 +979,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>logistic</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(logistic<span class="sc">$</span>associations[<span class="fu">c</span>(<span class="st">"marker"</span>, <span class="st">"case_n"</span>, <span class="st">"control_n"</span>,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"beta"</span>, <span class="st">"se"</span>, <span class="st">"statistic"</span>, <span class="st">"p"</span>, <span class="st">"status"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"beta"</span>, <span class="st">"se"</span>, <span class="st">"statistic"</span>, <span class="st">"p"</span>, <span class="st">"status"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Here <code>beta</code> is an allele-1 log-odds effect and <code>statistic</code> is a Wald z statistic. Separation, sparse outcomes and convergence failures are reported in <code>status</code>. This route is ordinary logistic regression, not binary mixed-model association.</p>
 </section>
 <section id="account-for-a-genomic-background-with-loco" class="level2">
 <h2 class="anchored" data-anchor-id="account-for-a-genomic-background-with-loco">Account for a genomic background with LOCO</h2>
 <p>Both methods use the joint full-panel engine. The infinitesimal method fixes one Gaussian/ridge prior with equal variance on empirically standardized genotypes; it does not compare elastic or mixture priors. The standalone interface has retired the previous chromosome-specific variance-ratio search. Its <code>chunk_ridge</code>, <code>observation_pcg</code> and <code>marker_coordinates</code> algorithms and variance-search controls are no longer accepted. Use the joint product backends and controls shown here.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>infinitesimal <span class="ot">&lt;-</span> <span class="fu">glma_infinitesimal_loco</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>infinitesimal <span class="ot">&lt;-</span> <span class="fu">glma_infinitesimal_loco</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  phenotypes[, <span class="st">"trait_A"</span>],</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  covariates,</span>
@@ -991,7 +997,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>infinitesimal</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>infinitesimal<span class="sc">$</span>fit[<span class="fu">c</span>(<span class="st">"genetic_variance"</span>, <span class="st">"residual_variance"</span>)]</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>infinitesimal<span class="sc">$</span>fit<span class="sc">$</span>loco</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>infinitesimal<span class="sc">$</span>diagnostics</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>infinitesimal<span class="sc">$</span>diagnostics</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The explicit scaling factor keeps this small teaching example deterministic. For a real dataset, omit it to use the native cross-chromosome structure check and ridge-reference calibration when required. Streamed storage supports the decoded backends; packed backends require prepared storage. Threads are local to each operation.</p>
 <p>The variance procedure is explicit:</p>
 <ol type="1">
@@ -1003,7 +1009,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The association scan tests each marker against its chromosome-excluded residual, after fixed-covariate projection, and returns effects, standard errors, chi-square statistics and p-values. These are scaled residual-offset test estimates; exact mixed-model GLS effects are not asserted. The estimator differs from the retired per-chromosome variance search, so old statistical and timing records do not establish equivalence. Broad mixed-model null-tail qualification remains open.</p>
 <p>Diagnostics identify <code>fitting_engine = "joint_full_panel_ridge"</code>, <code>variance_estimator = "blocked_rhe_mc_grid"</code>, <code>variance_shared_across_chromosomes = TRUE</code>, the marker power, candidate count, heritability and fitting/scan phases.</p>
 <p>The alternative prior-selected background chooses among native prediction priors and returns marker effects after the selected global and LOCO refits:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>prior_selected <span class="ot">&lt;-</span> <span class="fu">glma_prior_selected_loco</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>prior_selected <span class="ot">&lt;-</span> <span class="fu">glma_prior_selected_loco</span>(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  phenotypes[, <span class="st">"trait_A"</span>],</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  covariates,</span>
@@ -1019,13 +1025,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>prior_selected<span class="sc">$</span>fit</span>
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>prior_selected<span class="sc">$</span>diagnostics</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prior_selected<span class="sc">$</span>associations)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prior_selected<span class="sc">$</span>associations)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The explicit <code>scaling_factor = 1</code> keeps this tiny example deterministic and bypasses automatic structure calibration. It is not a general recommendation for real datasets.</p>
 </section>
 <section id="fit-several-genetic-background-components" class="level2">
 <h2 class="anchored" data-anchor-id="fit-several-genetic-background-components">Fit several genetic background components</h2>
 <p><code>sets</code> defines disjoint named lists of marker IDs for either LOCO method. Unassigned fitted markers form an automatic <code>background</code> group. This is one joint background model and one association scan; it is distinct from aggregating association evidence over marker sets with VEGAS. The first implementation requires prepared genotypes and supports at most 32 components, including background. Unknown markers, overlaps, empty sets and sets without any retained background marker are rejected.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>component_sets <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">group_A =</span> markers[<span class="fu">seq_len</span>(<span class="dv">16</span>)])</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>component_sets <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">group_A =</span> markers[<span class="fu">seq_len</span>(<span class="dv">16</span>)])</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>component_fit <span class="ot">&lt;-</span> <span class="fu">glma</span>(phenotypes[, <span class="st">"trait_A"</span>], Glist,</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">covariates =</span> covariates, <span class="at">sets =</span> component_sets,</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"infinitesimal_loco"</span>, <span class="at">block_size =</span> <span class="dv">16</span>,</span>
@@ -1037,7 +1043,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>component_prior <span class="ot">&lt;-</span> <span class="fu">glma</span>(phenotypes[, <span class="st">"trait_A"</span>], Glist,</span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">covariates =</span> covariates, <span class="at">sets =</span> component_sets,</span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"prior_selected_loco"</span>, <span class="at">block_size =</span> <span class="dv">16</span>,</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">controls =</span> <span class="fu">list</span>(<span class="at">scaling_factor =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">controls =</span> <span class="fu">list</span>(<span class="at">scaling_factor =</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For group c, <code>K_c = Z_c Z_c'/m_c</code>, where <code>Z_c</code> contains empirically standardized marker columns and <code>m_c</code> is its global fitted marker count. The genomic covariance is the sum of <code>vg_c * K_c</code>, plus residual variance times the identity. greml’s existing full-moment multi-component RHE estimates the genetic variance profile and residual component jointly, including cross-component moments. Rank-deficient or ill-conditioned moment systems fail explicitly. Raw RHE estimates and adjusted initial values are retained. A positive ridge floor of <code>1e-8</code> times the projected phenotype mean square approximates boundary components and is reported; this is not an exact zero-component estimate.</p>
 <p>The shared scalar Monte Carlo grid refines the total genetic scale while keeping the RHE proportions fixed. Both grouped methods fix marker power at -1. Prior-selected LOCO chooses one family across groups with distinct group scales; it does not select a separate family for each set. This approximate procedure is not a multidimensional REML or Monte Carlo variance optimization.</p>
 <p>LOCO removes the tested chromosome from every group while retaining global kernel normalizations and variance parameters. It does not redistribute removed prior variance among retained markers. A group wholly on that chromosome has zero active contribution. <code>fit$components</code> gives global marker counts and variance estimates; <code>fit$loco_components</code> gives active counts, global normalization counts, fixed variances and active prior variance sums. For grouped fits, <code>fit$loco$genetic_variance</code> is their retained prior variance sum. Diagnostics name <code>component_rhe_profile_mc_grid</code> and report the ridge floor, RHE moment condition estimate and fixed variance-profile policy. Existing no-set calls retain their previous estimator and normalization. The earlier one-component timings do not measure this extension.</p>
@@ -1045,7 +1051,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="aggregate-marker-evidence-with-vegas" class="level2">
 <h2 class="anchored" data-anchor-id="aggregate-marker-evidence-with-vegas">Aggregate marker evidence with VEGAS</h2>
 <p>VEGAS uses checked summary statistics and sparse LD from the same Glist. Prepare the LD resource once and derive aligned effect/standard-error summaries from the linear scan.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ld_prefix <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="st">"glma-tutorial-ld-"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ld_prefix <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="st">"glma-tutorial-ld-"</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>LD_Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
@@ -1077,33 +1083,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>evidence</span>
 <span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>evidence<span class="sc">$</span>stat<span class="sc">$</span>trait[<span class="fu">c</span>(<span class="st">"set"</span>, <span class="st">"marker_count"</span>, <span class="st">"statistic"</span>,</span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>  <span class="st">"score"</span>, <span class="st">"p_value"</span>, <span class="st">"p_available"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>  <span class="st">"score"</span>, <span class="st">"p_value"</span>, <span class="st">"p_available"</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each marker set defines one region. The one-call form opens one sparse-LD reader and prepares eigenvalue spectra in bounded batches across marker sets. For repeated analyses, prepare the spectra once and reuse the ordinary serializable R object for any number of checked traits:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>prepared <span class="ot">&lt;-</span> <span class="fu">prepare_vegas</span>(LD_Glist, sets, <span class="at">threads =</span> <span class="dv">4</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>prepared <span class="ot">&lt;-</span> <span class="fu">prepare_vegas</span>(LD_Glist, sets, <span class="at">threads =</span> <span class="dv">4</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(prepared, <span class="st">"vegas-reference.rds"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>evidence_A <span class="ot">&lt;-</span> <span class="fu">vegas</span>(statistics, <span class="at">prepared =</span> prepared)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>evidence_B <span class="ot">&lt;-</span> <span class="fu">vegas</span>(statistics_B, <span class="at">prepared =</span> prepared)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>evidence_B <span class="ot">&lt;-</span> <span class="fu">vegas</span>(statistics_B, <span class="at">prepared =</span> prepared)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Evaluation does not reopen the LD resource or repeat the eigendecompositions. Memory remains bounded by the preparation thread count rather than the total number of sets. <code>gsea::prepare_vegas()</code> and <code>gsea::vegas()</code> re-export the same interfaces for pathway workflows.</p>
 <p>For full within-gene LD computed directly from BED, prepare once through gbase and reuse the stored spectra in glma:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>eigen_Glist <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gprep</span>(Glist, <span class="at">task =</span> <span class="st">"eigen"</span>, <span class="at">sets =</span> sets, <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>eigen_Glist <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gprep</span>(Glist, <span class="at">task =</span> <span class="st">"eigen"</span>, <span class="at">sets =</span> sets, <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>prepared_BED <span class="ot">&lt;-</span> <span class="fu">prepare_vegas</span>(eigen_Glist)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Align checked statistics to prepared_BED$markers, including both alleles.</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(prepared_BED, <span class="st">"vegas-bed-reference.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(prepared_BED, <span class="st">"vegas-bed-reference.rds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each trait supplied to <code>vegas(stat, prepared = prepared_BED)</code> must contain every row of <code>prepared_BED$markers</code> in its exact marker and allele order. This metadata is the union of the requested gene markers. The saved spectra retain full gene membership; removing a marker requires preparation again. Constant positive weights within each gene can rescale the stored spectrum; nonuniform weights require sparse-LD preparation. Sparse-LD cutoffs and windows do not apply to the BED spectra. Tail defaults remain glma’s existing approximations; this route does not assert identical P-values to qgg’s different tail evaluator.</p>
 <p>Remove the temporary sparse-LD files when the example is finished:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(<span class="fu">unlist</span>(LD_Glist<span class="sc">$</span>sparseLD<span class="sc">$</span>paths, <span class="at">use.names =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(<span class="fu">unlist</span>(LD_Glist<span class="sc">$</span>sparseLD<span class="sc">$</span>paths, <span class="at">use.names =</span> <span class="cn">FALSE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="save-and-report-results" class="level2">
 <h2 class="anchored" data-anchor-id="save-and-report-results">Save and report results</h2>
 <p>All results are ordinary R lists and data frames:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">list</span>(<span class="at">linear =</span> linear, <span class="at">conditional =</span> conditional,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(<span class="fu">list</span>(<span class="at">linear =</span> linear, <span class="at">conditional =</span> conditional,</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">logistic =</span> logistic, <span class="at">infinitesimal =</span> infinitesimal,</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">prior_selected =</span> prior_selected, <span class="at">vegas =</span> evidence),</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"glma-analysis.rds"</span>)</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(association_A, <span class="st">"trait-A-associations.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(evidence<span class="sc">$</span>stat<span class="sc">$</span>trait, <span class="st">"trait-A-marker-sets.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(evidence<span class="sc">$</span>stat<span class="sc">$</span>trait, <span class="st">"trait-A-marker-sets.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For real analyses, inspect the complete <code>status</code> column, method-specific fit information and diagnostics before filtering by p-value. Multiple-testing correction, Manhattan/QQ plotting and scientific interpretation remain explicit analysis decisions rather than automatic transformations of the native output.</p>
 <p>The larger <a href="../../gsuite/docs/simulated-genomics-workflow.html">connected genomic analysis</a> shows linear GWAS and VEGAS results for 10,000 simulated individuals and 50,000 markers. The <a href="../../gsuite/docs/glma-qualification.html">glma validation page</a> records the focused numerical comparisons and their limits.</p>
 
@@ -1162,13 +1168,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Gene-set and pathway analysis – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -71,10 +77,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -917,10 +923,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="from-gwas-summary-statistics-to-pathways" class="level2">
 <h2 class="anchored" data-anchor-id="from-gwas-summary-statistics-to-pathways">From GWAS summary statistics to pathways</h2>
 <p><a href="../tools/examples/gwas_pathways.R">Download the complete GWAS-to-pathway example</a>. Run it with installed gsuite, gsea and gsim packages from the repository root:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/gwas_pathways.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/gwas_pathways.R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The script simulates two continuous traits in <strong>10,000 individuals</strong>, with 240 markers assigned to 80 artificial genes across four artificial chromosomes. It prepares LD, computes ordinary GWAS Z statistics, derives gene evidence and runs pathway analyses. Genotypes are only needed to construct this demonstration; <code>vegas()</code> itself consumes ordinary checked summary-statistics data frames and the sparse-LD resource attached to a Glist. Outputs stay together in <code>build/examples/gwas-pathways/</code>: a saved workflow, one pathway table, one figure and the reference files.</p>
 <p>The analysis boundary is explicit:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsea)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsea)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>evidence <span class="ot">&lt;-</span> <span class="fu">vegas</span>(</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  statistics, Glist, <span class="at">sets =</span> genes,</span>
@@ -934,11 +940,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gsea</span>(input<span class="sc">$</span>stat, sets, <span class="at">method =</span> <span class="st">"preranked"</span>,</span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">control =</span> <span class="fu">list</span>(<span class="at">seed =</span> <span class="dv">31</span>, <span class="at">replicates =</span> <span class="dv">999</span>, <span class="at">adjustment =</span> <span class="st">"BH"</span>))</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>pathways</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">trait =</span> <span class="st">"trait_A"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">trait =</span> <span class="st">"trait_A"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each <code>statistics</code> entry is an ordinary data frame in complete sparse-LD marker and allele order, using qgg-style names such as <code>rsids</code>, <code>ea</code>, <code>nea</code>, <code>stat</code>, <code>b</code>, and <code>seb</code>. <code>gbase::checkStat()</code> can establish that order and orientation from a Glist. Z-score, effect/standard-error and score/information forms are accepted. A named list supplies traits; native set preparation is reused across them. When the same reference and gene definitions serve multiple analyses, retain that work explicitly:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>prepared_genes <span class="ot">&lt;-</span> <span class="fu">prepare_vegas</span>(Glist, genes, <span class="at">threads =</span> <span class="dv">4</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>prepared_genes <span class="ot">&lt;-</span> <span class="fu">prepare_vegas</span>(Glist, genes, <span class="at">threads =</span> <span class="dv">4</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>evidence_A <span class="ot">&lt;-</span> <span class="fu">vegas</span>(statistics_A, <span class="at">prepared =</span> prepared_genes)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>evidence_B <span class="ot">&lt;-</span> <span class="fu">vegas</span>(statistics_B, <span class="at">prepared =</span> prepared_genes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>evidence_B <span class="ot">&lt;-</span> <span class="fu">vegas</span>(statistics_B, <span class="at">prepared =</span> prepared_genes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The prepared object is an ordinary R object and can be saved with <code>saveRDS()</code>. <code>sets = genes</code> supplies the marker membership for each gene, for example <code>list(gene1=c("m1","m2"), gene2=c("m3","m4"))</code>. Nonnegative quadratic weights are supplied separately through <code>weights</code>. The same <code>vegas()</code> interface accepts regions or other marker sets. Its <code>set</code> column is mapped explicitly to the gene-labelled schema expected by <code>gsea()</code> by <code>gsea_input()</code> as shown above. The adapter rejects unavailable p-values and inconsistent traits. The helper verifies identities and allele coding but does not harmonize them.</p>
 <p><code>sets</code> alone defines the regions. Native code opens one validated sparse-LD reader and prepares eigenvalue spectra in bounded parallel batches across genes. Trait evaluation reuses those spectra and does not reread LD. The default maximum is 2,048 markers per gene.</p>
 <p>The returned <code>evidence$stat</code> includes the standardized quadratic gene <code>score</code>, <code>p_value</code>, tail diagnostics, marker count and SNP-wise mean metadata. VEGAS does not construct cross-gene covariance. ORA and preranked enrichment can consume the gene statistics directly. Competitive, MAGMA and Bayesian pathway models require a separately prepared, labelled gene covariance; marker-set membership is not treated as evidence of independence.</p>
@@ -949,7 +955,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="a-small-gene-level-example" class="level2">
 <h2 class="anchored" data-anchor-id="a-small-gene-level-example">A small gene-level example</h2>
 <p><a href="../tools/examples/gsea_workflow.R">Download the runnable R example</a>. It contains all six methods and uses 120 artificial genes and three overlapping pathways. This is an interface demonstration, not a comparative calibration study.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsuite)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsuite)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2401</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>genes <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"gene"</span>, <span class="fu">seq_len</span>(<span class="dv">120</span>))</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sets <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">pathway_A=</span>genes[<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>], <span class="at">pathway_B=</span>genes[<span class="dv">21</span><span class="sc">:</span><span class="dv">45</span>],</span>
@@ -960,41 +966,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait_A=</span><span class="fu">data.frame</span>(<span class="at">gene=</span>genes, <span class="at">score=</span><span class="dv">2</span><span class="sc">*</span>X[,<span class="dv">1</span>]<span class="sc">+</span>noise[,<span class="dv">1</span>]),</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait_B=</span><span class="fu">data.frame</span>(<span class="at">gene=</span>genes, <span class="at">score=</span><span class="fl">1.5</span><span class="sc">*</span>X[,<span class="dv">1</span>]<span class="sc">+</span>X[,<span class="dv">2</span>]<span class="sc">+</span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                      .<span class="dv">3</span><span class="sc">*</span>noise[,<span class="dv">1</span>]<span class="sc">+</span><span class="fu">sqrt</span>(.<span class="dv">91</span>)<span class="sc">*</span>noise[,<span class="dv">2</span>])</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>stat</code> is a data frame for one trait or a named list for several traits. Every frame must contain the same unique character <code>gene</code> IDs in the same order. All genes in the declared background remain in the analysis, including genes outside every set. Unknown or duplicate set members are errors. Set overlap is allowed. For competitive and Bayesian regression, a labelled numeric feature matrix can replace binary set membership.</p>
 </section>
 <section id="selected-genes-or-a-ranked-list" class="level2">
 <h2 class="anchored" data-anchor-id="selected-genes-or-a-ranked-list">Selected genes or a ranked list</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ora <span class="ot">&lt;-</span> <span class="fu">gsea</span>(<span class="fu">transform</span>(stat<span class="sc">$</span>trait_A, <span class="at">selected=</span>score<span class="sc">&gt;</span><span class="dv">2</span>), sets, <span class="st">"ora"</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ora <span class="ot">&lt;-</span> <span class="fu">gsea</span>(<span class="fu">transform</span>(stat<span class="sc">$</span>trait_A, <span class="at">selected=</span>score<span class="sc">&gt;</span><span class="dv">2</span>), sets, <span class="st">"ora"</span>,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">control=</span><span class="fu">list</span>(<span class="at">adjustment=</span><span class="st">"BH"</span>))</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ranked <span class="ot">&lt;-</span> <span class="fu">gsea</span>(stat<span class="sc">$</span>trait_A, sets, <span class="st">"preranked"</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">control=</span><span class="fu">list</span>(<span class="at">replicates=</span><span class="dv">999</span>, <span class="at">seed=</span><span class="dv">2401</span>, <span class="at">adjustment=</span><span class="st">"BH"</span>))</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ranked<span class="sc">$</span>pathways</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ranked<span class="sc">$</span>details<span class="sc">$</span>trait<span class="sc">$</span>leading_edge</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ranked)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ranked)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>ORA requires a logical <code>selected</code> column over the complete background; the selection rule is the caller’s decision. Preranked GSEA uses a finite <code>score</code>, a stable decreasing ranking and whole-background gene-label permutations. It does not correct for LD or perform phenotype permutations. Excluded sets and unavailable directional inference remain in the result with diagnostics. <code>adjustment="BH"</code> or <code>"BY"</code> adjusts the tested p-values, not pooled NES values as in Broad GSEA’s FDR calculation. Defaults are no adjustment, exponent 1, set sizes 1–500, seed 1, 999 permutations and one thread.</p>
 </section>
 <section id="competitive-regression" class="level2">
 <h2 class="anchored" data-anchor-id="competitive-regression">Competitive regression</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gsea</span>(stat, sets, <span class="st">"competitive"</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gsea</span>(stat, sets, <span class="st">"competitive"</span>,</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">sampling=</span><span class="fu">list</span>(<span class="at">gene_covariance=</span><span class="st">"independent"</span>),</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">control=</span><span class="fu">list</span>(<span class="at">adjustment=</span><span class="st">"BH"</span>))</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>pathways</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">trait=</span><span class="st">"trait_A"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">trait=</span><span class="st">"trait_A"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Classical methods analyse traits separately, with adjustment within each trait. Competitive regression fits pathways jointly by default; <code>joint=FALSE</code> fits each pathway separately with the same covariates and background. Covariates are a numeric matrix with gene row names or a data frame with <code>gene</code> and numeric columns; an intercept is added internally. Encode factors explicitly.</p>
 <p>Regression always requires <code>sampling$gene_covariance</code>. Supply <code>"independent"</code> only when that working assumption is intended, or provide a labelled covariance matrix / named list of labelled blocks that partition the complete background. Block labels are used explicitly to map to gene order. Competitive and Bayesian covariance blocks must be symmetric positive definite; singular fitted designs fail rather than silently drop columns. Development MAGMA uses the explicit covariance truncation described below. Student-t inference is a working approximation for non-Gaussian gene scores.</p>
 </section>
 <section id="the-bounded-magma-route" class="level2">
 <h2 class="anchored" data-anchor-id="the-bounded-magma-route">The bounded MAGMA route</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>gene_p <span class="ot">&lt;-</span> <span class="fu">transform</span>(stat<span class="sc">$</span>trait_A,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>gene_p <span class="ot">&lt;-</span> <span class="fu">transform</span>(stat<span class="sc">$</span>trait_A,</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_value=</span><span class="fu">pnorm</span>(score,<span class="at">lower.tail=</span><span class="cn">FALSE</span>), <span class="at">marker_count=</span><span class="dv">10</span>,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">effective_parameters=</span><span class="dv">8</span>, <span class="at">sample_size=</span><span class="dv">10000</span>, <span class="at">mean_minor_allele_count=</span><span class="dv">2000</span>)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>magma <span class="ot">&lt;-</span> <span class="fu">gsea</span>(gene_p, sets, <span class="st">"magma"</span>,</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">sampling=</span><span class="fu">list</span>(<span class="at">gene_covariance=</span><span class="st">"independent"</span>),</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">control=</span><span class="fu">list</span>(<span class="at">adjustment=</span><span class="st">"BH"</span>))</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>magma<span class="sc">$</span>pathways</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>magma<span class="sc">$</span>preparation<span class="sc">$</span>trait</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>magma<span class="sc">$</span>preparation<span class="sc">$</span>trait</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>These artificial p-values illustrate the API. Real analyses require calibrated gene-level evidence. Native preprocessing applies the documented probit transformation, clipping and gene-property corrections; the default adjusts the outcome for internal covariates before fitting each pathway separately. Constant internal covariates are reported. <code>correct_size</code>, <code>correct_density</code>, <code>correct_sample_size</code> and <code>correct_mac</code> default to <code>TRUE</code>; their positive input columns are required whenever enabled. <code>truncate</code> and <code>residualize_internal</code> also default to <code>TRUE</code>; bounds are <code>lower_z_bound=-3</code>, <code>upper_z_sd=6</code> and <code>covariate_sd_bound=5</code>. External custom covariates use <code>competitive</code> instead.</p>
 <p>For this method, gene dependence means <strong>quadratic-score correlation</strong>, with nonnegative entries and unit diagonal. The native workflow applies the recorded working-correlation power (default 1.1). This is not exact covariance of the transformed probit scores. It is a defined subset of MAGMA’s workflow, not full MAGMA equivalence. SNP-to-gene tests, allele alignment and reference preparation are separate native operations and are not hidden inside this call.</p>
 <p><strong>Development gsea 0.1.2:</strong> after the correlation-power correction, MAGMA uses an explicit truncated generalized inverse, retaining eigenvalues strictly greater than <code>covariance_eigenvalue_cutoff=0.1</code>. Setting the cutoff to zero selects strict positive-definite handling. Residual degrees of freedom use the retained covariance rank minus the fitted coefficient count. Preparation reports the retained rank and cutoff; this truncation does not silently remove design columns. These controls are not available in the public gsea 0.1.1 archive.</p>
@@ -1002,7 +1008,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="pops-style-gene-ranking" class="level2">
 <h2 class="anchored" data-anchor-id="pops-style-gene-ranking">PoPS-style gene ranking</h2>
 <p><code>pops()</code> is separate from pathway testing. It learns a joint feature model of gene evidence and predicts every gene from a fit that excluded the gene’s chromosome. Feature selection, nuisance adjustment and ridge-penalty selection are therefore repeated for every chromosome.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>genes <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"gene"</span>, <span class="fu">seq_len</span>(<span class="dv">60</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>genes <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"gene"</span>, <span class="fu">seq_len</span>(<span class="dv">60</span>))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>chromosome <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">as.character</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>), <span class="at">each =</span> <span class="dv">20</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>features <span class="ot">&lt;-</span> <span class="fu">cbind</span>(</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">expression =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="at">length.out =</span> <span class="dv">60</span>),</span>
@@ -1027,24 +1033,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>ranking<span class="sc">$</span>predictions[<span class="fu">order</span>(ranking<span class="sc">$</span>predictions<span class="sc">$</span>genome_rank), ]</span>
 <span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>ranking<span class="sc">$</span>folds</span>
 <span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>ranking<span class="sc">$</span>features</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ranking)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ranking)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Use <code>gene_covariance="independent"</code> only when that assumption is intended. For correlated gene evidence, pass named covariance blocks using the same sampling contract as <code>gsea()</code>; every block must stay within one chromosome. The input score may come from a checked MAGMA-style gene analysis, <code>gsea::vegas()</code>, or another checked gene-level method, but <code>pops()</code> does not perform SNP-to-gene mapping or infer chromosome labels.</p>
 <p>Bayesian PoPS uses the same chromosome-held-out prediction rule and the existing native gsea/gbayes sampler:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ranking <span class="ot">&lt;-</span> <span class="fu">pops</span>(gene_stat, features, <span class="at">method=</span><span class="st">"bayesC"</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ranking <span class="ot">&lt;-</span> <span class="fu">pops</span>(gene_stat, features, <span class="at">method=</span><span class="st">"bayesC"</span>,</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pi=</span>.<span class="dv">001</span>, <span class="at">nit=</span><span class="dv">5000</span>, <span class="at">nburn=</span><span class="dv">1000</span>, <span class="at">nrun=</span><span class="dv">2</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ranking<span class="sc">$</span>predictions</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>ranking<span class="sc">$</span>folds</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>ranking<span class="sc">$</span>fits[[<span class="dv">1</span>]]<span class="sc">$</span>diagnostics</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>ranking <span class="ot">&lt;-</span> <span class="fu">pops</span>(gene_stat, features, <span class="at">method=</span><span class="st">"bayesR"</span>,</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">pi=</span>.<span class="dv">001</span>, <span class="at">nit=</span><span class="dv">5000</span>, <span class="at">nburn=</span><span class="dv">1000</span>, <span class="at">nrun=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">pi=</span>.<span class="dv">001</span>, <span class="at">nit=</span><span class="dv">5000</span>, <span class="at">nburn=</span><span class="dv">1000</span>, <span class="at">nrun=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>sets=sets</code> can replace the feature matrix. The familiar <code>magma(stat, sets, method="bayesC", pi=..., nit=..., nburn=...)</code> adapter also uses the existing pathway engine; it fits pathways rather than held-out gene predictions. These familiar calls default to an independent-gene working covariance. Supply <code>sampling</code> when gene dependence must be modelled.</p>
 <p>Bayesian PoPS removes the target chromosome before optional marginal selection, nuisance projection, response/feature scaling and fitting. Without <code>threshold</code>, all features that vary in that training fold enter the Bayesian model. Supplied covariance blocks must stay within a chromosome. <code>updateB</code>, <code>updateE</code> and <code>updatePi</code> default to true and map to native effect-variance, residual-variance and mixture-weight learning. Defaults start with residual variance .5 and effect variance .5 divided by feature count and weighted active prior mass; variance learning uses four-degree scaled inverse-chi-square priors and weight learning uses unit Dirichlet concentrations. Advanced <code>prior</code> and <code>control</code> remain available. Priors use prepared training coordinates; predictions use training-centered features and original-unit posterior mean effects, excluding nuisance effects. This is a single-response workflow; it differs from qgg’s ordinary full-data <code>pops()</code> prediction rule. Inspect the compact native posterior and chain diagnostics in each fold’s <code>fits</code> before interpreting rankings.</p>
 <p>The result is a feature-based priority score with genome-wide and within-chromosome ranks. It is not a p-value, causal probability or locus definition, and the function does not automatically choose a top gene per locus. Ridge fits retain the penalty, effective degrees of freedom, selected features and coefficients for every held-out chromosome. Bayesian fits retain posterior means, PIPs and sampler summaries for each training fold.</p>
 </section>
 <section id="joint-bayesian-pathways" class="level2">
 <h2 class="anchored" data-anchor-id="joint-bayesian-pathways">Joint Bayesian pathways</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Omega <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,.<span class="dv">3</span>,.<span class="dv">3</span>,<span class="dv">1</span>),<span class="dv">2</span>,<span class="at">dimnames=</span><span class="fu">list</span>(<span class="fu">names</span>(stat),<span class="fu">names</span>(stat)))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Omega <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,.<span class="dv">3</span>,.<span class="dv">3</span>,<span class="dv">1</span>),<span class="dv">2</span>,<span class="at">dimnames=</span><span class="fu">list</span>(<span class="fu">names</span>(stat),<span class="fu">names</span>(stat)))</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>G <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">2</span>);<span class="fu">dimnames</span>(G)<span class="ot">&lt;-</span><span class="fu">dimnames</span>(Omega)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gsea</span>(stat, sets, <span class="st">"bayesr"</span>,</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sampling=</span><span class="fu">list</span>(<span class="at">gene_covariance=</span><span class="st">"independent"</span>,<span class="at">trait_covariance=</span>Omega),</span>
@@ -1055,7 +1061,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>parameters<span class="sc">$</span>joint         <span class="co"># prepared-scale parameter summaries</span></span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>diagnostics<span class="sc">$</span>joint        <span class="co"># conditioning, threads and chain PIP spread</span></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit, <span class="at">trait=</span><span class="st">"trait_A"</span>)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(fit, <span class="st">"pathway-fit.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(fit, <span class="st">"pathway-fit.rds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Bayesian models fit all pathways jointly and adjust both response and features for the shared nuisance design. They support overlapping pathways and proper priors when the number of features exceeds the number of genes; highly dependent sets can still make individual PIPs difficult to interpret.</p>
 <p>For one trait, supply <code>prior=list(residual_variance=1,effect_variance=1)</code> with values chosen for the prepared score scale. BayesC defaults to inclusion probability 0.5. Scalar BayesR defaults to weights <code>(0.7,0.1,0.1,0.1)</code> and variance multipliers <code>(0,0.01,0.1,1)</code>. Optional scalar learning flags are <code>estimate_effect_variance</code>, <code>estimate_residual_variance</code> and <code>estimate_weights</code>. The corresponding priors are <code>effect_variance_prior=list(df=...,scale=...)</code>, <code>residual_variance_prior=list(df=...,scale=...)</code> and positive <code>weight_prior</code> counts.</p>
 <p>Joint fits require a labelled <code>effect_covariance</code> prior and a separate, fixed residual <code>trait_covariance</code> on original response units. The latter describes remaining gene-score dependence between traits, not pathway-effect covariance. All traits share genes, features, covariates and gene dependence. The native likelihood uses a separable gene-by-trait covariance model. It does not infer sample overlap or substitute a genetic-correlation matrix for residual covariance.</p>
@@ -1141,13 +1147,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

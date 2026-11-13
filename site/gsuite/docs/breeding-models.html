@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>Weighted, spatial and non-additive mixed models – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,10 +78,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -105,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -118,7 +124,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -285,18 +291,18 @@ window.Quarto = {
 <section id="observation-precision-and-known-measurement-error" class="level2">
 <h2 class="anchored" data-anchor-id="observation-precision-and-known-measurement-error">Observation precision and known measurement error</h2>
 <p>The residual covariance of one response unit is <span class="math inline">\(D^{-1/2}R(\theta)D^{-1/2}+sS\)</span>, where <span class="math inline">\(D\)</span> contains positive precision weights, <span class="math inline">\(S\)</span> is a supplied positive-semidefinite measurement-error covariance and <span class="math inline">\(s\)</span> is an optional nonnegative variance multiplier. It is not a standard deviation. Missing responses select the corresponding covariance submatrix before inversion.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model</span><span class="kw">:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model</span><span class="kw">:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">residual</span><span class="kw">:</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">type</span><span class="kw">:</span><span class="at"> independent</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">covariance</span><span class="kw">:</span><span class="at"> residual</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">precision_weights</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">trait1</span><span class="kw">:</span><span class="at"> weight1</span><span class="kw">,</span><span class="at"> </span><span class="fu">trait2</span><span class="kw">:</span><span class="at"> weight2</span><span class="kw">}</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">measurement_error</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">covariance</span><span class="kw">:</span><span class="at"> sampling_error</span><span class="kw">,</span><span class="at"> </span><span class="fu">scale</span><span class="kw">:</span><span class="at"> error_scale</span><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">measurement_error</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">covariance</span><span class="kw">:</span><span class="at"> sampling_error</span><span class="kw">,</span><span class="at"> </span><span class="fu">scale</span><span class="kw">:</span><span class="at"> error_scale</span><span class="kw">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The names on the right refer to mapped input columns or named covariances. A single weight column can apply to every trait. Weights are precision weights, not frequency counts or likelihood powers; zero weights are rejected. Known error is fixed and is excluded from variance estimation. Its multiplier must agree within a residual unit. Supply covariance matrices, not inverses. See the weighted observation example (<code>models/multitrait-observation-precision.yml</code>).</p>
 <p>These modifiers currently apply to independent/grouped/supplied residual blocks. Packed REML with these modifiers is rejected; use compiled REML.</p>
 </section>
 <section id="spatial-field-trials" class="level2">
 <h2 class="anchored" data-anchor-id="spatial-field-trials">Spatial field trials</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">covariances</span><span class="kw">:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">covariances</span><span class="kw">:</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">trial_A</span><span class="kw">:</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">type</span><span class="kw">:</span><span class="at"> spatial_ar1</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">variance</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.2</span></span>
@@ -310,7 +316,7 @@ window.Quarto = {
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">row</span><span class="kw">:</span><span class="at"> plot_row</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">column</span><span class="kw">:</span><span class="at"> plot_column</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">block</span><span class="kw">:</span><span class="at"> field</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">covariances</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">A</span><span class="kw">:</span><span class="at"> trial_A</span><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">covariances</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">A</span><span class="kw">:</span><span class="at"> trial_A</span><span class="kw">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For observed plots <span class="math inline">\(i,j\)</span> in a field, covariance is <span class="math inline">\(v\rho_r^{|r_i-r_j|}\rho_c^{|c_i-c_j|}+e\,1_{i=j}\)</span>. <code>variance</code> and <code>nugget</code> are positive variances; correlations lie strictly between minus one and one. Trials have separate named parameter blocks. Optional fields are independent replicates sharing a trial’s parameters. Actual integer gaps are retained, missing plots are marginalized and duplicate cells are rejected.</p>
 <p>The initial implementation is univariate and stores dense matrices within each observed field: storage grows quadratically with its observed plot count. It does not allocate the entire rectangular grid. See the spatial trial example (<code>models/spatial-field-trial.yml</code>).</p>
 </section>
@@ -327,13 +333,13 @@ window.Quarto = {
 </section>
 <section id="dominance-and-hybrid-combining-ability" class="level2">
 <h2 class="anchored" data-anchor-id="dominance-and-hybrid-combining-ability">Dominance and hybrid combining ability</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">relationships</span><span class="kw">:</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">D</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> dominance</span><span class="kw">,</span><span class="at"> </span><span class="fu">genotypes</span><span class="kw">:</span><span class="at"> genotypes</span><span class="kw">,</span><span class="at"> </span><span class="fu">independent_ridge</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.05</span><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">relationships</span><span class="kw">:</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">D</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> dominance</span><span class="kw">,</span><span class="at"> </span><span class="fu">genotypes</span><span class="kw">:</span><span class="at"> genotypes</span><span class="kw">,</span><span class="at"> </span><span class="fu">independent_ridge</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.05</span><span class="kw">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The native genotype kernel counts BIM allele 1. With allele frequency <span class="math inline">\(p\)</span>, dominance scores for dosages 0, 1 and 2 are <span class="math inline">\(-2p^2\)</span>, <span class="math inline">\(2p(1-p)\)</span> and <span class="math inline">\(-2(1-p)^2\)</span>. The Gram matrix is divided by <span class="math inline">\(\sum[2p(1-p)]^2\)</span> before the explicit ridge is added. Frequencies are estimated from nonmissing FAM samples; missing calls contribute zero coded value and monomorphic markers are omitted. This population-orthogonal coding follows <a href="https://doi.org/10.1534/genetics.113.155176">Vitezica, Varona and Legarra (2013)</a> under Hardy-Weinberg assumptions. It does not guarantee sample orthogonality. Additive predictions remain breeding values; additive plus dominance predictions represent a total genotypic contribution. Dominance is a separate effect on the panel individuals; it does not create a single-step dominance pedigree model. See the dominance example (<code>models/multitrait-dominance.yml</code>).</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">relationships</span><span class="kw">:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">relationships</span><span class="kw">:</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">A1</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> covariance</span><span class="kw">,</span><span class="at"> </span><span class="fu">input</span><span class="kw">:</span><span class="at"> pool1</span><span class="kw">}</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">A2</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> covariance</span><span class="kw">,</span><span class="at"> </span><span class="fu">input</span><span class="kw">:</span><span class="at"> pool2</span><span class="kw">}</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">S</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> cross_product</span><span class="kw">,</span><span class="at"> </span><span class="fu">parent1</span><span class="kw">:</span><span class="at"> A1</span><span class="kw">,</span><span class="at"> </span><span class="fu">parent2</span><span class="kw">:</span><span class="at"> A2</span><span class="kw">,</span><span class="at"> </span><span class="fu">crosses</span><span class="kw">:</span><span class="at"> crosses</span><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">S</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> cross_product</span><span class="kw">,</span><span class="at"> </span><span class="fu">parent1</span><span class="kw">:</span><span class="at"> A1</span><span class="kw">,</span><span class="at"> </span><span class="fu">parent2</span><span class="kw">:</span><span class="at"> A2</span><span class="kw">,</span><span class="at"> </span><span class="fu">crosses</span><span class="kw">:</span><span class="at"> crosses</span><span class="kw">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For ordered crosses <span class="math inline">\((a,b)\)</span> and <span class="math inline">\((c,d)\)</span>, <span class="math inline">\(S_{(a,b),(c,d)}=A1_{a,c}A2_{b,d}\)</span>. The crosses table supplies unique IDs and ordered parent pairs. Parent relationships currently use supplied dense natural covariance matrices. Separate parent GCA effects and a cross SCA effect use the existing random-effect incidence mappings. The model is the sum of those contributions; no unrequested one-half coefficient is inserted. See the hybrid GCA/SCA example (<code>models/hybrid-gca-sca.yml</code>).</p>
 <p>Both relationship preparations currently produce a dense covariance and use the compiled relationship factor. They are not matrix-free industrial dominance or cross-product operators. Dominance decoding uses bounded marker tiles; kernel storage is quadratic in selected individuals/crosses. Optional per-relationship <code>maximum_workspace_bytes</code> bounds kernel construction, not total process RSS or the consuming factor. The default introduces no fixed memory ceiling. Existing runner timings, memory reporting and result collection apply.</p>
 
@@ -392,13 +398,14 @@ window.Quarto = {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

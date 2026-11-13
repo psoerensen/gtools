@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>packed-single-step-reml – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -71,10 +77,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -204,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="yaml-controls" class="level2">
 <h2 class="anchored" data-anchor-id="yaml-controls">YAML controls</h2>
 <p>Use the complete packed REML example (<code>models/multitrait-packed-reml.yml</code>). The main estimation controls are:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analysis</span><span class="kw">:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analysis</span><span class="kw">:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">task</span><span class="kw">:</span><span class="at"> reml</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">estimate</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">genetic</span><span class="kw">,</span><span class="at"> residual</span><span class="kw">]</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">optimizer</span><span class="kw">:</span></span>
@@ -213,15 +219,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">step_fraction</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.0</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">traces</span><span class="kw">:</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">method</span><span class="kw">:</span><span class="at"> exact</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_solves</span><span class="kw">:</span><span class="at"> </span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_solves</span><span class="kw">:</span><span class="at"> </span><span class="dv">10000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>estimate</code> selects whole covariance blocks; omit a block to fix it. Packed EM does not yet support fixing individual Cholesky coordinates. <code>step_fraction</code> is the EM update fraction in <code>(0,1]</code>, not a likelihood line-search control.</p>
 <p>Exact traces solve every conditional coefficient unit column at each covariance state. They are intended for small reference problems, not industrial data. For a bounded stochastic calculation, replace the trace controls explicitly:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">traces</span><span class="kw">:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">traces</span><span class="kw">:</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">method</span><span class="kw">:</span><span class="at"> stochastic</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">probes</span><span class="kw">:</span><span class="at"> </span><span class="dv">64</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">seed</span><span class="kw">:</span><span class="at"> </span><span class="dv">4401</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_solves</span><span class="kw">:</span><span class="at"> </span><span class="dv">10000</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_score_mcse</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.001</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_score_mcse</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.001</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The stochastic option uses a common deterministic Rademacher probe bank across covariance states and streams one query at a time. The example numbers above are syntax examples, not a calibrated industrial recommendation. Score error is in natural variance/covariance coordinates and depends on data and scaling; the probe count alone does not establish adequate precision.</p>
 <p>Each state uses one response solve plus <code>probes</code> stochastic solves, or one plus the conditional coefficient dimension for exact traces. <code>maximum_solves</code> caps their <strong>total across all states</strong>. It excludes the initial setup and subsequent independent final prediction solve, which have separate timing/iteration metrics. Every REML solve must pass both transformed and original augmented equation residual checks. The internal solve uses a numerical margin; the requested acceptance tolerances are unchanged.</p>
 <p>Convergence requires the maximum absolute free score plus twice the maximum free-score Monte Carlo standard error to be no larger than <code>score_tolerance</code>. The MCSE must also meet <code>maximum_score_mcse</code>. Exact traces have zero sampling MCSE, subject to PCG numerical error. A stochastic moment matrix that is not SPD is rejected without clipping, jitter, silent probe increases or an exact fallback.</p>
@@ -237,15 +243,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="optional-restricted-likelihood-change" class="level2">
 <h2 class="anchored" data-anchor-id="optional-restricted-likelihood-change">Optional restricted-likelihood change</h2>
 <p>Omit <code>analysis.likelihood</code> for zero global determinant/operator-product work. To report the restricted-likelihood change <strong>from the supplied starting covariances to the final fitted covariances</strong>, add one block under <code>analysis</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">likelihood</span><span class="kw">:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">likelihood</span><span class="kw">:</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">method</span><span class="kw">:</span><span class="at"> slq</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_operator_products</span><span class="kw">:</span><span class="at"> </span><span class="dv">6144</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_operator_products</span><span class="kw">:</span><span class="at"> </span><span class="dv">6144</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Defaults are <code>probes: 32</code>, <code>seed: 4402</code>, <code>lanczos_steps: 32</code>, <code>check_steps: 64</code>, <code>maximum_mcse: 1.0</code> and <code>maximum_depth_change: 0.5</code>. All can be set explicitly. These illustrate controls, not calibrated production precision. The work cap must cover <code>2 * probes * (lanczos_steps + check_steps)</code> equivalent vector products: both start/final states at both depths. It is independent of the REML trace-solve cap. Earlier Lanczos breakdown can reduce actual products.</p>
 <p>The matrix-free stochastic Lanczos quadrature (SLQ) diagnostic uses common Rademacher probes at the two covariance states and both depths, with a seed stream separate from the score traces. Paired differences give an MCSE for the likelihood change. <code>depth_change</code> is the absolute change in the estimate when increasing Lanczos depth; <strong>it is a sensitivity check, not a truncation error bound</strong>. A small sampling MCSE alone cannot qualify Lanczos accuracy.</p>
 <p>For a small exact reference, use:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">likelihood</span><span class="kw">:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">likelihood</span><span class="kw">:</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">method</span><span class="kw">:</span><span class="at"> exact</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_dimension</span><span class="kw">:</span><span class="at"> </span><span class="dv">256</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">maximum_dimension</span><span class="kw">:</span><span class="at"> </span><span class="dv">256</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This materializes and factors the start/final conditional coefficient matrices, using <code>2 * coefficient_dimension</code> products. The explicit dimension cap protects against accidentally selecting a dense reference on a large model. It is a caller-selected work/shape limit, not an application RAM ceiling.</p>
 <p>Both methods evaluate <code>-0.5</code> times the change in <code>log|R_observed| + (n + marker_columns) log|K| + log|C| + y'Py</code>. <code>C</code> is the full conditional coefficient matrix, including fixed and nuisance effects. Observed residual submatrices retain missing-trait covariance. The genetic normalization includes <strong>latent marker levels</strong>. Other prior and coordinate constants cancel because data, design, genomic construction and fixed additional covariances are unchanged. A stable residual-plus-prior quadratic evaluates <code>y'Py</code>. The initial numeric model is retained for this comparison, so requesting likelihood can increase memory.</p>
 <p><code>likelihood.json</code> and <code>run.json.estimation.likelihood</code> report <code>scale: relative_to_start</code>, <code>value</code>, <code>mcse</code>, <code>depth_change</code>, operator products, seconds, message and a status:</p>
@@ -321,13 +327,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

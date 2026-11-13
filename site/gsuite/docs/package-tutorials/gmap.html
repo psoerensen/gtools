@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>Regional fine-mapping with gmap – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,10 +78,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -875,7 +881,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="prepare-the-regional-likelihood" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-the-regional-likelihood">Prepare the regional likelihood</h2>
 <p><code>gmap_stat()</code> converts ordinary intercept-only linear GWAS <code>b</code> and <code>seb</code> into score and information inputs using the observed phenotype variance. It checks exact marker and allele order against the complete Glist LD reference. Provide the sample variance of the phenotype in each GWAS cohort, with R’s usual <code>n - 1</code> denominator.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gmap)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gmap)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>phenotype_variance <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">A =</span> <span class="fu">var</span>(Y[gwas_ids<span class="sc">$</span>A, <span class="st">"A"</span>]),</span>
@@ -884,19 +890,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>prepared <span class="ot">&lt;-</span> <span class="fu">gmap_stat</span>(statistics[<span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>)], reference_Glist,</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">phenotype_variance =</span> phenotype_variance)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prepared<span class="sc">$</span>A[<span class="fu">c</span>(<span class="st">"rsids"</span>, <span class="st">"ea"</span>, <span class="st">"nea"</span>, <span class="st">"score"</span>, <span class="st">"information"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prepared<span class="sc">$</span>A[<span class="fu">c</span>(<span class="st">"rsids"</span>, <span class="st">"ea"</span>, <span class="st">"nea"</span>, <span class="st">"score"</span>, <span class="st">"information"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The conversion assumes ordinary linear regression with a common sample size within each trait. It is not an automatic conversion for mixed-model or logistic GWAS statistics. See the <a href="../../../gsuite/docs/gmap-workflow.html">full mapping guide</a> for the individual-level route and input checks.</p>
 </section>
 <section id="fit-20-marker-defined-regions" class="level2">
 <h2 class="anchored" data-anchor-id="fit-20-marker-defined-regions">Fit 20 marker-defined regions</h2>
 <p>The simulated regions each contain 100 marker names in LD-reference order. The multi-effect fit below requests one effect per region and uses a sequence of retained positive eigenvalue mass targets. If a fit needs another target, its successful target and retained rank are saved in diagnostics.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gmap</span>(prepared, reference_Glist,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gmap</span>(prepared, reference_Glist,</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sets =</span> regions[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>], <span class="at">method =</span> <span class="st">"multi_effect"</span>, <span class="at">ve =</span> <span class="dv">1</span>, <span class="at">vb =</span> <span class="fl">0.04</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">learn =</span> <span class="fu">list</span>(<span class="at">updateB =</span> <span class="cn">FALSE</span>),</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">ld =</span> <span class="fu">list</span>(<span class="at">threshold =</span> <span class="fu">c</span>(<span class="fl">0.995</span>, <span class="fl">0.99</span>, <span class="fl">0.95</span>)),</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">multi =</span> <span class="fu">list</span>(<span class="at">effects =</span> <span class="dv">1</span>L, <span class="at">maxiter =</span> <span class="dv">200</span>L)))</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fit<span class="sc">$</span>estimates[<span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"trait"</span>, <span class="st">"marker"</span>, <span class="st">"mean"</span>, <span class="st">"pip"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fit<span class="sc">$</span>estimates[<span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"trait"</span>, <span class="st">"marker"</span>, <span class="st">"mean"</span>, <span class="st">"pip"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>pip</code> is a posterior inclusion probability. <code>mean</code> is the posterior mean effect in the prepared regional model. The leading markers in the saved run are:</p>
 <table class="caption-top table">
 <thead>
@@ -1097,32 +1103,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(fit<span class="sc">$</span>diagnostic_summary,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(fit<span class="sc">$</span>diagnostic_summary,</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"region001"</span>, <span class="st">"region002"</span>))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(fit<span class="sc">$</span>eigen_attempts, region <span class="sc">==</span> <span class="st">"region001"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(fit<span class="sc">$</span>eigen_attempts, region <span class="sc">==</span> <span class="st">"region001"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The full downloadable diagnostics include all 40 region/trait fits. A lower retained rank can change the likelihood, so the accepted threshold belongs in the reported result.</p>
 </section>
 <section id="summarize-sets-and-bayesian-fdr" class="level2">
 <h2 class="anchored" data-anchor-id="summarize-sets-and-bayesian-fdr">Summarize sets and Bayesian FDR</h2>
 <p><code>gmap_sets()</code> returns ordinary set-level and marker-level data frames. The meaning of set mass depends on the fitted method; read the <code>meaning</code> column rather than treating every set as the same type of credible set.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>posterior_sets <span class="ot">&lt;-</span> <span class="fu">gmap_sets</span>(fit)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>posterior_sets <span class="ot">&lt;-</span> <span class="fu">gmap_sets</span>(fit)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(posterior_sets<span class="sc">$</span>summary)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(posterior_sets<span class="sc">$</span>members)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>fdr <span class="ot">&lt;-</span> <span class="fu">gmap_bfdr</span>(fit, <span class="at">target =</span> <span class="fl">0.05</span>)</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fdr[<span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"trait"</span>, <span class="st">"selected_markers"</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"expected_false_discoveries"</span>, <span class="st">"bfdr"</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"expected_false_discoveries"</span>, <span class="st">"bfdr"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Bayesian FDR averages <code>1 - PIP</code> among selected markers under the fitted posterior. It does not provide a frequentist FDR guarantee.</p>
 </section>
 <section id="compare-traits-and-reuse-saved-fits" class="level2">
 <h2 class="anchored" data-anchor-id="compare-traits-and-reuse-saved-fits">Compare traits and reuse saved fits</h2>
 <p>Component-pair colocalisation can use the saved multi-effect fits without refitting the regional models. The two simulated GWAS cohorts are disjoint; the complete 100-marker regions and reference are shared by both traits.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>coloc <span class="ot">&lt;-</span> <span class="fu">gmap_coloc_components</span>(fit, fit, reference_Glist,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>coloc <span class="ot">&lt;-</span> <span class="fu">gmap_coloc_components</span>(fit, fit, reference_Glist,</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">trait1 =</span> <span class="st">"A"</span>, <span class="at">trait2 =</span> <span class="st">"B"</span>, <span class="at">regions =</span> <span class="st">"region001"</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">complete_region_coverage =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">non_overlapping_samples =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(coloc)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>coloc<span class="sc">$</span>estimates</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>coloc<span class="sc">$</span>estimates</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The colocalisation call illustrates a supported follow-on analysis; its probabilities were not included in the displayed run. Priors and eligibility checks are recorded in the returned result. For a global individual-level BayesC/BayesR fit, <code>gmap_bed()</code> instead groups its saved marker posterior within named regions using LD from the <em>same fitted samples</em>; those groups are not regional refits.</p>
 <p><a href="../../website/assets/package-tutorials/gmap-top-markers.csv">Download the top marker PIPs</a> · <a href="../../website/assets/package-tutorials/gmap-diagnostics.csv">download all fit diagnostics</a></p>
 
@@ -1181,13 +1187,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

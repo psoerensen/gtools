@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>Polygenic scoring with gscore – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,10 +78,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -876,7 +882,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="apply-bayesc-weights">Apply BayesC weights</h2>
 <p>This page uses the frozen dispatcher <code>bayes_fit$weights</code> artifact from the shared study. Its scoring calls, tables and figures are retained unchanged. The <a href="../../../gsuite/docs/package-tutorials/gbayes.html#current-interfaces-for-a-new-analysis">current gbayes fitters</a> return <code>bayesfit</code> objects with <code>coef()</code> and <code>extract()</code> accessors; this tutorial does not establish a direct <code>gscore(bayesfit, ...)</code> conversion or transfer its saved numerical results to a newly fitted model. Preserve the declared allele and effect-coding contract when preparing weights for another analysis.</p>
 <p>The <a href="../../../gsuite/docs/package-tutorials/gbayes.html">gbayes fit</a> provides standardized, portable weights for trait A. The target Glist selects only the held-out people from the same PLINK files. <code>sets</code> contain marker names; the Glist resolves their BED locations and the scorer accumulates their contributions while reading the target panel.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gscore)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>holdout_ids <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"id%05d"</span>, <span class="dv">18001</span><span class="sc">:</span><span class="dv">20000</span>)</span>
@@ -889,16 +895,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">threads =</span> <span class="dv">4</span>))</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(prediction<span class="sc">$</span>scores)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(prediction<span class="sc">$</span>scores)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(prediction<span class="sc">$</span>scores)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The score matrix has 2,000 rows in selected individual order. Its <code>A</code> column is the total BayesC score; the remaining columns are the requested gene contributions. Since <code>scale_scores = FALSE</code>, scores are not standardized again across the target cohort.</p>
 </section>
 <section id="evaluate-the-held-out-score" class="level2">
 <h2 class="anchored" data-anchor-id="evaluate-the-held-out-score">Evaluate the held-out score</h2>
 <p>Join scores to outcomes by individual ID, rather than relying on row position. Here the same <em>trait A</em> score is correlated with all three simulated outcomes; the B and C rows are cross-trait associations, not separately fitted B or C prediction models.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> Y[<span class="fu">rownames</span>(prediction<span class="sc">$</span>scores), , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> Y[<span class="fu">rownames</span>(prediction<span class="sc">$</span>scores), , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>trait_A_score <span class="ot">&lt;-</span> prediction<span class="sc">$</span>scores[, <span class="st">"A"</span>]</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">vapply</span>(<span class="fu">colnames</span>(observed), <span class="cf">function</span>(trait)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(trait_A_score, observed[, trait]), <span class="fu">numeric</span>(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(trait_A_score, observed[, trait]), <span class="fu">numeric</span>(<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -936,9 +942,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="inspect-marker-and-set-coverage" class="level2">
 <h2 class="anchored" data-anchor-id="inspect-marker-and-set-coverage">Inspect marker and set coverage</h2>
 <p><code>gscore()</code> checks marker IDs, coordinates and effect/other alleles. It handles exact and swapped allele orientation and records unmatched markers. Review these before interpreting a score, especially after moving weights between cohorts.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>prediction<span class="sc">$</span>alignment</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>prediction<span class="sc">$</span>alignment</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prediction<span class="sc">$</span>coverage)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>prediction<span class="sc">$</span>missing_set_markers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>prediction<span class="sc">$</span>missing_set_markers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The first six sets in this same-panel holdout all had complete marker coverage:</p>
 <table class="caption-top table">
 <colgroup>
@@ -1007,7 +1013,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="construct-another-score-from-gwas-evidence" class="level2">
 <h2 class="anchored" data-anchor-id="construct-another-score-from-gwas-evidence">Construct another score from GWAS evidence</h2>
 <p><code>clump_threshold()</code> chooses markers by GWAS p-value, LD and distance. It needs an LD resource retaining every pair its requested window could inspect. The main tutorial reference has a 100-variant construction limit, so it cannot be used for a 250 kb C+T window even on this artificial panel. Construct a separate clumping reference with no variant-count limit and a base-pair window at least as wide as the clumping rule:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"analysis"</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"analysis"</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ct_reference <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>),</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> <span class="fu">sprintf</span>(<span class="st">"id%05d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">18000</span>), <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ct_reference <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">Glist =</span> ct_reference, <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
@@ -1021,7 +1027,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>ct_prediction <span class="ot">&lt;-</span> <span class="fu">gscore</span>(ct_weights, test_Glist,</span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">coding =</span> <span class="st">"standardized"</span>, <span class="at">scale_scores =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">threads =</span> <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">threads =</span> <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This C+T call is a supported alternative; the displayed scatter and correlations use BayesC weights only. C+T needs the aligned <code>b</code>, <code>seb</code>, <code>p</code> and <code>n</code> fields. Save <code>ct_reference</code> with its LD files for reuse; the clumping resource does not need to be recomputed for each trait.</p>
 </section>
 <section id="score-shape-and-coding-choices" class="level2">
@@ -1125,13 +1131,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

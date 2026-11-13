@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>Standalone models and YAML examples – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,10 +78,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -288,7 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   true_breeding_values.csv</code></pre>
 <p><code>phenotypes.csv</code> has columns <code>record_id,animal,milk,fat,herd,age</code>; <code>pedigree.csv</code> has <code>animal,sire,dam</code>, with <code>0</code> for unknown parents. PLINK FAM IIDs match the pedigree individual IDs; BED is SNP-major and BIM lists markers. Repeated observations use distinct <code>record_id</code> values. The example uses <code>NA</code> for one missing response. The truth CSV is optional reference material and is deliberately absent from the model’s inputs.</p>
 <p>Save the following complete specification as <code>model.yml</code> beside those inputs. All covariance matrices are supplied values; <code>analysis.task: solve</code> holds them fixed rather than estimating them.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tiny synthetic example: covariance matrices follow [milk, fat].</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tiny synthetic example: covariance matrices follow [milk, fat].</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">schema</span><span class="kw">:</span><span class="at"> gsuite.model/v1-draft</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> single_step_example</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">traits</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">milk</span><span class="kw">,</span><span class="at"> fat</span><span class="kw">]</span></span>
@@ -341,24 +347,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">directory</span><span class="kw">:</span><span class="at"> ../results/example</span></span>
 <span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">tables</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">fixed_effects</span><span class="kw">,</span><span class="at"> random_effects</span><span class="kw">,</span><span class="at"> diagnostics</span><span class="kw">]</span></span>
 <span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">predictions</span><span class="kw">:</span></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">genetic_values</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">effects</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">genetic</span><span class="kw">],</span><span class="at"> </span><span class="fu">levels</span><span class="kw">:</span><span class="at"> all</span><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">genetic_values</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">effects</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">genetic</span><span class="kw">],</span><span class="at"> </span><span class="fu">levels</span><span class="kw">:</span><span class="at"> all</span><span class="kw">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>From that directory, validate, inspect and fit:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> validate model.yml</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> validate model.yml</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> describe model.yml</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run model.yml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The selected outputs are <code>genetic_values.csv</code>, <code>fixed_effects.csv</code>, <code>random_effects.csv</code> and <code>diagnostics.json</code> under <code>../results/example/</code>. <code>run.json</code> records numerical acceptance, residual checks and native timings; <code>execution.json</code> records whole-workflow timings, result collection and sampled process-tree memory. Check their acceptance fields before using predictions. Repeating the fit requires a fresh output directory, for example <code>gsuite run model.yml --output ../results/example-repeat</code>.</p>
 <p>This supplied-covariance model selects packed PCG, exact ancestral pedigree sweeps and Qnn reuse. Change model/task declarations in YAML rather than choosing a different executable. The <a href="../../gsuite/docs/model-yaml-proposal.html">model specification</a> gives the full syntax for other effects and covariance families.</p>
 </section>
 <section id="solver-and-threads" class="level2">
 <h2 class="anchored" data-anchor-id="solver-and-threads">Solver and threads</h2>
 <p>For fast packed ssSNPBLUP:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">execution</span><span class="kw">:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">execution</span><span class="kw">:</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">formulation</span><span class="kw">:</span><span class="at"> ss_snp</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">solver</span><span class="kw">:</span><span class="at"> pcg</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">sparse_backend</span><span class="kw">:</span><span class="at"> pardiso</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pedigree_factorization</span><span class="kw">:</span><span class="at"> ancestral_sweeps</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">preconditioner</span><span class="kw">:</span><span class="at"> qnn_reuse</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">threads</span><span class="kw">:</span><span class="at"> </span><span class="dv">16</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">threads</span><span class="kw">:</span><span class="at"> </span><span class="dv">16</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A scalar sets every applicable thread request. Override particular operations with <code>threads: {default: 16, decode: 4}</code>. Packed controls are <code>marker_products</code>, <code>marker_setup</code>, <code>decode</code>, <code>pedigree</code>, <code>preconditioner</code> and <code>vectors</code>. Compiled models use <code>factor</code> and <code>relationship</code>; raw-genotype APY also uses <code>decode</code> and <code>genomic_products</code>. A mapping without <code>default</code> uses one for unspecified operations. Request matching Slurm CPUs. Thread settings are phase-specific requests: Python preparation and dependency-ordered pedigree work can be serial.</p>
 <p><code>ancestral_sweeps</code> preserves the full statistical model with a smaller retained pedigree factor and exact peripheral sweeps, including supplied metafounders. <code>full_qnn</code> is available for comparison and is the default. <code>qnn_reuse</code> avoids a second global pedigree factor; <code>shifted_pedigree</code> is the alternative packed preconditioner. Linear PCG tolerances belong in <code>execution.convergence</code>. Ordinary compiled models support direct or PCG solving. Exact/APY ssGBLUP uses compiled PCG and <code>formulation: ss_gblup</code>.</p>
 </section>
@@ -381,7 +387,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="compare-predictions-with-supplied-truth">Compare predictions with supplied truth</h2>
 <p>An optional top-level <code>evaluation</code> block makes <code>gsuite run model.yml</code> fit and score in one invocation with evaluation settings in the same YAML. Truth is used only after an accepted fit.</p>
 <p>For the 20K gsim dataset, add this alongside <code>model</code>, <code>execution</code> and <code>output</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">evaluation</span><span class="kw">:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">evaluation</span><span class="kw">:</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">predictions</span><span class="kw">:</span><span class="at"> genetic_values</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">truth</span><span class="kw">:</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">file</span><span class="kw">:</span><span class="at"> true_breeding_values.csv</span></span>
@@ -396,10 +402,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span></span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">directory</span><span class="kw">:</span><span class="at"> results/prediction20k-evaluated</span></span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">predictions</span><span class="kw">:</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">genetic_values</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">effects</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">genetic</span><span class="kw">],</span><span class="at"> </span><span class="fu">levels</span><span class="kw">:</span><span class="at"> all</span><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">genetic_values</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">effects</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">genetic</span><span class="kw">],</span><span class="at"> </span><span class="fu">levels</span><span class="kw">:</span><span class="at"> all</span><span class="kw">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Replace the existing <code>output</code> block rather than declaring it twice. The <code>predictions</code> key references a named <code>output.predictions</code> request with individual levels. <code>truth.columns</code> maps the long truth CSV’s individual, trait and numeric value columns. Its file resolves beside the YAML. <code>individual</code> references a mapped observation column, not the source CSV header. Optional <code>genotypes</code> references a PLINK input; its existing FID/IID-to-individual mapping is reused. No second genotype path or training table is needed.</p>
 <p>Run in a compute-node allocation with the model’s requested CPUs:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run /path/to/dataset/model.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> run /path/to/dataset/model.yml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Fitting and evaluation use managed <code>$TMPDIR</code> scratch and are collected together at <code>output.directory</code>. Use a fresh result directory. No shell scoring or copy step is needed. <code>execution.threads: 8</code> still controls the native fit.</p>
 <p><code>subset</code> is <code>heldout</code>, <code>phenotyped</code> or <code>all</code>. An individual is phenotyped if it has <strong>any observed response</strong> in <code>model.data</code>; repeated rows, long-format rows and fully missing records use that same definition. Held-out individuals have no observed training response in any trait. This option does not mask training phenotypes: the input must already encode the intended training/held-out split. Partially observed traits do not make an individual held out. Truth targets must match the requested prediction levels and traits. Duplicate/nonfinite truth, empty subsets and missing predictions fail explicitly.</p>
 <p><code>evaluation/summary.csv</code> reports Pearson accuracy, Spearman rank correlation, RMSE, mean absolute error, mean prediction-minus-truth bias, and the intercept and slope of <strong>truth regressed on prediction</strong>. Ideal mean bias/intercept are zero and slope is one. When <code>genotypes</code> is supplied, results are grouped by all, genotyped and non-genotyped targets. <code>evaluation/matched.csv</code> retains every scored pair; <code>evaluation/assessment.json</code> records definitions, hashes and cohort settings. <code>evaluation-inputs/</code> preserves the frozen evaluation-only targets. No truth centering, rescaling or model tuning is performed.</p>
@@ -460,13 +466,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

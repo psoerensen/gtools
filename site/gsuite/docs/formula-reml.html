@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>formula-reml – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -71,10 +77,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -855,7 +861,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>For the new data-frame shorthand, optional starts, fixed solves and genetic random regression, begin with <a href="../../gsuite/docs/pedigree-analysis.html">Pedigree analysis</a>. Both <code>formula</code> and <code>formulas</code> now use the same general adapter. This page documents the specialized compiled-MME route, explicitly requested with a <code>gs_fit_control()</code> object, complete explicit covariance starts, and <code>task = "reml"</code> (or <code>greml()</code> with those same controls). Its result layout remains specialized and does not support the <code>gsolve(fit)</code> handoff. Supplying starts alone does not select it. General fits accept named controls for the selected pedigree or component fitter. Compiled controls now default to CHOLMOD selected inversion.</p>
 <p>The data-frame <code>gs_pedigree()</code> constructor described here is distinct from <code>gs_model_pedigree()</code>, the ordered-parent constructor used by the <a href="../../gsuite/docs/r-interface.html#structured-terms">persistent-model API</a>. The two signatures are not interchangeable and do not dispatch implicitly.</p>
 <p><code>greml()</code> is the estimation entry point; <code>gfit()</code> remains available with <code>task = "reml"</code>. Model incidence comes from formulas, pedigree relationships come from <code>gs_pedigree()</code>, and explicit positive-interior covariance starts come from named <code>gvc()</code> components. The interface lowers one immutable model to greml’s public compiled-MME plan, creates one numerical session, optimizes, and finalizes BLUPs from the retained accepted response state.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>PED <span class="ot">&lt;-</span> <span class="fu">gs_pedigree</span>(pedigree, <span class="at">id =</span> <span class="st">"id"</span>, <span class="at">sire =</span> <span class="st">"sire"</span>, <span class="at">dam =</span> <span class="st">"dam"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>PED <span class="ot">&lt;-</span> <span class="fu">gs_pedigree</span>(pedigree, <span class="at">id =</span> <span class="st">"id"</span>, <span class="at">sire =</span> <span class="st">"sire"</span>, <span class="at">dam =</span> <span class="st">"dam"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">gfit</span>(</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  BW <span class="sc">~</span> sex <span class="sc">+</span> batch <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> id),</span>
@@ -865,19 +871,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">residual =</span> <span class="fu">gvc</span>(<span class="st">"residual"</span>, <span class="st">"BW"</span>, <span class="at">start =</span> <span class="dv">1</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">gs_fit_control</span>(<span class="at">direct_backend =</span> <span class="st">"cholmod"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For multiple traits, <code>formulas</code> is a named list and each component start is an SPD matrix in the declared trait order. Each trait has a separate fixed-effect block. Scalar records are ordered by formula-list order and original data-row order. An <code>NA</code> response is absent; observed traits from the same data row form one complete or incomplete patterned residual unit. Missing fixed covariates, nonfinite observed responses, and missing pedigree identifiers are errors.</p>
 <section id="runnable-single-trait-example" class="level2">
 <h2 class="anchored" data-anchor-id="runnable-single-trait-example">Runnable single-trait example</h2>
 <p>From the repository root, with gsuite installed, run:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/run_single_trait_pedigree_example.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/run_single_trait_pedigree_example.R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <a href="../tools/examples/run_single_trait_pedigree_example.R">complete example</a> starts with two ordinary data frames: <code>data</code> has one observation per row (<code>id</code>, <code>BW</code>, factor <code>sex</code>, continuous covariate <code>x</code>); <code>pedigree</code> has one animal per row (<code>id</code>, <code>sire</code>, <code>dam</code>). It reuses the small deterministic BW formula-test illustration, not a random draw from the fitted pedigree model. Its artificial sex labels vary across records of an animal; real data should use consistent animal sex. These toy values illustrate the API, not biological inference or variance recovery.</p>
 <p>The formula <code>BW ~ sex + x + (1 | id)</code> supplies fixed effects and animal incidence. A separate <code>gs_pedigree()</code> relationship and named <code>animal</code> and <code>residual</code> components supply covariance structure and positive starting variances. Under this model, animal covariance is the pedigree relationship times the animal variance; residuals are independent with a common variance. Repeated observations share the animal effect, with no additional permanent environment effect. Starts are not fixed variances.</p>
 <p>IDs, not row positions, align the tables. Pedigree rows may be reordered; unknown parents use <code>NA</code>, while known parents must be listed. Observation IDs absent from the pedigree are errors. Animal <code>a8</code> has no observations but remains in the pedigree and receives a conditional animal prediction from relatives.</p>
 <p><code>summary(fit)</code> displays covariance estimates and convergence, <code>coef(fit)</code> returns fixed effects, and the public <code>fit$random_effects$animal</code> table contains IDs and animal BLUPs (not full predicted body weights). <code>fit$converged</code> and <code>fit$convergence_reason</code> expose the stopping result. Prediction tables follow pedigree order, so compare them by ID. Prediction for new data and prediction uncertainty are not supported on this formula route.</p>
 <p>For development verification only, select the existing isolated installation before sourcing the same example:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.libPaths</span>(<span class="fu">c</span>(<span class="fu">file.path</span>(<span class="st">"build"</span>, <span class="st">"r-library"</span>), <span class="fu">.libPaths</span>()))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/run_single_trait_pedigree_example.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">.libPaths</span>(<span class="fu">c</span>(<span class="fu">file.path</span>(<span class="st">"build"</span>, <span class="st">"r-library"</span>), <span class="fu">.libPaths</span>()))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"tools/examples/run_single_trait_pedigree_example.R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="formula-lowering" class="level2">
 <h2 class="anchored" data-anchor-id="formula-lowering">Formula lowering</h2>
@@ -888,7 +894,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="components-resources-and-results">Components, resources, and results</h2>
 <p>Scalar fits accept one identity component, one pedigree component, or one of each, plus one homogeneous residual component. Formula order determines the random coefficient blocks and covariance-parameter order. Pedigree levels use external pedigree order, including unphenotyped animals. Identity levels use the sorted observed character or integer domain. Every record contributes a unit weight directly to each present component, including the data-induced pedigree/identity cross block; no R incidence matrix is built.</p>
 <p>For example, repeatability and a common-environment model use the same bounded composition rule:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ID <span class="ot">&lt;-</span> <span class="fu">gs_identity</span>()</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ID <span class="ot">&lt;-</span> <span class="fu">gs_identity</span>()</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>repeatability <span class="ot">&lt;-</span> <span class="fu">gfit</span>(</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  y <span class="sc">~</span> sex <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> animal_id) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> permanent_id), records,</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
@@ -907,7 +913,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">residual =</span> <span class="fu">gvc</span>(<span class="st">"residual"</span>, <span class="st">"y"</span>, <span class="at">start =</span> <span class="fl">0.3</span>)</span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">gs_fit_control</span>(<span class="at">direct_backend =</span> <span class="st">"cholmod"</span>)</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Starts remain mandatory finite positive scalars or finite symmetric positive-definite matrices. Covariance boundaries and automatic rank repair are not attempted.</p>
 <p><code>gs_fit_control()</code> maps backend, direct/support threads, exact trace route, optimizer bounds, coefficient dimension, factor memory, selected-inverse workspace, exact trace systems, RHS workspace, and linear-solve controls directly to the public greml session. A failed preflight does not silently change backend, trace route, batch width, or solver. Diagnostics report the required and configured RHS bytes, peak RHS width, resident coefficient vectors, workspace category, limit result, overflow result, and zero numerical work after rejection.</p>
 <p>PARDISO uses its own requested internal thread count and coordinate-exact traces. CHOLMOD uses serial support work and selected inversion. Generic support execution remains independent; an unsupported request is returned as <code>not_supported</code> before solver work. No GNU OpenMP layer is introduced.</p>
@@ -970,13 +976,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

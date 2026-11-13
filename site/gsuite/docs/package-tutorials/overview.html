@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,10 +10,16 @@
 
 <title>One genomic dataset, seven R packages – gtools</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -72,10 +78,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-5a9ef9f892057859ea31c32bac027300.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-b1fe137b0bd05fc9eb8c1a3acc54f640.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -920,10 +926,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="reproduce-the-complete-run" class="level2">
 <h2 class="anchored" data-anchor-id="reproduce-the-complete-run">Reproduce the complete run</h2>
 <p>Install the <a href="../../../gsuite/downloads.html">seven source packages</a> and <a href="https://psoerensen.github.io/gsim/">gsim</a>. Download the <a href="../../benchmarks/genomic_20k_50k/run.R">complete R driver</a>, place it in a new working directory and run:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> run.R <span class="at">--threads</span><span class="op">=</span>4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> run.R <span class="at">--threads</span><span class="op">=</span>4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The driver creates the PLINK files and phenotypes, computes LD once, and runs all seven package workflows. It saves stage objects under <code>build/benchmarks/genomic-20k-50k-4cores/</code> and small result tables under <code>benchmarks/genomic_20k_50k/results/</code>. This is a substantial simulation; allow disk space for the packed genotypes and LD files. The tutorial plots and tables were generated from its saved four-thread stage objects. Package installation and compilation are outside the driver.</p>
 <p>To inspect a saved stage without repeating the analysis:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cache <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"build"</span>, <span class="st">"benchmarks"</span>, <span class="st">"genomic-20k-50k-4cores"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cache <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"build"</span>, <span class="st">"benchmarks"</span>, <span class="st">"genomic-20k-50k-4cores"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>stage <span class="ot">&lt;-</span> <span class="cf">function</span>(name) {</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">readRDS</span>(<span class="fu">file.path</span>(cache, <span class="fu">paste0</span>(name, <span class="st">".rds"</span>)))<span class="sc">$</span>value</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -949,7 +955,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  cut <span class="ot">&lt;-</span> <span class="dv">20</span>L <span class="sc">+</span> r <span class="sc">%%</span> <span class="dv">60</span>L</span>
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  gene_sets[[<span class="fu">sprintf</span>(<span class="st">"gene%04d"</span>, <span class="dv">2</span>L <span class="sc">*</span> r <span class="sc">-</span> <span class="dv">1</span>L)]] <span class="ot">&lt;-</span> regions[[r]][<span class="dv">1</span><span class="sc">:</span>cut]</span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  gene_sets[[<span class="fu">sprintf</span>(<span class="st">"gene%04d"</span>, <span class="dv">2</span>L <span class="sc">*</span> r)]] <span class="ot">&lt;-</span> regions[[r]][(cut <span class="sc">+</span> <span class="dv">1</span>L)<span class="sc">:</span><span class="dv">100</span>L]</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>regions</code> and <code>gene_sets</code> are named marker vectors; <code>pathway_sets</code> in the <a href="../../../gsuite/docs/package-tutorials/gsea.html">gsea tutorial</a> contains gene names. These are different units: a gene set identifies markers in the Glist, while a pathway identifies genes already summarized by VEGAS. In an ordinary study, replace <code>prefix</code>, <code>Y</code>, the sample IDs and set definitions with your own data.</p>
 </section>
 <section id="follow-the-analysis" class="level2">
@@ -1057,13 +1063,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
