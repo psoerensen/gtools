@@ -1,12 +1,13 @@
 Package: gbase
-Version: 0.1.10
+Version: 0.1.11
 Depends: R (>= 4.1.0)
 Imports: Rcpp
 LinkingTo: Rcpp, BH, RcppEigen
 Suggests: testthat (>= 3.0.0)
 License: GPL-3
-MD5sum: 85bb65fd8b70050d6d115dde60cca645
+MD5sum: 1fed67599c11a50fcdf5659c9ce4775e
 NeedsCompilation: yes
+File: gbase_0.1.11.tar.gz
 
 Package: gbayes
 Version: 0.1.1.1
@@ -17,6 +18,7 @@ Suggests: testthat (>= 3.0.0)
 License: GPL-3
 MD5sum: bc24f070144243063eabd39e321a5f78
 NeedsCompilation: yes
+File: gbayes_0.1.1.1.tar.gz
 
 Package: gcorr
 Version: 0.1.9.1
@@ -27,6 +29,7 @@ Suggests: testthat (>= 3.0.0)
 License: GPL-3
 MD5sum: 83731f70d3c8bb75c4f5879644ccdfa4
 NeedsCompilation: yes
+File: gcorr_0.1.9.1.tar.gz
 
 Package: glma
 Version: 0.1.2.1
@@ -37,6 +40,7 @@ Suggests: testthat (>= 3.0.0)
 License: GPL-3
 MD5sum: f52fe01d2b2870ecd8b743d7a39d8063
 NeedsCompilation: yes
+File: glma_0.1.2.1.tar.gz
 
 Package: gmap
 Version: 0.1.1.1
@@ -47,6 +51,7 @@ Suggests: testthat (>= 3.0.0)
 License: GPL-3
 MD5sum: bc1da010e33fcbd22c489bf53ff0c138
 NeedsCompilation: yes
+File: gmap_0.1.1.1.tar.gz
 
 Package: gscore
 Version: 0.1.1.1
@@ -57,6 +62,7 @@ Suggests: testthat (>= 3.0.0)
 License: GPL-3
 MD5sum: ff31317ec6e9cf90ee491b21e78f1c52
 NeedsCompilation: yes
+File: gscore_0.1.1.1.tar.gz
 
 Package: gsea
 Version: 0.1.1.1
@@ -67,3 +73,4 @@ Suggests: testthat (>= 3.0.0)
 License: GPL-3
 MD5sum: 090705bd668886f5b72633efb0a89d25
 NeedsCompilation: yes
+File: gsea_0.1.1.1.tar.gz
