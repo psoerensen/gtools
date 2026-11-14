@@ -1,11 +1,11 @@
 Package: gbase
-Version: 0.1.9
+Version: 0.1.10
 Depends: R (>= 4.1.0)
 Imports: Rcpp
 LinkingTo: Rcpp, BH, RcppEigen
 Suggests: testthat (>= 3.0.0)
 License: GPL-3
-MD5sum: c2bf08939f41e62c16bf5c31aba73b82
+MD5sum: 85bb65fd8b70050d6d115dde60cca645
 NeedsCompilation: yes
 
 Package: gbayes
