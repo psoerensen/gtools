@@ -1,13 +1,13 @@
 Package: gbase
-Version: 0.1.12
+Version: 0.1.13
 Depends: R (>= 4.1.0)
 Imports: Rcpp
 LinkingTo: Rcpp, BH, RcppEigen
 Suggests: testthat (>= 3.0.0)
 License: GPL-3
-MD5sum: 3200e69c23620b73212fbae4fb6e73c4
+MD5sum: aa7d654ad7d91fa81bd4fabe6c245ccd
 NeedsCompilation: yes
-File: gbase_0.1.12.tar.gz
+File: gbase_0.1.13.tar.gz
 
 Package: gbayes
 Version: 0.1.1.1
