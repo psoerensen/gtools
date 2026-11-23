@@ -848,6 +848,7 @@ window.Quarto = {
   <li><a href="#longitudinal-results" id="toc-longitudinal-results" class="nav-link" data-scroll-target="#longitudinal-results">Longitudinal results</a></li>
   <li><a href="#saved-evidence" id="toc-saved-evidence" class="nav-link" data-scroll-target="#saved-evidence">Saved evidence</a></li>
   </ul></li>
+  <li><a href="#ordinary-pedigree-rhe-on-the-frozen-50k-data" id="toc-ordinary-pedigree-rhe-on-the-frozen-50k-data" class="nav-link" data-scroll-target="#ordinary-pedigree-rhe-on-the-frozen-50k-data">Ordinary pedigree RHE on the frozen 50K data</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -1110,9 +1111,14 @@ window.Quarto = {
 <li><a href="results/design.csv">Frozen study dimensions (CSV)</a></li>
 </ul>
 <p>These tables summarize the committed evidence. No model fitting or new raw-output reparse is performed when rendering this page. Likelihood values are not compared because the DMU additive constant remains unreconciled.</p>
-
-
 </section>
+</section>
+<section id="ordinary-pedigree-rhe-on-the-frozen-50k-data" class="level2">
+<h2 class="anchored" data-anchor-id="ordinary-pedigree-rhe-on-the-frozen-50k-data">Ordinary pedigree RHE on the frozen 50K data</h2>
+<p>A separate four-thread comparison fitted the simulation’s sex, cohort and herd effects with 32 probes. Native RHE time fell from 2.20 to 1.50 s for one trait, 6.21 to 2.80 s for two partially observed traits and 11.92 to 7.47 s for the longitudinal random regression. The longitudinal estimation peak fell from 350 to 133 MiB. Total times with estimation, BLUP and EBV export were 29.09, 37.25 and 78.13 s on the animal-space route. All BLUP residual checks passed. The REML comparison above retains its original fixed design and timings.</p>
+<p><a href="rhe/results/full-design-timings.csv">Matched RHE timings and memory</a> · <a href="rhe/results/full-design-estimates.csv">Covariance recovery</a> · <a href="rhe/results/full-design-accuracy.csv">EBV accuracy</a></p>
+
+
 </section>
 </section>
 
