@@ -74,35 +74,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../../gsuite/website/styles.css">
 </head>
@@ -173,7 +144,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/benchmarks.html">Benchmarks</a></li><li class="breadcrumb-item"><a href="../../../gsuite/benchmarks/pedigree_50k_dmu/README.html">Pedigree models: gsuite versus DMU</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/benchmarks.html">Benchmarks</a></li><li class="breadcrumb-item"><a href="../../../gsuite/benchmarks/pedigree_50k_dmu/README.html">50K pedigree benchmark</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         </a>
     </div>
@@ -789,7 +760,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../../../gsuite/benchmarks/pedigree_50k_dmu/README.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Pedigree models: gsuite versus DMU</span></a>
+ <span class="menu-text">50K pedigree benchmark</span></a>
   </div>
 </li>
       </ul>
@@ -839,284 +810,249 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
 
   <ul>
-  <li><a href="#k-pedigree-reml-qualification-against-dmu" id="toc-k-pedigree-reml-qualification-against-dmu" class="nav-link active" data-scroll-target="#k-pedigree-reml-qualification-against-dmu">50K pedigree REML qualification against DMU</a>
+  <li><a href="#variance-estimation-and-breeding-values-on-a-50000-animal-pedigree" id="toc-variance-estimation-and-breeding-values-on-a-50000-animal-pedigree" class="nav-link active" data-scroll-target="#variance-estimation-and-breeding-values-on-a-50000-animal-pedigree">Variance estimation and breeding values on a 50,000-animal pedigree</a>
   <ul class="collapse">
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
-  <ul class="collapse">
-  <li><a href="#single-trait-results" id="toc-single-trait-results" class="nav-link" data-scroll-target="#single-trait-results">Single-trait results</a></li>
-  <li><a href="#multitrait-results" id="toc-multitrait-results" class="nav-link" data-scroll-target="#multitrait-results">Multitrait results</a></li>
-  <li><a href="#longitudinal-results" id="toc-longitudinal-results" class="nav-link" data-scroll-target="#longitudinal-results">Longitudinal results</a></li>
-  <li><a href="#saved-evidence" id="toc-saved-evidence" class="nav-link" data-scroll-target="#saved-evidence">Saved evidence</a></li>
-  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#covariance-recovery" id="toc-covariance-recovery" class="nav-link" data-scroll-target="#covariance-recovery">Covariance recovery</a></li>
+  <li><a href="#prediction-accuracy" id="toc-prediction-accuracy" class="nav-link" data-scroll-target="#prediction-accuracy">Prediction accuracy</a></li>
   <li><a href="#ordinary-pedigree-rhe-on-the-frozen-50k-data" id="toc-ordinary-pedigree-rhe-on-the-frozen-50k-data" class="nav-link" data-scroll-target="#ordinary-pedigree-rhe-on-the-frozen-50k-data">Ordinary pedigree RHE on the frozen 50K data</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/benchmarks.html">Benchmarks</a></li><li class="breadcrumb-item"><a href="../../../gsuite/benchmarks/pedigree_50k_dmu/README.html">Pedigree models: gsuite versus DMU</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../gsuite/benchmarks.html">Benchmarks</a></li><li class="breadcrumb-item"><a href="../../../gsuite/benchmarks/pedigree_50k_dmu/README.html">50K pedigree benchmark</a></li></ol></nav></header>
 
 
 
 
-<section id="k-pedigree-reml-qualification-against-dmu" class="level1">
-<h1>50K pedigree REML qualification against DMU</h1>
-<p>This benchmark compares gsuite 0.29.0 with DMU 5.6 on one frozen 50,000-animal pedigree using single-trait, multitrait, and rank-2 longitudinal animal models. It is a practical cross-software qualification, not a repeated performance benchmark or an exact simulation oracle.</p>
-<p>The public gsim 0.2.0 generators are used unchanged. Their latent effects are not exact inbreeding-aware draws from the fitted relationship model, <code>exact_relationship_draw</code> is false, multitrait missingness follows gsim’s native observation patterns, and the realized phenotyped count is 42,497. Truth comparisons are therefore descriptive. The primary evidence is agreement between gsuite and DMU on the same frozen observations and pedigree.</p>
+<section id="variance-estimation-and-breeding-values-on-a-50000-animal-pedigree" class="level1">
+<h1>Variance estimation and breeding values on a 50,000-animal pedigree</h1>
+<p>The three frozen gsim datasets share a pedigree of 50,000 animals. Each fit includes an intercept, sex, cohort and herd. The two-trait model fits each fixed effect separately for each trait. The longitudinal model fits an animal-specific genetic intercept and slope on the recorded time basis.</p>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
-<p><a href="../../../gsuite/benchmarks.html">Back to all benchmarks</a> · <a href="../../../gsuite/docs/status.html#historical-evidence">Public scope</a></p>
-<p>The saved results below compare gsuite 0.29.0 and DMU 5.6. Both used direct pedigree REML on identical frozen data and starts. gsuite used CHOLMOD selected inversion; DMU used <code>dmu1</code> followed by direct <code>dmuai</code>. Across the three models, the largest absolute covariance-estimate difference is below <span class="math inline">\(4.3\times10^{-8}\)</span>.</p>
-<p>Prediction metrics use the predeclared first 1,000 pedigree-coded animals (856 phenotyped and 144 unphenotyped), not all 50,000 animals. The tables show Pearson correlation and normalized RMSE for each effect on that subset.</p>
-<p>Timings are single executions on the same Intel Core i7-1365U Windows machine. gsuite times cover the fit; DMU times cover the <code>dmu1</code> plus <code>dmuai</code> pipeline. They include different work boundaries and do not establish general speedups. See the <a href="results/provenance.csv">selected hardware, software and thread settings</a> and the convergence table below. The original development PDF is not part of this public snapshot.</p>
-<section id="single-trait-results" class="level3">
-<h3 class="anchored" data-anchor-id="single-trait-results">Single-trait results</h3>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Covariance parameter</th>
-<th style="text-align: right;">gsuite</th>
-<th style="text-align: right;">DMU</th>
+<th>Model</th>
+<th style="text-align: right;">RHE (s)</th>
+<th style="text-align: right;">RHE peak (MiB)</th>
+<th style="text-align: right;">Optional BLUP and export (s)</th>
+<th style="text-align: right;">BLUP peak (MiB)</th>
+<th style="text-align: right;">Both commands (s)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>G[1,1]</td>
-<td style="text-align: right;">0.9912148142</td>
-<td style="text-align: right;">0.9912148200</td>
+<td>One trait</td>
+<td style="text-align: right;">13.78</td>
+<td style="text-align: right;">139</td>
+<td style="text-align: right;">15.31</td>
+<td style="text-align: right;">286</td>
+<td style="text-align: right;">29.09</td>
 </tr>
 <tr class="even">
-<td>R[1,1]</td>
-<td style="text-align: right;">1.1348505615</td>
-<td style="text-align: right;">1.1348506000</td>
+<td>Two traits</td>
+<td style="text-align: right;">15.40</td>
+<td style="text-align: right;">265</td>
+<td style="text-align: right;">21.85</td>
+<td style="text-align: right;">636</td>
+<td style="text-align: right;">37.25</td>
 </tr>
-</tbody>
-</table>
-<p><span class="math inline">\(G\)</span> denotes the genetic covariance matrix; <span class="math inline">\(R\)</span> denotes the residual covariance matrix.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Prediction effect</th>
-<th style="text-align: right;">Animals</th>
-<th style="text-align: right;">Pearson correlation</th>
-<th style="text-align: right;">Normalized RMSE</th>
-</tr>
-</thead>
-<tbody>
 <tr class="odd">
-<td>animal</td>
-<td style="text-align: right;">1000</td>
-<td style="text-align: right;">0.999999999998527</td>
-<td style="text-align: right;">1.721e-06</td>
+<td>Random intercept and slope</td>
+<td style="text-align: right;">37.01</td>
+<td style="text-align: right;">173</td>
+<td style="text-align: right;">41.11</td>
+<td style="text-align: right;">699</td>
+<td style="text-align: right;">78.13</td>
 </tr>
 </tbody>
 </table>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Program</th>
-<th style="text-align: right;">Observed wall time (seconds)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>gsuite fit</td>
-<td style="text-align: right;">80.920</td>
-</tr>
-<tr class="even">
-<td>DMU pipeline</td>
-<td style="text-align: right;">178.421</td>
-</tr>
-</tbody>
-</table>
+<p>Run <code>model-vc.yml</code> alone for variance and covariance estimates. Run <code>model-blup.yml</code> afterwards if you want breeding values. Each command used four compute threads. Ordinary RHE used 32 probes. Times include input preparation and output. RAM is the process-tree working set sampled every 0.1 seconds, including the runner and native process. Shared pages can count twice.</p>
+<p>The one-trait, two-trait and longitudinal models used 42,497, 65,803 and 169,928 observed scalar values. Their BLUP residuals passed the original checks. They returned 50,000 breeding values, 100,000 trait-specific breeding values and 100,000 predictions on the longitudinal grid, respectively.</p>
+<p>A matched DMU AI-REML measurement is unavailable for these fixed effects.</p>
 </section>
-<section id="multitrait-results" class="level3">
-<h3 class="anchored" data-anchor-id="multitrait-results">Multitrait results</h3>
+<section id="covariance-recovery" class="level2">
+<h2 class="anchored" data-anchor-id="covariance-recovery">Covariance recovery</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Covariance parameter</th>
-<th style="text-align: right;">gsuite</th>
-<th style="text-align: right;">DMU</th>
+<th>Model</th>
+<th>Component</th>
+<th style="text-align: right;">Generating</th>
+<th style="text-align: right;">Realised</th>
+<th style="text-align: right;">RHE</th>
+<th style="text-align: right;">RHE minus realised</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>G[1,1]</td>
-<td style="text-align: right;">1.0513593430</td>
-<td style="text-align: right;">1.0513593000</td>
+<td>One trait</td>
+<td>Genetic variance</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.980</td>
+<td style="text-align: right;">0.969</td>
+<td style="text-align: right;">-0.011</td>
 </tr>
 <tr class="even">
-<td>G[2,1]</td>
-<td style="text-align: right;">0.4060368505</td>
-<td style="text-align: right;">0.4060368500</td>
+<td>One trait</td>
+<td>Residual variance</td>
+<td style="text-align: right;">1.125</td>
+<td style="text-align: right;">1.126</td>
+<td style="text-align: right;">1.140</td>
+<td style="text-align: right;">+0.014</td>
 </tr>
 <tr class="odd">
-<td>G[2,2]</td>
-<td style="text-align: right;">0.8012559231</td>
-<td style="text-align: right;">0.8012559300</td>
+<td>Two traits</td>
+<td>Genetic variance, trait 1</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.999</td>
+<td style="text-align: right;">1.051</td>
+<td style="text-align: right;">+0.052</td>
 </tr>
 <tr class="even">
-<td>R[1,1]</td>
-<td style="text-align: right;">1.0986902326</td>
-<td style="text-align: right;">1.0986902000</td>
+<td>Two traits</td>
+<td>Genetic covariance between traits</td>
+<td style="text-align: right;">0.400</td>
+<td style="text-align: right;">0.401</td>
+<td style="text-align: right;">0.437</td>
+<td style="text-align: right;">+0.036</td>
 </tr>
 <tr class="odd">
-<td>R[2,1]</td>
-<td style="text-align: right;">0.2413718588</td>
-<td style="text-align: right;">0.2413718600</td>
+<td>Two traits</td>
+<td>Genetic variance, trait 2</td>
+<td style="text-align: right;">0.800</td>
+<td style="text-align: right;">0.774</td>
+<td style="text-align: right;">0.727</td>
+<td style="text-align: right;">-0.047</td>
 </tr>
 <tr class="even">
-<td>R[2,2]</td>
-<td style="text-align: right;">0.8975498573</td>
-<td style="text-align: right;">0.8975498500</td>
+<td>Two traits</td>
+<td>Residual variance, trait 1</td>
+<td style="text-align: right;">1.125</td>
+<td style="text-align: right;">1.109</td>
+<td style="text-align: right;">1.091</td>
+<td style="text-align: right;">-0.018</td>
+</tr>
+<tr class="odd">
+<td>Two traits</td>
+<td>Residual covariance between traits</td>
+<td style="text-align: right;">0.225</td>
+<td style="text-align: right;">0.228</td>
+<td style="text-align: right;">0.207</td>
+<td style="text-align: right;">-0.022</td>
+</tr>
+<tr class="even">
+<td>Two traits</td>
+<td>Residual variance, trait 2</td>
+<td style="text-align: right;">0.900</td>
+<td style="text-align: right;">0.901</td>
+<td style="text-align: right;">0.953</td>
+<td style="text-align: right;">+0.052</td>
+</tr>
+<tr class="odd">
+<td>Random intercept and slope</td>
+<td>Genetic intercept variance</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.982</td>
+<td style="text-align: right;">0.938</td>
+<td style="text-align: right;">-0.045</td>
+</tr>
+<tr class="even">
+<td>Random intercept and slope</td>
+<td>Genetic intercept–slope covariance</td>
+<td style="text-align: right;">0.150</td>
+<td style="text-align: right;">0.140</td>
+<td style="text-align: right;">0.103</td>
+<td style="text-align: right;">-0.037</td>
+</tr>
+<tr class="odd">
+<td>Random intercept and slope</td>
+<td>Genetic slope variance</td>
+<td style="text-align: right;">0.250</td>
+<td style="text-align: right;">0.244</td>
+<td style="text-align: right;">0.190</td>
+<td style="text-align: right;">-0.054</td>
+</tr>
+<tr class="even">
+<td>Random intercept and slope</td>
+<td>Residual variance</td>
+<td style="text-align: right;">0.800</td>
+<td style="text-align: right;">0.800</td>
+<td style="text-align: right;">0.861</td>
+<td style="text-align: right;">+0.061</td>
 </tr>
 </tbody>
 </table>
-<p><span class="math inline">\(G\)</span> denotes the genetic covariance matrix; <span class="math inline">\(R\)</span> denotes the residual covariance matrix.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Prediction effect</th>
-<th style="text-align: right;">Animals</th>
-<th style="text-align: right;">Pearson correlation</th>
-<th style="text-align: right;">Normalized RMSE</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>trait1</td>
-<td style="text-align: right;">1000</td>
-<td style="text-align: right;">0.999999999998714</td>
-<td style="text-align: right;">1.604e-06</td>
-</tr>
-<tr class="even">
-<td>trait2</td>
-<td style="text-align: right;">1000</td>
-<td style="text-align: right;">0.999999999998806</td>
-<td style="text-align: right;">1.552e-06</td>
-</tr>
-</tbody>
-</table>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Program</th>
-<th style="text-align: right;">Observed wall time (seconds)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>gsuite fit</td>
-<td style="text-align: right;">105.640</td>
-</tr>
-<tr class="even">
-<td>DMU pipeline</td>
-<td style="text-align: right;">818.460</td>
-</tr>
-</tbody>
-</table>
+<p>Generating values include the residual multiplier of 0.75 used in the one- and two-trait simulations. Realised genetic entries use the simulated breeding values or regression coefficients of all 50,000 animals. Residual variances use each trait’s observed records. The two-trait residual covariance uses 23,306 paired observations. The realised values describe this particular pedigree and set of random draws.</p>
 </section>
-<section id="longitudinal-results" class="level3">
-<h3 class="anchored" data-anchor-id="longitudinal-results">Longitudinal results</h3>
+<section id="prediction-accuracy" class="level2">
+<h2 class="anchored" data-anchor-id="prediction-accuracy">Prediction accuracy</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Covariance parameter</th>
-<th style="text-align: right;">gsuite</th>
-<th style="text-align: right;">DMU</th>
+<th>Prediction</th>
+<th style="text-align: right;">Correlation with truth</th>
+<th style="text-align: right;">RMSE</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Q[1,1]</td>
-<td style="text-align: right;">1.0057441325</td>
-<td style="text-align: right;">1.0057441000</td>
+<td>One trait</td>
+<td style="text-align: right;">0.747</td>
+<td style="text-align: right;">0.658</td>
 </tr>
 <tr class="even">
-<td>Q[2,1]</td>
-<td style="text-align: right;">0.1463268382</td>
-<td style="text-align: right;">0.1463268400</td>
+<td>Two traits, trait 1</td>
+<td style="text-align: right;">0.726</td>
+<td style="text-align: right;">0.690</td>
 </tr>
 <tr class="odd">
-<td>Q[2,2]</td>
-<td style="text-align: right;">0.2475494863</td>
-<td style="text-align: right;">0.2475494800</td>
+<td>Two traits, trait 2</td>
+<td style="text-align: right;">0.711</td>
+<td style="text-align: right;">0.622</td>
 </tr>
 <tr class="even">
-<td>R[1,1]</td>
-<td style="text-align: right;">0.7974774374</td>
-<td style="text-align: right;">0.7974774400</td>
+<td>Longitudinal intercept</td>
+<td style="text-align: right;">0.887</td>
+<td style="text-align: right;">0.459</td>
+</tr>
+<tr class="odd">
+<td>Longitudinal slope</td>
+<td style="text-align: right;">0.648</td>
+<td style="text-align: right;">0.378</td>
 </tr>
 </tbody>
 </table>
-<p><span class="math inline">\(Q\)</span> denotes the genetic random-regression coefficient covariance matrix; <span class="math inline">\(R\)</span> denotes the residual covariance matrix.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Prediction effect</th>
-<th style="text-align: right;">Animals</th>
-<th style="text-align: right;">Pearson correlation</th>
-<th style="text-align: right;">Normalized RMSE</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>coefficient1</td>
-<td style="text-align: right;">1000</td>
-<td style="text-align: right;">0.999999999998514</td>
-<td style="text-align: right;">1.734e-06</td>
-</tr>
-<tr class="even">
-<td>coefficient2</td>
-<td style="text-align: right;">1000</td>
-<td style="text-align: right;">0.999999999999474</td>
-<td style="text-align: right;">1.081e-06</td>
-</tr>
-</tbody>
-</table>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Program</th>
-<th style="text-align: right;">Observed wall time (seconds)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>gsuite fit</td>
-<td style="text-align: right;">386.860</td>
-</tr>
-<tr class="even">
-<td>DMU pipeline</td>
-<td style="text-align: right;">1182.680</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="saved-evidence" class="level3">
-<h3 class="anchored" data-anchor-id="saved-evidence">Saved evidence</h3>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="../../website/assets/pedigree-dmu-runtime.svg" class="img-fluid figure-img" alt="Single trait: gsuite 80.9 seconds, DMU 178.4. Multitrait: gsuite 105.6, DMU 818.5. Longitudinal: gsuite 386.9, DMU 1182.7."></p>
-<figcaption>Observed wall times on the frozen pedigree models. Each bar is one execution; gsuite fit and DMU preprocessing-plus-fitting timings have different work boundaries.</figcaption>
-</figure>
-</div>
-<p>The website figure is drawn from the saved timing CSV.</p>
-<ul>
-<li><a href="results/estimates.csv">Covariance estimates (CSV)</a></li>
-<li><a href="results/prediction_metrics.csv">Prediction metrics, including observation subsets (CSV)</a></li>
-<li><a href="results/timings.csv">Timing stages (CSV)</a></li>
-<li><a href="results/convergence.csv">Convergence diagnostics (CSV)</a></li>
-<li><a href="results/design.csv">Frozen study dimensions (CSV)</a></li>
-</ul>
-<p>These tables summarize the committed evidence. No model fitting or new raw-output reparse is performed when rendering this page. Likelihood values are not compared because the DMU additive constant remains unreconciled.</p>
-</section>
+<p>Each row covers all 50,000 animals. The longitudinal intercept is the prediction at basis zero. The slope is the prediction at one minus the prediction at zero.</p>
 </section>
 <section id="ordinary-pedigree-rhe-on-the-frozen-50k-data" class="level2">
 <h2 class="anchored" data-anchor-id="ordinary-pedigree-rhe-on-the-frozen-50k-data">Ordinary pedigree RHE on the frozen 50K data</h2>
-<p>A separate four-thread comparison fitted the simulation’s sex, cohort and herd effects with 32 probes. Native RHE time fell from 2.20 to 1.50 s for one trait, 6.21 to 2.80 s for two partially observed traits and 11.92 to 7.47 s for the longitudinal random regression. The longitudinal estimation peak fell from 350 to 133 MiB. Total times with estimation, BLUP and EBV export were 29.09, 37.25 and 78.13 s on the animal-space route. All BLUP residual checks passed. The REML comparison above retains its original fixed design and timings.</p>
-<p><a href="rhe/results/full-design-timings.csv">Matched RHE timings and memory</a> · <a href="rhe/results/full-design-estimates.csv">Covariance recovery</a> · <a href="rhe/results/full-design-accuracy.csv">EBV accuracy</a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../website/assets/pedigree-rhe-runtime.svg" class="img-fluid figure-img"></p>
+<figcaption>Native RHE and total evaluation time in record space and animal space, with sex, cohort and herd fitted.</figcaption>
+</figure>
+</div>
+<p>Animal-space calculation reduced native two-trait RHE time from 6.21 to 2.80 seconds and longitudinal native RHE peak RAM from 350 to 133 MiB.</p>
+<p><a href="rhe/results/adjusted-performance.csv">Timing and memory CSV</a> · <a href="rhe/results/adjusted-covariances.csv">Covariance CSV</a> · <a href="rhe/results/adjusted-predictions.csv">Prediction accuracy CSV</a></p>
 
 
 </section>

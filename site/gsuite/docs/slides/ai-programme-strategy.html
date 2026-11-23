@@ -581,8 +581,8 @@ Peter Sørensen
 <td>Check factor reuse, thread agreement and retained solves</td>
 </tr>
 <tr class="odd">
-<td><strong>Independent software comparison</strong></td>
-<td>Compare matched pedigree models with DMU on 50,000 animals</td>
+<td><strong>Simulation recovery</strong></td>
+<td>Compare pedigree covariance estimates and predictions with the simulated effects</td>
 </tr>
 <tr class="even">
 <td><strong>User workflow</strong></td>
@@ -590,14 +590,8 @@ Peter Sørensen
 </tr>
 </tbody>
 </table>
-<p>In the saved DMU comparison, covariance estimates differed by less than <span class="math inline">\(4.3\times10^{-8}\)</span>.</p>
-<div class="source">
-<p>Historical comparison: gsuite 0.29.0 and DMU 5.6; three frozen pedigree models. <a href="https://psoerensen.github.io/gtools/gsuite/benchmarks/pedigree_50k_dmu/README.html">Results and scope</a></p>
-</div>
 <aside class="notes">
 <p>Both the small references and the efficient selected-inverse algorithm are native C++. The references include a dense inverse and a separate scalar Takahashi calculation. Independence comes from the different computational approaches, not from using different programming languages.</p>
-<p>The saved DMU evidence covers single-trait, multitrait and longitudinal models. The numerical agreement is concrete evidence for those versions, models and settings. It does not qualify every current capability. The following slide shows historical runtime evidence. Individual desktop timings varied markedly in later reruns.</p>
-<p>Checks must continue as the software changes. A recent current-version multitrait rerun reached estimates close to the historical endpoint but failed its line-search requirement. That remains a failure to investigate, not a successful current-version benchmark. Running code and supported models are not the same acceptance state.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -610,37 +604,13 @@ Peter Sørensen
           display:block!important;
       }</style></aside>
 </section>
-<section id="gsuite-versus-dmu-agreement-and-runtime" class="slide level2">
-<h2>gsuite versus DMU: agreement and runtime</h2>
-<div class="columns">
-<div class="column" style="width:65%;">
-<p><img data-src="../../website/assets/pedigree-dmu-runtime.svg" style="width:100.0%" alt="Single trait: gsuite 80.9 seconds and DMU 178.4. Multitrait: 105.6 and 818.5. Longitudinal: 386.9 and 1182.7."></p>
-</div><div class="column" style="width:35%;">
-<h3 id="numerical-agreement">Numerical agreement</h3>
-<p>50,000 animals</p>
-<p>Maximum covariance-estimate difference below <span class="math inline">\(4.3\times10^{-8}\)</span>.</p>
-<p>Prediction correlations essentially 1 on 1,000 preselected animals.</p>
-<p><strong>Competitive runtime on these three tested models.</strong></p>
-</div></div>
-<div class="small-text">
-<p>gsuite 0.29.0 and DMU 5.6. Each bar represents one execution. The work boundaries differ: gsuite fitting versus DMU preprocessing and fitting.</p>
-</div>
+<section id="pedigree-evaluation-on-50000-animals" class="slide level2">
+<h2>Pedigree evaluation on 50,000 animals</h2>
+
+<img data-src="../../website/assets/pedigree-adjusted-performance.svg" style="width:90.0%" alt="RHE and BLUP wall time and peak memory with sex, cohort and herd fitted." class="r-stretch"><p>The two-trait model estimated six covariance entries and exported 100,000 breeding values in <strong>37.25 seconds</strong>, with a peak process-tree working set of <strong>636 MiB</strong>.</p>
 <div class="source">
-<p><a href="https://psoerensen.github.io/gtools/gsuite/benchmarks/pedigree_50k_dmu/README.html">Results, scope and provenance</a></p>
+<p><a href="https://psoerensen.github.io/gtools/gsuite/benchmarks/pedigree_50k_dmu/README.html">Covariance recovery and prediction accuracy</a></p>
 </div>
-<aside class="notes">
-<p>The numerical results provide evidence for these frozen direct pedigree REML models. Covariance agreement covers the saved parameters. Prediction correlations exceed 0.999999999998 on the predeclared first 1,000 pedigree-coded animals, not all 50,000. Likelihood constants remain unreconciled. Timings are descriptive single runs with different work boundaries, so this is not a general speed claim or qualification of all current gsuite routes.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="a-pedigree-analysis-as-a-conversation" class="slide level2 strategy-slide">
 <h2>A pedigree analysis as a conversation</h2>

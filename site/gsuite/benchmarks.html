@@ -761,7 +761,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container">
   <a href="../gsuite/benchmarks/pedigree_50k_dmu/README.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Pedigree models: gsuite versus DMU</span></a>
+ <span class="menu-text">50K pedigree benchmark</span></a>
   </div>
 </li>
       </ul>
@@ -834,7 +834,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><a href="#model-catalogue-timings">Model catalogue timings</a> · <a href="#covariance-recovery">True and estimated covariance components</a> · <a href="#software-comparisons">Software comparisons</a></p>
+<p><a href="#model-catalogue-timings">Model catalogue timings</a> · <a href="#covariance-recovery">True and estimated covariance components</a> · <a href="#software-comparisons">50,000-animal pedigree</a></p>
 <section id="model-catalogue-timings" class="level2">
 <h2 class="anchored" data-anchor-id="model-catalogue-timings">Model catalogue timings</h2>
 <p>How long does it take to go from phenotype, pedigree and genotype files to breeding values? These Windows laptop runs used simulated data for 10,000 individuals, including 2,500 genotyped at 4,000 markers in the single-step examples below. Each run used four compute threads. The first command estimated variance components by ordinary randomized Haseman–Elston (RHE) with 32 probes. The second used those estimates for BLUP and exported the breeding values.</p>
@@ -958,46 +958,66 @@ A larger population: 20,000 individuals, one trait
 <p>The original timed five-trait single-step case used marker effects to generate breeding values. Its residual covariance was specified, while its genetic covariance can be described by the realised breeding values. For example, the generating residual variance for trait 1 was <strong>1.00</strong> and the estimate was <strong>0.86469</strong>. The <a href="benchmarks/model_catalogue/variance-components/qualification/five-trait-covariance-accuracy.csv">original case results</a> identify the generating, realised and supplied values separately.</p>
 </section>
 <section id="software-comparisons" class="level2">
-<h2 class="anchored" data-anchor-id="software-comparisons">Software comparisons</h2>
-<section id="gsuite-versus-dmu-50000-animal-pedigree" class="level3">
-<h3 class="anchored" data-anchor-id="gsuite-versus-dmu-50000-animal-pedigree">gsuite versus DMU: 50,000-animal pedigree</h3>
-<p>Compare REML estimates, predictions and observed run times for gsuite 0.29.0 and DMU 5.6 on the same frozen pedigree and observations.</p>
+<h2 class="anchored" data-anchor-id="software-comparisons">50,000-animal pedigree</h2>
+<section id="ordinary-pedigree-rhe-on-the-same-50k-data" class="level3">
+<h3 class="anchored" data-anchor-id="ordinary-pedigree-rhe-on-the-same-50k-data">Ordinary pedigree RHE and breeding values</h3>
+<p>All three models fitted the simulated sex, cohort and herd effects. The two-trait model fitted separate fixed effects for each trait and retained partially observed animals.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="website/assets/pedigree-dmu-runtime.svg" class="img-fluid figure-img" alt="Grouped bars of wall time in seconds: single trait, gsuite 80.9 and DMU 178.4; multitrait, gsuite 105.6 and DMU 818.5; longitudinal, gsuite 386.9 and DMU 1182.7."></p>
-<figcaption>Observed runtime for the three pedigree models. gsuite fit versus the DMU preprocessing and fitting pipeline; lower is faster. Timings are single executions.</figcaption>
+<p><img src="website/assets/pedigree-adjusted-performance.svg" class="img-fluid figure-img" alt="Variance estimation used 139, 265 and 173 MiB for the one-trait, two-trait and random-slope models. Optional BLUP used 286, 636 and 699 MiB, respectively."></p>
+<figcaption>Ordinary RHE variance estimation and optional BLUP prediction on the adjusted 50K pedigree.</figcaption>
 </figure>
 </div>
-<p>gsuite recorded lower wall times than DMU in all three comparisons, alongside close agreement in covariance estimates and predictions. These results show competitive runtime for the tested direct pedigree REML workflows.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Benchmark results</th>
 <th>Model</th>
+<th style="text-align: right;">RHE (s)</th>
+<th style="text-align: right;">RHE peak (MiB)</th>
+<th style="text-align: right;">Optional BLUP and export (s)</th>
+<th style="text-align: right;">BLUP peak (MiB)</th>
+<th style="text-align: right;">Both commands (s)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="../gsuite/benchmarks/pedigree_50k_dmu/README.html#single-trait-results">Single-trait results</a></td>
-<td>Pedigree animal model</td>
+<td>One trait</td>
+<td style="text-align: right;">13.78</td>
+<td style="text-align: right;">139</td>
+<td style="text-align: right;">15.31</td>
+<td style="text-align: right;">286</td>
+<td style="text-align: right;">29.09</td>
 </tr>
 <tr class="even">
-<td><a href="../gsuite/benchmarks/pedigree_50k_dmu/README.html#multitrait-results">Multitrait results</a></td>
-<td>Two traits with incomplete observations</td>
+<td>Two traits</td>
+<td style="text-align: right;">15.40</td>
+<td style="text-align: right;">265</td>
+<td style="text-align: right;">21.85</td>
+<td style="text-align: right;">636</td>
+<td style="text-align: right;">37.25</td>
 </tr>
 <tr class="odd">
-<td><a href="../gsuite/benchmarks/pedigree_50k_dmu/README.html#longitudinal-results">Longitudinal results</a></td>
-<td>Rank-2 random regression</td>
+<td>Random intercept and slope</td>
+<td style="text-align: right;">37.01</td>
+<td style="text-align: right;">173</td>
+<td style="text-align: right;">41.11</td>
+<td style="text-align: right;">699</td>
+<td style="text-align: right;">78.13</td>
 </tr>
 </tbody>
 </table>
-<p><strong><a href="../gsuite/benchmarks/pedigree_50k_dmu/README.html#results">View all comparison results and saved tables</a></strong>.</p>
-<p>The <a href="benchmarks/pedigree_50k_dmu/results/estimates.csv">50K variance-component table</a> includes the nominal simulation values and the estimates from both programs. For the single-trait model, the nominal genetic and residual variances were 1.0 and 1.5. Both programs estimated 0.9912 and 1.1349, respectively. The simulator used an approximate pedigree draw, so these nominal values serve as a descriptive reference.</p>
-<p>The study checks numerical agreement on three frozen models. Timings are single executions, not a repeated performance benchmark or a general speed claim. The public result page includes saved tables and selected provenance; the full development report and execution scripts are not published here.</p>
-</section>
-<section id="ordinary-pedigree-rhe-on-the-same-50k-data" class="level3">
-<h3 class="anchored" data-anchor-id="ordinary-pedigree-rhe-on-the-same-50k-data">Ordinary pedigree RHE on the same 50K data</h3>
-<p>With sex, cohort and herd fitted, the animal-space calculation reduced native variance-estimation time from 2.20 to 1.50 s for one trait, 6.21 to 2.80 s for two traits and 11.92 to 7.47 s for a random intercept and slope. Including both YAML commands and EBV export, the respective totals changed from 26.66 to 29.09 s, 39.31 to 37.25 s and 78.94 to 78.13 s. Each route ran once with four threads and 32 probes. <a href="benchmarks/pedigree_50k_dmu/rhe/results/full-design-timings.csv">Matched timings and memory</a> · <a href="benchmarks/pedigree_50k_dmu/rhe/results/full-design-estimates.csv">Covariance recovery</a> · <a href="benchmarks/pedigree_50k_dmu/rhe/results/full-design-accuracy.csv">EBV accuracy</a></p>
+<p>Run <code>model-vc.yml</code> alone for variance and covariance estimates. Run <code>model-blup.yml</code> afterwards if you want breeding values. Each command used four compute threads. Ordinary RHE used 32 probes. Times include input preparation and output. RAM is the process-tree working set sampled every 0.1 seconds, including the runner and native process. Shared pages can count twice.</p>
+<p>For one trait, RHE estimated genetic variance at <strong>0.969</strong> against <strong>0.980 realised</strong>, and residual variance at <strong>1.140</strong> against <strong>1.126 realised</strong>. The two-trait genetic and residual covariances were <strong>0.437</strong> and <strong>0.207</strong>, compared with <strong>0.401</strong> and <strong>0.228 realised</strong>. Recovery was weaker for the longitudinal genetic slope variance (<strong>0.190</strong> versus <strong>0.244 realised</strong>).</p>
+<p>A matched DMU AI-REML measurement is unavailable for these fixed effects.</p>
+<p><a href="../gsuite/benchmarks/pedigree_50k_dmu/README.html">All 12 covariance estimates, realised values and prediction accuracy</a> · <a href="benchmarks/pedigree_50k_dmu/rhe/results/adjusted-performance.csv">Download timings and memory</a></p>
 </section>
 </section>
 <section id="other-validation-evidence" class="level2">
