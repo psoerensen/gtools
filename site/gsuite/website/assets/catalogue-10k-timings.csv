@@ -1,18 +1,18 @@
-catalogue_case,dataset_individuals,traits,observed_scalars,vc_method,threads,rhe_probes,vc_command_seconds,blup_command_seconds,two_command_seconds,vc_native_peak_mib,blup_native_peak_mib,vc_tree_peak_mib,blup_tree_peak_mib,prediction_rows
-large-pedigree-1trait,10000,1,12791,ordinary RHE,4,32,4.911,2.925,7.836,18.570,43.875,96.254,111.676,10000
-large-single-step-1trait,10000,1,12791,ordinary RHE,4,32,3.576,5.805,9.382,38.105,51.426,118.000,134.117,10000
-large-pedigree-2trait,10000,2,25586,ordinary RHE,4,32,3.687,4.198,7.885,30.055,100.770,98.535,180.887,20000
-large-single-step-2trait,10000,2,25586,ordinary RHE,4,32,5.177,10.157,15.335,49.938,55.941,130.684,140.707,20000
-large-pedigree-5trait,10000,5,63718,ordinary RHE,4,32,8.367,9.650,18.017,153.215,374.898,234.348,439.359,50000
-large-single-step-5trait,10000,5,63718,ordinary RHE,4,32,18.765,15.567,34.332,170.234,69.590,253.070,157.871,50000
-large-repeatability-1trait,10000,1,12791,ordinary RHE,4,32,4.895,7.519,12.414,40.605,52.891,121.871,133.949,10000
-large-repeatability-2trait,10000,2,25586,ordinary RHE,4,32,5.855,10.277,16.132,55.234,58.949,137.449,145.332,20000
-large-repeatability-5trait,10000,5,63718,ordinary RHE,4,32,18.133,17.153,35.286,229.766,78.312,313.219,167.395,50000
-large-factor-analytic-5trait,10000,5,63718,ordinary RHE,4,32,14.245,12.133,26.378,170.391,69.625,254.516,156.082,50000
-large-apy-1trait,10000,1,12791,ordinary RHE,4,32,6.103,5.810,11.913,36.324,50.895,117.793,125.836,10000
-large-random-intercept-reml,10000,1,12791,ordinary RHE,4,32,2.424,2.523,4.947,14.656,30.168,90.492,101.516,7329
-large-ssgblup-fullcore-1trait,10000,1,12791,ordinary RHE,4,32,13.407,5.588,18.995,190.547,191.574,267.715,269.535,10000
-large-matching-ss-snp-1trait,10000,1,12791,ordinary RHE,4,32,3.252,5.122,8.373,33.703,43.094,115.094,122.906,10000
-large-pedigree-reml,10000,1,12791,ordinary RHE,4,32,2.702,2.836,5.538,18.520,52.266,94.516,115.879,10000
-large-packed-reml-1trait,10000,1,12791,ordinary RHE,4,32,3.504,5.782,9.287,38.262,51.156,119.648,131.617,10000
-large-packed-reml-2trait,10000,2,25586,ordinary RHE,4,32,5.337,10.348,15.685,49.957,55.996,131.332,140.219,20000
+model,vc_method,dataset_individuals,traits,observed_scalars,threads,rhe_probes,vc_command_seconds,blup_command_seconds,two_command_seconds,vc_native_peak_mib,blup_native_peak_mib,vc_tree_peak_mib,blup_tree_peak_mib,prediction_rows,catalogue_case
+Pedigree BLUP,ordinary RHE,10000,1,12791,4,32,4.911,2.925,7.836,18.570,43.875,96.254,111.676,10000,large-pedigree-1trait
+Packed single-step SNP-BLUP,ordinary RHE,10000,1,12791,4,32,3.576,5.805,9.382,38.105,51.426,118.000,134.117,10000,large-single-step-1trait
+Pedigree BLUP,ordinary RHE,10000,2,25586,4,32,3.687,4.198,7.885,30.055,100.770,98.535,180.887,20000,large-pedigree-2trait
+Packed single-step SNP-BLUP,ordinary RHE,10000,2,25586,4,32,5.177,10.157,15.335,49.938,55.941,130.684,140.707,20000,large-single-step-2trait
+Pedigree BLUP,ordinary RHE,10000,5,63718,4,32,8.367,9.650,18.017,153.215,374.898,234.348,439.359,50000,large-pedigree-5trait
+Packed single-step SNP-BLUP,ordinary RHE,10000,5,63718,4,32,18.765,15.567,34.332,170.234,69.590,253.070,157.871,50000,large-single-step-5trait
+Single-step repeatability,ordinary RHE,10000,1,12791,4,32,4.895,7.519,12.414,40.605,52.891,121.871,133.949,10000,large-repeatability-1trait
+Single-step repeatability,ordinary RHE,10000,2,25586,4,32,5.855,10.277,16.132,55.234,58.949,137.449,145.332,20000,large-repeatability-2trait
+Single-step repeatability,ordinary RHE,10000,5,63718,4,32,18.133,17.153,35.286,229.766,78.312,313.219,167.395,50000,large-repeatability-5trait
+Rank-one factor-analytic single-step,ordinary RHE,10000,5,63718,4,32,14.245,12.133,26.378,170.391,69.625,254.516,156.082,50000,large-factor-analytic-5trait
+Single-step GBLUP with APY (128 core),ordinary RHE,10000,1,12791,4,32,6.103,5.810,11.913,36.324,50.895,117.793,125.836,10000,large-apy-1trait
+Individual random intercept,ordinary RHE,10000,1,12791,4,32,2.424,2.523,4.947,14.656,30.168,90.492,101.516,7329,large-random-intercept-reml
+Single-step GBLUP with all genotyped individuals in the core,ordinary RHE,10000,1,12791,4,32,13.407,5.588,18.995,190.547,191.574,267.715,269.535,10000,large-ssgblup-fullcore-1trait
+Packed single-step SNP-BLUP with independent ridge,ordinary RHE,10000,1,12791,4,32,3.252,5.122,8.373,33.703,43.094,115.094,122.906,10000,large-matching-ss-snp-1trait
+Pedigree BLUP,ordinary RHE,10000,1,12791,4,32,2.702,2.836,5.538,18.520,52.266,94.516,115.879,10000,large-pedigree-reml
+Packed single-step SNP-BLUP,ordinary RHE,10000,1,12791,4,32,3.504,5.782,9.287,38.262,51.156,119.648,131.617,10000,large-packed-reml-1trait
+Packed single-step SNP-BLUP,ordinary RHE,10000,2,25586,4,32,5.337,10.348,15.685,49.957,55.996,131.332,140.219,20000,large-packed-reml-2trait

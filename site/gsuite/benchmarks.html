@@ -834,7 +834,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><a href="#model-catalogue-timings">Model catalogue timings</a> · <a href="#software-comparisons">Software comparisons</a></p>
+<p><a href="#model-catalogue-timings">Model catalogue timings</a> · <a href="#covariance-recovery">True and estimated covariance components</a> · <a href="#software-comparisons">Software comparisons</a></p>
 <section id="model-catalogue-timings" class="level2">
 <h2 class="anchored" data-anchor-id="model-catalogue-timings">Model catalogue timings</h2>
 <p>How long does it take to go from phenotype, pedigree and genotype files to breeding values? These Windows laptop runs used simulated data for 10,000 individuals, including 2,500 genotyped at 4,000 markers in the single-step examples below. Each run used four compute threads. The first command estimated variance components by ordinary randomized Haseman–Elston (RHE) with 32 probes. The second used those estimates for BLUP and exported the breeding values.</p>
@@ -849,7 +849,7 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th>Model</th>
-<th style="text-align: right;">Variance estimation (s)</th>
+<th style="text-align: right;">Ordinary RHE (s)</th>
 <th style="text-align: right;">BLUP and export (s)</th>
 <th style="text-align: right;">Both commands (s)</th>
 <th style="text-align: right;">Peak RAM (MiB)</th>
@@ -871,11 +871,25 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">141</td>
 </tr>
 <tr class="odd">
+<td>Pedigree, five traits</td>
+<td style="text-align: right;">8.4</td>
+<td style="text-align: right;">9.6</td>
+<td style="text-align: right;">18.0</td>
+<td style="text-align: right;">439</td>
+</tr>
+<tr class="even">
 <td>Single-step, five traits</td>
 <td style="text-align: right;">18.8</td>
 <td style="text-align: right;">15.6</td>
 <td style="text-align: right;">34.3</td>
 <td style="text-align: right;">253</td>
+</tr>
+<tr class="odd">
+<td>Rank-one factor-analytic single-step, five traits</td>
+<td style="text-align: right;">14.2</td>
+<td style="text-align: right;">12.1</td>
+<td style="text-align: right;">26.4</td>
+<td style="text-align: right;">255</td>
 </tr>
 <tr class="even">
 <td>Single-step repeatability, five traits</td>
@@ -887,7 +901,61 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p>The five-trait single-step run exported 50,000 breeding values. Times include input preparation inside each command and result collection. Simulation is excluded. Totals use the unrounded times from one execution of each command. Peak RAM is the larger of the two process-tree working sets sampled every 0.1 seconds. Shared pages can be counted more than once.</p>
-<p><a href="website/assets/catalogue-10k-timings.csv">Download timings and native and process-tree memory for all 17 original 10K configurations (CSV)</a> or <a href="../gsuite/docs/evaluation-models.html">open their variance-estimation and breeding-value YAML files</a>.</p>
+<p><a href="website/assets/catalogue-10k-timings.csv">Download timings and native and process-tree memory for all 17 original 10K configurations (CSV)</a> or <a href="../gsuite/docs/evaluation-models.html">open their variance-estimation and breeding-value YAML files</a>. The CSV lists the fitted model and estimator first. Its last column preserves the original catalogue ID so each timing can be traced to its recipe. For example, <code>large-packed-reml-1trait</code> originally requested REML and timed out at 15 minutes. On the same records, ordinary RHE took 3.504 s and BLUP took 5.782 s to export 10,000 breeding values.</p>
+<details>
+<summary>
+A larger population: 20,000 individuals, one trait
+</summary>
+<p>A separate single-step evaluation retained 2,500 genotyped individuals and 4,000 markers. Ordinary RHE followed by BLUP took <strong>8.43 s</strong>, peaked at <strong>170 MiB</strong> across the sampled processes and exported 20,000 breeding values. Their correlation with simulation truth was <strong>0.69871</strong>. With one weighted update, the fit took <strong>34.82 s</strong> and <strong>186 MiB</strong>, with a truth correlation of <strong>0.69871</strong>. These times cover one command per method, including prediction, truth evaluation and export. The 10K table times two separate commands.</p>
+</details>
+</section>
+<section id="covariance-recovery" class="level2">
+<h2 class="anchored" data-anchor-id="covariance-recovery">True and estimated covariance components</h2>
+<p>How closely does RHE recover the values used to simulate the data? Five independent simulations used the five-trait, 10,000-individual design with known genetic and residual covariance matrices. Each fit estimated 15 genetic and 15 residual entries using four threads and 32 probes.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 26%">
+<col style="width: 26%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th style="text-align: right;">Generating value</th>
+<th style="text-align: right;">Mean RHE estimate</th>
+<th style="text-align: right;">Root mean squared error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Genetic variance</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">0.38513</td>
+<td style="text-align: right;">0.05847</td>
+</tr>
+<tr class="even">
+<td>Genetic covariance between traits</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.04037</td>
+<td style="text-align: right;">0.04391</td>
+</tr>
+<tr class="odd">
+<td>Residual variance</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">1.00931</td>
+<td style="text-align: right;">0.04943</td>
+</tr>
+<tr class="even">
+<td>Residual covariance between traits</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">0.09953</td>
+<td style="text-align: right;">0.03540</td>
+</tr>
+</tbody>
+</table>
+<p>Each row pools the five fits and the distinct entries of that type. For each of the 30 parameters, download the <a href="benchmarks/model_catalogue/variance-components/five-trait-recovery/parameter-recovery.csv">generating value, mean estimate, bias and RMSE</a> or the <a href="benchmarks/model_catalogue/variance-components/five-trait-recovery/estimates.csv">estimates from each replicate</a>.</p>
+<p>The original timed five-trait single-step case used marker effects to generate breeding values. Its residual covariance was specified, while its genetic covariance can be described by the realised breeding values. For example, the generating residual variance for trait 1 was <strong>1.00</strong> and the estimate was <strong>0.86469</strong>. The <a href="benchmarks/model_catalogue/variance-components/qualification/five-trait-covariance-accuracy.csv">original case results</a> identify the generating, realised and supplied values separately.</p>
 </section>
 <section id="software-comparisons" class="level2">
 <h2 class="anchored" data-anchor-id="software-comparisons">Software comparisons</h2>
@@ -924,6 +992,7 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p><strong><a href="../gsuite/benchmarks/pedigree_50k_dmu/README.html#results">View all comparison results and saved tables</a></strong>.</p>
+<p>The <a href="benchmarks/pedigree_50k_dmu/results/estimates.csv">50K variance-component table</a> includes the nominal simulation values and the estimates from both programs. For the single-trait model, the nominal genetic and residual variances were 1.0 and 1.5. Both programs estimated 0.9912 and 1.1349, respectively. The simulator used an approximate pedigree draw, so these nominal values serve as a descriptive reference.</p>
 <p>The study checks numerical agreement on three frozen models. Timings are single executions, not a repeated performance benchmark or a general speed claim. The public result page includes saved tables and selected provenance; the full development report and execution scripts are not published here.</p>
 </section>
 </section>
