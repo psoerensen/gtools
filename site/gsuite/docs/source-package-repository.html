@@ -147,6 +147,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">gact</span></a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gpct/">
+<span class="menu-text">gpct</span></a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="https://psoerensen.github.io/gteach/">
 <span class="menu-text">gteach</span></a>
   </li>
@@ -186,6 +190,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#installing-downstream-workflows" id="toc-installing-downstream-workflows" class="nav-link" data-scroll-target="#installing-downstream-workflows">Installing downstream workflows</a></li>
   <li><a href="#what-the-source-packages-contain" id="toc-what-the-source-packages-contain" class="nav-link" data-scroll-target="#what-the-source-packages-contain">What the source packages contain</a>
   <ul class="collapse">
+  <li><a href="#gbase-0.1.9" id="toc-gbase-0.1.9" class="nav-link" data-scroll-target="#gbase-0.1.9">gbase 0.1.9</a></li>
+  <li><a href="#gbase-0.1.8" id="toc-gbase-0.1.8" class="nav-link" data-scroll-target="#gbase-0.1.8">gbase 0.1.8</a></li>
+  <li><a href="#gbase-0.1.7" id="toc-gbase-0.1.7" class="nav-link" data-scroll-target="#gbase-0.1.7">gbase 0.1.7</a></li>
   <li><a href="#installation-maintenance-releases" id="toc-installation-maintenance-releases" class="nav-link" data-scroll-target="#installation-maintenance-releases">Installation maintenance releases</a></li>
   </ul></li>
   <li><a href="#build-and-qualification" id="toc-build-and-qualification" class="nav-link" data-scroll-target="#build-and-qualification">Build and qualification</a></li>
@@ -212,7 +219,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gbase"</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"gbayes"</span>, <span class="st">"gcorr"</span>, <span class="st">"glma"</span>, <span class="st">"gmap"</span>, <span class="st">"gscore"</span>, <span class="st">"gsea"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The repository retains the first 0.1.0 archives and publishes the current package versions in <code>PACKAGES</code>: gbase 0.1.3.1, gcorr 0.1.9.1, glma 0.1.2.1 and the remaining four packages 0.1.1.1. The publisher verifies the archive names, latest index and SHA-256 checksums before including these seven packages in the public snapshot.</p>
+<p>The repository retains earlier archives. <a href="../../gsuite/downloads.html#direct-source-downloads">Downloads</a> lists the current releases from the <a href="../repository/src/contrib/PACKAGES">R package index</a>. The publisher verifies the archive names, index, and SHA-256 checksums before including the seven packages in the public snapshot.</p>
 <section id="release-and-development-status" class="level2">
 <h2 class="anchored" data-anchor-id="release-and-development-status">Release and development status</h2>
 <p>The installation maintenance releases of gbayes and gsea are 0.1.1.1. They preserve the numerical interfaces of the previous 0.1.1 releases. The development sources in this repository are gbayes 0.1.6 and gsea 0.1.2. Publishing documentation does not rebuild or release these source archives.</p>
@@ -271,8 +278,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>R packages <code>Rcpp</code> and <code>RcppEigen</code>; <code>gbase</code>, <code>gcorr</code>, <code>glma</code> and <code>gsea</code> also declare <code>BH</code> for their Boost.Math headers.</li>
 </ul>
 <p>OpenMP is used when the R toolchain supplies it and otherwise the same source build remains available without OpenMP.</p>
+<section id="gbase-0.1.9" class="level3">
+<h3 class="anchored" data-anchor-id="gbase-0.1.9">gbase 0.1.9</h3>
+<p>Sparse LD reports progress per completed chromosome by default, with an update at the next completed block after 10 minutes without a message. Use <code>progress = FALSE</code> to silence the messages. See <a href="../../gsuite/docs/sparse-ld-preparation.html#progress-reporting">sparse LD progress</a>.</p>
+</section>
+<section id="gbase-0.1.8" class="level3">
+<h3 class="anchored" data-anchor-id="gbase-0.1.8">gbase 0.1.8</h3>
+<p>Sparse LD for a single-BED Glist uses the BED stem in the same directory by default. Use <code>out_prefix</code> or <code>ldfiles</code> for a custom prefix and for multi-BED Glist objects. See the <a href="../../gsuite/docs/sparse-ld-preparation.html#disk-and-r-descriptors">sparse LD file layout</a>.</p>
+</section>
+<section id="gbase-0.1.7" class="level3">
+<h3 class="anchored" data-anchor-id="gbase-0.1.7">gbase 0.1.7</h3>
+<p>Full-panel <code>gprep()</code> creates or reopens same-stem <code>.ext</code> files by default. <code>gprep(task = "subset")</code> writes a matching <code>.ext</code> with each output triplet. See <a href="../../gsuite/docs/genotype-preparation.html#extended-marker-metadata">extended marker metadata</a>.</p>
+</section>
 <section id="installation-maintenance-releases" class="level3">
 <h3 class="anchored" data-anchor-id="installation-maintenance-releases">Installation maintenance releases</h3>
+<p><code>gbase</code> 0.1.6.1 fixes a source compilation error in the bundled gbits transpose workspace calculation. The code uses <code>std::uint64_t</code> for the scratch size on platforms where <code>uint64_t</code> and <code>unsigned long long</code> are distinct types. The <code>.ext</code> companion format and R interfaces are unchanged.</p>
 <p>The maintenance archives and development sources read OpenMP flags directly from R’s <code>Makeconf</code>, including the empty setting for a serial build. Both the source-package generator and Linux binary-bundle builder avoid querying the internal flag through <code>R CMD config</code>. The generator preserves package-owned <code>LinkingTo</code> dependencies, including <code>BH</code>. Native gbayes uses an explicit <code>std::uint64_t</code> multiplier in its Gram-cache byte calculation, avoiding the Linux integer-type mismatch. The glma bridge constructs its 34 LOCO diagnostics in smaller steps so that Rcpp 1.0.12 can compile it without changing the returned fields.</p>
 <p>The maintenance archives apply these bounded build fixes to the previous public source releases, without adding development methods. Earlier archives and frozen qualification records are retained. The reproducible maintenance recipe is <code>tools/build/repair_public_source_repository.py</code>; it records the bounded glma compatibility patch alongside the recipe. Run the focused generator regression checks from the gsuite root with:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">--vanilla</span> tools/validation/test_source_package_build.R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

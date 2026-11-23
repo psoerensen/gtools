@@ -1,0 +1,98 @@
+schema: gsuite.model/v1-draft
+name: multitrait_packed_fixed_groups
+traits:
+- trait1
+- trait2
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-packed-fixed-groups/data/phenotypes.csv
+    id: record_id
+    columns:
+      individual: sample_id
+      cohort: cohort
+      time: age_years
+    responses:
+      trait1: y1
+      trait2: y2
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-packed-fixed-groups/data/pedigree.csv
+    columns:
+      individual: sample_id
+      parent1: parent_1
+      parent2: parent_2
+  group_assignments:
+    type: table
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-packed-fixed-groups/data/group_assignments.csv
+    columns:
+      individual: sample_id
+      parent1_group: parent_1_group
+      parent2_group: parent_2_group
+  genotypes:
+    type: plink
+    prefix: ../frozen-inputs/rhe/cases/2048-multitrait-packed-fixed-groups/data/genotypes
+    id: IID
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+  H:
+    type: single_step
+    pedigree: A
+    genotypes: genotypes
+    genomic:
+      adjustment: none
+      scale: 0.95
+      polygenic_weight: 0.0
+      independent_ridge: 0.05
+covariances:
+  from_fit: results/vc/run.json
+model:
+  data: observations
+  fixed: factor(cohort) + time
+  random:
+    genetic:
+      group: individual
+      relationship: H
+      covariance: genetic
+    individual_environment:
+      group: individual
+      covariance: individual_environment
+    ancestral_means:
+      type: genetic_groups
+      group: individual
+      pedigree: A
+      assignments: group_assignments
+      groups:
+      - G1
+      - G2
+      mode: fixed
+      reference: G1
+  residual: residual
+analysis:
+  task: solve
+execution:
+  formulation: ss_snp
+  solver: pcg
+  sparse_backend: pardiso
+  preconditioner: qnn_reuse
+  pedigree_factorization: ancestral_sweeps
+  convergence:
+    relative_tolerance: 1.0e-11
+    absolute_tolerance: 1.0e-13
+    maximum_iterations: 4000
+  threads: 4
+  data_selection: all_records
+output:
+  directory: results/blup
+  predictions:
+    genetic_values:
+      effects:
+      - genetic
+      - ancestral_means
+      levels: individuals
+    group_contributions:
+      effects:
+      - ancestral_means
+      levels: individuals

@@ -1,0 +1,117 @@
+schema: gsuite.model/v1-draft
+name: boa_partial_uncor
+traits:
+- trait1
+inputs:
+  records:
+    type: table
+    file: ../frozen-inputs/rhe/cases/192-boa-partial-uncor/data/observations.csv
+    id: id
+    columns:
+      individual: individual
+      time: time
+    responses:
+      trait1: y0
+  grid:
+    type: table
+    file: ../frozen-inputs/rhe/cases/192-boa-partial-uncor/design/grid.csv
+    id: id
+    columns:
+      individual: individual
+      time: time
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/rhe/cases/192-boa-partial-uncor/design/pedigree.csv
+    columns:
+      individual: individual
+      parent1: sire
+      parent2: dam
+  phase:
+    type: phased_ancestry
+    hap: ../frozen-inputs/rhe/cases/192-boa-partial-uncor/design/panel.hap
+    samples: ../frozen-inputs/rhe/cases/192-boa-partial-uncor/design/samples.csv
+    markers: ../frozen-inputs/rhe/cases/192-boa-partial-uncor/design/markers.csv
+    ancestry_samples: ../frozen-inputs/rhe/cases/192-boa-partial-uncor/design/samples.csv
+    ancestry_markers: ../frozen-inputs/rhe/cases/192-boa-partial-uncor/design/markers.csv
+    ancestry_h1: ../frozen-inputs/rhe/cases/192-boa-partial-uncor/design/a1.bin
+    ancestry_h2: ../frozen-inputs/rhe/cases/192-boa-partial-uncor/design/a2.bin
+    ancestries:
+    - breedA
+    - breedB
+    frequencies: ../frozen-inputs/rhe/cases/192-boa-partial-uncor/design/frequencies.csv
+    phase_alignment: phase-one
+    ancestry_phase_alignment: phase-one
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+covariances:
+  S1:
+  - - 0.43000000000000005
+    - 0.0
+  - - 0.0
+    - 0.6300000000000001
+  S2:
+  - - 0.53
+    - 0.0
+  - - 0.0
+    - 0.7300000000000001
+  PE:
+  - - 0.37
+  R:
+  - - 0.65
+  KA:
+  - - 0.8400000000000001
+  KB:
+  - - 1.1400000000000001
+model:
+  data: records
+  fixed: '1'
+  random:
+    genetic:
+      type: boa
+      mode: BOA_UNCOR
+      group: individual
+      pedigree: A
+      ancestry: phase
+      genomic_residual:
+        diagonal: 0.12
+      components:
+        first:
+          markers:
+          - m0
+          - m1
+          - m2
+          covariance: S1
+        second:
+          markers:
+          - m3
+          - m4
+          - m5
+          covariance: S2
+      partial_pedigree:
+        founders: ../frozen-inputs/rhe/cases/192-boa-partial-uncor/design/founders.csv
+        covariances:
+          breedA: KA
+          breedB: KB
+    pe:
+      group: individual
+      covariance: PE
+  residual: R
+analysis:
+  task: rhe
+  rhe:
+    method: ordinary
+    probes: 32
+    seed: 4401
+execution:
+  formulation: ss_snp_boa
+  solver: pcg
+  sparse_backend: pardiso
+  preconditioner: qnn_reuse
+  threads: 4
+output:
+  directory: results/vc
+  tables:
+  - diagnostics
+  predictions: {}

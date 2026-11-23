@@ -176,6 +176,10 @@ window.Quarto = {
 <span class="menu-text">gact</span></a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gpct/">
+<span class="menu-text">gpct</span></a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="https://psoerensen.github.io/gteach/">
 <span class="menu-text">gteach</span></a>
   </li>
@@ -873,6 +877,7 @@ window.Quarto = {
   <li><a href="#marker-qc-contract" id="toc-marker-qc-contract" class="nav-link active" data-scroll-target="#marker-qc-contract">Marker-QC contract</a>
   <ul class="collapse">
   <li><a href="#scope-and-ownership" id="toc-scope-and-ownership" class="nav-link" data-scroll-target="#scope-and-ownership">Scope and ownership</a></li>
+  <li><a href="#mapped-full-panel-qc" id="toc-mapped-full-panel-qc" class="nav-link" data-scroll-target="#mapped-full-panel-qc">Mapped full-panel QC</a></li>
   <li><a href="#boundary-rules" id="toc-boundary-rules" class="nav-link" data-scroll-target="#boundary-rules">Boundary rules</a></li>
   <li><a href="#exact-hwe-definition" id="toc-exact-hwe-definition" class="nav-link" data-scroll-target="#exact-hwe-definition">Exact HWE definition</a></li>
   <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a></li>
@@ -890,12 +895,21 @@ window.Quarto = {
 <h1>Marker-QC contract</h1>
 <section id="scope-and-ownership" class="level2">
 <h2 class="anchored" data-anchor-id="scope-and-ownership">Scope and ownership</h2>
-<p><code>gbase::gfilter()</code> is the summary-only marker-selection operation. It accepts the strict serializable <code>c("gs_genotypes", "Glist")</code> descriptor produced by <code>gbase::gprep(task = "prepare")</code> and returns a plain marker-ID vector. It does not mutate the descriptor, read packed BED genotype bytes, write BED or CSR files, decode a genotype matrix, or construct sparse LD. gmat and gbits remain unchanged owners of metadata/LD and packed-genotype operations respectively.</p>
+<p><code>gbase::gfilter()</code> is the summary-only marker-selection operation. It accepts both the in-memory and disk-backed descriptors produced by <code>gbase::gprep()</code>. It returns a plain marker-ID vector and leaves the prepared panel intact. Filtering uses prepared summaries. gmat owns the panel resource and gbits handles packed genotypes.</p>
 <p>Marker identity is canonical chromosome/file/BIM order. Every required chromosome-wise field is checked for the same shape, and IDs must be complete and globally unique. The existing preparation validator also reopens the BIM/FAM/BED descriptors and verifies source mappings. Genotype counts must be nonnegative integers whose sum equals the exact summary population recorded by <code>sample_source_indices_0based</code> and <code>provenance$summary_samples</code>. MAF must agree with <code>n0</code>, <code>n1</code>, and <code>n2</code>. Thus a study-sample preparation uses that selected population rather than the complete FAM count.</p>
+</section>
+<section id="mapped-full-panel-qc" class="level2">
+<h2 class="anchored" data-anchor-id="mapped-full-panel-qc">Mapped full-panel QC</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>panel <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gprep</span>(<span class="at">bedfiles =</span> bedfiles, <span class="at">study =</span> <span class="st">"Reference"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>retained <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gfilter</span>(panel)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>first_keys <span class="ot">&lt;-</span> panel<span class="sc">$</span>cpra[[<span class="dv">1</span>L]][<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>first_ids <span class="ot">&lt;-</span> panel<span class="sc">$</span>rsids[[<span class="dv">1</span>L]][<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The mapped Glist exposes the ordinary per-file character and numeric vectors, including <code>rsids</code>, <code>cpra</code>, alleles, positions, frequencies and counts, as well as the original BED/BIM/FAM paths. Each component retains every marker in BIM order and every sample in FAM order. <code>rsids</code> is kept in memory and saved with the Glist, so <code>match(query_rsids, panel$rsids[[i]])</code> gives the one-based physical rows of <code>panel$bedfiles[i]</code> without opening the mapped resource. Small slices of other columns read only the requested rows. Untouched mapped columns serialize as references to the <code>.ext</code> files. Preparation computes summaries in C++ from the original BED. QC reads only the required columns, keeps a bit per marker during the scan, and constructs the retained ID vector in R. INFO is supplied externally as <code>panel$info</code> and aligned by exact marker identity when enabled.</p>
+<p>Pass the retained IDs as <code>rsids</code> to <a href="../../gsuite/docs/sparse-ld-preparation.html#mapped-reference-panel"><code>gprep(panel, task = "sparseld")</code></a> to build a CSR resource directly from the mapped panel and the original BED. Sparse-LD preparation returns the same Glist with the usual LD fields attached. <code>Glist$ldscores</code> holds ordinary numeric vectors in <code>rsidsLD</code> order.</p>
 </section>
 <section id="boundary-rules" class="level2">
 <h2 class="anchored" data-anchor-id="boundary-rules">Boundary rules</h2>
-<p>Each enabled rule creates a full-length exclusion mask; the final mask is their union. <code>NULL</code> disables a numeric rule and <code>FALSE</code> disables a logical rule.</p>
+<p>A marker is excluded if any enabled rule flags it. <code>NULL</code> disables a numeric rule and <code>FALSE</code> disables a logical rule.</p>
 <ul>
 <li>MAF excludes <span class="math inline">\(\mathrm{maf}_j\leq\texttt{maf}\)</span>; equality is excluded.</li>
 <li>Missingness is <span class="math inline">\(\frac{n_{\mathrm{miss}}}{n_0+n_1+n_2+n_{\mathrm{miss}}}\)</span> and excludes values strictly greater than <code>missing</code>; equality is retained.</li>
@@ -914,29 +928,29 @@ window.Quarto = {
 </section>
 <section id="workflow" class="level2">
 <h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gprep</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">study =</span> <span class="st">"Reference"</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">bedfiles =</span> bedfiles,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"prepare"</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">nthreads =</span> <span class="dv">4</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>rsids <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gfilter</span>(</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">maf =</span> <span class="fl">0.01</span>,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing =</span> <span class="fl">0.05</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">hwe =</span> <span class="fl">1e-12</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">ambiguous =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">indels =</span> <span class="cn">TRUE</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gprep</span>(</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">rsids =</span> rsids,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">out_prefix =</span> <span class="st">"reference_ld"</span>,</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">nthreads =</span> <span class="dv">4</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gprep</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">study =</span> <span class="st">"Reference"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">bedfiles =</span> bedfiles,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"prepare"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">nthreads =</span> <span class="dv">4</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>rsids <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gfilter</span>(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  Glist,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">maf =</span> <span class="fl">0.01</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing =</span> <span class="fl">0.05</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">hwe =</span> <span class="fl">1e-12</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">ambiguous =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">indels =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>Glist <span class="ot">&lt;-</span> gbase<span class="sc">::</span><span class="fu">gprep</span>(</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Glist =</span> Glist,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">task =</span> <span class="st">"sparseld"</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">rsids =</span> rsids,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">out_prefix =</span> <span class="st">"reference_ld"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">nthreads =</span> <span class="dv">4</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Preparation computes reusable summaries once. The same unchanged descriptor can be filtered under several policies, and sparse LD is subsequently built only for the selected markers.</p>
 
 

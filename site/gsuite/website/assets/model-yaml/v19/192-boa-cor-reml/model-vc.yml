@@ -1,0 +1,116 @@
+schema: gsuite.model/v1-draft
+name: boa_cor_reml
+traits:
+- trait1
+inputs:
+  records:
+    type: table
+    file: ../frozen-inputs/rhe/cases/192-boa-cor-reml/data/observations.csv
+    id: id
+    columns:
+      individual: individual
+      time: time
+    responses:
+      trait1: y
+  grid:
+    type: table
+    file: ../frozen-inputs/rhe/cases/192-boa-cor-reml/design/grid.csv
+    id: id
+    columns:
+      individual: individual
+      time: time
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/rhe/cases/192-boa-cor-reml/design/pedigree.csv
+    columns:
+      individual: individual
+      parent1: sire
+      parent2: dam
+  phase:
+    type: phased_ancestry
+    hap: ../frozen-inputs/rhe/cases/192-boa-cor-reml/design/panel.hap
+    samples: ../frozen-inputs/rhe/cases/192-boa-cor-reml/design/samples.csv
+    markers: ../frozen-inputs/rhe/cases/192-boa-cor-reml/design/markers.csv
+    ancestry_samples: ../frozen-inputs/rhe/cases/192-boa-cor-reml/design/samples.csv
+    ancestry_markers: ../frozen-inputs/rhe/cases/192-boa-cor-reml/design/markers.csv
+    ancestry_h1: ../frozen-inputs/rhe/cases/192-boa-cor-reml/design/a1.bin
+    ancestry_h2: ../frozen-inputs/rhe/cases/192-boa-cor-reml/design/a2.bin
+    ancestries:
+    - breedA
+    - breedB
+    frequencies: ../frozen-inputs/rhe/cases/192-boa-cor-reml/design/frequencies.csv
+    phase_alignment: phase-one
+    ancestry_phase_alignment: phase-one
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+covariances:
+  K0:
+  - - 1.2
+  S1:
+  - - 1.0125
+    - 0.1155
+  - - 0.1155
+    - 1.2445999999999997
+  S2:
+  - - 0.6325
+    - -0.0765
+  - - -0.0765
+    - 0.859
+  PE:
+  - - 0.4
+  R:
+  - - 0.6
+model:
+  data: records
+  fixed: '1'
+  random:
+    genetic:
+      type: boa
+      mode: BOA_COR
+      group: individual
+      pedigree: A
+      ancestry: phase
+      base_covariance: K0
+      genomic_residual:
+        diagonal: 0.1
+      components:
+        first:
+          markers:
+          - m0
+          - m1
+          - m2
+          covariance: S1
+        second:
+          markers:
+          - m3
+          - m4
+          - m5
+          covariance: S2
+    pe:
+      group: individual
+      covariance: PE
+  residual: R
+analysis:
+  task: rhe
+  rhe:
+    method: ordinary
+    probes: 32
+    seed: 4401
+  estimate:
+  - S1
+  - S2
+  - PE
+  - R
+execution:
+  formulation: ss_snp_boa
+  solver: pcg
+  sparse_backend: pardiso
+  preconditioner: qnn_reuse
+  threads: 4
+output:
+  directory: results/vc
+  tables:
+  - diagnostics
+  predictions: {}

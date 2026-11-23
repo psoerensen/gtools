@@ -1,0 +1,129 @@
+schema: gsuite.model/v1-draft
+name: boa_partial_lbp
+traits:
+- trait1
+- trait2
+inputs:
+  records:
+    type: table
+    file: ../frozen-inputs/rhe/cases/120-boa-partial-lbp-reml/data/observations.csv
+    id: id
+    columns:
+      individual: individual
+      time: time
+      fA: fA
+      fB: fB
+    responses:
+      trait1: y0
+      trait2: y1
+  grid:
+    type: table
+    file: ../frozen-inputs/rhe/cases/120-boa-partial-lbp-reml/design/grid.csv
+    id: id
+    columns:
+      individual: individual
+      time: time
+      fA: fA
+      fB: fB
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/rhe/cases/120-boa-partial-lbp-reml/design/pedigree.csv
+    columns:
+      individual: individual
+      parent1: sire
+      parent2: dam
+  phase:
+    type: phased_ancestry
+    hap: ../frozen-inputs/rhe/cases/120-boa-partial-lbp-reml/design/panel.hap
+    samples: ../frozen-inputs/rhe/cases/120-boa-partial-lbp-reml/design/samples.csv
+    markers: ../frozen-inputs/rhe/cases/120-boa-partial-lbp-reml/design/markers.csv
+    ancestry_samples: ../frozen-inputs/rhe/cases/120-boa-partial-lbp-reml/design/samples.csv
+    ancestry_markers: ../frozen-inputs/rhe/cases/120-boa-partial-lbp-reml/design/markers.csv
+    ancestry_h1: ../frozen-inputs/rhe/cases/120-boa-partial-lbp-reml/design/a1.bin
+    ancestry_h2: ../frozen-inputs/rhe/cases/120-boa-partial-lbp-reml/design/a2.bin
+    ancestries:
+    - breedA
+    - breedB
+    - breedC
+    frequencies: ../frozen-inputs/rhe/cases/120-boa-partial-lbp-reml/design/frequencies.csv
+    phase_alignment: phase-one
+    ancestry_phase_alignment: phase-one
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+covariances:
+  from_fit: results/vc/run.json
+model:
+  data: records
+  fixed: 1 + fA + fB
+  random:
+    genetic:
+      type: boa
+      mode: BOA_UNCOR
+      group: individual
+      pedigree: A
+      ancestry: phase
+      genomic_residual:
+        diagonal: 0.12
+      components:
+        first:
+          markers:
+          - m0
+          - m1
+          - m2
+          covariance: S1
+        second:
+          markers:
+          - m3
+          - m4
+          - m5
+          covariance: S2
+      partial_pedigree:
+        founders: ../frozen-inputs/rhe/cases/120-boa-partial-lbp-reml/design/founders.csv
+        covariances:
+          breedA: KA
+          breedB: KB
+          breedC: KC
+      lbp:
+        reference_breed: breedC
+        covariance: OmegaLBP
+    pe:
+      group: individual
+      covariance: PE
+  residual: R
+analysis:
+  task: solve
+execution:
+  formulation: ss_snp_boa
+  solver: pcg
+  sparse_backend: pardiso
+  preconditioner: qnn_reuse
+  threads: 4
+output:
+  directory: results/blup
+  predictions:
+    genetic_values:
+      effects:
+      - genetic
+      levels: all
+    total:
+      effects:
+      - genetic
+      - pe
+      data: grid
+  uncertainty:
+    method: exact
+    maximum_solves: 2
+    covariance: full
+    contrasts:
+      candidate:
+      - prediction: genetic_values
+        level: i9
+        trait: trait1
+        weight: 1
+      joint:
+      - prediction: total
+        record: g0
+        trait: trait1
+        weight: 1

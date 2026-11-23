@@ -1,12 +1,13 @@
 # gtools
 
 Public documentation for statistical genetics tools and teaching materials:
-**gsuite**, **gsim**, **gact** and **gteach**.
+**gsuite**, **gsim**, **gact**, **gpct** and **gteach**.
 
 - [Website](https://psoerensen.github.io/gtools/)
 - [gsuite: analysis, tutorials and methods](https://psoerensen.github.io/gtools/gsuite/)
 - [gsim: simulation](https://psoerensen.github.io/gsim/)
 - [gact: genomic association and annotation](https://psoerensen.github.io/gact/)
+- [gpct: genomic prediction benchmarks](https://psoerensen.github.io/gpct/)
 - [gteach: genetics, genomics and statistical modelling teaching materials](https://psoerensen.github.io/gteach/)
 
 gsuite is the ecosystem and documentation umbrella for seven public standalone
@@ -29,7 +30,7 @@ version, licence and dependency notices.
 The presence of documentation does not change any software licence.
 
 The root homepage is the shared entry point. `site/gsuite/` contains the gsuite
-subsite; gsim, gact and gteach retain their existing websites. Older gsuite page URLs
+subsite; gsim, gact, gpct and gteach retain their existing websites. Older gsuite page URLs
 within gtools redirect into the new section.
 
 Pushing changes to `site/` or `.github/workflows/pages.yml` on `main`

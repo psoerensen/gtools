@@ -1,0 +1,84 @@
+schema: gsuite.model/v1-draft
+name: multitrait_single_step_ar1
+traits:
+- trait1
+- trait2
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-single-step-ar1/data/phenotypes.csv
+    id: record_id
+    columns:
+      individual: sample_id
+      time: position
+    responses:
+      trait1: response1
+      trait2: response2
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-single-step-ar1/data/pedigree.csv
+    columns:
+      individual: sample_id
+      parent1: parent_1
+      parent2: parent_2
+  genotypes:
+    type: plink
+    prefix: ../frozen-inputs/rhe/cases/2048-multitrait-single-step-ar1/data/genotypes
+    id: IID
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+  H:
+    type: single_step
+    pedigree: A
+    genotypes: genotypes
+    genomic:
+      adjustment: none
+      scale: 0.95
+      polygenic_weight: 0.0
+      independent_ridge: 0.05
+covariances:
+  from_fit: results/vc/run.json
+model:
+  data: observations
+  fixed: 1 + time
+  random:
+    genetic:
+      group: individual
+      relationship: H
+      covariance: genetic
+    environment:
+      group: individual
+      covariance: environment
+  residual:
+    type: ar1
+    group: individual
+    position: time
+    covariance: residual
+    correlation: -0.4
+analysis:
+  task: solve
+execution:
+  formulation: ss_snp
+  solver: pcg
+  sparse_backend: pardiso
+  preconditioner: qnn_reuse
+  pedigree_factorization: ancestral_sweeps
+  convergence:
+    relative_tolerance: 1.0e-12
+    absolute_tolerance: 1.0e-13
+    maximum_iterations: 4000
+  threads: 4
+  data_selection: all_records
+output:
+  directory: results/blup
+  predictions:
+    genetic_values:
+      effects:
+      - genetic
+      levels: individuals
+    record_values:
+      effects:
+      - genetic
+      data: observations

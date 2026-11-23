@@ -1,0 +1,107 @@
+schema: gsuite.model/v1-draft
+name: stochastic_genetic_uncertainty
+traits:
+- trait1
+- trait2
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/uncertainty-design/phenotypes.csv
+    format: csv
+    id: record_id
+    columns:
+      individual: animal
+      cohort: cohort
+      time: age
+    responses:
+      trait1: trait1
+      trait2: trait2
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/gsim/large-single-step-2trait/pedigree.csv
+    columns:
+      individual: animal
+      parent1: sire
+      parent2: dam
+  genotypes:
+    type: plink
+    prefix: ../frozen-inputs/gsim/large-single-step-2trait/genotypes
+    id: IID
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+  H:
+    type: single_step
+    pedigree: A
+    genotypes: genotypes
+    genomic:
+      adjustment: none
+      scale: 0.95
+      polygenic_weight: 0.0
+      independent_ridge: 0.05
+covariances:
+  from_fit: results/vc/run.json
+model:
+  data: observations
+  fixed: factor(cohort) + time
+  random:
+    genetic:
+      group: individual
+      relationship: H
+      covariance: genetic
+    individual_environment:
+      group: individual
+      covariance: individual_environment
+  residual: residual
+analysis:
+  task: solve
+execution:
+  formulation: ss_snp
+  solver: pcg
+  sparse_backend: pardiso
+  preconditioner: qnn_reuse
+  pedigree_factorization: ancestral_sweeps
+  convergence:
+    relative_tolerance: 1.0e-11
+    absolute_tolerance: 1.0e-13
+    maximum_iterations: 4000
+  threads: 4
+  data_selection: all_records
+output:
+  directory: results/blup
+  predictions:
+    genetic_values:
+      effects:
+      - genetic
+      levels: individuals
+  uncertainty:
+    method: stochastic
+    effect: genetic
+    individuals: genotyped
+    traits:
+    - trait1
+    - trait2
+    probes: 8
+    deflation_rank: 8
+    seed: 4401
+    maximum_solves: 16
+    maximum_reliability_mcse: 0.02
+    prior:
+      method: exact
+      maximum_individuals: 0
+  tables:
+  - fixed_effects
+  - random_effects
+  - diagnostics
+evaluation:
+  predictions: genetic_values
+  truth:
+    file: ../frozen-inputs/gsim/large-single-step-2trait/true_breeding_values.csv
+    columns:
+      individual: animal
+      trait: trait
+      value: true_breeding_value
+  subset: all
+  individual: individual
+  genotypes: genotypes

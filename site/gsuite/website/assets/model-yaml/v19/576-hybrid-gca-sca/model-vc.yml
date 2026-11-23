@@ -1,0 +1,81 @@
+schema: gsuite.model/v1-draft
+name: hybrid_gca_sca
+traits:
+- yield
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/576-hybrid-gca-sca/data/phenotypes.csv
+    id: record
+    columns:
+      cross: hybrid
+      parent1: parent_one
+      parent2: parent_two
+    responses:
+      yield: value
+  crosses:
+    type: table
+    file: ../frozen-inputs/rhe/cases/576-hybrid-gca-sca/data/crosses.csv
+    id: hybrid
+    columns:
+      parent1: parent_one
+      parent2: parent_two
+  pool1:
+    type: covariance
+    file: ../frozen-inputs/rhe/cases/576-hybrid-gca-sca/data/pool1.csv
+  pool2:
+    type: covariance
+    file: ../frozen-inputs/rhe/cases/576-hybrid-gca-sca/data/pool2.csv
+relationships:
+  A1:
+    type: covariance
+    input: pool1
+  A2:
+    type: covariance
+    input: pool2
+  S:
+    type: cross_product
+    parent1: A1
+    parent2: A2
+    crosses: crosses
+covariances:
+  gca1:
+  - - 0.4
+  gca2:
+  - - 0.6
+  sca:
+  - - 0.3
+  residual:
+  - - 0.5
+model:
+  data: observations
+  fixed: '1'
+  random:
+    gca1:
+      group: parent1
+      relationship: A1
+      covariance: gca1
+    gca2:
+      group: parent2
+      relationship: A2
+      covariance: gca2
+    sca:
+      group: cross
+      relationship: S
+      covariance: sca
+  residual: residual
+analysis:
+  task: rhe
+  rhe:
+    method: ordinary
+    probes: 32
+    seed: 4401
+execution:
+  solver: sparse_direct
+  sparse_backend: pardiso
+  threads: 4
+output:
+  directory: results/vc
+  tables:
+  - diagnostics
+  predictions: {}

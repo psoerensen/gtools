@@ -1,0 +1,74 @@
+schema: gsuite.model/v1-draft
+name: five_trait
+traits:
+- trait1
+- trait2
+- trait3
+- trait4
+- trait5
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/2048-five_trait/data/phenotypes.csv
+    format: csv
+    id: record_id
+    columns:
+      individual: animal
+    responses:
+      trait1: trait1
+      trait2: trait2
+      trait3: trait3
+      trait4: trait4
+      trait5: trait5
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/rhe/cases/2048-five_trait/data/pedigree.csv
+    columns:
+      individual: animal
+      parent1: sire
+      parent2: dam
+  genotypes:
+    type: plink
+    prefix: ../frozen-inputs/rhe/cases/2048-five_trait/data/genotypes
+    id: IID
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+  H:
+    type: single_step
+    pedigree: A
+    genotypes: genotypes
+    genomic:
+      adjustment: pedigree_moments
+      polygenic_weight: 0.25
+      independent_ridge: 0.0
+covariances:
+  from_fit: results/vc/run.json
+model:
+  data: observations
+  fixed: '1'
+  random:
+    genetic:
+      group: individual
+      relationship: H
+      covariance: genetic
+  residual: residual
+analysis:
+  task: solve
+evaluation:
+  predictions: genetic_values
+  truth:
+    file: ../frozen-inputs/rhe/cases/2048-five_trait/data/true_breeding_values.csv
+    columns:
+      individual: animal
+      trait: trait
+      value: true_breeding_value
+  subset: all
+  individual: individual
+  genotypes: genotypes
+output:
+  directory: results/blup
+execution:
+  threads: 4
+  data_selection: all_records

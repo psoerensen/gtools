@@ -1,0 +1,84 @@
+schema: gsuite.model/v1-draft
+name: multitrait_dominance
+traits:
+- trait1
+- trait2
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/1024-multitrait-dominance/data/phenotypes.csv
+    format: csv
+    id: record_id
+    columns:
+      individual: sample_id
+      cohort: cohort
+      age: age_years
+    responses:
+      trait1: height_cm
+      trait2: bmi
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/rhe/cases/1024-multitrait-dominance/data/pedigree.csv
+    columns:
+      individual: sample_id
+      parent1: parent_1
+      parent2: parent_2
+  genotypes:
+    type: plink
+    prefix: ../frozen-inputs/rhe/cases/1024-multitrait-dominance/data/genotypes
+    id: IID
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+  D:
+    type: dominance
+    genotypes: genotypes
+    independent_ridge: 0.05
+    marker_tile: 64
+covariances:
+  from_fit: results/vc/run.json
+model:
+  data: observations
+  fixed: factor(cohort) + age
+  random:
+    genetic:
+      group: individual
+      relationship: A
+      covariance: genetic
+    dominance:
+      group: individual
+      relationship: D
+      covariance: dominance
+  residual: residual
+analysis:
+  task: solve
+execution:
+  solver: sparse_direct
+  sparse_backend: pardiso
+  threads: 4
+output:
+  directory: results/blup
+  predictions:
+    genetic_values:
+      effects:
+      - genetic
+      levels: all
+    total_values:
+      effects:
+      - genetic
+      - dominance
+      levels: all
+  uncertainty:
+    method: exact
+    maximum_solves: 1
+    contrasts:
+      total_difference:
+      - prediction: total_values
+        level: '003'
+        trait: trait1
+        weight: 1.0
+      - prediction: total_values
+        level: '004'
+        trait: trait1
+        weight: -1.0

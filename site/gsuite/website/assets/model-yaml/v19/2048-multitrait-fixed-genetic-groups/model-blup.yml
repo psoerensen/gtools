@@ -1,0 +1,75 @@
+schema: gsuite.model/v1-draft
+name: multitrait_fixed_genetic_groups
+traits:
+- trait1
+- trait2
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-fixed-genetic-groups/data/phenotypes.csv
+    format: csv
+    id: record_id
+    columns:
+      individual: sample_id
+      cohort: cohort
+      age: age_years
+    responses:
+      trait1: height_cm
+      trait2: bmi
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-fixed-genetic-groups/data/pedigree.csv
+    columns:
+      individual: sample_id
+      parent1: parent_1
+      parent2: parent_2
+  group_assignments:
+    type: table
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-fixed-genetic-groups/data/group_assignments.csv
+    columns:
+      individual: sample_id
+      parent1_group: parent_1_group
+      parent2_group: parent_2_group
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+covariances:
+  from_fit: results/vc/run.json
+model:
+  data: observations
+  fixed: factor(cohort)
+  random:
+    genetic:
+      group: individual
+      relationship: A
+      covariance: genetic
+    ancestral_means:
+      type: genetic_groups
+      group: individual
+      pedigree: A
+      assignments: group_assignments
+      groups:
+      - G1
+      - G2
+      mode: fixed
+      reference: G1
+  residual: residual
+analysis:
+  task: solve
+execution:
+  solver: sparse_direct
+  sparse_backend: pardiso
+  threads: 4
+output:
+  directory: results/blup
+  predictions:
+    genetic_values:
+      effects:
+      - genetic
+      - ancestral_means
+      levels: individuals
+    group_contributions:
+      effects:
+      - ancestral_means
+      levels: individuals

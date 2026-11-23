@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Bounded qualification reports and the reproducibility contract.">
+<meta name="description" content="GeneSuite model catalogue timings and comparisons with other evaluation software.">
 
 <title>Benchmarks – gtools</title>
 <style>
@@ -111,6 +111,10 @@ ul.task-list li input[type="checkbox"] {
   <li class="nav-item">
     <a class="nav-link" href="https://psoerensen.github.io/gact/">
 <span class="menu-text">gact</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gpct/">
+<span class="menu-text">gpct</span></a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="https://psoerensen.github.io/gteach/">
@@ -813,7 +817,7 @@ ul.task-list li input[type="checkbox"] {
 
 <div>
   <div class="description">
-    Bounded qualification reports and the reproducibility contract.
+    GeneSuite model catalogue timings and comparisons with other evaluation software.
   </div>
 </div>
 
@@ -830,8 +834,65 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="gsuite-versus-dmu-50000-animal-pedigree" class="level2">
-<h2 class="anchored" data-anchor-id="gsuite-versus-dmu-50000-animal-pedigree">gsuite versus DMU: 50,000-animal pedigree</h2>
+<p><a href="#model-catalogue-timings">Model catalogue timings</a> · <a href="#software-comparisons">Software comparisons</a></p>
+<section id="model-catalogue-timings" class="level2">
+<h2 class="anchored" data-anchor-id="model-catalogue-timings">Model catalogue timings</h2>
+<p>How long does it take to go from phenotype, pedigree and genotype files to breeding values? These Windows laptop runs used simulated data for 10,000 individuals, including 2,500 genotyped at 4,000 markers in the single-step examples below. Each run used four compute threads. The first command estimated variance components by ordinary randomized Haseman–Elston (RHE) with 32 probes. The second used those estimates for BLUP and exported the breeding values.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th style="text-align: right;">Variance estimation (s)</th>
+<th style="text-align: right;">BLUP and export (s)</th>
+<th style="text-align: right;">Both commands (s)</th>
+<th style="text-align: right;">Peak RAM (MiB)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Single-step, one trait</td>
+<td style="text-align: right;">3.6</td>
+<td style="text-align: right;">5.8</td>
+<td style="text-align: right;">9.4</td>
+<td style="text-align: right;">134</td>
+</tr>
+<tr class="even">
+<td>Single-step, two traits</td>
+<td style="text-align: right;">5.2</td>
+<td style="text-align: right;">10.2</td>
+<td style="text-align: right;">15.3</td>
+<td style="text-align: right;">141</td>
+</tr>
+<tr class="odd">
+<td>Single-step, five traits</td>
+<td style="text-align: right;">18.8</td>
+<td style="text-align: right;">15.6</td>
+<td style="text-align: right;">34.3</td>
+<td style="text-align: right;">253</td>
+</tr>
+<tr class="even">
+<td>Single-step repeatability, five traits</td>
+<td style="text-align: right;">18.1</td>
+<td style="text-align: right;">17.2</td>
+<td style="text-align: right;">35.3</td>
+<td style="text-align: right;">313</td>
+</tr>
+</tbody>
+</table>
+<p>The five-trait single-step run exported 50,000 breeding values. Times include input preparation inside each command and result collection. Simulation is excluded. Totals use the unrounded times from one execution of each command. Peak RAM is the larger of the two process-tree working sets sampled every 0.1 seconds. Shared pages can be counted more than once.</p>
+<p><a href="website/assets/catalogue-10k-timings.csv">Download timings and native and process-tree memory for all 17 original 10K configurations (CSV)</a> or <a href="../gsuite/docs/evaluation-models.html">open their variance-estimation and breeding-value YAML files</a>.</p>
+</section>
+<section id="software-comparisons" class="level2">
+<h2 class="anchored" data-anchor-id="software-comparisons">Software comparisons</h2>
+<section id="gsuite-versus-dmu-50000-animal-pedigree" class="level3">
+<h3 class="anchored" data-anchor-id="gsuite-versus-dmu-50000-animal-pedigree">gsuite versus DMU: 50,000-animal pedigree</h3>
 <p>Compare REML estimates, predictions and observed run times for gsuite 0.29.0 and DMU 5.6 on the same frozen pedigree and observations.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -864,6 +925,7 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p><strong><a href="../gsuite/benchmarks/pedigree_50k_dmu/README.html#results">View all comparison results and saved tables</a></strong>.</p>
 <p>The study checks numerical agreement on three frozen models. Timings are single executions, not a repeated performance benchmark or a general speed claim. The public result page includes saved tables and selected provenance; the full development report and execution scripts are not published here.</p>
+</section>
 </section>
 <section id="other-validation-evidence" class="level2">
 <h2 class="anchored" data-anchor-id="other-validation-evidence">Other validation evidence</h2>

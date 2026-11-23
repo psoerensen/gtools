@@ -1,0 +1,80 @@
+Catalogue case,Example directory in bundle,RHE and BLUP outcome,Qualification dataset
+ancestry-cor-fixed,cases/192-ancestry-cor-fixed,All requested outputs passed,Representative model-matched design
+ancestry-partial-lap,cases/120-ancestry-partial-lap,All requested outputs passed,Representative model-matched design
+boa-cor-fixed,cases/192-boa-cor-fixed,All requested outputs passed,Representative model-matched design
+boa-cor-longitudinal,cases/192-boa-cor-longitudinal,All requested outputs passed,Representative model-matched design
+boa-cor-reml,cases/192-boa-cor-reml,All requested outputs passed,Representative model-matched design
+boa-cor-stochastic-reml,cases/192-boa-cor-stochastic-reml,All requested outputs passed,Representative model-matched design
+boa-partial-lbp-reml,cases/120-boa-partial-lbp-reml,All requested outputs passed,Representative model-matched design
+boa-partial-lbp-stochastic-reml,cases/120-boa-partial-lbp-reml,All requested outputs passed,Representative model-matched design
+boa-partial-lbp,cases/120-boa-partial-lbp,All requested outputs passed,Representative model-matched design
+boa-partial-uncor,cases/192-boa-partial-uncor,All requested outputs passed,Representative model-matched design
+boa-uncor-fixed,cases/192-boa-uncor-fixed,All requested outputs passed,Representative model-matched design
+direct-maternal-single-step,cases/10k-direct-maternal-single-step,All requested outputs passed,Representative model-matched design
+factor-analytic-reml,cases/10k-factor-analytic-reml,All requested outputs passed,Representative model-matched design
+hybrid-gca-sca,cases/576-hybrid-gca-sca,All requested outputs passed,Representative model-matched design
+longitudinal-ar1,cases/2048-longitudinal-ar1,All requested outputs passed,Representative model-matched design
+longitudinal-exponential,cases/2048-longitudinal-exponential,All requested outputs passed,Representative model-matched design
+multienvironment-factor-analytic,cases/10k-multienvironment-factor-analytic,All requested outputs passed,Representative model-matched design
+multitrait-combined-base,cases/2048-multitrait-combined-base,All requested outputs passed,Representative model-matched design
+multitrait-dominance,cases/1024-multitrait-dominance,All requested outputs passed,Representative model-matched design
+multitrait-estimated-gamma,cases/2048-multitrait-estimated-gamma,All requested outputs passed,Representative model-matched design
+multitrait-external-covariance,cases/1024-multitrait-external-covariance,All requested outputs passed,Representative model-matched design
+multitrait-factor-analytic,cases/10k-multitrait-factor-analytic,All requested outputs passed,Representative model-matched design
+multitrait-fixed-genetic-groups,cases/2048-multitrait-fixed-genetic-groups,All requested outputs passed,Representative model-matched design
+multitrait-genetic-groups,cases/2048-multitrait-genetic-groups,All requested outputs passed,Representative model-matched design
+multitrait-longitudinal-exponential,cases/2048-multitrait-longitudinal-exponential,All requested outputs passed,Representative model-matched design
+multitrait-metafounders,cases/2048-multitrait-metafounders,All requested outputs passed,Representative model-matched design
+multitrait-nested-regression,cases/10k-multitrait-nested-regression,All requested outputs passed,Representative model-matched design
+multitrait-nonseparable-residual,cases/10k-multitrait-nonseparable-residual,All requested outputs passed,Representative model-matched design
+multitrait-observation-precision,cases/10k-multitrait-observation-precision,All requested outputs passed,Representative model-matched design
+multitrait-packed-combined-base,cases/2048-multitrait-packed-combined-base,All requested outputs passed,Representative model-matched design
+multitrait-packed-fixed-groups,cases/2048-multitrait-packed-fixed-groups,All requested outputs passed,Representative model-matched design
+multitrait-packed-genetic-groups,cases/2048-multitrait-packed-genetic-groups,All requested outputs passed,Representative model-matched design
+multitrait-packed-metafounders,cases/2048-multitrait-packed-metafounders,All requested outputs passed,Representative model-matched design
+multitrait-packed-reml-slq,cases/2048-multitrait-packed-reml-slq,All requested outputs passed,Representative model-matched design
+multitrait-packed-reml,cases/2048-multitrait-packed-reml,All requested outputs passed,Representative model-matched design
+multitrait-pedigree,cases/2048-multitrait-pedigree,All requested outputs passed,Representative model-matched design
+multitrait-phantom-groups,cases/2048-multitrait-phantom-groups,All requested outputs passed,Representative model-matched design
+multitrait-random-regression,cases/10k-multitrait-random-regression,All requested outputs passed,Representative model-matched design
+multitrait-single-step-ar1,cases/2048-multitrait-single-step-ar1,All requested outputs passed,Representative model-matched design
+multitrait-single-step-information-uncertainty,cases/10k-multitrait-single-step-information-uncertainty,EBVs passed; partial reliability precision,Representative model-matched design
+multitrait-single-step-long,cases/large-multiple-effects-5trait,All requested outputs passed,Representative model-matched design
+multitrait-single-step-pilot-uncertainty,cases/10k-multitrait-single-step-pilot-uncertainty,EBVs passed; partial reliability precision,Representative model-matched design
+multitrait-single-step-stochastic-uncertainty,cases/10k-multitrait-single-step-stochastic-uncertainty,EBVs passed; partial reliability precision,Representative model-matched design
+multitrait-single-step-uncertainty,cases/10k-multitrait-single-step-uncertainty,All requested outputs passed,Representative model-matched design
+multitrait-single-step,cases/large-multiple-effects-5trait,All requested outputs passed,Representative model-matched design
+multitrait-sparse-relationship,cases/2048-multitrait-sparse-relationship,All requested outputs passed,Representative model-matched design
+multitrait-ssgblup-apy-plink,cases/10k-multitrait-ssgblup-apy-plink,All requested outputs passed,Representative model-matched design
+multitrait-ssgblup-apy,cases/10k-multitrait-ssgblup-apy,All requested outputs passed,Representative model-matched design
+multitrait-ssgblup-genetic-groups,cases/2048-multitrait-ssgblup-genetic-groups,All requested outputs passed,Representative model-matched design
+multitrait-ssgblup-metafounders,cases/2048-multitrait-ssgblup-metafounders,All requested outputs passed,Representative model-matched design
+multitrait-ssgblup,cases/10k-multitrait-ssgblup,All requested outputs passed,Representative model-matched design
+multitrait-weighted-incidence,cases/10k-multitrait-weighted-incidence,All requested outputs passed,Representative model-matched design
+multivariate-serial-reml,cases/2048-multivariate-serial-reml,All requested outputs passed,Representative model-matched design
+packed-additional-covariance-reml,,Genetic and permanent-environment variances inseparable,Original four-founder design
+prediction-contrasts,cases/10k-prediction-contrasts,All requested outputs passed,Representative model-matched design
+reml-random-intercept,cases/2048-reml-random-intercept,All requested outputs passed,Representative model-matched design
+single-step-ar1,cases/2048-single-step-ar1,All requested outputs passed,Representative model-matched design
+single-step-exponential,cases/2048-single-step-exponential,All requested outputs passed,Representative model-matched design
+spatial-field-trial,cases/2048-field24-spatial-field-trial,All requested outputs passed,Representative model-matched design
+smoke,cases/2048-smoke,All requested outputs passed,Representative model-matched design
+single_trait,cases/2048-single_trait,All requested outputs passed,Representative model-matched design
+five_trait,cases/2048-five_trait,All requested outputs passed,Representative model-matched design
+large-pedigree-1trait,cases/large-pedigree-1trait,All requested outputs passed,Original 10K
+large-single-step-1trait,cases/large-single-step-1trait,All requested outputs passed,Original 10K
+large-pedigree-2trait,cases/large-pedigree-2trait,All requested outputs passed,Original 10K
+large-single-step-2trait,cases/large-single-step-2trait,All requested outputs passed,Original 10K
+large-pedigree-5trait,cases/large-pedigree-5trait,All requested outputs passed,Original 10K
+large-single-step-5trait,cases/large-single-step-5trait,All requested outputs passed,Original 10K
+large-repeatability-1trait,cases/large-repeatability-1trait,All requested outputs passed,Original 10K
+large-repeatability-2trait,cases/large-repeatability-2trait,All requested outputs passed,Original 10K
+large-repeatability-5trait,cases/large-repeatability-5trait,All requested outputs passed,Original 10K
+large-factor-analytic-5trait,cases/large-factor-analytic-5trait,All requested outputs passed,Original 10K
+large-apy-1trait,cases/large-apy-1trait,All requested outputs passed,Original 10K
+large-random-intercept-reml,cases/large-random-intercept-reml,All requested outputs passed,Original 10K
+large-ssgblup-fullcore-1trait,cases/large-ssgblup-fullcore-1trait,All requested outputs passed,Original 10K
+large-matching-ss-snp-1trait,cases/large-matching-ss-snp-1trait,All requested outputs passed,Original 10K
+large-pedigree-reml,cases/large-pedigree-reml,All requested outputs passed,Original 10K
+large-packed-reml-1trait,cases/large-packed-reml-1trait,All requested outputs passed,Original 10K
+large-packed-reml-2trait,cases/large-packed-reml-2trait,All requested outputs passed,Original 10K

@@ -148,6 +148,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">gact</span></a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gpct/">
+<span class="menu-text">gpct</span></a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="https://psoerensen.github.io/gteach/">
 <span class="menu-text">gteach</span></a>
   </li>
@@ -877,7 +881,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>The <strong>standalone gsuite application is offered only to licensed users</strong>. This guide, the model specification and small examples remain public. Software access is described in the <a href="../../gsuite/docs/distribution-policy.html">distribution policy</a>; standalone bundles are supplied separately from public R package downloads.</p>
-<p>Use one YAML file for input data, the model, covariance matrices, threads and outputs. The same command runs supplied-covariance solving and REML estimation.</p>
+<p>For breeding values, start with the <a href="../../gsuite/docs/evaluation-models.html">model table and paired YAML files</a>. In the v19 examples, the first file estimates variance components with ordinary RHE and the second uses them for BLUP. The same command also runs supported REML fits and models with supplied covariances.</p>
 <section id="run-a-model" class="level2">
 <h2 class="anchored" data-anchor-id="run-a-model">Run a model</h2>
 <p>On GenomeDK, start inside a Slurm compute allocation with enough CPUs for the threads requested in your YAML. Use your project’s shared installation:</p>

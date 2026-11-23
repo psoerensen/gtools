@@ -1,0 +1,75 @@
+schema: gsuite.model/v1-draft
+name: multitrait_longitudinal_exponential
+traits:
+- trait1
+- trait2
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-longitudinal-exponential/data/phenotypes.csv
+    id: record_id
+    columns:
+      individual: sample_id
+      time: position
+    responses:
+      trait1: response1
+      trait2: response2
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-longitudinal-exponential/data/pedigree.csv
+    columns:
+      individual: sample_id
+      parent1: parent_1
+      parent2: parent_2
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+covariances:
+  genetic:
+  - - 1.0
+    - 0.2
+  - - 0.2
+    - 0.7
+  environment:
+  - - 0.4
+    - 0.1
+  - - 0.1
+    - 0.6
+  residual:
+  - - 2.0
+    - 0.3
+  - - 0.3
+    - 1.5
+model:
+  data: observations
+  fixed: 1 + time
+  random:
+    genetic:
+      group: individual
+      relationship: A
+      covariance: genetic
+    environment:
+      group: individual
+      covariance: environment
+  residual:
+    type: exponential
+    group: individual
+    position: time
+    covariance: residual
+    rate: 0.7
+analysis:
+  task: rhe
+  rhe:
+    method: ordinary
+    probes: 32
+    seed: 4401
+execution:
+  solver: sparse_direct
+  sparse_backend: pardiso
+  threads: 4
+output:
+  directory: results/vc
+  tables:
+  - diagnostics
+  predictions: {}

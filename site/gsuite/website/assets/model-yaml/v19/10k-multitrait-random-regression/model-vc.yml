@@ -1,0 +1,160 @@
+schema: gsuite.model/v1-draft
+name: multitrait_random_regression
+traits:
+- trait1
+- trait2
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/10k-multitrait-random-regression/data/phenotypes.csv
+    format: csv
+    id: record_id
+    columns:
+      individual: sample_id
+      time: time_days
+      site_period: site_period
+      site_visit: site_visit
+    responses:
+      trait1: y1
+      trait2: y2
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/gsim/large-single-step-5trait/pedigree.csv
+    columns:
+      individual: animal
+      parent1: sire
+      parent2: dam
+  prediction_grid:
+    type: table
+    file: ../frozen-inputs/rhe/cases/10k-multitrait-random-regression/data/prediction_grid.csv
+    id: prediction_id
+    columns:
+      individual: sample_id
+      time: time_days
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+bases:
+  curve:
+    column: time
+    degree: 2
+    center: 155.0
+    scale: 150.0
+covariances:
+  genetic_curve:
+  - - 1.0
+    - 0.1
+    - 0.0
+    - 0.15
+    - 0.0
+    - 0.0
+  - - 0.1
+    - 0.4
+    - 0.03
+    - 0.0
+    - 0.06
+    - 0.0
+  - - 0.0
+    - 0.03
+    - 0.1
+    - 0.0
+    - 0.0
+    - 0.02
+  - - 0.15
+    - 0.0
+    - 0.0
+    - 0.8
+    - 0.08
+    - 0.0
+  - - 0.0
+    - 0.06
+    - 0.0
+    - 0.08
+    - 0.3
+    - 0.02
+  - - 0.0
+    - 0.0
+    - 0.02
+    - 0.0
+    - 0.02
+    - 0.08
+  individual_curve:
+  - - 0.3
+    - 0.0
+    - 0.0
+    - 0.04
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.12
+    - 0.0
+    - 0.0
+    - 0.02
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 0.04
+    - 0.0
+    - 0.0
+    - 0.005
+  - - 0.04
+    - 0.0
+    - 0.0
+    - 0.24
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.02
+    - 0.0
+    - 0.0
+    - 0.1
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 0.005
+    - 0.0
+    - 0.0
+    - 0.03
+  site_visit:
+  - - 0.08
+    - 0.01
+  - - 0.01
+    - 0.06
+  residual:
+  - - 0.7
+    - 0.08
+  - - 0.08
+    - 0.5
+model:
+  data: observations
+  fixed: factor(site_period) + curve
+  random:
+    genetic:
+      group: individual
+      relationship: A
+      basis: curve
+      covariance: genetic_curve
+    individual_environment:
+      group: individual
+      basis: curve
+      covariance: individual_curve
+    site_visit:
+      group: site_visit
+      covariance: site_visit
+  residual: residual
+analysis:
+  task: rhe
+  rhe:
+    method: ordinary
+    probes: 32
+    seed: 4401
+execution:
+  solver: sparse_direct
+  sparse_backend: pardiso
+  threads: 4
+output:
+  directory: results/vc
+  tables:
+  - diagnostics
+  predictions: {}

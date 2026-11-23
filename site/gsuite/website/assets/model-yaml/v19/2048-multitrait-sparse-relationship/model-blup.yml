@@ -1,0 +1,69 @@
+schema: gsuite.model/v1-draft
+name: multitrait_sparse_relationship
+traits:
+- trait1
+- trait2
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-sparse-relationship/data/phenotypes.csv
+    format: csv
+    id: record_id
+    columns:
+      individual: sample_id
+      cohort: cohort
+      age: age_years
+    responses:
+      trait1: height_cm
+      trait2: bmi
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-sparse-relationship/data/pedigree.csv
+    columns:
+      individual: sample_id
+      parent1: parent_1
+      parent2: parent_2
+  relationship_levels:
+    type: table
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-sparse-relationship/data/relationship_levels.csv
+    columns:
+      individual: sample_id
+  relationship_covariance:
+    type: sparse_covariance
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-sparse-relationship/data/relationship_covariance.csv
+    levels: relationship_levels
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+  E:
+    type: sparse_covariance
+    input: relationship_covariance
+covariances:
+  from_fit: results/vc/run.json
+model:
+  data: observations
+  fixed: factor(cohort) + age
+  random:
+    genetic:
+      group: individual
+      relationship: A
+      covariance: genetic
+    environment:
+      group: individual
+      relationship: E
+      covariance: environment
+  residual: residual
+analysis:
+  task: solve
+execution:
+  solver: pcg
+  sparse_backend: pardiso
+  threads: 4
+output:
+  directory: results/blup
+  predictions:
+    genetic_values:
+      effects:
+      - genetic
+      levels: all

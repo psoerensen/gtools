@@ -148,6 +148,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">gact</span></a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gpct/">
+<span class="menu-text">gpct</span></a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="https://psoerensen.github.io/gteach/">
 <span class="menu-text">gteach</span></a>
   </li>
@@ -273,6 +277,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>The YAML snapshot preserves its original syntax and relative paths; <code>execution.json.model_path</code> identifies their original resolution base. Copied inputs and native reports retain recorded execution paths; they are not a restart contract for prepared fits.</p>
+<p>In the <a href="../../gsuite/docs/evaluation-models.html">paired v19 examples</a>, the first run writes <code>results/vc/variance_components.csv</code> and <code>results/vc/run.json</code>. The BLUP recipe reads that fit and writes the requested predictions. In the five-trait example they are in <code>results/blup/genetic_values.csv</code>.</p>
 <p>REML adds <code>variance_components.csv</code>, <code>parameters.csv</code>, <code>reml_history.csv</code>, <code>convergence.json</code> and <code>likelihood.json</code>. The latter reports <code>scale</code>, <code>method</code>, <code>status</code> and the value/error/work diagnostics available for that route. Read acceptance and convergence flags before using estimates. Failed covariance fits retain diagnostic states/history but publish no qualified prediction tables.</p>
 <p>Optional <a href="../../gsuite/docs/standalone-models.html#compare-predictions-with-supplied-truth">truth evaluation</a> adds <code>evaluation/summary.csv</code>, matched predictions and an assessment record. Overall acceptance requires the requested comparison to succeed as well as fitting. A scoring failure preserves the accepted native fit and its diagnostics; native numerical acceptance and evaluation acceptance remain separate.</p>
 </section>

@@ -1,0 +1,132 @@
+schema: gsuite.model/v1-draft
+name: multienvironment_factor_analytic
+traits:
+- north
+- south
+- east
+- west
+- central
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/10k-multienvironment-factor-analytic/data/phenotypes.csv
+    layout: long
+    id: record_id
+    columns:
+      individual: sample_id
+      cohort: cohort
+      replicate: replicate
+    responses:
+      trait: environment
+      value: yield
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/gsim/large-single-step-5trait/pedigree.csv
+    columns:
+      individual: animal
+      parent1: sire
+      parent2: dam
+  genotypes:
+    type: plink
+    prefix: ../frozen-inputs/gsim/large-single-step-5trait/genotypes
+    id: IID
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+  H:
+    type: single_step
+    pedigree: A
+    genotypes: genotypes
+    genomic:
+      adjustment: none
+      scale: 0.95
+      polygenic_weight: 0.0
+      independent_ridge: 0.05
+covariances:
+  genetic:
+    type: factor_analytic
+    rank: 2
+    labels:
+    - north
+    - south
+    - east
+    - west
+    - central
+    factors:
+    - shared1
+    - shared2
+    loadings:
+    - - 0.9
+      - 0.0
+    - - 0.5
+      - 0.8
+    - - -0.4
+      - 0.3
+    - - 0.7
+      - -0.2
+    - - 0.2
+      - 0.6
+    specific_variances:
+    - 0.6
+    - 0.4
+    - 0.7
+    - 0.5
+    - 0.8
+  residual:
+  - - 1.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 1.1
+    - 0.0
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 1.2
+    - 0.0
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 1.3
+    - 0.0
+  - - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 1.4
+model:
+  data: observations
+  fixed: factor(cohort) + replicate
+  random:
+    genetic:
+      group: individual
+      relationship: H
+      covariance: genetic
+  residual: residual
+analysis:
+  task: rhe
+  rhe:
+    method: ordinary
+    probes: 32
+    seed: 4401
+execution:
+  formulation: ss_snp
+  solver: pcg
+  sparse_backend: pardiso
+  preconditioner: qnn_reuse
+  pedigree_factorization: ancestral_sweeps
+  convergence:
+    relative_tolerance: 1.0e-12
+    absolute_tolerance: 1.0e-13
+    maximum_iterations: 4000
+  threads: 4
+output:
+  directory: results/vc
+  tables:
+  - diagnostics
+  predictions: {}

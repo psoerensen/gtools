@@ -1,0 +1,222 @@
+schema: gsuite.model/v1-draft
+name: large_multiple_effects_5trait
+traits:
+- trait1
+- trait2
+- trait3
+- trait4
+- trait5
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/large-multiple-effects-5trait/data/phenotypes.csv
+    format: csv
+    id: record_id
+    columns:
+      individual: animal
+      site: site
+      family: family
+      treatment: treatment
+    responses:
+      trait1: trait1
+      trait2: trait2
+      trait3: trait3
+      trait4: trait4
+      trait5: trait5
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/gsim/large-single-step-5trait/pedigree.csv
+    columns:
+      individual: animal
+      parent1: sire
+      parent2: dam
+  genotypes:
+    type: plink
+    prefix: ../frozen-inputs/gsim/large-single-step-5trait/genotypes
+    id: IID
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+  H:
+    type: single_step
+    pedigree: A
+    genotypes: genotypes
+    genomic:
+      adjustment: pedigree_moments
+      polygenic_weight: 0.25
+      independent_ridge: 0.0
+covariances:
+  genetic:
+  - - 1.0
+    - 0.15
+    - 0.12
+    - 0.1
+    - 0.08
+  - - 0.15
+    - 0.9
+    - 0.1
+    - 0.08
+    - 0.06
+  - - 0.12
+    - 0.1
+    - 0.8
+    - 0.06
+    - 0.05
+  - - 0.1
+    - 0.08
+    - 0.06
+    - 0.7
+    - 0.04
+  - - 0.08
+    - 0.06
+    - 0.05
+    - 0.04
+    - 0.6
+  site:
+  - - 0.08
+    - 0.01
+    - 0.01
+    - 0.01
+    - 0.01
+  - - 0.01
+    - 0.08
+    - 0.01
+    - 0.01
+    - 0.01
+  - - 0.01
+    - 0.01
+    - 0.08
+    - 0.01
+    - 0.01
+  - - 0.01
+    - 0.01
+    - 0.01
+    - 0.08
+    - 0.01
+  - - 0.01
+    - 0.01
+    - 0.01
+    - 0.01
+    - 0.08
+  family:
+  - - 0.12
+    - 0.02
+    - 0.02
+    - 0.02
+    - 0.02
+  - - 0.02
+    - 0.12
+    - 0.02
+    - 0.02
+    - 0.02
+  - - 0.02
+    - 0.02
+    - 0.12
+    - 0.02
+    - 0.02
+  - - 0.02
+    - 0.02
+    - 0.02
+    - 0.12
+    - 0.02
+  - - 0.02
+    - 0.02
+    - 0.02
+    - 0.02
+    - 0.12
+  individual_environment:
+  - - 0.2
+    - 0.03
+    - 0.03
+    - 0.03
+    - 0.03
+  - - 0.03
+    - 0.2
+    - 0.03
+    - 0.03
+    - 0.03
+  - - 0.03
+    - 0.03
+    - 0.2
+    - 0.03
+    - 0.03
+  - - 0.03
+    - 0.03
+    - 0.03
+    - 0.2
+    - 0.03
+  - - 0.03
+    - 0.03
+    - 0.03
+    - 0.03
+    - 0.2
+  residual:
+  - - 0.7
+    - 0.08
+    - 0.08
+    - 0.08
+    - 0.08
+  - - 0.08
+    - 0.7
+    - 0.08
+    - 0.08
+    - 0.08
+  - - 0.08
+    - 0.08
+    - 0.7
+    - 0.08
+    - 0.08
+  - - 0.08
+    - 0.08
+    - 0.08
+    - 0.7
+    - 0.08
+  - - 0.08
+    - 0.08
+    - 0.08
+    - 0.08
+    - 0.7
+model:
+  data: observations
+  fixed: factor(treatment)
+  random:
+    genetic:
+      group: individual
+      relationship: H
+      covariance: genetic
+    site:
+      group: site
+      covariance: site
+    family:
+      group: family
+      covariance: family
+    individual_environment:
+      group: individual
+      covariance: individual_environment
+  residual: residual
+analysis:
+  task: rhe
+  rhe:
+    method: ordinary
+    probes: 32
+    seed: 4401
+execution:
+  formulation: ss_snp
+  solver: pcg
+  sparse_backend: pardiso
+  preconditioner: qnn_reuse
+  pedigree_factorization: ancestral_sweeps
+  marker_cache: packed
+  budgets:
+    budget_bytes: 4294967296
+  convergence:
+    relative_tolerance: 1.0e-12
+    absolute_tolerance: 1.0e-13
+    maximum_iterations: 4000
+  threads: 4
+output:
+  directory: results/vc
+  tables:
+  - diagnostics
+  predictions: {}

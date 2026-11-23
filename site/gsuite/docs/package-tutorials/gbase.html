@@ -148,6 +148,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">gact</span></a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="https://psoerensen.github.io/gpct/">
+<span class="menu-text">gpct</span></a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="https://psoerensen.github.io/gteach/">
 <span class="menu-text">gteach</span></a>
   </li>
@@ -880,7 +884,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>gbase</code> owns the data boundary shared by the analysis packages. Its Glist records the selected samples and markers, physical BED locations, allele labels and marker summaries. When LD is requested, the same object also carries the sparse-LD identity, sample and marker provenance, and LD scores. This page uses the <a href="../../../gsuite/docs/package-tutorials/overview.html">shared 20K/50K simulation</a>.</p>
 <section id="prepare-the-panel" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-the-panel">Prepare the panel</h2>
-<p>Start with a SNP-major PLINK BED file and matching BIM/FAM files. <code>gprep()</code> infers the companion paths from the BED name. Sample IDs and marker IDs are selected by name and retain their documented Glist order.</p>
+<p>Start with a SNP-major PLINK BED file and matching BIM/FAM files. <code>gprep()</code> infers the BIM and FAM paths from the BED name. For a full panel, it creates or reuses a same-stem <code>.ext</code> file. Sample IDs and marker IDs are selected by name and retain their documented Glist order.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbase)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>prefix <span class="ot">&lt;-</span> <span class="st">"path/to/genotypes"</span>  <span class="co"># replace with your PLINK prefix</span></span>
@@ -890,7 +894,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>regions <span class="ot">&lt;-</span> <span class="fu">split</span>(marker_ids,</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rep</span>(<span class="fu">sprintf</span>(<span class="st">"region%03d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>), <span class="at">each =</span> <span class="dv">100</span>))</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>panel <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>), <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>panel <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>))</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>reference_Glist <span class="ot">&lt;-</span> <span class="fu">gprep</span>(<span class="at">bedfiles =</span> <span class="fu">paste0</span>(prefix, <span class="st">".bed"</span>),</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> reference_ids, <span class="at">nthreads =</span> <span class="dv">4</span>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>

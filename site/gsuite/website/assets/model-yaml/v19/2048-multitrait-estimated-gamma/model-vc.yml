@@ -1,0 +1,109 @@
+schema: gsuite.model/v1-draft
+name: multitrait_estimated_gamma
+traits:
+- trait1
+- trait2
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-estimated-gamma/data/phenotypes.csv
+    id: record_id
+    columns:
+      individual: sample_id
+      cohort: cohort
+      time: age_years
+    responses:
+      trait1: y1
+      trait2: y2
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-estimated-gamma/data/pedigree.csv
+    columns:
+      individual: sample_id
+      parent1: parent_1
+      parent2: parent_2
+  base_assignments:
+    type: table
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-estimated-gamma/data/base_assignments.csv
+    columns:
+      individual: sample_id
+      parent1_group: parent_1_group
+      parent2_group: parent_2_group
+  base_covariance:
+    type: covariance
+    file: ../frozen-inputs/rhe/cases/2048-multitrait-estimated-gamma/data/base_covariance.csv
+  genotypes:
+    type: plink
+    prefix: ../frozen-inputs/rhe/cases/2048-multitrait-estimated-gamma/data/genotypes
+    id: IID
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+    metafounders:
+      covariance: base_covariance
+      assignments: base_assignments
+      estimation:
+        method: pseudo_em
+        maximum_iterations: 2000
+  H:
+    type: single_step
+    pedigree: A
+    genotypes: genotypes
+    genomic:
+      adjustment: none
+      scale: 1.0
+      polygenic_weight: 0.0
+      independent_ridge: 0.05
+      centering: absolute_half
+      normalization: markers_over_two
+covariances:
+  genetic:
+  - - 1.0
+    - 0.2
+  - - 0.2
+    - 0.7
+  individual_environment:
+  - - 0.4
+    - 0.1
+  - - 0.1
+    - 0.6
+  residual:
+  - - 2.0
+    - 0.3
+  - - 0.3
+    - 1.5
+model:
+  data: observations
+  fixed: factor(cohort) + time
+  random:
+    genetic:
+      group: individual
+      relationship: H
+      covariance: genetic
+    individual_environment:
+      group: individual
+      covariance: individual_environment
+  residual: residual
+analysis:
+  task: rhe
+  rhe:
+    method: ordinary
+    probes: 32
+    seed: 4401
+execution:
+  formulation: ss_snp
+  solver: pcg
+  sparse_backend: pardiso
+  preconditioner: qnn_reuse
+  pedigree_factorization: ancestral_sweeps
+  convergence:
+    relative_tolerance: 1.0e-11
+    absolute_tolerance: 1.0e-13
+    maximum_iterations: 4000
+  threads: 4
+output:
+  directory: results/vc
+  tables:
+  - diagnostics
+  predictions: {}

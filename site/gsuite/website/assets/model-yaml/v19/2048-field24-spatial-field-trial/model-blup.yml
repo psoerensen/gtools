@@ -1,0 +1,58 @@
+schema: gsuite.model/v1-draft
+name: spatial_field_trial
+traits:
+- yield
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/2048-field24-spatial-field-trial/data/phenotypes.csv
+    id: record_id
+    columns:
+      individual: sample_id
+      trial: trial
+      row: row
+      column: column
+    responses:
+      yield: yield
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/rhe/cases/2048-field24-spatial-field-trial/data/pedigree.csv
+    columns:
+      individual: sample_id
+      parent1: parent_1
+      parent2: parent_2
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+covariances:
+  from_fit: results/vc/run.json
+model:
+  data: observations
+  fixed: factor(trial)
+  random:
+    genetic:
+      group: individual
+      relationship: A
+      covariance: genetic
+  residual:
+    type: spatial_ar1
+    group: trial
+    row: row
+    column: column
+    covariances:
+      A: trial_A
+      B: trial_B
+analysis:
+  task: solve
+execution:
+  solver: sparse_direct
+  sparse_backend: pardiso
+  threads: 4
+output:
+  directory: results/blup
+  predictions:
+    genetic_values:
+      effects:
+      - genetic
+      levels: individuals

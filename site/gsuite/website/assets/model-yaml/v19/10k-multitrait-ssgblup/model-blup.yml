@@ -1,0 +1,71 @@
+schema: gsuite.model/v1-draft
+name: multitrait_ssgblup
+traits:
+- trait1
+- trait2
+inputs:
+  observations:
+    type: table
+    file: ../frozen-inputs/rhe/cases/10k-multitrait-ssgblup/data/phenotypes.csv
+    id: record_id
+    columns:
+      individual: sample_id
+      cohort: cohort
+      time: age_years
+    responses:
+      trait1: y1
+      trait2: y2
+  pedigree:
+    type: pedigree
+    file: ../frozen-inputs/gsim/large-single-step-5trait/pedigree.csv
+    columns:
+      individual: animal
+      parent1: sire
+      parent2: dam
+  genomic_matrix:
+    type: covariance
+    file: ../frozen-inputs/rhe/cases/10k-multitrait-ssgblup/data/G.csv
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+  G:
+    type: covariance
+    input: genomic_matrix
+  H:
+    type: single_step
+    pedigree: A
+    genomic: G
+covariances:
+  from_fit: results/vc/run.json
+model:
+  data: observations
+  fixed: factor(cohort) + time
+  random:
+    genetic:
+      group: individual
+      relationship: H
+      covariance: genetic
+    individual_environment:
+      group: individual
+      covariance: individual_environment
+  residual: residual
+analysis:
+  task: solve
+execution:
+  formulation: ss_gblup
+  solver: pcg
+  sparse_backend: pardiso
+  preconditioner: block_jacobi
+  convergence:
+    relative_tolerance: 1.0e-11
+    absolute_tolerance: 1.0e-13
+    maximum_iterations: 4000
+  threads: 4
+output:
+  directory: results/blup
+  predictions:
+    genetic_values:
+      effects:
+      - genetic
+      levels: all

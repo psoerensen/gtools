@@ -1,0 +1,127 @@
+schema: gsuite.model/v1-draft
+name: large_factor_analytic_5trait
+traits:
+- trait1
+- trait2
+- trait3
+- trait4
+- trait5
+inputs:
+  observations:
+    type: table
+    file: ../../data/large-single-step-5trait/phenotypes.csv
+    format: csv
+    id: record_id
+    columns:
+      individual: animal
+    responses:
+      trait1: trait1
+      trait2: trait2
+      trait3: trait3
+      trait4: trait4
+      trait5: trait5
+  pedigree:
+    type: pedigree
+    file: ../../data/large-single-step-5trait/pedigree.csv
+    columns:
+      individual: animal
+      parent1: sire
+      parent2: dam
+  genotypes:
+    type: plink
+    prefix: ../../data/large-single-step-5trait/genotypes
+    id: IID
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+  H:
+    type: single_step
+    pedigree: A
+    genotypes: genotypes
+    genomic:
+      adjustment: pedigree_moments
+      polygenic_weight: 0.25
+      independent_ridge: 0.0
+covariances:
+  genetic:
+    type: factor_analytic
+    rank: 1
+    labels:
+    - trait1
+    - trait2
+    - trait3
+    - trait4
+    - trait5
+    factors:
+    - shared
+    loadings:
+    - - 0.2
+    - - 0.2
+    - - 0.2
+    - - 0.2
+    - - 0.2
+    specific_variances:
+    - 0.36
+    - 0.36
+    - 0.36
+    - 0.36
+    - 0.36
+  residual:
+  - - 1.0
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+  - - 0.1
+    - 1.0
+    - 0.1
+    - 0.1
+    - 0.1
+  - - 0.1
+    - 0.1
+    - 1.0
+    - 0.1
+    - 0.1
+  - - 0.1
+    - 0.1
+    - 0.1
+    - 1.0
+    - 0.1
+  - - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 1.0
+model:
+  data: observations
+  fixed: '1'
+  random:
+    genetic:
+      group: individual
+      relationship: H
+      covariance: genetic
+  residual: residual
+analysis:
+  task: rhe
+  rhe:
+    method: ordinary
+    probes: 32
+    seed: 4401
+execution:
+  solver: pcg
+  sparse_backend: pardiso
+  threads: 4
+  convergence:
+    relative_tolerance: 1.0e-08
+    absolute_tolerance: 1.0e-10
+    maximum_iterations: 4000
+  formulation: ss_snp
+  preconditioner: qnn_reuse
+  pedigree_factorization: ancestral_sweeps
+  marker_cache: packed
+output:
+  directory: results/vc
+  tables:
+  - diagnostics
+  predictions: {}

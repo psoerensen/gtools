@@ -1,0 +1,51 @@
+schema: gsuite.model/v1-draft
+name: large_pedigree_reml
+traits:
+- trait1
+inputs:
+  observations:
+    type: table
+    file: ../../data/large-pedigree-1trait/phenotypes.csv
+    format: csv
+    id: record_id
+    columns:
+      individual: animal
+    responses:
+      trait1: trait1
+  pedigree:
+    type: pedigree
+    file: ../../data/large-pedigree-1trait/pedigree.csv
+    columns:
+      individual: animal
+      parent1: sire
+      parent2: dam
+relationships:
+  A:
+    type: pedigree
+    input: pedigree
+covariances:
+  from_fit: results/vc/run.json
+model:
+  data: observations
+  fixed: '1'
+  random:
+    genetic:
+      group: individual
+      relationship: A
+      covariance: genetic
+  residual: residual
+analysis:
+  task: solve
+execution:
+  solver: sparse_direct
+  sparse_backend: pardiso
+  threads: 4
+output:
+  directory: results/blup
+  tables:
+  - diagnostics
+  predictions:
+    genetic_values:
+      effects:
+      - genetic
+      levels: all
