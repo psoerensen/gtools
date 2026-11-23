@@ -1039,21 +1039,25 @@ A larger population: 20,000 individuals, one trait
 <h3 class="anchored" data-anchor-id="ordinary-pedigree-rhe-on-the-same-50k-data">Ordinary pedigree RHE and breeding values</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 17%">
-<col style="width: 17%">
-<col style="width: 17%">
-<col style="width: 17%">
-<col style="width: 17%">
+<col style="width: 9%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Model</th>
 <th style="text-align: right;">RHE (s)</th>
 <th style="text-align: right;">RHE peak (MiB)</th>
-<th style="text-align: right;">Optional BLUP and export (s)</th>
+<th style="text-align: right;">BLUP and export (s)</th>
 <th style="text-align: right;">BLUP peak (MiB)</th>
-<th style="text-align: right;">Both commands (s)</th>
+<th style="text-align: right;">RHE + BLUP total (s)</th>
+<th style="text-align: right;">AI-REML total (s)</th>
+<th style="text-align: right;">Time saved</th>
 </tr>
 </thead>
 <tbody>
@@ -1064,6 +1068,8 @@ A larger population: 20,000 individuals, one trait
 <td style="text-align: right;">15.31</td>
 <td style="text-align: right;">286</td>
 <td style="text-align: right;">29.09</td>
+<td style="text-align: right;">90.32</td>
+<td style="text-align: right;">61.2 s (67.8%)</td>
 </tr>
 <tr class="even">
 <td>Two traits</td>
@@ -1072,6 +1078,8 @@ A larger population: 20,000 individuals, one trait
 <td style="text-align: right;">21.85</td>
 <td style="text-align: right;">636</td>
 <td style="text-align: right;">37.25</td>
+<td style="text-align: right;">304.53</td>
+<td style="text-align: right;">267.3 s (87.8%)</td>
 </tr>
 <tr class="odd">
 <td>Random intercept and slope</td>
@@ -1080,12 +1088,82 @@ A larger population: 20,000 individuals, one trait
 <td style="text-align: right;">41.11</td>
 <td style="text-align: right;">699</td>
 <td style="text-align: right;">78.13</td>
+<td style="text-align: right;">265.34</td>
+<td style="text-align: right;">187.2 s (70.6%)</td>
 </tr>
 </tbody>
 </table>
 <p>Run <code>model-vc.yml</code> alone for variance and covariance estimates. Run <code>model-blup.yml</code> afterwards if you want breeding values. Each command used four compute threads. Ordinary RHE used 32 probes. Times include input preparation and output. RAM is the process-tree working set sampled every 0.1 seconds, including the runner and native process. Shared pages can count twice.</p>
 <p>For one trait, RHE estimated genetic variance at <strong>0.969</strong> against <strong>0.980 realised</strong>, and residual variance at <strong>1.140</strong> against <strong>1.126 realised</strong>. The two-trait genetic and residual covariances were <strong>0.437</strong> and <strong>0.207</strong>, compared with <strong>0.401</strong> and <strong>0.228 realised</strong>. Recovery was weaker for the longitudinal genetic slope variance (<strong>0.190</strong> versus <strong>0.244 realised</strong>).</p>
 <p><a href="../gsuite/benchmarks/pedigree_50k_dmu/README.html">All 12 covariance estimates, realised values and prediction accuracy</a> · <a href="benchmarks/pedigree_50k_dmu/rhe/results/adjusted-performance.csv">Download timings and memory</a></p>
+</section>
+<section id="pedigree-prediction-accuracy" class="level3">
+<h3 class="anchored" data-anchor-id="pedigree-prediction-accuracy">Prediction accuracy on the 50K pedigree</h3>
+<p>RHE + BLUP saved <strong>68% to 88% of the time</strong> from input preparation through prediction export on these three four-thread runs. The largest increase in root mean squared error (RMSE) was <strong>0.64%</strong> for the longitudinal genetic slope. For the other four predictions, RMSE changed by less than 0.15% in either direction.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Prediction</th>
+<th style="text-align: right;">RHE + BLUP correlation</th>
+<th style="text-align: right;">AI-REML correlation</th>
+<th style="text-align: right;">RHE + BLUP RMSE</th>
+<th style="text-align: right;">AI-REML RMSE</th>
+<th style="text-align: right;">RMSE change with RHE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>One-trait breeding value</td>
+<td style="text-align: right;">0.74739</td>
+<td style="text-align: right;">0.74744</td>
+<td style="text-align: right;">0.65806</td>
+<td style="text-align: right;">0.65796</td>
+<td style="text-align: right;">+0.016%</td>
+</tr>
+<tr class="even">
+<td>Two-trait model, trait 1</td>
+<td style="text-align: right;">0.72599</td>
+<td style="text-align: right;">0.72594</td>
+<td style="text-align: right;">0.68958</td>
+<td style="text-align: right;">0.68958</td>
+<td style="text-align: right;">−0.001%</td>
+</tr>
+<tr class="odd">
+<td>Two-trait model, trait 2</td>
+<td style="text-align: right;">0.71079</td>
+<td style="text-align: right;">0.71182</td>
+<td style="text-align: right;">0.62250</td>
+<td style="text-align: right;">0.62160</td>
+<td style="text-align: right;">+0.145%</td>
+</tr>
+<tr class="even">
+<td>Longitudinal genetic intercept</td>
+<td style="text-align: right;">0.88657</td>
+<td style="text-align: right;">0.88673</td>
+<td style="text-align: right;">0.45915</td>
+<td style="text-align: right;">0.45864</td>
+<td style="text-align: right;">+0.110%</td>
+</tr>
+<tr class="odd">
+<td>Longitudinal genetic slope</td>
+<td style="text-align: right;">0.64757</td>
+<td style="text-align: right;">0.64977</td>
+<td style="text-align: right;">0.37789</td>
+<td style="text-align: right;">0.37547</td>
+<td style="text-align: right;">+0.643%</td>
+</tr>
+</tbody>
+</table>
+<p>Each row compares both methods with the same simulated genetic values for all 50,000 animals, matched by pedigree ID. Correlation is the Pearson correlation with truth. Lower RMSE means smaller prediction errors in the original units. The longitudinal intercept is the genetic value at basis zero. The slope is the value at basis one minus the intercept.</p>
+<p><a href="benchmarks/pedigree_50k_dmu/results/adjusted-prediction-comparison.csv">Download prediction accuracy and end-to-end timings (CSV)</a></p>
 </section>
 </section>
 <section id="other-validation-evidence" class="level2">
