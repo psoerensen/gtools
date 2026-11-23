@@ -812,7 +812,11 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#variance-estimation-and-breeding-values-on-a-50000-animal-pedigree" id="toc-variance-estimation-and-breeding-values-on-a-50000-animal-pedigree" class="nav-link active" data-scroll-target="#variance-estimation-and-breeding-values-on-a-50000-animal-pedigree">Variance estimation and breeding values on a 50,000-animal pedigree</a>
   <ul class="collapse">
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
+  <ul class="collapse">
+  <li><a href="#pedigree-ai-reml-and-rhe-timings" id="toc-pedigree-ai-reml-and-rhe-timings" class="nav-link" data-scroll-target="#pedigree-ai-reml-and-rhe-timings">Pedigree AI-REML and RHE timings</a></li>
+  <li><a href="#ordinary-rhe-and-optional-blup" id="toc-ordinary-rhe-and-optional-blup" class="nav-link" data-scroll-target="#ordinary-rhe-and-optional-blup">Ordinary RHE and optional BLUP</a></li>
+  </ul></li>
   <li><a href="#covariance-recovery" id="toc-covariance-recovery" class="nav-link" data-scroll-target="#covariance-recovery">Covariance recovery</a></li>
   <li><a href="#prediction-accuracy" id="toc-prediction-accuracy" class="nav-link" data-scroll-target="#prediction-accuracy">Prediction accuracy</a></li>
   <li><a href="#ordinary-pedigree-rhe-on-the-frozen-50k-data" id="toc-ordinary-pedigree-rhe-on-the-frozen-50k-data" class="nav-link" data-scroll-target="#ordinary-pedigree-rhe-on-the-frozen-50k-data">Ordinary pedigree RHE on the frozen 50K data</a></li>
@@ -828,9 +832,86 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="variance-estimation-and-breeding-values-on-a-50000-animal-pedigree" class="level1">
 <h1>Variance estimation and breeding values on a 50,000-animal pedigree</h1>
-<p>The three frozen gsim datasets share a pedigree of 50,000 animals. Each fit includes an intercept, sex, cohort and herd. The two-trait model fits each fixed effect separately for each trait. The longitudinal model fits an animal-specific genetic intercept and slope on the recorded time basis.</p>
+<p>The three frozen gsim datasets share a pedigree of 50,000 animals. Each GeneSuite fit includes an intercept, sex, cohort and herd. The two-trait model fits each fixed effect separately for each trait. The longitudinal model fits an animal-specific genetic intercept and slope on the recorded time basis.</p>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
+<section id="pedigree-ai-reml-and-rhe-timings" class="level3">
+<h3 class="anchored" data-anchor-id="pedigree-ai-reml-and-rhe-timings">Pedigree AI-REML and RHE timings</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../website/assets/pedigree-aireml-rhe.svg" class="img-fluid figure-img"></p>
+<figcaption>GeneSuite time and peak process-tree RAM for RHE alone, RHE followed by BLUP, and AI-REML with predictions. The elapsed-time panel also shows archived DMU 5.6 AI-REML runs with intercept and sex.</figcaption>
+</figure>
+</div>
+<p><strong>RHE estimation alone</strong> took <strong>13.78, 15.40 and 37.01 seconds</strong> for one trait, two traits and random intercept–slope, respectively. Peak process-tree RAM was <strong>139, 265 and 173 MiB</strong>. These runs ended with variance estimates.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pedigree model</th>
+<th style="text-align: right;">Observed trait values</th>
+<th style="text-align: right;">GeneSuite AI updates</th>
+<th style="text-align: right;">Native estimation (s)</th>
+<th style="text-align: right;">GeneSuite through export (s)</th>
+<th style="text-align: right;">Archived DMU total (s)</th>
+<th style="text-align: right;">Native peak (GiB)</th>
+<th style="text-align: right;">Process-tree peak (GiB)</th>
+<th style="text-align: right;">Predictions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>One trait</td>
+<td style="text-align: right;">42,497</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">51.1</td>
+<td style="text-align: right;"><strong>90.3</strong></td>
+<td style="text-align: right;">178.42</td>
+<td style="text-align: right;">2.60</td>
+<td style="text-align: right;">2.69</td>
+<td style="text-align: right;">50,000</td>
+</tr>
+<tr class="even">
+<td>Two traits</td>
+<td style="text-align: right;">65,803</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">257.6</td>
+<td style="text-align: right;"><strong>304.5</strong></td>
+<td style="text-align: right;">818.46</td>
+<td style="text-align: right;">4.54</td>
+<td style="text-align: right;">4.66</td>
+<td style="text-align: right;">100,000</td>
+</tr>
+<tr class="odd">
+<td>Random intercept and slope</td>
+<td style="text-align: right;">169,928</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">109.4</td>
+<td style="text-align: right;"><strong>265.3</strong></td>
+<td style="text-align: right;">1,182.68</td>
+<td style="text-align: right;">4.34</td>
+<td style="text-align: right;">4.45</td>
+<td style="text-align: right;">100,000</td>
+</tr>
+</tbody>
+</table>
+<p>The archived DMU 5.6 timings cover DMU1 preparation and DMUAI fitting on the same pedigree and records. Those runs fitted intercept and sex on a Core i7-1365U. The current GeneSuite runs also fitted cohort and herd on a Core Ultra 7 258V. A DMU rerun with the full fixed-effects design is pending.</p>
+<p>All three fits converged from the original starting covariances and passed the original-equation residual checks. Each fit used the standalone benchmark driver with exact CHOLMOD selected inversion and four requested threads on a Windows laptop with an Intel Core Ultra 7 258V. The native estimation timer covers optimization and its final evaluation. Total time includes preparation and prediction export. Each model was timed once. The longitudinal predictions are genetic values at two time points per animal. Native peak is the Windows working-set high-water mark. Process-tree peak is the sum of working sets sampled every 0.1 seconds.</p>
+<p>For one trait, AI-REML estimated genetic variance at <strong>0.988</strong> and residual variance at <strong>1.133</strong>, against realised values of <strong>0.980</strong> and <strong>1.126</strong>. For two traits, the genetic covariance was <strong>0.407</strong> against <strong>0.401</strong> realised. The longitudinal slope variance was <strong>0.248</strong> against <strong>0.244</strong> realised.</p>
+<p><a href="results/adjusted-aireml-performance.csv">AI-REML timings, memory and residual checks</a> · <a href="results/adjusted-covariance-comparison.csv">All 12 AI-REML and RHE estimates with generating and realised values</a></p>
+</section>
+<section id="ordinary-rhe-and-optional-blup" class="level3">
+<h3 class="anchored" data-anchor-id="ordinary-rhe-and-optional-blup">Ordinary RHE and optional BLUP</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 13%">
@@ -879,7 +960,7 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p>Run <code>model-vc.yml</code> alone for variance and covariance estimates. Run <code>model-blup.yml</code> afterwards if you want breeding values. Each command used four compute threads. Ordinary RHE used 32 probes. Times include input preparation and output. RAM is the process-tree working set sampled every 0.1 seconds, including the runner and native process. Shared pages can count twice.</p>
 <p>The one-trait, two-trait and longitudinal models used 42,497, 65,803 and 169,928 observed scalar values. Their BLUP residuals passed the original checks. They returned 50,000 breeding values, 100,000 trait-specific breeding values and 100,000 predictions on the longitudinal grid, respectively.</p>
-<p>A matched DMU AI-REML measurement is unavailable for these fixed effects.</p>
+</section>
 </section>
 <section id="covariance-recovery" class="level2">
 <h2 class="anchored" data-anchor-id="covariance-recovery">Covariance recovery</h2>
@@ -899,7 +980,7 @@ ul.task-list li input[type="checkbox"] {
 <th style="text-align: right;">Generating</th>
 <th style="text-align: right;">Realised</th>
 <th style="text-align: right;">RHE</th>
-<th style="text-align: right;">RHE minus realised</th>
+<th style="text-align: right;">AI-REML</th>
 </tr>
 </thead>
 <tbody>
@@ -909,7 +990,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">1.000</td>
 <td style="text-align: right;">0.980</td>
 <td style="text-align: right;">0.969</td>
-<td style="text-align: right;">-0.011</td>
+<td style="text-align: right;">0.988</td>
 </tr>
 <tr class="even">
 <td>One trait</td>
@@ -917,7 +998,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">1.125</td>
 <td style="text-align: right;">1.126</td>
 <td style="text-align: right;">1.140</td>
-<td style="text-align: right;">+0.014</td>
+<td style="text-align: right;">1.133</td>
 </tr>
 <tr class="odd">
 <td>Two traits</td>
@@ -925,7 +1006,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">1.000</td>
 <td style="text-align: right;">0.999</td>
 <td style="text-align: right;">1.051</td>
-<td style="text-align: right;">+0.052</td>
+<td style="text-align: right;">1.054</td>
 </tr>
 <tr class="even">
 <td>Two traits</td>
@@ -933,7 +1014,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.400</td>
 <td style="text-align: right;">0.401</td>
 <td style="text-align: right;">0.437</td>
-<td style="text-align: right;">+0.036</td>
+<td style="text-align: right;">0.407</td>
 </tr>
 <tr class="odd">
 <td>Two traits</td>
@@ -941,7 +1022,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.800</td>
 <td style="text-align: right;">0.774</td>
 <td style="text-align: right;">0.727</td>
-<td style="text-align: right;">-0.047</td>
+<td style="text-align: right;">0.799</td>
 </tr>
 <tr class="even">
 <td>Two traits</td>
@@ -949,7 +1030,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">1.125</td>
 <td style="text-align: right;">1.109</td>
 <td style="text-align: right;">1.091</td>
-<td style="text-align: right;">-0.018</td>
+<td style="text-align: right;">1.091</td>
 </tr>
 <tr class="odd">
 <td>Two traits</td>
@@ -957,7 +1038,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.225</td>
 <td style="text-align: right;">0.228</td>
 <td style="text-align: right;">0.207</td>
-<td style="text-align: right;">-0.022</td>
+<td style="text-align: right;">0.236</td>
 </tr>
 <tr class="even">
 <td>Two traits</td>
@@ -965,7 +1046,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.900</td>
 <td style="text-align: right;">0.901</td>
 <td style="text-align: right;">0.953</td>
-<td style="text-align: right;">+0.052</td>
+<td style="text-align: right;">0.894</td>
 </tr>
 <tr class="odd">
 <td>Random intercept and slope</td>
@@ -973,7 +1054,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">1.000</td>
 <td style="text-align: right;">0.982</td>
 <td style="text-align: right;">0.938</td>
-<td style="text-align: right;">-0.045</td>
+<td style="text-align: right;">0.997</td>
 </tr>
 <tr class="even">
 <td>Random intercept and slope</td>
@@ -981,7 +1062,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.150</td>
 <td style="text-align: right;">0.140</td>
 <td style="text-align: right;">0.103</td>
-<td style="text-align: right;">-0.037</td>
+<td style="text-align: right;">0.146</td>
 </tr>
 <tr class="odd">
 <td>Random intercept and slope</td>
@@ -989,7 +1070,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.250</td>
 <td style="text-align: right;">0.244</td>
 <td style="text-align: right;">0.190</td>
-<td style="text-align: right;">-0.054</td>
+<td style="text-align: right;">0.248</td>
 </tr>
 <tr class="even">
 <td>Random intercept and slope</td>
@@ -997,7 +1078,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.800</td>
 <td style="text-align: right;">0.800</td>
 <td style="text-align: right;">0.861</td>
-<td style="text-align: right;">+0.061</td>
+<td style="text-align: right;">0.797</td>
 </tr>
 </tbody>
 </table>

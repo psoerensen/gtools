@@ -959,15 +959,84 @@ A larger population: 20,000 individuals, one trait
 </section>
 <section id="software-comparisons" class="level2">
 <h2 class="anchored" data-anchor-id="software-comparisons">50,000-animal pedigree</h2>
-<section id="ordinary-pedigree-rhe-on-the-same-50k-data" class="level3">
-<h3 class="anchored" data-anchor-id="ordinary-pedigree-rhe-on-the-same-50k-data">Ordinary pedigree RHE and breeding values</h3>
-<p>All three models fitted the simulated sex, cohort and herd effects. The two-trait model fitted separate fixed effects for each trait and retained partially observed animals.</p>
+<p>All three GeneSuite models fitted the simulated sex, cohort and herd effects. The two-trait model fitted separate fixed effects for each trait and retained partially observed animals.</p>
+<section id="pedigree-ai-reml-and-rhe-timings" class="level3">
+<h3 class="anchored" data-anchor-id="pedigree-ai-reml-and-rhe-timings">Pedigree AI-REML and RHE timings</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="website/assets/pedigree-adjusted-performance.svg" class="img-fluid figure-img" alt="Variance estimation used 139, 265 and 173 MiB for the one-trait, two-trait and random-slope models. Optional BLUP used 286, 636 and 699 MiB, respectively."></p>
-<figcaption>Ordinary RHE variance estimation and optional BLUP prediction on the adjusted 50K pedigree.</figcaption>
+<p><img src="website/assets/pedigree-aireml-rhe.svg" class="img-fluid figure-img"></p>
+<figcaption>GeneSuite time and peak process-tree RAM for RHE alone, RHE followed by BLUP, and AI-REML with predictions. The elapsed-time panel also shows archived DMU 5.6 AI-REML runs with intercept and sex.</figcaption>
 </figure>
 </div>
+<p><strong>RHE estimation alone</strong> took <strong>13.78, 15.40 and 37.01 seconds</strong> for one trait, two traits and random intercept–slope, respectively. Peak process-tree RAM was <strong>139, 265 and 173 MiB</strong>. These runs ended with variance estimates.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pedigree model</th>
+<th style="text-align: right;">Observed trait values</th>
+<th style="text-align: right;">GeneSuite AI updates</th>
+<th style="text-align: right;">Native estimation (s)</th>
+<th style="text-align: right;">GeneSuite through export (s)</th>
+<th style="text-align: right;">Archived DMU total (s)</th>
+<th style="text-align: right;">Native peak (GiB)</th>
+<th style="text-align: right;">Process-tree peak (GiB)</th>
+<th style="text-align: right;">Predictions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>One trait</td>
+<td style="text-align: right;">42,497</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">51.1</td>
+<td style="text-align: right;"><strong>90.3</strong></td>
+<td style="text-align: right;">178.42</td>
+<td style="text-align: right;">2.60</td>
+<td style="text-align: right;">2.69</td>
+<td style="text-align: right;">50,000</td>
+</tr>
+<tr class="even">
+<td>Two traits</td>
+<td style="text-align: right;">65,803</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">257.6</td>
+<td style="text-align: right;"><strong>304.5</strong></td>
+<td style="text-align: right;">818.46</td>
+<td style="text-align: right;">4.54</td>
+<td style="text-align: right;">4.66</td>
+<td style="text-align: right;">100,000</td>
+</tr>
+<tr class="odd">
+<td>Random intercept and slope</td>
+<td style="text-align: right;">169,928</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">109.4</td>
+<td style="text-align: right;"><strong>265.3</strong></td>
+<td style="text-align: right;">1,182.68</td>
+<td style="text-align: right;">4.34</td>
+<td style="text-align: right;">4.45</td>
+<td style="text-align: right;">100,000</td>
+</tr>
+</tbody>
+</table>
+<p>The archived DMU 5.6 timings cover DMU1 preparation and DMUAI fitting on the same pedigree and records. Those runs fitted intercept and sex on a Core i7-1365U. The current GeneSuite runs also fitted cohort and herd on a Core Ultra 7 258V. A DMU rerun with the full fixed-effects design is pending.</p>
+<p>All three fits converged from the original starting covariances and passed the original-equation residual checks. Each fit used the standalone benchmark driver with exact CHOLMOD selected inversion and four requested threads on a Windows laptop with an Intel Core Ultra 7 258V. The native estimation timer covers optimization and its final evaluation. Total time includes preparation and prediction export. Each model was timed once. The longitudinal predictions are genetic values at two time points per animal.</p>
+<p>For one trait, AI-REML estimated genetic variance at <strong>0.988</strong> and residual variance at <strong>1.133</strong>, against realised values of <strong>0.980</strong> and <strong>1.126</strong>. For two traits, the genetic covariance was <strong>0.407</strong> against <strong>0.401</strong> realised. The longitudinal slope variance was <strong>0.248</strong> against <strong>0.244</strong> realised.</p>
+<p><a href="benchmarks/pedigree_50k_dmu/results/adjusted-aireml-performance.csv">AI-REML timings, memory and residual checks</a> · <a href="benchmarks/pedigree_50k_dmu/results/adjusted-covariance-comparison.csv">All 12 AI-REML and RHE estimates with generating and realised values</a></p>
+</section>
+<section id="ordinary-pedigree-rhe-on-the-same-50k-data" class="level3">
+<h3 class="anchored" data-anchor-id="ordinary-pedigree-rhe-on-the-same-50k-data">Ordinary pedigree RHE and breeding values</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 13%">
@@ -1016,7 +1085,6 @@ A larger population: 20,000 individuals, one trait
 </table>
 <p>Run <code>model-vc.yml</code> alone for variance and covariance estimates. Run <code>model-blup.yml</code> afterwards if you want breeding values. Each command used four compute threads. Ordinary RHE used 32 probes. Times include input preparation and output. RAM is the process-tree working set sampled every 0.1 seconds, including the runner and native process. Shared pages can count twice.</p>
 <p>For one trait, RHE estimated genetic variance at <strong>0.969</strong> against <strong>0.980 realised</strong>, and residual variance at <strong>1.140</strong> against <strong>1.126 realised</strong>. The two-trait genetic and residual covariances were <strong>0.437</strong> and <strong>0.207</strong>, compared with <strong>0.401</strong> and <strong>0.228 realised</strong>. Recovery was weaker for the longitudinal genetic slope variance (<strong>0.190</strong> versus <strong>0.244 realised</strong>).</p>
-<p>A matched DMU AI-REML measurement is unavailable for these fixed effects.</p>
 <p><a href="../gsuite/benchmarks/pedigree_50k_dmu/README.html">All 12 covariance estimates, realised values and prediction accuracy</a> · <a href="benchmarks/pedigree_50k_dmu/rhe/results/adjusted-performance.csv">Download timings and memory</a></p>
 </section>
 </section>
