@@ -4380,7 +4380,19 @@
     "href": "gsuite/benchmarks.html",
     "title": "Benchmarks",
     "section": "",
-    "text": "Model catalogue timings · True and estimated covariance components · 50,000-animal pedigree",
+    "text": "GenomeDK catalogue results · Model catalogue timings · True and estimated covariance components · 50,000-animal pedigree",
+    "crumbs": [
+      "gsuite",
+      "Benchmarks",
+      "Benchmark overview"
+    ]
+  },
+  {
+    "objectID": "gsuite/benchmarks.html#genomedk-catalogue-results",
+    "href": "gsuite/benchmarks.html#genomedk-catalogue-results",
+    "title": "Benchmarks",
+    "section": "GenomeDK catalogue results",
+    "text": "GenomeDK catalogue results\nOn 25 November 2026, all 76 distinct model pairs completed variance estimation and breeding-value prediction on GenomeDK. They cover 78 of the 79 catalogue entries. Two pairs each represent two entries. In the remaining four-founder design, the records cannot distinguish genetic from permanent-environment variance. Three reliability recipes retain their separate precision qualifications.\n\n\n\n\n\n\n\n\n\n\nSingle-step model\nOrdinary RHE (s)\nBLUP and export (s)\nTotal (s)\nPeak RAM (MiB)\n\n\n\n\nOne trait\n3.27\n3.92\n7.20\n195.9\n\n\nTwo traits\n4.42\n6.25\n10.67\n199.9\n\n\nFive traits\n8.70\n9.71\n18.42\n306.8\n\n\n\nThese models evaluated 10,000 individuals, 2,500 genotyped at 4,000 SNPs, using four compute threads and 32 RHE probes. Elapsed time covers one execution of each command, including preparation, export and requested truth scoring. Simulation time is separate. Peak RAM is the larger of the two sampled process-tree RSS peaks. In the five-trait run, each trait had 10,000 predictions and its correlation with simulated breeding values ranged from 0.728 to 0.742.\nAll model timings and memory (CSV) · Catalogue coverage (CSV) · Covariance estimates (CSV) · Prediction accuracy for the 24 models with saved truth summaries (CSV)",
     "crumbs": [
       "gsuite",
       "Benchmarks",

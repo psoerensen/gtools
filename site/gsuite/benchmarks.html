@@ -834,7 +834,54 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><a href="#model-catalogue-timings">Model catalogue timings</a> · <a href="#covariance-recovery">True and estimated covariance components</a> · <a href="#software-comparisons">50,000-animal pedigree</a></p>
+<p><a href="#genomedk-catalogue-results">GenomeDK catalogue results</a> · <a href="#model-catalogue-timings">Model catalogue timings</a> · <a href="#covariance-recovery">True and estimated covariance components</a> · <a href="#software-comparisons">50,000-animal pedigree</a></p>
+<section id="genomedk-catalogue-results" class="level2">
+<h2 class="anchored" data-anchor-id="genomedk-catalogue-results">GenomeDK catalogue results</h2>
+<p>On 25 November 2026, all <strong>76 distinct model pairs</strong> completed variance estimation and breeding-value prediction on GenomeDK. They cover 78 of the 79 catalogue entries. Two pairs each represent two entries. In the remaining four-founder design, the records cannot distinguish genetic from permanent-environment variance. Three reliability recipes retain their separate precision qualifications.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Single-step model</th>
+<th style="text-align: right;">Ordinary RHE (s)</th>
+<th style="text-align: right;">BLUP and export (s)</th>
+<th style="text-align: right;">Total (s)</th>
+<th style="text-align: right;">Peak RAM (MiB)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>One trait</td>
+<td style="text-align: right;">3.27</td>
+<td style="text-align: right;">3.92</td>
+<td style="text-align: right;">7.20</td>
+<td style="text-align: right;">195.9</td>
+</tr>
+<tr class="even">
+<td>Two traits</td>
+<td style="text-align: right;">4.42</td>
+<td style="text-align: right;">6.25</td>
+<td style="text-align: right;">10.67</td>
+<td style="text-align: right;">199.9</td>
+</tr>
+<tr class="odd">
+<td>Five traits</td>
+<td style="text-align: right;">8.70</td>
+<td style="text-align: right;">9.71</td>
+<td style="text-align: right;">18.42</td>
+<td style="text-align: right;">306.8</td>
+</tr>
+</tbody>
+</table>
+<p>These models evaluated 10,000 individuals, 2,500 genotyped at 4,000 SNPs, using four compute threads and 32 RHE probes. Elapsed time covers one execution of each command, including preparation, export and requested truth scoring. Simulation time is separate. Peak RAM is the larger of the two sampled process-tree RSS peaks. In the five-trait run, each trait had 10,000 predictions and its correlation with simulated breeding values ranged from 0.728 to 0.742.</p>
+<p><a href="website/assets/catalogue-genomedk-runs.csv">All model timings and memory (CSV)</a> · <a href="website/assets/catalogue-genomedk-coverage.csv">Catalogue coverage (CSV)</a> · <a href="website/assets/catalogue-genomedk-covariances.csv">Covariance estimates (CSV)</a> · <a href="website/assets/catalogue-genomedk-accuracy.csv">Prediction accuracy for the 24 models with saved truth summaries (CSV)</a></p>
+</section>
 <section id="model-catalogue-timings" class="level2">
 <h2 class="anchored" data-anchor-id="model-catalogue-timings">Model catalogue timings</h2>
 <p>How long does it take to go from phenotype, pedigree and genotype files to breeding values? These Windows laptop runs used simulated data for 10,000 individuals, including 2,500 genotyped at 4,000 markers in the single-step examples below. Each run used four compute threads. The first command estimated variance components by ordinary randomized Haseman–Elston (RHE) with 32 probes. The second used those estimates for BLUP and exported the breeding values.</p>
