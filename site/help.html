@@ -331,9 +331,44 @@ Related tools linked from gtools have their own documentation and maintainers.
 <p><a href="./support.html#submit-and-track" class="btn btn-primary">Submission and tracking information</a> <a href="./support.html#b-submit-directly-without-ai" class="btn btn-secondary">Submit directly without AI</a></p>
 <p>Email belongs only in the submission form. Approved email and mailbox verification are still required for submission and private history. Help needs no registration. The maintainer chooses when to address explicitly submitted requests through their own Codex workflow. Conversations are not automatically sent to gtools, and requests never launch an investigation or coding agent.</p>
 <script src="assistant-copy.js" defer=""></script>
-
-
 </section>
+</section>
+<section id="submit-method-prototype" class="level2">
+<h2 class="anchored" data-anchor-id="submit-method-prototype">Submit a method or prototype</h2>
+<p>Submit a statistical method and R prototype directly, or copy the preparation prompt into ChatGPT, Claude or another assistant. No GitHub account is needed. Use the existing approved-email sign-in in the private request service, provide a title and short summary, then preview and explicitly confirm. Add a message or method description, article links or pasted R code as useful; <strong>a ZIP is optional</strong>. Your receipt includes a stable proposal ID and a checksum if a ZIP is attached. Return through the same sign-in to track its status in <strong>My request history</strong>.</p>
+<button type="button" class="btn btn-secondary" data-copy-instructions="method-proposal-instructions">
+Copy method/prototype preparation prompt
+</button>
+<p><a href="method-proposal-prompt.txt">Open the preparation prompt as text</a>. You choose the assistant; gtools receives no conversation and calls no model API.</p>
+<details id="method-proposal-instructions">
+<summary>
+Read and copy the full preparation prompt
+</summary>
+<pre class="text"><code>Help me prepare a statistical method or R prototype proposal for the gsuite maintainers.
+Do not submit anything, contact GitHub, or run an implementation task. Do not ask for my email or credentials. I will review and explicitly submit through the approved-email request service.
+
+Clarify the estimand, equations, assumptions, input/output ordering, units, and limitations. Distinguish a new method from an adapter to existing software. Cite primary references and explain licensing/provenance. Do not invent validation results or change acceptance criteria to obtain a pass.
+
+Start with a concise title and short summary. Add a plain-text description, article/reference links or a small R code excerpt when useful. A ZIP is optional: do not invent a runnable prototype or require one before the idea can be submitted. The service stores links/code for review; it does not fetch articles or execute pasted code.
+
+If I already have a runnable R prototype and want to include it, prepare one optional ZIP with files at its root:
+- METHOD.md: description, equations, references, assumptions and proposed owner/reuse candidates.
+- prototype.R: the proposed implementation, with explicit dependencies.
+- oracle.R: an independently derived mathematical reference; do not call the prototype as its oracle.
+- run.R: a tiny synthetic deterministic example runnable with Rscript --vanilla run.R. Write results/results.json with status, prototype, oracle, absolute_error and tolerance, plus diagnostics. A separate oracle comparison is required; a success flag alone is not evidence.
+- acceptance.json: fixed tolerances/acceptance criteria and the reason they are suitable. For stochastic methods state seeds, replicate counts, the acceptance rule and Monte Carlo uncertainty (for example standard errors or intervals). Do not tune criteria after seeing results.
+- renv.lock or another documented dependency lockfile when dependencies beyond base R are needed. Install dependencies separately into a reviewed runner image; evaluation has no network and must not install packages.
+
+The entry point runs from the ZIP root; submitted files are read-only and only results/ is writable. Do not include individual-level research data, secrets, local absolute paths, links requiring credentials, executables, symlinks, or nested archives. Use at most 100 archive entries, 5 MiB compressed and 20 MiB expanded. Root run.R is required. Explain any runtime or dependency requirements.
+
+Give me the title, short reviewed summary and any useful text, article links or R code, with a ZIP only if available. I can attach the first ZIP later under the same proposal ID. Explain what is ready and what still needs work. Do not claim method equivalence, calibration, scalability or release qualification from a tiny example. Submission, evaluation, approval and implementation are separate maintainer decisions.
+</code></pre>
+</details>
+<p>Start with the idea and whatever references or code you already have. Links are reference text and pasted code is stored for review, not executed. You can attach your first ZIP later in the same request history. If supplying a runnable prototype, include equations, an independent oracle, fixed acceptance criteria and a tiny <code>Rscript --vanilla run.R</code> example, with a lockfile when needed. The ZIP limit is 5 MiB compressed, 20 MiB expanded and 100 entries; root <code>run.R</code> is required. Do not include individual research records, secrets or executable files.</p>
+<p>Submitted text, references, code and any original ZIP stay private. Only the verified submitter and authorized reviewers can download it. Maintainers preview a GitHub issue in a configured private repository, review ideas and references, and request a runnable prototype when needed. Submitted projects are evaluated only in an isolated runner; maintainers review the report before explicitly posting it. An approved implementation brief is exported for a <strong>separate</strong> maintainer decision and task.</p>
+<p>See <a href="./support.html#method-proposal-submission">proposal submission and tracking</a>. Public request-service hosting is not configured by this source change; use the service address supplied by your maintainer. No live issue, deployment or implementation is created by this page.</p>
+
+
 </section>
 
 </main> <!-- /main -->

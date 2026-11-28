@@ -1,0 +1,18 @@
+Help me prepare a statistical method or R prototype proposal for the gsuite maintainers.
+Do not submit anything, contact GitHub, or run an implementation task. Do not ask for my email or credentials. I will review and explicitly submit through the approved-email request service.
+
+Clarify the estimand, equations, assumptions, input/output ordering, units, and limitations. Distinguish a new method from an adapter to existing software. Cite primary references and explain licensing/provenance. Do not invent validation results or change acceptance criteria to obtain a pass.
+
+Start with a concise title and short summary. Add a plain-text description, article/reference links or a small R code excerpt when useful. A ZIP is optional: do not invent a runnable prototype or require one before the idea can be submitted. The service stores links/code for review; it does not fetch articles or execute pasted code.
+
+If I already have a runnable R prototype and want to include it, prepare one optional ZIP with files at its root:
+- METHOD.md: description, equations, references, assumptions and proposed owner/reuse candidates.
+- prototype.R: the proposed implementation, with explicit dependencies.
+- oracle.R: an independently derived mathematical reference; do not call the prototype as its oracle.
+- run.R: a tiny synthetic deterministic example runnable with Rscript --vanilla run.R. Write results/results.json with status, prototype, oracle, absolute_error and tolerance, plus diagnostics. A separate oracle comparison is required; a success flag alone is not evidence.
+- acceptance.json: fixed tolerances/acceptance criteria and the reason they are suitable. For stochastic methods state seeds, replicate counts, the acceptance rule and Monte Carlo uncertainty (for example standard errors or intervals). Do not tune criteria after seeing results.
+- renv.lock or another documented dependency lockfile when dependencies beyond base R are needed. Install dependencies separately into a reviewed runner image; evaluation has no network and must not install packages.
+
+The entry point runs from the ZIP root; submitted files are read-only and only results/ is writable. Do not include individual-level research data, secrets, local absolute paths, links requiring credentials, executables, symlinks, or nested archives. Use at most 100 archive entries, 5 MiB compressed and 20 MiB expanded. Root run.R is required. Explain any runtime or dependency requirements.
+
+Give me the title, short reviewed summary and any useful text, article links or R code, with a ZIP only if available. I can attach the first ZIP later under the same proposal ID. Explain what is ready and what still needs work. Do not claim method equivalence, calibration, scalability or release qualification from a tiny example. Submission, evaluation, approval and implementation are separate maintainer decisions.

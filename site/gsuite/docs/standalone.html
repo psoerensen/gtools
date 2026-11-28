@@ -850,6 +850,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#find-the-results" id="toc-find-the-results" class="nav-link" data-scroll-target="#find-the-results">Find the results</a></li>
   <li><a href="#build-validate-and-distribute" id="toc-build-validate-and-distribute" class="nav-link" data-scroll-target="#build-validate-and-distribute">Build, validate and distribute</a></li>
   <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference">Reference</a></li>
+  <li><a href="#offspring-chip-imputation" id="toc-offspring-chip-imputation" class="nav-link" data-scroll-target="#offspring-chip-imputation">Offspring chip imputation</a></li>
+  <li><a href="#low-pass-sequence-imputation" id="toc-low-pass-sequence-imputation" class="nav-link" data-scroll-target="#low-pass-sequence-imputation">Low-pass sequence imputation</a></li>
   </ul>
 </nav>
     </div>
@@ -922,6 +924,68 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="../../gsuite/docs/model-yaml-proposal.html">YAML specification</a>: all supported declarations and combinations.</li>
 <li><a href="../../gsuite/docs/standalone-validation.html">GenomeDK validation record</a>: tested installations and qualification limits.</li>
 </ul>
+</section>
+<section id="offspring-chip-imputation" class="level2">
+<h2 class="anchored" data-anchor-id="offspring-chip-imputation">Offspring chip imputation</h2>
+<p>Use the installed native command with a prepared phased database and a PLINK offspring prefix. A strict batch requires two reference parents for every offspring.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gimp</span> impute reference.db calves results-trio</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gimp</span> impute reference.db calves results-mixed <span class="at">--missing-parents</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gimp</span> impute reference.db calves results-pedigree <span class="at">--missing-parents</span> <span class="at">--pedigree</span> pedigree.fam</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>gsuite impute calves.yml</code> invokes the same command for native recipes. Relative paths resolve from the recipe directory.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">schema</span><span class="kw">:</span><span class="at"> gimp.offspring/v1</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">method</span><span class="kw">:</span><span class="at"> reference_copying</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">threads</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">reference</span><span class="kw">:</span><span class="at"> reference.db</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">offspring</span><span class="kw">:</span><span class="at"> observed/calves</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">output</span><span class="kw">:</span><span class="at"> results/native</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">error</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.001</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">pedigree</span><span class="kw">:</span><span class="at"> observed/pedigree.fam</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Executable</th>
+<th>Method options</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>two_parent</code> (default)</td>
+<td>Installed <code>gimp impute</code></td>
+<td>Optional <code>error</code>, <code>origin</code> and <code>ancestry</code> annotation</td>
+</tr>
+<tr class="even">
+<td><code>reference_copying</code></td>
+<td>Installed <code>gimp impute --missing-parents</code></td>
+<td>Optional <code>pedigree</code> six-column FAM, <code>donors</code>, <code>copy_rate</code> and <code>error</code>. Origin and ancestry require two phased parents for every offspring</td>
+</tr>
+<tr class="odd">
+<td><code>alphapeel</code></td>
+<td><code>executable</code> path to the installed AlphaPeel command</td>
+<td>Optional additional <code>pedigree</code> FAM and <code>error</code>. Runs multi-locus peeling for five cycles</td>
+</tr>
+<tr class="even">
+<td><code>beagle</code></td>
+<td><code>executable</code> path to the Beagle JAR, with Java on PATH</td>
+<td>Optional <code>ne</code> for the effective population size, default 100</td>
+</tr>
+</tbody>
+</table>
+<p>An explicit <code>--exe</code> overrides the recipe executable. The external adapters use NumPy for conversion and run one autosome at a time. Beagle requires overlapping chip markers and nucleotide alleles. All methods write <code>dosages.f32</code>, <code>markers.bim</code>, <code>markers.map</code>, <code>offspring.fam</code> and <code>run.json</code>. Dosages are little-endian float32 values, marker-major and offspring-minor, counting BIM A1. The run receipt identifies the inputs and output. The optional external methods require the corresponding locally installed software. The offspring FAM controls which parent links AlphaPeel receives. A supplemental pedigree can supply grandparents of a named parent. A zero in either target role stays masked.</p>
+</section>
+<section id="low-pass-sequence-imputation" class="level2">
+<h2 class="anchored" data-anchor-id="low-pass-sequence-imputation">Low-pass sequence imputation</h2>
+<p>Use <code>gsuite impute recipe.yml</code> with schema <code>gimp.offspring/v1</code> and four threads. The native <code>likelihood_copying</code> method accepts a <code>likelihoods</code> VCF or BCF and uses recorded parent IDs from the offspring FAM. A missing side copies from the phased reference. Supply the target prefix with FAM alone for sequence-only imputation, or include aligned BED/BIM files to combine independent chip and sequence observations. Flat likelihoods represent zero depth. Every sequence file must have one ordered record per dense biallelic autosomal SNP. Sample columns can be permuted, and chip-only animals can be absent from the VCF. PL takes precedence over GL. GP contains genotype posteriors.</p>
+<p>The <code>glimpse2</code> backend uses the same reference haplotypes and target evidence. The <code>alphapeel_hybrid</code> backend takes a <code>counts</code> VCF/BCF containing FORMAT/AD in REF,ALT order and an offspring chip prefix. It fits segregation on the chip, then uses the segregation file, matching map, reference genotypes and sequence read counts in single-locus peeling. Each external recipe supplies an executable and uses bcftools. For GLIMPSE2, use an offspring chip prefix with all genotypes missing for a sequence-only cohort. Each serial stage gets four compute threads. All three routes output marker-major float32 BIM A1 dosage.</p>
+<p>To generate evidence from aligned reads, run the installed helper with an indexed FASTA, coordinate-sorted indexed BAM/CRAM files and a tab-separated manifest containing one read-group sample name and alignment path per row.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> PREFIX/share/gsuite/read_likelihoods.py <span class="at">--samples</span> samples.tsv <span class="at">--bim</span> reference.db/panel.bim <span class="at">--fasta</span> cattle.fa <span class="at">--error</span> 0.001 <span class="at">--output</span> targets.vcf</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gsuite</span> impute low-pass.yml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The helper reads samtools pileups, keeps REF and ALT bases with mapping and base quality at least 20, and uses a constant biallelic substitution error. The CRAM reference must match the alignment. Recipes and chromosome pilot (<code>benchmarks/pedigree-imputation-10k/low-pass/README.md</code>)</p>
 
 
 </section>

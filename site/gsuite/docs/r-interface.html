@@ -1087,6 +1087,7 @@ V(A) = \sum_c K_c A B_c Q_c B_c^{\mathsf T} + \operatorname{residual}(A).
 <span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Subject and record order are preserved. Component bases can have different column counts. Residual groups are diagonal and each estimated group must have at least one record. The result separates raw, adjusted and REML-initial RHE values; BLUP returns <code>n</code> by <code>r_c</code> latent coefficients, observed-record component/total/fixed/fitted values and residuals, and requested prediction records. Pedigree/sparse MME, multiple responses per record, correlated AR(1)/continuous-time residuals, exact singular boundaries, PEV/reliability, marker effects, and single-step models remain unsupported.</p>
+<p>For a supplied sparse relationship precision, <code>gs_relationship_matrix()</code> can forward complete exact covariance diagonal/log-determinant metadata with explicit caller SPD certification to greml’s existing scalable constructor. Default calls keep bounded dense verification unchanged. The caller must derive the metadata from the same covariance/precision pair, retain its numerical checks and provenance, and satisfy resource limits. This adds an R bridge, not an estimator or numerical algorithm.</p>
 
 
 </section>
